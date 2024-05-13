@@ -1,0 +1,53 @@
+# baseline.nav file for tutorial 3
+
+SIMULATION NAV {
+                
+    # model definition and time steps
+    INCLUDE "../../includes_global/model_definition.inc"
+    #INCLUDE "../../includes_global/time_steps_yearly.inc"
+    
+    # fleets
+    INCLUDE "../../includes_global/fleet_bulk.inc"
+    INCLUDE "../../includes_global/fleet_container.inc"
+    
+    # uptake
+    INCLUDE "../../includes_global/fleet_uptake.inc"
+
+    # vessels
+    INCLUDE "../../includes_global/ammonia_vessel.inc"
+    INCLUDE "../../includes_global/fuel_oil_vessel.inc"
+
+    # route
+    INCLUDE "../../includes_global/vessel_route.inc"
+    
+    # tanks
+    INCLUDE "../../includes_global/tanks.inc"
+    
+    # fuels
+    INCLUDE "../../includes_global/ammonia_blue.inc"
+    INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
+    
+    # costs and emission of fuels
+    INCLUDE "../../includes_global/cost_emissions_ammonia.inc"
+    INCLUDE "../../includes_global/cost_emissions_lsfo.inc"
+    
+    # finance
+    INCLUDE "../../includes_global/port_finance.inc"
+    INCLUDE "../../includes_global/vessel_finance.inc"
+
+    # center default emissions
+    IMPORT CenterDefaultEmissions
+
+}
+
+SIMULATION FT {
+    # engine availability
+    
+    # fuels available
+    
+    # time steps
+    INCLUDE "../../includes_global/time_steps_yearly.inc"
+}
+
+
+
