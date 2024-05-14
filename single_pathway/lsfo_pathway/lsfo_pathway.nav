@@ -1,0 +1,38 @@
+# baseline.nav file for tutorial 3
+
+SIMULATION NAV {
+                
+    # model definition
+    INCLUDE "../../includes_global/model_definition.inc"
+    INCLUDE "../includes_local/bunker_logistics_lsfo.inc"
+    
+    # fleets
+    INCLUDE "../../includes_global/fleet.inc"
+
+    # vessels
+    INCLUDE "../../includes_global/fuel_oil_vessel.inc"
+    
+    # fuels
+    INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
+    
+    # Route
+    INCLUDE "../../includes_global/route.inc"
+    
+    # costs and emission of fuels
+    INCLUDE "../../includes_global/cost_emissions_lsfo.inc"
+    
+    # center default emissions
+    IMPORT CenterDefaultEmissions
+    
+    # output results to excel
+    INCLUDE "../../includes_global/make_excel.inc"
+
+}
+
+SIMULATION FT {
+    # time steps
+    INCLUDE "../../includes_global/time_steps_yearly.inc"
+}
+
+
+
