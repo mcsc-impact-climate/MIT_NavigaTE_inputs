@@ -3,20 +3,17 @@ Fuel "ammonia_blue" {
     FuelType = AMMONIA
     FuelPath = BLUE
     IsBunkerFuel = TRUE
-    Process = Process("haber_bosch_ccs_integrated_blue")
+    Process = Process("NH3_SMR_CCS_USA_GRID")
     LowerHeatingValue = 18.8
     MassDensity = 0.623
 }
 
 
-Process "haber_bosch_ccs_integrated_blue" {
-    Feedstocks=[Feedstock("natural_gas"), Feedstock("nitrogen")]
-    Conversions=[0.64, 0.822]
+Process "NH3_SMR_CCS_USA_GRID" {
+    Feedstocks=[Feedstock("ammonia_blue_ccs_usa_grid")]
+    Conversions=[1]
 }
 
 
-Feedstock "natural_gas" {
-}
-
-Feedstock "nitrogen" {
+Feedstock "ammonia_blue_ccs_usa_grid" {
 }

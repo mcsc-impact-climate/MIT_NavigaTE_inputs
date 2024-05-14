@@ -1,19 +1,18 @@
-# Definition of ammonia vessel and its power system.
-Vessel "ammonia_vessel" {
-    PowerSystem = PowerSystem("ammonia_power_system")
+# Definition of hydrogen vessel and its power system.
+Vessel "hydrogen_vessel" {
+    PowerSystem = PowerSystem("hydrogen_power_system")
     Route = Route("vessel_route")
     Finance = Finance("vessel_finance")
     NominalCapacity = 8000
-    Tanks = [Tank("fuel_oil_tank_pilot"), Tank("ammonia_tank_main")]
+    Tanks = [Tank("fuel_oil_tank_pilot"), Tank("hydrogen_tank_main")]
     PropulsionLoadLevel = 10
-    EnforceMainFuelShare = TRUE
 }
 
 
-PowerSystem "ammonia_power_system" {
-    Propulsion = [Converter("ammonia_main_engine")]
-    Electrical = [Converter("ammonia_auxiliary_engine")]
-    Heat = [Converter("ammonia_boiler")]
+PowerSystem "hydrogen_power_system" {
+    Propulsion = [Converter("hydrogen_main_engine")]
+    Electrical = [Converter("hydrogen_auxiliary_engine")]
+    Heat = [Converter("hydrogen_boiler")]
     PropulsionInStreams = Array [
         [0, 1.0, 0, 0]
     ]
@@ -25,24 +24,24 @@ PowerSystem "ammonia_power_system" {
     ]
 }
 
-Converter "ammonia_main_engine" {
+Converter "hydrogen_main_engine" {
     PowerCapacity = 50
-    MainFuelTypes = AMMONIA
+    MainFuelTypes = HYDROGEN
     PilotFuelTypes = HFO
     MinimumPilotFuel = 0.05
     OutStream = [0, 0.51, 0, 0.49]
 }
 
 
-Converter "ammonia_auxiliary_engine" {
+Converter "hydrogen_auxiliary_engine" {
     PowerCapacity = 10
-    MainFuelTypes = AMMONIA
+    MainFuelTypes = HYDROGEN
     PilotFuelTypes = HFO
     MinimumPilotFuel = 0.05
     OutStream = [0, 0, 0.5, 0.5]
 }
 
-Converter "ammonia_boiler" {
+Converter "hydrogen_boiler" {
     PowerCapacity = 5
     MainFuelTypes = HFO
     OutStream = [0, 0, 0, 1.0]

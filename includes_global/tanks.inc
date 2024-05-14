@@ -13,3 +13,8 @@ Tank "ammonia_tank_main" {
     FuelTypes = AMMONIA
     Size = 9000
 }
+
+Tank "hydrogen_tank_main" {
+    FuelTypes = HYDROGEN
+    Size = 9000
+}

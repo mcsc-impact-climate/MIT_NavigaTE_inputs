@@ -15,6 +15,7 @@ SIMULATION NAV {
 
     # vessels
     INCLUDE "../../includes_global/ammonia_vessel.inc"
+    INCLUDE "../../includes_global/hydrogen_vessel.inc"
     INCLUDE "../../includes_global/fuel_oil_vessel.inc"
 
     # route
@@ -25,10 +26,16 @@ SIMULATION NAV {
     
     # fuels
     INCLUDE "../../includes_global/ammonia_blue.inc"
+    INCLUDE "../../includes_global/ammonia_gray.inc"
+    INCLUDE "../../includes_global/ammonia_green.inc"
+    INCLUDE "../../includes_global/hydrogen_blue.inc"
+    INCLUDE "../../includes_global/hydrogen_grey.inc"
+    INCLUDE "../../includes_global/hydrogen_green.inc"
     INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
     
     # costs and emission of fuels
     INCLUDE "../../includes_global/cost_emissions_ammonia.inc"
+    INCLUDE "../../includes_global/cost_emissions_hydrogen.inc"
     INCLUDE "../../includes_global/cost_emissions_lsfo.inc"
     
     # finance
