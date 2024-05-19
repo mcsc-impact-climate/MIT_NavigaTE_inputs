@@ -1,10 +1,10 @@
 # Definition of ammonia_grey
 
-Fuel "ammonia_grey" {
-    FuelType = AMMONIA
+Fuel "hydrogen_grey" {
+    FuelType = HYDROGEN
     FuelPath = GREY
     FuelOrigin = FOSSIL
-    LowerHeatingValue = 18.8
-    MassDensity = 0.623
+    LowerHeatingValue = 119.88
+    MassDensity = 0.083
     # set_TTW("nitrous_oxide", 0.00018)   # DMM: Normally defined elsewhere
 }
