@@ -3,9 +3,9 @@
 Port "port" {
     
 # Emissions
-set_bunker_WTT_overwrite("ammonia_blue", "carbon_dioxide", 1.16)
+set_bunker_WTT_overwrite("ammonia_blue", "carbon_dioxide", 0.67)
 
-set_bunker_price_overwrite("ammonia_blue", 570)
+set_bunker_price_overwrite("ammonia_blue", 610)
 
 }
 

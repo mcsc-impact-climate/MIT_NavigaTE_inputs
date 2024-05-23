@@ -6,7 +6,7 @@ Port "port" {
 set_bunker_WTT_overwrite("ammonia_electro", "carbon_dioxide", 0.13)
 
 # Price
-set_bunker_price_overwrite("ammonia_electro", 600)
+set_bunker_price_overwrite("ammonia_electro", 620)
 }
 
 
