@@ -12,7 +12,6 @@ Vessel "vessel" {
     Route=Route("globalized_bulk_carrier_panamax")
     
     NominalCapacity = 75000
-    
 
     Lifetime=25
     Finance=Finance("vessel_finance")

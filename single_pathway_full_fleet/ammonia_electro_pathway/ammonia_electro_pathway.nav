@@ -1,5 +1,3 @@
-# baseline.nav file for tutorial 3
-
 SIMULATION NAV {
                 
     # model definition
@@ -7,10 +5,10 @@ SIMULATION NAV {
     INCLUDE "../includes_local/bunker_logistics_ammonia_electro.inc"
     
     # fleets
-    INCLUDE "../../includes_global/fleet.inc"
+    INCLUDE "../../includes_global/fleet_ammonia.inc"
 
     # vessels
-    INCLUDE "../../includes_global/ammonia_vessel.inc"
+    #INCLUDE "../../includes_global/ammonia_vessel.inc"
     
     # fuels
     INCLUDE "../../includes_global/ammonia_electro.inc"

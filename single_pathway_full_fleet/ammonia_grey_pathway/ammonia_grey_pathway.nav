@@ -5,10 +5,10 @@ SIMULATION NAV {
     INCLUDE "../includes_local/bunker_logistics_ammonia_grey.inc"
     
     # fleets
-    INCLUDE "../../includes_global/full_fleet.inc"
+    INCLUDE "../../includes_global/fleet_ammonia.inc"
 
     # vessels
-    INCLUDE "../../includes_global/ammonia_vessel.inc"
+    #INCLUDE "../../includes_global/ammonia_vessel.inc"
     
     # fuels
     INCLUDE "../../includes_global/ammonia_grey.inc"
@@ -25,7 +25,7 @@ SIMULATION NAV {
     IMPORT CenterDefaultEmissions
     
     # output results to excel
-    #INCLUDE "../../includes_global/make_excel.inc"
+    INCLUDE "../../includes_global/make_excel.inc"
 
 }
 

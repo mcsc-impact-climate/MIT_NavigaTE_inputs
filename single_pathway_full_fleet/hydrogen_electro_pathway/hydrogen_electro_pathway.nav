@@ -5,10 +5,18 @@ SIMULATION NAV {
     INCLUDE "../includes_local/bunker_logistics_hydrogen_electro.inc"
     
     # fleets
-    INCLUDE "../../includes_global/fleet.inc"
+    INCLUDE "../../includes_global/fleet_hydrogen.inc"
 
     # vessels
-    INCLUDE "../../includes_global/hydrogen_vessel.inc"
+    INCLUDE "../../includes_global/container_15000_teu_ice_hydrogen.inc"
+    INCLUDE "../../includes_global/container_3500_teu_ice_hydrogen.inc"
+    INCLUDE "../../includes_global/container_8000_teu_ice_hydrogen.inc"
+    INCLUDE "../../includes_global/ice_hydrogen_bulk_carrier_capesize.inc"
+    INCLUDE "../../includes_global/ice_hydrogen_bulk_carrier_handy.inc"
+    INCLUDE "../../includes_global/ice_hydrogen_bulk_carrier_panamax.inc"
+    INCLUDE "../../includes_global/tanker_100k_dwt_ice_hydrogen.inc"
+    INCLUDE "../../includes_global/tanker_300k_dwt_ice_hydrogen.inc"
+    INCLUDE "../../includes_global/tanker_35k_dwt_ice_hydrogen.inc"
     
     # fuels
     INCLUDE "../../includes_global/hydrogen_electro.inc"

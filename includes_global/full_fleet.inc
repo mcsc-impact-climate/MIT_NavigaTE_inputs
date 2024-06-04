@@ -7,7 +7,7 @@ Fleet "fleet" {
     TradeGrowth = 0
     FixedScrapRate = 0.00        # Corresponds to 4% turnover per year, so 25 year lifetime
                                  # DMM: Set scrap rate to 0 to prevent fleet turnover
-    InitialSplit = [0.5,0.5]         # DMM: Then the initial split set here stays constant over time
+    InitialSplit = [0.5,0.5]     # DMM: Then the initial split set here stays constant over time
     
     InitialAges = Array [
         [0],
