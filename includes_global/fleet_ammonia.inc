@@ -1,4 +1,4 @@
-# Definition of the ammonia bulk fleet
+# Definition of the ammonia bulk fleet 
 Fleet "ammonia_fleet_bulk" {
     Vessels = [Vessel("bulk_carrier_capesize_ice_ammonia"), Vessel("bulk_carrier_handy_ice_ammonia"), Vessel("bulk_carrier_panamax_ice_ammonia")]
     FuelUptake = Uptake("uptake")
@@ -31,4 +31,42 @@ Fleet "ammonia_fleet_tanker" {
 # Define uptake node
 Uptake "uptake" {
     Objective=MINIMIZE
+}
+
+# Need to enforce alternative fuel use in all vessels
+Import Vessel "bulk_carrier_capesize_ice_ammonia"
+Vessel "bulk_carrier_capesize_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "bulk_carrier_handy_ice_ammonia"
+Vessel "bulk_carrier_handy_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "bulk_carrier_panamax_ice_ammonia"
+Vessel "bulk_carrier_panamax_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "container_15000_teu_ice_ammonia"
+Vessel "container_15000_teu_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "container_3500_teu_ice_ammonia"
+Vessel "container_3500_teu_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "container_8000_teu_ice_ammonia"
+Vessel "container_8000_teu_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "tanker_100k_dwt_ice_ammonia"
+Vessel "tanker_100k_dwt_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "tanker_300k_dwt_ice_ammonia"
+Vessel "tanker_300k_dwt_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "tanker_35k_dwt_ice_ammonia"
+Vessel "tanker_35k_dwt_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
 }

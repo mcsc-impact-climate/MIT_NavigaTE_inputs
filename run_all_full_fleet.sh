@@ -11,8 +11,7 @@ SCRIPT_DIR=$(dirname "$0")
 SOURCE_DIR="${SCRIPT_DIR}/includes_global/all_costs_emissions"
 DEST_DIR="${SCRIPT_DIR}/includes_global"
 
-#FUELS=(ammonia hydrogen)
-FUELS=(hydrogen)
+FUELS=(ammonia hydrogen)
 
 BLUE_PATHWAYS=(SMR_CCS ATR_CCS_R ATR_CCS_OC ATR_CCS_R_OC)
 BLUE_COUNTRIES=(USA)
@@ -31,7 +30,7 @@ mkdir -p "${SCRIPT_DIR}/all_outputs_full_fleet"
 echo 'Processing lsfo pathway'
 # Copy the given black pathway into the top level of includes_global and run
 navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/lsfo_pathway/lsfo_pathway.nav
-cp ${SCRIPT_DIR}/single_pathway_full_fleet/lsfo_pathway/plots/lsfo_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs/report_lsfo.xlsx
+cp ${SCRIPT_DIR}/single_pathway_full_fleet/lsfo_pathway/plots/lsfo_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/report_lsfo.xlsx
 
 for fuel in "${FUELS[@]}"; do
     # Loop through blue pathways
@@ -42,7 +41,7 @@ for fuel in "${FUELS[@]}"; do
             cp "${SOURCE_DIR}/cost_emissions_${fuel}_blue_${blue_pathway}_${blue_country}.inc" "${DEST_DIR}/cost_emissions_${fuel}_blue.inc"
             echo navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_blue_pathway/${fuel}_blue_pathway.nav
             navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_blue_pathway/${fuel}_blue_pathway.nav
-            cp ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_blue_pathway/plots/${fuel}_blue_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs/report_${fuel}_blue_${blue_pathway}_${blue_country}.xlsx
+            cp ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_blue_pathway/plots/${fuel}_blue_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/report_${fuel}_blue_${blue_pathway}_${blue_country}.xlsx
         done
     done
 
@@ -54,7 +53,7 @@ for fuel in "${FUELS[@]}"; do
             cp "${SOURCE_DIR}/cost_emissions_${fuel}_electro_${electro_pathway}_${electro_country}.inc" "${DEST_DIR}/cost_emissions_${fuel}_electro.inc"
             echo navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_electro_pathway/${fuel}_electro_pathway.nav
             navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_electro_pathway/${fuel}_electro_pathway.nav
-            cp ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_electro_pathway/plots/${fuel}_electro_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs/report_${fuel}_electro_${electro_pathway}_${electro_country}.xlsx
+            cp ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_electro_pathway/plots/${fuel}_electro_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/report_${fuel}_electro_${electro_pathway}_${electro_country}.xlsx
         done
     done
 
@@ -66,7 +65,7 @@ for fuel in "${FUELS[@]}"; do
             cp "${SOURCE_DIR}/cost_emissions_${fuel}_grey_${grey_pathway}_${grey_country}.inc" "${DEST_DIR}/cost_emissions_${fuel}_grey.inc"
             echo navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_grey_pathway/${fuel}_grey_pathway.nav
             navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_grey_pathway/${fuel}_grey_pathway.nav
-            cp ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_grey_pathway/plots/${fuel}_grey_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs/report_${fuel}_grey_${grey_pathway}_${grey_country}.xlsx
+            cp ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_grey_pathway/plots/${fuel}_grey_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/report_${fuel}_grey_${grey_pathway}_${grey_country}.xlsx
         done
     done
 done

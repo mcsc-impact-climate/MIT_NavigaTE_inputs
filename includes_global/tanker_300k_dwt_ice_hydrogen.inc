@@ -17,6 +17,8 @@ Vessel "tanker_300k_dwt_ice_hydrogen" {
     Finance=Finance("vessel_finance")
     CAPEX = 90e6
     OPEX = 2.9e6
+    
+    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_tanker_300k_dwt" {

@@ -17,6 +17,8 @@ Vessel "bulk_carrier_handy_ice_hydrogen" {
     Finance=Finance("vessel_finance")
     CAPEX = 23e6
     OPEX = 1.5e6
+    
+    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_bulk_carrier_handy" {
