@@ -15,6 +15,8 @@ import matplotlib.cm as cm
 matplotlib.rc('xtick', labelsize=18)
 matplotlib.rc('ytick', labelsize=18)
 
+TONNES_PER_TEU = 14  # Average tons of cargo in one TEU
+
 # Make lists of all NavigaTE run options
 fuels = ['ammonia', 'hydrogen']
 
@@ -43,6 +45,24 @@ vessel_size_title = {
     'tanker_100k_dwt_ice': '100k DWT',
     'tanker_300k_dwt_ice': '300k DWT',
     'tanker_35k_dwt_ice': '35k DWT',
+}
+
+vessel_size_number = {
+    'bulk_carrier_capesize_ice': 2013,
+    'bulk_carrier_handy_ice': 4186,
+    'bulk_carrier_panamax_ice': 6384,
+    'container_15000_teu_ice': 464,
+    'container_8000_teu_ice': 1205,
+    'container_3500_teu_ice': 3896,
+    'tanker_100k_dwt_ice': 3673,
+    'tanker_300k_dwt_ice': 866,
+    'tanker_35k_dwt_ice': 8464,
+}
+
+fuel_components = {
+    'hydrogen': ['hydrogen (main)', 'lsfo (pilot)'],
+    'ammonia': ['ammonia (main)', 'lsfo (pilot)'],
+    'lsfo': ['lsfo (main)']
 }
 
 def get_top_dir():
@@ -94,12 +114,17 @@ def read_results(fuel, pathway, country, filename, all_results_df):
             results_dict['Total Cost (USD / year)'] = results_df_vessel['TotalCAPEX'].loc['2024-01-01'] + results_df_vessel['TotalFuelOPEX'].loc['2024-01-01'] + results_df_vessel['TotalExcludingFuelOPEX'].loc['2024-01-01']
             results_dict['Energy Spend (GJ / year)'] = results_df_vessel['SpendEnergy'].loc['2024-01-01']
             results_dict['Miles / year'] = results_df_vessel['Miles'].loc['2024-01-01']
-            results_dict['Cargo tonne-miles / year'] = results_df_vessel['CargoMiles'].loc['2024-01-01']
+            if vessel_type == 'container':
+                results_dict['Cargo tonne-miles / year'] = results_df_vessel['CargoMiles'].loc['2024-01-01'] * TONNES_PER_TEU
+            else:
+                results_dict['Cargo tonne-miles / year'] = results_df_vessel['CargoMiles'].loc['2024-01-01']
     
             if fuel=='lsfo':
-                results_dict['Energy Consumed (GJ / year)'] = results_df_vessel['ConsumedEnergy_lsfo'].loc['2024-01-01']
+                results_dict['Energy Consumed (GJ / year) [main]'] = results_df_vessel['ConsumedEnergy_lsfo'].loc['2024-01-01']
+                results_dict['Energy Consumed (GJ / year) [pilot]'] = results_df_vessel['ConsumedEnergy_lsfo'].loc['2024-01-01']*0
             else:
-                results_dict['Energy Consumed (GJ / year)'] = results_df_vessel[f'ConsumedEnergy_{fuel}'].loc['2024-01-01'] + results_df_vessel['ConsumedEnergy_lsfo'].loc['2024-01-01']
+                results_dict['Energy Consumed (GJ / year) [main]'] = results_df_vessel[f'ConsumedEnergy_{fuel}'].loc['2024-01-01']
+                results_dict['Energy Consumed (GJ / year) [pilot]'] = results_df_vessel['ConsumedEnergy_lsfo'].loc['2024-01-01']
     
             results_row_df = pd.DataFrame([results_dict])
             all_results_df = pd.concat([all_results_df, results_row_df], ignore_index=True)
@@ -110,7 +135,7 @@ def read_results(fuel, pathway, country, filename, all_results_df):
 def collect_all_results(top_dir):
 
     # Collect all data of interest in a dataframe
-    columns = ['Vessel', 'Fuel', 'Pathway', 'Country', 'WTT Emissions (tonnes CO2 / year)', 'TTW Emissions (tonnes CO2 / year)', 'WTW Emissions (tonnes CO2 / year)', 'CAPEX (USD / year)', 'Fuel Cost (USD / year)', 'Other OPEX (USD / year)', 'Total Cost (USD / year)', 'Energy Consumed (GJ / year)', 'Energy Spend (GJ / year)', 'Miles / year', 'Cargo tonne-miles / year']
+    columns = ['Vessel', 'Fuel', 'Pathway', 'Country', 'WTT Emissions (tonnes CO2 / year)', 'TTW Emissions (tonnes CO2 / year)', 'WTW Emissions (tonnes CO2 / year)', 'CAPEX (USD / year)', 'Fuel Cost (USD / year)', 'Other OPEX (USD / year)', 'Total Cost (USD / year)', 'Energy Consumed (GJ / year) [main]', 'Energy Consumed (GJ / year) [pilot]', 'Energy Spend (GJ / year)', 'Miles / year', 'Cargo tonne-miles / year']
     
     all_results_df = pd.DataFrame(columns=columns)
     
@@ -157,6 +182,29 @@ def add_averages(all_results_df):
     all_results_df = pd.concat([all_results_df, average_rows], ignore_index=True)
     
     return all_results_df
+    
+def add_number_of_vessels(all_results_df):
+    # Create a function to extract the base vessel name
+    def extract_base_vessel_name(vessel_name):
+        # Splits the vessel name at '_' and keeps up to the third component
+        return '_'.join(vessel_name.split('_')[:-1])
+
+    # Apply the function to the 'Vessel' column to create a new column for mapping
+    all_results_df['base_vessel_name'] = all_results_df['Vessel'].apply(extract_base_vessel_name)
+        
+    # Map the number of vessels from the dictionary to the new column
+    all_results_df['Number of Vessels'] = all_results_df['base_vessel_name'].map(vessel_size_number)
+        
+    # Optionally, you can drop the 'base_vessel_name' column if it's not needed
+    all_results_df.drop('base_vessel_name', axis=1, inplace=True)
+    
+    return all_results_df
+    
+def sum_to_fleet(all_results_df, column_sum, filter, column_divide=None):
+    if column_divide is None:
+        return (all_results_df[column_sum][filter] * all_results_df['Number of Vessels'][filter]).sum()
+    else:
+        return (all_results_df[column_sum][filter] * all_results_df['Number of Vessels'][filter] / all_results_df[column_divide][filter]).sum()
 
 def process_emissions_pathway(all_results_df, fuel, pathway, countries, emissions_average, emissions_WTW, fuel_pathways, per_mile, per_cargo_mile):
     emissions_WTW[f'{fuel} ({pathway})'] = {}
@@ -164,32 +212,59 @@ def process_emissions_pathway(all_results_df, fuel, pathway, countries, emission
     fuel_pathways.append(f'{fuel} ({pathway})')
     
     if per_mile:
-        divisor = all_results_df['Miles / year']
+        column_divide = 'Miles / year'
     elif per_cargo_mile:
-        divisor = all_results_df['Cargo tonne-miles / year']
+        column_divide = 'Cargo tonne-miles / year'
     else:
-        divisor = 1
+        column_divide = None
     
-    emissions_average['Tank-to-wake'].append((all_results_df['TTW Emissions (tonnes CO2 / year)']/divisor)[(all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']=='Country Average')].sum())
+    filter = (all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']=='Country Average')
+    
+    emissions_average['Tank-to-wake'].append(sum_to_fleet(all_results_df, 'TTW Emissions (tonnes CO2 / year)', filter, column_divide))
 
-    emissions_average['Well-to-tank'].append((all_results_df['WTT Emissions (tonnes CO2 / year)']/divisor)[(all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']=='Country Average')].sum())
+    emissions_average['Well-to-tank'].append(sum_to_fleet(all_results_df, 'WTT Emissions (tonnes CO2 / year)', filter, column_divide))
     
     for country in countries:
-        emissions_WTW[f'{fuel} ({pathway})'][country] = (all_results_df['WTW Emissions (tonnes CO2 / year)']/divisor)[(all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']==country)].sum()
+        filter = (all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']==country)
+        emissions_WTW[f'{fuel} ({pathway})'][country] = sum_to_fleet(all_results_df, 'WTW Emissions (tonnes CO2 / year)', filter, column_divide)
 
-def process_costs_pathway(all_results_df, fuel, pathway, countries, costs_average, costs_total, fuel_pathways):
+def process_costs_pathway(all_results_df, fuel, pathway, countries, costs_average, costs_total, fuel_pathways, per_mile, per_cargo_mile):
     costs_total[f'{fuel} ({pathway})'] = {}
     
     fuel_pathways.append(f'{fuel} ({pathway})')
-    
-    costs_average['CAPEX'].append(all_results_df['CAPEX (USD / year)'][(all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']=='Country Average')].sum())
 
-    costs_average['Other OPEX'].append(all_results_df['Other OPEX (USD / year)'][(all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']=='Country Average')].sum())
+    if per_mile:
+        column_divide = 'Miles / year'
+    elif per_cargo_mile:
+        column_divide = 'Cargo tonne-miles / year'
+    else:
+        column_divide = None
     
-    costs_average['Fuel Cost'].append(all_results_df['Fuel Cost (USD / year)'][(all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']=='Country Average')].sum())
+    filter = (all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']=='Country Average')
+    
+    costs_average['CAPEX'].append(sum_to_fleet(all_results_df, 'CAPEX (USD / year)', filter, column_divide))
+
+    costs_average['Other OPEX'].append(sum_to_fleet(all_results_df, 'Other OPEX (USD / year)', filter, column_divide))
+    
+    costs_average['Fuel Cost'].append(sum_to_fleet(all_results_df, 'Fuel Cost (USD / year)', filter, column_divide))
     
     for country in countries:
-        costs_total[f'{fuel} ({pathway})'][country] = all_results_df['Total Cost (USD / year)'][(all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']==country)].sum()
+        filter = (all_results_df['Fuel']==fuel) & (all_results_df['Pathway']==pathway) & (all_results_df['Country']==country)
+        costs_total[f'{fuel} ({pathway})'][country] = sum_to_fleet(all_results_df, 'Total Cost (USD / year)', filter, column_divide)
+        
+def process_fuel_energy_consumed(all_results_df, fuel, countries, fuel_energy_consumed, per_mile, per_cargo_mile):
+    fuel_energy_consumed[fuel] = {}
+
+    if per_mile:
+        column_divide = 'Miles / year'
+    elif per_cargo_mile:
+        column_divide = 'Cargo tonne-miles / year'
+    else:
+        column_divide = None
+        
+    fuel_energy_consumed[fuel]['main'] = sum_to_fleet(all_results_df, 'Energy Consumed (GJ / year) [main]', filter, column_divide)
+    
+    fuel_energy_consumed[fuel]['pilot'] = sum_to_fleet(all_results_df, 'Energy Consumed (GJ / year) [pilot]', filter, column_divide)
         
 def plot_bar_stacked_stages(property_average, property_total, fuel_pathways):
     fig, ax = plt.subplots(figsize=(12, 7))
@@ -256,14 +331,17 @@ def plot_emissions(all_results_df, per_mile = False, per_cargo_mile = False):
         ax.set_xlabel('CO$_2$e Emissions (tonnes / mile)', fontsize=22)
         plt.tight_layout()
         plt.savefig('plots/all_emissions_full_fleet_per_mile.png', dpi=300)
+        plt.close()
     elif per_cargo_mile:
         ax.set_xlabel('CO$_2$e Emissions (tonnes / cargo tonne-mile)', fontsize=22)
         plt.tight_layout()
         plt.savefig('plots/all_emissions_full_fleet_per_ton_mile.png', dpi=300)
+        plt.close()
     else:
         ax.set_xlabel('CO$_2$e Emissions (tonnes / year)', fontsize=22)
         plt.tight_layout()
         plt.savefig('plots/all_emissions_full_fleet.png', dpi=300)
+        plt.close()
     
 def plot_emissions_vessel_type(all_results_df, per_mile=False, per_cargo_mile=False):
     fig, ax = plt.subplots(figsize=(18, 10))
@@ -279,20 +357,21 @@ def plot_emissions_vessel_type(all_results_df, per_mile=False, per_cargo_mile=Fa
     # Initialize data storage for plot
     data_for_plot = {pathway: {'TTW': [], 'WTT': [], 'Labels': []} for pathway in unique_pathways.unique()}
     
+    if per_mile:
+        column_divide = 'Miles / year'
+    elif per_cargo_mile:
+        column_divide = 'Cargo tonne-miles / year'
+    else:
+        column_divide = None
+    
     # Loop over each unique pathway
     for pathway in unique_pathways.unique():
         for vessel_type in set(simplified_vessel_names.values()):
-            subset = all_results_df[(all_results_df['Fuel'] + ' (' + all_results_df['Pathway'] + ')' == pathway) & (all_results_df['Simplified Vessel'] == vessel_type) & (all_results_df['Country']=='Country Average')]
-            if per_mile:
-                divisor = subset['Miles / year']
-            elif per_cargo_mile:
-                divisor = subset['Cargo tonne-miles / year']
-            else:
-                divisor = 1
+            filter = (all_results_df['Fuel'] + ' (' + all_results_df['Pathway'] + ')' == pathway) & (all_results_df['Simplified Vessel'] == vessel_type) & (all_results_df['Country']=='Country Average')
             
-            if not subset.empty:
-                ttw_sum = (subset['TTW Emissions (tonnes CO2 / year)'] / divisor).sum()
-                wtt_sum = (subset['WTT Emissions (tonnes CO2 / year)'] / divisor).sum()
+            if not all_results_df[filter].empty:
+                ttw_sum = sum_to_fleet(all_results_df, 'TTW Emissions (tonnes CO2 / year)', filter, column_divide)
+                wtt_sum = sum_to_fleet(all_results_df, 'WTT Emissions (tonnes CO2 / year)', filter, column_divide)
                 data_for_plot[pathway]['TTW'].append(ttw_sum)
                 data_for_plot[pathway]['WTT'].append(wtt_sum)
                 data_for_plot[pathway]['Labels'].append(vessel_type)
@@ -340,17 +419,19 @@ def plot_emissions_vessel_type(all_results_df, per_mile=False, per_cargo_mile=Fa
         ax.set_xlabel('CO$_2$e Emissions (tonnes / mile)', fontsize=22)
         plt.tight_layout()
         plt.savefig('plots/all_emissions_full_fleet_vessels_stacked_per_mile.png', dpi=300)
+        plt.close()
     elif per_cargo_mile:
         ax.set_xlabel('CO$_2$e Emissions (tonnes / cargo tonne-mile)', fontsize=22)
         plt.tight_layout()
         plt.savefig('plots/all_emissions_full_fleet_vessels_stacked_per_ton_mile.png', dpi=300)
+        plt.close()
     else:
         ax.set_xlabel('CO$_2$e Emissions (tonnes / year)', fontsize=22)
         plt.tight_layout()
         plt.savefig('plots/all_emissions_full_fleet_vessels_stacked.png', dpi=300)
-
+        plt.close()
     
-def plot_costs(all_results_df):
+def plot_costs(all_results_df, per_mile=False, per_cargo_mile=False):
     
     fuel_pathways = []
     costs_average = {
@@ -360,23 +441,91 @@ def plot_costs(all_results_df):
     }
     costs_total = {}
     
-    process_costs_pathway(all_results_df, 'lsfo', 'fossil', ['Country Average'], costs_average, costs_total, fuel_pathways)
+    process_costs_pathway(all_results_df, 'lsfo', 'fossil', ['Country Average'], costs_average, costs_total, fuel_pathways, per_mile, per_cargo_mile)
     
     for fuel in fuels:
         for blue_pathway in blue_pathways:
-            process_costs_pathway(all_results_df, fuel, blue_pathway, blue_countries, costs_average, costs_total, fuel_pathways)
+            process_costs_pathway(all_results_df, fuel, blue_pathway, blue_countries, costs_average, costs_total, fuel_pathways, per_mile, per_cargo_mile)
                 
         for grey_pathway in grey_pathways:
-            process_costs_pathway(all_results_df, fuel, grey_pathway, grey_countries, costs_average, costs_total, fuel_pathways)
+            process_costs_pathway(all_results_df, fuel, grey_pathway, grey_countries, costs_average, costs_total, fuel_pathways, per_mile, per_cargo_mile)
                 
         for electro_pathway in electro_pathways:
-            process_costs_pathway(all_results_df, fuel, electro_pathway, electro_countries, costs_average, costs_total, fuel_pathways)
+            process_costs_pathway(all_results_df, fuel, electro_pathway, electro_countries, costs_average, costs_total, fuel_pathways, per_mile, per_cargo_mile)
     
     fig, ax = plot_bar_stacked_stages(costs_average, costs_total, fuel_pathways)
-    ax.set_xlabel('Cost (USD / year)', fontsize=22)
+
+    if per_mile:
+        ax.set_xlabel('Cost (USD / mile)', fontsize=22)
+        plt.tight_layout()
+        plt.savefig('plots/all_costs_full_fleet_per_mile.png', dpi=300)
+        plt.close()
+    elif per_cargo_mile:
+        ax.set_xlabel('Cost (USD / cargo tonne-mile)', fontsize=22)
+        plt.tight_layout()
+        plt.savefig('plots/all_costs_full_fleet_per_ton_mile.png', dpi=300)
+        plt.close()
+    else:
+        ax.set_xlabel('Cost (USD / year)', fontsize=22)
+        plt.tight_layout()
+        plt.savefig('plots/all_costs_full_fleet.png', dpi=300)
+        plt.close()
+        
+def plot_fuel_energy_consumed(all_results_df, per_mile=False, per_cargo_mile=False):
     
-    plt.tight_layout()
-    plt.savefig('plots/all_costs_full_fleet.png', dpi=300)
+    # Drop fuel pathway info from the results dataframe since it's not relevant for the fuel energy consumed
+    all_results_df_no_pathway_info = all_results_df.drop_duplicates(subset=['Vessel', 'Fuel', 'Country']).drop(columns=['Pathway'])
+    
+    fuel_energy_consumed = {}
+    
+    for fuel in fuels + ['lsfo']:
+        process_fuel_energy_consumed(all_results_df_no_pathway_info, fuel, ['Country Average'], fuel_energy_consumed, per_mile, per_cargo_mile)
+            
+    # Plot the energy consumed for each fuel, stacking the pilot and main fuel components
+    fig, ax = plt.subplots(figsize=(12, 7))
+    ax.axhline(fuel_energy_consumed['lsfo']['main'], color='black', ls='--')
+
+    # Define the x-axis locations for the groups
+    fuel_pathways = list(fuel_energy_consumed.keys())
+    x = np.arange(len(fuel_pathways))
+
+    # Width of the bars
+    width = 0.5
+
+    # Initial bottom is zero
+    bottom = np.zeros(len(fuel_pathways))
+
+    # Plotting the 'pilot' section
+    pilot_values = [fuel_energy_consumed[fuel]['pilot'] for fuel in fuel_pathways]
+    ax.bar(x, pilot_values, width, label='Pilot', color='lightblue')
+
+    # Plotting the 'main' section on top of 'pilot'
+    main_values = [fuel_energy_consumed[fuel]['main'] for fuel in fuel_pathways]
+    ax.bar(x, main_values, width, bottom=pilot_values, label='Main', color='blue')
+    ax.set_xticks(x)
+    ax.set_xticklabels(fuel_pathways)
+    ymin, ymax = ax.get_ylim()
+    ymax = ymax*1.2
+    ax.set_ylim(ymin, ymax)
+        
+    ax.legend(fontsize=20)
+
+    if per_mile:
+        ax.set_ylabel('Fuel Energy Consumed (GJ / year)', fontsize=22)
+        plt.tight_layout()
+        plt.savefig('plots/energy_consumed_full_fleet_per_mile.png', dpi=300)
+        plt.close()
+    elif per_cargo_mile:
+        ax.set_ylabel('Fuel Energy Consumed (GJ / cargo tonne-mile)', fontsize=22)
+        plt.tight_layout()
+        plt.savefig('plots/energy_consumed_full_fleet_per_ton_mile.png', dpi=300)
+        plt.close()
+    else:
+        ax.set_ylabel('Fuel Energy Consumed (GJ / year)', fontsize=22)
+        plt.tight_layout()
+        plt.savefig('plots/energy_consumed_full_fleet.png', dpi=300)
+        plt.close()
+    
     
 def plot_costs_vessel_type(all_results_df, per_mile=False, per_cargo_mile=False):
     fig, ax = plt.subplots(figsize=(18, 10))
@@ -392,21 +541,23 @@ def plot_costs_vessel_type(all_results_df, per_mile=False, per_cargo_mile=False)
     # Initialize data storage for plot
     data_for_plot = {pathway: {'CAPEX': [], 'Other OPEX': [], 'Fuel Cost': [], 'Labels': []} for pathway in unique_pathways.unique()}
     
+    # Determine the divisor to put on the bottom of the summed costs (if any)
+    if per_mile:
+        column_divide = 'Miles / year'
+    elif per_cargo_mile:
+        column_divide = 'Cargo tonne-miles / year'
+    else:
+        column_divide = None
+    
     # Loop over each unique pathway
     for pathway in unique_pathways.unique():
         for vessel_type in set(simplified_vessel_names.values()):
-            subset = all_results_df[(all_results_df['Fuel'] + ' (' + all_results_df['Pathway'] + ')' == pathway) & (all_results_df['Simplified Vessel'] == vessel_type) & (all_results_df['Country']=='Country Average')]
-            if per_mile:
-                divisor = subset['Miles / year']
-            elif per_cargo_mile:
-                divisor = subset['Cargo tonne-miles / year']
-            else:
-                divisor = 1
+            filter = (all_results_df['Fuel'] + ' (' + all_results_df['Pathway'] + ')' == pathway) & (all_results_df['Simplified Vessel'] == vessel_type) & (all_results_df['Country']=='Country Average')
                 
-            if not subset.empty:
-                capex_sum = (subset['CAPEX (USD / year)'] / divisor).sum()
-                other_opex_sum = (subset['Other OPEX (USD / year)'] / divisor).sum()
-                fuel_cost_sum = (subset['Fuel Cost (USD / year)'] / divisor).sum()
+            if not all_results_df[filter].empty:
+                capex_sum = sum_to_fleet(all_results_df, 'CAPEX (USD / year)', filter, column_divide)
+                other_opex_sum = sum_to_fleet(all_results_df, 'Other OPEX (USD / year)', filter, column_divide)
+                fuel_cost_sum = sum_to_fleet(all_results_df, 'Fuel Cost (USD / year)', filter, column_divide)
                 data_for_plot[pathway]['CAPEX'].append(capex_sum)
                 data_for_plot[pathway]['Other OPEX'].append(other_opex_sum)
                 data_for_plot[pathway]['Fuel Cost'].append(fuel_cost_sum)
@@ -458,14 +609,17 @@ def plot_costs_vessel_type(all_results_df, per_mile=False, per_cargo_mile=False)
         ax.set_xlabel('Costs (USD / mile)', fontsize=22)
         plt.tight_layout()
         plt.savefig('plots/all_costs_full_fleet_vessels_stacked_per_mile.png', dpi=300)
+        plt.close()
     elif per_cargo_mile:
         ax.set_xlabel('Costs (USD / cargo tonne-mile)', fontsize=22)
         plt.tight_layout()
         plt.savefig('plots/all_costs_full_fleet_vessels_stacked_per_ton_mile.png', dpi=300)
+        plt.close()
     else:
         ax.set_xlabel('Costs (USD / year)', fontsize=22)
         plt.tight_layout()
         plt.savefig('plots/all_costs_full_fleet_vessels_stacked.png', dpi=300)
+        plt.close()
     
 def compare_vessel_property(filepath, property, property_label, property_unit):
     results = pd.ExcelFile(filepath)
@@ -482,7 +636,10 @@ def compare_vessel_property(filepath, property, property_label, property_unit):
             results_df_vessel = results_df_vessel.set_index('Date')
 
             results_dict['Vessel'] = f'{vessel}'
-            results_dict[property] = results_df_vessel[property].loc['2024-01-01']
+            if property == 'CargoMiles' and vessel_type == 'container':
+                results_dict[property] = results_df_vessel[property].loc['2024-01-01'] * TONNES_PER_TEU
+            else:
+                results_dict[property] = results_df_vessel[property].loc['2024-01-01']
             results_row_df = pd.DataFrame([results_dict])
             all_results_df = pd.concat([all_results_df, results_row_df], ignore_index=True)
 
@@ -491,7 +648,6 @@ def compare_vessel_property(filepath, property, property_label, property_unit):
 
     # Aggregate miles by category
     category_miles = all_results_df.groupby('Category')[property].sum()
-
 
     # Make a bar plot of miles traveled for each vessel
     color=['blue', 'purple', 'red']
@@ -509,6 +665,7 @@ def compare_vessel_property(filepath, property, property_label, property_unit):
 
     plt.tight_layout()
     plt.savefig(f'plots/vessel_{property}_split.png')
+    plt.close()
 
     # Iterate over each vessel class and create a separate pie chart
     i=0
@@ -518,6 +675,7 @@ def compare_vessel_property(filepath, property, property_label, property_unit):
         ax.pie(category_data[property], labels=category_data['Vessel'].apply(lambda x: vessel_size_title[x]), autopct='%1.1f%%', startangle=90, colors=color_gradient[i], textprops={'fontsize': 20})
         ax.set_title(f'{category.capitalize()} {property_label} by Size Class', fontsize=24)
         plt.savefig(f'plots/{category}_{property}_split.png')
+        plt.close()
         i+=1
     
 def main():
@@ -529,6 +687,8 @@ def main():
         
     all_results_df = add_averages(all_results_df)
     
+    all_results_df = add_number_of_vessels(all_results_df)
+    
     print(all_results_df)
     
     plot_emissions(all_results_df)
@@ -536,17 +696,21 @@ def main():
     plot_emissions(all_results_df, per_cargo_mile=True)
 
     plot_costs(all_results_df)
-        
-    plot_emissions_vessel_type(all_results_df)
-    plot_emissions_vessel_type(all_results_df, per_mile=True)
-    plot_emissions_vessel_type(all_results_df, per_cargo_mile=True)
+    plot_costs(all_results_df, per_mile=True)
+    plot_costs(all_results_df, per_cargo_mile=True)
     
-    plot_costs_vessel_type(all_results_df)
-    plot_costs_vessel_type(all_results_df, per_mile=True)
-    plot_costs_vessel_type(all_results_df, per_cargo_mile=True)
-    
-    compare_vessel_property(f'{top_dir}/all_outputs_full_fleet/report_lsfo.xlsx', 'Miles', 'Annual Miles', 'miles')
-    compare_vessel_property(f'{top_dir}/all_outputs_full_fleet/report_lsfo.xlsx', 'CargoMiles', 'Annual Cargo Miles', 'ton-miles')
-    compare_vessel_property(f'{top_dir}/all_outputs_full_fleet/report_lsfo.xlsx', 'SpendEnergy', 'Annual Energy Demand', 'GJ')
+#    plot_fuel_energy_consumed(all_results_df)
+#
+#    plot_emissions_vessel_type(all_results_df)
+#    plot_emissions_vessel_type(all_results_df, per_mile=True)
+#    plot_emissions_vessel_type(all_results_df, per_cargo_mile=True)
+#
+#    plot_costs_vessel_type(all_results_df)
+#    plot_costs_vessel_type(all_results_df, per_mile=True)
+#    plot_costs_vessel_type(all_results_df, per_cargo_mile=True)
+#
+#    compare_vessel_property(f'{top_dir}/all_outputs_full_fleet/report_lsfo.xlsx', 'Miles', 'Annual Miles', 'miles')
+#    compare_vessel_property(f'{top_dir}/all_outputs_full_fleet/report_lsfo.xlsx', 'CargoMiles', 'Annual Cargo Miles', 'ton-miles')
+#    compare_vessel_property(f'{top_dir}/all_outputs_full_fleet/report_lsfo.xlsx', 'SpendEnergy', 'Annual Energy Demand', 'GJ')
 
 main()
