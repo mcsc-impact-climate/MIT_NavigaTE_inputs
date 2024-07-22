@@ -17,6 +17,7 @@ SIMULATION NAV {
     INCLUDE "../../includes_global/tanker_100k_dwt_ice_hydrogen.inc"
     INCLUDE "../../includes_global/tanker_300k_dwt_ice_hydrogen.inc"
     INCLUDE "../../includes_global/tanker_35k_dwt_ice_hydrogen.inc"
+    INCLUDE "../../includes_global/gas_carrier_100k_cbm_ice_hydrogen.inc"
     
     # fuels
     INCLUDE "../../includes_global/hydrogen_grey.inc"

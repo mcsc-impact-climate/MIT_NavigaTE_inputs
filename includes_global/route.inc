@@ -56,3 +56,9 @@ Route "globalized_container_15000_teu" {
     PortCalls=[40]
 }
 
+Import Route "globalized_gas_carrier_100k_cbm"
+Route "globalized_gas_carrier_100k_cbm" {
+    Ports=[Port("port")]
+    PortCalls=[40]
+}
+

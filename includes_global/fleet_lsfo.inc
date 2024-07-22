@@ -18,7 +18,7 @@ Fleet "lsfo_fleet_container" {
     TradeGrowth = 0
 }
 
-# Definition of the lsfo container fleet
+# Definition of the lsfo tanker fleet
 Fleet "lsfo_fleet_tanker" {
     Vessels = [Vessel("tanker_100k_dwt_ice_oil"), Vessel("tanker_300k_dwt_ice_oil"), Vessel("tanker_35k_dwt_ice_oil")]
     FuelUptake = Uptake("uptake")
@@ -28,45 +28,17 @@ Fleet "lsfo_fleet_tanker" {
     TradeGrowth = 0
 }
 
+# Definition of the lsfo gas carrier fleet
+Fleet "lsfo_fleet_gas" {
+    Vessels = [Vessel("gas_carrier_100k_cbm_ice_oil")]
+    FuelUptake = Uptake("uptake")
+    TechnologyUptake = Uptake("uptake")
+    InitialVessels = 2156
+    InitialSplit = [1] # Vessel numbers taken from the default file gas_carrier_100k_cbm_ice_oil.inc
+    TradeGrowth = 0
+}
+
 # Define uptake node
 Uptake "uptake" {
     Objective=MINIMIZE
-}
-
-# Need to enforce alternative fuel use in all vessels
-Import Vessel "bulk_carrier_capesize_ice_oil"
-Vessel "bulk_carrier_capesize_ice_oil" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "bulk_carrier_handy_ice_oil"
-Vessel "bulk_carrier_handy_ice_oil" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "bulk_carrier_panamax_ice_oil"
-Vessel "bulk_carrier_panamax_ice_oil" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "container_15000_teu_ice_oil"
-Vessel "container_15000_teu_ice_oil" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "container_3500_teu_ice_oil"
-Vessel "container_3500_teu_ice_oil" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "container_8000_teu_ice_oil"
-Vessel "container_8000_teu_ice_oil" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "tanker_100k_dwt_ice_oil"
-Vessel "tanker_100k_dwt_ice_oil" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "tanker_300k_dwt_ice_oil"
-Vessel "tanker_300k_dwt_ice_oil" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "tanker_35k_dwt_ice_oil"
-Vessel "tanker_35k_dwt_ice_oil" {
-    EnforceMainFuelShare = TRUE
 }

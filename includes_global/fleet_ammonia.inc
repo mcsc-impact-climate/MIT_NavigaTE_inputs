@@ -28,6 +28,16 @@ Fleet "ammonia_fleet_tanker" {
     TradeGrowth = 0
 }
 
+# Definition of the ammonia gas carrier fleet
+Fleet "ammonia_fleet_gas" {
+    Vessels = [Vessel("gas_carrier_100k_cbm_ice_ammonia")]
+    FuelUptake = Uptake("uptake")
+    TechnologyUptake = Uptake("uptake")
+    InitialVessels = 2156
+    InitialSplit = [1] # Vessel numbers taken from the default file gas_carrier_100k_cbm_ice_oil.inc
+    TradeGrowth = 0
+}
+
 # Define uptake node
 Uptake "uptake" {
     Objective=MINIMIZE
@@ -68,5 +78,9 @@ Vessel "tanker_300k_dwt_ice_ammonia" {
 }
 Import Vessel "tanker_35k_dwt_ice_ammonia"
 Vessel "tanker_35k_dwt_ice_ammonia" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "gas_carrier_100k_cbm_ice_ammonia"
+Vessel "gas_carrier_100k_cbm_ice_ammonia" {
     EnforceMainFuelShare = TRUE
 }

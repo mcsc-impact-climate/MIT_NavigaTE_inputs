@@ -28,6 +28,16 @@ Fleet "hydrogen_fleet_tanker" {
     TradeGrowth = 0
 }
 
+# Definition of the hydrogen gas carrier fleet
+Fleet "hydrogen_fleet_gas" {
+    Vessels = [Vessel("gas_carrier_100k_cbm_ice_hydrogen")]
+    FuelUptake = Uptake("uptake")
+    TechnologyUptake = Uptake("uptake")
+    InitialVessels = 2156
+    InitialSplit = [1] # Vessel numbers taken from the default file gas_carrier_100k_cbm_ice_oil.inc
+    TradeGrowth = 0
+}
+
 # Define uptake node
 Uptake "uptake" {
     Objective=MINIMIZE
