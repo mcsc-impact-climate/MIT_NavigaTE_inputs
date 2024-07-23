@@ -4,6 +4,7 @@ Author: danikam
 Purpose: Reads and plots output data from single fuel single vessel NavigaTE runs to compare lifecycle costs, emissions and energy requirements, for full fleet
 """
 
+from common_tools import get_top_dir
 import numpy as np
 import pandas as pd
 
@@ -65,24 +66,6 @@ fuel_components = {
     'lsfo': ['lsfo (main)']
 }
 
-def get_top_dir():
-    '''
-    Gets the path to the top level of the git repo (one level up from the source directory)
-        
-    Parameters
-    ----------
-    None
-
-    Returns
-    -------
-    top_dir (string): Path to the top level of the git repo
-        
-    NOTE: None
-    '''
-    source_path = Path(__file__).resolve()
-    source_dir = source_path.parent
-    top_dir = os.path.dirname(source_dir)
-    return top_dir
     
 def read_results(fuel, pathway, country, filename, all_results_df):
     if fuel=='lsfo':

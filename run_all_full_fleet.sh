@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Date: June 3, 2024
+# Date: June 3, 2024. Updated July 23 to generalize to any .inc input.
 # Purpose: Run NavigaTE with single pathway and all bulk, container and tanker vessels for all modelled fuel production pathways
 # Author: danikam
 
@@ -10,17 +10,6 @@ SCRIPT_DIR=$(dirname "$0")
 # Define the source and destination directories relative to the script location
 SOURCE_DIR="${SCRIPT_DIR}/includes_global/all_costs_emissions"
 DEST_DIR="${SCRIPT_DIR}/includes_global"
-
-FUELS=(ammonia hydrogen)
-
-BLUE_PATHWAYS=(SMR_CCS ATR_CCS_R ATR_CCS_OC ATR_CCS_R_OC)
-BLUE_COUNTRIES=(USA)
-
-GREY_PATHWAYS=(SMR)
-GREY_COUNTRIES=(USA)
-
-ELECTRO_PATHWAYS=(grid wind)
-ELECTRO_COUNTRIES=(USA Australia Singapore China)
 
 # Should be at most the number of available CPU cores
 MAX_PARALLEL_PROCESSES=8
@@ -32,40 +21,32 @@ echo 'Processing lsfo pathway'
 navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/lsfo_pathway/lsfo_pathway.nav
 cp ${SCRIPT_DIR}/single_pathway_full_fleet/lsfo_pathway/plots/lsfo_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/report_lsfo.xlsx
 
-for fuel in "${FUELS[@]}"; do
-    # Loop through blue pathways
-    echo 'Processing blue pathways'
-    for blue_pathway in "${BLUE_PATHWAYS[@]}"; do
-        for blue_country in "${BLUE_COUNTRIES[@]}"; do
-            # Copy the given blue pathway into the top level of includes_global and run
-            cp "${SOURCE_DIR}/cost_emissions_${fuel}_blue_${blue_pathway}_${blue_country}.inc" "${DEST_DIR}/cost_emissions_${fuel}_blue.inc"
-            echo navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_blue_pathway/${fuel}_blue_pathway.nav
-            navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_blue_pathway/${fuel}_blue_pathway.nav
-            cp ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_blue_pathway/plots/${fuel}_blue_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/report_${fuel}_blue_${blue_pathway}_${blue_country}.xlsx
-        done
-    done
+process_pathway() {
+    local inc_file=$1
+    local fuel_type=$2
+    local pathway_type=$3
+    local pathway_name=$4
+    
+    echo "Processing ${pathway_name} pathway"
 
-    # Loop through electrolytic pathways
-    echo 'Processing electrolytic pathways'
-    for electro_pathway in "${ELECTRO_PATHWAYS[@]}"; do
-        for electro_country in "${ELECTRO_COUNTRIES[@]}"; do
-            # Copy the given electro pathway into the top level of includes_global and run
-            cp "${SOURCE_DIR}/cost_emissions_${fuel}_electro_${electro_pathway}_${electro_country}.inc" "${DEST_DIR}/cost_emissions_${fuel}_electro.inc"
-            echo navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_electro_pathway/${fuel}_electro_pathway.nav
-            navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_electro_pathway/${fuel}_electro_pathway.nav
-            cp ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_electro_pathway/plots/${fuel}_electro_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/report_${fuel}_electro_${electro_pathway}_${electro_country}.xlsx
-        done
-    done
+    cp "$inc_file" "${DEST_DIR}/cost_emissions_${fuel_type}_${pathway_type}.inc"
+    echo navigate --suppress-plots "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel_type}_${pathway_type}_pathway/${fuel_type}_${pathway_type}_pathway.nav"
+    navigate --suppress-plots "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel_type}_${pathway_type}_pathway/${fuel_type}_${pathway_type}_pathway.nav"
+    cp "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel_type}_${pathway_type}_pathway/plots/${fuel_type}_${pathway_type}_pathway_excel_report.xlsx" "${SCRIPT_DIR}/all_outputs_full_fleet/report_${fuel_type}_${pathway_type}_${pathway_name}.xlsx"
+}
 
-    # Loop through grey pathways
-    echo 'Processing grey pathways'
-    for grey_pathway in "${GREY_PATHWAYS[@]}"; do
-        for grey_country in "${GREY_COUNTRIES[@]}"; do
-            # Copy the given grey pathway into the top level of includes_global and run
-            cp "${SOURCE_DIR}/cost_emissions_${fuel}_grey_${grey_pathway}_${grey_country}.inc" "${DEST_DIR}/cost_emissions_${fuel}_grey.inc"
-            echo navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_grey_pathway/${fuel}_grey_pathway.nav
-            navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_grey_pathway/${fuel}_grey_pathway.nav
-            cp ${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}_grey_pathway/plots/${fuel}_grey_pathway_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/report_${fuel}_grey_${grey_pathway}_${grey_country}.xlsx
-        done
-    done
+export -f process_pathway
+export SCRIPT_DIR DEST_DIR
+
+# Loop through all .inc files in the source directory
+for inc_file in "${SOURCE_DIR}"/*.inc; do
+    
+    filename=$(basename -- "$inc_file")
+    fuel=$(echo $filename | cut -d'_' -f1)
+    pathway_type=$(echo $filename | cut -d'_' -f2)
+    pathway_name=$(basename -- "$filename" .inc)
+
+    if [[ $pathway_type == "blue" || $pathway_type == "electro" || $pathway_type == "grey" ]]; then
+        process_pathway "$inc_file" "$fuel" "$pathway_type" "$pathway_name"
+    fi
 done
