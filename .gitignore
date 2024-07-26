@@ -4,9 +4,10 @@
 *.prt
 *.xlsx
 includes_global/all_costs_emissions/*.inc
-includes_global/costs_emissions_*blue.inc
-includes_global/costs_emissions_*green.inc
-includes_global/costs_emissions_*grey.inc
+includes_global/*blue.inc
+includes_global/*electro.inc
+includes_global/*grey.inc
 *.numbers
 *.ilp
 *__pycache__*
+processed_results
