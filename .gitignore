@@ -10,4 +10,3 @@ includes_global/*grey.inc
 *.numbers
 *.ilp
 *__pycache__*
-processed_results
