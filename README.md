@@ -63,7 +63,7 @@ This should produce `.xlsx` files in all_outputs_full_fleet with NavigaTE output
 
 The script [`make_output_csvs.py`](./source/make_output_csvs.py) reads in the `.xslx` files produced by `run_all_pathways.sh`, evaluates some derived quantities, and organizes all the data into csv files in [`processed_results`](./processed_results), with one csv file per country, pathway and evaluation option. The rows represent the production region, and columns represent vessel classes in the global fleet.
 
-The naming convention for the csv files is: `{fuel}-{pathway_type}-{pathway}_{quantity}_{evaluation_option}.csv`. Information about each `quantity` can be found in [`processed_results/quantity_info.csv`](./processed_results/quantity_info.csv).
+The naming convention for the csv files is: `{fuel}-{pathway_type}-{pathway}_{quantity}_{evaluation_option}.csv`. Information about each `quantity` can be found in [`info_files/quantity_info.csv`](./processed_results/quantity_info.csv).
 
 The different `evaluation_option`s are defined as follows:
 * `""`: The quantity is per-vessel annually, and unchanged relative to its description in `quantity_info.csv`.
