@@ -1,0 +1,12 @@
+Quantity,Long Name,Units,Description
+TotalEquivalentWTT,Annual well to tank emissions,tonnes CO2 / year,
+TotalEquivalentTTW,Annual tank to wake emissions,tonnes CO2 / year,
+TotalEquivalentWTW,Annual well to wake emissions,tonnes CO2 / year,
+TotalCAPEX,Total capital expenditure,USD / year,"For purchase of base vessel, powertrain, tanks, auxiliary equipment, etc, amortized over the vessel lifetime"
+TotalFuelOPEX,Annual operating cost for fuel purchase,USD / year,
+TotalExcludingFuelOPEX,Annual operating cost for all expenses except fuel,USD / year,
+TotalCost,Total annual cost,USD / year,"Sum of CAPEX, fuel and other OPEX"
+Miles,Annual nautical miles traveled,Nautical miles / year,
+CargoMiles,Annual cargo-miles carried,tonne-miles / year,Assume 14 tonnes / TEU for containerships and 3.49 lb / gal for gas carriers
+ConsumedEnergy_lsfo,LSFO fuel energy consumed ,GJ / year,Low sulfur fuel oil (main fuel for LSFO vessel and pilot fuel for other vessels)
+ConsumedEnergy_main,Fuel energy consumed for the main vessel fuel,GJ / year,
