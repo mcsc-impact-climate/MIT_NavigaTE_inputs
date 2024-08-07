@@ -457,7 +457,7 @@ def generate_csv_files(all_results_df, top_dir):
                 pivot_df.loc["Global Average"] = global_avg
 
                 # Generate the filename
-                filename = f"{fuel}-{fuel_type}-{pathway}_{quantity}.csv"
+                filename = f"{fuel}-{fuel_type}-{pathway}-{quantity}.csv"
                 filepath = f"{top_dir}/processed_results/{filename}"
 
                 # Save the DataFrame to a CSV file
