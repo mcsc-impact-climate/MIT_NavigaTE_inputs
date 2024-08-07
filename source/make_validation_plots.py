@@ -15,7 +15,7 @@ matplotlib.rc("ytick", labelsize=18)
 
 RESULTS_DIR = "processed_results"
 
-vessels = {
+vessel_sizes = {
     "bulk_carrier_ice": [
         "bulk_carrier_capesize_ice",
         "bulk_carrier_handy_ice",
@@ -233,17 +233,18 @@ class ProcessedPathway:
         units : str
             Units for the given quantity and modifier
         """
-        vessel_types = list(vessels.keys())
+        vessel_types = list(vessel_sizes.keys())
         
         fig, ax = plt.subplots(figsize=(14, 8))
         ax.set_ylabel(f"{self.label} ({self.units})", fontsize=22)
-        ax.set_title(f"{self.fuel}: {self.pathway_color} {pathway_labels_df.loc[self.pathway, 'Label']}", fontsize=24)
         
         # Separate result_df into rows with vs. without '_' (where '_' indicates it's one of several individual estimates for a given country)
         result_df_country_av = self.result_df[~self.result_df.index.str.contains('_')]
         result_df_country_individual = self.result_df[self.result_df.index.str.contains('_')]
         
+        # Plot each country with vessel types stacked
         if vessel_type == "all":
+            ax.set_title(f"{self.fuel}: {self.pathway_color} {pathway_labels_df.loc[self.pathway, 'Label']}", fontsize=24)
             stack_by = [f"{vessel_type}_{self.fuel}" for vessel_type in vessel_types]
             
             # Only plot stacked histograms for country averages
@@ -266,8 +267,32 @@ class ProcessedPathway:
             # Construct the filename to save to
             filename_save = f"{self.fuel}-{self.pathway_color}-{self.pathway}-hist_by_country_allvessels"
 
+        # Plot each country with vessel sizes stacked
         elif vessel_type in vessel_types:
-            stack_by = list(vessels[vessel_type])
+            ax.set_title(f"{self.fuel}: {self.pathway_color} {pathway_labels_df.loc[self.pathway, 'Label']} for {vessel_type_title[vessel_type]}", fontsize=24)
+            stack_by = [f"{vessel_size}_{self.fuel}" for vessel_size in vessel_sizes[vessel_type]]
+            print(stack_by)
+            
+            # Only plot stacked histograms for country averages
+            result_df_country_av[stack_by].plot(kind='bar', stacked=True, ax=ax)
+            
+            # Add individual country estimates as unfilled circles
+            for idx, row in result_df_country_individual.iterrows():
+                country = idx.split('_')[0]
+                if country in result_df_country_av.index:
+                    # Use the same x-location as the corresponding bar
+                    x = result_df_country_av.index.get_loc(country)
+
+                    # Plot individual estimates as unfilled circles
+                    ax.scatter([x], [row[f"{vessel_type}_{self.fuel}"]], marker="D", color='black', s=100)
+            
+            # Update legend labels
+            handles, labels = ax.get_legend_handles_labels()
+            new_labels = [vessel_size_title[label.replace(f"_{self.fuel}", "")] for label in labels]
+            
+            # Construct the filename to save to
+            filename_save = f"{self.fuel}-{self.pathway_color}-{self.pathway}-hist_by_country_{vessel_type}"
+            
         else:
             print(f"Vessel type should be one of: {vessel_types}. Returning from hist_by_country without plotting.")
             return
@@ -288,6 +313,7 @@ def main():
     
     #print(lsfo_pathway_TotalCost_fleet.result_df)
     lsfo_pathway_TotalCost_fleet.hist_by_country("all")
+    lsfo_pathway_TotalCost_fleet.hist_by_country("bulk_carrier_ice")
     
 
 main()
