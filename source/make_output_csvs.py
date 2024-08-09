@@ -384,7 +384,7 @@ def add_fleet_level_quantities(all_results_df):
 def generate_csv_files(all_results_df, top_dir):
     quantities_of_interest = list(
         all_results_df.drop(
-            columns=["Vessel", "Fuel", "Pathway", "Country", "Number", "n_vessels"]
+            columns=["Vessel", "Fuel", "FuelType", "Pathway", "Country", "Number", "n_vessels"]
         ).columns
     )
     
