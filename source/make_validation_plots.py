@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 import re
 import os
+import geopandas as gpd
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from parse import parse
 
@@ -52,7 +54,7 @@ vessel_size_title = {
     "tanker_100k_dwt_ice": "100k DWT",
     "tanker_300k_dwt_ice": "300k DWT",
     "tanker_35k_dwt_ice": "35k DWT",
-    "gas_carrier_100k_cbm_ice": "100k m^3",
+    "gas_carrier_100k_cbm_ice": "100k m$^3$",
 }
 
 # Global string representing the absolute path to the top level of the repo
@@ -117,24 +119,24 @@ def read_quantity_info(top_dir):
 # Global dataframe containing info (long name, units and description) about each quantity
 quantity_info_df = read_quantity_info(top_dir)
 
-def make_country_labels(country_names_camel_case):
+def make_region_labels(region_names_camel_case):
     """
-    Function to construct country labels with spaces in cases where CamelCase is used to separate different parts of country names.
+    Function to construct region labels with spaces in cases where CamelCase is used to separate different parts of region names.
     Eg. ["SaudiArabia"] --> ["Saudi Arabia"]
     
     Parameters
     ----------
-    country_names_camel_case: list of str
-        List of country names in CamelCase format
+    region_names_camel_case: list of str
+        List of region names in CamelCase format
 
     Returns
     -------
-    country_names_with_spaces : list of str
-        List of country names with spaces
+    region_names_with_spaces : list of str
+        List of region names with spaces
     """
     # Insert a space before each uppercase letter (except the first one)
-    country_names_with_spaces = [re.sub(r'(?<!^)(?<![A-Z])(?=[A-Z])', ' ', name) for name in country_names_camel_case]
-    return country_names_with_spaces
+    region_names_with_spaces = [re.sub(r'(?<!^)(?<![A-Z])(?=[A-Z])', ' ', name) for name in region_names_camel_case]
+    return region_names_with_spaces
     
 def get_filename_info(filepath, identifier, pattern = "{fuel}-{pathway_color}-{pathway}-{quantity}-{modifier}.csv"):
     """
@@ -295,10 +297,10 @@ class ProcessedQuantity:
     get_units(self):
         Collects the units for the given quantity and modifier
         
-    make_hist_by_country(self, vessel_type):
+    make_hist_by_region(self, vessel_type):
         Plots a stacked histogram of either vessel sizes (if a vessel type is provided as input) or vessel types (if "all" is provided).
         
-    make_all_hists_by_country(self):
+    make_all_hists_by_region(self):
         Plots all stacked histograms for the available vessel types
     """
     
@@ -372,7 +374,7 @@ class ProcessedQuantity:
         
         return f"{base_units} / {denom_units}"
         
-    def make_hist_by_country(self, vessel_type):
+    def make_hist_by_region(self, vessel_type):
         """
         Plots a stacked histogram of either vessel sizes (if a vessel type is provided as input) or vessel types (if "all" is provided).
 
@@ -390,86 +392,99 @@ class ProcessedQuantity:
         None
         """
         
-        fig, ax = plt.subplots(figsize=(14, 8))
+        fig, ax = plt.subplots(figsize=(16, 8))
         
-        # Separate result_df into rows with vs. without '_' (where '_' indicates it's one of several individual estimates for a given country)
-        result_df_country_av = self.result_df[~self.result_df.index.str.contains('_')]
-        result_df_country_individual = self.result_df[self.result_df.index.str.contains('_')]
+        # Separate result_df into rows with vs. without '_' (where '_' indicates it's one of several individual estimates for a given region)
+        result_df_region_av = self.result_df[~self.result_df.index.str.contains('_')]
+        result_df_region_individual = self.result_df[self.result_df.index.str.contains('_')]
         
-        # Plot each country with vessel types stacked
+        # Plot each region with vessel types stacked
+        stack_vessel_types = False
+        stack_vessel_sizes = False
         if vessel_type == "all":
             legend_title = "Vessel Type"
-            stack_by = [f"{vessel_type}_{self.fuel}" for vessel_type in vessel_types]
             
-            # Only plot stacked histograms for country averages
-            result_df_country_av[stack_by].plot(kind='barh', stacked=True, ax=ax)
+            # Don't stack vessel types if quantities are normalized per mile or per tonne-mile
+            if self.modifier == "per_mile" or self.modifier == "per_tonne_mile":
+                result_df_region_av[f"fleet_{self.fuel}"].plot(kind='barh', stacked=False, ax=ax)
+            else:
+                stack_by = [f"{vessel_type}_{self.fuel}" for vessel_type in vessel_types]
+                result_df_region_av[stack_by].plot(kind='barh', stacked=True, ax=ax)
+                stack_vessel_types = True
             
-            # Add individual country estimates as unfilled circles
-            for idx, row in result_df_country_individual.iterrows():
-                country = idx.split('_')[0]
-                if country in result_df_country_av.index:
+            # Add individual region estimates as unfilled circles
+            for idx, row in result_df_region_individual.iterrows():
+                region = idx.split('_')[0]
+                if region in result_df_region_av.index:
                     # Use the same x-location as the corresponding bar
-                    x = result_df_country_av.index.get_loc(country)
+                    x = result_df_region_av.index.get_loc(region)
 
                     # Plot individual estimates as unfilled circles
-                    ax.scatter([x], [row[f"fleet_{self.fuel}"]], marker="D", color='black', s=100)
+                    ax.scatter([row[f"fleet_{self.fuel}"]], [x], marker="D", color='black', s=100)
             
-            # Update legend labels
-            handles, labels = ax.get_legend_handles_labels()
-            new_labels = [vessel_type_title[label.replace(f"_{self.fuel}", "")] for label in labels]
+            # Update legend labels if plotting stacked vessels
+            if stack_vessel_types:
+                handles, labels = ax.get_legend_handles_labels()
+                new_labels = [vessel_type_title[label.replace(f"_{self.fuel}", "")] for label in labels]
             
             # Construct the filename to save to
-            filename_save = f"{self.fuel}-{self.pathway_color}-{self.pathway}-{self.quantity}-hist_by_country_allvessels"
+            filename_save = f"{self.fuel}-{self.pathway_color}-{self.pathway}-{self.quantity}-hist_by_region_allvessels"
 
-        # Plot each country with vessel sizes stacked
+        # Plot each region with vessel sizes stacked
         elif vessel_type in vessel_types:
             legend_title = "Vessel Size"
-            ax.text(1.05, 0.55, f"Vessel Type: {vessel_type}", transform=ax.transAxes, fontsize=18, va='top', ha='left')
+            vessel_type_label = vessel_type_title[vessel_type]
+            ax.text(1.05, 0.55, f"Vessel Type: {vessel_type_label}", transform=ax.transAxes, fontsize=20, va='top', ha='left')
             
-            stack_by = [f"{vessel_size}_{self.fuel}" for vessel_size in vessel_sizes[vessel_type]]
+            if self.modifier == "per_mile" or self.modifier == "per_tonne_mile":
+                result_df_region_av[f"{vessel_type}_{self.fuel}"].plot(kind='barh', stacked=False, ax=ax)
+                
+            else:
+                stack_by = [f"{vessel_size}_{self.fuel}" for vessel_size in vessel_sizes[vessel_type]]
+                result_df_region_av[stack_by].plot(kind='barh', stacked=True, ax=ax)
+                stack_vessel_sizes = True
             
-            # Only plot stacked histograms for country averages
-            result_df_country_av[stack_by].plot(kind='barh', stacked=True, ax=ax)
-            
-            # Add individual country estimates as unfilled circles
-            for idx, row in result_df_country_individual.iterrows():
-                country = idx.split('_')[0]
-                if country in result_df_country_av.index:
+            # Add individual region estimates as unfilled circles
+            for idx, row in result_df_region_individual.iterrows():
+                region = idx.split('_')[0]
+                if region in result_df_region_av.index:
                     # Use the same x-location as the corresponding bar
-                    x = result_df_country_av.index.get_loc(country)
+                    x = result_df_region_av.index.get_loc(region)
 
                     # Plot individual estimates as unfilled circles
-                    ax.scatter([x], [row[f"{vessel_type}_{self.fuel}"]], marker="D", color='black', s=100)
+                    ax.scatter([row[f"{vessel_type}_{self.fuel}"]], [x], marker="D", color='black', s=100)
             
-            # Update legend labels
-            handles, labels = ax.get_legend_handles_labels()
-            new_labels = [vessel_size_title[label.replace(f"_{self.fuel}", "")] for label in labels]
+            # Update legend labels if plotting stacked vessel sizes
+            if stack_vessel_sizes:
+                handles, labels = ax.get_legend_handles_labels()
+                new_labels = [vessel_size_title[label.replace(f"_{self.fuel}", "")] for label in labels]
             
             # Construct the filename to save to
-            filename_save = f"{self.fuel}-{self.pathway_color}-{self.pathway}-{self.quantity}-{self.modifier}-hist_by_country_{vessel_type}"
+            filename_save = f"{self.fuel}-{self.pathway_color}-{self.pathway}-{self.quantity}-{self.modifier}-hist_by_region_{vessel_type}"
             
         else:
-            print(f"Vessel type should be one of: {vessel_types}. Returning from hist_by_country without plotting.")
+            print(f"Vessel type should be one of: {vessel_types}. Returning from hist_by_region without plotting.")
             return
         
         # Add text to indicate the details of what's being plotted
-        ax.text(1.05, 0.5, f"Fuel: {self.fuel}", transform=ax.transAxes, fontsize=18, va='top', ha='left')
-        ax.text(1.05, 0.45, f"Color: {self.pathway_color}", transform=ax.transAxes, fontsize=18, va='top', ha='left')
-        ax.text(1.05, 0.4, f"Pathway: {self.pathway_label}", transform=ax.transAxes, fontsize=18, va='top', ha='left')
+        ax.text(1.05, 0.5, f"Fuel: {self.fuel}", transform=ax.transAxes, fontsize=20, va='top', ha='left')
+        ax.text(1.05, 0.45, f"Color: {self.pathway_color}", transform=ax.transAxes, fontsize=20, va='top', ha='left')
+        ax.text(1.05, 0.4, f"Pathway: {self.pathway_label}", transform=ax.transAxes, fontsize=20, va='top', ha='left')
         
         # Plot styling common to both cases
         ax.set_xlabel(f"{self.label} ({self.units})", fontsize=22)
-        ax.set_yticks(range(len(result_df_country_av)))
+        ax.set_yticks(range(len(result_df_region_av)))
         #plt.xticks(rotation=45)
-        ax.set_yticklabels(make_country_labels(result_df_country_av.index))
-        ax.legend(handles, new_labels, title=legend_title, fontsize=18, title_fontsize=20, bbox_to_anchor=(1.05, 1), loc='upper left')
+        ax.set_yticklabels(make_region_labels(result_df_region_av.index))
+        if stack_vessel_types or stack_vessel_sizes:
+            ax.legend(handles, new_labels, title=legend_title, fontsize=20, title_fontsize=22, bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.tight_layout()
-        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_hists_by_country")
-        plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_hists_by_country/{filename_save}.png", dpi=200)
-        #plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_hists_by_country/{filename_save}.pdf")
+        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_hists_by_region")
+        plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_hists_by_region/{filename_save}.png", dpi=200)
+        #plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_hists_by_region/{filename_save}.pdf")
         plt.close()
         
-    def make_all_hists_by_country(self):
+    def make_all_hists_by_region(self):
         """
         Plots all stacked histograms for the available vessel types
 
@@ -482,9 +497,57 @@ class ProcessedQuantity:
         None
         """
         for vessel_type in vessel_types:
-            self.make_hist_by_country(vessel_type)
+            self.make_hist_by_region(vessel_type)
             
-        self.make_hist_by_country("all")
+        self.make_hist_by_region("all")
+        
+    def map_by_region(self):
+        """
+        Maps the quantity geospatially by region, overlaid on a map of the world
+        
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+
+        # Load a base world map from geopandas
+        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+        
+        # Create a figure and axis with appropriate size
+        fig, ax = plt.subplots(1, 1, figsize=(15, 10))
+        
+        # Merge the result_df with the world geodataframe based on the region
+        # Assuming your result_df has a column 'region' corresponding to country names
+#        merged = world.set_index('name').join(self.result_df)
+#
+#        # Plot the base map
+#        world.plot(ax=ax, color='lightgrey', edgecolor='black')
+#
+#        # Plot the regions with data, using a colormap to represent the quantity
+#        merged.plot(column=self.quantity, cmap='coolwarm', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True)
+#
+#        # Set the title and labels
+#        ax.set_title(f"{self.label} ({self.units}) by Region", fontsize=18)
+#        ax.set_xlabel("Longitude", fontsize=14)
+#        ax.set_ylabel("Latitude", fontsize=14)
+#
+#        # Create a colorbar with appropriate formatting
+#        divider = make_axes_locatable(ax)
+#        cax = divider.append_axes("right", size="5%", pad=0.1)
+#        sm = plt.cm.ScalarMappable(cmap='coolwarm', norm=plt.Normalize(vmin=merged[self.quantity].min(), vmax=merged[self.quantity].max()))
+#        sm._A = []
+#        cbar = fig.colorbar(sm, cax=cax)
+#        cbar.set_label(f"{self.label} ({self.units})", fontsize=14)
+        
+        # Save the plot
+        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_maps_by_region")
+        plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_maps_by_region/{self.quantity}_map_by_region.png", dpi=200)
+        plt.close()
+        
     
 class ProcessedPathway:
     """
@@ -572,9 +635,9 @@ class ProcessedPathway:
         
         return ProcessedQuantities
         
-    def make_all_hists_by_country(self, quantities=["TotalEquivalentWTW", "TotalCost"]):
+    def make_all_hists_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
         """
-        Executes make_all_hists_by_country() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce validation hists for the given pathway, for the selected quantities.
+        Executes make_all_hists_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce validation hists for the given pathway, for the selected quantities.
         
         Parameters
         ----------
@@ -584,11 +647,19 @@ class ProcessedPathway:
         -------
         None
         """
+        
+        # Handle the situation where the user wants to plot all quantities and/or all modifiers
+        if quantities == "all":
+            quantities = self.ProcessedQuantities
+        
+        if modifiers == "all":
+            modifiers = self.ProcessedQuantities[quantity]
+        
         for quantity in quantities:
             if not quantity in self.ProcessedQuantities:
                 raise Exception(f"Error: Provided quantity '{quantity}' is not available in self.ProcessedQuantities. \n\nAvailable quanities: {self.quantities}.")
-            for modifier in self.ProcessedQuantities[quantity]:
-                self.ProcessedQuantities[quantity][modifier].make_all_hists_by_country()
+            for modifier in modifiers:
+                self.ProcessedQuantities[quantity][modifier].make_all_hists_by_region()
         
         
 #class ProcessedFuel:
@@ -620,15 +691,17 @@ def main():
     lsfo_pathway_TotalCost_fleet = ProcessedQuantity("TotalCost", "fleet", "ammonia", "electro", "LTE_grid")
     lsfo_pathway_WTW_fleet = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "electro", "LTE_grid")
     
-    lsfo_pathway_WTW_fleet.make_hist_by_country("all")
-    lsfo_pathway_WTW_fleet.make_hist_by_country("bulk_carrier_ice")
+    #lsfo_pathway_WTW_fleet.make_hist_by_region("all")
+    #lsfo_pathway_WTW_fleet.make_hist_by_region("bulk_carrier_ice")
+    #lsfo_pathway_WTW_fleet.map_by_region()
+    
     
     #print(lsfo_pathway_TotalCost_fleet.result_df)
-    #lsfo_pathway_TotalCost_fleet.make_all_hists_by_country()
-    #lsfo_pathway_WTW_fleet.make_all_hists_by_country()
+    #lsfo_pathway_TotalCost_fleet.make_all_hists_by_region()
+    #lsfo_pathway_WTW_fleet.make_all_hists_by_region()
     #get_filename_info("/Users/danikamacdonell/Git/MIT_NavigaTE_inputs/processed_results/lsfo-grey-fossil-TotalFuelOPEX-per_mile.csv")
     
-    #pathway = ProcessedPathway("ammonia", "blue", "ATR_CCS")
-    #pathway.make_all_hists_by_country()
+    pathway = ProcessedPathway("ammonia", "blue", "ATR_CCS")
+    pathway.make_all_hists_by_region()
 
 main()
