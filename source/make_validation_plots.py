@@ -12,6 +12,7 @@ import re
 import os
 import geopandas as gpd
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from shapely.geometry import Polygon
 
 from parse import parse
 
@@ -55,6 +56,13 @@ vessel_size_title = {
     "tanker_300k_dwt_ice": "300k DWT",
     "tanker_35k_dwt_ice": "35k DWT",
     "gas_carrier_100k_cbm_ice": "100k m$^3$",
+}
+
+region_name_mapping = {
+    "SaudiArabia": "Saudi Arabia",
+    "UAE": "United Arab Emirates",
+    "USA": "United States of America",
+    "WestAustralia": "West Australia",
 }
 
 # Global string representing the absolute path to the top level of the repo
@@ -247,6 +255,44 @@ def create_directory_if_not_exists(directory_path):
     if not os.path.exists(directory_path):
         os.makedirs(directory_path)
         print(f"Directory created: {directory_path}")
+        
+def add_west_australia(world):
+    """
+    Adds a custom polygon representing West Australia to the world GeoDataFrame.
+    
+    This function manually defines a polygon that approximates the region of West Australia
+    and adds it to the given world GeoDataFrame. The polygon is created using the shapely library
+    and is added as a new row in the GeoDataFrame with the name 'West Australia'.
+    
+    Parameters
+    ----------
+    world : geopandas.GeoDataFrame
+        The GeoDataFrame containing the world map with country boundaries.
+    
+    Returns
+    -------
+    geopandas.GeoDataFrame
+        The updated GeoDataFrame that includes the custom region 'West Australia'.
+    """
+    
+    # Check if 'West Australia' is already in the 'NAME' column
+    if 'West Australia' in world['NAME'].values:
+        return world
+    
+    # Load detailed shapefile for Australia that includes state/territory boundaries
+    url = "https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/georef-australia-state@public/exports/geojson"
+    australia_states = gpd.read_file(url)
+    
+    # Filter the GeoDataFrame to only include Western Australia
+    west_australia = australia_states[australia_states['ste_iso3166_code'] == 'WA'].copy()
+
+    # Rename 'WA' to 'West Australia' in the 'NAME' column using .loc[]
+    west_australia.loc[west_australia['ste_iso3166_code'] == 'WA', 'NAME'] = 'West Australia'
+
+    # Concatenate the West Australia GeoDataFrame with the world GeoDataFrame
+    world_with_west_australia = pd.concat([world, west_australia], ignore_index=True)
+    
+    return world_with_west_australia
     
 class ProcessedQuantity:
     """
@@ -479,8 +525,8 @@ class ProcessedQuantity:
         if stack_vessel_types or stack_vessel_sizes:
             ax.legend(handles, new_labels, title=legend_title, fontsize=20, title_fontsize=22, bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.tight_layout()
-        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_hists_by_region")
-        plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_hists_by_region/{filename_save}.png", dpi=200)
+        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}")
+        plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}/{filename_save}.png", dpi=200)
         #plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_hists_by_region/{filename_save}.pdf")
         plt.close()
         
@@ -501,7 +547,25 @@ class ProcessedQuantity:
             
         self.make_hist_by_region("all")
         
-    def map_by_region(self):
+    def add_region_names(self):
+        """
+        Adds a column called NAME with region names to match naming conventions in the natural-earth-vector file, if that column doesn't already exist
+        
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+        
+        if "NAME" not in self.result_df.columns:
+            # Map the index (which contains region names) to the proper names using the region_name_mapping dictionary
+            self.result_df["NAME"] = self.result_df.index.map(lambda x: region_name_mapping.get(x, x))
+            
+        
+    def map_by_region(self, column=None):
         """
         Maps the quantity geospatially by region, overlaid on a map of the world
         
@@ -513,39 +577,48 @@ class ProcessedQuantity:
         -------
         None
         """
+        
+        # If the column to plot isn't specified, set it to the value of the given quantity for the entire fleet
+        if column is None:
+            column = f"fleet_{self.fuel}"
 
         # Load a base world map from geopandas
-        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+        url = "https://github.com/nvkelso/natural-earth-vector/raw/master/geojson/ne_110m_admin_0_countries.geojson"
+        world = gpd.read_file(url)
         
+        # Add West Australia to the world geojson
+        world = add_west_australia(world)
+        
+        # Add a column "NAME" to self.results_df with region names to match the geojson world file, if needed
+        self.add_region_names()
+                
         # Create a figure and axis with appropriate size
         fig, ax = plt.subplots(1, 1, figsize=(15, 10))
         
-        # Merge the result_df with the world geodataframe based on the region
-        # Assuming your result_df has a column 'region' corresponding to country names
-#        merged = world.set_index('name').join(self.result_df)
-#
-#        # Plot the base map
-#        world.plot(ax=ax, color='lightgrey', edgecolor='black')
-#
-#        # Plot the regions with data, using a colormap to represent the quantity
-#        merged.plot(column=self.quantity, cmap='coolwarm', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True)
-#
-#        # Set the title and labels
-#        ax.set_title(f"{self.label} ({self.units}) by Region", fontsize=18)
-#        ax.set_xlabel("Longitude", fontsize=14)
-#        ax.set_ylabel("Latitude", fontsize=14)
-#
-#        # Create a colorbar with appropriate formatting
-#        divider = make_axes_locatable(ax)
-#        cax = divider.append_axes("right", size="5%", pad=0.1)
-#        sm = plt.cm.ScalarMappable(cmap='coolwarm', norm=plt.Normalize(vmin=merged[self.quantity].min(), vmax=merged[self.quantity].max()))
-#        sm._A = []
-#        cbar = fig.colorbar(sm, cax=cax)
-#        cbar.set_label(f"{self.label} ({self.units})", fontsize=14)
+        # Merge the result_df with the world geodataframe based on the column "NAME" with region names
+        merged = world.merge(self.result_df, on='NAME', how='left')
+                
+        # Plot the base map
+        world.plot(ax=ax, color='lightgrey', edgecolor='black')
+
+        # Plot the regions with data, using a colormap to represent the quantity
+        merged.plot(column=column, cmap='coolwarm', linewidth=0.8, ax=ax, edgecolor='0.8', legend=False)
+
+        # Set the title and labels
+        ax.set_xticks([])
+        ax.set_yticks([])
+
+        # Create a horizontal colorbar with appropriate formatting
+        divider = make_axes_locatable(ax)
+        cax = divider.append_axes("bottom", size="5%", pad=0.2)
+        sm = plt.cm.ScalarMappable(cmap='coolwarm', norm=plt.Normalize(vmin=merged[column].min(), vmax=merged[column].max()))
+        sm._A = []
+        cbar = fig.colorbar(sm, cax=cax, orientation='horizontal')
+        cbar.set_label(f"{self.label} ({self.units})", fontsize=20)
         
         # Save the plot
-        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_maps_by_region")
-        plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}_maps_by_region/{self.quantity}_map_by_region.png", dpi=200)
+        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}")
+        plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}/{self.quantity}_map_by_region.png", dpi=200)
         plt.close()
         
     
@@ -641,7 +714,11 @@ class ProcessedPathway:
         
         Parameters
         ----------
-        None
+        quantities : str or list of str
+            List of quantities to make hists of. If "all" is provided, it will make hists of all quantities in the ProcessedQuantities dictionary
+            
+        modifiers : str
+            List of modifiers to include in the hists. If "all" is provided, it will make hists with all modifiers in the ProcessedQuantities dictionary
         
         Returns
         -------
@@ -660,7 +737,36 @@ class ProcessedPathway:
                 raise Exception(f"Error: Provided quantity '{quantity}' is not available in self.ProcessedQuantities. \n\nAvailable quanities: {self.quantities}.")
             for modifier in modifiers:
                 self.ProcessedQuantities[quantity][modifier].make_all_hists_by_region()
+                
+    def map_all_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
+        """
+        Executes map_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce geospatial maps of the given quantities and modifiers.
         
+        Parameters
+        ----------
+        quantities : str or list of str
+            List of quantities to make geospatial maps of. If "all" is provided, it will make maps of all quantities in the ProcessedQuantities dictionary
+            
+        modifiers : str
+            List of modifiers to include in the maps. If "all" is provided, it will make maps with all modifiers in the ProcessedQuantities dictionary
+        
+        Returns
+        -------
+        None
+        """
+        
+        # Handle the situation where the user wants to plot all quantities and/or all modifiers
+        if quantities == "all":
+            quantities = self.ProcessedQuantities
+        
+        if modifiers == "all":
+            modifiers = self.ProcessedQuantities[quantity]
+        
+        for quantity in quantities:
+            if not quantity in self.ProcessedQuantities:
+                raise Exception(f"Error: Provided quantity '{quantity}' is not available in self.ProcessedQuantities. \n\nAvailable quanities: {self.quantities}.")
+            for modifier in modifiers:
+                self.ProcessedQuantities[quantity][modifier].map_by_region()
         
 #class ProcessedFuel:
 #    """
@@ -693,7 +799,7 @@ def main():
     
     #lsfo_pathway_WTW_fleet.make_hist_by_region("all")
     #lsfo_pathway_WTW_fleet.make_hist_by_region("bulk_carrier_ice")
-    #lsfo_pathway_WTW_fleet.map_by_region()
+    lsfo_pathway_WTW_fleet.map_by_region()
     
     
     #print(lsfo_pathway_TotalCost_fleet.result_df)
@@ -701,7 +807,8 @@ def main():
     #lsfo_pathway_WTW_fleet.make_all_hists_by_region()
     #get_filename_info("/Users/danikamacdonell/Git/MIT_NavigaTE_inputs/processed_results/lsfo-grey-fossil-TotalFuelOPEX-per_mile.csv")
     
-    pathway = ProcessedPathway("ammonia", "blue", "ATR_CCS")
-    pathway.make_all_hists_by_region()
+#    pathway = ProcessedPathway("ammonia", "blue", "ATR_CCS")
+#    pathway.make_all_hists_by_region()
+#    pathway.map_all_by_region()
 
 main()
