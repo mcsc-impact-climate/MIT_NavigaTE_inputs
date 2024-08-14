@@ -1,0 +1,11 @@
+Pathway Name,Label,Description
+ATR_CCS_OC,ATR+CCS (OC),Hydrogen from auto-thermal reforming coupled with CCS with oxygen combustion
+ATR_CCS_R_OC,ATR+CCS (R+OC),Hydrogen from auto-thermal reforming coupled with CCS with oxygen combustion and fuel recycling
+ATR_CCS_R,ATR+CCS (R),Hydrogen from Auto-thermal reforming coupled with CCS with air combustion and fuel recycling
+ATR_CCS,ATR+CCS,Hydrogen from auto-thermal reforming coupled with CCS with air combustion
+SMR_CCS,SMR+CCS,Hydrogen from steam methane reforming coupled with CCS
+SMR,SMR,Hydrogen from steam methane reforming
+LTE_grid,LTE (grid),Hydrogen from low-temperature electrolysis using grid power
+LTE_wind,LTE (wind),Hydrogen from low-temperature electrolysis using wind power
+HTE_grid,HTE (grid),Hydrogen from high-temperature electrolysis using grid power
+fossil,fossil,Fossil fuel feedstocks
