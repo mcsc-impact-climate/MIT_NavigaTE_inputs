@@ -15,6 +15,7 @@ import geopandas as gpd
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from shapely.geometry import Polygon
 import matplotlib.colors as mcolors
+import seaborn as sns
 
 from parse import parse
 
@@ -76,6 +77,11 @@ country_region_categorization = {
     "East Asia and Oceania": ["Australia", "West Australia", "China", "Korea", "Malaysia", "Singapore"],
     "West Asia and Europe": ["Saudi Arabia", "Oman", "UAE", "Russia"],
     "Americas": ["USA"]
+}
+
+result_components = {
+    "TotalCost": ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"],
+    "TotalEquivalentWTW": ["TotalEquivalentTTW", "TotalEquivalentWTT"]
 }
 
 # Global string representing the absolute path to the top level of the repo
@@ -1240,7 +1246,7 @@ class ProcessedFuel:
         num_pathways = len(self.pathways)
         fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
 
-        fig, ax = plt.subplots(figsize=(16, fig_height))
+        fig, ax = plt.subplots(figsize=(15, fig_height))
 
         # Create an empty dictionary to hold the cumulative values for stacking
         cumulative_values = {}
@@ -1328,7 +1334,7 @@ class ProcessedFuel:
         
         lsfo_pathway = ProcessedPathway("lsfo", "grey", "fossil")
         make_bar(lsfo_pathway, "lsfo", "LSFO (fossil)")
-        plt.axvline(lsfo_pathway.get_country_average_results([quantity], modifier)[quantity], linewidth=3, linestyle="--", color="grey")
+        plt.axvline(lsfo_pathway.get_country_average_results([quantity], modifier)[quantity], linewidth=3, linestyle="--", color="black")
 
         # Add labels and title
         ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
@@ -1336,17 +1342,18 @@ class ProcessedFuel:
         
         # Add a legend for the stacked bar components (sub-quantities)
         if bar_handles:
-            legend1 = ax.legend(bar_handles, bar_labels, fontsize=16, title="Components", title_fontsize=20, bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+            legend1 = ax.legend(bar_handles, bar_labels, fontsize=16, title="Components", title_fontsize=20, bbox_to_anchor=(1.01, 1.05), loc='upper left', borderaxespad=0.)
 
         # Add a separate legend for countries
         if scatter_handles:
-            legend2 = ax.legend(scatter_handles, scatter_labels, fontsize=16, title="Countries", title_fontsize=20, bbox_to_anchor=(1.05, 0.35), loc='center left', borderaxespad=0.)
+            legend2 = ax.legend(scatter_handles, scatter_labels, fontsize=16, title="Countries", title_fontsize=20, bbox_to_anchor=(1.01, 0.35), loc='center left', borderaxespad=0.)
         
         # Add the bar component legend back after the country legend if both legends are present
         if bar_handles and scatter_handles:
             ax.add_artist(legend1)
 
-        plt.tight_layout()
+        plt.subplots_adjust(left=0.2, right=0.75)
+        #plt.tight_layout()
 
         # Construct the filename to save to
         filename_save = f"{self.fuel}-{quantity}-{modifier}-pathway_hist"
@@ -1355,13 +1362,17 @@ class ProcessedFuel:
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         plt.savefig(f"{top_dir}/plots/{self.fuel}/{filename_save}.png", dpi=200)
         
-    def make_all_stacked_hists(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
+    def make_all_stacked_hists(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"]):
         """
         Plot a stacked histogram for the given quantities and modifiers with respect to the pathway and country.
 
         Parameters
         ----------
         quantities : list of str
+            List of quantities to make stacked hists for
+            
+        modifiers : list of str
+            List of modifieers to make stacked hists for
 
         Returns
         -------
@@ -1369,7 +1380,7 @@ class ProcessedFuel:
         """
         
         # Handle the situation where the user wants to plot all quantities and/or all modifiers
-        sample_processed_pathway = self.ProcessedPathways[pathways[0]]
+        sample_processed_pathway = self.ProcessedPathways[self.pathways[0]]
         all_avalable_quantities = sample_processed_pathway.quantities
 
         if quantities == "all":
@@ -1378,16 +1389,21 @@ class ProcessedFuel:
         for quantity in quantities:
             if not quantity in all_avalable_quantities:
                 raise Exception(f"Error: Provided quantity '{quantity}' is not available in self.ProcessedQuantities. \n\nAvailable quanities: {all_avalable_quantities}.")
+                
+            if quantity in result_components:
+                sub_quantities = result_components[quantity]
+            else:
+                sub_quantities = []
 
             # Handle the situation where the user wants to apply the method to all available modifiers
-            all_available_modifiers = find_unique_identifiers(self.results_dir, "modifier", f"{self.fuel}-{self.pathway_color}-{self.pathway}-{quantity}")
+            all_available_modifiers = find_unique_identifiers(self.results_dir, "modifier", f"{self.fuel}-{sample_processed_pathway.pathway_color}-{sample_processed_pathway.pathway}-{quantity}")
             if modifiers == "all":
                 modifiers = all_available_modifiers
                 
             for modifier in modifiers:
                 if modifier not in all_available_modifiers:
                     raise Exception(f"Error: Provided modifier '{modifier}' is not available in self.ProcessedQuantities. \n\nAvailable modifiers: {self.modifiers}.")
-                # make_2d_hist
+                self.make_stacked_hist(quantity, modifier, sub_quantities)
         
 
 def main():
@@ -1412,7 +1428,8 @@ def main():
     #print(pathway.get_all_country_results("TotalEquivalentWTW", "fleet"))
 
     fuel = ProcessedFuel("ammonia")
-    fuel.make_stacked_hist("TotalEquivalentWTW", "per_tonne_mile", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+    #fuel.make_stacked_hist("TotalEquivalentWTW", "per_tonne_mile", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
     #fuel.make_stacked_hist("TotalCost", "per_tonne_mile", ["TotalCAPEX", "TotalExcludingFuelOPEX", "TotalFuelOPEX"])
+    fuel.make_all_stacked_hists()
 
 main()
