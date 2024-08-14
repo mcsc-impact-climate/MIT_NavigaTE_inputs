@@ -1,12 +1,12 @@
 Quantity,Long Name,Units,Description
-TotalEquivalentWTT,Well-to-tank emissions,tonnes CO2,
-TotalEquivalentTTW,Tank-to-wake emissions,tonnes CO2,
-TotalEquivalentWTW,Well-to-wake emissions,tonnes CO2,
-TotalCAPEX,Total capital expenditure,USD,"For purchase of base vessel, powertrain, tanks, auxiliary equipment, etc, amortized over the vessel lifetime"
-TotalFuelOPEX,Total fuel purchase operating cost,USD,
-TotalExcludingFuelOPEX,Total non-fuel operating cost,USD,
-TotalCost,Total cost,USD,"Sum of CAPEX, fuel and other OPEX"
-Miles,Nautical miles traveled,nm,
-CargoMiles,Cargo-miles carried,nm,Assume 14 tonnes / TEU for containerships and 3.49 lb / gal for gas carriers
-ConsumedEnergy_lsfo,LSFO fuel energy consumed ,GJ,Low sulfur fuel oil (main fuel for LSFO vessel and pilot fuel for other vessels)
-ConsumedEnergy_main,Main fuel energy consumed,GJ,
+TotalEquivalentWTT,WTT Emissions,tonnes CO2,
+TotalEquivalentTTW,TTW Emissions,tonnes CO2,
+TotalEquivalentWTW,WTW Emissions,tonnes CO2,
+TotalCAPEX,Total CAPEX,USD,"For purchase of base vessel, powertrain, tanks, auxiliary equipment, etc, amortized over the vessel lifetime"
+TotalFuelOPEX,Total Fuel OPEX,USD,
+TotalExcludingFuelOPEX,Total Non-fuel OPEX,USD,
+TotalCost,Total Cost,USD,"Sum of CAPEX, fuel and other OPEX"
+Miles,Annual Nautical Miles,nm,
+CargoMiles,Cargo-miles Carried,nm,Assume 14 tonnes / TEU for containerships and 3.49 lb / gal for gas carriers
+ConsumedEnergy_lsfo,LSFO Energy Consumed ,GJ,Low sulfur fuel oil (main fuel for LSFO vessel and pilot fuel for other vessels)
+ConsumedEnergy_main,Main Fuel Energy Consumed,GJ,

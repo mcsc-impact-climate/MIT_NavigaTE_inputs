@@ -6,6 +6,7 @@ Purpose: Makes validation plots for csv files produced by make_output_csvs.py
 
 from common_tools import get_top_dir
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import re
@@ -13,6 +14,7 @@ import os
 import geopandas as gpd
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from shapely.geometry import Polygon
+import matplotlib.colors as mcolors
 
 from parse import parse
 
@@ -65,6 +67,17 @@ region_name_mapping = {
     "WestAustralia": "West Australia",
 }
 
+region_label_mapping = {
+    "SaudiArabia": "Saudi Arabia",
+    "WestAustralia": "West Australia",
+}
+
+country_region_categorization = {
+    "East Asia and Oceania": ["Australia", "West Australia", "China", "Korea", "Malaysia", "Singapore"],
+    "West Asia and Europe": ["Saudi Arabia", "Oman", "UAE", "Russia"],
+    "Americas": ["USA"]
+}
+
 # Global string representing the absolute path to the top level of the repo
 top_dir = get_top_dir()
 
@@ -88,7 +101,7 @@ def read_pathway_labels(top_dir):
 # Global dataframe with labels for each fuel production pathway
 pathway_labels_df = read_pathway_labels(top_dir)
 
-def get_pathway_label(pathway, pathway_labels_df):
+def get_pathway_label(pathway, pathway_labels_df = pathway_labels_df):
     """
     Returns the label in the row of the pathway_labels_df corresponding to the given pathway.
     
@@ -146,6 +159,27 @@ def make_region_labels(region_names_camel_case):
     region_names_with_spaces = [re.sub(r'(?<!^)(?<![A-Z])(?=[A-Z])', ' ', name) for name in region_names_camel_case]
     return region_names_with_spaces
     
+def get_country_label(country):
+    """
+    Gets the name for the country to be used in plot labels, if the country is included in the region_label_mapping dict.
+    
+    Parameters
+    ----------
+    country : str
+        Name of the country as specified in the processed csv file
+
+    Returns
+    -------
+    country_label : str
+        Name of the country to be used for plotting
+    """
+    if country in region_label_mapping:
+        country_label = region_label_mapping[country]
+    else:
+        country_label = country
+        
+    return country_label
+    
 def get_filename_info(filepath, identifier, pattern = "{fuel}-{pathway_color}-{pathway}-{quantity}-{modifier}.csv"):
     """
     Parses the filename for a processed csv file to collect relevant info about the file contents
@@ -179,9 +213,9 @@ def get_filename_info(filepath, identifier, pattern = "{fuel}-{pathway_color}-{p
     
     return identifier_value
     
-def find_files_with_substring(directory, substring=""):
+def find_files_starting_with_substring(directory, substring=""):
     """
-    Finds all files within a specified directory (and its subdirectories) that contain a given substring in their filenames.
+    Finds all files within a specified directory (and its subdirectories) that start with a given substring in their filenames.
 
     Parameters:
     ----------
@@ -197,12 +231,11 @@ def find_files_with_substring(directory, substring=""):
     """
 
     matching_files = []
-
     # Loop through all directories and files in the specified directory
     for root, dirs, files in os.walk(directory):
         for file in files:
             # Check if the file contains the given substring
-            if substring in file:
+            if file.startswith(substring):
                 # Add the full file path to the list
                 matching_files.append(os.path.join(root, file))
 
@@ -233,7 +266,7 @@ def find_unique_identifiers(directory, identifier, substring = "", pattern = "{f
     if not identifier in pattern:
         raise Exception(f"Error: identifier {identifier} not found in provided pattern {pattern}")
     
-    filenames_matching_substring = find_files_with_substring(directory, substring)
+    filenames_matching_substring = find_files_starting_with_substring(directory, substring)
     unique_identifier_values = []
     for filename in filenames_matching_substring:
         identifier_value = get_filename_info(filename, identifier, pattern)
@@ -242,6 +275,52 @@ def find_unique_identifiers(directory, identifier, substring = "", pattern = "{f
             unique_identifier_values.append(identifier_value)
             
     return unique_identifier_values
+    
+def find_unique_identifier_pairs(directory, identifier1, identifier2, substring = "", pattern = "{fuel}-{pathway_color}-{pathway}-{quantity}-{modifier}.csv"):
+    """
+    Finds all unique pairs of values for a given identifier in a pattern within filenames in a directory containing the given substring
+    
+    Parameters:
+    ----------
+    directory : str
+        The path to the directory to search
+    pattern : str
+        Pattern containing the given identifier
+    identifier1 : str
+        First identifier to find in a pair
+    identifier2 : str
+        Second identifier to find in a pair
+    substring : str
+        The substring to search for in the filenames.
+
+    Returns:
+    -------
+    unique_identifier_dicts: list of dict
+        A list of unique dictionaries containing pairs of values for the given identifiers in strings containing the given substring.
+    """
+    
+    # Check that the identifiers are included in the provided pattern
+    if identifier1 not in pattern:
+        raise Exception(f"Error: identifier {identifier1} not found in provided pattern {pattern}")
+        
+    if identifier2 not in pattern:
+        raise Exception(f"Error: identifier {identifier2} not found in provided pattern {pattern}")
+    
+    filenames_matching_substring = find_files_starting_with_substring(directory, substring)
+    unique_identifier_dicts = []
+    
+    for filename in filenames_matching_substring:
+        identifier1_value = get_filename_info(filename, identifier1, pattern)
+        identifier2_value = get_filename_info(filename, identifier2, pattern)
+        
+        # Create a dictionary of the two identifier values
+        identifier_dict = {identifier1: identifier1_value, identifier2: identifier2_value}
+        
+        # Add the dictionary to the list if it is unique
+        if identifier_dict not in unique_identifier_dicts:
+            unique_identifier_dicts.append(identifier_dict)
+            
+    return unique_identifier_dicts
     
 def create_directory_if_not_exists(directory_path):
     """
@@ -293,6 +372,109 @@ def add_west_australia(world):
     world_with_west_australia = pd.concat([world, west_australia], ignore_index=True)
     
     return world_with_west_australia
+    
+def generate_blue_shades(num_shades):
+    """
+    Generates a list of blue shades ranging from light to dark.
+
+    Parameters
+    ----------
+    num_shades : int
+        The number of blue shades to generate.
+
+    Returns
+    -------
+    blue_shades : list of str
+        A list of blue shades in hex format, ranging from light to dark.
+    """
+    # Define the start and end colors (light blue to dark blue)
+    light_blue = mcolors.to_rgba('#add8e6')  # Light blue
+    dark_blue = mcolors.to_rgba('#00008b')   # Dark blue
+
+    # Create a list of colors by interpolating between light blue and dark blue
+    blue_shades = [
+        mcolors.to_hex((light_blue[0] * (1 - i/(num_shades-1)) + dark_blue[0] * (i/(num_shades-1)),
+                        light_blue[1] * (1 - i/(num_shades-1)) + dark_blue[1] * (i/(num_shades-1)),
+                        light_blue[2] * (1 - i/(num_shades-1)) + dark_blue[2] * (i/(num_shades-1)),
+                        1.0))
+        for i in range(num_shades)
+    ]
+
+    return blue_shades
+    
+def assign_colors_to_strings(strings):
+    """
+    Assigns a color from a quantized gradient (green to yellow to red) to each string in the input list.
+    
+    Parameters
+    ----------
+    strings : list of str
+        List of strings to assign colors to
+    
+    Returns
+    ----------
+    color_dict : Dictionary of tuples
+        Dictionary mapping each string to its assigned color (as an RGB tuple).
+    """
+    # Number of strings (and thus, colors)
+    n_colors = len(strings)
+    
+    # Generate a wide color range using a colormap from matplotlib
+    cmap = plt.get_cmap('tab20', n_colors)
+    gradient = [cmap(i) for i in range(n_colors)]
+    
+    # Assign each string a color
+    color_dict = {string: gradient[i][:3] for i, string in enumerate(strings)}
+    
+    return color_dict
+    
+def get_quantity_label(quantity, quantity_info_df = quantity_info_df):
+    """
+    Returns the label for the provided quantity for use in plots.
+    
+    Parameters
+    ----------
+    quantity : str
+        Quantity to plot.
+    
+    quantity_info_df : pandas DataFrame
+        Dataframe containing info about each quantity.
+
+    Returns
+    -------
+    label : str
+        Label for the quantity to use for plotting
+    """
+    
+    return quantity_info_df.loc[quantity, "Long Name"]
+    
+def get_units(quantity, modifier, quantity_info_df = quantity_info_df):
+    """
+    Collects the units for the given quantity and modifier
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    units : str
+        Units for the given quantity and modifier
+    """
+    
+    base_units = quantity_info_df.loc[quantity, "Units"]
+    
+    # Modify the denominator if needed based on the modifier
+    modifier_denom_dict = {
+        "vessel": "year",
+        "fleet": "year",
+        "per_mile": "nm",
+        "per_tonne_mile": "tonne-nm"
+    }
+    
+    denom_units = modifier_denom_dict[modifier]
+    
+    return f"{base_units} / {denom_units}"
     
 class ProcessedQuantity:
     """
@@ -359,8 +541,8 @@ class ProcessedQuantity:
         self.pathway_label = get_pathway_label(pathway, pathway_labels_df)
         self.results_dir = results_dir
         self.result_df = self.read_result()
-        self.label = quantity_info_df.loc[self.quantity, "Long Name"]
-        self.units = self.get_units()
+        self.label = get_quantity_label(self.quantity)
+        self.units = get_units(self.quantity, self.modifier)
         
     def make_file_path(self):
         """
@@ -391,34 +573,6 @@ class ProcessedQuantity:
         """
         file_path = self.make_file_path()
         return pd.read_csv(file_path, index_col=0)
-        
-    def get_units(self):
-        """
-        Collects the units for the given quantity and modifier
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        units : str
-            Units for the given quantity and modifier
-        """
-        
-        base_units = quantity_info_df.loc[self.quantity, "Units"]
-        
-        # Modify the denominator if needed based on the modifier
-        modifier_denom_dict = {
-            "vessel": "year",
-            "fleet": "year",
-            "per_mile": "nm",
-            "per_tonne_mile": "tonne-nm"
-        }
-        
-        denom_units = modifier_denom_dict[self.modifier]
-        
-        return f"{base_units} / {denom_units}"
         
     def make_hist_by_region(self, vessel_type):
         """
@@ -474,7 +628,7 @@ class ProcessedQuantity:
                 new_labels = [vessel_type_title[label.replace(f"_{self.fuel}", "")] for label in labels]
             
             # Construct the filename to save to
-            filename_save = f"{self.fuel}-{self.pathway_color}-{self.pathway}-{self.quantity}-hist_by_region_allvessels"
+            filename_save = f"{self.fuel}-{self.pathway_color}-{self.pathway}-{self.quantity}-{self.modifier}-hist_by_region_allvessels"
 
         # Plot each region with vessel sizes stacked
         elif vessel_type in vessel_types:
@@ -565,22 +719,44 @@ class ProcessedQuantity:
             self.result_df["NAME"] = self.result_df.index.map(lambda x: region_name_mapping.get(x, x))
             
         
-    def map_by_region(self, column=None):
+    def map_by_region(self, vessel_type="all", vessel_size="all"):
         """
         Maps the quantity geospatially by region, overlaid on a map of the world
         
         Parameters
         ----------
-        None
+        column : str
+            Name of the column in the processed csv file to map by region (defaults to "fleet_{self.fuel}").
 
         Returns
         -------
         None
         """
         
-        # If the column to plot isn't specified, set it to the value of the given quantity for the entire fleet
-        if column is None:
+        # If vessel option is provided as "all", plot the quantity for the full fleet
+        if vessel_type == "all":
             column = f"fleet_{self.fuel}"
+        
+        # If a vessel_type option other than "all" is provided and vessel_size is set to "all", plot the given quantity for all vessel sizes of the given vessel type
+        else:
+            # Ensure that a valid vessel type was provided
+            vessel_types_list = vessel_sizes.keys()
+            
+            if not vessel_type in vessel_sizes_list:
+                Exception(f"Error: Vessel type {vessel_type} not recognized. Acceptable types: {vessel_types_list}")
+            
+            # If the vessel size is provided as "all", plot the quantity for all sizes of the given vessel type
+            if vessel_size == "all":
+                column = f"{vessel_type}_{self.fuel}"
+            
+            # If a vessel size other than "all" is provided, plot the quantity for the given vessel type and size
+            else:
+                # Ensure that a valid vessel size was provided
+                vessel_sizes_list = vessel_sizes[vessel_types_list].keys()
+                if not vessel_size in vessel_sizes_list:
+                    Exception(f"Error: Vessel size {vessel_size} not recognized. Acceptable sizes: {vessel_sizes_list}")
+                
+                column = f"{vessel_size}_{self.fuel}"
 
         # Load a base world map from geopandas
         url = "https://github.com/nvkelso/natural-earth-vector/raw/master/geojson/ne_110m_admin_0_countries.geojson"
@@ -618,7 +794,7 @@ class ProcessedQuantity:
         
         # Save the plot
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}")
-        plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}/{self.quantity}_map_by_region.png", dpi=200)
+        plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_color}_{self.pathway}/{self.quantity}_{self.modifier}_map_by_region.png", dpi=200)
         plt.close()
         
     
@@ -659,6 +835,20 @@ class ProcessedPathway:
 
     ProcessedQuantities : dict of ProcessedQuantity objects
         Dictionary containing a ProcessedQuantity class object for each pathway
+        
+    Methods
+    -------
+    get_quantities(self):
+        Collects the names of all quantities evaluated for the given pathway
+        
+    get_processed_quantities(self):
+        Collects the names of all quantities evaluated for the given pathway
+        
+    make_all_hists_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
+        Executes make_all_hists_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce validation hists for the given pathway, for the selected quantities.
+        
+    map_all_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"])
+        Executes map_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce geospatial maps of the given quantities and modifiers.
     """
     
     def __init__(self, fuel, pathway_color, pathway, results_dir = RESULTS_DIR):
@@ -667,6 +857,7 @@ class ProcessedPathway:
         self.pathway = pathway
         self.results_dir = results_dir
         self.quantities = self.get_quantities()
+        self.modifiers = self.get_modifiers()
         self.ProcessedQuantities = self.get_processed_quantities()
         
     def get_quantities(self):
@@ -685,6 +876,23 @@ class ProcessedPathway:
         quantities = find_unique_identifiers(self.results_dir, "quantity", f"{self.fuel}-{self.pathway_color}-{self.pathway}")
         
         return quantities
+        
+    def get_modifiers(self):
+        """
+        Collects unique modifiers available based on a sample quantity.
+        
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        modifiers : list of str
+            List of all available modifiers
+        """
+        sample_quantity = self.quantities[0]
+        modifiers = find_unique_identifiers(self.results_dir, "modifier", f"{self.fuel}-{self.pathway_color}-{self.pathway}-{sample_quantity}")
+        return modifiers
         
     def get_processed_quantities(self):
         """
@@ -708,6 +916,129 @@ class ProcessedPathway:
         
         return ProcessedQuantities
         
+    def apply_to_all_quantities(self, method_name, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
+        """
+        Applies the provided method to instances of the ProcessedQuantity class for all provided quantities and modifiers
+        
+        Parameters
+        ----------
+        quantities : str or list of str
+            List of quantities to make hists of. If "all" is provided, it will make hists of all quantities in the ProcessedQuantities dictionary
+            
+        modifiers : str
+            List of modifiers to include in the hists. If "all" is provided, it will make hists with all modifiers in the ProcessedQuantities dictionary
+            
+        method : Method of the ProcessedQuantity class
+        
+        Returns
+        -------
+        None
+        """
+        
+        # Handle the situation where the user wants to apply the method to all quantities and/or all modifiers
+        all_available_quantities = self.quantities
+        if quantities == "all":
+            quantities = all_available_quantities
+        
+        for quantity in quantities:
+            if quantity not in all_available_quantities:
+                raise Exception(f"Error: Provided quantity '{quantity}' is not available in self.ProcessedQuantities. \n\nAvailable quantities: {self.quantities}.")
+            
+            # Handle the situation where the user wants to apply the method to all available modifiers
+            all_available_modifiers = find_unique_identifiers(self.results_dir, "modifier", f"{self.fuel}-{self.pathway_color}-{self.pathway}-{quantity}")
+            modifiers = all_available_modifiers
+                
+            for modifier in modifiers:
+                if modifier not in all_available_modifiers:
+                    raise Exception(f"Error: Provided modifier '{modifier}' is not available in self.ProcessedQuantities. \n\nAvailable modifiers: {self.modifiers}.")
+                
+                # Get the instance of ProcessedQuantity
+                processed_quantity_instance = self.ProcessedQuantities[quantity][modifier]
+                
+                # Dynamically get the method from the instance and call it
+                method_to_call = getattr(processed_quantity_instance, method_name)
+                method_to_call()
+                
+    def get_country_average_results(self, quantities, modifier):
+        """
+        Collects results for the given quantities and modifier, averaged over all countries.
+        
+        Parameters
+        ----------
+        quantities : list of str
+            List of quantities to make hists of. If "all" is provided, it will make hists of all quantities in the ProcessedQuantities dictionary
+            
+        modifier : str
+            Modifier to use in evaluating the country average.
+        
+        Returns
+        -------
+        country_av_results_dict : Dictionary of floats
+            Dictionary containing the results for the given quantities and modifier
+        """
+        country_av_results_dict = {}
+        
+        column_name = f"fleet_{self.fuel}"
+        for quantity in quantities:
+            processed_quantity = self.ProcessedQuantities[quantity][modifier]
+            processed_quantity_av = processed_quantity.result_df.loc["Global Average", column_name]
+            country_av_results_dict[quantity] = processed_quantity_av
+            
+        return country_av_results_dict
+        
+    def get_all_country_results(self, quantity, modifier):
+        """
+        Collects results for the given quantity and modifier for all countries.
+        
+        Parameters
+        ----------
+        quantity : str
+            Quantity to use in evaluating the country average.
+            
+        modifier : str
+            Modifier to use in evaluating the country average.
+        
+        Returns
+        -------
+        individual_country_results_dict : Dictionary of floats
+            Dictionary containing the results for each country.
+        """
+        
+        result_df = self.ProcessedQuantities[quantity][modifier].result_df
+        
+        # Separate result_df into rows with vs. without "_" (where "_" indicates it's one of several individual estimates for a given region)
+        result_df_region_av = result_df[~result_df.index.str.contains("_")]
+        result_df_region_individual = result_df[result_df.index.str.contains("_")]
+        
+        countries_av = result_df_region_av.index
+        countries_individual = result_df_region_individual.index
+        
+        # Get list of countries that have individual entries
+        countries_with_multiple_entries = []
+        for entry in countries_individual:
+            country_name = entry.split("_")[0]
+            if country_name not in countries_with_multiple_entries:
+                countries_with_multiple_entries.append(country_name)
+        
+        individual_country_results_dict = {}
+        multiple_country_results_dict = {}
+        column_name = f"fleet_{self.fuel}"
+        for country in countries_av:
+            if country != "Global Average":
+                country_label = get_country_label(country)
+                individual_country_results_dict[country_label] = result_df_region_av.loc[country, column_name]
+            if country in countries_with_multiple_entries:
+                for entry in countries_individual:
+                    entry_elements = entry.split("_")
+                    entry_country = entry_elements[0]
+                    entry_number = entry_elements[1]
+                    if entry_country == country:
+                        country_label = get_country_label(entry_country)
+                        multiple_country_results_dict[f"{country_label} ({entry_number})"] = result_df_region_individual.loc[entry, column_name]
+                        
+        return individual_country_results_dict, multiple_country_results_dict
+                        
+        
     def make_all_hists_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
         """
         Executes make_all_hists_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce validation hists for the given pathway, for the selected quantities.
@@ -725,18 +1056,7 @@ class ProcessedPathway:
         None
         """
         
-        # Handle the situation where the user wants to plot all quantities and/or all modifiers
-        if quantities == "all":
-            quantities = self.ProcessedQuantities
-        
-        if modifiers == "all":
-            modifiers = self.ProcessedQuantities[quantity]
-        
-        for quantity in quantities:
-            if not quantity in self.ProcessedQuantities:
-                raise Exception(f"Error: Provided quantity '{quantity}' is not available in self.ProcessedQuantities. \n\nAvailable quanities: {self.quantities}.")
-            for modifier in modifiers:
-                self.ProcessedQuantities[quantity][modifier].make_all_hists_by_region()
+        self.apply_to_all_quantities("make_all_hists_by_region", quantities, modifiers)
                 
     def map_all_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
         """
@@ -754,52 +1074,330 @@ class ProcessedPathway:
         -------
         None
         """
+        self.apply_to_all_quantities("map_by_region", quantities, modifiers)
+       
+        
+class ProcessedFuel:
+    """
+    A class to contain NavigaTE results for a given fuel, including all its pathways
+
+    Attributes
+    ----------
+    pathway_names : list of str
+        List of pathways with processed data available for the given fuel
+
+    ProcessedPathways : dict of ProcessedPathway objects
+        Dictionary containing a ProcessedPathway class object for each pathway
+    """
+
+    def __init__(self, fuel, results_dir = RESULTS_DIR):
+        self.fuel = fuel
+        self.results_dir = results_dir
+        self.pathways_with_color = self.get_pathways_with_color()
+        self.pathways = self.get_pathways_no_color()
+        self.ProcessedPathways = self.get_processed_pathways()
+        self.color_pathway_dict = self.organize_pathways_by_color()
+
+    def get_pathways_with_color(self):
+        """
+        Collects the names of all pathways contained in processed csv files for the given fuel
+        
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        pathways : list of Dictionaries
+            List of unique pathways available for the given fuel, provided as dictionaries containing the pathway name and its associated color.
+        """
+        pathways = find_unique_identifier_pairs(self.results_dir, "pathway", "pathway_color", f"{self.fuel}")
+        
+        return pathways
+        
+    def get_pathways_no_color(self):
+        """
+        Collects the names of all pathways contained in processed csv files for the given fuel
+        
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        pathways : list of str
+            List of all pathways evaluated for the fuel
+        """
+        pathways = []
+        for pathway_dict in self.pathways_with_color:
+            pathways.append(pathway_dict["pathway"])
+            
+        return pathways
+        
+    def get_processed_pathways(self):
+        """
+        Collects all instances of the ProcessedPathway class for the given fuel.
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        ProcessedPathways : Dictionary
+            Dictionary containing all ProcessedPathway objects for the given fuel
+        """
+        ProcessedPathways = {}
+        for pathway_dict in self.pathways_with_color:
+            pathway = pathway_dict["pathway"]
+            pathway_color = pathway_dict["pathway_color"]
+            ProcessedPathways[pathway] = ProcessedPathway(self.fuel, pathway_color, pathway)
+                    
+        return ProcessedPathways
+        
+    def organize_pathways_by_color(self):
+        """
+        Organizes the pathways according to their color (green, blue, grey)
+        
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        color_pathway_dict : dictionary of lists of str
+            Dictionary containing a list of pathways corresponding to each color
+        """
+        color_pathway_dict = {
+            "green": [],
+            "blue": [],
+            "grey": [],
+        }
+        
+        for pathway_dict in self.pathways_with_color:
+            pathway_name = pathway_dict["pathway"]
+            pathway_color = pathway_dict["pathway_color"]
+            if pathway_color == "electro":
+                pathway_color = "green"
+            
+            color_pathway_dict[pathway_color].append(pathway_name)
+            
+        return color_pathway_dict
+    
+    def get_all_countries(self):
+        """
+        Gets a list of all countries for which results are evaluated over all pathways for the given fuel.
+        
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        all_countries : dictionary of lists of str
+            Dictionary containing a list of pathways corresponding to each color
+        """
+        all_countries = []
+        for pathway in self.ProcessedPathways:
+            processed_quantities = self.ProcessedPathways[pathway].ProcessedQuantities
+            sample_quantity = list(processed_quantities.keys())[0]
+            sample_modifier = list(processed_quantities[sample_quantity].keys())[0]
+            
+            sample_processed_quantity = processed_quantities[sample_quantity][sample_modifier]
+            result_df = sample_processed_quantity.result_df
+            
+            countries = result_df[~result_df.index.str.contains("_")].index
+            for country in countries:
+                country_label = get_country_label(country)
+                if country_label not in all_countries and not country_label == "Global Average":
+                    all_countries.append(country_label)
+                    
+        return all_countries
+            
+        
+    def make_stacked_hist(self, quantity, modifier, sub_quantities=[]):
+        """
+        Makes a histogram of the given quantity with respect to the available fuel production pathways.
+
+        Parameters
+        ----------
+        quantity : str
+            Quantity to plot the histogram for
+
+        modifier : str
+            Modifier to plot the quantity for
+
+        Returns
+        -------
+        None
+        """
+        quantity_label = get_quantity_label(quantity)
+        quantity_units = get_units(quantity, modifier)
+
+        if sub_quantities == []:
+            sub_quantities = [quantity]
+
+        num_pathways = len(self.pathways)
+        fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
+
+        fig, ax = plt.subplots(figsize=(16, fig_height))
+
+        # Create an empty dictionary to hold the cumulative values for stacking
+        cumulative_values = {}
+
+        blues = generate_blue_shades(len(sub_quantities))
+        
+        # Get all individual countries with processed data for the given fuel
+        countries = self.get_all_countries()
+        country_colors = assign_colors_to_strings(countries)
+        
+        countries_labelled = []
+        scatter_handles = []  # To collect scatter plot legend handles
+        scatter_labels = []  # To collect scatter plot legend labels
+        bar_handles = []  # To collect bar plot legend handles
+        bar_labels = []  # To collect bar plot legend labels
+        
+        def make_bar(pathway, pathway_name, pathway_label):
+            """
+            Plots a single bar for a given pathway
+            
+            Parameters
+            ----------
+            quantity : str
+                Quantity to plot the histogram for
+
+            modifier : str
+                Modifier to plot the quantity for
+
+            Returns
+            -------
+            None
+            """
+            # Initialize cumulative value for this pathway
+            if pathway_name not in cumulative_values:
+                cumulative_values[pathway_name] = 0
+
+            # Collect the country average results
+            country_average_results = pathway.get_country_average_results(sub_quantities, modifier)
+            
+            # Collect the individual country results
+            all_country_results, multiple_country_results = pathway.get_all_country_results(quantity, modifier)
+
+            # Get the values for each sub_quantity and stack them
+            for i, sub_quantity in enumerate(sub_quantities):
+                value = country_average_results.get(sub_quantity, 0)
+                bar = ax.barh(pathway_label, value, left=cumulative_values[pathway_name], label=get_quantity_label(sub_quantity) if i_pathway == 0 else "", color=blues[i])
+                cumulative_values[pathway_name] += value
+                
+                # Add the bar handles and labels only once
+                if i_pathway == 0:
+                    bar_handles.append(bar[0])
+                    bar_labels.append(get_quantity_label(sub_quantity))
+                
+                # Plot the individual country results as a scatter plot
+                if all_country_results:
+                    for country in all_country_results:
+                        if "Global" in country:
+                            continue
+                        scatter = ax.scatter(all_country_results[country], pathway_label, color=country_colors[country], s=100, marker="D", label=get_country_label(country) if country not in countries_labelled else "")
+                        
+                        # Add the country to the list of countries that have been labeled so it only appears in the legend once
+                        if country not in countries_labelled:
+                            countries_labelled.append(country)
+                            scatter_handles.append(scatter)
+                            scatter_labels.append(get_country_label(country))
+
+            # Set the y-axis label color to match the pathway color
+            y_labels = ax.get_yticklabels()
+            if i_pathway < len(y_labels):
+                y_labels[i_pathway].set_color(color)
+                y_labels[i_pathway].set_fontweight('bold')
+
+        # Loop through each color and pathway
+        i_pathway = 0
+        for color in self.color_pathway_dict:
+            for pathway_name in self.color_pathway_dict[color]:
+                pathway = self.ProcessedPathways[pathway_name]
+                pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
+
+                make_bar(pathway, pathway_name, pathway_label)
+        
+                i_pathway += 1
+                    
+        # Add a bar for LSFO fossil for comparison
+        
+        lsfo_pathway = ProcessedPathway("lsfo", "grey", "fossil")
+        make_bar(lsfo_pathway, "lsfo", "LSFO (fossil)")
+        plt.axvline(lsfo_pathway.get_country_average_results([quantity], modifier)[quantity], linewidth=3, linestyle="--", color="grey")
+
+        # Add labels and title
+        ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
+        ax.set_title(f"Fuel: {self.fuel}", fontsize=24)
+        
+        # Add a legend for the stacked bar components (sub-quantities)
+        if bar_handles:
+            legend1 = ax.legend(bar_handles, bar_labels, fontsize=16, title="Components", title_fontsize=20, bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+
+        # Add a separate legend for countries
+        if scatter_handles:
+            legend2 = ax.legend(scatter_handles, scatter_labels, fontsize=16, title="Countries", title_fontsize=20, bbox_to_anchor=(1.05, 0.35), loc='center left', borderaxespad=0.)
+        
+        # Add the bar component legend back after the country legend if both legends are present
+        if bar_handles and scatter_handles:
+            ax.add_artist(legend1)
+
+        plt.tight_layout()
+
+        # Construct the filename to save to
+        filename_save = f"{self.fuel}-{quantity}-{modifier}-pathway_hist"
+
+        # Save the figure
+        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
+        plt.savefig(f"{top_dir}/plots/{self.fuel}/{filename_save}.png", dpi=200)
+        
+    def make_all_stacked_hists(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
+        """
+        Plot a stacked histogram for the given quantities and modifiers with respect to the pathway and country.
+
+        Parameters
+        ----------
+        quantities : list of str
+
+        Returns
+        -------
+        None
+        """
         
         # Handle the situation where the user wants to plot all quantities and/or all modifiers
+        sample_processed_pathway = self.ProcessedPathways[pathways[0]]
+        all_avalable_quantities = sample_processed_pathway.quantities
+
         if quantities == "all":
-            quantities = self.ProcessedQuantities
-        
-        if modifiers == "all":
-            modifiers = self.ProcessedQuantities[quantity]
-        
+            quantities = all_avalable_quantities
+
         for quantity in quantities:
-            if not quantity in self.ProcessedQuantities:
-                raise Exception(f"Error: Provided quantity '{quantity}' is not available in self.ProcessedQuantities. \n\nAvailable quanities: {self.quantities}.")
+            if not quantity in all_avalable_quantities:
+                raise Exception(f"Error: Provided quantity '{quantity}' is not available in self.ProcessedQuantities. \n\nAvailable quanities: {all_avalable_quantities}.")
+
+            # Handle the situation where the user wants to apply the method to all available modifiers
+            all_available_modifiers = find_unique_identifiers(self.results_dir, "modifier", f"{self.fuel}-{self.pathway_color}-{self.pathway}-{quantity}")
+            if modifiers == "all":
+                modifiers = all_available_modifiers
+                
             for modifier in modifiers:
-                self.ProcessedQuantities[quantity][modifier].map_by_region()
-        
-#class ProcessedFuel:
-#    """
-#    A class to contain NavigaTE results for a given fuel, including all its pathways
-#
-#    Attributes
-#    ----------
-#    pathway_names : list of str
-#        List of pathways with processed data available for the given fuel
-#
-#    ProcessedPathways : dict of ProcessedPathway objects
-#        Dictionary containing a ProcessedPathway class object for each pathway
-#    """
-#
-#    def __init__(self, fuel, results_dir = RESULTS_DIR):
-#        self.fuel = fuel
-#        self.pathway_names = self.get_pathway_names()
-#        self.ProcessedPathways = self.get_ProcessedPathways()
-#
-#    def get_pathway_names(self):
-#        """
-#        Collects the names of all pathways contained in processed csv files for the given fuel
-#        """
+                if modifier not in all_available_modifiers:
+                    raise Exception(f"Error: Provided modifier '{modifier}' is not available in self.ProcessedQuantities. \n\nAvailable modifiers: {self.modifiers}.")
+                # make_2d_hist
         
 
 def main():
     
-    lsfo_pathway_TotalCost_fleet = ProcessedQuantity("TotalCost", "fleet", "ammonia", "electro", "LTE_grid")
-    lsfo_pathway_WTW_fleet = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "electro", "LTE_grid")
+    #lsfo_pathway_TotalCost_fleet = ProcessedQuantity("TotalCost", "fleet", "ammonia", "electro", "LTE_grid")
+    #lsfo_pathway_WTW_fleet = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "electro", "LTE_grid")
     
     #lsfo_pathway_WTW_fleet.make_hist_by_region("all")
     #lsfo_pathway_WTW_fleet.make_hist_by_region("bulk_carrier_ice")
-    lsfo_pathway_WTW_fleet.map_by_region()
+    #lsfo_pathway_WTW_fleet.map_by_region()
     
     
     #print(lsfo_pathway_TotalCost_fleet.result_df)
@@ -807,8 +1405,14 @@ def main():
     #lsfo_pathway_WTW_fleet.make_all_hists_by_region()
     #get_filename_info("/Users/danikamacdonell/Git/MIT_NavigaTE_inputs/processed_results/lsfo-grey-fossil-TotalFuelOPEX-per_mile.csv")
     
-#    pathway = ProcessedPathway("ammonia", "blue", "ATR_CCS")
-#    pathway.make_all_hists_by_region()
-#    pathway.map_all_by_region()
+    #pathway = ProcessedPathway("ammonia", "blue", "ATR_CCS")
+    #pathway.make_all_hists_by_region()
+    #pathway.map_all_by_region()
+    #print(pathway.get_country_average_results(["TotalEquivalentWTT", "TotalEquivalentTTW", "TotalEquivalentWTW"], "fleet"))
+    #print(pathway.get_all_country_results("TotalEquivalentWTW", "fleet"))
+
+    fuel = ProcessedFuel("ammonia")
+    fuel.make_stacked_hist("TotalEquivalentWTW", "per_tonne_mile", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+    #fuel.make_stacked_hist("TotalCost", "per_tonne_mile", ["TotalCAPEX", "TotalExcludingFuelOPEX", "TotalFuelOPEX"])
 
 main()
