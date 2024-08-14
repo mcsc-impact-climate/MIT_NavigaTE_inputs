@@ -459,6 +459,10 @@ def generate_csv_files(all_results_df, top_dir):
                     quantity = f"{quantity}-vessel"
                     
                 # Generate the filename
+                        # Rename electro fuel type to green for consistency with other types
+                if fuel_type == "electro":
+                    fuel_type = "green"
+                
                 filename = f"{fuel}-{fuel_type}-{pathway}-{quantity}.csv"
                 filepath = f"{top_dir}/processed_results/{filename}"
 
