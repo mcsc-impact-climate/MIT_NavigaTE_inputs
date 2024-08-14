@@ -957,7 +957,7 @@ class ProcessedPathway:
         
         return ProcessedQuantities
         
-    def apply_to_all_quantities(self, method_name, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
+    def apply_to_all_quantities(self, method_name, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"]):
         """
         Applies the provided method to instances of the ProcessedQuantity class for all provided quantities and modifiers
         
@@ -1080,7 +1080,7 @@ class ProcessedPathway:
         return individual_country_results_dict, multiple_country_results_dict
                         
         
-    def make_all_hists_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
+    def make_all_hists_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"]):
         """
         Executes make_all_hists_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce validation hists for the given pathway, for the selected quantities.
         
@@ -1099,7 +1099,7 @@ class ProcessedPathway:
         
         self.apply_to_all_quantities("make_all_hists_by_region", quantities, modifiers)
                 
-    def map_all_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "fleet"]):
+    def map_all_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"]):
         """
         Executes map_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce geospatial maps of the given quantities and modifiers.
         
@@ -1401,6 +1401,7 @@ class ProcessedFuel:
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         plt.savefig(f"{top_dir}/plots/{self.fuel}/{filename_save}.png", dpi=200)
         
+        
     def make_all_stacked_hists(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"]):
         """
         Plot a stacked histogram for the given quantities and modifiers with respect to the pathway and country.
@@ -1443,8 +1444,71 @@ class ProcessedFuel:
                 if modifier not in all_available_modifiers:
                     raise Exception(f"Error: Provided modifier '{modifier}' is not available in self.ProcessedQuantities. \n\nAvailable modifiers: {self.modifiers}.")
                 self.make_stacked_hist(quantity, modifier, sub_quantities)
+                
+    def apply_to_all_pathways(self, method_name, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"]):
+        """
+        Applies the provided method to all available pathways
         
-def structure_results_fuels_types(quantity, modifier, fuels=["ammonia", "hydrogen"]):
+        Parameters
+        ----------
+        quantities : str or list of str
+            List of quantities to make hists of. If "all" is provided, it will make hists of all quantities in the ProcessedQuantities dictionary
+            
+        modifiers : str
+            List of modifiers to include in the hists. If "all" is provided, it will make hists with all modifiers in the ProcessedQuantities dictionary
+            
+        method : Method of the ProcessedPathway class
+        
+        Returns
+        -------
+        None
+        """
+        
+        for pathway in self.ProcessedPathways:
+            processed_pathway = self.ProcessedPathways[pathway]
+            # Dynamically get the method from the instance and call it
+            method_to_call = getattr(processed_pathway, method_name)
+            method_to_call(quantities=quantities, modifiers=modifiers)
+                
+    def make_all_hists_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"]):
+        """
+        Applies make_all_hists_by_region to all available pathways for the given fuel
+        
+        Parameters
+        ----------
+        quantities : str or list of str
+            List of quantities to make hists of. If "all" is provided, it will make hists of all quantities in the ProcessedQuantities dictionary
+            
+        modifiers : str
+            List of modifiers to include in the hists. If "all" is provided, it will make hists with all modifiers in the ProcessedQuantities dictionary
+        
+        Returns
+        -------
+        None
+        """
+        
+        self.apply_to_all_pathways("make_all_hists_by_region", quantities, modifiers)
+        
+    def map_all_by_region(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"]):
+        """
+        Applies map_all_by_region to all available pathways for the given fuel
+        
+        Parameters
+        ----------
+        quantities : str or list of str
+            List of quantities to make hists of. If "all" is provided, it will make hists of all quantities in the ProcessedQuantities dictionary
+            
+        modifiers : str
+            List of modifiers to include in the hists. If "all" is provided, it will make hists with all modifiers in the ProcessedQuantities dictionary
+        
+        Returns
+        -------
+        None
+        """
+        
+        self.apply_to_all_pathways("map_all_by_region", quantities, modifiers)
+        
+def structure_results_fuels_types(quantity, modifier, fuels=["ammonia", "hydrogen", "lsfo"]):
     """
     Structures results from all pathways for the given fuels into pathway colors.
     
@@ -1476,7 +1540,7 @@ def structure_results_fuels_types(quantity, modifier, fuels=["ammonia", "hydroge
                 result_df = processed_quantity.result_df
                 
                 for country in result_df.index:
-                    if not "_" in country and not "Global" in country:
+                    if not "_" in country and not country != "Global Average":
                         results_fuels_types[fuel][pathway_type].append(result_df.loc[country, f"fleet_{fuel}"])
     return results_fuels_types
 
@@ -1544,6 +1608,9 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
         i_fuel += 1
         if not i_fuel == n_fuels:
             ax.axhline(y=y_base-1, color='black', linewidth=2)
+            
+    # Add a vertical line for LSFO
+    ax.axvline(data["lsfo"]["grey"], ls="--", color="grey")
 
     # Set y-ticks with calculated positions and corresponding labels on the left side
     ax.set_yticks(y_tick_positions)
@@ -1567,35 +1634,22 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
     ax.set_xlabel(f"{quantity_label} ({units})", fontsize=22)
     plt.subplots_adjust(left=0.2, right=0.75)
     plt.tight_layout()
-    plt.savefig(f"plots/scatter_violin_{quantity}-{modifier}.png", dpi=200)
+    create_directory_if_not_exists(f"{top_dir}/plots/scatter_violin")
+    plt.savefig(f"{top_dir}/plots/scatter_violin/{quantity}-{modifier}.png", dpi=200)
 
 def main():
-    
-    #lsfo_pathway_TotalCost_fleet = ProcessedQuantity("TotalCost", "fleet", "ammonia", "green", "LTE_grid")
-    #lsfo_pathway_WTW_fleet = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "green", "LTE_grid")
-    
-    #lsfo_pathway_WTW_fleet.make_hist_by_region("all")
-    #lsfo_pathway_WTW_fleet.make_hist_by_region("bulk_carrier_ice")
-    #lsfo_pathway_WTW_fleet.map_by_region()
-    
-    
-    #print(lsfo_pathway_TotalCost_fleet.result_df)
-    #lsfo_pathway_TotalCost_fleet.make_all_hists_by_region()
-    #lsfo_pathway_WTW_fleet.make_all_hists_by_region()
-    #get_filename_info("/Users/danikamacdonell/Git/MIT_NavigaTE_inputs/processed_results/lsfo-grey-fossil-TotalFuelOPEX-per_mile.csv")
-    
-    #pathway = ProcessedPathway("ammonia", "blue", "ATR_CCS")
-    #pathway.make_all_hists_by_region()
-    #pathway.map_all_by_region()
-    #print(pathway.get_country_average_results(["TotalEquivalentWTT", "TotalEquivalentTTW", "TotalEquivalentWTW"], "fleet"))
-    #print(pathway.get_all_country_results("TotalEquivalentWTW", "fleet"))
+    # Loop through all fuels of interest
+    for fuel in ["hydrogen", "ammonia", "lsfo"]:
+        processed_fuel = ProcessedFuel(fuel)
 
-    #fuel = ProcessedFuel("ammonia")
-    #fuel.make_stacked_hist("TotalEquivalentWTW", "per_tonne_mile", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
-    #fuel.make_stacked_hist("TotalCost", "per_tonne_mile", ["TotalCAPEX", "TotalExcludingFuelOPEX", "TotalFuelOPEX"])
-    #fuel.make_all_stacked_hists()
+        # Make validation plots for each fuel, pathway and quantity
+        processed_fuel.make_all_hists_by_region()
+        processed_fuel.map_all_by_region()
+        processed_fuel.make_all_stacked_hists()
     
-    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
-    plot_scatter_violin(structured_results, "TotalEquivalentWTW", "fleet")
+    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
+        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+            structured_results = structure_results_fuels_types(quantity, modifier)
+            plot_scatter_violin(structured_results, quantity, modifier)
 
 main()
