@@ -63,6 +63,12 @@ This should produce `.xlsx` files in all_outputs_full_fleet with NavigaTE output
 
 The script [`make_output_csvs.py`](./source/make_output_csvs.py) reads in the `.xslx` files produced by `run_all_pathways.sh`, evaluates some derived quantities, and organizes all the data into csv files in [`processed_results`](./processed_results), with one csv file per country, pathway and evaluation option. The rows represent the production region, and columns represent vessel classes in the global fleet.
 
+To run:
+
+```bash
+python source/make_output_csvs.py
+```
+
 The naming convention for the csv files is: `{fuel}-{pathway_type}-{pathway}_{quantity}_{evaluation_option}.csv`. Information about each `quantity` can be found in [`info_files/quantity_info.csv`](./processed_results/quantity_info.csv).
 
 The different `evaluation_option`s are defined as follows:
@@ -71,3 +77,14 @@ The different `evaluation_option`s are defined as follows:
 * `"per_mile"`: The quantity is normalized by the number of annual nautical miles (nm) traveled by the given vessel class.
 * `"per_tonne_mile"`: The quantity is normalized by the number of annual tonne-nm carried by the given vessel class.
 
+## Make validation plots
+
+The script [`make_validation_plots.py`](./source/make_validation_plots.py) reads in the processed csv files produced by `make_output_csvs.py` to create a set of validation plots. 
+
+To run:
+
+```bash
+python source/make_validation_plots.py
+```
+
+This should produce a range of validation plots in the [`plots`](./plots) directory for different fuels, pathways and quantities evaluated by `make_output_csvs.py`. 
