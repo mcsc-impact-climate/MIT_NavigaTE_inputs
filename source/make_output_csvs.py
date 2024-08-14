@@ -459,9 +459,13 @@ def generate_csv_files(all_results_df, top_dir):
                     quantity = f"{quantity}-vessel"
                     
                 # Generate the filename
-                        # Rename electro fuel type to green for consistency with other types
+                
+                # Specify whether electro fuel type is from grid or renewables
                 if fuel_type == "electro":
-                    fuel_type = "green"
+                    if "grid" in pathway:
+                        fuel_type = "electro_grid"
+                    else:
+                        fuel_type = "electro_renew"
                 
                 filename = f"{fuel}-{fuel_type}-{pathway}-{quantity}.csv"
                 filepath = f"{top_dir}/processed_results/{filename}"
