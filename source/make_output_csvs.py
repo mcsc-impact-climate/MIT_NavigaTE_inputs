@@ -63,7 +63,38 @@ quantities = [
 evaluation_choices = ["per_year", "per_mile", "per_tonne_mile"]
 
 
-def read_results(fuel, fuel_type, pathway, country, number, filename, all_results_df):
+def read_results(fuel, fuel_type, pathway, region, number, filename, all_results_df):
+    """
+    Reads the results from an Excel file and extracts relevant data for each vessel type and size.
+
+    Parameters
+    ----------
+    fuel : str
+        The type of fuel being used (eg. ammonia, hydrogen)
+    
+    fuel_type : str
+        The specific type of fuel (e.g., grey, blue).
+    
+    pathway : str
+        The fuel production pathway (e.g., fossil, SMR).
+    
+    region : str
+        The region associated with the results.
+    
+    number : int
+        The number of instances or scenarios for this configuration.
+    
+    filename : str
+        The path to the Excel file containing the results.
+    
+    all_results_df : pandas.DataFrame
+        The DataFrame to which results will be appended.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with the new results appended.
+    """
     # Define columns to read based on the fuel type
     if fuel == "lsfo":
         results_df_columns = [
@@ -115,7 +146,7 @@ def read_results(fuel, fuel_type, pathway, country, number, filename, all_result
             results_dict["Fuel"] = fuel
             results_dict["FuelType"] = fuel_type
             results_dict["Pathway"] = pathway
-            results_dict["Country"] = country
+            results_dict["Region"] = region
             results_dict["Number"] = number
             results_dict["TotalEquivalentWTT"] = float(
                 results_df_vessel["TotalEquivalentWTT"].loc["2024-01-01"]
@@ -181,7 +212,7 @@ def read_results(fuel, fuel_type, pathway, country, number, filename, all_result
 
 
 def extract_info_from_filename(filename):
-    pattern = "report_{fuel}-{fuel_type}-{pathway}-{country}-{number}.xlsx"
+    pattern = "report_{fuel}-{fuel_type}-{pathway}-{region}-{number}.xlsx"
     result = parse(pattern, filename)
     if result:
         return result.named
@@ -191,7 +222,7 @@ def extract_info_from_filename(filename):
 def collect_all_results(top_dir):
     # List all files in the output directory
     files = os.listdir(f"{top_dir}/all_outputs_full_fleet/")
-    fuel_pathway_country_tuples = [
+    fuel_pathway_region_tuples = [
         extract_info_from_filename(file)
         for file in files
         if extract_info_from_filename(file)
@@ -203,7 +234,7 @@ def collect_all_results(top_dir):
         "Fuel",
         "FuelType",
         "Pathway",
-        "Country",
+        "Region",
         "Number",
         "TotalEquivalentWTT",
         "TotalEquivalentTTW",
@@ -226,15 +257,15 @@ def collect_all_results(top_dir):
         "lsfo", "grey", "fossil", "Global", 1, results_filename, all_results_df
     )
 
-    for fuel_pathway_country in fuel_pathway_country_tuples:
-        fuel = fuel_pathway_country["fuel"]
-        fuel_type = fuel_pathway_country["fuel_type"]
-        pathway = fuel_pathway_country["pathway"]
-        country = fuel_pathway_country["country"]
-        number = fuel_pathway_country["number"]
-        results_filename = f"{top_dir}/all_outputs_full_fleet/report_{fuel}-{fuel_type}-{pathway}-{country}-{number}.xlsx"
+    for fuel_pathway_region in fuel_pathway_region_tuples:
+        fuel = fuel_pathway_region["fuel"]
+        fuel_type = fuel_pathway_region["fuel_type"]
+        pathway = fuel_pathway_region["pathway"]
+        region = fuel_pathway_region["region"]
+        number = fuel_pathway_region["number"]
+        results_filename = f"{top_dir}/all_outputs_full_fleet/report_{fuel}-{fuel_type}-{pathway}-{region}-{number}.xlsx"
         all_results_df = read_results(
-            fuel, fuel_type, pathway, country, number, results_filename, all_results_df
+            fuel, fuel_type, pathway, region, number, results_filename, all_results_df
         )
 
     return all_results_df
@@ -293,9 +324,9 @@ def add_vessel_type_quantities(all_results_df):
 
     new_rows = []
 
-    # Iterate over each fuel, pathway, country, and number combination
-    for (fuel, pathway, country, number), group_df in all_results_df.groupby(
-        ["Fuel", "Pathway", "Country", "Number"]
+    # Iterate over each fuel, pathway, region, and number combination
+    for (fuel, pathway, region, number), group_df in all_results_df.groupby(
+        ["Fuel", "Pathway", "Region", "Number"]
     ):
         for vessel_type, vessel_names in vessels.items():
             # Filter the DataFrame for the current vessel type
@@ -311,7 +342,7 @@ def add_vessel_type_quantities(all_results_df):
                 vessel_type_row["Fuel"] = fuel
                 vessel_type_row["FuelType"] = vessel_type_df["FuelType"]
                 vessel_type_row["Pathway"] = pathway
-                vessel_type_row["Country"] = country
+                vessel_type_row["Region"] = region
                 vessel_type_row["Number"] = number
                 vessel_type_row["Vessel"] = f"{vessel_type}_{fuel}"
                 vessel_type_row["n_vessels"] = vessel_type_df["n_vessels"].sum()
@@ -337,7 +368,7 @@ def mark_countries_with_multiples(all_results_df):
     # Iterate over each row in the DataFrame
     for index, row in all_results_df.iterrows():
         if int(row["Number"]) > 1:
-            all_results_df.at[index, "Country"] = f"{row['Country']}_{row['Number']}"
+            all_results_df.at[index, "Region"] = f"{row['Region']}_{row['Number']}"
 
 
 def add_fleet_level_quantities(all_results_df):
@@ -351,9 +382,9 @@ def add_fleet_level_quantities(all_results_df):
 
     new_rows = []
 
-    # Iterate over each fuel, pathway, country, and number combination
-    for (fuel, pathway, country, number), group_df in all_results_df.groupby(
-        ["Fuel", "Pathway", "Country", "Number"]
+    # Iterate over each fuel, pathway, region, and number combination
+    for (fuel, pathway, region, number), group_df in all_results_df.groupby(
+        ["Fuel", "Pathway", "Region", "Number"]
     ):
         fleet_df = group_df[group_df["Vessel"].str.contains("|".join(all_vessels))]
 
@@ -363,7 +394,7 @@ def add_fleet_level_quantities(all_results_df):
             fleet_row["Fuel"] = fuel
             fleet_row["FuelType"] = fleet_df["FuelType"]
             fleet_row["Pathway"] = pathway
-            fleet_row["Country"] = country
+            fleet_row["Region"] = region
             fleet_row["Number"] = number
             fleet_row["Vessel"] = f"fleet_{fuel}"
             fleet_row["n_vessels"] = fleet_df["n_vessels"].sum()
@@ -392,7 +423,7 @@ def generate_csv_files(all_results_df, top_dir):
                 "Fuel",
                 "FuelType",
                 "Pathway",
-                "Country",
+                "Region",
                 "Number",
                 "n_vessels",
             ]
@@ -415,12 +446,12 @@ def generate_csv_files(all_results_df, top_dir):
             fuel_type = all_selected_results_df["FuelType"].iloc[0]
             for quantity in quantities_of_interest:
                 quantity_selected_results_df = all_selected_results_df[
-                    ["Vessel", "Country", quantity]
+                    ["Vessel", "Region", quantity]
                 ]
 
                 # Pivot the DataFrame
                 pivot_df = quantity_selected_results_df.pivot(
-                    index="Country", columns="Vessel", values=quantity
+                    index="Region", columns="Vessel", values=quantity
                 )
 
                 # Replace NaN with zeros or any other value as needed
@@ -431,30 +462,30 @@ def generate_csv_files(all_results_df, top_dir):
 
                 # Identify countries with multiple entries
                 countries_with_multiple_entries = quantity_selected_results_df[
-                    "Country"
-                ][quantity_selected_results_df["Country"].str.contains("_2")]
+                    "Region"
+                ][quantity_selected_results_df["Region"].str.contains("_2")]
                 base_countries_with_multiple_entries = (
                     countries_with_multiple_entries.apply(
                         lambda x: x.split("_")[0]
                     ).unique()
                 )
 
-                # Rename base country rows with multiple entries
-                for base_country in base_countries_with_multiple_entries:
-                    if base_country in pivot_df.index:
+                # Rename base region rows with multiple entries
+                for base_region in base_countries_with_multiple_entries:
+                    if base_region in pivot_df.index:
                         pivot_df.rename(
-                            index={base_country: f"{base_country}_1"}, inplace=True
+                            index={base_region: f"{base_region}_1"}, inplace=True
                         )
 
-                # Calculate the average for each base country with multiple entries and add as a new row
+                # Calculate the average for each base region with multiple entries and add as a new row
                 avg_rows = []
-                for base_country in base_countries_with_multiple_entries:
+                for base_region in base_countries_with_multiple_entries:
                     matching_rows = pivot_df.loc[
-                        pivot_df.index.str.startswith(base_country + "_")
+                        pivot_df.index.str.startswith(base_region + "_")
                     ]
                     if not matching_rows.empty:
                         avg_values = matching_rows.mean()
-                        avg_values.name = base_country
+                        avg_values.name = base_region
                         avg_rows.append(avg_values)
                 if avg_rows:
                     avg_df = pd.DataFrame(avg_rows)
@@ -511,7 +542,7 @@ def main():
     # Add evaluated quantities (per mile and per tonne-mile) to the dataframe
     add_evaluated_quantities(all_results_df)
 
-    # Append the country number to countries for which there's data for >1 country
+    # Append the region number to countries for which there's data for >1 region
     mark_countries_with_multiples(all_results_df)
 
     all_results_df.to_csv("all_results_df.csv")

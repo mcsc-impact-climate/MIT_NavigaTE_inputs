@@ -184,26 +184,26 @@ def make_region_labels(region_names_camel_case):
     return region_names_with_spaces
 
 
-def get_country_label(country):
+def get_region_label(region):
     """
-    Gets the name for the country to be used in plot labels, if the country is included in the region_label_mapping dict.
+    Gets the name for the region to be used in plot labels, if the region is included in the region_label_mapping dict.
 
     Parameters
     ----------
-    country : str
-        Name of the country as specified in the processed csv file
+    region : str
+        Name of the region as specified in the processed csv file
 
     Returns
     -------
-    country_label : str
-        Name of the country to be used for plotting
+    region_label : str
+        Name of the region to be used for plotting
     """
-    if country in region_label_mapping:
-        country_label = region_label_mapping[country]
+    if region in region_label_mapping:
+        region_label = region_label_mapping[region]
     else:
-        country_label = country
+        region_label = region
 
-    return country_label
+    return region_label
 
 
 def get_filename_info(
@@ -409,7 +409,7 @@ def add_west_australia(world):
     Parameters
     ----------
     world : geopandas.GeoDataFrame
-        The GeoDataFrame containing the world map with country boundaries.
+        The GeoDataFrame containing the world map with region boundaries.
 
     Returns
     -------
@@ -1048,7 +1048,7 @@ class ProcessedQuantity:
             ha="left",
         )
         
-        plt.subplots_adjust(left=0.05, right=0.8)
+        plt.subplots_adjust(left=0.05, right=0.75)
 
         # Save the plot
         create_directory_if_not_exists(
@@ -1252,7 +1252,7 @@ class ProcessedPathway:
                 method_to_call = getattr(processed_quantity_instance, method_name)
                 method_to_call()
 
-    def get_country_average_results(self, quantities, modifier):
+    def get_region_average_results(self, quantities, modifier):
         """
         Collects results for the given quantities and modifier, averaged over all countries.
 
@@ -1262,14 +1262,14 @@ class ProcessedPathway:
             List of quantities to make hists of. If "all" is provided, it will make hists of all quantities in the ProcessedQuantities dictionary
 
         modifier : str
-            Modifier to use in evaluating the country average.
+            Modifier to use in evaluating the region average.
 
         Returns
         -------
-        country_av_results_dict : Dictionary of floats
+        region_av_results_dict : Dictionary of floats
             Dictionary containing the results for the given quantities and modifier
         """
-        country_av_results_dict = {}
+        region_av_results_dict = {}
 
         column_name = f"fleet_{self.fuel}"
         for quantity in quantities:
@@ -1277,26 +1277,26 @@ class ProcessedPathway:
             processed_quantity_av = processed_quantity.result_df.loc[
                 "Global Average", column_name
             ]
-            country_av_results_dict[quantity] = processed_quantity_av
+            region_av_results_dict[quantity] = processed_quantity_av
 
-        return country_av_results_dict
+        return region_av_results_dict
 
-    def get_all_country_results(self, quantity, modifier):
+    def get_all_region_results(self, quantity, modifier):
         """
         Collects results for the given quantity and modifier for all countries.
 
         Parameters
         ----------
         quantity : str
-            Quantity to use in evaluating the country average.
+            Quantity to use in evaluating the region average.
 
         modifier : str
-            Modifier to use in evaluating the country average.
+            Modifier to use in evaluating the region average.
 
         Returns
         -------
-        individual_country_results_dict : Dictionary of floats
-            Dictionary containing the results for each country.
+        individual_region_results_dict : Dictionary of floats
+            Dictionary containing the results for each region.
         """
 
         result_df = self.ProcessedQuantities[quantity][modifier].result_df
@@ -1311,31 +1311,31 @@ class ProcessedPathway:
         # Get list of countries that have individual entries
         countries_with_multiple_entries = []
         for entry in countries_individual:
-            country_name = entry.split("_")[0]
-            if country_name not in countries_with_multiple_entries:
-                countries_with_multiple_entries.append(country_name)
+            region_name = entry.split("_")[0]
+            if region_name not in countries_with_multiple_entries:
+                countries_with_multiple_entries.append(region_name)
 
-        individual_country_results_dict = {}
-        multiple_country_results_dict = {}
+        individual_region_results_dict = {}
+        multiple_region_results_dict = {}
         column_name = f"fleet_{self.fuel}"
-        for country in countries_av:
-            if country != "Global Average":
-                country_label = get_country_label(country)
-                individual_country_results_dict[country_label] = (
-                    result_df_region_av.loc[country, column_name]
+        for region in countries_av:
+            if region != "Global Average":
+                region_label = get_region_label(region)
+                individual_region_results_dict[region_label] = (
+                    result_df_region_av.loc[region, column_name]
                 )
-            if country in countries_with_multiple_entries:
+            if region in countries_with_multiple_entries:
                 for entry in countries_individual:
                     entry_elements = entry.split("_")
-                    entry_country = entry_elements[0]
+                    entry_region = entry_elements[0]
                     entry_number = entry_elements[1]
-                    if entry_country == country:
-                        country_label = get_country_label(entry_country)
-                        multiple_country_results_dict[
-                            f"{country_label} ({entry_number})"
+                    if entry_region == region:
+                        region_label = get_region_label(entry_region)
+                        multiple_region_results_dict[
+                            f"{region_label} ({entry_number})"
                         ] = result_df_region_individual.loc[entry, column_name]
 
-        return individual_country_results_dict, multiple_country_results_dict
+        return individual_region_results_dict, multiple_region_results_dict
 
     def make_all_hists_by_region(
         self,
@@ -1517,13 +1517,13 @@ class ProcessedFuel:
             result_df = sample_processed_quantity.result_df
 
             countries = result_df[~result_df.index.str.contains("_")].index
-            for country in countries:
-                country_label = get_country_label(country)
+            for region in countries:
+                region_label = get_region_label(region)
                 if (
-                    country_label not in all_countries
-                    and not country_label == "Global Average"
+                    region_label not in all_countries
+                    and not region_label == "Global Average"
                 ):
-                    all_countries.append(country_label)
+                    all_countries.append(region_label)
 
         return all_countries
 
@@ -1561,7 +1561,7 @@ class ProcessedFuel:
 
         # Get all individual countries with processed data for the given fuel
         countries = self.get_all_countries()
-        country_colors = assign_colors_to_strings(countries)
+        region_colors = assign_colors_to_strings(countries)
 
         countries_labelled = []
         scatter_handles = []  # To collect scatter plot legend handles
@@ -1595,19 +1595,19 @@ class ProcessedFuel:
             if pathway_name not in cumulative_values:
                 cumulative_values[pathway_name] = 0
 
-            # Collect the country average results
-            country_average_results = pathway.get_country_average_results(
+            # Collect the region average results
+            region_average_results = pathway.get_region_average_results(
                 sub_quantities, modifier
             )
 
-            # Collect the individual country results
-            all_country_results, multiple_country_results = (
-                pathway.get_all_country_results(quantity, modifier)
+            # Collect the individual region results
+            all_region_results, multiple_region_results = (
+                pathway.get_all_region_results(quantity, modifier)
             )
 
             # Get the values for each sub_quantity and stack them
             for i, sub_quantity in enumerate(sub_quantities):
-                value = country_average_results.get(sub_quantity, 0)
+                value = region_average_results.get(sub_quantity, 0)
                 bar = ax.barh(
                     pathway_label,
                     value,
@@ -1622,27 +1622,27 @@ class ProcessedFuel:
                     bar_handles.append(bar[0])
                     bar_labels.append(get_quantity_label(sub_quantity))
 
-                # Plot the individual country results as a scatter plot
-                if all_country_results:
-                    for country in all_country_results:
-                        if "Global" in country:
+                # Plot the individual region results as a scatter plot
+                if all_region_results:
+                    for region in all_region_results:
+                        if "Global" in region:
                             continue
                         scatter = ax.scatter(
-                            all_country_results[country],
+                            all_region_results[region],
                             pathway_label,
-                            color=country_colors[country],
+                            color=region_colors[region],
                             s=100,
                             marker="D",
-                            label=get_country_label(country)
-                            if country not in countries_labelled
+                            label=get_region_label(region)
+                            if region not in countries_labelled
                             else "",
                         )
 
-                        # Add the country to the list of countries that have been labeled so it only appears in the legend once
-                        if country not in countries_labelled:
-                            countries_labelled.append(country)
+                        # Add the region to the list of countries that have been labeled so it only appears in the legend once
+                        if region not in countries_labelled:
+                            countries_labelled.append(region)
                             scatter_handles.append(scatter)
-                            scatter_labels.append(get_country_label(country))
+                            scatter_labels.append(get_region_label(region))
 
             # Set the y-axis label color to match the pathway type
             y_labels = ax.get_yticklabels()
@@ -1666,7 +1666,7 @@ class ProcessedFuel:
         lsfo_pathway = ProcessedPathway("lsfo", "grey", "fossil")
         make_bar(lsfo_pathway, "grey", "lsfo", "LSFO (fossil)")
         plt.axvline(
-            lsfo_pathway.get_country_average_results([quantity], modifier)[quantity],
+            lsfo_pathway.get_region_average_results([quantity], modifier)[quantity],
             linewidth=3,
             linestyle="--",
             color="black",
@@ -1702,7 +1702,7 @@ class ProcessedFuel:
                 borderaxespad=0.0,
             )
 
-        # Add the bar component legend back after the country legend if both legends are present
+        # Add the bar component legend back after the region legend if both legends are present
         if bar_handles and scatter_handles:
             ax.add_artist(legend1)
 
@@ -1723,7 +1723,7 @@ class ProcessedFuel:
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
-        Plot a stacked histogram for the given quantities and modifiers with respect to the pathway and country.
+        Plot a stacked histogram for the given quantities and modifiers with respect to the pathway and region.
 
         Parameters
         ----------
@@ -1884,10 +1884,10 @@ def structure_results_fuels_types(
                 )
                 result_df = processed_quantity.result_df
 
-                for country in result_df.index:
-                    if "_" not in country and country != "Global Average":
+                for region in result_df.index:
+                    if "_" not in region and region != "Global Average":
                         results_fuels_types[fuel][pathway_type].append(
-                            result_df.loc[country, f"fleet_{fuel}"]
+                            result_df.loc[region, f"fleet_{fuel}"]
                         )
     return results_fuels_types
 
