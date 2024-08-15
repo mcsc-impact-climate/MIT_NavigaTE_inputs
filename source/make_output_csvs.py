@@ -212,6 +212,19 @@ def read_results(fuel, fuel_type, pathway, region, number, filename, all_results
 
 
 def extract_info_from_filename(filename):
+    """
+    Extracts fuel, fuel_type, pathway, country, and number information from the given filename.
+
+    Parameters
+    ----------
+    filename : str
+        The filename from which to extract the information.
+
+    Returns
+    -------
+    result.named : dict
+        A dictionary containing the extracted information, or None if the pattern doesn't match.
+    """
     pattern = "report_{fuel}-{fuel_type}-{pathway}-{region}-{number}.xlsx"
     result = parse(pattern, filename)
     if result:
@@ -220,6 +233,19 @@ def extract_info_from_filename(filename):
 
 
 def collect_all_results(top_dir):
+    """
+    Collects all results from Excel files in the specified directory and compiles them into a DataFrame.
+
+    Parameters
+    ----------
+    top_dir : str
+        The top-level directory containing the output files.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        A DataFrame containing all the collected results.
+    """
     # List all files in the output directory
     files = os.listdir(f"{top_dir}/all_outputs_full_fleet/")
     fuel_pathway_region_tuples = [
@@ -272,6 +298,19 @@ def collect_all_results(top_dir):
 
 
 def add_number_of_vessels(all_results_df):
+    """
+    Maps the number of vessels to each row in the DataFrame.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which the number of vessels will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with the number of vessels added.
+    """
     def extract_base_vessel_name(vessel_name):
         return "_".join(vessel_name.split("_")[:-1])
 
@@ -287,7 +326,19 @@ def add_number_of_vessels(all_results_df):
     return all_results_df
 
 
-def add_evaluated_quantities(all_results_df):
+def add_quantity_modifiers(all_results_df):
+    """
+    Adds quantity modifiers (e.g., per year, per mile, per tonne-mile) to the DataFrame based on the existing quantities.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which evaluated quantities will be added.
+
+    Returns
+    -------
+    None
+    """
     for quantity in quantities:
         for evaluation_choice in evaluation_choices:
             # Determine the column to divide by based on the evaluation choice
@@ -307,6 +358,19 @@ def add_evaluated_quantities(all_results_df):
 
 
 def add_fleet_quantities(all_results_df):
+    """
+    Adds fleet-level quantities to the DataFrame by multiplying by the number of vessels.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which fleet quantities will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with fleet-level quantities added.
+    """
     for quantity in quantities + ["Miles", "CargoMiles"]:
         # Multiply by the number of vessels to sum the quantity to the full fleet
         all_results_df[f"{quantity}-fleet"] = (
@@ -317,6 +381,19 @@ def add_fleet_quantities(all_results_df):
 
 
 def add_vessel_type_quantities(all_results_df):
+    """
+    Adds average vessel quantities to the DataFrame for each vessel type by summing over the individual vessel quantities.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which vessel-type-level quantities will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with average vessel quantities added for each vessel type.
+    """
     # List of quantities to sum
     quantities_fleet = [
         column for column in all_results_df.columns if "-fleet" in column
@@ -365,6 +442,18 @@ def add_vessel_type_quantities(all_results_df):
 
 
 def mark_countries_with_multiples(all_results_df):
+    """
+    Marks countries with multiple entries in the DataFrame by appending '_Number' to the country name.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results in which countries with multiples will be marked.
+
+    Returns
+    -------
+    None
+    """
     # Iterate over each row in the DataFrame
     for index, row in all_results_df.iterrows():
         if int(row["Number"]) > 1:
@@ -372,6 +461,19 @@ def mark_countries_with_multiples(all_results_df):
 
 
 def add_fleet_level_quantities(all_results_df):
+    """
+    Adds fleet-level quantities to the DataFrame for all vessels considered in the global fleet.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which fleet-level quantities will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with fleet-level quantities added.
+    """
     # Get a list of all vessels considered in the global fleet
     all_vessels = list(vessel_size_number.keys())
 
@@ -416,6 +518,21 @@ def add_fleet_level_quantities(all_results_df):
 
 
 def generate_csv_files(all_results_df, top_dir):
+    """
+    Generates and saves CSV files from the processed results DataFrame, organized by fuel, pathway, and quantity.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the processed results.
+    
+    top_dir : str
+        The top-level directory where the CSV files will be saved.
+
+    Returns
+    -------
+    None
+    """
     quantities_of_interest = list(
         all_results_df.drop(
             columns=[
@@ -540,7 +657,7 @@ def main():
     all_results_df = add_fleet_level_quantities(all_results_df)
 
     # Add evaluated quantities (per mile and per tonne-mile) to the dataframe
-    add_evaluated_quantities(all_results_df)
+    add_quantity_modifiers(all_results_df)
 
     # Append the region number to countries for which there's data for >1 region
     mark_countries_with_multiples(all_results_df)
