@@ -71,8 +71,8 @@ python source/make_output_csvs.py
 
 The naming convention for the csv files is: `{fuel}-{pathway_type}-{pathway}_{quantity}_{evaluation_option}.csv`. Information about each `quantity` can be found in [`info_files/quantity_info.csv`](./processed_results/quantity_info.csv).
 
-The different `evaluation_option`s are defined as follows:
-* `""`: The quantity is per-vessel annually, and unchanged relative to its description in `quantity_info.csv`.
+The different evaluation_options are defined as follows:
+* `"vessel"`: The quantity is per-vessel annually, and unchanged relative to its description in `quantity_info.csv`.
 * `"fleet"`: The quantity is aggregated over all global vessels in given vessel class (still evaluated annually).
 * `"per_mile"`: The quantity is normalized by the number of annual nautical miles (nm) traveled by the given vessel class.
 * `"per_tonne_mile"`: The quantity is normalized by the number of annual tonne-nm carried by the given vessel class.
