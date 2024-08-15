@@ -646,6 +646,7 @@ class ProcessedQuantity:
         self.modifier = modifier
         self.fuel = fuel
         self.pathway_type = pathway_type
+        self.pathway_type_label = pathway_type_labels[self.pathway_type]
         self.pathway = pathway
         self.pathway_label = get_pathway_label(pathway, pathway_labels_df)
         self.results_dir = results_dir
@@ -683,7 +684,7 @@ class ProcessedQuantity:
         file_path = self.make_file_path()
         return pd.read_csv(file_path, index_col=0)
 
-    def make_hist_by_region(self, vessel_type):
+    def make_hist_by_region(self, vessel_type="all"):
         """
         Plots a stacked histogram of either vessel sizes (if a vessel type is provided as input) or vessel types (if "all" is provided).
 
@@ -715,17 +716,17 @@ class ProcessedQuantity:
         if vessel_type == "all":
             legend_title = "Vessel Type"
 
-            # Don't stack vessel types if quantities are normalized per mile or per tonne-mile
-            if self.modifier == "per_mile" or self.modifier == "per_tonne_mile":
-                result_df_region_av[f"fleet_{self.fuel}"].plot(
-                    kind="barh", stacked=False, ax=ax
-                )
-            else:
+            # Only stack vessel types if the quantity is expressed for the full fleet with no normalization
+            if self.modifier == "fleet":
                 stack_by = [
                     f"{vessel_type}_{self.fuel}" for vessel_type in vessel_types
                 ]
                 result_df_region_av[stack_by].plot(kind="barh", stacked=True, ax=ax)
                 stack_vessel_types = True
+            else:
+                result_df_region_av[f"fleet_{self.fuel}"].plot(
+                    kind="barh", stacked=False, ax=ax
+                )
 
             # Add individual region estimates as unfilled circles
             for idx, row in result_df_region_individual.iterrows():
@@ -827,7 +828,7 @@ class ProcessedQuantity:
         ax.text(
             1.05,
             0.45,
-            f"Color: {self.pathway_type}",
+            f"Fuel Type: {self.pathway_type_label}",
             transform=ax.transAxes,
             fontsize=20,
             va="top",
@@ -858,12 +859,13 @@ class ProcessedQuantity:
                 bbox_to_anchor=(1.05, 1),
                 loc="upper left",
             )
+        ax.set_ylabel("" )
         plt.tight_layout()
         create_directory_if_not_exists(
-            f"{top_dir}/plots/{self.fuel}_{self.pathway_type}_{self.pathway}"
+            f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}"
         )
         plt.savefig(
-            f"{top_dir}/plots/{self.fuel}_{self.pathway_type}_{self.pathway}/{filename_save}.png",
+            f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{filename_save}.png",
             dpi=200,
         )
         # plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_type}_{self.pathway}_hists_by_region/{filename_save}.pdf")
@@ -991,13 +993,69 @@ class ProcessedQuantity:
         sm._A = []
         cbar = fig.colorbar(sm, cax=cax, orientation="horizontal")
         cbar.set_label(f"{self.label} ({self.units})", fontsize=20)
+        
+        vessel_type_label = "All"
+        if not vessel_type == "all":
+            vessel_type_label = vessel_type_title[vessel_type]
+        
+        vessel_size_label = "All"
+        if not vessel_size == "all":
+            vessel_size_label = vessel_size_title[vessel_size]
+            
+        ax.text(
+            1.03,
+            0.75,
+            f"Fuel: {self.fuel}",
+            transform=ax.transAxes,
+            fontsize=20,
+            va="top",
+            ha="left",
+        )
+        ax.text(
+            1.03,
+            0.65,
+            f"Fuel Type: {self.pathway_type_label}",
+            transform=ax.transAxes,
+            fontsize=20,
+            va="top",
+            ha="left",
+        )
+        ax.text(
+            1.03,
+            0.55,
+            f"Pathway: {self.pathway_label}",
+            transform=ax.transAxes,
+            fontsize=20,
+            va="top",
+            ha="left",
+        )
+        ax.text(
+            1.03,
+            0.45,
+            f"Vessel Type: {vessel_type_label}",
+            transform=ax.transAxes,
+            fontsize=20,
+            va="top",
+            ha="left",
+        )
+        ax.text(
+            1.03,
+            0.35,
+            f"Vessel Size: {vessel_type_label}",
+            transform=ax.transAxes,
+            fontsize=20,
+            va="top",
+            ha="left",
+        )
+        
+        plt.subplots_adjust(left=0.05, right=0.8)
 
         # Save the plot
         create_directory_if_not_exists(
-            f"{top_dir}/plots/{self.fuel}_{self.pathway_type}_{self.pathway}"
+            f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}"
         )
         plt.savefig(
-            f"{top_dir}/plots/{self.fuel}_{self.pathway_type}_{self.pathway}/{self.quantity}_{self.modifier}_map_by_region.png",
+            f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.png",
             dpi=200,
         )
         plt.close()
@@ -1827,7 +1885,7 @@ def structure_results_fuels_types(
                 result_df = processed_quantity.result_df
 
                 for country in result_df.index:
-                    if "_" not in country and not country != "Global Average":
+                    if "_" not in country and country != "Global Average":
                         results_fuels_types[fuel][pathway_type].append(
                             result_df.loc[country, f"fleet_{fuel}"]
                         )
