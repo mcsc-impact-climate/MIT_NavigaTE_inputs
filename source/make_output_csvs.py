@@ -274,13 +274,17 @@ def add_evaluated_quantities(all_results_df):
                 else all_results_df[f"{quantity}"]
             )
 
+
 def add_fleet_quantities(all_results_df):
     for quantity in quantities + ["Miles", "CargoMiles"]:
         # Multiply by the number of vessels to sum the quantity to the full fleet
-        all_results_df[f"{quantity}-fleet"] = all_results_df[quantity] * all_results_df["n_vessels"]
-    
+        all_results_df[f"{quantity}-fleet"] = (
+            all_results_df[quantity] * all_results_df["n_vessels"]
+        )
+
     return all_results_df
-        
+
+
 def add_vessel_type_quantities(all_results_df):
     # List of quantities to sum
     quantities_fleet = [
@@ -383,10 +387,18 @@ def add_fleet_level_quantities(all_results_df):
 def generate_csv_files(all_results_df, top_dir):
     quantities_of_interest = list(
         all_results_df.drop(
-            columns=["Vessel", "Fuel", "FuelType", "Pathway", "Country", "Number", "n_vessels"]
+            columns=[
+                "Vessel",
+                "Fuel",
+                "FuelType",
+                "Pathway",
+                "Country",
+                "Number",
+                "n_vessels",
+            ]
         ).columns
     )
-    
+
     unique_fuels = all_results_df["Fuel"].unique()
 
     os.makedirs(f"{top_dir}/processed_results", exist_ok=True)
@@ -455,18 +467,18 @@ def generate_csv_files(all_results_df, top_dir):
                 pivot_df.loc["Global Average"] = global_avg
 
                 # If no modifier specified, add a modifier to indicate that the quantity is per-vessel
-                if not "-" in quantity:
+                if "-" not in quantity:
                     quantity = f"{quantity}-vessel"
-                    
+
                 # Generate the filename
-                
+
                 # Specify whether electro fuel type is from grid or renewables
                 if fuel_type == "electro":
                     if "grid" in pathway:
                         fuel_type = "electro_grid"
                     else:
                         fuel_type = "electro_renew"
-                
+
                 filename = f"{fuel}-{fuel_type}-{pathway}-{quantity}.csv"
                 filepath = f"{top_dir}/processed_results/{filename}"
 
@@ -487,8 +499,8 @@ def main():
 
     # Multiply by number of vessels of each type+size the fleet to get fleet-level quantities
     all_results_df = add_fleet_quantities(all_results_df)
-    
-    #print(all_results_df.columns)
+
+    # print(all_results_df.columns)
 
     # Group vessels by type to get type-level quantities
     all_results_df = add_vessel_type_quantities(all_results_df)
@@ -502,7 +514,7 @@ def main():
     # Append the country number to countries for which there's data for >1 country
     mark_countries_with_multiples(all_results_df)
 
-    all_results_df.to_csv('all_results_df.csv')
+    all_results_df.to_csv("all_results_df.csv")
 
     # Generate CSV files for each combination of fuel pathway, quantity, and evaluation choice
     generate_csv_files(all_results_df, top_dir)
