@@ -417,7 +417,7 @@ def add_vessel_type_quantities(all_results_df):
                     quantities_fleet + ["Miles", "CargoMiles"]
                 ].sum()
                 vessel_type_row["Fuel"] = fuel
-                vessel_type_row["FuelType"] = vessel_type_df["FuelType"]
+                vessel_type_row["FuelType"] = vessel_type_df["FuelType"].iloc[0]
                 vessel_type_row["Pathway"] = pathway
                 vessel_type_row["Region"] = region
                 vessel_type_row["Number"] = number
@@ -494,7 +494,7 @@ def add_fleet_level_quantities(all_results_df):
             # Sum quantities for the full fleet
             fleet_row = fleet_df[quantities_fleet + ["Miles", "CargoMiles"]].sum()
             fleet_row["Fuel"] = fuel
-            fleet_row["FuelType"] = fleet_df["FuelType"]
+            fleet_row["FuelType"] = fleet_df["FuelType"].iloc[0]
             fleet_row["Pathway"] = pathway
             fleet_row["Region"] = region
             fleet_row["Number"] = number
@@ -515,6 +515,53 @@ def add_fleet_level_quantities(all_results_df):
     all_results_df = pd.concat([all_results_df, new_rows_df], ignore_index=True)
 
     return all_results_df
+    
+    
+def add_cac(all_results_df):
+    """
+    Adds the cost of carbon abatement (cac) to all_results_df, where:
+        cac = (cost increase of the fuel relative to LSFO) / (WTW emission reduction relative to LSFO)
+        
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which fleet-level quantities will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with the cost of carbon abatement added.
+    """
+    
+    # Mapping vessels to LSFO equivalents
+    lsfo_vessels = all_results_df['Vessel'].str.replace(r'(_[^_]+)$', '_lsfo', regex=True)
+
+    # Adding LSFO vessel names to the DataFrame for comparison
+    all_results_df['lsfo_vessel'] = lsfo_vessels
+
+    # Find LSFO baseline for comparison
+    lsfo_baseline = all_results_df[
+        (all_results_df['Fuel'] == 'lsfo') &
+        (all_results_df['FuelType'] == 'grey') &
+        (all_results_df['Pathway'] == 'fossil') &
+        (all_results_df['Region'] == 'Global') &
+        (all_results_df['Number'] == 1)
+    ].set_index('Vessel')
+
+    # Merge to find the matching LSFO baseline data for each vessel
+    merged_df = all_results_df.merge(lsfo_baseline[['TotalCost', 'TotalEquivalentWTW']],
+                                     left_on='lsfo_vessel',
+                                     right_index=True,
+                                     suffixes=('', '_lsfo'))
+
+    # Calculate the cost of carbon abatement
+    merged_df['cac'] = (merged_df['TotalCost'] - merged_df['TotalCost_lsfo']) / \
+                       (merged_df['TotalEquivalentWTW_lsfo'] - merged_df['TotalEquivalentWTW'])
+
+    # Drop the temporary LSFO vessel column
+    merged_df = merged_df.drop(columns=['lsfo_vessel', 'TotalCost_lsfo', 'TotalEquivalentWTW_lsfo'])
+
+    return merged_df
 
 
 def generate_csv_files(all_results_df, top_dir):
@@ -648,7 +695,7 @@ def main():
     # Multiply by number of vessels of each type+size the fleet to get fleet-level quantities
     all_results_df = add_fleet_quantities(all_results_df)
 
-    # print(all_results_df.columns)
+    print(all_results_df.columns)
 
     # Group vessels by type to get type-level quantities
     all_results_df = add_vessel_type_quantities(all_results_df)
@@ -661,11 +708,14 @@ def main():
 
     # Append the region number to countries for which there's data for >1 region
     mark_countries_with_multiples(all_results_df)
+    
+    # Add a column quantifying the cost of carbon abatement
+    all_results_df = add_cac(all_results_df)
 
     all_results_df.to_csv("all_results_df.csv")
 
     # Generate CSV files for each combination of fuel pathway, quantity, and evaluation choice
-    generate_csv_files(all_results_df, top_dir)
+    #generate_csv_files(all_results_df, top_dir)
 
 
 main()
