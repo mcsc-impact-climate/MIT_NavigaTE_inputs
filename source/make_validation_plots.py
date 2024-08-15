@@ -1400,7 +1400,7 @@ class ProcessedFuel:
         # Save the figure
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         plt.savefig(f"{top_dir}/plots/{self.fuel}/{filename_save}.png", dpi=200)
-        
+        plt.close()
         
     def make_all_stacked_hists(self, quantities=["TotalEquivalentWTW", "TotalCost"], modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"]):
         """
@@ -1636,6 +1636,7 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
     plt.tight_layout()
     create_directory_if_not_exists(f"{top_dir}/plots/scatter_violin")
     plt.savefig(f"{top_dir}/plots/scatter_violin/{quantity}-{modifier}.png", dpi=200)
+    plt.close()
 
 def main():
     # Loop through all fuels of interest
