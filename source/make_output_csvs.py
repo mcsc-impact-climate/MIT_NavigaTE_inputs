@@ -8,6 +8,7 @@ from common_tools import get_top_dir
 import pandas as pd
 from parse import parse
 import os
+import glob
 
 # Constants
 TONNES_PER_TEU = 14
@@ -519,8 +520,8 @@ def add_fleet_level_quantities(all_results_df):
     
 def add_cac(all_results_df):
     """
-    Adds the cost of carbon abatement (cac) to all_results_df, where:
-        cac = (cost increase of the fuel relative to LSFO) / (WTW emission reduction relative to LSFO)
+    Adds the cost of carbon abatement (CAC) to all_results_df, where:
+        CAC = (cost increase of the fuel relative to LSFO) / (WTW emission reduction relative to LSFO)
         
     Parameters
     ----------
@@ -554,15 +555,38 @@ def add_cac(all_results_df):
                                      right_index=True,
                                      suffixes=('', '_lsfo'))
 
+    # Calculate the change in cost relative to LSFO
+    merged_df['DeltaCost'] = merged_df['TotalCost'] - merged_df['TotalCost_lsfo']
+                       
+    merged_df['DeltaWTW'] = merged_df['TotalEquivalentWTW'] - merged_df['TotalEquivalentWTW_lsfo']
+    
     # Calculate the cost of carbon abatement
-    merged_df['cac'] = (merged_df['TotalCost'] - merged_df['TotalCost_lsfo']) / \
-                       (merged_df['TotalEquivalentWTW_lsfo'] - merged_df['TotalEquivalentWTW'])
+    merged_df['CAC'] = merged_df['DeltaCost'] / (-merged_df['DeltaWTW'])
 
     # Drop the temporary LSFO vessel column
     merged_df = merged_df.drop(columns=['lsfo_vessel', 'TotalCost_lsfo', 'TotalEquivalentWTW_lsfo'])
 
     return merged_df
+    
+def remove_all_files_in_directory(directory_path):
+    """
+    Removes all files in the specified directory.
 
+    Parameters
+    ----------
+    directory_path : str
+        The path to the directory where all files will be removed.
+
+    Returns
+    -------
+    None
+    """
+    files = glob.glob(os.path.join(directory_path, '*'))
+    for f in files:
+        try:
+            os.remove(f)
+        except Exception as e:
+            print(f"Error removing {f}: {e}")
 
 def generate_csv_files(all_results_df, top_dir):
     """
@@ -596,6 +620,7 @@ def generate_csv_files(all_results_df, top_dir):
 
     unique_fuels = all_results_df["Fuel"].unique()
 
+    remove_all_files_in_directory(f"{top_dir}/processed_results")
     os.makedirs(f"{top_dir}/processed_results", exist_ok=True)
 
     for fuel in unique_fuels:
@@ -715,7 +740,7 @@ def main():
     all_results_df.to_csv("all_results_df.csv")
 
     # Generate CSV files for each combination of fuel pathway, quantity, and evaluation choice
-    #generate_csv_files(all_results_df, top_dir)
+    generate_csv_files(all_results_df, top_dir)
 
 
 main()
