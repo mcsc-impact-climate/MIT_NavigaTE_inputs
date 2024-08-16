@@ -72,22 +72,22 @@ def read_results(fuel, fuel_type, pathway, region, number, filename, all_results
     ----------
     fuel : str
         The type of fuel being used (eg. ammonia, hydrogen)
-    
+
     fuel_type : str
         The specific type of fuel (e.g., grey, blue).
-    
+
     pathway : str
         The fuel production pathway (e.g., fossil, SMR).
-    
+
     region : str
         The region associated with the results.
-    
+
     number : int
         The number of instances or scenarios for this configuration.
-    
+
     filename : str
         The path to the Excel file containing the results.
-    
+
     all_results_df : pandas.DataFrame
         The DataFrame to which results will be appended.
 
@@ -312,6 +312,7 @@ def add_number_of_vessels(all_results_df):
     all_results_df : pandas.DataFrame
         The updated DataFrame with the number of vessels added.
     """
+
     def extract_base_vessel_name(vessel_name):
         return "_".join(vessel_name.split("_")[:-1])
 
@@ -516,13 +517,13 @@ def add_fleet_level_quantities(all_results_df):
     all_results_df = pd.concat([all_results_df, new_rows_df], ignore_index=True)
 
     return all_results_df
-    
-    
+
+
 def add_cac(all_results_df):
     """
     Adds the cost of carbon abatement (CAC) to all_results_df, where:
         CAC = (cost increase of the fuel relative to LSFO) / (WTW emission reduction relative to LSFO)
-        
+
     Parameters
     ----------
     all_results_df : pandas.DataFrame
@@ -533,41 +534,50 @@ def add_cac(all_results_df):
     all_results_df : pandas.DataFrame
         The updated DataFrame with the cost of carbon abatement added.
     """
-    
+
     # Mapping vessels to LSFO equivalents
-    lsfo_vessels = all_results_df['Vessel'].str.replace(r'(_[^_]+)$', '_lsfo', regex=True)
+    lsfo_vessels = all_results_df["Vessel"].str.replace(
+        r"(_[^_]+)$", "_lsfo", regex=True
+    )
 
     # Adding LSFO vessel names to the DataFrame for comparison
-    all_results_df['lsfo_vessel'] = lsfo_vessels
+    all_results_df["lsfo_vessel"] = lsfo_vessels
 
     # Find LSFO baseline for comparison
     lsfo_baseline = all_results_df[
-        (all_results_df['Fuel'] == 'lsfo') &
-        (all_results_df['FuelType'] == 'grey') &
-        (all_results_df['Pathway'] == 'fossil') &
-        (all_results_df['Region'] == 'Global') &
-        (all_results_df['Number'] == 1)
-    ].set_index('Vessel')
+        (all_results_df["Fuel"] == "lsfo")
+        & (all_results_df["FuelType"] == "grey")
+        & (all_results_df["Pathway"] == "fossil")
+        & (all_results_df["Region"] == "Global")
+        & (all_results_df["Number"] == 1)
+    ].set_index("Vessel")
 
     # Merge to find the matching LSFO baseline data for each vessel
-    merged_df = all_results_df.merge(lsfo_baseline[['TotalCost', 'TotalEquivalentWTW']],
-                                     left_on='lsfo_vessel',
-                                     right_index=True,
-                                     suffixes=('', '_lsfo'))
+    merged_df = all_results_df.merge(
+        lsfo_baseline[["TotalCost", "TotalEquivalentWTW"]],
+        left_on="lsfo_vessel",
+        right_index=True,
+        suffixes=("", "_lsfo"),
+    )
 
     # Calculate the change in cost relative to LSFO
-    merged_df['DeltaCost'] = merged_df['TotalCost'] - merged_df['TotalCost_lsfo']
-                       
-    merged_df['DeltaWTW'] = merged_df['TotalEquivalentWTW'] - merged_df['TotalEquivalentWTW_lsfo']
-    
+    merged_df["DeltaCost"] = merged_df["TotalCost"] - merged_df["TotalCost_lsfo"]
+
+    merged_df["DeltaWTW"] = (
+        merged_df["TotalEquivalentWTW"] - merged_df["TotalEquivalentWTW_lsfo"]
+    )
+
     # Calculate the cost of carbon abatement
-    merged_df['CAC'] = merged_df['DeltaCost'] / (-merged_df['DeltaWTW'])
+    merged_df["CAC"] = merged_df["DeltaCost"] / (-merged_df["DeltaWTW"])
 
     # Drop the temporary LSFO vessel column
-    merged_df = merged_df.drop(columns=['lsfo_vessel', 'TotalCost_lsfo', 'TotalEquivalentWTW_lsfo'])
+    merged_df = merged_df.drop(
+        columns=["lsfo_vessel", "TotalCost_lsfo", "TotalEquivalentWTW_lsfo"]
+    )
 
     return merged_df
-    
+
+
 def remove_all_files_in_directory(directory_path):
     """
     Removes all files in the specified directory.
@@ -581,12 +591,13 @@ def remove_all_files_in_directory(directory_path):
     -------
     None
     """
-    files = glob.glob(os.path.join(directory_path, '*'))
+    files = glob.glob(os.path.join(directory_path, "*"))
     for f in files:
         try:
             os.remove(f)
         except Exception as e:
             print(f"Error removing {f}: {e}")
+
 
 def generate_csv_files(all_results_df, top_dir):
     """
@@ -596,7 +607,7 @@ def generate_csv_files(all_results_df, top_dir):
     ----------
     all_results_df : pandas.DataFrame
         The DataFrame containing the processed results.
-    
+
     top_dir : str
         The top-level directory where the CSV files will be saved.
 
@@ -733,7 +744,7 @@ def main():
 
     # Append the region number to countries for which there's data for >1 region
     mark_countries_with_multiples(all_results_df)
-    
+
     # Add a column quantifying the cost of carbon abatement
     all_results_df = add_cac(all_results_df)
 
