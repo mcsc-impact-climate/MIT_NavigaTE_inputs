@@ -578,8 +578,13 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
     }
 
     denom_units = modifier_denom_dict[modifier]
+    
+    if "/" not in base_units:
+        units = f"{base_units} / {denom_units}"
+    else:
+        units = base_units
 
-    return f"{base_units} / {denom_units}"
+    return units
 
 
 class ProcessedQuantity:
@@ -684,7 +689,7 @@ class ProcessedQuantity:
         file_path = self.make_file_path()
         return pd.read_csv(file_path, index_col=0)
 
-    def make_hist_by_region(self, vessel_type="all"):
+    def make_hist_by_region(self, vessel_type="all", quantity_sign_color=None, quantity_pos_color=None, quantity_neg_color=None, quantity_pos_label=None, quantity_neg_label=None):
         """
         Plots a stacked histogram of either vessel sizes (if a vessel type is provided as input) or vessel types (if "all" is provided).
 
@@ -696,11 +701,23 @@ class ProcessedQuantity:
                 * container_ice: container vessl (internal combustion engine)
                 * tanker_ice: tanker vessel (internal combustion engine)
                 * gas_carrier_ice: gas carrier vessel (internal combustion engine)
+                
+        quantity_sign_color : str, optional
+            Color for bars where the value is exactly zero (if applicable).
+            
+        quantity_pos_color : str, optional
+            Color for positive values.
+            
+        quantity_neg_color : str, optional
+            Color for negative values.
 
         Returns
         -------
         None
         """
+        # Access the results dataframe for the quantity to use for coloring based on sign
+        if quantity_sign_color:
+            result_df_sign_color = ProcessedQuantity(quantity_sign_color, self.modifier, self.fuel, self.pathway_type, self.pathway).result_df
 
         fig, ax = plt.subplots(figsize=(16, 8))
 
@@ -718,14 +735,24 @@ class ProcessedQuantity:
 
             # Only stack vessel types if the quantity is expressed for the full fleet with no normalization
             if self.modifier == "fleet":
+                if quantity_sign_color:
+                    raise Exception("Cannot do signed colors with fleet modifier. Please provide another modifier.")
                 stack_by = [
                     f"{vessel_type}_{self.fuel}" for vessel_type in vessel_types
                 ]
-                result_df_region_av[stack_by].plot(kind="barh", stacked=True, ax=ax)
+
+                result_df_region_av[stack_by].plot(
+                    kind="barh", stacked=True, ax=ax
+                )
                 stack_vessel_types = True
             else:
+                bar_color = plt.rcParams['axes.prop_cycle'].by_key()['color'][0]
+                if quantity_sign_color:
+                    bar_color = result_df_sign_color[f"fleet_{self.fuel}"].apply(
+                        lambda x: quantity_pos_color if x >= 0 else quantity_neg_color
+                    )
                 result_df_region_av[f"fleet_{self.fuel}"].plot(
-                    kind="barh", stacked=False, ax=ax
+                    kind="barh", stacked=False, ax=ax, color=bar_color
                 )
 
             # Add individual region estimates as unfilled circles
@@ -768,19 +795,26 @@ class ProcessedQuantity:
                 va="top",
                 ha="left",
             )
-
-            if self.modifier == "per_mile" or self.modifier == "per_tonne_mile":
-                result_df_region_av[f"{vessel_type}_{self.fuel}"].plot(
-                    kind="barh", stacked=False, ax=ax
-                )
-
-            else:
+            if self.modifier == "fleet":
                 stack_by = [
                     f"{vessel_size}_{self.fuel}"
                     for vessel_size in vessel_sizes[vessel_type]
                 ]
-                result_df_region_av[stack_by].plot(kind="barh", stacked=True, ax=ax)
+
+                result_df_region_av[stack_by].plot(
+                    kind="barh", stacked=True, ax=ax
+                )
                 stack_vessel_sizes = True
+                
+            else:
+                bar_color = plt.rcParams['axes.prop_cycle'].by_key()['color'][0]
+                if quantity_sign_color:
+                    bar_color = result_df_sign_color[f"{vessel_type}_{self.fuel}"].apply(
+                    lambda x: quantity_pos_color if x > 0 else quantity_neg_color if x < 0 else quantity_sign_color
+                )
+                result_df_region_av[f"{vessel_type}_{self.fuel}"].plot(
+                    kind="barh", stacked=False, ax=ax, color=bar_color
+                )
 
             # Add individual region estimates as unfilled circles
             for idx, row in result_df_region_individual.iterrows():
@@ -859,34 +893,41 @@ class ProcessedQuantity:
                 bbox_to_anchor=(1.05, 1),
                 loc="upper left",
             )
-        ax.set_ylabel("" )
+        ax.set_ylabel("")
         plt.tight_layout()
         create_directory_if_not_exists(
             f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}"
         )
-        plt.savefig(
-            f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{filename_save}.png",
-            dpi=200,
-        )
+        
+        filepath_save = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{filename_save}.png"
+        print(f"Saving figure to {filepath_save}")
+        plt.savefig(filepath_save, dpi=200)
         # plt.savefig(f"{top_dir}/plots/{self.fuel}_{self.pathway_type}_{self.pathway}_hists_by_region/{filename_save}.pdf")
         plt.close()
 
-    def make_all_hists_by_region(self):
+
+
+    def make_all_hists_by_region(self, quantity_sign_color=None, quantity_pos_color=None, quantity_neg_color=None, quantity_pos_label=None, quantity_neg_label=None):
         """
         Plots all stacked histograms for the available vessel types
 
         Parameters
         ----------
-        None
+        quantity_sign_color : str, optional
+            Color for bars where the value is exactly zero (if applicable).
+        quantity_pos_color : str, optional
+            Color for positive values.
+        quantity_neg_color : str, optional
+            Color for negative values.
 
         Returns
         -------
         None
         """
         for vessel_type in vessel_types:
-            self.make_hist_by_region(vessel_type)
+            self.make_hist_by_region(vessel_type, quantity_sign_color, quantity_pos_color, quantity_neg_color, quantity_pos_label, quantity_neg_label)
 
-        self.make_hist_by_region("all")
+        self.make_hist_by_region("all", quantity_sign_color, quantity_pos_color, quantity_neg_color, quantity_pos_label, quantity_neg_label)
 
     def add_region_names(self):
         """
@@ -1054,10 +1095,9 @@ class ProcessedQuantity:
         create_directory_if_not_exists(
             f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}"
         )
-        plt.savefig(
-            f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.png",
-            dpi=200,
-        )
+        filepath_save = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.png"
+        print(f"Saving figure to {filepath_save}")
+        plt.savefig(filepath_save, dpi=200)
         plt.close()
 
 
@@ -1359,6 +1399,34 @@ class ProcessedPathway:
         """
 
         self.apply_to_all_quantities("make_all_hists_by_region", quantities, modifiers)
+        
+    def make_all_cac_hists_by_region(
+        self,
+        quantity_sign_color = "DeltaWTW", quantity_pos_color = "red",
+        quantity_neg_color = "green", quantity_pos_label="WTW Emissions > LSFO",
+        quantity_neg_label = "WTW Emissions < LSFO",
+        ):
+        """
+        Executes make_all_hists_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary for the Carbon Abatement Cost (CAC) quantity to produce validation hists for the given pathway.
+
+        Parameters
+        ----------
+        quantity_sign_color : str, optional
+            Color for bars where the value is exactly zero (if applicable).
+            
+        quantity_pos_color : str, optional
+            Color for positive values.
+            
+        quantity_neg_color : str, optional
+            Color for negative values.
+
+        Returns
+        -------
+        None
+        """
+
+        processed_quantity = ProcessedQuantity("CAC", "vessel", self.fuel, self.pathway_type, self.pathway)
+        processed_quantity.make_all_hists_by_region(quantity_sign_color, quantity_pos_color, quantity_neg_color, quantity_pos_label, quantity_neg_label)
 
     def map_all_by_region(
         self,
@@ -1714,7 +1782,9 @@ class ProcessedFuel:
 
         # Save the figure
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
-        plt.savefig(f"{top_dir}/plots/{self.fuel}/{filename_save}.png", dpi=200)
+        filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
+        print(f"Saving figure to {filepath_save}")
+        plt.savefig(filepath_save, dpi=200)
         plt.close()
 
     def make_all_stacked_hists(
@@ -1775,21 +1845,22 @@ class ProcessedFuel:
     def apply_to_all_pathways(
         self,
         method_name,
-        quantities=["TotalEquivalentWTW", "TotalCost"],
-        modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
-    ):
+        *args,
+        **kwargs
+        ):
         """
-        Applies the provided method to all available pathways
+        Applies the provided method to all available pathways.
 
         Parameters
         ----------
-        quantities : str or list of str
-            List of quantities to make hists of. If "all" is provided, it will make hists of all quantities in the ProcessedQuantities dictionary
+        method_name : str
+            The name of the method to apply to each pathway.
 
-        modifiers : str
-            List of modifiers to include in the hists. If "all" is provided, it will make hists with all modifiers in the ProcessedQuantities dictionary
+        *args : tuple
+            Positional arguments to pass to the method.
 
-        method : Method of the ProcessedPathway class
+        **kwargs : dict
+            Keyword arguments to pass to the method.
 
         Returns
         -------
@@ -1800,7 +1871,8 @@ class ProcessedFuel:
             processed_pathway = self.ProcessedPathways[pathway]
             # Dynamically get the method from the instance and call it
             method_to_call = getattr(processed_pathway, method_name)
-            method_to_call(quantities=quantities, modifiers=modifiers)
+            method_to_call(*args, **kwargs)
+
 
     def make_all_hists_by_region(
         self,
@@ -1824,6 +1896,33 @@ class ProcessedFuel:
         """
 
         self.apply_to_all_pathways("make_all_hists_by_region", quantities, modifiers)
+        
+    def make_all_cac_hists_by_region(
+        self,
+        quantity_sign_color = "DeltaWTW", quantity_pos_color = "red",
+        quantity_neg_color = "green", quantity_pos_label="WTW Emissions > LSFO",
+        quantity_neg_label = "WTW Emissions < LSFO",
+    ):
+        """
+        Applies make_all_cac_hists_by_region to all available pathways for the given fuel
+
+        Parameters
+        ----------
+        quantity_sign_color : str, optional
+            Color for bars where the value is exactly zero (if applicable).
+            
+        quantity_pos_color : str, optional
+            Color for positive values.
+            
+        quantity_neg_color : str, optional
+            Color for negative values.
+
+        Returns
+        -------
+        None
+        """
+
+        self.apply_to_all_pathways("make_all_cac_hists_by_region", quantity_sign_color, quantity_pos_color, quantity_neg_color, quantity_pos_label, quantity_neg_label)
 
     def map_all_by_region(
         self,
@@ -1995,24 +2094,34 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
     plt.subplots_adjust(left=0.2, right=0.75)
     plt.tight_layout()
     create_directory_if_not_exists(f"{top_dir}/plots/scatter_violin")
-    plt.savefig(f"{top_dir}/plots/scatter_violin/{quantity}-{modifier}.png", dpi=200)
+    filepath_save = f"{top_dir}/plots/scatter_violin/{quantity}-{modifier}.png"
+    print(f"Saving figure to {filepath_save}")
+    plt.savefig(filepath_save, dpi=200)
     plt.close()
 
-
 def main():
-    # Loop through all fuels of interest
-    for fuel in ["hydrogen", "ammonia", "lsfo"]:
-        processed_fuel = ProcessedFuel(fuel)
+#    processed_quantity = ProcessedQuantity("CAC", "vessel", "ammonia", "electro_grid", "HTE_grid")
+#    processed_quantity.make_all_hists_by_region(quantity_sign_color = "DeltaWTW", quantity_pos_color = "red", quantity_neg_color = "green", quantity_pos_label="WTW Emissions > LSFO", quantity_neg_label = "WTW Emissions < LSFO")
 
-        # Make validation plots for each fuel, pathway and quantity
-        processed_fuel.make_all_hists_by_region()
-        processed_fuel.map_all_by_region()
-        processed_fuel.make_all_stacked_hists()
+#    processed_pathway = ProcessedPathway("ammonia", "electro_grid", "HTE_grid")
+#    processed_pathway.make_all_hists_by_region()
+#    processed_pathway.make_all_cac_hists_by_region()
 
-    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
-        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
-            structured_results = structure_results_fuels_types(quantity, modifier)
-            plot_scatter_violin(structured_results, quantity, modifier)
+#    processed_fuel = ProcessedFuel("ammonia")
+#    processed_fuel.make_all_cac_hists_by_region()
+#    # Loop through all fuels of interest
+#    for fuel in ["hydrogen", "ammonia", "lsfo"]:
+#        processed_fuel = ProcessedFuel(fuel)
+#
+#        # Make validation plots for each fuel, pathway and quantity
+#        processed_fuel.make_all_hists_by_region()
+#        processed_fuel.map_all_by_region()
+#        processed_fuel.make_all_stacked_hists()
+#
+#    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
+#        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+#            structured_results = structure_results_fuels_types(quantity, modifier)
+#            plot_scatter_violin(structured_results, quantity, modifier)
 
 
 main()
