@@ -887,11 +887,11 @@ class ProcessedQuantity:
                     ]
                     ax.legend(
                         handles=handles,
-                        title="WTW Emissions Comparison",
                         fontsize=20,
                         title_fontsize=22,
                         bbox_to_anchor=(1.05, 1),
                         loc="upper left",
+                        borderpad=0.8,
                     )
 
             # Add individual region estimates as unfilled circles
@@ -958,6 +958,15 @@ class ProcessedQuantity:
 
         # Plot styling common to both cases
         ax.set_xlabel(f"{self.label} ({self.units})", fontsize=22)
+        
+        # In the case where we're coloring by the sign of DeltaWTW, we need to add separate axis labels on top and bottom to distinguish between whether DeltaWTW is positive or negative
+        if color_by_delta_wtw_sign > 0:
+            ax.set_xlabel(f"{self.label} ({self.units})", fontsize=22, color=delta_wtw_sign_colors_labels["negative"]["color"])
+            ax.tick_params(axis='x', colors=delta_wtw_sign_colors_labels["negative"]["color"])
+            
+            ax_top = ax.secondary_xaxis('top')
+            ax_top.set_xlabel("Savings from Added Carbon (USD / tonne CO2)", color=delta_wtw_sign_colors_labels["positive"]["color"], fontsize=22)
+            ax_top.tick_params(axis='x', colors=delta_wtw_sign_colors_labels["positive"]["color"])
         ax.set_yticks(range(len(result_df_region_av)))
         ax.set_yticklabels(make_region_labels(result_df_region_av.index))
         if stack_vessel_types or stack_vessel_sizes:
@@ -1022,20 +1031,29 @@ class ProcessedQuantity:
                 lambda x: region_name_mapping.get(x, x)
             )
 
-    def map_by_region(self, vessel_type="all", vessel_size="all"):
+    def map_by_region(self, vessel_type="all", vessel_size="all", color_by_delta_wtw_sign=False):
         """
         Maps the quantity geospatially by region, overlaid on a map of the world
 
         Parameters
         ----------
-        column : str
-            Name of the column in the processed csv file to map by region (defaults to "fleet_{self.fuel}").
+        vessel_type : str
+            Vessel type, can currently be one of:
+                * bulk_carrier_ice: bulk carrier vessel (internal combustion engine)
+                * container_ice: container vessel (internal combustion engine)
+                * tanker_ice: tanker vessel (internal combustion engine)
+                * gas_carrier_ice: gas carrier vessel (internal combustion engine)
+                
+        vessel_size : str
+            Size class for the given vessel
+            
+        color_by_delta_wtw_sign : bool
+            Option to color bars according to whether emissions increase or decrease relative to LSFO.
 
         Returns
         -------
         None
         """
-
         # If vessel option is provided as "all", plot the quantity for the full fleet
         if vessel_type == "all":
             column = f"fleet_{self.fuel}"
@@ -1046,7 +1064,7 @@ class ProcessedQuantity:
             vessel_types_list = vessel_sizes.keys()
 
             if vessel_type not in vessel_types_list:
-                Exception(
+                raise Exception(
                     f"Error: Vessel type {vessel_type} not recognized. Acceptable types: {vessel_types_list}"
                 )
 
@@ -1057,9 +1075,9 @@ class ProcessedQuantity:
             # If a vessel size other than "all" is provided, plot the quantity for the given vessel type and size
             else:
                 # Ensure that a valid vessel size was provided
-                vessel_sizes_list = vessel_sizes[vessel_types_list].keys()
+                vessel_sizes_list = vessel_sizes[vessel_type].keys()
                 if vessel_size not in vessel_sizes_list:
-                    Exception(
+                    raise Exception(
                         f"Error: Vessel size {vessel_size} not recognized. Acceptable sizes: {vessel_sizes_list}"
                     )
 
@@ -1077,41 +1095,135 @@ class ProcessedQuantity:
 
         # Create a figure and axis with appropriate size
         fig, ax = plt.subplots(1, 1, figsize=(15, 10))
-
+        
+        # Add a column to result_df indicating whether self.delta_wtw_result_df is positive or negative
+        self.result_df["DeltaWTW_sign"] = self.delta_wtw_result_df[column].apply(
+            lambda x: "positive" if x >= 0 else "negative"
+        )
+        
         # Merge the result_df with the world geodataframe based on the column "NAME" with region names
         merged = world.merge(self.result_df, on="NAME", how="left")
 
         # Plot the base map
         world.plot(ax=ax, color="lightgrey", edgecolor="black")
 
-        # Plot the regions with data, using a colormap to represent the quantity
-        merged.plot(
-            column=column,
-            cmap="coolwarm",
-            linewidth=0.8,
-            ax=ax,
-            edgecolor="0.8",
-            legend=False,
-        )
+        if color_by_delta_wtw_sign:
+            # Define colormaps for each sign
+            def create_cmap_name(color):
+                return color.capitalize() + "s"
+            cmap_positive = plt.get_cmap(create_cmap_name(delta_wtw_sign_colors_labels["positive"]["color"]))
+            cmap_negative = plt.get_cmap(create_cmap_name(delta_wtw_sign_colors_labels["negative"]["color"]))
 
-        # Set the title and labels
-        ax.set_xticks([])
-        ax.set_yticks([])
+            # Separate the data for positive and negative delta WTW emissions
+            positive_merged = merged[merged["DeltaWTW_sign"] == "positive"]
+            negative_merged = merged[merged["DeltaWTW_sign"] == "negative"]
+            positive_data = positive_merged[column]
+            negative_data = negative_merged[column]
+            
+            # Calculate the min and max for positive and negative separately
+            positive_min, positive_max = positive_data.min(), positive_data.max()
+            negative_min, negative_max = negative_data.min(), negative_data.max()
+            
+            # Set the positive and negative extrema to 0 if there are no entries in one of the positive- or negative-DeltaWTW dataframes
+            if len(positive_data) == 0:
+                positive_min = 0
+                positive_max = 0
+                
+            if len(negative_data) == 0:
+                negative_min = 0
+                negative_max = 0
+            
+            # Adjust min and max if they are equal
+            if positive_min == positive_max:
+                positive_min -= 1  # Small adjustment
+                positive_max += 1
 
-        # Create a horizontal colorbar with appropriate formatting
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes("bottom", size="5%", pad=0.2)
-        sm = plt.cm.ScalarMappable(
-            cmap="coolwarm",
-            norm=plt.Normalize(vmin=merged[column].min(), vmax=merged[column].max()),
-        )
-        sm._A = []
-        cbar = fig.colorbar(sm, cax=cax, orientation="horizontal")
-        cbar.set_label(f"{self.label} ({self.units})", fontsize=20)
+            if negative_min == negative_max:
+                negative_min -= 1  # Small adjustment
+                negative_max += 1
+
+            # Plot regions with positive delta WTW emissions, if they're non-empty
+            if len(positive_merged) > 0:
+                positive_merged.plot(
+                    column=column,
+                    cmap=cmap_positive,
+                    linewidth=0.8,
+                    ax=ax,
+                    edgecolor="0.8",
+                    legend=False,
+                    norm=plt.Normalize(vmin=positive_min, vmax=positive_max)
+                )
+
+            # Plot regions with negative delta WTW emissions
+            if len(negative_merged) > 0:
+                negative_merged.plot(
+                    column=column,
+                    cmap=cmap_negative,
+                    linewidth=0.8,
+                    ax=ax,
+                    edgecolor="0.8",
+                    legend=False,
+                    norm=plt.Normalize(vmin=negative_min, vmax=negative_max)
+                )
+
+            ax.set_aspect('equal')
+            ax.set_xticks([])  # Remove x-axis ticks
+            ax.set_yticks([])  # Remove y-axis ticks
+
+            # Add colorbars for positive and negative regions
+            divider = make_axes_locatable(ax)
+            if len(positive_merged) > 0:
+                cax_pos = divider.append_axes("top", size="5%", pad=1)
+
+                sm_positive = plt.cm.ScalarMappable(
+                    cmap=cmap_positive,
+                    norm=plt.Normalize(vmin=positive_min, vmax=positive_max)
+                )
+                sm_positive._A = []
+                cbar_positive = fig.colorbar(sm_positive, cax=cax_pos, orientation="horizontal")
+                pos_cbar_label = delta_wtw_sign_colors_labels["positive"]["label"]
+                cbar_positive.set_label(f"Savings from Added Carbon (USD / tonne CO2) [{pos_cbar_label}]", fontsize=20)
+
+            if len(negative_merged) > 0:
+                cax_neg = divider.append_axes("bottom", size="5%", pad=0.2)
+                sm_negative = plt.cm.ScalarMappable(
+                    cmap=cmap_negative,
+                    norm=plt.Normalize(vmin=negative_min, vmax=negative_max)
+                )
+                sm_negative._A = []
+                neg_cbar_label = delta_wtw_sign_colors_labels["negative"]["label"]
+                cbar_negative = fig.colorbar(sm_negative, cax=cax_neg, orientation="horizontal")
+                cbar_negative.set_label(f" {self.label} ({self.units}) [{neg_cbar_label}]", fontsize=20)
+
+        else:
+            # Plot the regions with data, using a colormap to represent the quantity
+            merged.plot(
+                column=column,
+                cmap="coolwarm",
+                linewidth=0.8,
+                ax=ax,
+                edgecolor="0.8",
+                legend=False,
+            )
+
+            # Create a horizontal colorbar with appropriate formatting
+            divider = make_axes_locatable(ax)
+            cax = divider.append_axes("bottom", size="5%", pad=0.2)
+            sm = plt.cm.ScalarMappable(
+                cmap="coolwarm",
+                norm=plt.Normalize(vmin=merged[column].min(), vmax=merged[column].max()),
+            )
+            sm._A = []
+            cbar = fig.colorbar(sm, cax=cax, orientation="horizontal")
+            cbar.set_label(f"{self.label} ({self.units})", fontsize=20)
 
         vessel_type_label = "All"
         if not vessel_type == "all":
             vessel_type_label = vessel_type_title[vessel_type]
+        
+        vessel_size_label = "All"
+        if not vessel_size == "all":
+            vessel_size_label = vessel_size_title[vessel_size]
 
         ax.text(
             1.03,
@@ -1152,7 +1264,7 @@ class ProcessedQuantity:
         ax.text(
             1.03,
             0.35,
-            f"Vessel Size: {vessel_type_label}",
+            f"Vessel Size: {vessel_size_label}",
             transform=ax.transAxes,
             fontsize=20,
             va="top",
@@ -1160,6 +1272,7 @@ class ProcessedQuantity:
         )
 
         plt.subplots_adjust(left=0.05, right=0.75)
+        #plt.tight_layout()
 
         # Save the plot
         create_directory_if_not_exists(
@@ -1470,7 +1583,7 @@ class ProcessedPathway:
 
         self.apply_to_all_quantities("make_all_hists_by_region", quantities, modifiers)
 
-    def make_all_cac_hists_by_region(self):
+    def make_cac_hist_by_region(self):
         """
         Executes make_all_hists_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary for the Carbon Abatement Cost (CAC) quantity to produce validation hists for the given pathway.
 
@@ -1509,7 +1622,24 @@ class ProcessedPathway:
         None
         """
         self.apply_to_all_quantities("map_by_region", quantities, modifiers)
+        
+    def map_cac_by_region(self):
+        """
+        Executes map_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary for the Carbon Abatement Cost (CAC) quantity to produce geospatial maps for the given pathway.
 
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+        processed_quantity = ProcessedQuantity(
+            "CAC", "vessel", self.fuel, self.pathway_type, self.pathway
+        )
+        processed_quantity.map_by_region(color_by_delta_wtw_sign=True)
+        
 
 class ProcessedFuel:
     """
@@ -1971,7 +2101,7 @@ class ProcessedFuel:
         None
         """
 
-        self.apply_to_all_pathways("make_all_cac_hists_by_region")
+        self.apply_to_all_pathways("make_cac_hist_by_region")
 
     def map_all_by_region(
         self,
@@ -1995,6 +2125,21 @@ class ProcessedFuel:
         """
 
         self.apply_to_all_pathways("map_all_by_region", quantities, modifiers)
+        
+    def map_all_cac_by_region(self):
+        """
+        Applies map_cac_by_region to all available pathways for the given fuel
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+
+        self.apply_to_all_pathways("map_cac_by_region")
 
 
 def structure_results_fuels_types(
@@ -2150,16 +2295,17 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
 
 
 def main():
-    #    processed_quantity = ProcessedQuantity("CAC", "vessel", "ammonia", "electro_grid", "HTE_grid")
-    #    processed_quantity.make_all_hists_by_region(quantity_sign_color = "DeltaWTW", quantity_pos_color = "red", quantity_neg_color = "green", quantity_pos_label="WTW Emissions > LSFO", quantity_neg_label = "WTW Emissions < LSFO")
+#    processed_quantity = ProcessedQuantity("CAC", "vessel", "ammonia", "electro_grid", "HTE_grid")
+#    processed_quantity.map_cac_by_region(color_by_delta_wtw_sign=True)
 
-    processed_pathway = ProcessedPathway("ammonia", "electro_grid", "HTE_grid")
-    #    processed_pathway.make_all_hists_by_region()
-    processed_pathway.make_all_cac_hists_by_region()
+#    processed_pathway = ProcessedPathway("ammonia", "electro_grid", "HTE_grid")
+#    processed_pathway.make_all_hists_by_region()
+#    processed_pathway.map_cac_by_region()
 
 
-#    processed_fuel = ProcessedFuel("ammonia")
-#    processed_fuel.make_all_cac_hists_by_region()
+    processed_fuel = ProcessedFuel("ammonia")
+ #   processed_fuel.make_all_cac_hists_by_region()
+    processed_fuel.map_all_cac_by_region()
 #    # Loop through all fuels of interest
 #    for fuel in ["hydrogen", "ammonia", "lsfo"]:
 #        processed_fuel = ProcessedFuel(fuel)
