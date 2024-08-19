@@ -10,3 +10,4 @@ includes_global/*grey.inc
 *.numbers
 *.ilp
 *__pycache__*
+all_results_df.csv
