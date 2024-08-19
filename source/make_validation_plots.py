@@ -92,7 +92,7 @@ pathway_type_labels = {
 delta_wtw_sign_colors_labels = {
     "positive": {
         "color": "red",
-        "label": "WTW Emissions > LSFO",
+        "label": r"WTW Emissions $\geq$ LSFO",
     },
     "negative": {
         "color": "green",
@@ -804,6 +804,7 @@ class ProcessedQuantity:
                         fontsize=20,
                         bbox_to_anchor=(1.05, 1),
                         loc="upper left",
+                        borderpad=0.8,
                     )
 
             # Add individual region estimates as unfilled circles
@@ -1282,7 +1283,6 @@ class ProcessedQuantity:
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
         plt.close()
-
 
 class ProcessedPathway:
     """
@@ -1977,6 +1977,240 @@ class ProcessedFuel:
         plt.savefig(filepath_save, dpi=200)
         plt.close()
 
+    def make_cac_hist(self):
+        """
+        Makes a histogram of Cost of Carbon Abatement (CAC) with respect to the available fuel production pathways.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+
+        num_pathways = len(self.pathways)
+        fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
+
+        fig, ax = plt.subplots(figsize=(15, fig_height))
+
+        # Get all individual countries with processed data for the given fuel
+        countries = self.get_all_countries()
+        region_colors = assign_colors_to_strings(countries)
+
+        countries_labelled = []
+        scatter_handles = []  # To collect scatter plot legend handles
+        scatter_labels = []  # To collect scatter plot legend labels
+
+        def make_bar(pathway, pathway_type, pathway_name, pathway_label):
+            """
+            Plots a single bar for a given pathway
+
+            Parameters
+            ----------
+            pathway : ProcessedPathway
+                ProcessedPathway class instance containing the info to plot
+
+            pathway_type : str
+                Pathway type (electro_grid, electro_renew, blue, grey)
+
+            pathway_name : str
+                Name of the pathway
+
+            pathway_label : str
+                Name of the pathway to use for labels when plotting
+
+            Returns
+            -------
+            None
+            """
+
+            # Collect the region average results
+            region_average_results = pathway.get_region_average_results(
+                ["CAC"], "vessel"
+            )
+            
+            region_average_delta_wtw = pathway.get_region_average_results(
+                ["DeltaWTW"], "vessel"
+            )["DeltaWTW"]
+
+            # Collect the individual region results
+            all_region_results, multiple_region_results = (
+                pathway.get_all_region_results("CAC", "vessel")
+            )
+            
+            all_region_results_deltawtw, multiple_region_results_deltawtw = (
+                pathway.get_all_region_results("DeltaWTW", "vessel")
+            )
+
+            # Plot the bar
+            value = region_average_results.get("CAC", 0)
+            bar = ax.barh(
+                pathway_label,
+                value,
+                color = delta_wtw_sign_colors_labels["positive"]["color"] if region_average_delta_wtw >= 0 else delta_wtw_sign_colors_labels["negative"]["color"],
+                alpha=0.7,
+            )
+
+            # Plot the individual region results as a scatter plot
+            if all_region_results:
+                for region in all_region_results:
+                    if "Global" in region:
+                        continue
+                    scatter = ax.scatter(
+                        all_region_results[region],
+                        pathway_label,
+                        color=region_colors[region],
+                        s=100,
+                        marker="D" if all_region_results_deltawtw[region] >= 0 else "o",
+                        label=get_region_label(region)
+                        if region not in countries_labelled
+                        else "",
+                    )
+
+                    # Add the region to the list of countries that have been labeled so it only appears in the legend once
+                    if region not in countries_labelled:
+                        # Add to custom legend only if not already labelled
+                        if region not in countries_labelled:
+                            scatter_handles.append(
+                                plt.Line2D(
+                                    [0],
+                                    [0],
+                                    color=region_colors[region],
+                                    marker="s",  # Square marker for the legend
+                                    linestyle="None",
+                                    markersize=10,
+                                )
+                            )
+                        countries_labelled.append(region)
+                        #scatter_handles.append(scatter)
+                        scatter_labels.append(get_region_label(region))
+
+            # Set the y-axis label color to match the pathway type
+            y_labels = ax.get_yticklabels()
+            if i_pathway < len(y_labels):
+                y_labels[i_pathway].set_color(pathway_type_colors[pathway_type])
+                y_labels[i_pathway].set_fontweight("bold")
+
+        # Loop through each color and pathway
+        i_pathway = 0
+        for pathway_type in self.type_pathway_dict:
+            for pathway_name in self.type_pathway_dict[pathway_type]:
+                pathway = self.ProcessedPathways[pathway_name]
+                pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
+
+                make_bar(pathway, pathway_type, pathway_name, pathway_label)
+
+                i_pathway += 1
+
+        # Add a bar for LSFO fossil for comparison
+
+        lsfo_pathway = ProcessedPathway("lsfo", "grey", "fossil")
+        make_bar(lsfo_pathway, "grey", "lsfo", "LSFO (fossil)")
+        plt.axvline(
+            lsfo_pathway.get_region_average_results(["CAC"], "vessel")["CAC"],
+            linewidth=3,
+            linestyle="--",
+            color="black",
+        )
+
+        # Add labels and title
+        ax.set_xlabel(f"Cost of Abated Carbon (USD/tonne)", fontsize=22, color=delta_wtw_sign_colors_labels["negative"]["color"])
+        ax.tick_params(axis='x', colors=delta_wtw_sign_colors_labels["negative"]["color"])
+        ax_top = ax.secondary_xaxis('top')
+        ax_top.set_xlabel("Savings from Added Carbon (USD / tonne CO2)", color=delta_wtw_sign_colors_labels["positive"]["color"], fontsize=22)
+        ax_top.tick_params(axis='x', colors=delta_wtw_sign_colors_labels["positive"]["color"])
+        #ax.set_title(f"Fuel: {self.fuel}", fontsize=24)
+        
+        # Create the first legend for positive and negative delta WTW sign colors
+        handles = [
+            plt.Line2D(
+                [0],
+                [0],
+                color=delta_wtw_sign_colors_labels["positive"]["color"],
+                lw=16,
+                label=delta_wtw_sign_colors_labels["positive"]["label"],
+                alpha=0.7,
+            ),
+            plt.Line2D(
+                [0],
+                [0],
+                color=delta_wtw_sign_colors_labels["negative"]["color"],
+                lw=16,
+                label=delta_wtw_sign_colors_labels["negative"]["label"],
+                alpha=0.7,
+            ),
+        ]
+        legend1 = ax.legend(
+            handles=handles,
+            fontsize=16,
+            bbox_to_anchor=(1.0, 1.1),
+            loc="upper left",
+            borderpad=0.8,
+        )
+        ax.add_artist(legend1)  # Add the first legend to the axes
+        
+        # Create a legend for positive and negative Delta WTW using black markers
+        handles = [
+            plt.Line2D(
+                [0],
+                [0],
+                color="black",
+                marker="D",  # Diamond marker for positive Delta WTW
+                markersize=10,
+                linestyle="None",
+                label=delta_wtw_sign_colors_labels["positive"]["label"],
+                alpha=0.7,
+            ),
+            plt.Line2D(
+                [0],
+                [0],
+                color="black",
+                marker="o",  # Circle marker for negative Delta WTW
+                markersize=10,
+                linestyle="None",
+                label=delta_wtw_sign_colors_labels["negative"]["label"],
+                alpha=0.7,
+            ),
+        ]
+
+        # Create the legend and add it to the axes
+        legend2 = ax.legend(
+            handles=handles,
+            fontsize=16,
+            bbox_to_anchor=(1.0, 0.9),
+            loc="upper left",
+            borderpad=0.8,
+        )
+        ax.add_artist(legend2)  # Add the first legend to the axes
+
+        # Create the second legend for countries
+        if scatter_handles:
+            ax.legend(
+                scatter_handles,
+                scatter_labels,
+                fontsize=16,
+                title="Countries",
+                title_fontsize=20,
+                bbox_to_anchor=(1.01, 0.3),
+                loc="center left",
+                borderaxespad=0.0,
+            )
+
+        plt.subplots_adjust(left=0.17, right=0.71)
+        # plt.tight_layout()
+
+        # Construct the filename to save to
+        filename_save = f"{self.fuel}-CAC-pathway_hist"
+
+        # Save the figure
+        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
+        filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
+        print(f"Saving figure to {filepath_save}")
+        plt.savefig(filepath_save, dpi=200)
+        plt.close()
+
     def make_all_stacked_hists(
         self,
         quantities=["TotalEquivalentWTW", "TotalCost"],
@@ -2304,8 +2538,9 @@ def main():
 
 
     processed_fuel = ProcessedFuel("ammonia")
- #   processed_fuel.make_all_cac_hists_by_region()
-    processed_fuel.map_all_cac_by_region()
+#   processed_fuel.make_all_cac_hists_by_region()
+#    processed_fuel.map_all_cac_by_region()
+    processed_fuel.make_cac_hist()
 #    # Loop through all fuels of interest
 #    for fuel in ["hydrogen", "ammonia", "lsfo"]:
 #        processed_fuel = ProcessedFuel(fuel)
