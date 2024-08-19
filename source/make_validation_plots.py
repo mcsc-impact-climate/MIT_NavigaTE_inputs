@@ -2536,25 +2536,26 @@ def main():
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_cac_by_region()
 
-
-    processed_fuel = ProcessedFuel("ammonia")
-#   processed_fuel.make_all_cac_hists_by_region()
+#    processed_fuel = ProcessedFuel("ammonia")
+#    processed_fuel.make_all_cac_hists_by_region()
 #    processed_fuel.map_all_cac_by_region()
-    processed_fuel.make_cac_hist()
-#    # Loop through all fuels of interest
-#    for fuel in ["hydrogen", "ammonia", "lsfo"]:
-#        processed_fuel = ProcessedFuel(fuel)
-#
-#        # Make validation plots for each fuel, pathway and quantity
-#        processed_fuel.make_all_hists_by_region()
-#        processed_fuel.make_all_cac_hists_by_region()
-#        processed_fuel.map_all_by_region()
-#        processed_fuel.make_all_stacked_hists()
-#
-#    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
-#        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
-#            structured_results = structure_results_fuels_types(quantity, modifier)
-#            plot_scatter_violin(structured_results, quantity, modifier)
+    
+   # Loop through all fuels of interest
+   for fuel in ["hydrogen", "ammonia", "lsfo"]:
+       processed_fuel = ProcessedFuel(fuel)
+
+       # Make validation plots for each fuel, pathway and quantity
+       processed_fuel.make_all_hists_by_region()
+       processed_fuel.make_all_cac_hists_by_region()
+       processed_fuel.make_cac_hist()
+       processed_fuel.map_all_by_region()
+       processed_fuel.map_all_cac_by_region()
+       processed_fuel.make_all_stacked_hists()
+
+   for quantity in ["TotalCost", "TotalEquivalentWTW"]:
+       for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+           structured_results = structure_results_fuels_types(quantity, modifier)
+           plot_scatter_violin(structured_results, quantity, modifier)
 
 
 main()
