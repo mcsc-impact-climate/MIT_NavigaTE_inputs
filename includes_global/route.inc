@@ -56,6 +56,11 @@ Route "globalized_container_15000_teu" {
     PortCalls=[40]
 }
 
+# Assign a route type
+# ROUND_TRIP --> this is an ordered list, specifies routing
+#       Also need to specify distances between ports
+#       Will stop simulating if you don't have sufficient range
+#
 Import Route "globalized_gas_carrier_100k_cbm"
 Route "globalized_gas_carrier_100k_cbm" {
     Ports=[Port("port")]
