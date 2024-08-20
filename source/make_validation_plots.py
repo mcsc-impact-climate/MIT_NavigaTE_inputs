@@ -2542,8 +2542,6 @@ def main():
 #    processed_pathway = ProcessedPathway("methanol", "electro_grid", "LTE_H_Bio_C_grid")
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_cac_by_region()
-
-
 #    processed_fuel = ProcessedFuel("methanol")
 #    processed_fuel.make_all_cac_hists_by_region()
 #    processed_fuel.map_all_cac_by_region()
@@ -2566,6 +2564,5 @@ def main():
         for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
-
 
 main()
