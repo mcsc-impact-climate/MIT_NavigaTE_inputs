@@ -48,7 +48,7 @@ def main():
 
             # Iterate over rows in the dataframe and create .inc files
             for index, row in df.iterrows():
-                inc_file_name = f"{output_dir}{row['Fuel']}-{row['Pathway Name']}.inc"
+                inc_file_name = f"{output_dir}{row['Fuel']}-{row['Pathway Name']}-{row['Region']}-{row['Number']}.inc"
                 file_content = create_inc_file_content(row)
 
                 # Write content to .inc file

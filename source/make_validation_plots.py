@@ -747,7 +747,7 @@ class ProcessedQuantity:
             )
 
         # Access the results dataframe for the quantity to use for coloring based on sign
-        fig, ax = plt.subplots(figsize=(16, 8))
+        fig, ax = plt.subplots(figsize=(16, 11))
 
         # Separate result_df into rows with vs. without '_' (where '_' indicates it's one of several individual estimates for a given region)
         result_df_region_av = self.result_df[~self.result_df.index.str.contains("_")]
@@ -1112,7 +1112,7 @@ class ProcessedQuantity:
             # Define colormaps for each sign
             def create_cmap_name(color):
                 return color.capitalize() + "s"
-            cmap_positive = plt.get_cmap(create_cmap_name(delta_wtw_sign_colors_labels["positive"]["color"]))
+            cmap_positive = plt.get_cmap(create_cmap_name(delta_wtw_sign_colors_labels["positive"]["color"])).reversed()
             cmap_negative = plt.get_cmap(create_cmap_name(delta_wtw_sign_colors_labels["negative"]["color"]))
 
             # Separate the data for positive and negative delta WTW emissions
@@ -1272,7 +1272,7 @@ class ProcessedQuantity:
             ha="left",
         )
 
-        plt.subplots_adjust(left=0.05, right=0.75)
+        plt.subplots_adjust(left=0.05, right=0.67)
         #plt.tight_layout()
 
         # Save the plot
@@ -1810,7 +1810,7 @@ class ProcessedFuel:
         num_pathways = len(self.pathways)
         fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
 
-        fig, ax = plt.subplots(figsize=(15, fig_height))
+        fig, ax = plt.subplots(figsize=(20, fig_height))
 
         # Create an empty dictionary to hold the cumulative values for stacking
         cumulative_values = {}
@@ -1888,12 +1888,12 @@ class ProcessedFuel:
                         scatter = ax.scatter(
                             all_region_results[region],
                             pathway_label,
-                            color=region_colors[region],
-                            s=100,
-                            marker="D",
-                            label=get_region_label(region)
-                            if region not in countries_labelled
-                            else "",
+                            color="black", #region_colors[region],
+                            s=50,
+                            marker="o",
+                            #label=get_region_label(region)
+                            #if region not in countries_labelled
+                            #else "",
                         )
 
                         # Add the region to the list of countries that have been labeled so it only appears in the legend once
@@ -1942,29 +1942,29 @@ class ProcessedFuel:
                 fontsize=16,
                 title="Components",
                 title_fontsize=20,
-                bbox_to_anchor=(1.01, 1.05),
+                bbox_to_anchor=(1.01, 0.8),
                 loc="upper left",
                 borderaxespad=0.0,
             )
 
         # Add a separate legend for countries
-        if scatter_handles:
-            ax.legend(
-                scatter_handles,
-                scatter_labels,
-                fontsize=16,
-                title="Countries",
-                title_fontsize=20,
-                bbox_to_anchor=(1.01, 0.35),
-                loc="center left",
-                borderaxespad=0.0,
-            )
+#        if scatter_handles:
+#            ax.legend(
+#                scatter_handles,
+#                scatter_labels,
+#                fontsize=16,
+#                title="Countries",
+#                title_fontsize=20,
+#                bbox_to_anchor=(1.01, 0.35),
+#                loc="center left",
+#                borderaxespad=0.0,
+#            )
 
         # Add the bar component legend back after the region legend if both legends are present
         if bar_handles and scatter_handles:
             ax.add_artist(legend1)
 
-        plt.subplots_adjust(left=0.2, right=0.75)
+        plt.subplots_adjust(left=0.25, right=0.8)
         # plt.tight_layout()
 
         # Construct the filename to save to
@@ -1991,9 +1991,10 @@ class ProcessedFuel:
         """
 
         num_pathways = len(self.pathways)
+        print(num_pathways)
         fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
 
-        fig, ax = plt.subplots(figsize=(15, fig_height))
+        fig, ax = plt.subplots(figsize=(18, fig_height))
 
         # Get all individual countries with processed data for the given fuel
         countries = self.get_all_countries()
@@ -2061,12 +2062,13 @@ class ProcessedFuel:
                     scatter = ax.scatter(
                         all_region_results[region],
                         pathway_label,
-                        color=region_colors[region],
-                        s=100,
+                        #color=region_colors[region],
+                        color="black",
+                        s=50,
                         marker="D" if all_region_results_deltawtw[region] >= 0 else "o",
-                        label=get_region_label(region)
-                        if region not in countries_labelled
-                        else "",
+                        #label=get_region_label(region)
+                        #if region not in countries_labelled
+                        #else "",
                     )
 
                     # Add the region to the list of countries that have been labeled so it only appears in the legend once
@@ -2077,10 +2079,11 @@ class ProcessedFuel:
                                 plt.Line2D(
                                     [0],
                                     [0],
-                                    color=region_colors[region],
+                                    #color=region_colors[region],
+                                    color="black",
                                     marker="s",  # Square marker for the legend
                                     linestyle="None",
-                                    markersize=10,
+                                    markersize=5,
                                 )
                             )
                         countries_labelled.append(region)
@@ -2145,7 +2148,7 @@ class ProcessedFuel:
         legend1 = ax.legend(
             handles=handles,
             fontsize=16,
-            bbox_to_anchor=(1.0, 1.1),
+            bbox_to_anchor=(1.0, 0.9),
             loc="upper left",
             borderpad=0.8,
         )
@@ -2179,26 +2182,27 @@ class ProcessedFuel:
         legend2 = ax.legend(
             handles=handles,
             fontsize=16,
-            bbox_to_anchor=(1.0, 0.9),
+            bbox_to_anchor=(1.0, 0.7),
             loc="upper left",
             borderpad=0.8,
         )
         ax.add_artist(legend2)  # Add the first legend to the axes
 
-        # Create the second legend for countries
-        if scatter_handles:
-            ax.legend(
-                scatter_handles,
-                scatter_labels,
-                fontsize=16,
-                title="Countries",
-                title_fontsize=20,
-                bbox_to_anchor=(1.01, 0.3),
-                loc="center left",
-                borderaxespad=0.0,
-            )
+#        # Create the second legend for countries
+#        if scatter_handles:
+#            ax.legend(
+#                scatter_handles,
+#                scatter_labels,
+#                fontsize=16,
+#                title="Countries",
+#                title_fontsize=20,
+#                bbox_to_anchor=(1.01, 0.3),
+#                loc="center left",
+#                borderaxespad=0.0,
+#                ncol=2,
+#            )
 
-        plt.subplots_adjust(left=0.17, right=0.71)
+        plt.subplots_adjust(left=0.3, right=0.73)
         # plt.tight_layout()
 
         # Construct the filename to save to
@@ -2377,7 +2381,7 @@ class ProcessedFuel:
 
 
 def structure_results_fuels_types(
-    quantity, modifier, fuels=["ammonia", "hydrogen", "lsfo"]
+    quantity, modifier, fuels=["methanol", "ammonia", "hydrogen", "lsfo"]
 ):
     """
     Structures results from all pathways for the given fuels into pathway colors.
@@ -2529,28 +2533,31 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
 
 
 def main():
-#    processed_quantity = ProcessedQuantity("CAC", "vessel", "ammonia", "electro_grid", "HTE_grid")
-#    processed_quantity.map_cac_by_region(color_by_delta_wtw_sign=True)
+#    processed_quantity = ProcessedQuantity("CAC", "vessel", "methanol", "electro_grid", "LTE_H_Bio_C_grid")
+#    processed_quantity.map_by_region(color_by_delta_wtw_sign=True)
+#    processed_quantity.make_hist_by_region(color_by_delta_wtw_sign=True)
 
-#    processed_pathway = ProcessedPathway("ammonia", "electro_grid", "HTE_grid")
+#    processed_pathway = ProcessedPathway("methanol", "electro_grid", "LTE_H_Bio_C_grid")
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_cac_by_region()
 
 
-    processed_fuel = ProcessedFuel("ammonia")
-#   processed_fuel.make_all_cac_hists_by_region()
+#    processed_fuel = ProcessedFuel("methanol")
+#    processed_fuel.make_all_cac_hists_by_region()
 #    processed_fuel.map_all_cac_by_region()
-    processed_fuel.make_cac_hist()
-#    # Loop through all fuels of interest
-#    for fuel in ["hydrogen", "ammonia", "lsfo"]:
-#        processed_fuel = ProcessedFuel(fuel)
-#
-#        # Make validation plots for each fuel, pathway and quantity
+#    processed_fuel.make_cac_hist()
+#    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+    # Loop through all fuels of interest
+    for fuel in ["methanol", "hydrogen", "ammonia", "lsfo"]:
+        processed_fuel = ProcessedFuel(fuel)
+
+        # Make validation plots for each fuel, pathway and quantity
 #        processed_fuel.make_all_hists_by_region()
 #        processed_fuel.make_all_cac_hists_by_region()
 #        processed_fuel.map_all_by_region()
-#        processed_fuel.make_all_stacked_hists()
-#
+        processed_fuel.make_all_stacked_hists()
+        processed_fuel.make_cac_hist()
+
 #    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
 #        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
 #            structured_results = structure_results_fuels_types(quantity, modifier)
