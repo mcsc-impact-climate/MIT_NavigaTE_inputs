@@ -1814,6 +1814,7 @@ class ProcessedFuel:
 
         # Create an empty dictionary to hold the cumulative values for stacking
         cumulative_values = {}
+        cumulative_values_negative = {}
 
         blues = generate_blue_shades(len(sub_quantities))
 
@@ -1826,7 +1827,9 @@ class ProcessedFuel:
         scatter_labels = []  # To collect scatter plot legend labels
         bar_handles = []  # To collect bar plot legend handles
         bar_labels = []  # To collect bar plot legend labels
-
+        
+        # Add a vertical line at 0
+        ax.axvline(0, color="black")
         def make_bar(pathway, pathway_type, pathway_name, pathway_label):
             """
             Plots a single bar for a given pathway
@@ -1849,9 +1852,10 @@ class ProcessedFuel:
             -------
             None
             """
-            # Initialize cumulative value for this pathway
+            # Initialize cumulative positive and negative values for this pathway
             if pathway_name not in cumulative_values:
                 cumulative_values[pathway_name] = 0
+                cumulative_values_negative[pathway_name] = 0
 
             # Collect the region average results
             region_average_results = pathway.get_region_average_results(
@@ -1866,14 +1870,25 @@ class ProcessedFuel:
             # Get the values for each sub_quantity and stack them
             for i, sub_quantity in enumerate(sub_quantities):
                 value = region_average_results.get(sub_quantity, 0)
-                bar = ax.barh(
-                    pathway_label,
-                    value,
-                    left=cumulative_values[pathway_name],
-                    label=get_quantity_label(sub_quantity) if i_pathway == 0 else "",
-                    color=blues[i],
-                )
-                cumulative_values[pathway_name] += value
+                
+                if value >= 0:
+                    bar = ax.barh(
+                        pathway_label,
+                        value,
+                        left=cumulative_values[pathway_name],
+                        label=get_quantity_label(sub_quantity) if i_pathway == 0 else "",
+                        color=blues[i],
+                    )
+                    cumulative_values[pathway_name] += value
+                else:
+                    bar = ax.barh(
+                        pathway_label,
+                        value,
+                        left=cumulative_values_negative[pathway_name],
+                        label=get_quantity_label(sub_quantity) if i_pathway == 0 else "",
+                        color=blues[i],
+                    )
+                    cumulative_values_negative[pathway_name] += value
 
                 # Add the bar handles and labels only once
                 if i_pathway == 0:
@@ -1888,25 +1903,38 @@ class ProcessedFuel:
                         scatter = ax.scatter(
                             all_region_results[region],
                             pathway_label,
-                            color="black", #region_colors[region],
+                            color="black",  # region_colors[region],
                             s=50,
                             marker="o",
-                            #label=get_region_label(region)
-                            #if region not in countries_labelled
-                            #else "",
+                            zorder=100,
+                            # label=get_region_label(region)
+                            # if region not in countries_labelled
+                            # else "",
                         )
+                            
+            if i_pathway == 0:
+                scatter_handles.append(scatter)
+                scatter_labels.append("Individual Countries")
 
-                        # Add the region to the list of countries that have been labeled so it only appears in the legend once
-                        if region not in countries_labelled:
-                            countries_labelled.append(region)
-                            scatter_handles.append(scatter)
-                            scatter_labels.append(get_region_label(region))
+            # If there are negative values, draw a yellow vertical bar at the cumulative sum position
+            if cumulative_values_negative[pathway_name]:
+                bar_width = cumulative_values[pathway_name] + cumulative_values_negative[pathway_name]  # Get the total width of the bar
+                bar_height = bar[0].get_height()  # Get the height of the horizontal bar
+                y_center = bar[0].get_y() + bar_height / 2  # Calculate the center of the bar
 
+                ax.plot(
+                    [bar_width, bar_width],  # x coordinates (vertical line)
+                    [y_center - bar_height * 0.4, y_center + bar_height * 0.4],  # y coordinates
+                    color='yellow',
+                    linewidth=5,
+                    label="Sum" if i_pathway==0 else ""
+                )
             # Set the y-axis label color to match the pathway type
             y_labels = ax.get_yticklabels()
             if i_pathway < len(y_labels):
                 y_labels[i_pathway].set_color(pathway_type_colors[pathway_type])
                 y_labels[i_pathway].set_fontweight("bold")
+                
 
         # Loop through each color and pathway
         i_pathway = 0
@@ -1920,7 +1948,6 @@ class ProcessedFuel:
                 i_pathway += 1
 
         # Add a bar for LSFO fossil for comparison
-
         lsfo_pathway = ProcessedPathway("lsfo", "grey", "fossil")
         make_bar(lsfo_pathway, "grey", "lsfo", "LSFO (fossil)")
         plt.axvline(
@@ -1948,17 +1975,15 @@ class ProcessedFuel:
             )
 
         # Add a separate legend for countries
-#        if scatter_handles:
-#            ax.legend(
-#                scatter_handles,
-#                scatter_labels,
-#                fontsize=16,
-#                title="Countries",
-#                title_fontsize=20,
-#                bbox_to_anchor=(1.01, 0.35),
-#                loc="center left",
-#                borderaxespad=0.0,
-#            )
+        if scatter_handles:
+            ax.legend(
+                scatter_handles,
+                scatter_labels,
+                fontsize=16,
+                bbox_to_anchor=(1.01, 0.35),
+                loc="center left",
+                borderaxespad=0.0,
+            )
 
         # Add the bar component legend back after the region legend if both legends are present
         if bar_handles and scatter_handles:
@@ -2071,24 +2096,28 @@ class ProcessedFuel:
                         #else "",
                     )
 
-                    # Add the region to the list of countries that have been labeled so it only appears in the legend once
-                    if region not in countries_labelled:
-                        # Add to custom legend only if not already labelled
-                        if region not in countries_labelled:
-                            scatter_handles.append(
-                                plt.Line2D(
-                                    [0],
-                                    [0],
-                                    #color=region_colors[region],
-                                    color="black",
-                                    marker="s",  # Square marker for the legend
-                                    linestyle="None",
-                                    markersize=5,
-                                )
-                            )
-                        countries_labelled.append(region)
+#                    # Add the region to the list of countries that have been labeled so it only appears in the legend once
+#                    if region not in countries_labelled:
+#                        # Add to custom legend only if not already labelled
+#                        if region not in countries_labelled:
+#                            scatter_handles.append(
+#                                plt.Line2D(
+#                                    [0],
+#                                    [0],
+#                                    #color=region_colors[region],
+#                                    color="black",
+#                                    marker="s",  # Square marker for the legend
+#                                    linestyle="None",
+#                                    markersize=5,
+#                                )
+#                            )
+#                        countries_labelled.append(region)
                         #scatter_handles.append(scatter)
-                        scatter_labels.append(get_region_label(region))
+                        #scatter_labels.append(get_region_label(region))
+                        
+            if i_pathway == 0:
+                scatter_handles.append(scatter)
+                scatter_labels.append("Individual Countries")
 
             # Set the y-axis label color to match the pathway type
             y_labels = ax.get_yticklabels()
@@ -2151,6 +2180,8 @@ class ProcessedFuel:
             bbox_to_anchor=(1.0, 0.9),
             loc="upper left",
             borderpad=0.8,
+            title="Country Averages",
+            title_fontsize = 20,
         )
         ax.add_artist(legend1)  # Add the first legend to the axes
         
@@ -2182,9 +2213,11 @@ class ProcessedFuel:
         legend2 = ax.legend(
             handles=handles,
             fontsize=16,
-            bbox_to_anchor=(1.0, 0.7),
+            bbox_to_anchor=(1.0, 0.5),
             loc="upper left",
             borderpad=0.8,
+            title="Individual Countries",
+            title_fontsize = 20,
         )
         ax.add_artist(legend2)  # Add the first legend to the axes
 
@@ -2542,27 +2575,29 @@ def main():
 #    processed_pathway = ProcessedPathway("methanol", "electro_grid", "LTE_H_Bio_C_grid")
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_cac_by_region()
-#    processed_fuel = ProcessedFuel("methanol")
+    processed_fuel = ProcessedFuel("methanol")
 #    processed_fuel.make_all_cac_hists_by_region()
 #    processed_fuel.map_all_cac_by_region()
-#    processed_fuel.make_cac_hist()
-#    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+    processed_fuel.make_cac_hist()
+    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 # -----------------------------------------------------------------------------#
 
-    # Loop through all fuels of interest
-    for fuel in ["methanol", "hydrogen", "ammonia", "lsfo"]:
-        processed_fuel = ProcessedFuel(fuel)
-
-        # Make validation plots for each fuel, pathway and quantity
-        processed_fuel.make_all_hists_by_region()
-        processed_fuel.make_all_cac_hists_by_region()
-        processed_fuel.map_all_by_region()
-        processed_fuel.make_all_stacked_hists()
-        processed_fuel.make_cac_hist()
-
-    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
-        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
-            structured_results = structure_results_fuels_types(quantity, modifier)
-            plot_scatter_violin(structured_results, quantity, modifier)
+#    # Loop through all fuels of interest
+#    for fuel in ["methanol"]:#, "hydrogen", "ammonia", "lsfo"]:
+#        processed_fuel = ProcessedFuel(fuel)
+#
+#        # Make validation plots for each fuel, pathway and quantity
+#        processed_fuel.make_all_hists_by_region()
+#        processed_fuel.make_all_cac_hists_by_region()
+#        processed_fuel.map_all_by_region()
+#        processed_fuel.map_all_cac_by_region()
+#        processed_fuel.make_all_stacked_hists()
+#        processed_fuel.make_cac_hist()
+#
+#    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
+#        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+#            structured_results = structure_results_fuels_types(quantity, modifier)
+#            plot_scatter_violin(structured_results, quantity, modifier)
 
 main()
