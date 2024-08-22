@@ -1,6 +1,4 @@
 # DMM: Need to use a single port for the moment since we don't have emissions info for all ports.
-# DMM: See eg. NavigaTE/navigate/defaults/installation for an example of how things can be defined with multiple ports.
-# DMM: Will also need to update the emissions and fuel cost overwrites in the Port definitions in eg. cost_emissions_hydrogen_grey.inc.
 
 Import Route "globalized_bulk_carrier_panamax"
 Route "globalized_bulk_carrier_panamax" {

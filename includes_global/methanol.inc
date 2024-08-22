@@ -1,7 +1,7 @@
-Fuel "methanol_grey" {
+Fuel "methanol" {
     FuelType = METHANOL
-    FuelPath = GREY
-    FuelOrigin = FOSSIL
+    FuelPath = USER_DEFINED
+    FuelOrigin = USER_DEFINED
     
     LowerHeatingValue = Variable("lower_heating_value_methanol")
     MassDensity = Variable("mass_density_methanol")
