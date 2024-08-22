@@ -10,16 +10,15 @@ from common_tools import get_top_dir
 
 # Function to create .inc file content
 def create_inc_file_content(row):
-    pathway_type = row["Pathway Name"].split("-")[0]
-    content = f"""# Definition of cost and emissions for {row['Fuel']} from {row['Region']} using {row['Pathway Description']}
+    content = f"""# Definition of cost and emissions for {row['Fuel']} from {row['Region']} for pathway {row['Pathway Name']}
 
 Port "port" {{
     
 # Emissions
-set_bunker_WTT_overwrite("{row['Fuel']}_{pathway_type}", "carbon_dioxide", {row['Emissions [kg CO2e / kg fuel]']})
+set_bunker_WTT_overwrite("{row['Fuel']}", "carbon_dioxide", {row['Emissions [kg CO2e / kg fuel]']})
 
 # Costs
-set_bunker_price_overwrite("{row['Fuel']}_{pathway_type}", {row['Cost [$/tonne]']})
+set_bunker_price_overwrite("{row['Fuel']}", {row['LCOF [$/tonne]']})
 
 }}
 """
@@ -28,7 +27,7 @@ set_bunker_price_overwrite("{row['Fuel']}_{pathway_type}", {row['Cost [$/tonne]'
 
 def main():
     top_dir = get_top_dir()
-    input_dir = f"{top_dir}/input_fuel_pathway_data/"
+    input_dir = f"{top_dir}/input_fuel_pathway_data/production"
     output_dir = f"{top_dir}/includes_global/all_costs_emissions/"
 
     # Ensure output directory exists
@@ -42,7 +41,7 @@ def main():
 
     # Loop through all CSV files in the input directory
     for file_name in os.listdir(input_dir):
-        if file_name.endswith(".csv"):
+        if file_name.endswith("costs_emissions.csv"):
             csv_file = os.path.join(input_dir, file_name)
             df = pd.read_csv(csv_file)
 
