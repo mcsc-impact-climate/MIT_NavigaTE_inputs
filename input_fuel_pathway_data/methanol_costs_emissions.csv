@@ -1,229 +1,235 @@
-Fuel,Pathway Name,Pathway Description,Region,Number,Year,Cost [$/tonne],Emissions [kg CO2e / kg fuel],Details,Model(s) or publications,Results Produced by,Comment
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,USA,1,2024,1968.55203,2.68483335,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378938,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Brazil,1,2024,1702.99645,-0.2957472,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378939,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Canada,1,2024,1676.79879,0.49614136,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378940,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Mexico,1,2024,2516.55506,4.20261975,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378941,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Australia,1,2024,2448.01747,4.66455474,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378942,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,India,1,2024,1733.62307,6.46830089,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378943,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Indonesia,1,2024,1085.73276,6.46830089,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378944,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Philippines,1,2024,2003.34343,5.34645877,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378945,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Singapore,1,2024,3942.59034,3.80667547,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378946,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Thailand,1,2024,1597.37353,4.67555319,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378947,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,China,1,2024,1372.43627,5.02750366,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378948,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Japan,1,2024,2524.37513,3.9606538,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378949,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Russia,1,2024,1384.60429,3.4767219,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378950,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,South Korea,1,2024,1732.63287,3.36673738,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378951,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Taipei,1,2024,635.780574,-0.9886497,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378952,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,South Africa,1,2024,1404.2485,6.41330863,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378954,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Turkey,1,2024,1785.78597,3.74068475,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378955,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Belgium,1,2024,2202.72202,0.14419089,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378956,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,France,1,2024,2577.92627,-0.7576822,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378957,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Germany,1,2024,3472.28765,2.81681477,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378958,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Italy,1,2024,5646.56045,2.26689216,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378959,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Netherlands,1,2024,3158.05447,1.57398968,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378960,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Spain,1,2024,2015.3206,0.54013517,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378961,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,United Kingdom,1,2024,1799.98418,1.24403611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378962,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Czech Republic,1,2024,2113.71117,4.49957795,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378963,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Finland,1,2024,1916.92395,-0.5047178,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378964,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Hungary,1,2024,2155.28164,0.87008874,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378965,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Norway,1,2024,1917.10724,-1.0436419,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378966,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Poland,1,2024,6493.02784,5.90737983,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378967,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Sweden,1,2024,1407.89654,-0.922659,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378968,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Oman,1,2024,2869.59086,4.84052997,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378969,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,United Arab Emirates,1,2024,1638.15721,3.74068475,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378970,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Malaysia,1,2024,1823.14211,-0.218758,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378971,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Saudi Arabia,1,2024,1169.62028,3.4767219,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378972,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Greece,1,2024,2990.00329,2.33288288,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378973,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Austria,1,2024,3870.09104,-0.1527673,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378974,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Switzerland,1,2024,3467.30001,-0.9886497,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378975,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_grid,H from LTE and C from biogenic CO2,Portugal,1,2024,2080.68682,0.45214756,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378976,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,USA,1,2024,855.258313,0.86822997,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378938,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Brazil,1,2024,1454.17492,0.60233228,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378939,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Canada,1,2024,630.200419,0.67297669,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378940,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Mexico,1,2024,655.393944,1.00363175,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378941,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Australia,1,2024,849.951072,1.04484099,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378942,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,India,1,2024,1033.41195,1.20575324,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378943,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Indonesia,1,2024,976.527781,1.20575324,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378944,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Philippines,1,2024,1876.82115,1.10567367,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378945,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Singapore,1,2024,2417.77586,0.96830955,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378946,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Thailand,1,2024,536.822697,1.04582216,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378947,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,China,1,2024,888.950491,1.07721967,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378948,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Japan,1,2024,1325.39081,0.98204596,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378949,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Russia,1,2024,357.792282,0.93887438,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378950,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,South Korea,1,2024,1097.73749,0.92906266,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378951,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Taipei,1,2024,2223.98957,0.54051843,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378952,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,South Africa,1,2024,2375.26602,1.20084738,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378954,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Turkey,1,2024,720.957408,0.96242251,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378955,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Belgium,1,2024,1338.87034,0.64157918,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378956,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,France,1,2024,1637.70838,0.56112305,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378957,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Germany,1,2024,1740.56401,0.88000404,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378958,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Italy,1,2024,2228.98205,0.83094543,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378959,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Netherlands,1,2024,2107.6141,0.76913157,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378960,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Spain,1,2024,1307.1208,0.67690138,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378961,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,United Kingdom,1,2024,1374.93734,0.7396964,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378962,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Czech Republic,1,2024,1297.15701,1.0301234,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378963,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Finland,1,2024,1795.62111,0.58369001,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378964,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Hungary,1,2024,1977.95607,0.70633655,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378965,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Norway,1,2024,2053.23218,0.53561257,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378966,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Poland,1,2024,1600.3158,1.15571346,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378967,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Sweden,1,2024,1342.79193,0.54640546,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378968,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Oman,1,2024,2025.65955,1.06053974,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378969,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,United Arab Emirates,1,2024,899.243011,0.96242251,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378970,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Malaysia,1,2024,666.768175,0.60920049,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378971,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Saudi Arabia,1,2024,407.107268,0.93887438,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378972,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Greece,1,2024,1636.46329,0.83683246,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378973,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Austria,1,2024,2035.74751,0.61508752,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378974,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Switzerland,1,2024,2528.21212,0.54051843,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378975,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_grid,H and C from SMR,Portugal,1,2024,1694.73816,0.669052,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378976,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO2,USA,1,2024,1021.46702,-0.5053655,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378977,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO3,Brazil,1,2024,1620.38363,-0.7712632,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378978,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO4,Canada,1,2024,796.409131,-0.7006188,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378979,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO5,Mexico,1,2024,821.602656,-0.3699638,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378980,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO6,Australia,1,2024,1016.15978,-0.3287545,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378981,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO7,India,1,2024,1199.62066,-0.1678423,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378982,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO8,Indonesia,1,2024,1142.73649,-0.1678423,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378983,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO9,Philippines,1,2024,2043.02987,-0.2679218,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378984,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO10,Singapore,1,2024,2583.98457,-0.405286,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378985,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO11,Thailand,1,2024,703.031408,-0.3277733,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378986,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO12,China,1,2024,1055.1592,-0.2963758,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378987,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO13,Japan,1,2024,1491.59952,-0.3915495,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378988,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO14,Russia,1,2024,524.000994,-0.4347211,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378989,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO15,South Korea,1,2024,1263.9462,-0.4445328,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378990,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO16,Taipei,1,2024,2390.19829,-0.8330771,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378991,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO18,South Africa,1,2024,2541.47473,-0.1727481,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378993,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO19,Turkey,1,2024,887.16612,-0.411173,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378994,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO20,Belgium,1,2024,1505.07905,-0.7320163,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378995,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO21,France,1,2024,1803.91709,-0.8124725,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378996,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO22,Germany,1,2024,1906.77272,-0.4935915,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378997,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO23,Italy,1,2024,2395.19076,-0.5426501,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378998,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO24,Netherlands,1,2024,2273.82282,-0.6044639,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378999,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO25,Spain,1,2024,1473.32952,-0.6966941,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379000,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO26,United Kingdom,1,2024,1541.14605,-0.6338991,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379001,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO27,Czech Republic,1,2024,1463.36572,-0.3434721,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379002,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO28,Finland,1,2024,1961.82982,-0.7899055,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379003,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO29,Hungary,1,2024,2144.16479,-0.667259,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379004,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO30,Norway,1,2024,2219.44089,-0.8379829,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379005,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO31,Poland,1,2024,1766.52451,-0.2178821,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379006,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO32,Sweden,1,2024,1509.00064,-0.82719,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379007,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO33,Oman,1,2024,2191.86826,-0.3130558,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379008,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO34,United Arab Emirates,1,2024,1065.45172,-0.411173,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379009,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO35,Malaysia,1,2024,832.976887,-0.764395,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379010,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO36,Saudi Arabia,1,2024,573.31598,-0.4347211,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379011,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO37,Greece,1,2024,1802.672,-0.536763,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379012,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO38,Austria,1,2024,2201.95622,-0.758508,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379013,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO39,Switzerland,1,2024,2694.42083,-0.8330771,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379014,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_grid,H from SMR and C from biogenic CO40,Portugal,1,2024,1860.94687,-0.7045435,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379015,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,USA,1,2024,901.702165,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379016,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Brazil,1,2024,856.115631,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379017,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Canada,1,2024,862.913332,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379018,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Mexico,1,2024,800.796525,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379019,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Australia,1,2024,897.235709,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379020,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,India,1,2024,765.759275,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379021,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Indonesia,1,2024,766.77765,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379022,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Philippines,1,2024,771.516785,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379023,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Singapore,1,2024,841.02683,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379024,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Thailand,1,2024,772.48962,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379025,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,China,1,2024,833.51211,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379026,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Japan,1,2024,896.604205,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379027,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Russia,1,2024,779.689423,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379028,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,South Korea,1,2024,907.748957,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379029,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Taipei,1,2024,899.743426,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379030,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,South Africa,1,2024,909.318157,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379032,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Turkey,1,2024,784.926819,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379033,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Belgium,1,2024,948.898469,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379034,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,France,1,2024,906.161537,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379035,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Germany,1,2024,920.646745,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379036,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Italy,1,2024,873.232208,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379037,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Netherlands,1,2024,925.368681,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379038,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Spain,1,2024,849.484667,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379039,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,United Kingdom,1,2024,887.112651,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379040,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Czech Republic,1,2024,837.89072,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379041,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Finland,1,2024,938.061709,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379042,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Hungary,1,2024,835.467384,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379043,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Norway,1,2024,993.23726,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379044,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Poland,1,2024,839.823419,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379045,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Sweden,1,2024,956.959999,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379046,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Oman,1,2024,856.874111,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379047,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,United Arab Emirates,1,2024,868.26556,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379048,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Malaysia,1,2024,822.282964,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379049,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Saudi Arabia,1,2024,861.663622,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379050,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Greece,1,2024,845.305119,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379051,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Austria,1,2024,911.50741,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379052,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Switzerland,1,2024,959.652916,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379053,H2A,Christopher Douglas,None
-methanol,electro-LTE_H_Bio_C_renew,H from LTE and C from biogenic CO2,Portugal,1,2024,837.861725,-1.263611,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379054,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,USA,1,2024,760.0846,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379016,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Brazil,1,2024,1378.62465,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379017,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Canada,1,2024,557.59367,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379018,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Mexico,1,2024,502.331066,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379019,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Australia,1,2024,711.605779,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379020,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,India,1,2024,947.068784,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379021,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Indonesia,1,2024,948.073784,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379022,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Philippines,1,2024,1766.92986,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379023,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Singapore,1,2024,2141.08527,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379024,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Thailand,1,2024,463.234775,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379025,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,China,1,2024,840.873049,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379026,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Japan,1,2024,1180.17731,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379027,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Russia,1,2024,303.827806,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379028,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,South Korea,1,2024,1024.14956,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379029,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Taipei,1,2024,2247.53771,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379030,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,South Africa,1,2024,2331.11327,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379032,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Turkey,1,2024,631.67073,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379033,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Belgium,1,2024,1227.0167,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379034,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,France,1,2024,1488.57019,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379035,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Germany,1,2024,1512.93204,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379036,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Italy,1,2024,1803.15327,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379037,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Netherlands,1,2024,1908.43613,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379038,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Spain,1,2024,1203.11654,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379039,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,United Kingdom,1,2024,1293.50004,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379040,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Czech Republic,1,2024,1183.34102,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379041,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Finland,1,2024,1708.29678,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379042,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Hungary,1,2024,1860.2154,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379043,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Norway,1,2024,1970.8137,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379044,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Poland,1,2024,1095.99324,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379045,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Sweden,1,2024,1302.56386,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379046,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Oman,1,2024,1846.10502,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379047,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,United Arab Emirates,1,2024,830.56095,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379048,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Malaysia,1,2024,577.481496,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379049,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Saudi Arabia,1,2024,379.634444,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379050,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Greece,1,2024,1445.13469,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379051,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Austria,1,2024,1771.81216,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379052,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Switzerland,1,2024,2304.50484,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379053,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_C_renew,H and C from SMR,Portugal,1,2024,1583.86569,0.51598912,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379054,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO2,USA,1,2024,926.293312,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379016,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO3,Brazil,1,2024,1544.83336,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379017,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO4,Canada,1,2024,723.802382,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379018,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO5,Mexico,1,2024,668.539778,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379019,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO6,Australia,1,2024,877.814491,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379020,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO7,India,1,2024,1113.2775,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379021,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO8,Indonesia,1,2024,1114.2825,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379022,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO9,Philippines,1,2024,1933.13857,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379023,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO10,Singapore,1,2024,2307.29398,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379024,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO11,Thailand,1,2024,629.443487,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379025,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO12,China,1,2024,1007.08176,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379026,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO13,Japan,1,2024,1346.38602,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379027,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO14,Russia,1,2024,470.036518,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379028,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO15,South Korea,1,2024,1190.35828,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379029,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO16,Taipei,1,2024,2413.74642,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379030,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO18,South Africa,1,2024,2497.32198,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379032,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO19,Turkey,1,2024,797.879442,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379033,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO20,Belgium,1,2024,1393.22541,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379034,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO21,France,1,2024,1654.7789,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379035,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO22,Germany,1,2024,1679.14075,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379036,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO23,Italy,1,2024,1969.36199,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379037,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO24,Netherlands,1,2024,2074.64484,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379038,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO25,Spain,1,2024,1369.32525,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379039,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO26,United Kingdom,1,2024,1459.70875,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379040,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO27,Czech Republic,1,2024,1349.54973,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379041,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO28,Finland,1,2024,1874.50549,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379042,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO29,Hungary,1,2024,2026.42411,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379043,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO30,Norway,1,2024,2137.02242,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379044,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO31,Poland,1,2024,1262.20196,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379045,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO32,Sweden,1,2024,1468.77258,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379046,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO33,Oman,1,2024,2012.31373,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379047,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO34,United Arab Emirates,1,2024,996.769662,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379048,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO35,Malaysia,1,2024,743.690208,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379049,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO36,Saudi Arabia,1,2024,545.843156,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379050,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO37,Greece,1,2024,1611.3434,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379051,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO38,Austria,1,2024,1938.02087,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379052,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO39,Switzerland,1,2024,2470.71355,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379053,H2A,Christopher Douglas,None
-methanol,blue-SMR_CCS_H_Bio_C_renew,H from SMR and C from biogenic CO40,Portugal,1,2024,1750.0744,-0.8576064,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379054,H2A,Christopher Douglas,None
+Fuel,Pathway Name,Pathway Description,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Details,Model(s) or publications,Results Produced by,Comment
+methanol,LTE_grid,,United States,1,2024,218.21770695953,1650.6102348030336,1868.8279417625636,2.7180781684410125,,,,Liquid methanol at STP
+methanol,LTE_grid,,Brazil,1,2024,222.58206109872057,1380.6901369825978,1603.2721980813183,-0.26250463233136223,,,,Liquid methanol at STP
+methanol,LTE_grid,,Canada,1,2024,194.2137591939817,1382.8607580842188,1577.0745172782006,0.5293845250694162,,,,Liquid methanol at STP
+methanol,LTE_grid,,Mexico,1,2024,176.7563426372193,2240.0751304572477,2416.831473094467,4.2358657201258385,,,,Liquid methanol at STP
+methanol,LTE_grid,,Australia,1,2024,213.63513511337987,2134.658613330121,2348.293748443501,4.697801061942959,,,,Liquid methanol at STP
+methanol,LTE_grid,,India,1,2024,138.35002621234202,1495.5488814373716,1633.8989076497137,6.501548587133621,,,,Liquid methanol at STP
+methanol,LTE_grid,,Indonesia,1,2024,139.00467933322062,847.0034326204158,986.0081119536364,6.501548587133621,,,,Liquid methanol at STP
+methanol,LTE_grid,,Philippines,1,2024,151.66130633687337,1751.958163273987,1903.6194696108605,5.379705614149185,,,,Liquid methanol at STP
+methanol,LTE_grid,,Singapore,1,2024,180.4660436555313,3662.4017598267847,3842.867803482316,3.8399211414254486,,,,Liquid methanol at STP
+methanol,LTE_grid,,Thailand,1,2024,142.27794493761357,1355.371321138982,1497.6492660765955,4.708799522462415,,,,Liquid methanol at STP
+methanol,LTE_grid,,China,1,2024,171.95555308410965,1100.7562294098773,1272.711782493987,5.060750259084982,,,,Liquid methanol at STP
+methanol,LTE_grid,,Japan,1,2024,234.58403498149474,2190.0674330500888,2424.6514680315836,3.993899588697822,,,,Liquid methanol at STP
+methanol,LTE_grid,,Russia,1,2024,155.37100735518533,1129.5088505979031,1284.8798579530885,3.5099673258417914,,,,Liquid methanol at STP
+methanol,LTE_grid,,South Korea,1,2024,250.95036300345953,1381.9582392718187,1632.908602275278,3.3999827206472384,,,,Liquid methanol at STP
+methanol,LTE_grid,,Taipei,1,2024,184.61218008776237,351.44330022480995,536.0554803125723,-0.9554076450570437,,,,Liquid methanol at STP
+methanol,LTE_grid,,South Arabia,1,2024,231.74720479102086,1036.6923021187117,1268.4395069097327,6.446556284536344,,,,Liquid methanol at STP
+methanol,LTE_grid,,South Africa,1,2024,265.78916707670754,1038.734819855853,1304.5239869325605,6.446556284536344,,,,Liquid methanol at STP
+methanol,LTE_grid,,Turkey,1,2024,158.8624906665378,1527.1993426092058,1686.0618332757435,3.7739303783087177,,,,Liquid methanol at STP
+methanol,LTE_grid,,Belgium,1,2024,250.07749217562136,1852.9205822737022,2102.9980744493237,0.1774337884468482,,,,Liquid methanol at STP
+methanol,LTE_grid,,France,1,2024,224.32780275439686,2253.8748391375175,2478.2026418919145,-0.7244399741484833,,,,Liquid methanol at STP
+methanol,LTE_grid,,Germany,1,2024,227.38285065183027,3145.1818410411183,3372.5646916929486,2.850059694674476,,,,Liquid methanol at STP
+methanol,LTE_grid,,Italy,1,2024,202.9424674723629,5343.896712064256,5546.839179536619,2.300136668701713,,,,Liquid methanol at STP
+methanol,LTE_grid,,Netherlands,1,2024,246.14957345034983,2812.1816994234723,3058.331272873822,1.6072336559760316,,,,Liquid methanol at STP
+methanol,LTE_grid,,Spain,1,2024,190.94049358958875,1724.6560947653036,1915.5965883548924,0.573378367147237,,,,Liquid methanol at STP
+methanol,LTE_grid,,United Kingdom,1,2024,221.7091902708825,1478.5507902620448,1700.2599805329273,1.2772798403923735,,,,Liquid methanol at STP
+methanol,LTE_grid,,Czech Republic,1,2024,195.52306543573889,1818.464181628653,2013.9872470643918,4.532824154151131,,,,Liquid methanol at STP
+methanol,LTE_grid,,Finland,1,2024,251.38679841737854,1565.813003137374,1817.1998015547524,-0.47147538220101226,,,,Liquid methanol at STP
+methanol,LTE_grid,,Hungary,1,2024,201.63316123060574,1853.924591574615,2055.557752805221,0.9033321827308951,,,,Liquid methanol at STP
+methanol,LTE_grid,,Norway,1,2024,289.13846172137727,1528.244588055034,1817.3830497764113,-1.01039994765432,,,,Liquid methanol at STP
+methanol,LTE_grid,,Poland,1,2024,204.03355600716054,6189.273676254423,6393.3072322615835,5.940627100641404,,,,Liquid methanol at STP
+methanol,LTE_grid,,Sweden,1,2024,264.47986083495033,1043.6921257619622,1308.1719865969126,-0.8894168819403121,,,,Liquid methanol at STP
+methanol,LTE_grid,,Oman,1,2024,208.39791014635114,2561.4695827662713,2769.8674929126223,4.873776430254242,,,,Liquid methanol at STP
+methanol,LTE_grid,,United Arab Emirates,1,2024,208.39791014635114,1330.0349923729177,1538.4329025192687,3.7739303783087177,,,,Liquid methanol at STP
+methanol,LTE_grid,,Malaysia,1,2024,190.94049358958875,1532.4774839784145,1723.4179775680032,-0.18551540869517558,,,,Liquid methanol at STP
+methanol,LTE_grid,,Saudi Arabia,1,2024,208.39791014635114,861.4977125938282,1069.8956227401793,3.5099673258417914,,,,Liquid methanol at STP
+methanol,LTE_grid,,Greece,1,2024,200.7602904027676,2689.5197368333875,2890.280027236155,2.3661274318184446,,,,Liquid methanol at STP
+methanol,LTE_grid,,Austria,1,2024,226.9464152379112,3543.421980881969,3770.3683961198803,-0.119524645578444,,,,Liquid methanol at STP
+methanol,LTE_grid,,Switzerland,1,2024,241.13056619028063,3126.446454293686,3367.577020483967,-0.9554076450570437,,,,Liquid methanol at STP
+methanol,LTE_grid,,Portugal,1,2024,198.5781133331723,1782.3847570127427,1980.962870345915,0.48539068299159505,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,United States,1,2024,202.75802119180554,593.950915546947,796.7089367387525,1.3202058291963976,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Brazil,1,2024,206.81318161564164,1194.7200753999332,1401.533257015575,1.1671928079736151,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Canada,1,2024,180.45463886070692,401.28647743515427,581.7411162958612,1.2078457139811438,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Mexico,1,2024,164.23399716536247,406.27227692836607,570.5062740937285,1.3981238990441611,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Australia,1,2024,198.5001027467776,575.5863240693311,774.0864268161088,1.42183809421522,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,India,1,2024,128.5485854356047,848.476828736064,977.0254141716687,1.5144363801212581,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Indonesia,1,2024,129.15685949918011,815.7255902051152,944.8824497042953,1.5144363801212581,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Philippines,1,2024,140.91682472830482,1669.9579146238696,1810.8747393521744,1.4568447632772588,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Singapore,1,2024,167.68088352562316,2113.9915739265643,2281.6724574521877,1.377797446040397,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Thailand,1,2024,132.1982298170572,353.9831388616037,486.18136867866093,1.4224027179097687,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,China,1,2024,159.77332069914274,688.4238627170904,848.1971834162332,1.4404706761353372,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Japan,1,2024,217.96487278119093,1025.14043311906,1243.1053059002509,1.385702177764083,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Russia,1,2024,144.3637110885655,171.02234164982576,315.3860527383913,1.3608587352039265,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,South Korea,1,2024,233.17172437057633,811.7316493874989,1044.9033737580753,1.3552124982584364,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Taipei,1,2024,171.53328592826745,2046.2182920832386,2217.751578011506,1.1316215152170273,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,South Arabia,1,2024,215.32901850569746,2087.2558839624317,2302.5849024681293,1.511613261648513,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,South Africa,1,2024,246.95926981161915,2089.153699040787,2336.112968852406,1.511613261648513,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Turkey,1,2024,147.60783942763442,515.8757002561114,663.4835396837458,1.3744097038731027,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Belgium,1,2024,232.3606922858091,1040.8248549164678,1273.185547202277,1.1897777557555755,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,France,1,2024,208.43524578517608,1347.6309295318854,1556.0661753170614,1.1434786128025565,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Germany,1,2024,211.27385808186133,1416.0025198642888,1627.2763779461502,1.3269813135309856,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Italy,1,2024,188.56495970837918,1840.4096755236303,2028.9746352320094,1.298750128803535,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Netherlands,1,2024,228.71104790435658,1775.9027602516787,2004.6138081560352,1.2631788360469471,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Spain,1,2024,177.41326854282985,1067.929306870723,1245.3425754135528,1.2101042087593399,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,United Kingdom,1,2024,206.00214953087442,1114.7236185232723,1320.7257680541468,1.246240125210477,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Czech Republic,1,2024,181.67118698785777,1050.7772223621346,1232.4484093499923,1.4133687387969847,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Finland,1,2024,233.57724041295992,1506.9832250367417,1740.5604654497017,1.1564649577771837,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Hungary,1,2024,187.3484115812283,1720.8911020809596,1908.2395136621878,1.2270429195958104,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Norway,1,2024,268.6543780791423,1730.9988888030014,1999.6532668821437,1.128798396744282,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Poland,1,2024,189.57874981433818,1177.907185094702,1367.4859349090402,1.4856405716992584,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Sweden,1,2024,245.7427216844683,1062.0318364485738,1307.774558133042,1.1350092573843211,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Oman,1,2024,193.63391023817428,1737.2586396252093,1930.8925498633835,1.4308720733280043,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,United Arab Emirates,1,2024,193.63391023817428,657.1490721943738,850.7829824325481,1.3744097038731027,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Malaysia,1,2024,177.41326854282985,430.5933570017858,608.0066255446156,1.1711451738354581,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Saudi Arabia,1,2024,193.63391023817428,182.93196608381314,376.5658763219874,1.3608587352039265,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Greece,1,2024,186.53737949646109,1349.1208119086464,1535.6581914051076,1.3021378709708291,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Austria,1,2024,210.86834203947774,1694.3697114766615,1905.2380535161392,1.174532916002752,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Switzerland,1,2024,224.0476134169451,2191.6543227589104,2415.7019361758557,1.1316215152170273,,,,Liquid methanol at STP
+methanol,SMRCCS_grid,,Portugal,1,2024,184.50979928454302,1444.6816939585497,1629.1914932430927,1.2055872192029478,,,,Liquid methanol at STP
+methanol,SMR_grid,,United States,1,2024,142.98513315868803,487.4226424389291,630.407775597617,1.3968573648499936,,,,Liquid methanol at STP
+methanol,SMR_grid,,Brazil,1,2024,145.84483582186178,944.6440864206687,1090.4889222425304,1.2438444207210368,,,,Liquid methanol at STP
+methanol,SMR_grid,,Canada,1,2024,127.25676851123235,332.54639778926355,459.8031663004959,1.284497306246073,,,,Liquid methanol at STP
+methanol,SMR_grid,,Mexico,1,2024,115.81795785853731,340.6614169094598,456.4793747679971,1.4747753954396474,,,,Liquid methanol at STP
+methanol,SMR_grid,,Australia,1,2024,139.98244536235558,478.2979962274457,618.2804415898013,1.4984895786625856,,,,Liquid methanol at STP
+methanol,SMR_grid,,India,1,2024,90.65257442260821,677.4803341146908,768.132908537299,1.5910878179140582,,,,Liquid methanol at STP
+methanol,SMR_grid,,Indonesia,1,2024,91.08152982208428,644.5672569708158,735.6487867929001,1.5910878179140582,,,,Liquid methanol at STP
+methanol,SMR_grid,,Philippines,1,2024,99.37466754528818,1317.4559319928076,1416.8305995380958,1.5334962300869224,,,,Liquid methanol at STP
+methanol,SMR_grid,,Singapore,1,2024,118.248705122235,1689.9922320165956,1808.2409371388305,1.4544489526771294,,,,Liquid methanol at STP
+methanol,SMR_grid,,Thailand,1,2024,93.2263068194646,291.52313216985584,384.7494389893204,1.4990542020726556,,,,Liquid methanol at STP
+methanol,SMR_grid,,China,1,2024,112.67228492904617,553.402000878665,666.0742858077112,1.5171221511948945,,,,Liquid methanol at STP
+methanol,SMR_grid,,Japan,1,2024,153.70901814558962,826.285409441597,979.9944275871867,1.4623536804181088,,,,Liquid methanol at STP
+methanol,SMR_grid,,Russia,1,2024,101.80541480898586,145.43585813471861,247.24127294370447,1.4375102503750306,,,,Liquid methanol at STP
+methanol,SMR_grid,,South Korea,1,2024,164.4329031324912,650.3268413967727,814.7597445292639,1.4318640162743312,,,,Liquid methanol at STP
+methanol,SMR_grid,,Taipei,1,2024,120.96542265225007,1606.9027200613814,1727.8681427136314,1.2082731458866292,,,,Liquid methanol at STP
+methanol,SMR_grid,,South Arabia,1,2024,151.8502114145267,1635.3518404252798,1787.2020518398065,1.588264700863708,,,,Liquid methanol at STP
+methanol,SMR_grid,,South Africa,1,2024,174.155892187282,1636.690181271645,1810.846073458927,1.588264700863708,,,,Liquid methanol at STP
+methanol,SMR_grid,,Turkey,1,2024,104.09317693952488,418.3721553437084,522.4653322832332,1.4510612122167093,,,,Liquid methanol at STP
+methanol,SMR_grid,,Belgium,1,2024,163.86096259985646,838.8934020005498,1002.7543646004062,1.266429357123835,,,,Liquid methanol at STP
+methanol,SMR_grid,,France,1,2024,146.98871688713132,1080.0710710489113,1227.0597879360425,1.2201302374980987,,,,Liquid methanol at STP
+methanol,SMR_grid,,Germany,1,2024,148.9905087513529,1144.3222794408937,1293.3127881922467,1.4036328457708334,,,,Liquid methanol at STP
+methanol,SMR_grid,,Italy,1,2024,132.97617383757986,1497.7060079430717,1630.6821817806515,1.3754016752673355,,,,Liquid methanol at STP
+methanol,SMR_grid,,Netherlands,1,2024,161.28723020300006,1418.5619550599074,1579.8491852629074,1.3398304004329287,,,,Liquid methanol at STP
+methanol,SMR_grid,,Spain,1,2024,125.11199151385202,853.3138537139125,978.4258452277645,1.286755799886353,,,,Liquid methanol at STP
+methanol,SMR_grid,,United Kingdom,1,2024,145.27289528922705,888.2009074475121,1033.4738027367391,1.3228916981308299,,,,Liquid methanol at STP
+methanol,SMR_grid,,Czech Republic,1,2024,128.11467931018447,837.727797116528,965.8424764267124,1.4900202275115362,,,,Liquid methanol at STP
+methanol,SMR_grid,,Finland,1,2024,164.7188733988086,1196.0409703181786,1360.7598437169872,1.2331165759297074,,,,Liquid methanol at STP
+methanol,SMR_grid,,Hungary,1,2024,132.11826303862776,1359.3889227775726,1491.5071858162003,1.3036945021884518,,,,Liquid methanol at STP
+methanol,SMR_grid,,Norway,1,2024,189.45530143526162,1371.9242980388087,1561.3795994740703,1.205450028836279,,,,Liquid methanol at STP
+methanol,SMR_grid,,Poland,1,2024,133.69109950337332,986.3787228065038,1120.069822309877,1.5622920240004903,,,,Liquid methanol at STP
+methanol,SMR_grid,,Sweden,1,2024,173.29798138832987,844.6333557306829,1017.9313371190127,1.2116608863470493,,,,Liquid methanol at STP
+methanol,SMR_grid,,Oman,1,2024,136.55080216654707,1381.7621177155206,1518.3129198820677,1.507523553223705,,,,Liquid methanol at STP
+methanol,SMR_grid,,United Arab Emirates,1,2024,136.55080216654707,529.9684690982974,666.5192712648445,1.4510612122167093,,,,Liquid methanol at STP
+methanol,SMR_grid,,Malaysia,1,2024,125.11199151385202,352.77153871204,477.88353022589206,1.247796784591526,,,,Liquid methanol at STP
+methanol,SMR_grid,,Saudi Arabia,1,2024,136.55080216654707,154.58360070120042,291.1344028677475,1.4375102503750306,,,,Liquid methanol at STP
+methanol,SMR_grid,,Greece,1,2024,131.546322505993,1081.480575687988,1213.026898193981,1.3787894157277552,,,,Liquid methanol at STP
+methanol,SMR_grid,,Austria,1,2024,148.70453848503556,1364.8630439713313,1513.5675824563668,1.2511845250519462,,,,Liquid methanol at STP
+methanol,SMR_grid,,Switzerland,1,2024,157.9985721403503,1751.4098083682957,1909.408380508646,1.2082731458866292,,,,Liquid methanol at STP
+methanol,SMR_grid,,Portugal,1,2024,130.11647117440612,1144.1034257692704,1274.2198969436765,1.2822388126057933,,,,Liquid methanol at STP
+methanol,LTE_renew,,United States,1,2024,218.21770695953,583.7595644158735,801.9772713754035,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Brazil,1,2024,222.58206109872057,533.8086769845429,756.3907380832635,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Canada,1,2024,194.2137591939817,568.9746796445293,763.1884388385109,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Mexico,1,2024,176.7563426372193,524.315289422227,701.0716320594463,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Australia,1,2024,213.63513511337987,583.8756800869301,797.5108152003099,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,India,1,2024,138.35002621234202,527.6843557253087,666.0343819376508,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Indonesia,1,2024,139.00467933322062,528.0480775562132,667.0527568894338,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Philippines,1,2024,151.66130633687337,520.1305850949982,671.7918914318716,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Singapore,1,2024,180.4660436555313,560.8358933404019,741.3019369959331,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Thailand,1,2024,142.27794493761357,530.4867821798377,672.7647271174513,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,China,1,2024,171.95555308410965,561.83166395657,733.7872170406796,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Japan,1,2024,234.58403498149474,562.2952761707106,796.8793111522053,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Russia,1,2024,155.37100735518533,524.5935220278639,679.9645293830492,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,South Korea,1,2024,250.95036300345953,557.0737003126744,808.024063316134,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Taipei,1,2024,184.61218008776237,615.4063526917362,800.0185327794985,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,South Arabia,1,2024,231.74720479102086,541.7615787432251,773.5087835342459,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,South Africa,1,2024,265.78916707670754,543.8040964803663,809.5932635570739,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Turkey,1,2024,158.8624906665378,526.3394353387771,685.2019260053149,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Belgium,1,2024,250.07749217562136,599.0960830558026,849.173575231424,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,France,1,2024,224.32780275439686,582.1088401803179,806.4366429347148,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Germany,1,2024,227.38285065183027,593.5390005274983,820.9218511793285,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Italy,1,2024,202.9424674723629,570.5648466206742,773.507314093037,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Netherlands,1,2024,246.14957345034983,579.494213974055,825.6437874244049,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Spain,1,2024,190.94049358958875,558.8192797030464,749.7597732926351,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,United Kingdom,1,2024,221.7091902708825,565.6785671472584,787.3877574181408,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Czech Republic,1,2024,195.52306543573889,542.642761371843,738.1658268075819,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Finland,1,2024,251.38679841737854,586.9500169058562,838.3368153232348,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Hungary,1,2024,201.63316123060574,534.1093292399842,735.7424904705899,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Norway,1,2024,289.13846172137727,604.3739044207921,893.5123661421694,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Poland,1,2024,204.03355600716054,536.0649692544204,740.0985252615809,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Sweden,1,2024,264.47986083495033,592.7552444642965,857.2351052992469,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Oman,1,2024,208.39791014635114,548.7513077059592,757.1492178523104,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,United Arab Emirates,1,2024,208.39791014635114,560.1427560110496,768.5406661574008,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Malaysia,1,2024,190.94049358958875,531.617576707986,722.5580702975748,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Saudi Arabia,1,2024,208.39791014635114,553.5408180490807,761.9387281954318,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Greece,1,2024,200.7602904027676,544.8199355396123,745.5802259423799,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Austria,1,2024,226.9464152379112,584.8361011485053,811.7825163864165,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Switzerland,1,2024,241.13056619028063,618.7974558578873,859.9280220481679,-1.230369158043425,,,,Liquid methanol at STP
+methanol,LTE_renew,,Portugal,1,2024,198.5781133331723,539.5587183142989,738.1368316474711,-1.230369158043425,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,United States,1,2024,202.75802119180554,539.1824171756928,741.9404383674982,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Brazil,1,2024,206.81318161564164,1151.2440509196592,1358.057232535301,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Canada,1,2024,180.45463886070692,359.5043240385273,539.9589628992342,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Mexico,1,2024,164.23399716536247,318.1909805787201,482.4249777440825,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Australia,1,2024,198.5001027467776,495.97438313792037,694.474485884698,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,India,1,2024,128.5485854356047,798.7899436157509,927.3385290513556,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Indonesia,1,2024,129.15685949918011,799.3515030631938,928.5083625623739,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Philippines,1,2024,140.91682472830482,1606.7200608343799,1747.6368855626847,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Singapore,1,2024,167.68088352562316,1954.767692063743,2122.448575589366,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Thailand,1,2024,132.1982298170572,311.6363617704277,443.8345915874849,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,China,1,2024,159.77332069914274,660.7573016841887,820.5306223833315,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Japan,1,2024,217.96487278119093,941.5761263258058,1159.5409991069969,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Russia,1,2024,144.3637110885655,139.9680384496301,284.3317495381956,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,South Korea,1,2024,233.17172437057633,769.3848722963229,1002.5565966668992,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Taipei,1,2024,171.53328592826745,2059.769260752415,2231.3025466806826,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,South Arabia,1,2024,215.32901850569746,2061.847817707726,2277.1768362134235,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,South Africa,1,2024,246.95926981161915,2063.745632786081,2310.7049025977003,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Turkey,1,2024,147.60783942763442,464.4949440521512,612.1027834797856,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Belgium,1,2024,232.3606922858091,976.4577537378804,1208.8184460236894,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,France,1,2024,208.43524578517608,1261.8081279604353,1470.2433737456113,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Germany,1,2024,211.27385808186133,1285.0098227289177,1496.283680810779,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Italy,1,2024,188.56495970837918,1595.3629920893586,1783.9279517977377,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Netherlands,1,2024,228.71104790435658,1661.2841502582291,1889.9951981625857,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Spain,1,2024,177.41326854282985,1008.0791952485273,1185.492463791357,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,United Kingdom,1,2024,206.00214953087442,1067.8598518757042,1273.8620014065787,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Czech Republic,1,2024,181.67118698785777,985.280873794449,1166.9520607823067,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Finland,1,2024,233.57724041295992,1456.7317162218797,1690.3089566348397,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Hungary,1,2024,187.3484115812283,1653.1362587350782,1840.4846703163064,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Norway,1,2024,268.6543780791423,1683.5704984608844,1952.2248765400268,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Poland,1,2024,189.57874981433818,887.6906060965093,1077.2693559108475,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Sweden,1,2024,245.7427216844683,1038.8822649720646,1284.6249866565329,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Oman,1,2024,193.63391023817428,1633.9325035227396,1827.5664137609137,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,United Arab Emirates,1,2024,193.63391023817428,617.6254135759431,811.2593238141174,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Malaysia,1,2024,177.41326854282985,379.2126007978256,556.6258693406554,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Saudi Arabia,1,2024,193.63391023817428,167.12250263644077,360.7564128746151,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Greece,1,2024,186.53737949646109,1239.019191471589,1425.55657096805,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Austria,1,2024,210.86834203947774,1542.485937642977,1753.3542796824547,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Switzerland,1,2024,224.0476134169451,2062.9201204017354,2286.9677338186807,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMRCCS_renew,,Portugal,1,2024,184.50979928454302,1380.8792164745112,1565.3890157590542,1.1175059228533017,,,,Liquid methanol at STP
+methanol,SMR_renew,,United States,1,2024,142.98513315868803,432.65417166214354,575.6393048208315,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Brazil,1,2024,145.84483582186178,901.168083845282,1047.0129196671437,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Canada,1,2024,127.25676851123235,290.76426544408696,418.0210339553193,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Mexico,1,2024,115.81795785853731,252.58016493854697,368.3981227970843,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Australia,1,2024,139.98244536235558,398.6860954075823,538.6685407699379,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,India,1,2024,90.65257442260821,627.7934740285347,718.4460484511428,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Indonesia,1,2024,91.08152982208428,628.1931780787872,719.2747079008715,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Philippines,1,2024,99.37466754528818,1254.218110064973,1353.5927776102612,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Singapore,1,2024,118.248705122235,1530.7684303768688,1649.0171354991037,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Thailand,1,2024,93.2263068194646,249.17637641460934,342.40268323407395,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,China,1,2024,112.67228492904617,525.7354537852375,638.4077387142837,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Japan,1,2024,153.70901814558962,742.7211447512439,896.4301628968335,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Russia,1,2024,101.80541480898586,114.38157058087117,216.18698538985703,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,South Korea,1,2024,164.4329031324912,607.9800856415262,772.4129887740174,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Taipei,1,2024,120.96542265225007,1620.4536819030602,1741.4191045553102,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,South Arabia,1,2024,151.8502114145267,1609.943786972132,1761.7939983866588,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,South Africa,1,2024,174.155892187282,1611.2821278184972,1785.4380200057792,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Turkey,1,2024,104.09317693952488,366.9914250273426,471.08460196686747,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Belgium,1,2024,163.86096259985646,774.526333252575,938.3872958524314,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,France,1,2024,146.98871688713132,994.2483127182784,1141.2370296054096,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Germany,1,2024,148.9905087513529,1013.3296483046645,1162.3201570560175,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Italy,1,2024,132.97617383757986,1252.6594479727116,1385.6356218102915,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Netherlands,1,2024,161.28723020300006,1303.9434028157066,1465.2306330187066,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Spain,1,2024,125.11199151385202,793.4637722464976,918.5757637603496,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,United Kingdom,1,2024,145.27289528922705,841.337164411706,986.6100597009331,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Czech Republic,1,2024,128.11467931018447,772.2314815484134,900.3461608585978,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Finland,1,2024,164.7188733988086,1145.7894868219528,1310.5083602207615,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Hungary,1,2024,132.11826303862776,1291.6341135691782,1423.752376607806,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Norway,1,2024,189.45530143526162,1324.4959315929325,1513.951233028194,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Poland,1,2024,133.69109950337332,696.1622900305473,829.8533895339206,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Sweden,1,2024,173.29798138832987,821.4837959178147,994.7817773061446,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Oman,1,2024,136.55080216654707,1278.436033672719,1414.9868358392662,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,United Arab Emirates,1,2024,136.55080216654707,490.4448303934007,626.9956325599478,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Malaysia,1,2024,125.11199151385202,301.39080839567424,426.5027999095263,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Saudi Arabia,1,2024,136.55080216654707,138.7741452192417,275.32494738578873,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Greece,1,2024,131.546322505993,971.379010724347,1102.9253332303401,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Austria,1,2024,148.70453848503556,1212.9793466625138,1361.6838851475493,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Switzerland,1,2024,157.9985721403503,1622.6756708723462,1780.6742430126965,1.1941575606348804,,,,Liquid methanol at STP
+methanol,SMR_renew,,Portugal,1,2024,130.11647117440612,1080.3009804313654,1210.4174516057715,1.1941575606348804,,,,Liquid methanol at STP

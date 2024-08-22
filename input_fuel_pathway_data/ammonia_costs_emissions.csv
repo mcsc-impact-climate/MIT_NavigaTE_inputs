@@ -1,153 +1,235 @@
-Fuel,Pathway Name,Pathway Description,Region,Number,Year,Cost [$/tonne],Emissions [kg CO2e / kg fuel],Details,Model(s) or publications,Results Produced by,Comment
-ammonia,electro-LTE_grid,,USA,1,2024,1647.52962,3.70845,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378938,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Brazil,1,2024,1438.57047,0.9849,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378939,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Canada,1,2024,1385.66235,1.7085,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378940,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Mexico,1,2024,2177.46919,5.09535,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378941,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Australia,1,2024,2085.46793,5.51745,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378942,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,India,1,2024,1449.89695,7.16565,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378943,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Indonesia,1,2024,857.968997,7.16565,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378944,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Philippines,1,2024,1705.60501,6.14055,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378945,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Singapore,1,2024,3457.14461,4.73355,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378946,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Thailand,1,2024,1324.79919,5.5275,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378947,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,China,1,2024,1103.87874,5.8491,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378948,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Japan,1,2024,2172.10055,4.87425,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378949,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Russia,1,2024,1137.82473,4.43205,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378950,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,South Korea,1,2024,1455.53037,4.33155,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378951,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Taipei,1,2024,400.735212,0.35175,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378952,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,South Africa,1,2024,1169.93815,7.1154,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378954,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Turkey,1,2024,1504.01028,4.67325,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378955,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Belgium,1,2024,1858.92159,1.3869,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378956,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,France,1,2024,2206.90671,0.5628,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378957,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Germany,1,2024,3018.69591,3.82905,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378958,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Italy,1,2024,5012.52441,3.32655,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378959,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Netherlands,1,2024,2744.39246,2.6934,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378960,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Spain,1,2024,1701.30429,1.7487,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378961,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,United Kingdom,1,2024,1505.52736,2.3919,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378962,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Czech Republic,1,2024,1805.12207,5.3667,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378963,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Finland,1,2024,1606.889,0.79395,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378964,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Hungary,1,2024,1847.10258,2.0502,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378965,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Norway,1,2024,1603.94298,0.3015,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378966,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Poland,1,2024,5811.1141,6.6531,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378967,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Sweden,1,2024,1141.12251,0.41205,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378968,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Oman,1,2024,2492.54406,5.67825,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378969,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,United Arab Emirates,1,2024,1358.45947,4.67325,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378970,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Malaysia,1,2024,1541.37093,1.05525,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378971,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Saudi Arabia,1,2024,935.432178,4.43205,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378972,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Greece,1,2024,2602.23762,3.38685,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378973,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Austria,1,2024,3386.25991,1.11555,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378974,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Switzerland,1,2024,2998.96452,0.35175,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378975,H2A,Christopher Douglas,None
-ammonia,electro-LTE_grid,,Portugal,1,2024,1775.66107,1.6683,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378976,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,USA,1,2024,929.565874,1.29003229,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378938,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Brazil,1,2024,1375.94356,0.62442204,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378939,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Canada,1,2024,718.258836,0.80126314,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378940,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Mexico,1,2024,892.564054,1.62897774,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378941,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Australia,1,2024,1000.00897,1.73213504,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378942,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,India,1,2024,1045.08179,2.13493977,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378943,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Indonesia,1,2024,901.182236,2.13493977,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378944,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Philippines,1,2024,1735.6904,1.88441488,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378945,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Singapore,1,2024,2427.21627,1.54055719,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378946,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Thailand,1,2024,646.818627,1.73459117,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378947,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,China,1,2024,863.358164,1.81318722,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378948,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Japan,1,2024,1389.17669,1.57494296,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378949,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Russia,1,2024,485.42081,1.46687339,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378950,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,South Korea,1,2024,1100.22959,1.44231213,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378951,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Taipei,1,2024,1730.71965,0.46968608,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378952,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,South Africa,1,2024,2032.04366,2.12265914,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378954,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Turkey,1,2024,822.786869,1.52582043,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378955,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Belgium,1,2024,1330.05422,0.7226671,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378956,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,France,1,2024,1620.14783,0.52126473,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378957,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Germany,1,2024,1831.91441,1.31950581,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378958,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Italy,1,2024,2547.73449,1.19669949,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378959,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Netherlands,1,2024,2074.07642,1.04196353,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378960,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Spain,1,2024,1290.43309,0.81108765,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378961,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,United Kingdom,1,2024,1309.30801,0.96827973,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378962,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Czech Republic,1,2024,1312.10987,1.69529315,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378963,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Finland,1,2024,1640.93113,0.57775564,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378964,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Hungary,1,2024,1838.67514,0.88477144,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378965,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Norway,1,2024,1833.13528,0.45740544,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378966,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Poland,1,2024,2228.0587,2.00967733,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378967,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Sweden,1,2024,1217.76725,0.48442283,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378968,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Oman,1,2024,1978.77787,1.77143307,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378969,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,United Arab Emirates,1,2024,924.304375,1.52582043,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378970,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Malaysia,1,2024,790.749036,0.64161492,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378971,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Saudi Arabia,1,2024,483.387356,1.46687339,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378972,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Greece,1,2024,1702.14859,1.21143625,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378973,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Austria,1,2024,2121.68458,0.65635168,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378974,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Switzerland,1,2024,2413.06227,0.46968608,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378975,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_grid,,Portugal,1,2024,1609.08117,0.79143863,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378976,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,USA,1,2024,672.67962,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378977,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Brazil,1,2024,664.720472,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378978,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Canada,1,2024,641.962352,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378979,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Mexico,1,2024,609.669189,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378980,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Australia,1,2024,668.417931,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378981,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,India,1,2024,565.49695,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378982,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Indonesia,1,2024,566.518997,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378983,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Philippines,1,2024,580.005011,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378984,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Singapore,1,2024,623.044615,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378985,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Thailand,1,2024,571.04919,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378986,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,China,1,2024,611.428739,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378987,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Japan,1,2024,684.700549,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378988,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Russia,1,2024,585.074731,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378989,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,South Korea,1,2024,701.780365,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378990,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Taipei,1,2024,641.935212,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378991,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,South Africa,1,2024,717.688148,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378993,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Turkey,1,2024,589.460276,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378994,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Belgium,1,2024,713.221593,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378995,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,France,1,2024,679.306705,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378996,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Germany,1,2024,687.095914,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378997,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Italy,1,2024,650.82441,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378998,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Netherlands,1,2024,704.242464,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002378999,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Spain,1,2024,636.004289,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379000,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,United Kingdom,1,2024,671.377356,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379001,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Czech Republic,1,2024,639.32207,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379002,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Finland,1,2024,712.439002,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379003,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Hungary,1,2024,641.102579,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379004,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Norway,1,2024,759.742976,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379005,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Poland,1,2024,645.414099,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379006,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Sweden,1,2024,729.072514,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379007,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Oman,1,2024,653.394062,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379008,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,United Arab Emirates,1,2024,654.95947,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379009,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Malaysia,1,2024,626.820927,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379010,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Saudi Arabia,1,2024,654.032178,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379011,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Greece,1,2024,642.487623,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379012,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Austria,1,2024,682.809908,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379013,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Switzerland,1,2024,707.564517,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379014,H2A,Christopher Douglas,None
-ammonia,electro-LTE_renew,,Portugal,1,2024,640.011066,0.1005,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379015,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,USA,1,2024,691.321613,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379016,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Brazil,1,2024,1186.82183,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379017,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Canada,1,2024,536.505483,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379018,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Mexico,1,2024,509.408336,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379019,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Australia,1,2024,653.695144,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379020,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,India,1,2024,828.942663,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379021,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Indonesia,1,2024,829.954571,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379022,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Philippines,1,2024,1460.60425,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379023,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Singapore,1,2024,1734.58862,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379024,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Thailand,1,2024,462.609148,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379025,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,China,1,2024,743.00797,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379026,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Japan,1,2024,1025.66998,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379027,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Russia,1,2024,350.333858,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379028,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,South Korea,1,2024,916.020106,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379029,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Taipei,1,2024,1789.66668,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379030,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,South Africa,1,2024,1921.51797,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379032,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Turkey,1,2024,599.279367,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379033,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Belgium,1,2024,1050.05581,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379034,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,France,1,2024,1246.81662,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379035,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Germany,1,2024,1262.09308,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379036,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Italy,1,2024,1481.77564,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379037,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Netherlands,1,2024,1575.48276,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379038,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Spain,1,2024,1030.0837,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379039,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,United Kingdom,1,2024,1105.44952,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379040,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Czech Republic,1,2024,1027.19921,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379041,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Finland,1,2024,1422.33588,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379042,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Hungary,1,2024,1543.93997,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379043,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Norway,1,2024,1626.82067,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379044,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Poland,1,2024,965.609727,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379045,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Sweden,1,2024,1117.06607,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379046,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Oman,1,2024,1529.30674,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379047,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,United Arab Emirates,1,2024,752.375527,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379048,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Malaysia,1,2024,567.241534,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379049,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Saudi Arabia,1,2024,414.615817,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379050,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Greece,1,2024,1223.20394,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379051,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Austria,1,2024,1460.98658,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379052,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Switzerland,1,2024,1853.06545,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379053,H2A,Christopher Douglas,None
-ammonia,blue-SMR_CCS_renew,,Portugal,1,2024,1331.53889,0.40828292,https://docs.google.com/spreadsheets/d/1uEJaRDQZnTVvMw1-XqN8fl7XEj3xhUSk/edit?gid=1002378938#gid=1002379054,H2A,Christopher Douglas,None
+Fuel,Pathway Name,Pathway Description,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Details,Model(s) or publications,Results Produced by,Comment
+ammonia,LTE_grid,,United States,1,2024,193.395,1405.8220918799234,1599.2170918799234,3.7096093574099998,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Brazil,1,2024,197.26290000000003,1192.2400684653444,1389.5029684653443,0.98520790522,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Canada,1,2024,172.12155,1170.5590979476538,1342.6806479476538,1.7090341213,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Mexico,1,2024,156.64995000000005,1982.1993174858524,2138.8492674858526,5.096942938230001,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Australia,1,2024,189.333705,1848.9837244550467,2038.3174294550467,5.51917489761,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,India,1,2024,122.61243,1296.9270420768771,1419.539472076877,7.167890167569999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Indonesia,1,2024,123.192615,704.0883432926362,827.2809582926362,7.167890167569999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Philippines,1,2024,134.409525,1538.0193279940324,1672.4288529940325,6.14246969479,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Singapore,1,2024,159.937665,3257.9573031845493,3417.8949681845493,4.735029830189999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Thailand,1,2024,126.09354,1167.4253582428407,1293.5188982428408,5.5292280395,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,China,1,2024,152.39526000000004,913.3596501965677,1065.7549101965678,5.85092857998,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Japan,1,2024,207.89962500000004,1912.5305578702128,2120.430182870213,4.87577381665,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Russia,1,2024,137.69724,965.9228277862168,1103.6200677862169,4.433435573490001,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,South Korea,1,2024,222.40425000000002,1177.6275779588498,1400.0318279588498,4.33290415459,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Taipei,1,2024,163.61217,195.69392087484272,359.3060908748427,0.35185996615,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,South Arabia,1,2024,205.38549000000003,873.7904620666404,1079.1759520666405,7.11762445812,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,South Africa,1,2024,235.55511,875.6006392666405,1111.1557492666407,7.11762445812,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Turkey,1,2024,140.79155999999998,1328.3437058550344,1469.1352658550343,4.67471097885,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Belgium,1,2024,221.63067,1581.8928482077743,1803.5235182077743,1.3873335808200002,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,France,1,2024,198.81006000000005,1958.6134603137318,2157.423520313732,0.56297594584,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Germany,1,2024,201.51759,2767.220446160187,2968.7380361601868,3.83024706009,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Italy,1,2024,179.85735000000003,4788.859178995395,4968.7165289953955,3.3275899655899996,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Netherlands,1,2024,218.14955999999998,2472.108037618755,2690.257597618755,2.69424202652,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Spain,1,2024,169.220625,1489.9874222529802,1659.2080472529801,1.74924668886,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,United Kingdom,1,2024,196.48932000000002,1260.0015084335573,1456.4908284335575,2.39264776982,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Czech Republic,1,2024,173.28192000000004,1588.8720730223808,1762.153993022381,5.36837776926,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Finland,1,2024,222.79104,1328.406814981963,1551.197854981963,0.7941982093100001,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Hungary,1,2024,178.69698,1624.1137347255249,1802.8107147255248,2.05084094556,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Norway,1,2024,256.24837499999995,1283.527252258896,1539.7756272588958,0.3015942567,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Poland,1,2024,180.82432500000002,5586.704076926363,5767.528401926363,6.655179931179999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Sweden,1,2024,234.39473999999998,847.95574686709,1082.35048686709,0.41217881749,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Oman,1,2024,184.692225,2262.1868862050023,2446.879111205002,5.680025167849999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,United Arab Emirates,1,2024,184.692225,1127.6707547245776,1312.3629797245776,4.67471097885,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Malaysia,1,2024,169.220625,1330.1350107665924,1499.3556357665923,1.05557989845,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Saudi Arabia,1,2024,184.692225,704.5556415267637,889.2478665267637,4.433435573490001,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Greece,1,2024,177.92340000000002,2380.388522793702,2558.3119227937023,3.3879088169300005,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Austria,1,2024,201.1308,3135.4166028856253,3336.547402885625,1.11589874979,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Switzerland,1,2024,213.70147500000002,2732.0910354548428,2945.7925104548426,0.35185996615,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_grid,,Portugal,1,2024,175.98945000000003,1556.014344483663,1732.0037944836631,1.66882155374,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,United States,1,2024,179.97121129617202,546.0432204579802,726.0144317541522,0.8076273807814514,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Brazil,1,2024,183.57063552209547,1088.4887643114275,1272.059399833523,0.5384310237199876,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Canada,1,2024,160.1743780535931,375.977262754202,536.151640807795,0.6099518270721108,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Mexico,1,2024,145.77668114989933,447.61949904830624,593.3961801982056,0.9447089205396875,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Australia,1,2024,176.1918158589524,552.9550059963665,729.1468218553189,0.9864293891617593,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,India,1,2024,114.10174796177306,792.796597448224,906.8983454099971,1.14933788568604,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Indonesia,1,2024,114.64166159566159,734.6577294443539,849.2993910400155,1.14933788568604,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Philippines,1,2024,125.07999185083953,1524.5459778265288,1649.6259696773684,1.0480167476038655,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Singapore,1,2024,148.83619174193424,1971.1865880773646,2120.0227798192986,0.9089485188636258,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Thailand,1,2024,117.34122976510416,355.63892828251437,472.98015804761854,0.987422733652761,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,China,1,2024,141.81731450138358,613.0558546166244,754.873169118008,1.0192097573648156,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Japan,1,2024,193.4690521433849,958.7418539930607,1152.2109061364456,0.9228553417376497,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Russia,1,2024,128.1395024428745,191.38831914343208,319.5278215863066,0.8791481841335744,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,South Korea,1,2024,206.96689299059778,740.222762246712,947.1896552373098,0.8692147392235574,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Taipei,1,2024,152.2556447565615,1725.0110103794227,1877.2666551359841,0.4758503207868798,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,South Arabia,1,2024,191.12942639653468,1843.732802397038,2034.8622287935727,1.1443711632310314,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,South Africa,1,2024,219.20493535873754,1845.4173329347702,2064.6222682935077,1.1443711632310314,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Turkey,1,2024,131.01904182361324,507.93022365473473,638.949265478348,0.9029884519176156,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Belgium,1,2024,206.24700814541313,934.4708145395024,1140.7178226849155,0.578164803360056,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,France,1,2024,185.01040521246483,1229.4416857813544,1414.4520909938192,0.49671055509791573,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Germany,1,2024,187.53000217061125,1323.4862123511552,1511.0162145217664,0.8195475146734719,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Italy,1,2024,167.37322650544,1804.4770805097985,1971.8503070152385,0.7698802901233863,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Netherlands,1,2024,203.00752634208203,1630.0256394670782,1833.0331658091602,0.7072995871902785,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Spain,1,2024,157.47480988415052,977.4736814064643,1134.9484912906148,0.6139252050361176,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,United Kingdom,1,2024,182.85075067691076,1001.8152240296847,1184.6659747065955,0.6774992524602272,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Czech Republic,1,2024,161.25420532137014,980.0105850471934,1141.2647903685636,0.9715292217967337,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Finland,1,2024,207.32683541319014,1335.0525995431813,1542.3794349563714,0.5195574783909551,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Hungary,1,2024,166.29339923766295,1566.3277476617764,1732.6211468994393,0.643725539766169,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Norway,1,2024,238.46185496742794,1517.308921436865,1755.770776404293,0.47088359833187127,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Poland,1,2024,168.27308256192086,1293.0162465022393,1461.28932906416,1.0986773166449526,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Sweden,1,2024,218.12510809096048,921.6085151035574,1139.7336231945178,0.4818103877328901,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Oman,1,2024,171.87250678784426,1604.2450981751697,1776.117604963014,1.0023229010177865,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,United Arab Emirates,1,2024,171.87250678784426,601.1258892694369,772.9983960572812,0.9029884519176156,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Malaysia,1,2024,157.47480988415052,431.0870188636078,588.5618287477583,0.5453844351569996,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Saudi Arabia,1,2024,171.87250678784426,173.078930127685,344.95143691552926,0.8791481841335744,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Greece,1,2024,165.57351439247824,1274.2359170908633,1439.8094314833415,0.7758403570693966,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Austria,1,2024,187.17005974801893,1587.595575043337,1774.765634791356,0.5513445021030098,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Switzerland,1,2024,198.86818848227006,1978.1305747353967,2176.9987632176667,0.4758503207868798,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_grid,,Portugal,1,2024,163.77380227951653,1320.5118662273749,1484.2856685068914,0.605978449108104,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,United States,1,2024,128.06985759276867,453.5437317444912,581.6135893372599,2.317390299764994,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Brazil,1,2024,130.63125474462407,871.3454609871853,1001.9767157318095,2.048194009644815,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Canada,1,2024,113.98217325756413,316.2896133081056,430.2717865656697,2.1197147952117996,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Mexico,1,2024,103.73658465014266,390.6489800608513,494.38556471099395,2.454471805435049,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Australia,1,2024,125.38039058332053,468.4786475554508,593.8590381387713,2.496192263682457,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,India,1,2024,81.19628971381535,644.3187533716791,725.5150430854944,2.659100719696145,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Indonesia,1,2024,81.58049928659365,586.0393593974444,667.619858684038,2.659100719696145,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Philippines,1,2024,89.00855102697423,1218.4652331325624,1307.4737841595365,2.557779606809583,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Singapore,1,2024,105.91377222921969,1603.0240224290908,1708.9377946583104,2.4187114126515565,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Thailand,1,2024,83.5015471504852,301.4043244964428,384.905871646928,2.497185607926443,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,China,1,2024,100.91904778310172,495.81511822982895,596.7341660129307,2.5289726237339916,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Japan,1,2024,137.67509691222634,786.0741904552989,923.7492873675252,2.432618232067359,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Russia,1,2024,91.1857386060513,169.17133792264676,260.35707652869803,2.3889110853319795,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,South Korea,1,2024,147.28033623168398,600.0734687356608,747.3538049673448,2.3789776428921203,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Taipei,1,2024,108.34709952348231,1343.5492199053485,1451.8963194288308,1.985613322273703,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,South Arabia,1,2024,136.01018876352035,1451.3403252153294,1587.3505139788497,2.6541339984762153,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,South Africa,1,2024,155.98908654799226,1452.5390590823977,1608.5281456303899,2.6541339984762153,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Turkey,1,2024,93.23485632753558,423.2669902330794,516.501846560615,2.4127513471876414,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Belgium,1,2024,146.7680568013129,759.131858927647,905.89991572896,2.087927779404251,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,France,1,2024,131.6558136053662,997.1169762196653,1128.7727898250314,2.006473551397407,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Germany,1,2024,133.44879161166497,1087.5837368905788,1221.0325285022438,2.3293104306928254,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Italy,1,2024,119.10496756127488,1506.9043037569459,1626.0092713182207,2.27964321849353,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Netherlands,1,2024,144.46279936464308,1319.7433002125101,1464.2060995771533,2.2170625311224184,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Spain,1,2024,112.06112539367261,791.121090607501,903.1822160011735,2.1236881721877436,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,United Kingdom,1,2024,130.118975314253,805.1234506142372,935.2424259284902,2.1872622038028413,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Czech Republic,1,2024,114.75059240312075,795.0177908249615,909.7683832280823,2.481292100022668,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Finland,1,2024,147.53647594686953,1065.0585525006436,1212.5950284475132,2.029320469009083,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Hungary,1,2024,118.33654841571827,1252.4320486254373,1370.7685970411555,2.1534884995073207,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Norway,1,2024,169.6925613104185,1205.5211200706078,1375.2136813810264,1.9806466010537735,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Poland,1,2024,119.74531684923872,1126.7103042499407,1246.4556210991793,2.6084401632528635,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Sweden,1,2024,155.22066740243565,732.839395631361,888.0600630337966,1.9915733877376183,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Oman,1,2024,122.30671400109408,1295.564167219622,1417.8708812207162,2.5120857715862313,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,United Arab Emirates,1,2024,122.30671400109408,490.6937906590372,613.0005046601312,2.4127513471876414,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Malaysia,1,2024,112.06112539367261,363.5136114240976,475.5747368177702,2.0551474193527164,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Saudi Arabia,1,2024,122.30671400109408,148.46378123574743,270.7704952368415,2.3889110853319795,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Greece,1,2024,117.8242689853472,1041.8414147931912,1159.6656837785386,2.285603283957445,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Austria,1,2024,133.19265189647945,1301.4818759972331,1434.6745278937126,2.0611074848166315,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Switzerland,1,2024,141.5171926400094,1595.8621749767876,1737.379367616797,1.985613322273703,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_grid,,Portugal,1,2024,116.54357040941952,1059.5169649235477,1176.0605353329672,2.1157414182358565,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,United States,1,2024,193.395,430.66732854992347,624.0623285499234,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Brazil,1,2024,197.26290000000003,418.1481429353445,615.4110429353445,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Canada,1,2024,172.12155,426.62659808765335,598.7481480876534,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Mexico,1,2024,156.64995000000005,413.90918264585235,570.5591326458524,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Australia,1,2024,189.333705,431.49071796504666,620.8244229650467,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,India,1,2024,122.61243,412.250555756877,534.862985756877,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Indonesia,1,2024,123.192615,412.547228482636,535.739843482636,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Philippines,1,2024,134.409525,412.06743631403253,546.4769613140326,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Singapore,1,2024,159.937665,422.9712902045489,582.9089552045489,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Thailand,1,2024,126.09354,413.43971649284055,539.5332564928406,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,China,1,2024,152.39526000000004,420.75569758656786,573.1509575865679,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Japan,1,2024,207.89962500000004,424.66555815021263,632.5651831502126,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Russia,1,2024,137.69724,413.00002383621666,550.6972638362166,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,South Korea,1,2024,222.40425000000002,423.6419362088499,646.0461862088499,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Taipei,1,2024,163.61217,436.9693262348427,600.5814962348427,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,South Arabia,1,2024,205.38549000000003,421.3990770166405,626.7845670166405,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,South Africa,1,2024,235.55511,423.2092542166405,658.7643642166405,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Turkey,1,2024,140.79155999999998,413.5077938650342,554.2993538650342,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Belgium,1,2024,221.63067,435.83467274777416,657.4653427477742,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,France,1,2024,198.81006000000005,430.5358930337316,629.3459530337317,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Germany,1,2024,201.51759,434.89152768018664,636.4091176801867,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Italy,1,2024,179.85735000000003,425.7955987353953,605.6529487353953,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Netherlands,1,2024,218.14955999999998,431.3202339487553,649.4697939487553,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Spain,1,2024,169.220625,424.35438191298033,593.5750069129804,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,United Kingdom,1,2024,196.48932000000002,425.59073156355754,622.0800515635576,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Czech Republic,1,2024,173.28192000000004,422.7076137823806,595.9895337823806,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Finland,1,2024,222.79104,433.67718677196297,656.4682267719629,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Hungary,1,2024,178.69698,417.7367079255247,596.4336879255247,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Norway,1,2024,256.24837499999995,439.06333349889576,695.3117084988958,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Poland,1,2024,180.82432500000002,419.3891454663634,600.2134704663634,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Sweden,1,2024,234.39473999999998,435.77692937709,670.17166937709,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Oman,1,2024,184.692225,422.4619203350028,607.1541453350028,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,United Arab Emirates,1,2024,184.692225,423.95082242457767,608.6430474245776,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Malaysia,1,2024,169.220625,415.2990987765923,584.5197237765923,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Saudi Arabia,1,2024,184.692225,423.0676686067635,607.7598936067635,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Greece,1,2024,177.92340000000002,420.0258542437026,597.9492542437026,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Austria,1,2024,201.1308,431.1214344756257,632.2522344756256,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Switzerland,1,2024,213.70147500000002,439.97468453484277,653.6761595348428,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE_renew,,Portugal,1,2024,175.98945000000003,420.00931091366334,595.9987609136633,0.10053141889999999,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,United States,1,2024,179.97121129617202,449.68880483081404,629.6600161269861,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Brazil,1,2024,183.57063552209547,1012.001238504296,1195.5718740263915,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Canada,1,2024,160.1743780535931,302.4697704200754,462.6441484736685,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Mexico,1,2024,145.77668114989933,292.6577584520393,438.4344396019386,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Australia,1,2024,176.1918158589524,412.8934327651253,589.0852486240776,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,India,1,2024,114.10174796177306,705.3822822400734,819.4840302018465,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Indonesia,1,2024,114.64166159566159,705.8507392053042,820.4924008009658,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Philippines,1,2024,125.07999185083953,1413.2913948343369,1538.3713866851765,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Singapore,1,2024,148.83619174193424,1691.063441614882,1839.8996333568164,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Thailand,1,2024,117.34122976510416,281.138091457386,398.47932122249017,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,China,1,2024,141.81731450138358,564.3819745575406,706.1992890589243,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Japan,1,2024,193.4690521433849,811.7268693248075,1005.1959214681924,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Russia,1,2024,128.1395024428745,136.75437213833797,264.89387458121246,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,South Korea,1,2024,206.96689299059778,665.7219254215837,872.6888184121815,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Taipei,1,2024,152.2556447565615,1748.851278163464,1901.1069229200255,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,South Arabia,1,2024,191.12942639653468,1799.0323003019607,1990.1617266984954,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,South Africa,1,2024,219.20493535873754,1800.716830839693,2019.9217661984308,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Turkey,1,2024,131.01904182361324,417.5358749735791,548.5549167971924,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Belgium,1,2024,206.24700814541313,821.2295425653075,1027.4765507107206,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,France,1,2024,185.01040521246483,1078.4533231490943,1263.463728361559,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Germany,1,2024,187.53000217061125,1093.0302904387581,1280.5602926093693,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Italy,1,2024,167.37322650544,1373.3655714150561,1540.7387979204962,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Netherlands,1,2024,203.00752634208203,1428.376707793731,1631.384234135813,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Spain,1,2024,157.47480988415052,872.1791653602828,1029.6539752444332,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,United Kingdom,1,2024,182.85075067691076,919.3676312765426,1102.2183819534534,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Czech Republic,1,2024,161.25420532137014,864.7826240909949,1026.036829412365,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Finland,1,2024,207.32683541319014,1246.644939844029,1453.9717752572192,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Hungary,1,2024,166.29339923766295,1447.126408741571,1613.4198079792338,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Norway,1,2024,238.46185496742794,1433.867984192721,1672.3298391601488,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Poland,1,2024,168.27308256192086,782.4371781273595,950.7102606892804,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Sweden,1,2024,218.12510809096048,880.8813909724872,1099.0064990634478,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Oman,1,2024,171.87250678784426,1422.4630563218564,1594.3355631097006,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,United Arab Emirates,1,2024,171.87250678784426,531.5917748993172,703.4642816871615,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Malaysia,1,2024,157.47480988415052,340.69267018245216,498.1674800666027,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Saudi Arabia,1,2024,171.87250678784426,145.26528437963708,317.13779116748134,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Greece,1,2024,165.57351439247824,1080.5337413455295,1246.1072557380078,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Austria,1,2024,187.17005974801893,1320.3859069638768,1507.5559667118957,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Switzerland,1,2024,198.86818848227006,1751.6480307870063,1950.5162192692765,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS_renew,,Portugal,1,2024,163.77380227951653,1208.2639387441814,1372.037741023698,0.45101670851183706,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,United States,1,2024,128.06985759276867,357.1893400778586,485.25919767062726,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Brazil,1,2024,130.63125474462407,794.8579542002708,925.4892089448949,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Canada,1,2024,113.98217325756413,242.7821392531488,356.76431251071295,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Mexico,1,2024,103.73658465014266,235.68727799905045,339.4238626491931,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Australia,1,2024,125.38039058332053,328.41710915343856,453.7974997367591,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,India,1,2024,81.19628971381535,556.9044599009196,638.1007496147349,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Indonesia,1,2024,81.58049928659365,557.2323763218532,638.8128756084468,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Philippines,1,2024,89.00855102697423,1107.2106778061413,1196.2192288331155,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Singapore,1,2024,105.91377222921969,1322.9009456250665,1428.814717854286,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Thailand,1,2024,83.5015471504852,226.90350619750015,310.40505334798536,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,China,1,2024,100.91904778310172,447.1412502745198,548.0602980576215,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Japan,1,2024,137.67509691222634,639.0592423453852,776.7343392576115,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Russia,1,2024,91.1857386060513,114.53740450342214,205.72314310947343,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,South Korea,1,2024,147.28033623168398,525.572650436718,672.8529866684021,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Taipei,1,2024,108.34709952348231,1367.38948176101,1475.7365812844923,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,South Arabia,1,2024,136.01018876352035,1406.639834235964,1542.6500229994842,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,South Africa,1,2024,155.98908654799226,1407.838568103032,1563.8276546510242,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Turkey,1,2024,93.23485632753558,332.87266403036233,426.1075203578979,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Belgium,1,2024,146.7680568013129,645.8906151132541,792.658671914567,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,France,1,2024,131.6558136053662,846.1286511338081,977.7844647391744,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Germany,1,2024,133.44879161166497,857.1278722858494,990.5766638975144,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Italy,1,2024,119.10496756127488,1075.7929018670643,1194.8978694283392,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Netherlands,1,2024,144.46279936464308,1118.0944186833717,1262.5572180480149,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Spain,1,2024,112.06112539367261,685.8266007449954,797.887726138668,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,United Kingdom,1,2024,130.118975314253,722.6758783634073,852.7948536776603,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Czech Republic,1,2024,114.75059240312075,679.7898585225969,794.5404509257177,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Finland,1,2024,147.53647594686953,976.6509147858982,1124.1873907327677,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Hungary,1,2024,118.33654841571827,1133.2307393471292,1251.5672877628474,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Norway,1,2024,169.6925613104185,1122.0802035757918,1291.7727648862103,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Poland,1,2024,119.74531684923872,616.1313628411867,735.8766796904255,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Sweden,1,2024,155.22066740243565,692.1122816279388,847.3329490303745,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Oman,1,2024,122.30671400109408,1113.782170570202,1236.0888845712961,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,United Arab Emirates,1,2024,122.30671400109408,421.15969358002405,543.4664075811181,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Malaysia,1,2024,112.06112539367261,273.1192852213804,385.180410615053,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Saudi Arabia,1,2024,122.30671400109408,120.65014240414217,242.95685640523624,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Greece,1,2024,117.8242689853472,848.1392872159404,965.9635562012876,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Austria,1,2024,133.19265189647945,1034.2722743650252,1167.4649262615046,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Switzerland,1,2024,141.5171926400094,1369.3796873480017,1510.896879988011,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR_renew,,Portugal,1,2024,116.54357040941952,947.2690653531407,1063.8126357625601,1.9607797161740554,,,,Liquid cryogenic ammonia at atmospheric pressure
