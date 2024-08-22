@@ -5,7 +5,7 @@ Purpose: Prepare .csv files contained in input_fuel_pathway_data using consisten
 
 import pandas as pd
 import os
-from common_tools import get_top_dir
+from common_tools import get_top_dir, ensure_directory_exists
 
 # Function to calculate CapEx, OpEx, LCOF, and production GHG emissions for STP hydrogen
 workhours_per_year = 52*40 # number of work-hours per year
@@ -228,7 +228,10 @@ def calculate_production_costs_emissions_methanol(fuel_pathway,instal_factor,wat
 def main():
     top_dir = get_top_dir()
     input_dir = f"{top_dir}/input_fuel_pathway_data/"
-    output_dir = f"{top_dir}/input_fuel_pathway_data/"
+    output_dir_production = f"{top_dir}/input_fuel_pathway_data/production/"
+    ensure_directory_exists(output_dir_production)
+    output_dir_process = f"{top_dir}/input_fuel_pathway_data/process/"
+    ensure_directory_exists(output_dir_process)
 
     # Read the input CSV file
     input_file = 'fuel_production_inputs.csv'
@@ -236,7 +239,7 @@ def main():
     input_df = pd.read_csv(csv_file)
 
     # Well to Gate fuel production
-    fuels = ["hydrogen", "liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol"]
+    fuels = ["hydrogen", "ammonia", "methanol"]
     fuel_pathways = ["LTE_grid", "SMRCCS_grid", "SMR_grid", "LTE_renew", "SMRCCS_renew", "SMR_renew"]
     for fuel in fuels: 
         # List to hold all rows for the output CSV
@@ -284,9 +287,9 @@ def main():
 
         # Write the output data to a CSV file
         output_file = f"{fuel}_costs_emissions.csv"
-        output_df.to_csv(os.path.join(output_dir, output_file), index=False)
+        output_df.to_csv(os.path.join(output_dir_production, output_file), index=False)
 
-        print(f"Output CSV file created: {os.path.join(output_dir, output_file)}")
+        print(f"Output CSV file created: {os.path.join(output_dir_production, output_file)}")
 
     # Gate to Pump Processes
     processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion"]
@@ -344,9 +347,9 @@ def main():
 
         # Write the output data to a CSV file
         output_file = f"{process}_costs_emissions.csv"
-        output_df.to_csv(os.path.join(output_dir, output_file), index=False)
+        output_df.to_csv(os.path.join(output_dir_process, output_file), index=False)
 
-        print(f"Output CSV file created: {os.path.join(output_dir, output_file)}")
+        print(f"Output CSV file created: {os.path.join(output_dir_process, output_file)}")
 
 
 if __name__ == "__main__":
