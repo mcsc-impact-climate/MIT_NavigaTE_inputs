@@ -51,19 +51,19 @@ H2_SMR_onsite_emissions = 188221/20126 # [kg CO2e/kgH2] from Zang et al 2021
 H2_liq_base_CapEx = 0.59898 # [2024$/kg]
 H2_liq_elect_demand = 8.0 # [kWh elect/kg H2]
 
-# Inputs for production of gaseous H2 at 700 bar
+# Inputs for production of gaseous H2 at 700 bar and 300 K
 H2_comp_base_CapEx = 0.17114 # [2024$/kg]
 H2_comp_elect_demand = 3.0 # [kWh elect/kg H2]
 
 # Inputs for liquid NH3 production from arbitrary H2 feedstock
 NH3_elect_demand = 10.05314189 # [kWh elect/kg NH3] for LTE ammonia process from Aspen Plus
-NH3_H2_demand = 2.01568/17.03022 # [kg H2/kg NH3] for LTE ammonia process from Aspen Plus
-NH3_elect_demand -= 3/2*H2_LTE_elect_demand*NH3_H2_demand # subtract electrical demand from LTE H2 process
+NH3_H2_demand = 3.02352/17.03022 # [kg H2/kg NH3] for LTE ammonia process from Aspen Plus
+NH3_elect_demand -= H2_LTE_elect_demand*NH3_H2_demand # subtract electrical demand from LTE H2 process
 NH3_NG_demand = 0 # [GJ NG/kg H2] from Aspen Plus
 NH3_water_demand = 0.00261861625758975 # [m^3 H2O/kg NH3] for LTE ammonia process from Aspen Plus
-NH3_water_demand -= 3/2*H2_LTE_water_demand*NH3_H2_demand # subtract water demand from LTE H2 process
+NH3_water_demand -= H2_LTE_water_demand*NH3_H2_demand # subtract water demand from LTE H2 process
 NH3_base_CapEx = 0.193395 # [2024$/kg] from H2A
-NH3_base_CapEx -= 3/2*H2_LTE_base_CapEx*NH3_H2_demand # subtract base CapEx from LTE H2 process
+NH3_base_CapEx -= H2_LTE_base_CapEx*NH3_H2_demand # subtract base CapEx from LTE H2 process
 NH3_full_time_employed = 10 # [full-time employees] from H2A
 NH3_full_time_employed -= H2_LTE_full_time_employed # subtract employees from LTE H2 process
 NH3_yearly_output = 109306554 # [kg NH3/year] from Aspen Plus
@@ -210,11 +210,11 @@ def calculate_production_costs_emissions_methanol(fuel_pathway,instal_factor,wat
     if CO2_pathway.startswith("LTE_"):
         CO2_CapEx = 0 # No CapEx because we assume biogenic CO2 is purchased externally at a fixed price 
         CO2_OpEx = CO2_price
-        CO2_emissions = CO2_upstream_emissions*CO2_demand - (44.01/32.04) - onsite_emissions # biogenic credit
+        CO2_emissions = CO2_upstream_emissions*CO2_demand - (44.01/32.04) - onsite_emissions # biogenic CO2 credit
     elif CO2_pathway.startswith("SMRCCS_"):
         CO2_CapEx = 0 # CO2 is "free" after already paying for upstream CCS
         CO2_OpEx = 0 # CO2 is "free" after already paying for upstream CCS
-        CO2_emissions = 0 # we are working with already-captured fossil CO2
+        CO2_emissions = CO2_demand - (44.01/32.04) # we are working with already-captured fossil CO2, but not at 100% conversion.
     elif CO2_pathway.startswith("SMR_"):
         CO2_CapEx = 0 # assumes integrated plant with syngas conversion
         CO2_OpEx = 0 # assumes integrated plant with syngas conversion
@@ -235,7 +235,8 @@ def main():
     csv_file = os.path.join(input_dir, input_file)
     input_df = pd.read_csv(csv_file)
 
-    fuels = ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol"]
+    # Well to Gate fuel production
+    fuels = ["hydrogen", "liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol"]
     fuel_pathways = ["LTE_grid", "SMRCCS_grid", "SMR_grid", "LTE_renew", "SMRCCS_renew", "SMR_renew"]
     for fuel in fuels: 
         # List to hold all rows for the output CSV
@@ -250,7 +251,10 @@ def main():
                 if fuel_pathway.endswith("_renew"):
                     elect_price = renew_price
                     elect_emissions_intensity = renew_emissions_intensity
-                if fuel == "liquid_hydrogen":
+                if fuel == "hydrogen":
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    comment = "hydrogen at standard temperature and pressure"
+                elif fuel == "liquid_hydrogen":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen(fuel_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid cryogenic hydrogen at atmospheric pressure"
                 elif fuel == "compressed_hydrogen":
@@ -283,6 +287,67 @@ def main():
         output_df.to_csv(os.path.join(output_dir, output_file), index=False)
 
         print(f"Output CSV file created: {os.path.join(output_dir, output_file)}")
+
+    # Gate to Pump Processes
+    processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion"]
+    process_pathways = ["grid", "renew"]
+    for process in processes: 
+        # List to hold all rows for the output CSV
+        output_data = []
+
+        # Iterate through each row in the input data and perform calculations
+        for process_pathway in process_pathways:
+            for index, row in input_df.iterrows():
+                region,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate = row
+                # Check whether we are working with grid or renewable electricity
+                # if renewables, fix electricity price and emissions to imposed values
+                if process_pathway.endswith("renew"):
+                    elect_price = renew_price
+                    elect_emissions_intensity = renew_emissions_intensity
+                # Calculations use LTE pathway for all, but subtract away the LTE costs/emissions
+                if process == "hydrogen_liquefaction":
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx -= CapEx_H2prod
+                    OpEx -= OpEx_H2prod
+                    emissions -= emissions_H2prod
+                    comment = "Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure"
+                elif process == "hydrogen_compression":
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx -= CapEx_H2prod
+                    OpEx -= OpEx_H2prod
+                    emissions -= emissions_H2prod
+                    comment = "compression of STP hydrogen to gaseous hydrogen at 700 bar"
+                elif process == "ammonia":
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx -= (CapEx_H2prod*NH3_H2_demand)
+                    OpEx -= (OpEx_H2prod*NH3_H2_demand)
+                    emissions -= (emissions_H2prod*NH3_H2_demand)
+                    comment = "conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure"
+                CapEx *= 1000 # convert to $/tonne
+                OpEx *= 1000 # convert to $/tonne
+                LCOF = CapEx + OpEx # in $/tonne
+                calculated_row = [process, process_pathway, "", region, 1, 2024, CapEx, OpEx, LCOF, emissions, "", "", "", comment]
+                output_data.append(calculated_row)
+
+        # Define the output CSV column names
+        output_columns = [
+            "Fuel", "Pathway Name", "Pathway Description", "Region", "Number", "Year",
+            "CapEx [$/tonne]", "OpEx [$/tonne]", "LCOF [$/tonne]", "Emissions [kg CO2e / kg fuel]", "Details",
+            "Model(s) or publications", "Results Produced by", "Comment"
+        ]
+
+        # Create a DataFrame for the output data
+        output_df = pd.DataFrame(output_data, columns=output_columns)
+
+        # Write the output data to a CSV file
+        output_file = f"{process}_costs_emissions.csv"
+        output_df.to_csv(os.path.join(output_dir, output_file), index=False)
+
+        print(f"Output CSV file created: {os.path.join(output_dir, output_file)}")
+
 
 if __name__ == "__main__":
     main()
