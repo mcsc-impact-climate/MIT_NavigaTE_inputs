@@ -15,10 +15,12 @@ gen_admin_rate = 0.2 # 20% G&A rate
 op_maint_rate = 0.04 # O&M rate
 tax_rate = 0.02 # 2% tax rate
 NG_percent_fugitive = 0.02 # 2% fugitive NG emissions
-renew_price = 0.04 # [2024$/kWh] price of renewable electricity
-CO2_price = 0.04 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC)
-CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..)
-renew_emissions_intensity = 0.01 # [kg CO2e/kWh] upstream emissions from renewable electricity
+renew_price = 0.04 # [2024$/kWh] price of renewable electricity #NOTE: just a placeholder value for now
+renew_emissions_intensity = 0.01 # [kg CO2e/kWh] upstream emissions from renewable electricity #NOTE: just a placeholder value for now
+nuke_price = 0.05 # [2024$/kWh] price of nuclear electricity #NOTE: just a placeholder value for now
+nuke_emissions_intensity = 0.01 # [kg CO2e/kWh] upstream emissions from nuclear electricity #NOTE: just a placeholder value for now
+CO2_price = 0.04 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
+CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
 
 # Inputs for STP H2 production from low-temperature water electrolysis
 H2_LTE_elect_demand = 51.03004082 # [kWh elect/kg H2] from Aspen Plus
@@ -200,14 +202,17 @@ def calculate_production_costs_emissions_methanol(fuel_pathway,instal_factor,wat
                 + NG_demand/NG_HHV*NG_GWP*NG_percent_fugitive \
                 + onsite_emissions
     # add H2 feedstock costs and emissions
-    H2_pathway = fuel_pathway # for now... this lets us modify later (e.g. H2_pathway = fuel_pathway.partition("_H")[0])
+    H2_pathway = fuel_pathway.partition("_H_")[0] + fuel_pathway.partition("_C")[2]
     H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H2_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += (H2_CapEx*H2_demand)
     OpEx += (H2_OpEx*H2_demand)
     emissions += (H2_emissions*H2_demand)
     # add CO2 feedstock costs and emissions
-    CO2_pathway = fuel_pathway # for now... this lets us modify later (e.g. CO2_pathway = fuel_pathway.partition("_H")[2].partition("_C")[0])
-    if CO2_pathway.startswith("LTE_"):
+    CO2_pathway = fuel_pathway.partition("_H_C_")[0]
+    if CO2_pathway == fuel_pathway:
+        CO2_pathway = fuel_pathway.partition("_H_")[2].partition("C_")[0]
+    CO2_pathway += fuel_pathway.partition("_C")[2]
+    if CO2_pathway.startswith("Bio_"):
         CO2_CapEx = 0 # No CapEx because we assume biogenic CO2 is purchased externally at a fixed price 
         CO2_OpEx = CO2_price
         CO2_emissions = CO2_upstream_emissions*CO2_demand - (44.01/32.04) - onsite_emissions # biogenic CO2 credit
@@ -237,8 +242,18 @@ def main():
 
     # Well to Gate fuel production
     fuels = ["hydrogen", "liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol"]
-    fuel_pathways = ["LTE_grid", "SMRCCS_grid", "SMR_grid", "LTE_renew", "SMRCCS_renew", "SMR_renew"]
+    elecs = ["grid", "renew" #, "nuke"] NOTE: could easily add nuclear or other electricity sources like this
+                             ]
     for fuel in fuels: 
+        if fuel == "methanol":
+            fuel_pathways_noelec = ["LTE_H_Bio_C", "SMRCCS_H_Bio_C", "SMRCCS_H_C", "SMR_H_Bio_C", "SMR_H_C"]
+        else:
+            fuel_pathways_noelec = ["LTE", "SMRCCS", "SMR"]
+
+        fuel_pathways = []
+        for elec in elecs:
+            fuel_pathways += [str + "_" + elec for str in fuel_pathways_noelec]
+       
         # List to hold all rows for the output CSV
         output_data = []
 
@@ -251,6 +266,9 @@ def main():
                 if fuel_pathway.endswith("_renew"):
                     elect_price = renew_price
                     elect_emissions_intensity = renew_emissions_intensity
+                elif fuel_pathway.endswith("_nuke"):
+                    elect_price = nuke_price
+                    elect_emissions_intensity = nuke_emissions_intensity
                 if fuel == "hydrogen":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "hydrogen at standard temperature and pressure"
@@ -290,7 +308,7 @@ def main():
 
     # Gate to Pump Processes
     processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion"]
-    process_pathways = ["grid", "renew"]
+    process_pathways = elecs
     for process in processes: 
         # List to hold all rows for the output CSV
         output_data = []
@@ -301,9 +319,12 @@ def main():
                 region,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate = row
                 # Check whether we are working with grid or renewable electricity
                 # if renewables, fix electricity price and emissions to imposed values
-                if process_pathway.endswith("renew"):
+                if process_pathway == "renew":
                     elect_price = renew_price
                     elect_emissions_intensity = renew_emissions_intensity
+                elif process_pathway == "nuke":
+                    elect_price = nuke_price
+                    elect_emissions_intensity = nuke_emissions_intensity
                 # Calculations use LTE pathway for all, but subtract away the LTE costs/emissions
                 if process == "hydrogen_liquefaction":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
@@ -331,13 +352,6 @@ def main():
                 LCOF = CapEx + OpEx # in $/tonne
                 calculated_row = [process, process_pathway, "", region, 1, 2024, CapEx, OpEx, LCOF, emissions, "", "", "", comment]
                 output_data.append(calculated_row)
-
-        # Define the output CSV column names
-        output_columns = [
-            "Fuel", "Pathway Name", "Pathway Description", "Region", "Number", "Year",
-            "CapEx [$/tonne]", "OpEx [$/tonne]", "LCOF [$/tonne]", "Emissions [kg CO2e / kg fuel]", "Details",
-            "Model(s) or publications", "Results Produced by", "Comment"
-        ]
 
         # Create a DataFrame for the output data
         output_df = pd.DataFrame(output_data, columns=output_columns)
