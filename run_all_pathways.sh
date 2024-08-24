@@ -11,9 +11,6 @@ SCRIPT_DIR=$(dirname "$0")
 SOURCE_DIR="${SCRIPT_DIR}/includes_global/all_costs_emissions"
 DEST_DIR="${SCRIPT_DIR}/includes_global"
 
-# Should be at most the number of available CPU cores
-MAX_PARALLEL_PROCESSES=8
-
 mkdir -p "${SCRIPT_DIR}/all_outputs_full_fleet"
 
 # Create the input .inc files
@@ -40,35 +37,15 @@ process_pathway() {
     cp "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/plots/${fuel}_excel_report.xlsx" "${SCRIPT_DIR}/all_outputs_full_fleet/report-${pathway_name}.xlsx" 2>&1 | tee -a "$log_file"
 }
 
-export -f process_pathway
-export SCRIPT_DIR DEST_DIR
+for inc_file in "${SOURCE_DIR}"/*.inc; do
 
-# Function to manage parallel jobs
-run_parallel() {
-    local jobs=0
-
-    for inc_file in "${SOURCE_DIR}"/*.inc; do
-
-        filename=$(basename -- "$inc_file")
-        fuel=$(echo $filename | cut -d'-' -f1)
-        pathway_name=$(basename -- "$filename" .inc)
-        
-        echo $filename $fuel $pathway_name
-        process_pathway "$inc_file" "$fuel" "$pathway_name" &
-
-        jobs=$((jobs + 1))
-
-        if [[ $jobs -ge $MAX_PARALLEL_PROCESSES ]]; then
-            wait
-            jobs=0
-        fi
-    done
-
-    # Wait for any remaining background jobs to finish
-    wait
-}
-
-# Run the pathways in parallel
-run_parallel
+    filename=$(basename -- "$inc_file")
+    fuel=$(echo $filename | cut -d'-' -f1)
+    pathway_name=$(basename -- "$filename" .inc)
+    
+    echo $filename $fuel $pathway_name
+    process_pathway "$inc_file" "$fuel" "$pathway_name" &
+    
+done
 
 
