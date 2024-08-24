@@ -12,7 +12,7 @@ Assuming you have access to the NavigaTE repo, start by cloning the repo
 cd ..
 git clone git@github.com:zerocarbonshipping/NavigaTE.git
 cd NavigaTE
-git checkout [your desired branch, if different from main]
+git checkout MIT-shipping-study
 ```
 
 Install NavigaTE using the wheel file:
