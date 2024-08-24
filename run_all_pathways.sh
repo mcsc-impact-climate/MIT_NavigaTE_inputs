@@ -31,27 +31,44 @@ process_pathway() {
     local inc_file=$1
     local fuel=$2
     local pathway_name=$3
+    local log_file="${SCRIPT_DIR}/Logs/log-${pathway_name}.log"
 
-    echo "Processing ${pathway_name} pathway"
+    echo "Processing ${pathway_name} pathway" | tee -a "$log_file"
 
-    cp "$inc_file" "${DEST_DIR}/cost_emissions_${fuel}.inc"
-    echo navigate --suppress-plots "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${fuel}.nav"
-    navigate --suppress-plots "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${fuel}.nav"
-    cp "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/plots/${fuel}_excel_report.xlsx" "${SCRIPT_DIR}/all_outputs_full_fleet/report-${pathway_name}.xlsx"
+    cp "$inc_file" "${DEST_DIR}/cost_emissions_${fuel}.inc" 2>&1 | tee -a "$log_file"
+    navigate --suppress-plots "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${fuel}.nav" 2>&1 | tee -a "$log_file"
+    cp "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/plots/${fuel}_excel_report.xlsx" "${SCRIPT_DIR}/all_outputs_full_fleet/report-${pathway_name}.xlsx" 2>&1 | tee -a "$log_file"
 }
 
 export -f process_pathway
 export SCRIPT_DIR DEST_DIR
 
-# Loop through all .inc files in the source directory
-for inc_file in "${SOURCE_DIR}"/*.inc; do
+# Function to manage parallel jobs
+run_parallel() {
+    local jobs=0
 
-    filename=$(basename -- "$inc_file")
-    fuel=$(echo $filename | cut -d'-' -f1)
-    pathway_name=$(basename -- "$filename" .inc)
-    
-    echo $filename $fuel $pathway_name
-    process_pathway "$inc_file" "$fuel" "$pathway_name"
-    
-done
+    for inc_file in "${SOURCE_DIR}"/*.inc; do
+
+        filename=$(basename -- "$inc_file")
+        fuel=$(echo $filename | cut -d'-' -f1)
+        pathway_name=$(basename -- "$filename" .inc)
+        
+        echo $filename $fuel $pathway_name
+        process_pathway "$inc_file" "$fuel" "$pathway_name" &
+
+        jobs=$((jobs + 1))
+
+        if [[ $jobs -ge $MAX_PARALLEL_PROCESSES ]]; then
+            wait
+            jobs=0
+        fi
+    done
+
+    # Wait for any remaining background jobs to finish
+    wait
+}
+
+# Run the pathways in parallel
+run_parallel
+
 
