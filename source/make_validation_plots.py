@@ -75,20 +75,6 @@ result_components = {
     "TotalEquivalentWTW": ["TotalEquivalentTTW", "TotalEquivalentWTT"],
 }
 
-pathway_type_colors = {
-    "electro_renew": "limegreen",
-    "electro_grid": "darkgreen",
-    "blue": "blue",
-    "grey": "grey",
-}
-
-pathway_type_labels = {
-    "electro_renew": "Electro (renewables)",
-    "electro_grid": "Electro (grid)",
-    "blue": "Blue",
-    "grey": "Grey",
-}
-
 delta_wtw_sign_colors_labels = {
     "positive": {
         "color": "red",
@@ -292,7 +278,7 @@ def find_unique_identifiers(
     directory,
     identifier,
     substring="",
-    pattern="{fuel}-{pathway_type}-{pathway}-{quantity}-{modifier}.csv",
+    pattern="{fuel}-{pathway}-{quantity}-{modifier}.csv",
 ):
     """
     Finds all unique values of a given identifier in a pattern within filenames in a directory containing the given substring
@@ -320,80 +306,19 @@ def find_unique_identifiers(
             f"Error: identifier {identifier} not found in provided pattern {pattern}"
         )
 
-    filenames_matching_substring = find_files_starting_with_substring(
+    filepaths_matching_substring = find_files_starting_with_substring(
         directory, substring
     )
     unique_identifier_values = []
-    for filename in filenames_matching_substring:
-        identifier_value = get_filename_info(filename, identifier, pattern)
-
+    for filepath in filepaths_matching_substring:
+        filename = filepath.split("/")[-1]
+        if filename.startswith("."):
+            continue
+        identifier_value = get_filename_info(filepath, identifier, pattern)
         if identifier_value not in unique_identifier_values:
             unique_identifier_values.append(identifier_value)
 
     return unique_identifier_values
-
-
-def find_unique_identifier_pairs(
-    directory,
-    identifier1,
-    identifier2,
-    substring="",
-    pattern="{fuel}-{pathway_type}-{pathway}-{quantity}-{modifier}.csv",
-):
-    """
-    Finds all unique pairs of values for a given identifier in a pattern within filenames in a directory containing the given substring
-
-    Parameters:
-    ----------
-    directory : str
-        The path to the directory to search
-    pattern : str
-        Pattern containing the given identifier
-    identifier1 : str
-        First identifier to find in a pair
-    identifier2 : str
-        Second identifier to find in a pair
-    substring : str
-        The substring to search for in the filenames.
-
-    Returns:
-    -------
-    unique_identifier_dicts: list of dict
-        A list of unique dictionaries containing pairs of values for the given identifiers in strings containing the given substring.
-    """
-
-    # Check that the identifiers are included in the provided pattern
-    if identifier1 not in pattern:
-        raise Exception(
-            f"Error: identifier {identifier1} not found in provided pattern {pattern}"
-        )
-
-    if identifier2 not in pattern:
-        raise Exception(
-            f"Error: identifier {identifier2} not found in provided pattern {pattern}"
-        )
-
-    filenames_matching_substring = find_files_starting_with_substring(
-        directory, substring
-    )
-    unique_identifier_dicts = []
-
-    for filename in filenames_matching_substring:
-        identifier1_value = get_filename_info(filename, identifier1, pattern)
-        identifier2_value = get_filename_info(filename, identifier2, pattern)
-
-        # Create a dictionary of the two identifier values
-        identifier_dict = {
-            identifier1: identifier1_value,
-            identifier2: identifier2_value,
-        }
-
-        # Add the dictionary to the list if it is unique
-        if identifier_dict not in unique_identifier_dicts:
-            unique_identifier_dicts.append(identifier_dict)
-
-    return unique_identifier_dicts
-
 
 def create_directory_if_not_exists(directory_path):
     """
@@ -596,6 +521,58 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
         units = base_units
 
     return units
+    
+def get_pathway_type(pathway, info_file=f"{top_dir}/info_files/pathway_info.csv"):
+    """
+    Reads in the pathway type label for the given fuel production pathway based on the csv info file.
+    
+    Parameters
+    ----------
+    pathway : str
+        Name of the pathway
+        
+    info_file : str
+        Path to an info file that contains a mapping between pathway names and types
+
+    Returns
+    -------
+    pathway_type : str
+        Pathway type associated with the given pathway name
+    """
+    
+    try:
+        info_df = pd.read_csv(info_file)
+    except FileNotFoundError:
+        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type.")
+    try:
+        pathway_type = info_df["Pathway Type"][info_df["Pathway Name"] == pathway].iloc[0]
+    except KeyError as e:
+        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type.")
+    return pathway_type
+
+def get_pathway_type_color(pathway_type, info_file=f"{top_dir}/info_files/pathway_type_info.csv"):
+
+    try:
+        info_df = pd.read_csv(info_file)
+    except FileNotFoundError:
+        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway color.")
+    try:
+        pathway_color = info_df["Color"][info_df["Pathway Type"] == pathway_type].iloc[0]
+    except KeyError as e:
+        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway color.")
+    return pathway_color
+    
+def get_pathway_type_label(pathway_type, info_file=f"{top_dir}/info_files/pathway_type_info.csv"):
+
+    try:
+        info_df = pd.read_csv(info_file)
+    except FileNotFoundError:
+        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type label.")
+    try:
+        pathway_type_label = info_df["Label"][info_df["Pathway Type"] == pathway_type].iloc[0]
+    except KeyError as e:
+        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type label.")
+    return pathway_type_label
 
 
 class ProcessedQuantity:
@@ -618,12 +595,8 @@ class ProcessedQuantity:
     fuel : str
         Fuel produced by the given production pathway (eg. ammonia, hydrogen, etc.)
 
-    pathway_type : str
+    pathway_color : str
         Color associated with the given production pathway
-            * grey: From fossil sources
-            * blue: From fossil sources coupled with carbon capture and storage (CCS)
-            * electro_renew: From electrolytic hydrogen powered by renewables
-            * electro_grid: From electrolytic hydrogen powered by the grid
 
     pathway : str
         Name of the production pathway, as it's saved in the name of the input csv file
@@ -656,15 +629,16 @@ class ProcessedQuantity:
     """
 
     def __init__(
-        self, quantity, modifier, fuel, pathway_type, pathway, results_dir=RESULTS_DIR
+        self, quantity, modifier, fuel, pathway, results_dir=RESULTS_DIR
     ):
         self.quantity = quantity
         self.modifier = modifier
         self.fuel = fuel
-        self.pathway_type = pathway_type
-        self.pathway_type_label = pathway_type_labels[self.pathway_type]
         self.pathway = pathway
-        self.pathway_label = get_pathway_label(pathway, pathway_labels_df)
+        self.pathway_label = get_pathway_label(self.pathway)
+        self.pathway_type = get_pathway_type(pathway)
+        self.pathway_color = get_pathway_type_color(self.pathway_type)
+        self.pathway_type_label = get_pathway_type_label(self.pathway_type)
         self.results_dir = results_dir
         self.result_df = self.read_result()
         self.cac_result_df = self.read_custom_quantity_df("CAC")
@@ -684,7 +658,7 @@ class ProcessedQuantity:
         -------
         None
         """
-        return f"{top_dir}/{self.results_dir}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}.csv"
+        return f"{top_dir}/{self.results_dir}/{self.fuel}-{self.pathway}-{self.quantity}-{self.modifier}.csv"
 
     def read_result(self):
         """
@@ -716,7 +690,7 @@ class ProcessedQuantity:
         data_df : pandas.DataFrame
             Pandas dataframe containing the data in the processed csv file
         """
-        custom_file_path = f"{top_dir}/{self.results_dir}/{self.fuel}-{self.pathway_type}-{self.pathway}-{custom_quantity}-{modifier}.csv"
+        custom_file_path = f"{top_dir}/{self.results_dir}/{self.fuel}-{self.pathway}-{custom_quantity}-{modifier}.csv"
         return pd.read_csv(custom_file_path, index_col=0)
 
     def make_hist_by_region(self, vessel_type="all", color_by_delta_wtw_sign=False):
@@ -1209,7 +1183,7 @@ class ProcessedQuantity:
 
             # Create a horizontal colorbar with appropriate formatting
             divider = make_axes_locatable(ax)
-            cax = divider.append_axes("bottom", size="5%", pad=0.2)
+            cax = divider.append_axes("bottom", size="5%", pad=1)
             sm = plt.cm.ScalarMappable(
                 cmap="coolwarm",
                 norm=plt.Normalize(vmin=merged[column].min(), vmax=merged[column].max()),
@@ -1338,9 +1312,9 @@ class ProcessedPathway:
         Executes map_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce geospatial maps of the given quantities and modifiers.
     """
 
-    def __init__(self, fuel, pathway_type, pathway, results_dir=RESULTS_DIR):
+    def __init__(self, fuel, pathway, results_dir=RESULTS_DIR):
         self.fuel = fuel
-        self.pathway_type = pathway_type
+        self.pathway_type = get_pathway_type(pathway)
         self.pathway = pathway
         self.results_dir = results_dir
         self.quantities = self.get_quantities()
@@ -1363,7 +1337,7 @@ class ProcessedPathway:
         quantities = find_unique_identifiers(
             self.results_dir,
             "quantity",
-            f"{self.fuel}-{self.pathway_type}-{self.pathway}",
+            f"{self.fuel}-{self.pathway}",
         )
 
         return quantities
@@ -1385,7 +1359,7 @@ class ProcessedPathway:
         modifiers = find_unique_identifiers(
             self.results_dir,
             "modifier",
-            f"{self.fuel}-{self.pathway_type}-{self.pathway}-{sample_quantity}",
+            f"{self.fuel}-{self.pathway}-{sample_quantity}",
         )
         return modifiers
 
@@ -1408,11 +1382,11 @@ class ProcessedPathway:
             modifiers = find_unique_identifiers(
                 self.results_dir,
                 "modifier",
-                f"{self.fuel}-{self.pathway_type}-{self.pathway}-{quantity}",
+                f"{self.fuel}-{self.pathway}-{quantity}",
             )
             for modifier in modifiers:
                 ProcessedQuantities[quantity][modifier] = ProcessedQuantity(
-                    quantity, modifier, self.fuel, self.pathway_type, self.pathway
+                    quantity, modifier, self.fuel, self.pathway
                 )
 
         return ProcessedQuantities
@@ -1456,7 +1430,7 @@ class ProcessedPathway:
             all_available_modifiers = find_unique_identifiers(
                 self.results_dir,
                 "modifier",
-                f"{self.fuel}-{self.pathway_type}-{self.pathway}-{quantity}",
+                f"{self.fuel}-{self.pathway}-{quantity}",
             )
             modifiers = all_available_modifiers
 
@@ -1597,7 +1571,7 @@ class ProcessedPathway:
         """
 
         processed_quantity = ProcessedQuantity(
-            "CAC", "vessel", self.fuel, self.pathway_type, self.pathway
+            "CAC", "vessel", self.fuel, self.pathway
         )
         processed_quantity.make_all_hists_by_region(color_by_delta_wtw_sign=True)
 
@@ -1636,7 +1610,7 @@ class ProcessedPathway:
         None
         """
         processed_quantity = ProcessedQuantity(
-            "CAC", "vessel", self.fuel, self.pathway_type, self.pathway
+            "CAC", "vessel", self.fuel, self.pathway
         )
         processed_quantity.map_by_region(color_by_delta_wtw_sign=True)
         
@@ -1657,12 +1631,11 @@ class ProcessedFuel:
     def __init__(self, fuel, results_dir=RESULTS_DIR):
         self.fuel = fuel
         self.results_dir = results_dir
-        self.pathways_with_type = self.get_pathways_with_type()
-        self.pathways = self.get_pathways_no_type()
+        self.pathways = self.get_pathways()
         self.ProcessedPathways = self.get_processed_pathways()
         self.type_pathway_dict = self.organize_pathways_by_type()
 
-    def get_pathways_with_type(self):
+    def get_pathways(self):
         """
         Collects the names of all pathways contained in processed csv files for the given fuel
 
@@ -1675,29 +1648,10 @@ class ProcessedFuel:
         pathways : list of Dictionaries
             List of unique pathways available for the given fuel, provided as dictionaries containing the pathway name and its associated type.
         """
-        pathways = find_unique_identifier_pairs(
-            self.results_dir, "pathway", "pathway_type", f"{self.fuel}"
+        pathways = find_unique_identifiers(
+            self.results_dir, "pathway", f"{self.fuel}"
         )
-
-        return pathways
-
-    def get_pathways_no_type(self):
-        """
-        Collects the names of all pathways contained in processed csv files for the given fuel
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        pathways : list of str
-            List of all pathways evaluated for the fuel
-        """
-        pathways = []
-        for pathway_dict in self.pathways_with_type:
-            pathways.append(pathway_dict["pathway"])
-
+        
         return pathways
 
     def get_processed_pathways(self):
@@ -1714,18 +1668,16 @@ class ProcessedFuel:
             Dictionary containing all ProcessedPathway objects for the given fuel
         """
         ProcessedPathways = {}
-        for pathway_dict in self.pathways_with_type:
-            pathway = pathway_dict["pathway"]
-            pathway_type = pathway_dict["pathway_type"]
+        for pathway in self.pathways:
             ProcessedPathways[pathway] = ProcessedPathway(
-                self.fuel, pathway_type, pathway
+                self.fuel, pathway
             )
 
         return ProcessedPathways
 
     def organize_pathways_by_type(self):
         """
-        Organizes the pathways according to their type (electro_grid, electro_renew, blue, grey)
+        Organizes the pathways according to their type (electro_grid, electro_renew, blue, grey, etc.)
 
         Parameters
         ----------
@@ -1736,18 +1688,14 @@ class ProcessedFuel:
         type_pathway_dict : dictionary of lists of str
             Dictionary containing a list of pathways corresponding to each type
         """
-        type_pathway_dict = {
-            "electro_grid": [],
-            "electro_renew": [],
-            "blue": [],
-            "grey": [],
-        }
+        type_pathway_dict = {}
 
-        for pathway_dict in self.pathways_with_type:
-            pathway_name = pathway_dict["pathway"]
-            pathway_type = pathway_dict["pathway_type"]
-            type_pathway_dict[pathway_type].append(pathway_name)
-
+        for pathway in self.pathways:
+            pathway_type = get_pathway_type(pathway)
+            if pathway_type not in type_pathway_dict:
+                type_pathway_dict[pathway_type] = [pathway]
+            else:
+                type_pathway_dict[pathway_type].append(pathway)
         return type_pathway_dict
 
     def get_all_countries(self):
@@ -1830,7 +1778,7 @@ class ProcessedFuel:
         
         # Add a vertical line at 0
         ax.axvline(0, color="black")
-        def make_bar(pathway, pathway_type, pathway_name, pathway_label):
+        def make_bar(pathway, pathway_name, pathway_label):
             """
             Plots a single bar for a given pathway
 
@@ -1838,9 +1786,6 @@ class ProcessedFuel:
             ----------
             pathway : ProcessedPathway
                 ProcessedPathway class instance containing the info to plot
-
-            pathway_type : str
-                Pathway type (electro_grid, electro_renew, blue, grey)
 
             pathway_name : str
                 Name of the pathway
@@ -1931,25 +1876,25 @@ class ProcessedFuel:
                 )
             # Set the y-axis label color to match the pathway type
             y_labels = ax.get_yticklabels()
+            pathway_type = get_pathway_type(pathway_name)
             if i_pathway < len(y_labels):
-                y_labels[i_pathway].set_color(pathway_type_colors[pathway_type])
+                y_labels[i_pathway].set_color(get_pathway_type_color(pathway_type))
                 y_labels[i_pathway].set_fontweight("bold")
                 
 
         # Loop through each color and pathway
         i_pathway = 0
-        for pathway_type in self.type_pathway_dict:
-            for pathway_name in self.type_pathway_dict[pathway_type]:
-                pathway = self.ProcessedPathways[pathway_name]
-                pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
+        for pathway_name in self.pathways:
+            pathway = self.ProcessedPathways[pathway_name]
+            pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
 
-                make_bar(pathway, pathway_type, pathway_name, pathway_label)
+            make_bar(pathway, pathway_name, pathway_label)
 
-                i_pathway += 1
+            i_pathway += 1
 
         # Add a bar for LSFO fossil for comparison
-        lsfo_pathway = ProcessedPathway("lsfo", "grey", "fossil")
-        make_bar(lsfo_pathway, "grey", "lsfo", "LSFO (fossil)")
+        lsfo_pathway = ProcessedPathway("lsfo", "fossil")
+        make_bar(lsfo_pathway, "fossil", "LSFO (fossil)")
         plt.axvline(
             lsfo_pathway.get_region_average_results([quantity], modifier)[quantity],
             linewidth=3,
@@ -2016,7 +1961,6 @@ class ProcessedFuel:
         """
 
         num_pathways = len(self.pathways)
-        print(num_pathways)
         fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
 
         fig, ax = plt.subplots(figsize=(18, fig_height))
@@ -2029,7 +1973,7 @@ class ProcessedFuel:
         scatter_handles = []  # To collect scatter plot legend handles
         scatter_labels = []  # To collect scatter plot legend labels
 
-        def make_bar(pathway, pathway_type, pathway_name, pathway_label):
+        def make_bar(pathway, pathway_name, pathway_label):
             """
             Plots a single bar for a given pathway
 
@@ -2037,9 +1981,6 @@ class ProcessedFuel:
             ----------
             pathway : ProcessedPathway
                 ProcessedPathway class instance containing the info to plot
-
-            pathway_type : str
-                Pathway type (electro_grid, electro_renew, blue, grey)
 
             pathway_name : str
                 Name of the pathway
@@ -2087,33 +2028,10 @@ class ProcessedFuel:
                     scatter = ax.scatter(
                         all_region_results[region],
                         pathway_label,
-                        #color=region_colors[region],
                         color="black",
                         s=50,
                         marker="D" if all_region_results_deltawtw[region] >= 0 else "o",
-                        #label=get_region_label(region)
-                        #if region not in countries_labelled
-                        #else "",
                     )
-
-#                    # Add the region to the list of countries that have been labeled so it only appears in the legend once
-#                    if region not in countries_labelled:
-#                        # Add to custom legend only if not already labelled
-#                        if region not in countries_labelled:
-#                            scatter_handles.append(
-#                                plt.Line2D(
-#                                    [0],
-#                                    [0],
-#                                    #color=region_colors[region],
-#                                    color="black",
-#                                    marker="s",  # Square marker for the legend
-#                                    linestyle="None",
-#                                    markersize=5,
-#                                )
-#                            )
-#                        countries_labelled.append(region)
-                        #scatter_handles.append(scatter)
-                        #scatter_labels.append(get_region_label(region))
                         
             if i_pathway == 0:
                 scatter_handles.append(scatter)
@@ -2121,25 +2039,25 @@ class ProcessedFuel:
 
             # Set the y-axis label color to match the pathway type
             y_labels = ax.get_yticklabels()
+            print(pathway_name)
+            pathway_type = get_pathway_type(pathway_name)
             if i_pathway < len(y_labels):
-                y_labels[i_pathway].set_color(pathway_type_colors[pathway_type])
+                y_labels[i_pathway].set_color(get_pathway_type_color(pathway_type))
                 y_labels[i_pathway].set_fontweight("bold")
 
         # Loop through each color and pathway
         i_pathway = 0
-        for pathway_type in self.type_pathway_dict:
-            for pathway_name in self.type_pathway_dict[pathway_type]:
-                pathway = self.ProcessedPathways[pathway_name]
-                pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
+        for pathway_name in self.pathways:
+            pathway = self.ProcessedPathways[pathway_name]
+            pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
 
-                make_bar(pathway, pathway_type, pathway_name, pathway_label)
+            make_bar(pathway, pathway_name, pathway_label)
 
-                i_pathway += 1
+            i_pathway += 1
 
         # Add a bar for LSFO fossil for comparison
-
-        lsfo_pathway = ProcessedPathway("lsfo", "grey", "fossil")
-        make_bar(lsfo_pathway, "grey", "lsfo", "LSFO (fossil)")
+        lsfo_pathway = ProcessedPathway("lsfo", "fossil")
+        make_bar(lsfo_pathway, "fossil", "LSFO (fossil)")
         plt.axvline(
             lsfo_pathway.get_region_average_results(["CAC"], "vessel")["CAC"],
             linewidth=3,
@@ -2291,7 +2209,7 @@ class ProcessedFuel:
             all_available_modifiers = find_unique_identifiers(
                 self.results_dir,
                 "modifier",
-                f"{self.fuel}-{sample_processed_pathway.pathway_type}-{sample_processed_pathway.pathway}-{quantity}",
+                f"{self.fuel}-{sample_processed_pathway.pathway}-{quantity}",
             )
             if modifiers == "all":
                 modifiers = all_available_modifiers
@@ -2414,10 +2332,10 @@ class ProcessedFuel:
 
 
 def structure_results_fuels_types(
-    quantity, modifier, fuels=["methanol", "ammonia", "hydrogen", "lsfo"]
+    quantity, modifier, fuels=None
 ):
     """
-    Structures results from all pathways for the given fuels into pathway colors.
+    Structures results from all pathways for the given fuels into pathway types.
 
     Parameters
     ----------
@@ -2428,12 +2346,16 @@ def structure_results_fuels_types(
         Modifier for the quantity
 
     fuels : list of str
-        List of fuels to plot
+        List of fuels to plot. If None provided, gets a list of unique available fuels.
 
     Returns
     -------
     None
     """
+    
+    # If supplied fuels is None, get unique fuels based on filenames in the results dir
+    if fuels is None:
+        fuels = find_unique_identifiers(RESULTS_DIR, "fuel", "")
 
     results_fuels_types = {}
     for fuel in fuels:
@@ -2444,7 +2366,7 @@ def structure_results_fuels_types(
             results_fuels_types[fuel][pathway_type] = []
             for pathway in type_pathway_dict[pathway_type]:
                 processed_quantity = ProcessedQuantity(
-                    quantity, modifier, fuel, pathway_type, pathway
+                    quantity, modifier, fuel, pathway
                 )
                 result_df = processed_quantity.result_df
 
@@ -2456,13 +2378,13 @@ def structure_results_fuels_types(
     return results_fuels_types
 
 
-def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
+def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 6)):
     """
     Plot the data from a dictionary as horizontal scatterplots with optional overlayed violin plots.
 
     Parameters
     ----------
-    data: dict
+    structured_results: dict
         The input data, a dictionary where keys are categories (e.g., 'hydrogen', 'ammonia')
         and values are dictionaries with subcategories (e.g., 'green', 'blue', 'grey') containing lists of float values.
     plot_size: tuple, optional
@@ -2473,7 +2395,7 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
     None
     """
     fig, ax = plt.subplots(figsize=plot_size)
-
+    
     y_base = 0
     y_tick_positions = []  # This will store the y positions for the tick labels on the left side
     y_tick_labels = []  # This will store the corresponding labels for the ticks on the left side
@@ -2482,51 +2404,50 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
     y_tick_labels_right = []  # This will store the corresponding labels for the ticks on the right side
     y_tick_colors_right = []  # This will store the colors for the right-side tick labels
 
-    n_fuels = len(data.keys())
+    n_fuels = len(structured_results.keys())
     i_fuel = 0
-    for fuel in data.keys():
-        n_fuel_types = 0  # Keep track of how many fuel types are present for this fuel
+    for fuel in structured_results.keys():
+        n_pathway_types = 0  # Keep track of how many pathway types are present for this fuel
 
-        for i, fuel_type in enumerate(pathway_type_colors.keys()):
-            if fuel_type in data[fuel]:
-                values = data[fuel][fuel_type]
-                y_value = y_base + n_fuel_types
+        for i, pathway_type in enumerate(structured_results[fuel]):
+            values = structured_results[fuel][pathway_type]
+            y_value = y_base + n_pathway_types
 
-                # Plot the violin plot using Matplotlib's violinplot directly
-                if len(values) > 1:
-                    parts = ax.violinplot(
-                        values,
-                        positions=[y_value],
-                        vert=False,
-                        showmeans=False,
-                        showmedians=False,
-                        showextrema=False,
-                    )
-                    for pc in parts["bodies"]:
-                        pc.set_facecolor(pathway_type_colors[fuel_type])
-                        pc.set_alpha(0.3)
-
-                # Plot the scatter plot
-                ax.scatter(
+            # Plot the violin plot using Matplotlib's violinplot directly
+            if len(values) > 1:
+                parts = ax.violinplot(
                     values,
-                    [y_value] * len(values),
-                    color=pathway_type_colors[fuel_type],
-                    edgecolor="black",
+                    positions=[y_value],
+                    vert=False,
+                    showmeans=False,
+                    showmedians=False,
+                    showextrema=False,
                 )
+                for pc in parts["bodies"]:
+                    pc.set_facecolor(get_pathway_type_color(pathway_type))
+                    pc.set_alpha(0.3)
 
-                # Add right-side labels
-                y_tick_positions_right.append(y_value)
-                y_tick_labels_right.append(pathway_type_labels[fuel_type])
-                y_tick_colors_right.append(pathway_type_colors[fuel_type])
+            # Plot the scatter plot
+            ax.scatter(
+                values,
+                [y_value] * len(values),
+                color=get_pathway_type_color(pathway_type),
+                edgecolor="black",
+            )
 
-                n_fuel_types += 1
+            # Add right-side labels
+            y_tick_positions_right.append(y_value)
+            y_tick_labels_right.append(get_pathway_type_label(pathway_type))
+            y_tick_colors_right.append(get_pathway_type_color(pathway_type))
+
+            n_pathway_types += 1
 
         # Store the position of the tick for this fuel, centered among its subcategories on the left side
-        y_tick_positions.append(y_base + (n_fuel_types - 1) / 2)
+        y_tick_positions.append(y_base + (n_pathway_types - 1) / 2)
         y_tick_labels.append(fuel)
 
         # Update y_base to the next starting position for the next fuel
-        y_base += n_fuel_types + 1  # Add 1 for spacing between different fuels
+        y_base += n_pathway_types + 1  # Add 1 for spacing between different fuels
 
         # Add a horizontal line to separate different fuels
         i_fuel += 1
@@ -2534,7 +2455,7 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
             ax.axhline(y=y_base - 1, color="black", linewidth=2)
 
     # Add a vertical line for LSFO
-    ax.axvline(data["lsfo"]["grey"], ls="--", color="grey")
+    ax.axvline(structured_results["lsfo"]["grey"], ls="--", color="grey")
 
     # Set y-ticks with calculated positions and corresponding labels on the left side
     ax.set_yticks(y_tick_positions)
@@ -2568,36 +2489,39 @@ def plot_scatter_violin(data, quantity, modifier, plot_size=(12, 6)):
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("CAC", "vessel", "methanol", "electro_grid", "LTE_H_Bio_C_grid")
+#    processed_quantity = ProcessedQuantity("CAC", "vessel", "methanol", "LTE_grid")
 #    processed_quantity.map_by_region(color_by_delta_wtw_sign=True)
 #    processed_quantity.make_hist_by_region(color_by_delta_wtw_sign=True)
 
-#    processed_pathway = ProcessedPathway("methanol", "electro_grid", "LTE_H_Bio_C_grid")
+#    processed_pathway = ProcessedPathway("methanol", "LTE_grid")
 #    processed_pathway.make_all_hists_by_region()
+#    processed_pathway.make_cac_hist_by_region()
+#    processed_pathway.map_all_by_region()
 #    processed_pathway.map_cac_by_region()
-    processed_fuel = ProcessedFuel("methanol")
+
+#    processed_fuel = ProcessedFuel("methanol")
 #    processed_fuel.make_all_cac_hists_by_region()
 #    processed_fuel.map_all_cac_by_region()
-    processed_fuel.make_cac_hist()
-    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+#    processed_fuel.make_cac_hist()
+#    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 # -----------------------------------------------------------------------------#
 
-#    # Loop through all fuels of interest
-#    for fuel in ["methanol"]:#, "hydrogen", "ammonia", "lsfo"]:
-#        processed_fuel = ProcessedFuel(fuel)
-#
-#        # Make validation plots for each fuel, pathway and quantity
-#        processed_fuel.make_all_hists_by_region()
-#        processed_fuel.make_all_cac_hists_by_region()
-#        processed_fuel.map_all_by_region()
-#        processed_fuel.map_all_cac_by_region()
-#        processed_fuel.make_all_stacked_hists()
-#        processed_fuel.make_cac_hist()
-#
-#    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
-#        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
-#            structured_results = structure_results_fuels_types(quantity, modifier)
-#            plot_scatter_violin(structured_results, quantity, modifier)
+    # Loop through all fuels of interest
+    for fuel in ["methanol"]:#, "hydrogen", "ammonia", "lsfo"]:
+        processed_fuel = ProcessedFuel(fuel)
+
+        # Make validation plots for each fuel, pathway and quantity
+        processed_fuel.make_all_hists_by_region()
+        processed_fuel.make_all_cac_hists_by_region()
+        processed_fuel.map_all_by_region()
+        processed_fuel.map_all_cac_by_region()
+        processed_fuel.make_all_stacked_hists()
+        processed_fuel.make_cac_hist()
+
+    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
+        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+            structured_results = structure_results_fuels_types(quantity, modifier)
+            plot_scatter_violin(structured_results, quantity, modifier)
 
 main()
