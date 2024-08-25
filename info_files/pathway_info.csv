@@ -1,12 +1,17 @@
 Pathway Name,Label,Pathway Type,Description
+SMR_H_Bio_C_renew,SMR+Bio-C (renew),grey_bio_C,Hydrogen from SMR with renewable power and carbon from biogenic sources
+SMR_H_Bio_C_grid,SMR+Bio-C (grid),grey_bio_C,Hydrogen from SMR with grid power and carbon from biogenic sources
+SMR_H_C_renew,SMR for H+C (renewables),grey,Hydrogen and carbon from SMR+CCS with renewable power
+SMR_H_C_grid,SMR for H+C (grid),grey,Hydrogen and carbon from SMR+CCS with grid power
 SMR_renew,SMR (renewables),grey,Hydrogen from SMR with renewable
 SMR_grid,SMR (grid),grey,Hydrogen from SMR with grid power
 SMRCCS_renew,SMR+CCS (renewables),blue,Hydrogen from SMR coupled with CCS with renewable power
 SMRCCS_grid,SMR+CCS (grid),blue,Hydrogen from SMR coupled with CCS with grid power
-SMR_CCS_H_Bio_C_renew,SMR+CCS+Bio-C (renewables),blue_bio_C,Hydrogen from SMR+CCS with renewable power and biogenic carbon
-SMR_CCS_H_C_renew,SMR+CCS (renewables),blue,Hydrogen and carbon from SMR+CCS and renewable power
-LTE_H_Bio_C_renew,LTE+Bio-C (renewables),blue_bio_C,Hydrogen from low-temperature electrolysis using renewable power and biogenic carbon
-SMR_CCS_H_Bio_C_grid,SMR+CCS+Bio-C (grid),blue_bio_C,Hydrogen from SMR+CCS using grid power and biogenic carbon
+SMRCCS_H_Bio_C_renew,SMR+CCS+Bio-C (renewables),blue_bio_C,Hydrogen from SMR+CCS with renewable power and biogenic carbon
+SMRCCS_H_C_grid,SMR+CCS (grid),blue,Hydrogen and carbon from SMR+CCS and grid power
+SMRCCS_H_C_renew,SMR+CCS (renewables),blue,Hydrogen and carbon from SMR+CCS and renewable power
+LTE_H_Bio_C_renew,LTE+Bio-C (renewables),electro_renew,Hydrogen from low-temperature electrolysis using renewable power and biogenic carbon
+SMRCCS_H_Bio_C_grid,SMR+CCS+Bio-C (grid),blue_bio_C,Hydrogen from SMR+CCS using grid power and biogenic carbon
 SMR_CCS_H_C_grid,SMR+CCS (grid),blue,Hydrogen and carbon from SMR+CCS
 LTE_H_Bio_C_grid,LTE+Bio-C (grid),electro_grid,Hydrogen from low-temperature electrolysis using grid power and biogenic carbon
 SMR_CCS_renew,SMR+CCS (renewables),blue,Hydrogen from SMR+CCS and renewable power

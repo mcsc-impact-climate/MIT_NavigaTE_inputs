@@ -2039,7 +2039,6 @@ class ProcessedFuel:
 
             # Set the y-axis label color to match the pathway type
             y_labels = ax.get_yticklabels()
-            print(pathway_name)
             pathway_type = get_pathway_type(pathway_name)
             if i_pathway < len(y_labels):
                 y_labels[i_pathway].set_color(get_pathway_type_color(pathway_type))
@@ -2489,16 +2488,16 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 6
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("CAC", "vessel", "methanol", "LTE_grid")
+#    processed_quantity = ProcessedQuantity("CAC", "vessel", "methanol", "LTE_H_Bio_C_grid")
 #    processed_quantity.map_by_region(color_by_delta_wtw_sign=True)
 #    processed_quantity.make_hist_by_region(color_by_delta_wtw_sign=True)
-
-#    processed_pathway = ProcessedPathway("methanol", "LTE_grid")
+#
+#    processed_pathway = ProcessedPathway("methanol", "LTE_H_Bio_C_grid")
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.make_cac_hist_by_region()
 #    processed_pathway.map_all_by_region()
 #    processed_pathway.map_cac_by_region()
-
+#
 #    processed_fuel = ProcessedFuel("methanol")
 #    processed_fuel.make_all_cac_hists_by_region()
 #    processed_fuel.map_all_cac_by_region()
@@ -2507,21 +2506,21 @@ def main():
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 # -----------------------------------------------------------------------------#
 
-    # Loop through all fuels of interest
-    for fuel in ["methanol"]:#, "hydrogen", "ammonia", "lsfo"]:
-        processed_fuel = ProcessedFuel(fuel)
-
-        # Make validation plots for each fuel, pathway and quantity
-        processed_fuel.make_all_hists_by_region()
-        processed_fuel.make_all_cac_hists_by_region()
-        processed_fuel.map_all_by_region()
-        processed_fuel.map_all_cac_by_region()
-        processed_fuel.make_all_stacked_hists()
-        processed_fuel.make_cac_hist()
-
-    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
-        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
-            structured_results = structure_results_fuels_types(quantity, modifier)
-            plot_scatter_violin(structured_results, quantity, modifier)
+#    # Loop through all fuels of interest
+#    for fuel in ["methanol"]:#, "hydrogen", "ammonia", "lsfo"]:
+#        processed_fuel = ProcessedFuel(fuel)
+#
+#        # Make validation plots for each fuel, pathway and quantity
+#        processed_fuel.make_all_hists_by_region()
+#        processed_fuel.make_all_cac_hists_by_region()
+#        processed_fuel.map_all_by_region()
+#        processed_fuel.map_all_cac_by_region()
+#        processed_fuel.make_all_stacked_hists()
+#        processed_fuel.make_cac_hist()
+#
+#    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
+#        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+#            structured_results = structure_results_fuels_types(quantity, modifier)
+#            plot_scatter_violin(structured_results, quantity, modifier)
 
 main()
