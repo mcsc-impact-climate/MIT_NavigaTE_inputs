@@ -44,7 +44,7 @@ for inc_file in "${SOURCE_DIR}"/*.inc; do
     pathway_name=$(basename -- "$filename" .inc)
     
     echo $filename $fuel $pathway_name
-    process_pathway "$inc_file" "$fuel" "$pathway_name" &
+    process_pathway "$inc_file" "$fuel" "$pathway_name"
     
 done
 
