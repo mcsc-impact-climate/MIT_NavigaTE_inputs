@@ -64,7 +64,7 @@ quantities = [
 evaluation_choices = ["per_year", "per_mile", "per_tonne_mile"]
 
 
-def read_results(fuel, fuel_type, pathway, region, number, filename, all_results_df):
+def read_results(fuel, pathway, region, number, filename, all_results_df):
     """
     Reads the results from an Excel file and extracts relevant data for each vessel type and size.
 
@@ -72,9 +72,6 @@ def read_results(fuel, fuel_type, pathway, region, number, filename, all_results
     ----------
     fuel : str
         The type of fuel being used (eg. ammonia, hydrogen)
-
-    fuel_type : str
-        The specific type of fuel (e.g., grey, blue).
 
     pathway : str
         The fuel production pathway (e.g., fossil, SMR).
@@ -145,7 +142,6 @@ def read_results(fuel, fuel_type, pathway, region, number, filename, all_results
 
             results_dict["Vessel"] = f"{vessel}_{fuel}"
             results_dict["Fuel"] = fuel
-            results_dict["FuelType"] = fuel_type
             results_dict["Pathway"] = pathway
             results_dict["Region"] = region
             results_dict["Number"] = number
@@ -214,7 +210,7 @@ def read_results(fuel, fuel_type, pathway, region, number, filename, all_results
 
 def extract_info_from_filename(filename):
     """
-    Extracts fuel, fuel_type, pathway, country, and number information from the given filename.
+    Extracts fuel, pathway, country, and number information from the given filename.
 
     Parameters
     ----------
@@ -226,7 +222,7 @@ def extract_info_from_filename(filename):
     result.named : dict
         A dictionary containing the extracted information, or None if the pattern doesn't match.
     """
-    pattern = "report_{fuel}-{fuel_type}-{pathway}-{region}-{number}.xlsx"
+    pattern = "report-{fuel}-{pathway}-{region}-{number}.xlsx"
     result = parse(pattern, filename)
     if result:
         return result.named
@@ -259,7 +255,6 @@ def collect_all_results(top_dir):
     columns = [
         "Vessel",
         "Fuel",
-        "FuelType",
         "Pathway",
         "Region",
         "Number",
@@ -279,20 +274,19 @@ def collect_all_results(top_dir):
     all_results_df = pd.DataFrame(columns=columns)
 
     # Read results for each file and add to the DataFrame
-    results_filename = f"{top_dir}/all_outputs_full_fleet/report_lsfo-1.xlsx"
+    results_filename = f"{top_dir}/all_outputs_full_fleet/report-lsfo-1.xlsx"
     all_results_df = read_results(
-        "lsfo", "grey", "fossil", "Global", 1, results_filename, all_results_df
+        "lsfo", "fossil", "Global", 1, results_filename, all_results_df
     )
 
     for fuel_pathway_region in fuel_pathway_region_tuples:
         fuel = fuel_pathway_region["fuel"]
-        fuel_type = fuel_pathway_region["fuel_type"]
         pathway = fuel_pathway_region["pathway"]
         region = fuel_pathway_region["region"]
         number = fuel_pathway_region["number"]
-        results_filename = f"{top_dir}/all_outputs_full_fleet/report_{fuel}-{fuel_type}-{pathway}-{region}-{number}.xlsx"
+        results_filename = f"{top_dir}/all_outputs_full_fleet/report-{fuel}-{pathway}-{region}-{number}.xlsx"
         all_results_df = read_results(
-            fuel, fuel_type, pathway, region, number, results_filename, all_results_df
+            fuel, pathway, region, number, results_filename, all_results_df
         )
 
     return all_results_df
@@ -419,7 +413,6 @@ def add_vessel_type_quantities(all_results_df):
                     quantities_fleet + ["Miles", "CargoMiles"]
                 ].sum()
                 vessel_type_row["Fuel"] = fuel
-                vessel_type_row["FuelType"] = vessel_type_df["FuelType"].iloc[0]
                 vessel_type_row["Pathway"] = pathway
                 vessel_type_row["Region"] = region
                 vessel_type_row["Number"] = number
@@ -496,7 +489,6 @@ def add_fleet_level_quantities(all_results_df):
             # Sum quantities for the full fleet
             fleet_row = fleet_df[quantities_fleet + ["Miles", "CargoMiles"]].sum()
             fleet_row["Fuel"] = fuel
-            fleet_row["FuelType"] = fleet_df["FuelType"].iloc[0]
             fleet_row["Pathway"] = pathway
             fleet_row["Region"] = region
             fleet_row["Number"] = number
@@ -546,7 +538,6 @@ def add_cac(all_results_df):
     # Find LSFO baseline for comparison
     lsfo_baseline = all_results_df[
         (all_results_df["Fuel"] == "lsfo")
-        & (all_results_df["FuelType"] == "grey")
         & (all_results_df["Pathway"] == "fossil")
         & (all_results_df["Region"] == "Global")
         & (all_results_df["Number"] == 1)
@@ -620,7 +611,6 @@ def generate_csv_files(all_results_df, top_dir):
             columns=[
                 "Vessel",
                 "Fuel",
-                "FuelType",
                 "Pathway",
                 "Region",
                 "Number",
@@ -643,7 +633,6 @@ def generate_csv_files(all_results_df, top_dir):
                 all_results_df["Pathway"] == pathway
             )
             all_selected_results_df = all_results_df[filter]
-            fuel_type = all_selected_results_df["FuelType"].iloc[0]
             for quantity in quantities_of_interest:
                 quantity_selected_results_df = all_selected_results_df[
                     ["Vessel", "Region", quantity]
@@ -702,15 +691,7 @@ def generate_csv_files(all_results_df, top_dir):
                     quantity = f"{quantity}-vessel"
 
                 # Generate the filename
-
-                # Specify whether electro fuel type is from grid or renewables
-                if fuel_type == "electro":
-                    if "grid" in pathway:
-                        fuel_type = "electro_grid"
-                    else:
-                        fuel_type = "electro_renew"
-
-                filename = f"{fuel}-{fuel_type}-{pathway}-{quantity}.csv"
+                filename = f"{fuel}-{pathway}-{quantity}.csv"
                 filepath = f"{top_dir}/processed_results/{filename}"
 
                 # Save the DataFrame to a CSV file
@@ -730,8 +711,6 @@ def main():
 
     # Multiply by number of vessels of each type+size the fleet to get fleet-level quantities
     all_results_df = add_fleet_quantities(all_results_df)
-
-    print(all_results_df.columns)
 
     # Group vessels by type to get type-level quantities
     all_results_df = add_vessel_type_quantities(all_results_df)
