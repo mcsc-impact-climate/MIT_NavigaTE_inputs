@@ -1,118 +1,118 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
-methanol,n/a,n/a,grid,grid,United States,2024,171.13999999999996,421.26839999999976,592.4083999999997,1.1069999999999993,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Brazil,2024,174.5628,361.4737679999997,536.0365679999998,0.2940000000000005,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Canada,2024,152.31459999999996,351.13887600000027,503.45347600000025,0.5099999999999998,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Mexico,2024,138.62340000000006,596.3174040000006,734.9408040000006,1.5210000000000008,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Australia,2024,167.54605999999995,553.0527636000002,720.5988236000001,1.647000000000002,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,India,2024,108.50275999999998,390.5101656000003,499.01292560000024,2.139000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Indonesia,2024,109.01618000000002,213.5409708,322.55715080000004,2.139000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Philippines,2024,118.9423,463.13653799999963,582.0788379999997,1.8329999999999984,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Singapore,2024,141.53277999999992,974.4919667999987,1116.0247467999986,1.4130000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Thailand,2024,111.58328,351.69499680000007,463.27827680000007,1.6499999999999986,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,China,2024,134.85832000000002,275.0914992000002,409.9498192000002,1.7459999999999987,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Japan,2024,183.97549999999995,575.0385300000005,759.0140300000005,1.4550000000000018,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Russia,2024,121.85168000000002,292.31110080000013,414.1627808000002,1.3230000000000004,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,South Korea,2024,196.81099999999995,356.80866000000043,553.6196600000004,1.2929999999999993,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Taipei,2024,144.78444000000002,56.687066399999985,201.4715064,0.10499999999999998,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,South Arabia,2024,181.75067999999993,265.9050407999999,447.6557207999998,2.1240000000000023,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,South Africa,2024,208.44852000000003,267.50691119999993,475.95543119999996,2.1240000000000023,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Turkey,2024,124.58992000000002,400.4753952,525.0653152,1.3949999999999996,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Belgium,2024,196.12644,473.7675863999993,669.8940263999993,0.4139999999999997,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,France,2024,175.93192000000002,586.5559152,762.4878352,0.16800000000000015,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Germany,2024,178.32788,826.6996728000003,1005.0275528000002,1.1430000000000007,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Italy,2024,159.16019999999997,1431.5496120000014,1590.7098120000014,0.9929999999999986,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Netherlands,2024,193.04592,740.5827552000002,933.6286752000002,0.8040000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Spain,2024,149.74749999999992,446.98484999999977,596.7323499999997,0.5220000000000002,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,United Kingdom,2024,173.87823999999995,379.4326944000002,553.3109344000002,0.7140000000000004,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Czech Republic,2024,153.34143999999995,477.20048639999925,630.5419263999992,1.6020000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Finland,2024,197.15328,398.8291968000004,595.9824768000003,0.2370000000000001,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Hungary,2024,158.13336,489.48800159999985,647.6213615999999,0.6120000000000001,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Norway,2024,226.76049999999992,385.6056299999997,612.3661299999997,0.09000000000000008,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Poland,2024,160.0159,1671.6009539999986,1831.6168539999985,1.985999999999997,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Sweden,2024,207.42167999999995,255.44530079999993,462.86698079999985,0.12299999999999978,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Oman,2024,163.43869999999993,678.8063219999998,842.2450219999997,1.6950000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,United Arab Emirates,2024,163.43869999999993,339.80632200000025,503.2450220000002,1.3949999999999996,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Malaysia,2024,149.74749999999992,401.9848499999998,551.7323499999998,0.3150000000000004,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Saudi Arabia,2024,163.43869999999993,213.80632199999994,377.24502199999984,1.3230000000000004,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Greece,2024,157.44879999999995,714.4469279999992,871.895727999999,1.0109999999999992,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Austria,2024,177.98559999999998,937.6791360000017,1115.6647360000015,0.3330000000000002,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Switzerland,2024,189.10969999999995,815.3465820000001,1004.4562820000001,0.10499999999999998,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,grid,grid,Portugal,2024,155.73740000000004,468.34424400000074,624.0816440000008,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,United States,2024,171.13999999999996,469.2683999999998,640.4083999999998,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Brazil,2024,174.5628,469.4737680000003,644.0365680000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Canada,2024,152.31459999999996,468.13887599999936,620.4534759999993,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Mexico,2024,138.62340000000006,467.3174039999992,605.9408039999993,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Australia,2024,167.54605999999995,469.0527635999997,636.5988235999996,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,India,2024,108.50275999999998,465.5101655999996,574.0129255999996,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Indonesia,2024,109.01618000000002,465.54097079999934,574.5571507999994,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Philippines,2024,118.9423,466.13653800000066,585.0788380000007,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Singapore,2024,141.53277999999992,467.49196679999903,609.024746799999,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Thailand,2024,111.58328,465.6949968000008,577.2782768000009,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,China,2024,134.85832000000002,467.0914991999995,601.9498191999995,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Japan,2024,183.97549999999995,470.03853000000004,654.01403,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Russia,2024,121.85168000000002,466.3111007999996,588.1627807999996,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,South Korea,2024,196.81099999999995,470.8086600000003,667.6196600000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Taipei,2024,144.78444000000002,467.6870664000008,612.4715064000009,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,South Arabia,2024,181.75067999999993,469.9050408000005,651.6557208000004,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,South Africa,2024,208.44852000000003,471.50691120000056,679.9554312000006,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Turkey,2024,124.58992000000002,466.4753952000007,591.0653152000008,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Belgium,2024,196.12644,470.7675863999992,666.8940263999991,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,France,2024,175.93192000000002,469.55591520000087,645.4878352000009,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Germany,2024,178.32788,469.6996727999991,648.0275527999991,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Italy,2024,159.16019999999997,468.54961200000037,627.7098120000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Netherlands,2024,193.04592,470.5827551999997,663.6286751999997,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Spain,2024,149.74749999999992,467.98485000000056,617.7323500000005,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,United Kingdom,2024,173.87823999999995,469.43269439999915,643.310934399999,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Czech Republic,2024,153.34143999999995,468.20048640000067,621.5419264000006,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Finland,2024,197.15328,470.8291967999996,667.9824767999996,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Hungary,2024,158.13336,468.4880015999999,626.6213615999999,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Norway,2024,226.76049999999992,472.60563000000036,699.3661300000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Poland,2024,160.0159,468.60095400000023,628.6168540000002,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Sweden,2024,207.42167999999995,471.44530080000015,678.8669808000001,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Oman,2024,163.43869999999993,468.80632199999985,632.2450219999998,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,United Arab Emirates,2024,163.43869999999993,468.80632199999985,632.2450219999998,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Malaysia,2024,149.74749999999992,467.98484999999965,617.7323499999995,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Saudi Arabia,2024,163.43869999999993,468.8063220000007,632.2450220000006,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Greece,2024,157.44879999999995,468.4469280000005,625.8957280000004,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Austria,2024,177.98559999999998,469.67913600000077,647.6647360000007,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Switzerland,2024,189.10969999999995,470.34658200000035,659.4562820000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,renewable,renewable,Portugal,2024,155.73740000000004,468.34424400000074,624.0816440000008,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,United States,2024,171.13999999999996,160.2684000000001,331.40840000000003,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Brazil,2024,174.5628,160.47376800000012,335.0365680000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Canada,2024,152.31459999999996,159.1388760000001,311.453476,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Mexico,2024,138.62340000000006,158.31740399999995,296.940804,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Australia,2024,167.54605999999995,160.0527636,327.59882359999995,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,India,2024,108.50275999999998,156.51016559999985,265.01292559999985,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Indonesia,2024,109.01618000000002,156.54097080000008,265.5571508000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Philippines,2024,118.9423,157.13653800000006,276.0788380000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Singapore,2024,141.53277999999992,158.49196680000023,300.0247468000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Thailand,2024,111.58328,156.6949968000002,268.2782768000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,China,2024,134.85832000000002,158.09149920000021,292.9498192000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Japan,2024,183.97549999999995,161.0385299999999,345.0140299999998,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Russia,2024,121.85168000000002,157.31110079999988,279.1627807999999,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,South Korea,2024,196.81099999999995,161.80866000000015,358.61966000000007,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Taipei,2024,144.78444000000002,158.6870664000002,303.4715064000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,South Arabia,2024,181.75067999999993,160.9050407999999,342.6557207999998,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,South Africa,2024,208.44852000000003,162.50691119999993,370.95543119999996,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Turkey,2024,124.58992000000002,157.4753952000001,282.0653152000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Belgium,2024,196.12644,161.76758639999989,357.8940263999999,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,France,2024,175.93192000000002,160.5559151999998,336.48783519999984,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Germany,2024,178.32788,160.69967279999986,339.02755279999985,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Italy,2024,159.16019999999997,159.54961200000017,318.70981200000017,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Netherlands,2024,193.04592,161.58275519999998,354.6286752,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Spain,2024,149.74749999999992,158.98484999999997,308.7323499999999,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,United Kingdom,2024,173.87823999999995,160.43269439999986,334.31093439999984,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Czech Republic,2024,153.34143999999995,159.20048640000007,312.5419264,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Finland,2024,197.15328,161.82919679999986,358.98247679999986,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Hungary,2024,158.13336,159.48800160000022,317.6213616000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Norway,2024,226.76049999999992,163.60563000000016,390.3661300000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Poland,2024,160.0159,159.60095400000006,319.61685400000005,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Sweden,2024,207.42167999999995,162.44530079999998,369.86698079999996,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Oman,2024,163.43869999999993,159.8063220000001,323.24502200000006,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,United Arab Emirates,2024,163.43869999999993,159.8063220000001,323.24502200000006,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Malaysia,2024,149.74749999999992,158.98484999999997,308.7323499999999,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Saudi Arabia,2024,163.43869999999993,159.8063220000001,323.24502200000006,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Greece,2024,157.44879999999995,159.44692799999993,316.89572799999985,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Austria,2024,177.98559999999998,160.67913600000017,338.6647360000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Switzerland,2024,189.10969999999995,161.34658200000018,350.4562820000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
-methanol,n/a,n/a,nuke,nuke,Portugal,2024,155.73740000000004,159.34424400000015,315.0816440000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,United States,2024,171.13999999999996,421.26839999999976,592.4083999999997,1.1069999999999993,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Brazil,2024,174.5628,361.4737679999997,536.0365679999998,0.2940000000000005,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Canada,2024,152.31459999999996,351.13887600000027,503.45347600000025,0.5099999999999998,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Mexico,2024,138.62340000000006,596.3174040000006,734.9408040000006,1.5210000000000008,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Australia,2024,167.54605999999995,553.0527636000002,720.5988236000001,1.647000000000002,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,India,2024,108.50275999999998,390.5101656000003,499.01292560000024,2.139000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Indonesia,2024,109.01618000000002,213.5409708,322.55715080000004,2.139000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Philippines,2024,118.9423,463.13653799999963,582.0788379999997,1.8329999999999984,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Singapore,2024,141.53277999999992,974.4919667999987,1116.0247467999986,1.4130000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Thailand,2024,111.58328,351.69499680000007,463.27827680000007,1.6499999999999986,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,China,2024,134.85832000000002,275.0914992000002,409.9498192000002,1.7459999999999987,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Japan,2024,183.97549999999995,575.0385300000005,759.0140300000005,1.4550000000000018,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Russia,2024,121.85168000000002,292.31110080000013,414.1627808000002,1.3230000000000004,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,South Korea,2024,196.81099999999995,356.80866000000043,553.6196600000004,1.2929999999999993,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Taipei,2024,144.78444000000002,56.687066399999985,201.4715064,0.10499999999999998,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,South Arabia,2024,181.75067999999993,265.9050407999999,447.6557207999998,2.1240000000000023,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,South Africa,2024,208.44852000000003,267.50691119999993,475.95543119999996,2.1240000000000023,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Turkey,2024,124.58992000000002,400.4753952,525.0653152,1.3949999999999996,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Belgium,2024,196.12644,473.7675863999993,669.8940263999993,0.4139999999999997,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,France,2024,175.93192000000002,586.5559152,762.4878352,0.16800000000000015,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Germany,2024,178.32788,826.6996728000003,1005.0275528000002,1.1430000000000007,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Italy,2024,159.16019999999997,1431.5496120000014,1590.7098120000014,0.9929999999999986,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Netherlands,2024,193.04592,740.5827552000002,933.6286752000002,0.8040000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Spain,2024,149.74749999999992,446.98484999999977,596.7323499999997,0.5220000000000002,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,United Kingdom,2024,173.87823999999995,379.4326944000002,553.3109344000002,0.7140000000000004,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Czech Republic,2024,153.34143999999995,477.20048639999925,630.5419263999992,1.6020000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Finland,2024,197.15328,398.8291968000004,595.9824768000003,0.2370000000000001,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Hungary,2024,158.13336,489.48800159999985,647.6213615999999,0.6120000000000001,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Norway,2024,226.76049999999992,385.6056299999997,612.3661299999997,0.09000000000000008,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Poland,2024,160.0159,1671.6009539999986,1831.6168539999985,1.985999999999997,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Sweden,2024,207.42167999999995,255.44530079999993,462.86698079999985,0.12299999999999978,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Oman,2024,163.43869999999993,678.8063219999998,842.2450219999997,1.6950000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,United Arab Emirates,2024,163.43869999999993,339.80632200000025,503.2450220000002,1.3949999999999996,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Malaysia,2024,149.74749999999992,401.9848499999998,551.7323499999998,0.3150000000000004,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Saudi Arabia,2024,163.43869999999993,213.80632199999994,377.24502199999984,1.3230000000000004,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Greece,2024,157.44879999999995,714.4469279999992,871.895727999999,1.0109999999999992,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Austria,2024,177.98559999999998,937.6791360000017,1115.6647360000015,0.3330000000000002,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Switzerland,2024,189.10969999999995,815.3465820000001,1004.4562820000001,0.10499999999999998,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Portugal,2024,155.73740000000004,468.34424400000074,624.0816440000008,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,United States,2024,171.13999999999996,469.2683999999998,640.4083999999998,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Brazil,2024,174.5628,469.4737680000003,644.0365680000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Canada,2024,152.31459999999996,468.13887599999936,620.4534759999993,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Mexico,2024,138.62340000000006,467.3174039999992,605.9408039999993,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Australia,2024,167.54605999999995,469.0527635999997,636.5988235999996,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,India,2024,108.50275999999998,465.5101655999996,574.0129255999996,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Indonesia,2024,109.01618000000002,465.54097079999934,574.5571507999994,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Philippines,2024,118.9423,466.13653800000066,585.0788380000007,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Singapore,2024,141.53277999999992,467.49196679999903,609.024746799999,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Thailand,2024,111.58328,465.6949968000008,577.2782768000009,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,China,2024,134.85832000000002,467.0914991999995,601.9498191999995,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Japan,2024,183.97549999999995,470.03853000000004,654.01403,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Russia,2024,121.85168000000002,466.3111007999996,588.1627807999996,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,South Korea,2024,196.81099999999995,470.8086600000003,667.6196600000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Taipei,2024,144.78444000000002,467.6870664000008,612.4715064000009,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,South Arabia,2024,181.75067999999993,469.9050408000005,651.6557208000004,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,South Africa,2024,208.44852000000003,471.50691120000056,679.9554312000006,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Turkey,2024,124.58992000000002,466.4753952000007,591.0653152000008,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Belgium,2024,196.12644,470.7675863999992,666.8940263999991,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,France,2024,175.93192000000002,469.55591520000087,645.4878352000009,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Germany,2024,178.32788,469.6996727999991,648.0275527999991,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Italy,2024,159.16019999999997,468.54961200000037,627.7098120000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Netherlands,2024,193.04592,470.5827551999997,663.6286751999997,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Spain,2024,149.74749999999992,467.98485000000056,617.7323500000005,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,United Kingdom,2024,173.87823999999995,469.43269439999915,643.310934399999,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Czech Republic,2024,153.34143999999995,468.20048640000067,621.5419264000006,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Finland,2024,197.15328,470.8291967999996,667.9824767999996,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Hungary,2024,158.13336,468.4880015999999,626.6213615999999,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Norway,2024,226.76049999999992,472.60563000000036,699.3661300000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Poland,2024,160.0159,468.60095400000023,628.6168540000002,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Sweden,2024,207.42167999999995,471.44530080000015,678.8669808000001,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Oman,2024,163.43869999999993,468.80632199999985,632.2450219999998,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,United Arab Emirates,2024,163.43869999999993,468.80632199999985,632.2450219999998,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Malaysia,2024,149.74749999999992,467.98484999999965,617.7323499999995,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Saudi Arabia,2024,163.43869999999993,468.8063220000007,632.2450220000006,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Greece,2024,157.44879999999995,468.4469280000005,625.8957280000004,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Austria,2024,177.98559999999998,469.67913600000077,647.6647360000007,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Switzerland,2024,189.10969999999995,470.34658200000035,659.4562820000003,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,renewable,renewable,Portugal,2024,155.73740000000004,468.34424400000074,624.0816440000008,0.49799999999999933,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,United States,2024,171.13999999999996,160.2684000000001,331.40840000000003,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Brazil,2024,174.5628,160.47376800000012,335.0365680000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Canada,2024,152.31459999999996,159.1388760000001,311.453476,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Mexico,2024,138.62340000000006,158.31740399999995,296.940804,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Australia,2024,167.54605999999995,160.0527636,327.59882359999995,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,India,2024,108.50275999999998,156.51016559999985,265.01292559999985,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Indonesia,2024,109.01618000000002,156.54097080000008,265.5571508000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Philippines,2024,118.9423,157.13653800000006,276.0788380000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Singapore,2024,141.53277999999992,158.49196680000023,300.0247468000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Thailand,2024,111.58328,156.6949968000002,268.2782768000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,China,2024,134.85832000000002,158.09149920000021,292.9498192000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Japan,2024,183.97549999999995,161.0385299999999,345.0140299999998,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Russia,2024,121.85168000000002,157.31110079999988,279.1627807999999,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,South Korea,2024,196.81099999999995,161.80866000000015,358.61966000000007,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Taipei,2024,144.78444000000002,158.6870664000002,303.4715064000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,South Arabia,2024,181.75067999999993,160.9050407999999,342.6557207999998,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,South Africa,2024,208.44852000000003,162.50691119999993,370.95543119999996,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Turkey,2024,124.58992000000002,157.4753952000001,282.0653152000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Belgium,2024,196.12644,161.76758639999989,357.8940263999999,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,France,2024,175.93192000000002,160.5559151999998,336.48783519999984,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Germany,2024,178.32788,160.69967279999986,339.02755279999985,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Italy,2024,159.16019999999997,159.54961200000017,318.70981200000017,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Netherlands,2024,193.04592,161.58275519999998,354.6286752,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Spain,2024,149.74749999999992,158.98484999999997,308.7323499999999,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,United Kingdom,2024,173.87823999999995,160.43269439999986,334.31093439999984,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Czech Republic,2024,153.34143999999995,159.20048640000007,312.5419264,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Finland,2024,197.15328,161.82919679999986,358.98247679999986,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Hungary,2024,158.13336,159.48800160000022,317.6213616000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Norway,2024,226.76049999999992,163.60563000000016,390.3661300000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Poland,2024,160.0159,159.60095400000006,319.61685400000005,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Sweden,2024,207.42167999999995,162.44530079999998,369.86698079999996,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Oman,2024,163.43869999999993,159.8063220000001,323.24502200000006,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,United Arab Emirates,2024,163.43869999999993,159.8063220000001,323.24502200000006,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Malaysia,2024,149.74749999999992,158.98484999999997,308.7323499999999,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Saudi Arabia,2024,163.43869999999993,159.8063220000001,323.24502200000006,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Greece,2024,157.44879999999995,159.44692799999993,316.89572799999985,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Austria,2024,177.98559999999998,160.67913600000017,338.6647360000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Switzerland,2024,189.10969999999995,161.34658200000018,350.4562820000001,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,nuke,nuke,Portugal,2024,155.73740000000004,159.34424400000015,315.0816440000002,0.030000000000000027,compression of STP hydrogen to gaseous hydrogen at 700 bar
