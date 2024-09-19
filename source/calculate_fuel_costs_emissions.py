@@ -19,8 +19,10 @@ renew_price = 0.04 # [2024$/kWh] price of renewable electricity #NOTE: just a pl
 renew_emissions_intensity = 0.01 # [kg CO2e/kWh] upstream emissions from renewable electricity #NOTE: just a placeholder value for now
 nuke_price = 0.05 # [2024$/kWh] price of nuclear electricity #NOTE: just a placeholder value for now
 nuke_emissions_intensity = 0.01 # [kg CO2e/kWh] upstream emissions from nuclear electricity #NOTE: just a placeholder value for now
-CO2_price = 0.04 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
-CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
+BEC_CO2_price = 0.004 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
+BEC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
+DAC_CO2_price = 0.04 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
+DAC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
 
 # Inputs for STP H2 production from low-temperature water electrolysis
 H2_LTE_elect_demand = 51.03004082 # [kWh elect/kg H2] from Aspen Plus
@@ -82,8 +84,8 @@ MeOH_full_time_employed = 68 # [full-time employees] from H2A
 MeOH_yearly_output = 194924166 # [kg MeOH/year] from Aspen Plus
 MeOH_onsite_emissions = 0.3153886337 # [kg CO2e/kg MeOH] synthesis process emissions in Aspen Plus
 
-def calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    if fuel_pathway.startswith("LTE_"):
+def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+    if H_pathway == "LTE":
         elect_demand = H2_LTE_elect_demand
         NG_demand = H2_LTE_NG_demand
         water_demand = H2_LTE_water_demand
@@ -91,7 +93,7 @@ def calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_factor
         full_time_employed = H2_LTE_full_time_employed
         yearly_output = H2_LTE_yearly_output
         onsite_emissions = H2_LTE_onsite_emissions
-    elif fuel_pathway.startswith("SMRCCS_"):
+    elif H_pathway == "SMRCCS":
         elect_demand = H2_SMRCCS_elect_demand
         NG_demand = H2_SMRCCS_NG_demand
         water_demand = H2_SMRCCS_water_demand
@@ -99,7 +101,7 @@ def calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_factor
         full_time_employed = H2_SMRCCS_full_time_employed
         yearly_output = H2_SMRCCS_yearly_output
         onsite_emissions = H2_SMRCCS_onsite_emissions
-    elif fuel_pathway.startswith("SMR_"):
+    elif H_pathway == "SMR":
         elect_demand = H2_SMR_elect_demand
         NG_demand = H2_SMR_NG_demand
         water_demand = H2_SMR_water_demand
@@ -121,7 +123,7 @@ def calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_factor
     
     return CapEx, OpEx, emissions
 
-def calculate_production_costs_emissions_liquid_hydrogen(fuel_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     base_CapEx = H2_liq_base_CapEx
     elect_demand = H2_liq_elect_demand
     # calculate liquefaction values
@@ -129,14 +131,14 @@ def calculate_production_costs_emissions_liquid_hydrogen(fuel_pathway,instal_fac
     OpEx = (op_maint_rate + tax_rate)*CapEx + elect_demand*elect_price
     emissions = elect_demand*elect_emissions_intensity
     # add H2 feedstock cost and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += H2_CapEx
     OpEx += H2_OpEx
     emissions += H2_emissions
 
     return CapEx, OpEx, emissions
 
-def calculate_production_costs_emissions_compressed_hydrogen(fuel_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     base_CapEx = H2_comp_base_CapEx
     elect_demand = H2_comp_elect_demand
     # calculate compression values
@@ -144,14 +146,14 @@ def calculate_production_costs_emissions_compressed_hydrogen(fuel_pathway,instal
     OpEx = (op_maint_rate + tax_rate)*CapEx + elect_demand*elect_price
     emissions = elect_demand*elect_emissions_intensity
     # add H2 feedstock cost and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += H2_CapEx
     OpEx += H2_OpEx
     emissions += H2_emissions
 
     return CapEx, OpEx, emissions
 
-def calculate_production_costs_emissions_ammonia(fuel_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     elect_demand = NH3_elect_demand
     H2_demand = NH3_H2_demand
     NG_demand = NH3_NG_demand
@@ -172,7 +174,7 @@ def calculate_production_costs_emissions_ammonia(fuel_pathway,instal_factor,wate
                 + NG_demand/NG_HHV*NG_GWP*NG_percent_fugitive \
                 + onsite_emissions
     # add H2 feedstock cost and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += (H2_CapEx*H2_demand)
     OpEx += (H2_OpEx*H2_demand)
     emissions += (H2_emissions*H2_demand)
@@ -180,7 +182,7 @@ def calculate_production_costs_emissions_ammonia(fuel_pathway,instal_factor,wate
     return CapEx, OpEx, emissions
 
 
-def calculate_production_costs_emissions_methanol(fuel_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     elect_demand = MeOH_elect_demand
     H2_demand = MeOH_H2_demand
     CO2_demand = MeOH_CO2_demand
@@ -202,25 +204,24 @@ def calculate_production_costs_emissions_methanol(fuel_pathway,instal_factor,wat
                 + NG_demand/NG_HHV*NG_GWP*NG_percent_fugitive \
                 + onsite_emissions
     # add H2 feedstock costs and emissions
-    H2_pathway = fuel_pathway.partition("_H_")[0] + fuel_pathway.partition("_C")[2]
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H2_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += (H2_CapEx*H2_demand)
     OpEx += (H2_OpEx*H2_demand)
     emissions += (H2_emissions*H2_demand)
     # add CO2 feedstock costs and emissions
-    CO2_pathway = fuel_pathway.partition("_H_C_")[0]
-    if CO2_pathway == fuel_pathway:
-        CO2_pathway = fuel_pathway.partition("_H_")[2].partition("C_")[0]
-    CO2_pathway += fuel_pathway.partition("_C")[2]
-    if CO2_pathway.startswith("Bio_"):
-        CO2_CapEx = 0 # No CapEx because we assume biogenic CO2 is purchased externally at a fixed price 
-        CO2_OpEx = CO2_price
-        CO2_emissions = CO2_upstream_emissions*CO2_demand - (44.01/32.04) - onsite_emissions # biogenic CO2 credit
-    elif CO2_pathway.startswith("SMRCCS_"):
+    if (C_pathway == "BEC"):
+        CO2_CapEx = 0 # No CapEx because we assume BEC CO2 is purchased externally at a fixed price 
+        CO2_OpEx = BEC_CO2_price
+        CO2_emissions = BEC_CO2_upstream_emissions*CO2_demand - (44.01/32.04) - onsite_emissions # biogenic CO2 credit
+    elif (C_pathway == "DAC"):
+        CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price 
+        CO2_OpEx = DAC_CO2_price
+        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand - (44.01/32.04) - onsite_emissions # captured CO2 credit
+    elif C_pathway == "SMRCCS":
         CO2_CapEx = 0 # CO2 is "free" after already paying for upstream CCS
         CO2_OpEx = 0 # CO2 is "free" after already paying for upstream CCS
         CO2_emissions = CO2_demand - (44.01/32.04) # we are working with already-captured fossil CO2, but not at 100% conversion.
-    elif CO2_pathway.startswith("SMR_"):
+    elif C_pathway == "SMR":
         CO2_CapEx = 0 # assumes integrated plant with syngas conversion
         CO2_OpEx = 0 # assumes integrated plant with syngas conversion
         CO2_emissions = -(44.01/32.04) # fossil CO2 that would have been emitted by SMR is instead embodied in fuel 
@@ -238,66 +239,96 @@ def main():
     output_dir_process = f"{top_dir}/input_fuel_pathway_data/process/"
     ensure_directory_exists(output_dir_process)
 
-    # Read the input CSV file
-    input_file = 'fuel_production_inputs.csv'
-    csv_file = os.path.join(input_dir, input_file)
-    input_df = pd.read_csv(csv_file)
+    # Read the input CSV files
+    input_df = pd.read_csv(input_dir + 'regional_TEA_inputs.csv')
+    pathway_df = pd.read_csv(input_dir + 'fuel_pathway_options.csv')
 
+    # Populate the arrays using the columns
+    fuels = pathway_df['WTG fuels'].dropna().tolist()
+    fuel_contents = pathway_df['fuel contents'].dropna().tolist()
+    processes = pathway_df['GTT processes'].dropna().tolist()
+    Esources = pathway_df['electricity sources'].dropna().tolist()
+    Hsources = pathway_df['hydrogen sources'].dropna().tolist()
+    Csources = pathway_df['carbon sources'].dropna().tolist()
     # Well to Gate fuel production
-    fuels = ["hydrogen", "ammonia", "methanol"]
-    elecs = ["grid", "renew" #, "nuke"] NOTE: could easily add nuclear or other electricity sources like this
-                             ]
-    for fuel in fuels: 
-        if fuel == "methanol":
-            fuel_pathways_noelec = ["LTE_H_Bio_C", "SMRCCS_H_Bio_C", "SMRCCS_H_C", "SMR_H_Bio_C", "SMR_H_C"]
-        else:
-            fuel_pathways_noelec = ["LTE", "SMRCCS", "SMR"]
-
+    for fuel in fuels:
+        if "C" in fuel_contents[fuels.index(fuel)]: # if fuel contains carbon
+            fuel_pathways_noelec = []
+            H_pathways_noelec = []
+            C_pathways_noelec = []
+            for Csource in Csources:
+                for Hsource in Hsources:
+                    if Hsource == Csource:
+                        H_pathways_noelec += [Hsource]
+                        C_pathways_noelec += [Csource]
+                        fuel_pathways_noelec += [Hsource + "_H_C"]
+                    elif ((Hsource == "SMR") & (Csource == "SMRCCS")) | ((Hsource == "SMRCCS") & (Csource == "SMR")):
+                        continue #skip cases where SMR is used for H and SMRCCS is used for C (or vice versa) because that doesn't make sense
+                    else:
+                        H_pathways_noelec += [Hsource]
+                        C_pathways_noelec += [Csource]
+                        fuel_pathways_noelec += [Hsource + "_H_" + Csource + "_C"]
+        else: # fuel does not contain carbon
+            fuel_pathways_noelec = [Hsource + "_H" for Hsource in Hsources]
+            H_pathways_noelec = [Hsource for Hsource in Hsources]
+            C_pathways_noelec = ["n/a" for Hsource in Hsources]
         fuel_pathways = []
-        for elec in elecs:
-            fuel_pathways += [str + "_" + elec for str in fuel_pathways_noelec]
-       
+        H_pathways = []
+        C_pathways = []
+        E_pathways = []
+        for Esource in Esources:
+            H_pathways += [H_pathway_noelec for H_pathway_noelec in H_pathways_noelec]
+            C_pathways += [C_pathway_noelec for C_pathway_noelec in C_pathways_noelec]
+            E_pathways += [Esource for fuel_pathway_noelec in fuel_pathways_noelec]
+            fuel_pathways += [fuel_pathway_noelec + "_" + Esource + "_E" for fuel_pathway_noelec in fuel_pathways_noelec]
+        
         # List to hold all rows for the output CSV
         output_data = []
 
         # Iterate through each row in the input data and perform calculations
         for fuel_pathway in fuel_pathways:
-            for index, row in input_df.iterrows():
-                region,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate = row
+            pathway_index = fuel_pathways.index(fuel_pathway)
+            for row_index, row in input_df.iterrows():
+                region,instal_cost,water_price,NG_price,grid_price,grid_emissions_intensity,hourly_labor_rate = row
+                H_pathway = H_pathways[pathway_index]
+                C_pathway = C_pathways[pathway_index]
+                E_pathway = E_pathways[pathway_index]
                 # Check whether we are working with grid or renewable electricity
                 # if renewables, fix electricity price and emissions to imposed values
-                if fuel_pathway.endswith("_renew"):
+                if E_pathway == "grid":
+                    elect_price = grid_price
+                    elect_emissions_intensity = grid_emissions_intensity
+                elif E_pathway == "renew":
                     elect_price = renew_price
                     elect_emissions_intensity = renew_emissions_intensity
-                elif fuel_pathway.endswith("_nuke"):
+                elif E_pathway == "nuke":
                     elect_price = nuke_price
                     elect_emissions_intensity = nuke_emissions_intensity
                 if fuel == "hydrogen":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_STP_hydrogen(fuel_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "hydrogen at standard temperature and pressure"
                 elif fuel == "liquid_hydrogen":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen(fuel_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid cryogenic hydrogen at atmospheric pressure"
                 elif fuel == "compressed_hydrogen":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen(fuel_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "compressed gaseous hydrogen at 700 bar"
                 elif fuel == "ammonia":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia(fuel_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia(H_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid cryogenic ammonia at atmospheric pressure"
                 elif fuel == "methanol":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_methanol(fuel_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid methanol at STP"
                 CapEx *= 1000 # convert to $/tonne
                 OpEx *= 1000 # convert to $/tonne
                 LCOF = CapEx + OpEx # in $/tonne
-                calculated_row = [fuel, fuel_pathway, "", region, 1, 2024, CapEx, OpEx, LCOF, emissions, "", "", "", comment]
+                calculated_row = [fuel, H_pathway, C_pathway, E_pathway, fuel_pathway, region, 2024, CapEx, OpEx, LCOF, emissions, comment]
                 output_data.append(calculated_row)
 
         # Define the output CSV column names
         output_columns = [
-            "Fuel", "Pathway Name", "Pathway Description", "Region", "Number", "Year",
-            "CapEx [$/tonne]", "OpEx [$/tonne]", "LCOF [$/tonne]", "Emissions [kg CO2e / kg fuel]", "Details",
-            "Model(s) or publications", "Results Produced by", "Comment"
+            "Fuel", "Hydrogen Source", "Carbon Source", "Electricity Source", "Pathway Name", "Region", "Year",
+            "CapEx [$/tonne]", "OpEx [$/tonne]", "LCOF [$/tonne]", "Emissions [kg CO2e / kg fuel]", "Comment"
         ]
 
         # Create a DataFrame for the output data
@@ -311,41 +342,49 @@ def main():
 
     # Gate to Pump Processes
     processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion"]
-    process_pathways = elecs
+    process_pathways = Esources
+    E_pathways = Esources
     for process in processes: 
         # List to hold all rows for the output CSV
         output_data = []
 
         # Iterate through each row in the input data and perform calculations
         for process_pathway in process_pathways:
-            for index, row in input_df.iterrows():
-                region,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate = row
+            pathway_index = process_pathways.index(process_pathway)
+            for row_index, row in input_df.iterrows():
+                region,instal_cost,water_price,NG_price,grid_price,grid_emissions_intensity,hourly_labor_rate = row
+                H_pathway = "n/a"
+                C_pathway = "n/a"
+                E_pathway = E_pathways[pathway_index]
                 # Check whether we are working with grid or renewable electricity
                 # if renewables, fix electricity price and emissions to imposed values
-                if process_pathway == "renew":
+                if E_pathway == "grid":
+                    elect_price = grid_price
+                    elect_emissions_intensity = grid_emissions_intensity
+                elif E_pathway == "renew":
                     elect_price = renew_price
                     elect_emissions_intensity = renew_emissions_intensity
-                elif process_pathway == "nuke":
+                elif E_pathway == "nuke":
                     elect_price = nuke_price
                     elect_emissions_intensity = nuke_emissions_intensity
                 # Calculations use LTE pathway for all, but subtract away the LTE costs/emissions
                 if process == "hydrogen_liquefaction":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     CapEx -= CapEx_H2prod
                     OpEx -= OpEx_H2prod
                     emissions -= emissions_H2prod
                     comment = "Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure"
                 elif process == "hydrogen_compression":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     CapEx -= CapEx_H2prod
                     OpEx -= OpEx_H2prod
                     emissions -= emissions_H2prod
                     comment = "compression of STP hydrogen to gaseous hydrogen at 700 bar"
                 elif process == "ammonia":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE_" + process_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     CapEx -= (CapEx_H2prod*NH3_H2_demand)
                     OpEx -= (OpEx_H2prod*NH3_H2_demand)
                     emissions -= (emissions_H2prod*NH3_H2_demand)
@@ -353,7 +392,7 @@ def main():
                 CapEx *= 1000 # convert to $/tonne
                 OpEx *= 1000 # convert to $/tonne
                 LCOF = CapEx + OpEx # in $/tonne
-                calculated_row = [process, process_pathway, "", region, 1, 2024, CapEx, OpEx, LCOF, emissions, "", "", "", comment]
+                calculated_row = [fuel, H_pathway, C_pathway, E_pathway, process_pathway, region, 2024, CapEx, OpEx, LCOF, emissions, comment]
                 output_data.append(calculated_row)
 
         # Create a DataFrame for the output data
