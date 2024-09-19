@@ -319,12 +319,12 @@ def main():
                 CapEx *= 1000 # convert to $/tonne
                 OpEx *= 1000 # convert to $/tonne
                 LCOF = CapEx + OpEx # in $/tonne
-                calculated_row = [fuel, H_pathway, C_pathway, E_pathway, fuel_pathway, region, 2024, CapEx, OpEx, LCOF, emissions, comment]
+                calculated_row = [fuel, H_pathway, C_pathway, E_pathway, fuel_pathway, region, 1, 2024, CapEx, OpEx, LCOF, emissions, comment]
                 output_data.append(calculated_row)
 
         # Define the output CSV column names
         output_columns = [
-            "Fuel", "Hydrogen Source", "Carbon Source", "Electricity Source", "Pathway Name", "Region", "Year",
+            "Fuel", "Hydrogen Source", "Carbon Source", "Electricity Source", "Pathway Name", "Region", "Number", "Year",
             "CapEx [$/tonne]", "OpEx [$/tonne]", "LCOF [$/tonne]", "Emissions [kg CO2e / kg fuel]", "Comment"
         ]
 
@@ -371,6 +371,7 @@ def main():
                     CapEx -= CapEx_H2prod
                     OpEx -= OpEx_H2prod
                     emissions -= emissions_H2prod
+                    fuel = "liquid_hydrogen"
                     comment = "Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure"
                 elif process == "hydrogen_compression":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
@@ -378,6 +379,7 @@ def main():
                     CapEx -= CapEx_H2prod
                     OpEx -= OpEx_H2prod
                     emissions -= emissions_H2prod
+                    fuel = "compressed_hydrogen"
                     comment = "compression of STP hydrogen to gaseous hydrogen at 700 bar"
                 elif process == "ammonia":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
@@ -385,11 +387,12 @@ def main():
                     CapEx -= (CapEx_H2prod*NH3_H2_demand)
                     OpEx -= (OpEx_H2prod*NH3_H2_demand)
                     emissions -= (emissions_H2prod*NH3_H2_demand)
+                    fuel = "ammonia"
                     comment = "conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure"
                 CapEx *= 1000 # convert to $/tonne
                 OpEx *= 1000 # convert to $/tonne
                 LCOF = CapEx + OpEx # in $/tonne
-                calculated_row = [fuel, H_pathway, C_pathway, E_pathway, process_pathway, region, 2024, CapEx, OpEx, LCOF, emissions, comment]
+                calculated_row = [fuel, H_pathway, C_pathway, E_pathway, process_pathway, region, 1, 2024, CapEx, OpEx, LCOF, emissions, comment]
                 output_data.append(calculated_row)
 
         # Create a DataFrame for the output data
