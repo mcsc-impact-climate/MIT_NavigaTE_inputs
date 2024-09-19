@@ -379,6 +379,9 @@ def main():
                 elif fuel == "methanol":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid methanol at STP"
+                elif fuel == "FTdiesel":
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    comment = "Liquid methanol at STP"
                 CapEx *= 1000 # convert to $/tonne
                 OpEx *= 1000 # convert to $/tonne
                 LCOF = CapEx + OpEx # in $/tonne
