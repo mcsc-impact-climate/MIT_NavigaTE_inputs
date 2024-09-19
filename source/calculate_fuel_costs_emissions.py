@@ -84,6 +84,17 @@ MeOH_full_time_employed = 68 # [full-time employees] from H2A
 MeOH_yearly_output = 194924166 # [kg MeOH/year] from Aspen Plus
 MeOH_onsite_emissions = 0.3153886337 # [kg CO2e/kg MeOH] synthesis process emissions in Aspen Plus
 
+# Inputs for Fischer-Tropsch diesel production from arbitrary H and C feedstocks
+FTdiesel_elect_demand = 0.246 # [kWh elect/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
+FTdiesel_H2_demand = 0.635 # [kg H2/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
+FTdiesel_CO2_demand = 6.80 # [kg CO2/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
+FTdiesel_NG_demand = 0 # [GJ NG/kg H2] from Aspen Plus
+FTdiesel_water_demand = 0.00166 # [m^3 H2O/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
+FTdiesel_base_CapEx = 0.322 # [2024$/kg] from H2A
+FTdiesel_full_time_employed = 80 # [full-time employees] from H2A
+FTdiesel_yearly_output = 128202750 # [kg FTdiesel/year] from Aspen Plus
+FTdiesel_onsite_emissions = 0.3153886337 # [kg CO2e/kg FTdiesel] synthesis process emissions in Aspen Plus
+
 def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     if H_pathway == "LTE":
         elect_demand = H2_LTE_elect_demand
