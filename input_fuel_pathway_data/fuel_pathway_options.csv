@@ -4,3 +4,4 @@ liquid_hydrogen,H,hydrogen_compression,renewable,SMRCCS,SMRCCS
 compressed_hydrogen,H,hydrogen_to_ammonia_conversion,nuke,LTE,BEC
 ammonia,NH,,,,DAC
 methanol,CHO,,,,
+FTdiesel,CH,,,,
