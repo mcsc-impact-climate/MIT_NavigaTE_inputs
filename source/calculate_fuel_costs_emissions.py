@@ -272,19 +272,19 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
     if (C_pathway == "BEC"):
         CO2_CapEx = 0 # No CapEx because we assume BEC CO2 is purchased externally at a fixed price 
         CO2_OpEx = BEC_CO2_price
-        CO2_emissions = BEC_CO2_upstream_emissions*CO2_demand - (16*44.01/200) - onsite_emissions # biogenic CO2 credit
+        CO2_emissions = BEC_CO2_upstream_emissions*CO2_demand - (12*44.01/167.3) - onsite_emissions # biogenic CO2 credit
     elif (C_pathway == "DAC"):
         CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price 
         CO2_OpEx = DAC_CO2_price
-        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand - (16*44.01/200) - onsite_emissions # captured CO2 credit
+        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand - (12*44.01/167.3) - onsite_emissions # captured CO2 credit
     elif C_pathway == "SMRCCS":
         CO2_CapEx = 0 # CO2 is "free" after already paying for upstream CCS
         CO2_OpEx = 0 # CO2 is "free" after already paying for upstream CCS
-        CO2_emissions = CO2_demand - (16*44.01/200) # we are working with already-captured fossil CO2, but not at 100% conversion.
+        CO2_emissions = CO2_demand - (12*44.01/167.3) # we are working with already-captured fossil CO2, but not at 100% conversion.
     elif C_pathway == "SMR":
         CO2_CapEx = 0 # assumes integrated plant with syngas conversion
         CO2_OpEx = 0 # assumes integrated plant with syngas conversion
-        CO2_emissions = -(16*44.01/200) # fossil CO2 that would have been emitted by SMR is instead embodied in fuel 
+        CO2_emissions = -(12*44.01/167.3) # fossil CO2 that would have been emitted by SMR is instead embodied in fuel 
     CapEx += (CO2_CapEx*CO2_demand)
     OpEx += (CO2_OpEx*CO2_demand)
     emissions += (CO2_emissions) 
