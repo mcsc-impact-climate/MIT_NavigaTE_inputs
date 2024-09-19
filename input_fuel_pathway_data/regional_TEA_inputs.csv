@@ -1,4 +1,4 @@
-Region,Installation Cost Factor (relative to USA),Water price [2024$/m^3],NG price [2024$/GJ],Electricity price [2024$/kWh],Electricity Emissions [kgCO2e/kWh],Labor Price [2024$/hr]
+Region,Installation Cost Factor (relative to USA),Water price [2024$/m^3],NG price [2024$/GJ],Grid Electricity price [2024$/kWh],Grid Electricity Emissions [kgCO2e/kWh],Labor Price [2024$/hr]
 United States,1,2.17,11.11111111,0.137,0.369,50.809254
 Brazil,1.02,0.72,27.5,0.117,0.098,10.388364
 Canada,0.89,2.1,6.944444444,0.114,0.17,39.158144
