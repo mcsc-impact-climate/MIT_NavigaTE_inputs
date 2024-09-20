@@ -41,7 +41,7 @@ def main():
 
     # Loop through all CSV files in the input directory
     for file_name in os.listdir(input_dir):
-        if file_name.endswith("costs_emissions.csv"):
+        if file_name.endswith("costs_emissions.csv") and not (file_name.startswith("liquid_hydrogen") or file_name.startswith("compressed_hydrogen")):
             csv_file = os.path.join(input_dir, file_name)
             df = pd.read_csv(csv_file)
 
