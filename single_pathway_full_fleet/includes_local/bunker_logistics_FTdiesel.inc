@@ -1,0 +1,3 @@
+BunkerLogistics {
+    LiquidMarketFuels = [Fuel("FTdiesel")]
+}
