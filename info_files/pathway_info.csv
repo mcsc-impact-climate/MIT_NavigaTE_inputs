@@ -9,7 +9,7 @@ SMR_H_BEC_C_grid_E,SMR+BEC-C (grid),grey_bio_C,Hydrogen from SMR with grid power
 SMR_H_BEC_C_nuke_E,SMR+BEC-C (nuclear),grey_bio_C,Hydrogen from SMR with nuclear power and carbon from biogenic sources
 SMR_H_BEC_C_renewable_E,SMR+BEC-C (renewables),grey_bio_C,Hydrogen from SMR with renewable power and carbon from biogenic sources
 SMRCCS_H_renewable_E,SMR+CCS (renewables),blue,Hydrogen from SMR coupled with CCS with renewable power
-SMRCCS_H_nuke_E,SMR+CCS (nuclear),Blue,Hydrogen from SMR coupled with CCS with nuclear power
+SMRCCS_H_nuke_E,SMR+CCS (nuclear),blue,Hydrogen from SMR coupled with CCS with nuclear power
 SMRCCS_grid,SMR+CCS (grid),blue,Hydrogen from SMR coupled with CCS with grid power
 SMRCCS_H_Bio_C_renew,SMR+CCS+Bio-C (renewables),blue_bio_C,Hydrogen from SMR+CCS with renewable power and biogenic carbon
 SMRCCS_H_grid_E,SMR+CCS (grid),blue,Hydrogen and carbon from SMR+CCS and grid power
