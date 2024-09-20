@@ -5,7 +5,7 @@ Purpose: Prepare .csv files contained in input_fuel_pathway_data using consisten
 
 import pandas as pd
 import os
-from common_tools import get_top_dir
+from common_tools import get_top_dir, ensure_directory_exists
 
 # Function to calculate CapEx, OpEx, LCOF, and production GHG emissions for STP hydrogen
 workhours_per_year = 52*40 # number of work-hours per year
@@ -234,7 +234,10 @@ def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_fac
 def main():
     top_dir = get_top_dir()
     input_dir = f"{top_dir}/input_fuel_pathway_data/"
-    output_dir = f"{top_dir}/input_fuel_pathway_data/"
+    output_dir_production = f"{top_dir}/input_fuel_pathway_data/production/"
+    ensure_directory_exists(output_dir_production)
+    output_dir_process = f"{top_dir}/input_fuel_pathway_data/process/"
+    ensure_directory_exists(output_dir_process)
 
     # Read the input CSV files
     input_df = pd.read_csv(input_dir + 'regional_TEA_inputs.csv')
@@ -333,9 +336,9 @@ def main():
 
         # Write the output data to a CSV file
         output_file = f"{fuel}_costs_emissions.csv"
-        output_df.to_csv(os.path.join(output_dir, output_file), index=False)
+        output_df.to_csv(os.path.join(output_dir_production, output_file), index=False)
 
-        print(f"Output CSV file created: {os.path.join(output_dir, output_file)}")
+        print(f"Output CSV file created: {os.path.join(output_dir_production, output_file)}")
 
     # Gate to Pump Processes
     processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion"]
@@ -400,9 +403,9 @@ def main():
 
         # Write the output data to a CSV file
         output_file = f"{process}_costs_emissions.csv"
-        output_df.to_csv(os.path.join(output_dir, output_file), index=False)
+        output_df.to_csv(os.path.join(output_dir_process, output_file), index=False)
 
-        print(f"Output CSV file created: {os.path.join(output_dir, output_file)}")
+        print(f"Output CSV file created: {os.path.join(output_dir_process, output_file)}")
 
 
 if __name__ == "__main__":

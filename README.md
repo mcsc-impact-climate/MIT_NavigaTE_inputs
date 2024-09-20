@@ -12,7 +12,7 @@ Assuming you have access to the NavigaTE repo, start by cloning the repo
 cd ..
 git clone git@github.com:zerocarbonshipping/NavigaTE.git
 cd NavigaTE
-git checkout [your desired branch, if different from main]
+git checkout MIT-shipping-study
 ```
 
 Install NavigaTE using the wheel file:
@@ -41,7 +41,21 @@ This should produce an output report (`lsfo_pathway_excel_report.xlsx`) in `sing
 
 ## Run NavigaTE for all pathways (global fleet)
 
-The script [`make_cost_emissions_files.py`](./source/make_cost_emissions_files.py) uses cost and emission data for a range of hydrogen and ammonia production pathways and regions in [`input_fuel_pathway_data/`](./input_fuel_pathway_data) to generate a set of cost and emission inputs in [`includes_global/all_costs_emissions`](./includes_global/all_costs_emissions). This script is integrated into [`run_all_pathways.sh`](./run_all_pathways.sh), which runs NavigaTE for the global fleet over all available fuel production pathways and regions.
+### Create cost and emissions info for fuel production pathways and processes
+
+The script [`calculate_fuel_costs_emissions.py`](./source/calculate_fuel_costs_emissions.py) leverages the input data file [`fuel_production_inputs.csv`](./input_fuel_pathway_data/fuel_production_inputs.csv) to produce csv files with cost and emissions info relating to fuel production and subsequent downstream processes (hydrogen to ammonia, hydrogen compression, and hydrogen liquefaction). To run:
+
+```bash 
+python source/calculate_fuel_costs_emissions.py
+```
+
+Currently, this creates the following csv files:
+* `input_fuel_pathway_data/production/{fuel}_costs_emissions.csv`: Costs and emissions associated with production of the given `{fuel}`.
+*  `input_fuel_pathway_data/process/hydrogen_{process}_costs_emissions.csv`: Costs and emissions associated with the given `{process}`.
+
+### 
+
+The script [`make_cost_emissions_files.py`](./source/make_cost_emissions_files.py) uses cost and emission data for a range of hydrogen and ammonia production pathways and regions in [`input_fuel_pathway_data`](./input_fuel_pathway_data) to generate a set of cost and emission inputs in [`includes_global/all_costs_emissions`](./includes_global/all_costs_emissions). This script is integrated into [`run_all_pathways.sh`](./run_all_pathways.sh), which runs NavigaTE for the global fleet over all available fuel production pathways and regions.
 
 To just make the input `*.inc` files for each pathway:
 
