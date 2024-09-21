@@ -2377,7 +2377,7 @@ def structure_results_fuels_types(
     return results_fuels_types
 
 
-def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 6)):
+def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 10)):
     """
     Plot the data from a dictionary as horizontal scatterplots with optional overlayed violin plots.
 
@@ -2506,21 +2506,21 @@ def main():
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 # -----------------------------------------------------------------------------#
 
-#    # Loop through all fuels of interest
-#    for fuel in ["methanol"]:#, "hydrogen", "ammonia", "lsfo"]:
-#        processed_fuel = ProcessedFuel(fuel)
-#
-#        # Make validation plots for each fuel, pathway and quantity
-#        processed_fuel.make_all_hists_by_region()
-#        processed_fuel.make_all_cac_hists_by_region()
-#        processed_fuel.map_all_by_region()
-#        processed_fuel.map_all_cac_by_region()
-#        processed_fuel.make_all_stacked_hists()
-#        processed_fuel.make_cac_hist()
-#
-#    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
-#        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
-#            structured_results = structure_results_fuels_types(quantity, modifier)
-#            plot_scatter_violin(structured_results, quantity, modifier)
+    # Loop through all fuels of interest
+    for fuel in ["FTdiesel"]:#, "hydrogen", "ammonia", "lsfo"]:
+        processed_fuel = ProcessedFuel(fuel)
+
+        # Make validation plots for each fuel, pathway and quantity
+        processed_fuel.make_all_hists_by_region()
+        processed_fuel.make_all_cac_hists_by_region()
+        processed_fuel.map_all_by_region()
+        processed_fuel.map_all_cac_by_region()
+        processed_fuel.make_all_stacked_hists()
+        processed_fuel.make_cac_hist()
+
+    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
+        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+            structured_results = structure_results_fuels_types(quantity, modifier)
+            plot_scatter_violin(structured_results, quantity, modifier)
 
 main()
