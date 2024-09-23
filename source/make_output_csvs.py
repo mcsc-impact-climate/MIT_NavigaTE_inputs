@@ -109,6 +109,21 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             "TotalFuelOPEX",
             "ConsumedEnergy_lsfo",
         ]
+    elif fuel == "FTdiesel":
+        results_df_columns = [
+            "Date",
+            "Time (days)",
+            "TotalEquivalentWTT",
+            "TotalEquivalentTTW",
+            "TotalEquivalentWTW",
+            "Miles",
+            "CargoMiles",
+            "SpendEnergy",
+            "TotalCAPEX",
+            "TotalExcludingFuelOPEX",
+            "TotalFuelOPEX",
+            "ConsumedEnergy_{fuel}",
+        ]
     else:
         results_df_columns = [
             "Date",
@@ -190,6 +205,14 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
                 )
                 results_dict["ConsumedEnergy_lsfo"] = (
                     float(results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"])
+                    * 0
+                )
+            if fuel == "FTdiesel":
+                results_dict["ConsumedEnergy_main"] = float(
+                    results_df_vessel["ConsumedEnergy_{fuel}"].loc["2024-01-01"]
+                )
+                results_dict["ConsumedEnergy_lsfo"] = (
+                    float(results_df_vessel["ConsumedEnergy_{fuel}"].loc["2024-01-01"])
                     * 0
                 )
             else:

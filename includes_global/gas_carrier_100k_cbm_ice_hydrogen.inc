@@ -52,7 +52,8 @@ Converter "propulsion_ice_hydrogen_gas_carrier_100k_cbm" {
     PrimaryStream = MECHANICAL
     
     set_consumption_TTW(HYDROGEN, "nitrous_oxide", 0.)
-    set_consumption_TTW(HYDROGEN, "black_carbon", Variable("converter_ammonia_black_carbon"))
+    set_consumption_TTW(HFO, "black_carbon", Variable("converter_hfo_black_carbon"))
+    set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
     CAPEX = 700000
     OPEX = <700000 * 0.015>
@@ -67,7 +68,8 @@ Converter "electrical_ice_hydrogen_gas_carrier_100k_cbm" {
     PrimaryStream = ELECTRICAL
     
     set_consumption_TTW(HYDROGEN, "nitrous_oxide", 0.)
-    set_consumption_TTW(HYDROGEN, "black_carbon", Variable("converter_ammonia_black_carbon"))
+    set_consumption_TTW(HFO, "black_carbon", Variable("converter_hfo_black_carbon"))
+    set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
     CAPEX = 480000
     OPEX = 48000

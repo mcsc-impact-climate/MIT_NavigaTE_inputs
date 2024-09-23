@@ -84,6 +84,17 @@ MeOH_full_time_employed = 68 # [full-time employees] from H2A
 MeOH_yearly_output = 194924166 # [kg MeOH/year] from Aspen Plus
 MeOH_onsite_emissions = 0.3153886337 # [kg CO2e/kg MeOH] synthesis process emissions in Aspen Plus
 
+# Inputs for Fischer-Tropsch diesel production from arbitrary H and C feedstocks
+FTdiesel_elect_demand = 0.246 # [kWh elect/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
+FTdiesel_H2_demand = 0.635 # [kg H2/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
+FTdiesel_CO2_demand = 6.80 # [kg CO2/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
+FTdiesel_NG_demand = 0 # [GJ NG/kg H2] from Aspen Plus
+FTdiesel_water_demand = 0.00166 # [m^3 H2O/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
+FTdiesel_base_CapEx = 0.322 # [2024$/kg] from H2A
+FTdiesel_full_time_employed = 80 # [full-time employees] from H2A
+FTdiesel_yearly_output = 128202750 # [kg FTdiesel/year] from Aspen Plus
+FTdiesel_onsite_emissions = 0.3153886337 # [kg CO2e/kg FTdiesel] synthesis process emissions in Aspen Plus
+
 def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     if H_pathway == "LTE":
         elect_demand = H2_LTE_elect_demand
@@ -231,6 +242,55 @@ def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_fac
 
     return CapEx, OpEx, emissions
 
+def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+    elect_demand = FTdiesel_elect_demand
+    H2_demand = FTdiesel_H2_demand
+    CO2_demand = FTdiesel_CO2_demand
+    NG_demand = FTdiesel_NG_demand
+    water_demand = FTdiesel_water_demand
+    base_CapEx = FTdiesel_base_CapEx
+    full_time_employed = FTdiesel_full_time_employed
+    yearly_output = FTdiesel_yearly_output
+    onsite_emissions = FTdiesel_onsite_emissions
+    # calculate production values
+    CapEx = base_CapEx*instal_factor
+    Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) \
+                + (op_maint_rate + tax_rate)*CapEx
+    Electricity_OpEx = elect_demand*elect_price
+    NG_OpEx = NG_demand*NG_price
+    Water_OpEx = water_demand*water_price
+    OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx
+    emissions = elect_demand*elect_emissions_intensity \
+                + NG_demand/NG_HHV*NG_GWP*NG_percent_fugitive \
+                + onsite_emissions
+    # add H2 feedstock costs and emissions
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    CapEx += (H2_CapEx*H2_demand)
+    OpEx += (H2_OpEx*H2_demand)
+    emissions += (H2_emissions*H2_demand)
+    # add CO2 feedstock costs and emissions
+    if (C_pathway == "BEC"):
+        CO2_CapEx = 0 # No CapEx because we assume BEC CO2 is purchased externally at a fixed price 
+        CO2_OpEx = BEC_CO2_price
+        CO2_emissions = BEC_CO2_upstream_emissions*CO2_demand - (12*44.01/167.3) - onsite_emissions # biogenic CO2 credit
+    elif (C_pathway == "DAC"):
+        CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price 
+        CO2_OpEx = DAC_CO2_price
+        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand - (12*44.01/167.3) - onsite_emissions # captured CO2 credit
+    elif C_pathway == "SMRCCS":
+        CO2_CapEx = 0 # CO2 is "free" after already paying for upstream CCS
+        CO2_OpEx = 0 # CO2 is "free" after already paying for upstream CCS
+        CO2_emissions = CO2_demand - (12*44.01/167.3) # we are working with already-captured fossil CO2, but not at 100% conversion.
+    elif C_pathway == "SMR":
+        CO2_CapEx = 0 # assumes integrated plant with syngas conversion
+        CO2_OpEx = 0 # assumes integrated plant with syngas conversion
+        CO2_emissions = -(12*44.01/167.3) # fossil CO2 that would have been emitted by SMR is instead embodied in fuel 
+    CapEx += (CO2_CapEx*CO2_demand)
+    OpEx += (CO2_OpEx*CO2_demand)
+    emissions += (CO2_emissions) 
+
+    return CapEx, OpEx, emissions
+
 def main():
     top_dir = get_top_dir()
     input_dir = f"{top_dir}/input_fuel_pathway_data/"
@@ -319,6 +379,9 @@ def main():
                 elif fuel == "methanol":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid methanol at STP"
+                elif fuel == "FTdiesel":
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    comment = "liquid Fischer--Tropsch diesel fuel at STP"
                 CapEx *= 1000 # convert to $/tonne
                 OpEx *= 1000 # convert to $/tonne
                 LCOF = CapEx + OpEx # in $/tonne

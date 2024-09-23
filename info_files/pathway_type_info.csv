@@ -1,9 +1,9 @@
 Pathway Type,Label,Color
 blue,Blue,blue
 blue_bio_C,Blue (Bio C),teal
-blue_dac_C,Blue (DAC C),Cyan
+blue_dac_C,Blue (DAC C),cyan
 electro_grid,Electro (Grid),darkgreen
 electro_renew,Electro (Renewables),limegreen
-electro_nuke,Electro (Nuclear),Pink
-grey_bio_C,Grey (bio C),grey
-grey,Grey,grey
+electro_nuke,Electro (Nuclear),pink
+grey_bio_C,Grey (Bio C),grey
+grey,Grey,dimgrey
