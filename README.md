@@ -1,5 +1,5 @@
 # MIT Input Files for the NavigaTE Shipping Model
-This repo contains input files for MIT's use of the NavigaTE maritime shipping model developed by the Mærsk Mc-Kinney Møller Center for Zero Carbon Shipping.
+This repo contains input files and processing+analysis code for MIT's use of the NavigaTE maritime shipping model developed by the Mærsk Mc-Kinney Møller Center for Zero Carbon Shipping.
 
 # Pre-requisites
 Python3 installation
