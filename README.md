@@ -34,7 +34,7 @@ NavigaTE inputs for the global fleet of container, bulk, tanker and gas carrier 
 To run the NavigaTE model for a single fuel production pathway, eg. LSFO:
 
 ```bash
-navigate --suppress-plots single_pathway_full_fleet/lsfo_pathway/lsfo_pathway.nav
+navigate --suppress-plots single_pathway_full_fleet/lsfo/lsfo.nav
 ```
 
 This should produce an output report (`lsfo_pathway_excel_report.xlsx`) in `single_pathway_full_fleet/lsfo_pathway/plots/`.
