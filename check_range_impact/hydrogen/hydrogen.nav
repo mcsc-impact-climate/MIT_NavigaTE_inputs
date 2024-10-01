@@ -1,0 +1,39 @@
+SIMULATION NAV {
+                
+    # model definition
+    INCLUDE "../../includes_global_check_range_impact/model_definition.inc"
+    INCLUDE "../includes_local/bunker_logistics_hydrogen.inc"
+    
+    # fleets
+    INCLUDE "../../includes_global_check_range_impact/fleet_hydrogen.inc"
+
+    # vessels
+    INCLUDE "../../includes_global_check_range_impact/container_15000_teu_ice_hydrogen.inc"
+    
+    # fuels
+    INCLUDE "../../includes_global_check_range_impact/hydrogen.inc"
+    INCLUDE "../../includes_global_check_range_impact/low_sulfur_fuel_oil.inc"
+    
+    # Route
+    INCLUDE "../../includes_global_check_range_impact/route_round.inc"
+    #INCLUDE "../../includes_global_check_range_impact/route.inc"
+    
+    # costs and emission of fuels
+    INCLUDE "../../includes_global_check_range_impact/cost_emissions_hydrogen_ports.inc"
+    INCLUDE "../../includes_global_check_range_impact/cost_emissions_lsfo_ports.inc"
+    
+    # center default emissions
+    IMPORT CenterDefaultEmissions
+    
+    # output results to excel
+    INCLUDE "../../includes_global_check_range_impact/make_excel.inc"
+
+}
+
+SIMULATION FT {
+    # time steps
+    INCLUDE "../../includes_global_check_range_impact/time_steps_yearly.inc"
+}
+
+
+
