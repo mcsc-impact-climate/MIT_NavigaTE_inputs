@@ -637,14 +637,14 @@ def add_av_cost_emissions_ratios(all_results_df):
     )
 
     # Calculate the change in cost relative to LSFO
-    merged_df["Cost_Ratio"] = merged_df["TotalCost"] / merged_df["TotalCost_lsfo"]
+    merged_df["HalfCostRatio"] = 0.5 * merged_df["TotalCost"] / merged_df["TotalCost_lsfo"]
 
-    merged_df["WTW_Ratio"] = (
-        merged_df["TotalEquivalentWTW"] / merged_df["TotalEquivalentWTW_lsfo"]
+    merged_df["HalfWTWRatio"] = (
+        0.5 * merged_df["TotalEquivalentWTW"] / merged_df["TotalEquivalentWTW_lsfo"]
     )
 
     # Calculate the average of the two ratios
-    merged_df["AverageCostEmissionsRatio"] = (merged_df["Cost_Ratio"] + merged_df["WTW_Ratio"]) / 2
+    merged_df["AverageCostEmissionsRatio"] = merged_df["HalfCostRatio"] + merged_df["HalfWTWRatio"]
 
     # Drop the temporary LSFO vessel column
     merged_df = merged_df.drop(
