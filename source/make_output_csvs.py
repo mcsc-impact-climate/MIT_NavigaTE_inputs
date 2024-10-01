@@ -765,7 +765,7 @@ def generate_csv_files(all_results_df, top_dir):
 
                 # Save the DataFrame to a CSV file
                 pivot_df.to_csv(filepath)
-                print(f"Saved {filename}")
+                print(f"Saved {filepath}")
 
 
 def main():
