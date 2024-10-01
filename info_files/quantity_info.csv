@@ -11,3 +11,6 @@ CargoMiles,Cargo-miles Carried,nm,Assume 14 tonnes / TEU for containerships and 
 ConsumedEnergy_lsfo,LSFO Energy Consumed ,GJ,Low sulfur fuel oil (main fuel for LSFO vessel and pilot fuel for other vessels)
 ConsumedEnergy_main,Main Fuel Energy Consumed,GJ,
 CostTimesEmissions,Cost $\times$ Emissions,USD-tonnes CO2,Product of TotalCost times TotalEquivalentWTW
+AverageCostEmissionsRatio,Average Cost and Emissions Ratio,,(1/2) x (TotalCost for alt fuel / TotalCost for LSFO + TotalEquivalentWTW for alt fuel / TotalEquivalentWTW for LSFO)
+HalfWTWRatio,Half of Emissions Ratio,,(1/2) x (TotalEquivalentWTW for alt fuel / TotalEquivalentWTW for LSFO)
+HalfCostRatio,Half of Cost Ratio,,(1/2) x (TotalCost for alt fuel / TotalCost for LSFO)
