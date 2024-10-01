@@ -74,6 +74,7 @@ result_components = {
     "TotalCost": ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"],
     "TotalEquivalentWTW": ["TotalEquivalentTTW", "TotalEquivalentWTT"],
     "CostTimesEmissions": [],
+    "AverageCostEmissionsRatio": ["HalfCostRatio", "HalfWTWRatio"],
 }
 
 # Global string representing the absolute path to the top level of the repo
@@ -497,23 +498,26 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
     """
 
     base_units = quantity_info_df.loc[quantity, "Units"]
-
-    # Modify the denominator if needed based on the modifier
-    modifier_denom_dict = {
-        "vessel": "year",
-        "fleet": "year",
-        "per_mile": "nm",
-        "per_tonne_mile": "tonne-nm",
-    }
-
-    denom_units = modifier_denom_dict[modifier]
-
-    if "/" not in base_units:
-        units = f"{base_units} / {denom_units}"
+    if pd.isna(base_units):
+        return None
+    
     else:
-        units = base_units
+        # Modify the denominator if needed based on the modifier
+        modifier_denom_dict = {
+            "vessel": "year",
+            "fleet": "year",
+            "per_mile": "nm",
+            "per_tonne_mile": "tonne-nm",
+        }
 
-    return units
+        denom_units = modifier_denom_dict[modifier]
+
+        if "/" not in base_units:
+            units = f"{base_units} / {denom_units}"
+        else:
+            units = base_units
+
+        return units
     
 def get_pathway_type(pathway, info_file=f"{top_dir}/info_files/pathway_info.csv"):
     """
@@ -610,9 +614,6 @@ class ProcessedQuantity:
 
     read_result(file_path):
         Reads in a processed csv file and saves it to a pandas dataframe.
-
-    get_units(self):
-        Collects the units for the given quantity and modifier
 
     make_hist_by_region(self, vessel_type):
         Plots a stacked histogram of either vessel sizes (if a vessel type is provided as input) or vessel types (if "all" is provided).
@@ -849,7 +850,10 @@ class ProcessedQuantity:
         )
 
         # Plot styling common to both cases
-        ax.set_xlabel(f"{self.label} ({self.units})", fontsize=22)
+        if self.units is None:
+            ax.set_xlabel(f"{self.label}", fontsize=22)
+        else:
+            ax.set_xlabel(f"{self.label} ({self.units})", fontsize=22)
         ax.set_yticks(range(len(result_df_region_av)))
         ax.set_yticklabels(make_region_labels(result_df_region_av.index))
         if stack_vessel_types or stack_vessel_sizes:
@@ -996,7 +1000,10 @@ class ProcessedQuantity:
         )
         sm._A = []
         cbar = fig.colorbar(sm, cax=cax, orientation="horizontal")
-        cbar.set_label(f"{self.label} ({self.units})", fontsize=20)
+        if self.units is None:
+            cbar.set_label(f"{self.label}", fontsize=20)
+        else:
+            cbar.set_label(f"{self.label} ({self.units})", fontsize=20)
 
         vessel_type_label = "All"
         if not vessel_type == "all":
@@ -1200,7 +1207,7 @@ class ProcessedPathway:
     def apply_to_all_quantities(
         self,
         method_name,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1342,7 +1349,7 @@ class ProcessedPathway:
 
     def make_all_hists_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1365,7 +1372,7 @@ class ProcessedPathway:
 
     def map_all_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1674,7 +1681,10 @@ class ProcessedFuel:
         )
 
         # Add labels and title
-        ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
+        if quantity_units is None:
+            ax.set_xlabel(f"{quantity_label}", fontsize=20)
+        else:
+            ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
         ax.set_title(f"Fuel: {self.fuel}", fontsize=24)
 
         # Add a legend for the stacked bar components (sub-quantities)
@@ -1725,7 +1735,7 @@ class ProcessedFuel:
 
     def make_all_stacked_hists(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1806,7 +1816,7 @@ class ProcessedFuel:
 
     def make_all_hists_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1829,7 +1839,7 @@ class ProcessedFuel:
 
     def map_all_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1996,7 +2006,10 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
 
     quantity_label = get_quantity_label(quantity)
     units = get_units(quantity, modifier)
-    ax.set_xlabel(f"{quantity_label} ({units})", fontsize=22)
+    if units is None:
+        ax.set_xlabel(f"{quantity_label}", fontsize=22)
+    else:
+        ax.set_xlabel(f"{quantity_label} ({units})", fontsize=22)
     plt.subplots_adjust(left=0.2, right=0.75)
     plt.tight_layout()
     create_directory_if_not_exists(f"{top_dir}/plots/scatter_violin")
@@ -2013,7 +2026,7 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("CostTimesEmissions", "vessel", "methanol", "SMR_H_C_grid_E")
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "methanol", "SMR_H_C_grid_E")
 #    processed_quantity.map_by_region()
 #    processed_quantity.make_hist_by_region()
 #
@@ -2025,8 +2038,10 @@ def main():
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 # -----------------------------------------------------------------------------#
 
+    
     # Loop through all fuels of interest
     for fuel in ["hydrogen"]:#, "hydrogen", "ammonia", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
@@ -2035,10 +2050,11 @@ def main():
         processed_fuel.make_all_hists_by_region()
         processed_fuel.map_all_by_region()
         processed_fuel.make_all_stacked_hists()
-    
-    for quantity in ["TotalCost", "TotalEquivalentWTW", "CostTimesEmissions"]:
+        
+    for quantity in ["TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
         for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+            if quantity == "AverageCostEmissionsRatio" and modifier != "vessel":
+                continue
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
-    
 main()
