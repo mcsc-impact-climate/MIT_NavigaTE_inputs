@@ -10,4 +10,4 @@ Miles,Annual Nautical Miles,nm,
 CargoMiles,Cargo-miles Carried,nm,Assume 14 tonnes / TEU for containerships and 3.49 lb / gal for gas carriers
 ConsumedEnergy_lsfo,LSFO Energy Consumed ,GJ,Low sulfur fuel oil (main fuel for LSFO vessel and pilot fuel for other vessels)
 ConsumedEnergy_main,Main Fuel Energy Consumed,GJ,
-CostTimesEmissions,Total Cost $\times$ WTW Emissions,USD-tonnes CO2,Product of TotalCost times TotalEquivalentWTW
+CostTimesEmissions,Cost $\times$ Emissions,USD-tonnes CO2,Product of TotalCost times TotalEquivalentWTW
