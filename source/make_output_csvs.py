@@ -617,7 +617,7 @@ def add_cost_times_emissions(all_results_df):
     
     # Repeat for all modifiers
     for modifier in all_modifiers:
-        all_results_df[f"CostTimesEmissions-{modifier}"] = all_results_df[f"TotalCost-{modifier}"] * all_results_df[f"TotalEquivalentWTW-{modifier}"]
+        all_results_df[f"CostTimesEmissions-{modifier}"] = all_results_df[f"TotalCost-{modifier}"] * all_results_df[f"TotalEquivalentWTW"]
 
     return all_results_df
 
