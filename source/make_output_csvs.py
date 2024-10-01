@@ -548,6 +548,8 @@ def add_cac(all_results_df):
     -------
     all_results_df : pandas.DataFrame
         The updated DataFrame with the cost of carbon abatement added.
+        
+    NOTE: This function is not currently being used. Instead, the product of total cost and emissions is being included in the output csvs (see function add_cost_times_emissions).
     """
 
     # Mapping vessels to LSFO equivalents
@@ -591,6 +593,50 @@ def add_cac(all_results_df):
 
     return merged_df
 
+def add_cost_times_emissions(all_results_df):
+    """
+    Adds the product of cost and emissions to all_results_df.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which fleet-level quantities will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with the cost of carbon abatement added.
+        
+    """
+
+    # Mapping vessels to LSFO equivalents
+    lsfo_vessels = all_results_df["Vessel"].str.replace(
+        r"(_[^_]+)$", "_lsfo", regex=True
+    )
+
+    # Adding LSFO vessel names to the DataFrame for comparison
+    all_results_df["lsfo_vessel"] = lsfo_vessels
+
+    # Find LSFO baseline for comparison
+    lsfo_baseline = all_results_df[
+        (all_results_df["Fuel"] == "lsfo")
+        & (all_results_df["Pathway"] == "fossil")
+        & (all_results_df["Region"] == "Global")
+        & (all_results_df["Number"] == 1)
+    ].set_index("Vessel")
+
+    # Merge to find the matching LSFO baseline data for each vessel
+    merged_df = all_results_df.merge(
+        lsfo_baseline[["TotalCost", "TotalEquivalentWTW"]],
+        left_on="lsfo_vessel",
+        right_index=True,
+        suffixes=("", "_lsfo"),
+    )
+
+    # Calculate the product of cost times emissions
+    merged_df["CostTimesEmissions"] = merged_df["TotalCost"] * merged_df["TotalEquivalentWTW"]
+
+    return merged_df
 
 def remove_all_files_in_directory(directory_path):
     """
@@ -748,7 +794,11 @@ def main():
     mark_countries_with_multiples(all_results_df)
 
     # Add a column quantifying the cost of carbon abatement
-    all_results_df = add_cac(all_results_df)
+    # Note: The use of CAC is currently discontinued
+    #all_results_df = add_cac(all_results_df)
+    
+    # Add a column for cost times emissions
+    all_results_df = add_cost_times_emissions(all_results_df)
 
     all_results_df.to_csv("all_results_df.csv")
 
