@@ -608,35 +608,11 @@ def add_cost_times_emissions(all_results_df):
         The updated DataFrame with the cost of carbon abatement added.
         
     """
-
-    # Mapping vessels to LSFO equivalents
-    lsfo_vessels = all_results_df["Vessel"].str.replace(
-        r"(_[^_]+)$", "_lsfo", regex=True
-    )
-
-    # Adding LSFO vessel names to the DataFrame for comparison
-    all_results_df["lsfo_vessel"] = lsfo_vessels
-
-    # Find LSFO baseline for comparison
-    lsfo_baseline = all_results_df[
-        (all_results_df["Fuel"] == "lsfo")
-        & (all_results_df["Pathway"] == "fossil")
-        & (all_results_df["Region"] == "Global")
-        & (all_results_df["Number"] == 1)
-    ].set_index("Vessel")
-
-    # Merge to find the matching LSFO baseline data for each vessel
-    merged_df = all_results_df.merge(
-        lsfo_baseline[["TotalCost", "TotalEquivalentWTW"]],
-        left_on="lsfo_vessel",
-        right_index=True,
-        suffixes=("", "_lsfo"),
-    )
-
+    
     # Calculate the product of cost times emissions
-    merged_df["CostTimesEmissions"] = merged_df["TotalCost"] * merged_df["TotalEquivalentWTW"]
+    all_results_df["CostTimesEmissions"] = all_results_df["TotalCost"] * all_results_df["TotalEquivalentWTW"]
 
-    return merged_df
+    return all_results_df
 
 def remove_all_files_in_directory(directory_path):
     """
