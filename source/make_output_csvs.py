@@ -609,8 +609,15 @@ def add_cost_times_emissions(all_results_df):
         
     """
     
+    # Get a list of all modifiers to handle
+    all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
+    
     # Calculate the product of cost times emissions
     all_results_df["CostTimesEmissions"] = all_results_df["TotalCost"] * all_results_df["TotalEquivalentWTW"]
+    
+    # Repeat for all modifiers
+    for modifier in all_modifiers:
+        all_results_df[f"CostTimesEmissions-{modifier}"] = all_results_df[f"TotalCost-{modifier}"] * all_results_df[f"TotalEquivalentWTW-{modifier}"]
 
     return all_results_df
 
@@ -768,7 +775,7 @@ def main():
 
     # Append the region number to countries for which there's data for >1 region
     mark_countries_with_multiples(all_results_df)
-
+    
     # Add a column quantifying the cost of carbon abatement
     # Note: The use of CAC is currently discontinued
     #all_results_df = add_cac(all_results_df)
@@ -776,6 +783,7 @@ def main():
     # Add a column for cost times emissions
     all_results_df = add_cost_times_emissions(all_results_df)
 
+    # Output all_results_df to a csv file to help with debugging
     all_results_df.to_csv("all_results_df.csv")
 
     # Generate CSV files for each combination of fuel pathway, quantity, and evaluation choice
