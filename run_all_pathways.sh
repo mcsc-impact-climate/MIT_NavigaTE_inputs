@@ -31,13 +31,13 @@ process_pathway() {
     local log_file="${SCRIPT_DIR}/Logs/log-${pathway_name}.log"
 
     echo "Processing ${pathway_name} pathway" | tee -a "$log_file"
-
-    cp "$inc_file" "${DEST_DIR}/cost_emissions_${fuel}.inc" 2>&1 | tee -a "$log_file"
-    navigate --suppress-plots "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${fuel}.nav" 2>&1 | tee -a "$log_file"
-    cp "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/plots/${fuel}_excel_report.xlsx" "${SCRIPT_DIR}/all_outputs_full_fleet/report-${pathway_name}.xlsx" 2>&1 | tee -a "$log_file"
+    
+    cp "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/navs/${pathway_name}.nav" "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${pathway_name}.nav"
+    navigate --suppress-plots "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${pathway_name}.nav" 2>&1 | tee -a "$log_file"
+    rm "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${pathway_name}.nav"
 }
 
-for inc_file in "${SOURCE_DIR}"/*.inc; do
+for inc_file in "${SOURCE_DIR}"/compressed_hydrogen-*.inc; do
 
     filename=$(basename -- "$inc_file")
     fuel=$(echo $filename | cut -d'-' -f1)
