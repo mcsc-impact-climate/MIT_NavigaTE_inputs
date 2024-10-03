@@ -245,7 +245,7 @@ def extract_info_from_filename(filename):
     result.named : dict
         A dictionary containing the extracted information, or None if the pattern doesn't match.
     """
-    pattern = "report-{fuel}-{pathway}-{region}-{number}.xlsx"
+    pattern = "{fuel}-{pathway}-{region}-{number}_excel_report.xlsx"
     result = parse(pattern, filename)
     if result:
         return result.named
@@ -297,7 +297,7 @@ def collect_all_results(top_dir):
     all_results_df = pd.DataFrame(columns=columns)
 
     # Read results for each file and add to the DataFrame
-    results_filename = f"{top_dir}/all_outputs_full_fleet/report-lsfo-1.xlsx"
+    results_filename = f"{top_dir}/all_outputs_full_fleet/lsfo-1_excel_report.xlsx"
     all_results_df = read_results(
         "lsfo", "fossil", "Global", 1, results_filename, all_results_df
     )
@@ -307,7 +307,7 @@ def collect_all_results(top_dir):
         pathway = fuel_pathway_region["pathway"]
         region = fuel_pathway_region["region"]
         number = fuel_pathway_region["number"]
-        results_filename = f"{top_dir}/all_outputs_full_fleet/report-{fuel}-{pathway}-{region}-{number}.xlsx"
+        results_filename = f"{top_dir}/all_outputs_full_fleet/{fuel}-{pathway}-{region}-{number}_excel_report.xlsx"
         all_results_df = read_results(
             fuel, pathway, region, number, results_filename, all_results_df
         )
