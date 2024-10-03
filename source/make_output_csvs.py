@@ -330,8 +330,9 @@ def add_number_of_vessels(all_results_df):
         The updated DataFrame with the number of vessels added.
     """
 
+    # DMM: This is slightly kludgey and will break if we incorporate non-ICE vessels
     def extract_base_vessel_name(vessel_name):
-        return "_".join(vessel_name.split("_")[:-1])
+        return vessel_name.split("ice")[0] + "ice"
 
     # Map the number of vessels to each row in the DataFrame
     all_results_df["base_vessel_name"] = all_results_df["Vessel"].apply(
@@ -341,6 +342,8 @@ def add_number_of_vessels(all_results_df):
         all_results_df["base_vessel_name"].map(vessel_size_number).astype(float)
     )
     all_results_df.drop("base_vessel_name", axis=1, inplace=True)
+    
+    filtered_rows = all_results_df[all_results_df['Vessel'].str.contains('compressed_hydrogen')]
 
     return all_results_df
 
