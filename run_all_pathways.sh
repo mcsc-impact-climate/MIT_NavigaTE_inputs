@@ -17,7 +17,7 @@ mkdir -p "${SCRIPT_DIR}/all_outputs_full_fleet"
 python ${SCRIPT_DIR}/source/make_cost_emissions_files.py
 
 # Clear out any existing excel and log files
-rm ${SCRIPT_DIR}/all_outputs_full_fleet/*.xlsx
+#rm ${SCRIPT_DIR}/all_outputs_full_fleet/*.xlsx
 rm Logs/*.log
 
 echo 'Processing lsfo pathway'
