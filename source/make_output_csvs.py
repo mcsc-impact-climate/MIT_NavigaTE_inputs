@@ -93,6 +93,11 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
     all_results_df : pandas.DataFrame
         The updated DataFrame with the new results appended.
     """
+    
+    # Replace 'compressed_hydrogen' and 'liquid_hydrogen' in all_results_df with compressedhydrogen and liquidhydrogen to facilitate vessel name parsing
+    fuel_orig = fuel
+    fuel = fuel.replace('compressed_hydrogen', 'compressedhydrogen').replace('liquid_hydrogen', 'liquidhydrogen')
+    
     # Define columns to read based on the fuel type
     if fuel == "lsfo":
         results_df_columns = [
@@ -137,7 +142,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             "TotalCAPEX",
             "TotalExcludingFuelOPEX",
             "TotalFuelOPEX",
-            f"ConsumedEnergy_{fuel}",
+            f"ConsumedEnergy_{fuel_orig}",
             "ConsumedEnergy_lsfo",
         ]
 
@@ -154,7 +159,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             )
             results_df_vessel.columns = results_df_columns
             results_df_vessel = results_df_vessel.set_index("Date")
-
+            
             results_dict["Vessel"] = f"{vessel}_{fuel}"
             results_dict["Fuel"] = fuel
             results_dict["Pathway"] = pathway
@@ -217,7 +222,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
                 )
             else:
                 results_dict["ConsumedEnergy_main"] = float(
-                    results_df_vessel[f"ConsumedEnergy_{fuel}"].loc["2024-01-01"]
+                    results_df_vessel[f"ConsumedEnergy_{fuel_orig}"].loc["2024-01-01"]
                 )
                 results_dict["ConsumedEnergy_lsfo"] = float(
                     results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"]
@@ -227,7 +232,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             all_results_df = pd.concat(
                 [all_results_df, results_row_df], ignore_index=True
             )
-
+    
     return all_results_df
 
 
@@ -311,7 +316,6 @@ def collect_all_results(top_dir):
         all_results_df = read_results(
             fuel, pathway, region, number, results_filename, all_results_df
         )
-
     return all_results_df
 
 
@@ -330,9 +334,8 @@ def add_number_of_vessels(all_results_df):
         The updated DataFrame with the number of vessels added.
     """
 
-    # DMM: This is slightly kludgey and will break if we incorporate non-ICE vessels
     def extract_base_vessel_name(vessel_name):
-        return vessel_name.split("ice")[0] + "ice"
+        return "_".join(vessel_name.split("_")[:-1])
 
     # Map the number of vessels to each row in the DataFrame
     all_results_df["base_vessel_name"] = all_results_df["Vessel"].apply(
@@ -343,8 +346,6 @@ def add_number_of_vessels(all_results_df):
     )
     all_results_df.drop("base_vessel_name", axis=1, inplace=True)
     
-    filtered_rows = all_results_df[all_results_df['Vessel'].str.contains('compressed_hydrogen')]
-
     return all_results_df
 
 
@@ -644,6 +645,9 @@ def generate_csv_files(all_results_df, top_dir):
             ]
         ).columns
     )
+    
+    # Remove the fuel name from the vessel name since it's included in the filename
+    all_results_df['Vessel'] = all_results_df['Vessel'].str.replace(r'_[^_]*$', '', regex=True)
 
     unique_fuels = all_results_df["Fuel"].unique()
 
@@ -715,6 +719,12 @@ def generate_csv_files(all_results_df, top_dir):
                 # If no modifier specified, add a modifier to indicate that the quantity is per-vessel
                 if "-" not in quantity:
                     quantity = f"{quantity}-vessel"
+                    
+                # Update the fuel name for compressed/liquified hydrogen back to its original form with a '_' for file saving
+                if fuel == "compressedhydrogen":
+                    fuel = "compressed_hydrogen"
+                if fuel == "liquidhydrogen":
+                    fuel = "liquid_hydrogen"
 
                 # Generate the filename
                 filename = f"{fuel}-{pathway}-{quantity}.csv"
@@ -752,8 +762,9 @@ def main():
 
     # Add a column quantifying the cost of carbon abatement
     all_results_df = add_cac(all_results_df)
-
     all_results_df.to_csv("all_results_df.csv")
+
+    #all_results_df.to_csv("all_results_df.csv")
 
     # Generate CSV files for each combination of fuel pathway, quantity, and evaluation choice
     generate_csv_files(all_results_df, top_dir)
