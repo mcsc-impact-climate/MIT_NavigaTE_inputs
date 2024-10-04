@@ -721,13 +721,14 @@ def generate_csv_files(all_results_df, top_dir):
                     quantity = f"{quantity}-vessel"
                     
                 # Update the fuel name for compressed/liquified hydrogen back to its original form with a '_' for file saving
+                fuel_save = fuel
                 if fuel == "compressedhydrogen":
-                    fuel = "compressed_hydrogen"
+                    fuel_save = "compressed_hydrogen"
                 if fuel == "liquidhydrogen":
-                    fuel = "liquid_hydrogen"
+                    fuel_save = "liquid_hydrogen"
 
                 # Generate the filename
-                filename = f"{fuel}-{pathway}-{quantity}.csv"
+                filename = f"{fuel_save}-{pathway}-{quantity}.csv"
                 filepath = f"{top_dir}/processed_results/{filename}"
 
                 # Save the DataFrame to a CSV file
