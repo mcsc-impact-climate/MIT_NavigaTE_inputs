@@ -1,9 +1,10 @@
-"""
+"""	
 Date: July 25, 2024
 Author: danikam
 Purpose: Reads in NavigaTE outputs from a 2024 run including tankers, bulk vessels, containerships and gas carriers, and produces CSV files to process and structure the outputs for visualization.
 """
 
+# GE - import useful python libraries
 from common_tools import get_top_dir
 import pandas as pd
 from parse import parse
@@ -11,7 +12,7 @@ import os
 import glob
 
 # Constants
-TONNES_PER_TEU = 14
+TONNES_PER_TEU = 14 # GE - TEU = twenty-foot equivalent
 LB_PER_GAL_LNG = 3.49
 GAL_PER_M3 = 264.172
 LB_PER_TONNE = 2204.62
@@ -29,8 +30,8 @@ vessels = {
         "container_8000_teu_ice",
         "container_3500_teu_ice",
     ],
-    "tanker_ice": ["tanker_100k_dwt_ice", "tanker_300k_dwt_ice", "tanker_35k_dwt_ice"],
-    "gas_carrier_ice": ["gas_carrier_100k_cbm_ice"],
+    "tanker_ice": ["tanker_100k_dwt_ice", "tanker_300k_dwt_ice", "tanker_35k_dwt_ice"], # GE - dwt = deadweight tonnage
+    "gas_carrier_ice": ["gas_carrier_100k_cbm_ice"], # GE - cbm = cubic meter
 }
 
 # Number of vessels for each type and size
@@ -49,21 +50,22 @@ vessel_size_number = {
 
 # Quantities of interest
 quantities = [
-    "ConsumedEnergy_lsfo",
+    "ConsumedEnergy_lsfo", # GE - low sulfur fuel oil
     "ConsumedEnergy_main",
-    "TotalCAPEX",
-    "TotalExcludingFuelOPEX",
+    "TotalCAPEX", # GE - CAPEX = Capital Expenditure
+    "TotalExcludingFuelOPEX", # GE - OPEX = Operating Expense
     "TotalFuelOPEX",
     "TotalCost",
-    "TotalEquivalentWTT",
-    "TotalEquivalentTTW",
-    "TotalEquivalentWTW",
+    "TotalEquivalentWTT", # GE - wtt = well-to-tank emissions
+    "TotalEquivalentTTW", # GE - ttw = tank-to-wake emissions
+    "TotalEquivalentWTW", #GE - wtw = well-to-wake emissions
 ]
 
 # Evaluation choices
-evaluation_choices = ["per_year", "per_mile", "per_tonne_mile"]
+evaluation_choices = ["per_year", "per_mile", "per_tonne_mile"] # per tonne-mile = multiply weight by distance
 
 
+# GE - returns DataFrame with new data appended
 def read_results(fuel, pathway, region, number, filename, all_results_df):
     """
     Reads the results from an Excel file and extracts relevant data for each vessel type and size.
@@ -102,14 +104,14 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             "TotalEquivalentTTW",
             "TotalEquivalentWTW",
             "Miles",
-            "CargoMiles",
+            "CargoMiles", # GE - another term for ton-miles
             "SpendEnergy",
             "TotalCAPEX",
             "TotalExcludingFuelOPEX",
             "TotalFuelOPEX",
             "ConsumedEnergy_lsfo",
         ]
-    elif fuel == "FTdiesel":
+    elif fuel == "FTdiesel": # GE - FT = Fischer-Tropsch: synthetic, biomass fuel
         results_df_columns = [
             "Date",
             "Time (days)",
@@ -138,8 +140,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             "TotalExcludingFuelOPEX",
             "TotalFuelOPEX",
             f"ConsumedEnergy_{fuel}",
-            "ConsumedEnergy_lsfo",
-        ]
+            "ConsumedEnergy_lsfo", 
 
     # Read the results from the Excel file
     results = pd.ExcelFile(filename)
@@ -153,7 +154,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
                 [0, 1, 2]
             )
             results_df_vessel.columns = results_df_columns
-            results_df_vessel = results_df_vessel.set_index("Date")
+            results_df_vessel = results_df_vessel.set_index("Date") 
 
             results_dict["Vessel"] = f"{vessel}_{fuel}"
             results_dict["Fuel"] = fuel
@@ -205,7 +206,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
                 )
                 results_dict["ConsumedEnergy_lsfo"] = (
                     float(results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"])
-                    * 0
+                    * 0 
                 )
             if fuel == "FTdiesel":
                 results_dict["ConsumedEnergy_main"] = float(
@@ -221,12 +222,12 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
                 )
                 results_dict["ConsumedEnergy_lsfo"] = float(
                     results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"]
-                )
+                ) 
 
             results_row_df = pd.DataFrame([results_dict])
             all_results_df = pd.concat(
                 [all_results_df, results_row_df], ignore_index=True
-            )
+            ) 
 
     return all_results_df
 
@@ -252,6 +253,7 @@ def extract_info_from_filename(filename):
     return None
 
 
+# GE - employs read_results function
 def collect_all_results(top_dir):
     """
     Collects all results from Excel files in the specified directory and compiles them into a DataFrame.
@@ -345,6 +347,7 @@ def add_number_of_vessels(all_results_df):
     return all_results_df
 
 
+# GE - divides by specific quantity modifier (per mile, per tonne-mile)
 def add_quantity_modifiers(all_results_df):
     """
     Adds quantity modifiers (e.g., per year, per mile, per tonne-mile) to the DataFrame based on the existing quantities.
@@ -376,6 +379,7 @@ def add_quantity_modifiers(all_results_df):
             )
 
 
+# GE - calculates quantities for the entire fleet
 def add_fleet_quantities(all_results_df):
     """
     Adds fleet-level quantities to the DataFrame by multiplying by the number of vessels.
@@ -459,6 +463,7 @@ def add_vessel_type_quantities(all_results_df):
     return all_results_df
 
 
+# GE - not used now but included just in case will be needed in the future
 def mark_countries_with_multiples(all_results_df):
     """
     Marks countries with multiple entries in the DataFrame by appending '_Number' to the country name.
@@ -478,6 +483,7 @@ def mark_countries_with_multiples(all_results_df):
             all_results_df.at[index, "Region"] = f"{row['Region']}_{row['Number']}"
 
 
+# GE - how is this different from function add_fleet_quantities?
 def add_fleet_level_quantities(all_results_df):
     """
     Adds fleet-level quantities to the DataFrame for all vessels considered in the global fleet.
@@ -592,6 +598,7 @@ def add_cac(all_results_df):
     return merged_df
 
 
+# GE - thi function is called in generate_csv_files
 def remove_all_files_in_directory(directory_path):
     """
     Removes all files in the specified directory.
@@ -722,6 +729,7 @@ def generate_csv_files(all_results_df, top_dir):
                 print(f"Saved {filename}")
 
 
+# GE - function where the code is actually being run and where the functions above are called
 def main():
     # Get the path to the top level of the Git repo
     top_dir = get_top_dir()
