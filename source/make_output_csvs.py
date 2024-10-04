@@ -124,7 +124,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             "TotalCAPEX",
             "TotalExcludingFuelOPEX",
             "TotalFuelOPEX",
-            "ConsumedEnergy_{fuel}",
+            f"ConsumedEnergy_{fuel}",
         ]
     else:
         results_df_columns = [
@@ -141,7 +141,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             "TotalFuelOPEX",
             f"ConsumedEnergy_{fuel}",
             "ConsumedEnergy_lsfo", 
-
+        ]
     # Read the results from the Excel file
     results = pd.ExcelFile(filename)
     results_df = pd.read_excel(results, "Vessels")
@@ -380,9 +380,9 @@ def add_quantity_modifiers(all_results_df):
 
 
 # GE - calculates quantities for the entire fleet
-def add_fleet_quantities(all_results_df):
+def scale_quantities_to_fleet(all_results_df):
     """
-    Adds fleet-level quantities to the DataFrame by multiplying by the number of vessels.
+    Scales quantities to the global fleet within each vessel type and size class by multiplying by the number of vessels of that type and class.
 
     Parameters
     ----------
@@ -486,7 +486,7 @@ def mark_countries_with_multiples(all_results_df):
 # GE - how is this different from function add_fleet_quantities?
 def add_fleet_level_quantities(all_results_df):
     """
-    Adds fleet-level quantities to the DataFrame for all vessels considered in the global fleet.
+    Sums quantities in DataFrame to the full fleet, aggregating over all vessel types and sizes considered in the global fleet
 
     Parameters
     ----------
@@ -501,17 +501,20 @@ def add_fleet_level_quantities(all_results_df):
     # Get a list of all vessels considered in the global fleet
     all_vessels = list(vessel_size_number.keys())
 
-    # List of quantities to sum
+    # List of quantities that have already been scaled to the fleet level for individual vessel types and sizes (searchable with the '-fleet' keyword)
     quantities_fleet = [
         column for column in all_results_df.columns if "-fleet" in column
     ]
 
     new_rows = []
 
-    # Iterate over each fuel, pathway, region, and number combination
+    # Iterate over each fuel, pathway, region, and number combination in the dataframe.
+    # For each such combo, the rows in all_results_df with vessels that match this combo are grouped into a single dataframe group_df
     for (fuel, pathway, region, number), group_df in all_results_df.groupby(
         ["Fuel", "Pathway", "Region", "Number"]
     ):
+        # This filter ensures that we're only including base vessels (defined by both vessel type and size) when summing to the global fleet
+        # This is necessary because we previously grouped base vessels into vessel types in add_vessel_type_quantities
         fleet_df = group_df[group_df["Vessel"].str.contains("|".join(all_vessels))]
 
         if not fleet_df.empty:
@@ -741,7 +744,7 @@ def main():
     all_results_df = add_number_of_vessels(all_results_df)
 
     # Multiply by number of vessels of each type+size the fleet to get fleet-level quantities
-    all_results_df = add_fleet_quantities(all_results_df)
+    all_results_df = scale_quantities_to_fleet(all_results_df)
 
     # Group vessels by type to get type-level quantities
     all_results_df = add_vessel_type_quantities(all_results_df)
