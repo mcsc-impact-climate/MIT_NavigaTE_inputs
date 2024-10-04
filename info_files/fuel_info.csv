@@ -1,0 +1,7 @@
+Fuel,Label,Description
+ammonia,Ammonia,
+methanol,Methanol,
+FTdiesel,F-T Diesel,Fischer-Tropsch diesel
+lsfo,LSFO,Low-sulfur fuel oil
+compressed_hydrogen,Compressed Hydrogen,Hydrogen compressed to 700 bar (assume at 20C)
+liquid_hydrogen,Liquid Hydrogen,Liquid hydrogen (assume cryogenic)

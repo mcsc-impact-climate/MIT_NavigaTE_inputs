@@ -89,6 +89,47 @@ delta_wtw_sign_colors_labels = {
 # Global string representing the absolute path to the top level of the repo
 top_dir = get_top_dir()
 
+def read_fuel_labels(top_dir):
+    """
+    Reads in the label and description of each fuel from an info file.
+
+    Parameters
+    ----------
+    top_dir: str
+        Absolute path to the top level of the repo
+
+    Returns
+    -------
+    fuel_labels_df : pandas.DataFrame
+        Dataframe containing the label and description of each fuel.
+    """
+    fuel_labels_df = pd.read_csv(f"{top_dir}/info_files/fuel_info.csv").set_index(
+        "Fuel"
+    )
+    return fuel_labels_df
+
+
+# Global dataframe with labels for each fuel production pathway
+fuel_labels_df = read_fuel_labels(top_dir)
+
+def get_fuel_label(fuel, fuel_labels_df=fuel_labels_df):
+    """
+    Returns the label in the row of the fuel_labels_df corresponding to the given fuel.
+
+    Parameters
+    ----------
+    fuel_labels_df: pandas DataFrame
+        Dataframe containing labels and descriptions for each fuel
+
+    fuel : str
+        String identifier for the fuel of interest
+
+    Returns
+    -------
+    fuel_label : str
+        User-friendly label corresponding to the given fuel
+    """
+    return fuel_labels_df.loc[fuel, "Label"]
 
 def read_pathway_labels(top_dir):
     """
@@ -634,6 +675,7 @@ class ProcessedQuantity:
         self.quantity = quantity
         self.modifier = modifier
         self.fuel = fuel
+        self.fuel_label = get_fuel_label(self.fuel)
         self.pathway = pathway
         self.pathway_label = get_pathway_label(self.pathway)
         self.pathway_type = get_pathway_type(pathway)
@@ -738,7 +780,7 @@ class ProcessedQuantity:
             # Only stack vessel types if the quantity is expressed for the full fleet with no normalization
             if self.modifier == "fleet":
                 stack_by = [
-                    f"{vessel_type}_{self.fuel}" for vessel_type in vessel_types
+                    f"{vessel_type}" for vessel_type in vessel_types
                 ]
 
                 result_df_region_av[stack_by].plot(kind="barh", stacked=True, ax=ax)
@@ -746,12 +788,12 @@ class ProcessedQuantity:
             else:
                 bar_color = plt.rcParams["axes.prop_cycle"].by_key()["color"][0]
                 if color_by_delta_wtw_sign:
-                    bar_color = self.delta_wtw_result_df[f"fleet_{self.fuel}"].apply(
+                    bar_color = self.delta_wtw_result_df[f"fleet"].apply(
                         lambda x: delta_wtw_sign_colors_labels["positive"]["color"]
                         if x >= 0
                         else delta_wtw_sign_colors_labels["negative"]["color"]
                     )
-                result_df_region_av[f"fleet_{self.fuel}"].plot(
+                result_df_region_av[f"fleet"].plot(
                     kind="barh", stacked=False, ax=ax, color=bar_color
                 )
 
@@ -790,7 +832,7 @@ class ProcessedQuantity:
 
                     # Plot individual estimates as unfilled circles
                     ax.scatter(
-                        [row[f"fleet_{self.fuel}"]],
+                        [row[f"fleet"]],
                         [x],
                         marker="D",
                         color="black",
@@ -801,7 +843,7 @@ class ProcessedQuantity:
             if stack_vessel_types:
                 handles, labels = ax.get_legend_handles_labels()
                 new_labels = [
-                    vessel_type_title[label.replace(f"_{self.fuel}", "")]
+                    vessel_type_title[label]
                     for label in labels
                 ]
 
@@ -823,7 +865,7 @@ class ProcessedQuantity:
             )
             if self.modifier == "fleet":
                 stack_by = [
-                    f"{vessel_size}_{self.fuel}"
+                    f"{vessel_size}"
                     for vessel_size in vessel_sizes[vessel_type]
                 ]
 
@@ -833,12 +875,12 @@ class ProcessedQuantity:
             else:
                 bar_color = plt.rcParams["axes.prop_cycle"].by_key()["color"][0]
                 if color_by_delta_wtw_sign:
-                    bar_color = self.delta_wtw_result_df[f"fleet_{self.fuel}"].apply(
+                    bar_color = self.delta_wtw_result_df[f"fleet"].apply(
                         lambda x: delta_wtw_sign_colors_labels["positive"]["color"]
                         if x >= 0
                         else delta_wtw_sign_colors_labels["negative"]["color"]
                     )
-                result_df_region_av[f"{vessel_type}_{self.fuel}"].plot(
+                result_df_region_av[f"{vessel_type}"].plot(
                     kind="barh", stacked=False, ax=ax, color=bar_color
                 )
 
@@ -878,7 +920,7 @@ class ProcessedQuantity:
 
                     # Plot individual estimates as unfilled circles
                     ax.scatter(
-                        [row[f"{vessel_type}_{self.fuel}"]],
+                        [row[f"{vessel_type}"]],
                         [x],
                         marker="D",
                         color="black",
@@ -889,7 +931,7 @@ class ProcessedQuantity:
             if stack_vessel_sizes:
                 handles, labels = ax.get_legend_handles_labels()
                 new_labels = [
-                    vessel_size_title[label.replace(f"_{self.fuel}", "")]
+                    vessel_size_title[label]
                     for label in labels
                 ]
 
@@ -906,7 +948,7 @@ class ProcessedQuantity:
         ax.text(
             1.05,
             0.5,
-            f"Fuel: {self.fuel}",
+            f"Fuel: {self.fuel_label}",
             transform=ax.transAxes,
             fontsize=20,
             va="top",
@@ -1031,7 +1073,7 @@ class ProcessedQuantity:
         """
         # If vessel option is provided as "all", plot the quantity for the full fleet
         if vessel_type == "all":
-            column = f"fleet_{self.fuel}"
+            column = f"fleet"
 
         # If a vessel_type option other than "all" is provided and vessel_size is set to "all", plot the given quantity for all vessel sizes of the given vessel type
         else:
@@ -1045,7 +1087,7 @@ class ProcessedQuantity:
 
             # If the vessel size is provided as "all", plot the quantity for all sizes of the given vessel type
             if vessel_size == "all":
-                column = f"{vessel_type}_{self.fuel}"
+                column = f"{vessel_type}"
 
             # If a vessel size other than "all" is provided, plot the quantity for the given vessel type and size
             else:
@@ -1056,7 +1098,7 @@ class ProcessedQuantity:
                         f"Error: Vessel size {vessel_size} not recognized. Acceptable sizes: {vessel_sizes_list}"
                     )
 
-                column = f"{vessel_size}_{self.fuel}"
+                column = f"{vessel_size}"
 
         # Load a base world map from geopandas
         url = "https://github.com/nvkelso/natural-earth-vector/raw/master/geojson/ne_110m_admin_0_countries.geojson"
@@ -1203,7 +1245,7 @@ class ProcessedQuantity:
         ax.text(
             1.03,
             0.75,
-            f"Fuel: {self.fuel}",
+            f"Fuel: {self.fuel_label}",
             transform=ax.transAxes,
             fontsize=20,
             va="top",
@@ -1468,7 +1510,7 @@ class ProcessedPathway:
         """
         region_av_results_dict = {}
 
-        column_name = f"fleet_{self.fuel}"
+        column_name = f"fleet"
         for quantity in quantities:
             processed_quantity = self.ProcessedQuantities[quantity][modifier]
             processed_quantity_av = processed_quantity.result_df.loc[
@@ -1514,7 +1556,7 @@ class ProcessedPathway:
 
         individual_region_results_dict = {}
         multiple_region_results_dict = {}
-        column_name = f"fleet_{self.fuel}"
+        column_name = f"fleet"
         for region in countries_av:
             if region != "Global Average":
                 region_label = get_region_label(region)
@@ -1904,7 +1946,7 @@ class ProcessedFuel:
 
         # Add labels and title
         ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
-        ax.set_title(f"Fuel: {self.fuel}", fontsize=24)
+        ax.set_title(f"Fuel: {self.fuel_pathway}", fontsize=24)
 
         # Add a legend for the stacked bar components (sub-quantities)
         if bar_handles:
@@ -2372,7 +2414,7 @@ def structure_results_fuels_types(
                 for region in result_df.index:
                     if "_" not in region and region != "Global Average":
                         results_fuels_types[fuel][pathway_type].append(
-                            result_df.loc[region, f"fleet_{fuel}"]
+                            result_df.loc[region, f"fleet"]
                         )
     return results_fuels_types
 
@@ -2443,7 +2485,7 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
 
         # Store the position of the tick for this fuel, centered among its subcategories on the left side
         y_tick_positions.append(y_base + (n_pathway_types - 1) / 2)
-        y_tick_labels.append(fuel)
+        y_tick_labels.append(get_fuel_label(fuel))
 
         # Update y_base to the next starting position for the next fuel
         y_base += n_pathway_types + 1  # Add 1 for spacing between different fuels
@@ -2505,9 +2547,9 @@ def main():
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 # -----------------------------------------------------------------------------#
-
+    
     # Loop through all fuels of interest
-    for fuel in ["FTdiesel"]:#, "hydrogen", "ammonia", "lsfo"]:
+    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTDiesel", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
 
         # Make validation plots for each fuel, pathway and quantity
@@ -2517,10 +2559,11 @@ def main():
         processed_fuel.map_all_cac_by_region()
         processed_fuel.make_all_stacked_hists()
         processed_fuel.make_cac_hist()
-
+    
     for quantity in ["TotalCost", "TotalEquivalentWTW"]:
         for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
+    
 
 main()
