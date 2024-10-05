@@ -4,15 +4,15 @@ Author: danikam
 Purpose: Makes validation plots for csv files produced by make_output_csvs.py
 """
 
-from common_tools import get_top_dir
+from common_tools import get_top_dir, generate_blue_shades, get_pathway_type, get_pathway_type_color, get_pathway_type_label, get_pathway_label, read_pathway_labels, read_fuel_labels, get_fuel_label, create_directory_if_not_exists
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.colors as mcolors
 import re
 import os
 import geopandas as gpd
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-import matplotlib.colors as mcolors
 
 from parse import parse
 
@@ -89,91 +89,11 @@ delta_wtw_sign_colors_labels = {
 # Global string representing the absolute path to the top level of the repo
 top_dir = get_top_dir()
 
-def read_fuel_labels(top_dir):
-    """
-    Reads in the label and description of each fuel from an info file.
-
-    Parameters
-    ----------
-    top_dir: str
-        Absolute path to the top level of the repo
-
-    Returns
-    -------
-    fuel_labels_df : pandas.DataFrame
-        Dataframe containing the label and description of each fuel.
-    """
-    fuel_labels_df = pd.read_csv(f"{top_dir}/info_files/fuel_info.csv").set_index(
-        "Fuel"
-    )
-    return fuel_labels_df
-
+# Global dataframe with labels for each fuel production pathway
+fuel_labels_df = read_fuel_labels()
 
 # Global dataframe with labels for each fuel production pathway
-fuel_labels_df = read_fuel_labels(top_dir)
-
-def get_fuel_label(fuel, fuel_labels_df=fuel_labels_df):
-    """
-    Returns the label in the row of the fuel_labels_df corresponding to the given fuel.
-
-    Parameters
-    ----------
-    fuel_labels_df: pandas DataFrame
-        Dataframe containing labels and descriptions for each fuel
-
-    fuel : str
-        String identifier for the fuel of interest
-
-    Returns
-    -------
-    fuel_label : str
-        User-friendly label corresponding to the given fuel
-    """
-    return fuel_labels_df.loc[fuel, "Label"]
-
-def read_pathway_labels(top_dir):
-    """
-    Reads in the label and description of each fuel production pathway from an info file.
-
-    Parameters
-    ----------
-    top_dir: str
-        Absolute path to the top level of the repo
-
-    Returns
-    -------
-    pathway_labels_df : pandas.DataFrame
-        Dataframe containing the label and description of each fuel production pathway.
-    """
-    pathway_labels_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv").set_index(
-        "Pathway Name"
-    )
-    return pathway_labels_df
-
-
-# Global dataframe with labels for each fuel production pathway
-pathway_labels_df = read_pathway_labels(top_dir)
-
-
-def get_pathway_label(pathway, pathway_labels_df=pathway_labels_df):
-    """
-    Returns the label in the row of the pathway_labels_df corresponding to the given pathway.
-
-    Parameters
-    ----------
-    pathway_labels_df: pandas DataFrame
-        Dataframe containing labels and descriptions for each fuel production pathway
-
-    pathway : str
-        String identifier for the pathway of interest
-
-    Returns
-    -------
-    pathway_label : str
-        User-friendly label corresponding to the given pathway ID.
-    """
-    return pathway_labels_df.loc[pathway, "Label"]
-
+pathway_labels_df = read_pathway_labels()
 
 def read_quantity_info(top_dir):
     """
@@ -361,19 +281,6 @@ def find_unique_identifiers(
 
     return unique_identifier_values
 
-def create_directory_if_not_exists(directory_path):
-    """
-    Creates a directory if it doesn't already exist.
-
-    Parameters:
-    ----------
-    directory_path : str
-        The path of the directory to create.
-    """
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-        print(f"Directory created: {directory_path}")
-
 
 def add_west_australia(world):
     """
@@ -417,7 +324,6 @@ def add_west_australia(world):
 
     return world_with_west_australia
 
-
 def get_custom_tab20_without_blue():
     # Define the tab20 colormap
     tab20 = plt.get_cmap("tab20")
@@ -443,44 +349,6 @@ def get_custom_tab20_without_blue():
     ]
 
     return mcolors.ListedColormap(custom_colors)
-
-
-def generate_blue_shades(num_shades):
-    """
-    Generates a list of blue shades ranging from light to dark.
-
-    Parameters
-    ----------
-    num_shades : int
-        The number of blue shades to generate.
-
-    Returns
-    -------
-    blue_shades : list of str
-        A list of blue shades in hex format, ranging from light to dark.
-    """
-    # Define the start and end colors (light blue to dark blue)
-    light_blue = mcolors.to_rgba("#add8e6")  # Light blue
-    dark_blue = mcolors.to_rgba("#00008b")  # Dark blue
-
-    # Create a list of colors by interpolating between light blue and dark blue
-    blue_shades = [
-        mcolors.to_hex(
-            (
-                light_blue[0] * (1 - i / (num_shades - 1))
-                + dark_blue[0] * (i / (num_shades - 1)),
-                light_blue[1] * (1 - i / (num_shades - 1))
-                + dark_blue[1] * (i / (num_shades - 1)),
-                light_blue[2] * (1 - i / (num_shades - 1))
-                + dark_blue[2] * (i / (num_shades - 1)),
-                1.0,
-            )
-        )
-        for i in range(num_shades)
-    ]
-
-    return blue_shades
-
 
 def assign_colors_to_strings(strings):
     """
@@ -563,58 +431,6 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
 
     return units
     
-def get_pathway_type(pathway, info_file=f"{top_dir}/info_files/pathway_info.csv"):
-    """
-    Reads in the pathway type label for the given fuel production pathway based on the csv info file.
-    
-    Parameters
-    ----------
-    pathway : str
-        Name of the pathway
-        
-    info_file : str
-        Path to an info file that contains a mapping between pathway names and types
-
-    Returns
-    -------
-    pathway_type : str
-        Pathway type associated with the given pathway name
-    """
-    
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type.")
-    try:
-        pathway_type = info_df["Pathway Type"][info_df["Pathway Name"] == pathway].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type.")
-    return pathway_type
-
-def get_pathway_type_color(pathway_type, info_file=f"{top_dir}/info_files/pathway_type_info.csv"):
-
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway color.")
-    try:
-        pathway_color = info_df["Color"][info_df["Pathway Type"] == pathway_type].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway color.")
-    return pathway_color
-    
-def get_pathway_type_label(pathway_type, info_file=f"{top_dir}/info_files/pathway_type_info.csv"):
-
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type label.")
-    try:
-        pathway_type_label = info_df["Label"][info_df["Pathway Type"] == pathway_type].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type label.")
-    return pathway_type_label
-
 
 class ProcessedQuantity:
     """
@@ -1318,11 +1134,7 @@ class ProcessedPathway:
         Fuel produced by the given production pathway (eg. ammonia, hydrogen, etc.)
 
     pathway_type : str
-        Color associated with the given production pathway
-            * grey: From fossil sources
-            * blue: From fossil sources coupled with carbon capture and storage (CCS)
-            * electro_grid: From electrolytic hydrogen powered by the grid
-            * electro_renew: From electrolytic hydrogen powered by renewables
+        Fuel production pathway type classification
 
     pathway : str
         Name of the production pathway, as it's saved in the name of the input csv file
@@ -1791,6 +1603,7 @@ class ProcessedFuel:
         -------
         None
         """
+        fuel_label = get_fuel_label(self.fuel)
         quantity_label = get_quantity_label(quantity)
         quantity_units = get_units(quantity, modifier)
 
@@ -1928,7 +1741,7 @@ class ProcessedFuel:
         i_pathway = 0
         for pathway_name in self.pathways:
             pathway = self.ProcessedPathways[pathway_name]
-            pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
+            pathway_label = get_pathway_label(pathway_name)
 
             make_bar(pathway, pathway_name, pathway_label)
 
@@ -1946,7 +1759,7 @@ class ProcessedFuel:
 
         # Add labels and title
         ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
-        ax.set_title(f"Fuel: {self.fuel_pathway}", fontsize=24)
+        ax.set_title(f"Fuel: {fuel_label}", fontsize=24)
 
         # Add a legend for the stacked bar components (sub-quantities)
         if bar_handles:
@@ -2090,7 +1903,7 @@ class ProcessedFuel:
         i_pathway = 0
         for pathway_name in self.pathways:
             pathway = self.ProcessedPathways[pathway_name]
-            pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
+            pathway_label = get_pathway_label(pathway_name)
 
             make_bar(pathway, pathway_name, pathway_label)
 
@@ -2549,16 +2362,16 @@ def main():
 # -----------------------------------------------------------------------------#
     
     # Loop through all fuels of interest
-    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTDiesel", "lsfo"]:
+    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
 
         # Make validation plots for each fuel, pathway and quantity
-        processed_fuel.make_all_hists_by_region()
-        processed_fuel.make_all_cac_hists_by_region()
-        processed_fuel.map_all_by_region()
-        processed_fuel.map_all_cac_by_region()
-        processed_fuel.make_all_stacked_hists()
-        processed_fuel.make_cac_hist()
+        #processed_fuel.make_all_hists_by_region()
+        #processed_fuel.make_all_cac_hists_by_region()
+        #processed_fuel.map_all_by_region()
+        #processed_fuel.map_all_cac_by_region()
+        #processed_fuel.make_all_stacked_hists()
+        #processed_fuel.make_cac_hist()
     
     for quantity in ["TotalCost", "TotalEquivalentWTW"]:
         for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
