@@ -546,7 +546,8 @@ def add_fleet_level_quantities(all_results_df):
 def add_cac(all_results_df):
     """
     Adds the cost of carbon abatement (CAC) to all_results_df, where:
-        CAC = (cost increase of the fuel relative to LSFO) / (WTW emission reduction relative to LSFO)
+        CAC = (cost increase of the fuel relative to LSFO) / (WTW emission reduction relative to LSFO),
+        but only if the WTW reduction is negative and its magnitude is at least 10% of the LSFO total cost.
 
     Parameters
     ----------
@@ -557,6 +558,8 @@ def add_cac(all_results_df):
     -------
     all_results_df : pandas.DataFrame
         The updated DataFrame with the cost of carbon abatement added.
+        
+    NOTE: This function is not currently being used. Instead, the product of total cost and emissions is being included in the output csvs (see function add_cost_times_emissions).
     """
 
     # Mapping vessels to LSFO equivalents
@@ -590,8 +593,72 @@ def add_cac(all_results_df):
         merged_df["TotalEquivalentWTW"] - merged_df["TotalEquivalentWTW_lsfo"]
     )
 
-    # Calculate the cost of carbon abatement
-    merged_df["CAC"] = merged_df["DeltaCost"] / (-merged_df["DeltaWTW"])
+    # Condition for calculating CAC: DeltaWTW is negative and its magnitude is at least 10% of TotalEquivalentWTW_lsfo
+    condition = (merged_df["DeltaWTW"] < -0.1 * merged_df["TotalEquivalentWTW_lsfo"])
+
+    # Calculate the cost of carbon abatement (CAC) based on the condition
+    merged_df.loc[condition, "CAC"] = merged_df["DeltaCost"] / (-merged_df["DeltaWTW"])
+
+    # Drop the temporary LSFO vessel column
+    merged_df = merged_df.drop(
+        columns=["lsfo_vessel", "TotalCost_lsfo", "TotalEquivalentWTW_lsfo", "DeltaCost", "DeltaWTW"]
+    )
+
+    return merged_df
+
+
+    
+def add_av_cost_emissions_ratios(all_results_df):
+    """
+    Adds the average of cost and emissions ratios relative to LSFO:
+        Average ratio = (1/2) * (cost for alt fuel / cost for LSFO) + (emissions for alt fuel / emissions for LSFO)
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which vessel-level quantities will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with the cost of carbon abatement added.
+        
+    NOTE: This function is not currently being used. Instead, the product of total cost and emissions is being included in the output csvs (see function add_cost_times_emissions).
+    """
+
+    # Mapping vessels to LSFO equivalents
+    lsfo_vessels = all_results_df["Vessel"].str.replace(
+        r"(_[^_]+)$", "_lsfo", regex=True
+    )
+
+    # Adding LSFO vessel names to the DataFrame for comparison
+    all_results_df["lsfo_vessel"] = lsfo_vessels
+
+    # Find LSFO baseline for comparison
+    lsfo_baseline = all_results_df[
+        (all_results_df["Fuel"] == "lsfo")
+        & (all_results_df["Pathway"] == "fossil")
+        & (all_results_df["Region"] == "Global")
+        & (all_results_df["Number"] == 1)
+    ].set_index("Vessel")
+
+    # Merge to find the matching LSFO baseline data for each vessel
+    merged_df = all_results_df.merge(
+        lsfo_baseline[["TotalCost", "TotalEquivalentWTW"]],
+        left_on="lsfo_vessel",
+        right_index=True,
+        suffixes=("", "_lsfo"),
+    )
+
+    # Calculate the change in cost relative to LSFO
+    merged_df["HalfCostRatio"] = 0.5 * merged_df["TotalCost"] / merged_df["TotalCost_lsfo"]
+
+    merged_df["HalfWTWRatio"] = (
+        0.5 * merged_df["TotalEquivalentWTW"] / merged_df["TotalEquivalentWTW_lsfo"]
+    )
+
+    # Calculate the average of the two ratios
+    merged_df["AverageCostEmissionsRatio"] = merged_df["HalfCostRatio"] + merged_df["HalfWTWRatio"]
 
     # Drop the temporary LSFO vessel column
     merged_df = merged_df.drop(
@@ -600,6 +667,33 @@ def add_cac(all_results_df):
 
     return merged_df
 
+def add_cost_times_emissions(all_results_df):
+    """
+    Adds the product of cost and emissions to all_results_df.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which fleet-level quantities will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with the cost of carbon abatement added.
+        
+    """
+    
+    # Get a list of all modifiers to handle
+    all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
+    
+    # Calculate the product of cost times emissions
+    all_results_df["CostTimesEmissions"] = all_results_df["TotalCost"] * all_results_df["TotalEquivalentWTW"]
+    
+    # Repeat for all modifiers
+    for modifier in all_modifiers:
+        all_results_df[f"CostTimesEmissions-{modifier}"] = all_results_df[f"TotalCost-{modifier}"] * all_results_df[f"TotalEquivalentWTW"]
+
+    return all_results_df
 
 # GE - thi function is called in generate_csv_files
 def remove_all_files_in_directory(directory_path):
@@ -729,7 +823,7 @@ def generate_csv_files(all_results_df, top_dir):
 
                 # Save the DataFrame to a CSV file
                 pivot_df.to_csv(filepath)
-                print(f"Saved {filename}")
+                print(f"Saved {filepath}")
 
 
 # GE - function where the code is actually being run and where the functions above are called
@@ -757,10 +851,17 @@ def main():
 
     # Append the region number to countries for which there's data for >1 region
     mark_countries_with_multiples(all_results_df)
-
+    
     # Add a column quantifying the cost of carbon abatement
     all_results_df = add_cac(all_results_df)
+    
+    # Add a column for cost times emissions
+    all_results_df = add_cost_times_emissions(all_results_df)
+    
+    # Add a column for the average ratios of cost and emissions relative to LSFO
+    all_results_df = add_av_cost_emissions_ratios(all_results_df)
 
+    # Output all_results_df to a csv file to help with debugging
     all_results_df.to_csv("all_results_df.csv")
 
     # Generate CSV files for each combination of fuel pathway, quantity, and evaluation choice
