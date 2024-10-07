@@ -58,20 +58,23 @@ def generate_blue_shades(num_shades):
     dark_blue = mcolors.to_rgba("#00008b")  # Dark blue
 
     # Create a list of colors by interpolating between light blue and dark blue
-    blue_shades = [
-        mcolors.to_hex(
-            (
-                dark_blue[0] * (1 - i / (num_shades - 1))
-                + light_blue[0] * (i / (num_shades - 1)),
-                dark_blue[1] * (1 - i / (num_shades - 1))
-                + light_blue[1] * (i / (num_shades - 1)),
-                dark_blue[2] * (1 - i / (num_shades - 1))
-                + light_blue[2] * (i / (num_shades - 1)),
-                1.0,
+    if num_shades > 1:
+        blue_shades = [
+            mcolors.to_hex(
+                (
+                    dark_blue[0] * (1 - i / (num_shades - 1))
+                    + light_blue[0] * (i / (num_shades - 1)),
+                    dark_blue[1] * (1 - i / (num_shades - 1))
+                    + light_blue[1] * (i / (num_shades - 1)),
+                    dark_blue[2] * (1 - i / (num_shades - 1))
+                    + light_blue[2] * (i / (num_shades - 1)),
+                    1.0,
+                )
             )
-        )
-        for i in range(num_shades)
-    ]
+            for i in range(num_shades)
+        ]
+    else:
+        blue_shades = [light_blue]
 
     return blue_shades
     
