@@ -602,66 +602,6 @@ def scale_quantities_to_fleet(all_results_df):
     return all_results_df
 
 @time_function
-def add_vessel_type_quantities_orig(all_results_df):
-    """
-    Adds average vessel quantities to the DataFrame for each vessel type by summing over the individual vessel quantities.
-
-    Parameters
-    ----------
-    all_results_df : pandas.DataFrame
-        The DataFrame containing the results to which vessel-type-level quantities will be added.
-
-    Returns
-    -------
-    all_results_df : pandas.DataFrame
-        The updated DataFrame with average vessel quantities added for each vessel type.
-    """
-    # List of quantities to sum
-    quantities_fleet = [
-        column for column in all_results_df.columns if "-fleet" in column
-    ]
-
-    new_rows = []
-
-    # Iterate over each fuel, pathway, region, and number combination
-    for (fuel, pathway, region, number), group_df in all_results_df.groupby(
-        ["Fuel", "Pathway", "Region", "Number"]
-    ):
-        for vessel_type, vessel_names in vessels.items():
-            # Filter the DataFrame for the current vessel type
-            vessel_type_df = group_df[
-                group_df["Vessel"].str.contains("|".join(vessel_names))
-            ]
-
-            if not vessel_type_df.empty:
-                # Sum quantities for the vessel type
-                vessel_type_row = vessel_type_df[
-                    quantities_fleet + ["Miles", "CargoMiles"]
-                ].sum()
-                vessel_type_row["Fuel"] = fuel
-                vessel_type_row["Pathway"] = pathway
-                vessel_type_row["Region"] = region
-                vessel_type_row["Number"] = number
-                vessel_type_row["Vessel"] = f"{vessel_type}_{fuel}"
-                vessel_type_row["n_vessels"] = vessel_type_df["n_vessels"].sum()
-
-                # Evaluate the average based on the fleet sum for each vessel-level quantity
-                for quantity in quantities + ["Miles", "CargoMiles"]:
-                    vessel_type_row[f"{quantity}"] = (
-                        vessel_type_row[f"{quantity}-fleet"]
-                        / vessel_type_row["n_vessels"]
-                    )
-
-                # Append the new row to the list
-                new_rows.append(vessel_type_row)
-
-    # Convert the list of new rows to a DataFrame and concatenate with the original DataFrame
-    new_rows_df = pd.DataFrame(new_rows)
-    all_results_df = pd.concat([all_results_df, new_rows_df], ignore_index=True)
-
-    return all_results_df
-
-@time_function
 def add_vessel_type_quantities(all_results_df):
     quantities_fleet = [col for col in all_results_df.columns if "-fleet" in col]
     
