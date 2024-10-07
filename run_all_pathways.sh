@@ -81,3 +81,6 @@ for pid in "${pids[@]}"; do
     percentage=$((processed*100/total_files))
     echo "Processed $processed out of $total_files ($percentage%)"
 done
+
+# Convert the output xlsx files to csv for faster post-processing
+python "${SCRIPT_DIR}/source/convert_excel_files_to_csv.py" --input_dir "${SCRIPT_DIR}/all_outputs_full_fleet" --output_dir "${SCRIPT_DIR}/all_outputs_full_fleet_csv"
