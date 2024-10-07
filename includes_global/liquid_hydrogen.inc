@@ -5,6 +5,6 @@ Fuel "liquid_hydrogen" {
     FuelPath = USER_DEFINED
     FuelOrigin = USER_DEFINED
     LowerHeatingValue = Variable("lower_heating_value_hydrogen")
-    MassDensity = Variable("mass_density_methanol")  # kg/L 
+    MassDensity = Variable("mass_density_hydrogen")  # kg/L
     # set_TTW("nitrous_oxide", 0.00018)   # DMM: Normally defined elsewhere
 }
