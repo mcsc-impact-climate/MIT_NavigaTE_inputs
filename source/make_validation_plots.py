@@ -75,6 +75,7 @@ result_components = {
     "TotalEquivalentWTW": ["TotalEquivalentTTW", "TotalEquivalentWTT"],
     "CostTimesEmissions": [],
     "AverageCostEmissionsRatio": ["HalfCostRatio", "HalfWTWRatio"],
+    "CAC": [],
 }
 
 # Global string representing the absolute path to the top level of the repo
@@ -2034,14 +2035,15 @@ def main():
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_all_by_region()
 #
-#    processed_fuel = ProcessedFuel("hydrogen")
+    processed_fuel = ProcessedFuel("ammonia")
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
+    processed_fuel.make_stacked_hist("CAC", "vessel", [])
 # -----------------------------------------------------------------------------#
 
-    
+    """
     # Loop through all fuels of interest
     for fuel in ["hydrogen"]:#, "hydrogen", "ammonia", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
@@ -2057,4 +2059,5 @@ def main():
                 continue
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
+    """
 main()

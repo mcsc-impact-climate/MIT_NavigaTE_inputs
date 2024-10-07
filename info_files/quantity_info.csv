@@ -14,3 +14,4 @@ CostTimesEmissions,Cost $\times$ Emissions,USD-tonnes CO2,Product of TotalCost t
 AverageCostEmissionsRatio,Average Cost and Emissions Ratio,,(1/2) x (TotalCost for alt fuel / TotalCost for LSFO + TotalEquivalentWTW for alt fuel / TotalEquivalentWTW for LSFO)
 HalfWTWRatio,Half of Emissions Ratio,,(1/2) x (TotalEquivalentWTW for alt fuel / TotalEquivalentWTW for LSFO)
 HalfCostRatio,Half of Cost Ratio,,(1/2) x (TotalCost for alt fuel / TotalCost for LSFO)
+CAC,Cost of Abated Carbon,USD/tonne CO2,Ratio in change of overall cost relative to LSFO divided by reduction in overall emissions relative to LSFO

@@ -537,7 +537,8 @@ def add_fleet_level_quantities(all_results_df):
 def add_cac(all_results_df):
     """
     Adds the cost of carbon abatement (CAC) to all_results_df, where:
-        CAC = (cost increase of the fuel relative to LSFO) / (WTW emission reduction relative to LSFO)
+        CAC = (cost increase of the fuel relative to LSFO) / (WTW emission reduction relative to LSFO),
+        but only if the WTW reduction is negative and its magnitude is at least 10% of the LSFO total cost.
 
     Parameters
     ----------
@@ -583,15 +584,19 @@ def add_cac(all_results_df):
         merged_df["TotalEquivalentWTW"] - merged_df["TotalEquivalentWTW_lsfo"]
     )
 
-    # Calculate the cost of carbon abatement
-    merged_df["CAC"] = merged_df["DeltaCost"] / (-merged_df["DeltaWTW"])
+    # Condition for calculating CAC: DeltaWTW is negative and its magnitude is at least 10% of TotalEquivalentWTW_lsfo
+    condition = (merged_df["DeltaWTW"] < -0.1 * merged_df["TotalEquivalentWTW_lsfo"])
+
+    # Calculate the cost of carbon abatement (CAC) based on the condition
+    merged_df.loc[condition, "CAC"] = merged_df["DeltaCost"] / (-merged_df["DeltaWTW"])
 
     # Drop the temporary LSFO vessel column
     merged_df = merged_df.drop(
-        columns=["lsfo_vessel", "TotalCost_lsfo", "TotalEquivalentWTW_lsfo"]
+        columns=["lsfo_vessel", "TotalCost_lsfo", "TotalEquivalentWTW_lsfo", "DeltaCost", "DeltaWTW"]
     )
 
     return merged_df
+
 
     
 def add_av_cost_emissions_ratios(all_results_df):
@@ -837,8 +842,7 @@ def main():
     mark_countries_with_multiples(all_results_df)
     
     # Add a column quantifying the cost of carbon abatement
-    # Note: The use of CAC is currently discontinued
-    #all_results_df = add_cac(all_results_df)
+    all_results_df = add_cac(all_results_df)
     
     # Add a column for cost times emissions
     all_results_df = add_cost_times_emissions(all_results_df)
