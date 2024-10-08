@@ -358,7 +358,7 @@ def main():
                 if E_pathway == "grid":
                     elect_price = grid_price
                     elect_emissions_intensity = grid_emissions_intensity
-                elif E_pathway == "renew":
+                elif E_pathway == "renewable":
                     elect_price = renew_price
                     elect_emissions_intensity = renew_emissions_intensity
                 elif E_pathway == "nuke":
@@ -424,7 +424,7 @@ def main():
                 if E_pathway == "grid":
                     elect_price = grid_price
                     elect_emissions_intensity = grid_emissions_intensity
-                elif E_pathway == "renew":
+                elif E_pathway == "renewable":
                     elect_price = renew_price
                     elect_emissions_intensity = renew_emissions_intensity
                 elif E_pathway == "nuke":
