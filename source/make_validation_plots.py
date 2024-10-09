@@ -4,15 +4,15 @@ Author: danikam
 Purpose: Makes validation plots for csv files produced by make_output_csvs.py
 """
 
-from common_tools import get_top_dir
+from common_tools import get_top_dir, generate_blue_shades, get_pathway_type, get_pathway_type_color, get_pathway_type_label, get_pathway_label, read_pathway_labels, read_fuel_labels, get_fuel_label, create_directory_if_not_exists
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.colors as mcolors
 import re
 import os
 import geopandas as gpd
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-import matplotlib.colors as mcolors
 
 from parse import parse
 
@@ -81,50 +81,11 @@ result_components = {
 # Global string representing the absolute path to the top level of the repo
 top_dir = get_top_dir()
 
-
-def read_pathway_labels(top_dir):
-    """
-    Reads in the label and description of each fuel production pathway from an info file.
-
-    Parameters
-    ----------
-    top_dir: str
-        Absolute path to the top level of the repo
-
-    Returns
-    -------
-    pathway_labels_df : pandas.DataFrame
-        Dataframe containing the label and description of each fuel production pathway.
-    """
-    pathway_labels_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv").set_index(
-        "Pathway Name"
-    )
-    return pathway_labels_df
-
+# Global dataframe with labels for each fuel production pathway
+fuel_labels_df = read_fuel_labels()
 
 # Global dataframe with labels for each fuel production pathway
-pathway_labels_df = read_pathway_labels(top_dir)
-
-
-def get_pathway_label(pathway, pathway_labels_df=pathway_labels_df):
-    """
-    Returns the label in the row of the pathway_labels_df corresponding to the given pathway.
-
-    Parameters
-    ----------
-    pathway_labels_df: pandas DataFrame
-        Dataframe containing labels and descriptions for each fuel production pathway
-
-    pathway : str
-        String identifier for the pathway of interest
-
-    Returns
-    -------
-    pathway_label : str
-        User-friendly label corresponding to the given pathway ID.
-    """
-    return pathway_labels_df.loc[pathway, "Label"]
-
+pathway_labels_df = read_pathway_labels()
 
 def read_quantity_info(top_dir):
     """
@@ -312,19 +273,6 @@ def find_unique_identifiers(
 
     return unique_identifier_values
 
-def create_directory_if_not_exists(directory_path):
-    """
-    Creates a directory if it doesn't already exist.
-
-    Parameters:
-    ----------
-    directory_path : str
-        The path of the directory to create.
-    """
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-        print(f"Directory created: {directory_path}")
-
 
 def add_west_australia(world):
     """
@@ -368,7 +316,6 @@ def add_west_australia(world):
 
     return world_with_west_australia
 
-
 def get_custom_tab20_without_blue():
     # Define the tab20 colormap
     tab20 = plt.get_cmap("tab20")
@@ -394,47 +341,6 @@ def get_custom_tab20_without_blue():
     ]
 
     return mcolors.ListedColormap(custom_colors)
-
-
-def generate_blue_shades(num_shades):
-    """
-    Generates a list of blue shades ranging from light to dark.
-
-    Parameters
-    ----------
-    num_shades : int
-        The number of blue shades to generate.
-
-    Returns
-    -------
-    blue_shades : list of str
-        A list of blue shades in hex format, ranging from light to dark.
-    """
-    # Define the start and end colors (light blue to dark blue)
-    light_blue = mcolors.to_rgba("#add8e6")  # Light blue
-    dark_blue = mcolors.to_rgba("#00008b")  # Dark blue
-
-    # Create a list of colors by interpolating between light blue and dark blue
-    if num_shades == 1:
-        blue_shades =  [light_blue]
-    else:
-        blue_shades = [
-            mcolors.to_hex(
-                (
-                    light_blue[0] * (1 - i / (num_shades - 1))
-                    + dark_blue[0] * (i / (num_shades - 1)),
-                    light_blue[1] * (1 - i / (num_shades - 1))
-                    + dark_blue[1] * (i / (num_shades - 1)),
-                    light_blue[2] * (1 - i / (num_shades - 1))
-                    + dark_blue[2] * (i / (num_shades - 1)),
-                    1.0,
-                )
-            )
-            for i in range(num_shades)
-        ]
-
-    return blue_shades
-
 
 def assign_colors_to_strings(strings):
     """
@@ -520,58 +426,6 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
 
         return units
     
-def get_pathway_type(pathway, info_file=f"{top_dir}/info_files/pathway_info.csv"):
-    """
-    Reads in the pathway type label for the given fuel production pathway based on the csv info file.
-    
-    Parameters
-    ----------
-    pathway : str
-        Name of the pathway
-        
-    info_file : str
-        Path to an info file that contains a mapping between pathway names and types
-
-    Returns
-    -------
-    pathway_type : str
-        Pathway type associated with the given pathway name
-    """
-    
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type.")
-    try:
-        pathway_type = info_df["Pathway Type"][info_df["Pathway Name"] == pathway].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type.")
-    return pathway_type
-
-def get_pathway_type_color(pathway_type, info_file=f"{top_dir}/info_files/pathway_type_info.csv"):
-
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway color.")
-    try:
-        pathway_color = info_df["Color"][info_df["Pathway Type"] == pathway_type].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway color.")
-    return pathway_color
-    
-def get_pathway_type_label(pathway_type, info_file=f"{top_dir}/info_files/pathway_type_info.csv"):
-
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type label.")
-    try:
-        pathway_type_label = info_df["Label"][info_df["Pathway Type"] == pathway_type].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type label.")
-    return pathway_type_label
-
 
 class ProcessedQuantity:
     """
@@ -629,6 +483,7 @@ class ProcessedQuantity:
         self.quantity = quantity
         self.modifier = modifier
         self.fuel = fuel
+        self.fuel_label = get_fuel_label(self.fuel)
         self.pathway = pathway
         self.pathway_label = get_pathway_label(self.pathway)
         self.pathway_type = get_pathway_type(pathway)
@@ -722,14 +577,15 @@ class ProcessedQuantity:
             # Only stack vessel types if the quantity is expressed for the full fleet with no normalization
             if self.modifier == "fleet":
                 stack_by = [
-                    f"{vessel_type}_{self.fuel}" for vessel_type in vessel_types
+                    f"{vessel_type}" for vessel_type in vessel_types
                 ]
 
                 result_df_region_av[stack_by].plot(kind="barh", stacked=True, ax=ax)
                 stack_vessel_types = True
             else:
                 bar_color = plt.rcParams["axes.prop_cycle"].by_key()["color"][0]
-                result_df_region_av[f"fleet_{self.fuel}"].plot(
+
+                result_df_region_av[f"fleet"].plot(
                     kind="barh", stacked=False, ax=ax, color=bar_color
                 )
 
@@ -742,7 +598,7 @@ class ProcessedQuantity:
 
                     # Plot individual estimates as unfilled circles
                     ax.scatter(
-                        [row[f"fleet_{self.fuel}"]],
+                        [row[f"fleet"]],
                         [x],
                         marker="D",
                         color="black",
@@ -753,7 +609,7 @@ class ProcessedQuantity:
             if stack_vessel_types:
                 handles, labels = ax.get_legend_handles_labels()
                 new_labels = [
-                    vessel_type_title[label.replace(f"_{self.fuel}", "")]
+                    vessel_type_title[label]
                     for label in labels
                 ]
 
@@ -775,7 +631,7 @@ class ProcessedQuantity:
             )
             if self.modifier == "fleet":
                 stack_by = [
-                    f"{vessel_size}_{self.fuel}"
+                    f"{vessel_size}"
                     for vessel_size in vessel_sizes[vessel_type]
                 ]
 
@@ -784,7 +640,7 @@ class ProcessedQuantity:
 
             else:
                 bar_color = plt.rcParams["axes.prop_cycle"].by_key()["color"][0]
-                result_df_region_av[f"{vessel_type}_{self.fuel}"].plot(
+                result_df_region_av[f"{vessel_type}"].plot(
                     kind="barh", stacked=False, ax=ax, color=bar_color
                 )
 
@@ -797,7 +653,7 @@ class ProcessedQuantity:
 
                     # Plot individual estimates as unfilled circles
                     ax.scatter(
-                        [row[f"{vessel_type}_{self.fuel}"]],
+                        [row[f"{vessel_type}"]],
                         [x],
                         marker="D",
                         color="black",
@@ -808,7 +664,7 @@ class ProcessedQuantity:
             if stack_vessel_sizes:
                 handles, labels = ax.get_legend_handles_labels()
                 new_labels = [
-                    vessel_size_title[label.replace(f"_{self.fuel}", "")]
+                    vessel_size_title[label]
                     for label in labels
                 ]
 
@@ -825,7 +681,7 @@ class ProcessedQuantity:
         ax.text(
             1.05,
             0.5,
-            f"Fuel: {self.fuel}",
+            f"Fuel: {self.fuel_label}",
             transform=ax.transAxes,
             fontsize=20,
             va="top",
@@ -936,7 +792,7 @@ class ProcessedQuantity:
         """
         # If vessel option is provided as "all", plot the quantity for the full fleet
         if vessel_type == "all":
-            column = f"fleet_{self.fuel}"
+            column = f"fleet"
 
         # If a vessel_type option other than "all" is provided and vessel_size is set to "all", plot the given quantity for all vessel sizes of the given vessel type
         else:
@@ -950,7 +806,7 @@ class ProcessedQuantity:
 
             # If the vessel size is provided as "all", plot the quantity for all sizes of the given vessel type
             if vessel_size == "all":
-                column = f"{vessel_type}_{self.fuel}"
+                column = f"{vessel_type}"
 
             # If a vessel size other than "all" is provided, plot the quantity for the given vessel type and size
             else:
@@ -961,7 +817,7 @@ class ProcessedQuantity:
                         f"Error: Vessel size {vessel_size} not recognized. Acceptable sizes: {vessel_sizes_list}"
                     )
 
-                column = f"{vessel_size}_{self.fuel}"
+                column = f"{vessel_size}"
 
         # Load a base world map from geopandas
         url = "https://github.com/nvkelso/natural-earth-vector/raw/master/geojson/ne_110m_admin_0_countries.geojson"
@@ -1017,7 +873,7 @@ class ProcessedQuantity:
         ax.text(
             1.03,
             0.75,
-            f"Fuel: {self.fuel}",
+            f"Fuel: {self.fuel_label}",
             transform=ax.transAxes,
             fontsize=20,
             va="top",
@@ -1090,11 +946,7 @@ class ProcessedPathway:
         Fuel produced by the given production pathway (eg. ammonia, hydrogen, etc.)
 
     pathway_type : str
-        Color associated with the given production pathway
-            * grey: From fossil sources
-            * blue: From fossil sources coupled with carbon capture and storage (CCS)
-            * electro_grid: From electrolytic hydrogen powered by the grid
-            * electro_renew: From electrolytic hydrogen powered by renewables
+        Fuel production pathway type classification
 
     pathway : str
         Name of the production pathway, as it's saved in the name of the input csv file
@@ -1282,7 +1134,7 @@ class ProcessedPathway:
         """
         region_av_results_dict = {}
 
-        column_name = f"fleet_{self.fuel}"
+        column_name = f"fleet"
         for quantity in quantities:
             processed_quantity = self.ProcessedQuantities[quantity][modifier]
             processed_quantity_av = processed_quantity.result_df.loc[
@@ -1328,7 +1180,7 @@ class ProcessedPathway:
 
         individual_region_results_dict = {}
         multiple_region_results_dict = {}
-        column_name = f"fleet_{self.fuel}"
+        column_name = f"fleet"
         for region in countries_av:
             if region != "Global Average":
                 region_label = get_region_label(region)
@@ -1528,6 +1380,7 @@ class ProcessedFuel:
         -------
         None
         """
+        fuel_label = get_fuel_label(self.fuel)
         quantity_label = get_quantity_label(quantity)
         quantity_units = get_units(quantity, modifier)
 
@@ -1665,7 +1518,7 @@ class ProcessedFuel:
         i_pathway = 0
         for pathway_name in self.pathways:
             pathway = self.ProcessedPathways[pathway_name]
-            pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
+            pathway_label = get_pathway_label(pathway_name)
 
             make_bar(pathway, pathway_name, pathway_label)
 
@@ -1686,7 +1539,7 @@ class ProcessedFuel:
             ax.set_xlabel(f"{quantity_label}", fontsize=20)
         else:
             ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
-        ax.set_title(f"Fuel: {self.fuel}", fontsize=24)
+        ax.set_title(f"Fuel: {fuel_label}", fontsize=24)
 
         # Add a legend for the stacked bar components (sub-quantities)
         if bar_handles:
@@ -1732,7 +1585,6 @@ class ProcessedFuel:
         print(f"Saving figure to {filepath_save_log}")
         plt.savefig(filepath_save_log, dpi=200)
         plt.close()
-
 
     def make_all_stacked_hists(
         self,
@@ -1783,11 +1635,8 @@ class ProcessedFuel:
                 modifiers = all_available_modifiers
 
             for modifier in modifiers:
-                if modifier not in all_available_modifiers:
-                    raise Exception(
-                        f"Error: Provided modifier '{modifier}' is not available in self.ProcessedQuantities. \n\nAvailable modifiers: {self.modifiers}."
-                    )
-                self.make_stacked_hist(quantity, modifier, sub_quantities)
+                if modifier in all_available_modifiers:
+                    self.make_stacked_hist(quantity, modifier, sub_quantities)
 
     def apply_to_all_pathways(self, method_name, *args, **kwargs):
         """
@@ -1904,7 +1753,7 @@ def structure_results_fuels_types(
                 for region in result_df.index:
                     if "_" not in region and region != "Global Average":
                         results_fuels_types[fuel][pathway_type].append(
-                            result_df.loc[region, f"fleet_{fuel}"]
+                            result_df.loc[region, f"fleet"]
                         )
     return results_fuels_types
 
@@ -1975,7 +1824,7 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
 
         # Store the position of the tick for this fuel, centered among its subcategories on the left side
         y_tick_positions.append(y_base + (n_pathway_types - 1) / 2)
-        y_tick_labels.append(fuel)
+        y_tick_labels.append(get_fuel_label(fuel))
 
         # Update y_base to the next starting position for the next fuel
         y_base += n_pathway_types + 1  # Add 1 for spacing between different fuels
@@ -2027,32 +1876,31 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "methanol", "SMR_H_C_grid_E")
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "methanol", "LTE_H_DAC_C_grid_E")
 #    processed_quantity.map_by_region()
 #    processed_quantity.make_hist_by_region()
 #
-#    processed_pathway = ProcessedPathway("methanol", "SMR_H_C_grid_E")
+#    processed_pathway = ProcessedPathway("methanol", "LTE_H_DAC_C_grid_E")
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_all_by_region()
 #
-    processed_fuel = ProcessedFuel("ammonia")
+#    processed_fuel = ProcessedFuel("ammonia")
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
-    processed_fuel.make_stacked_hist("CAC", "vessel", [])
+#    processed_fuel.make_stacked_hist("CAC", "vessel", [])
 # -----------------------------------------------------------------------------#
-
-    """
+    
     # Loop through all fuels of interest
-    for fuel in ["hydrogen"]:#, "hydrogen", "ammonia", "lsfo"]:
+    for fuel in ["liquid_hydrogen", "compressed_hydrogen"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
 
         # Make validation plots for each fuel, pathway and quantity
-        processed_fuel.make_all_hists_by_region()
-        processed_fuel.map_all_by_region()
+        #processed_fuel.make_all_hists_by_region()
+        #processed_fuel.map_all_by_region()
         processed_fuel.make_all_stacked_hists()
-        
+    """
     for quantity in ["TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
         for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
             if quantity == "AverageCostEmissionsRatio" and modifier != "vessel":

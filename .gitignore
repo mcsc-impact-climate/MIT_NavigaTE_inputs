@@ -9,3 +9,6 @@ includes_global/cost_emissions*.inc
 *.ilp
 *__pycache__*
 all_results_df.csv
+all_reports
+navs
+*_df.csv
