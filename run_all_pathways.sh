@@ -13,12 +13,15 @@ DEST_DIR="${SCRIPT_DIR}/includes_global"
 
 mkdir -p "${SCRIPT_DIR}/all_outputs_full_fleet"
 
+# Remove all previously-created .nav files
+rm ${SCRIPT_DIR}/single_pathway_full_fleet/*/navs/*.nav
+
 # Create the input .inc files
 python ${SCRIPT_DIR}/source/make_cost_emissions_files.py
 
 # Clear out any existing excel and log files
-#rm ${SCRIPT_DIR}/all_outputs_full_fleet/*.xlsx
-rm Logs/*.log
+rm ${SCRIPT_DIR}/all_outputs_full_fleet/*.xlsx
+rm ${SCRIPT_DIR}/Logs/*.log
 
 echo 'Processing lsfo pathway'
 # Copy the given black pathway into the top level of includes_global and run
@@ -33,10 +36,11 @@ process_pathway() {
     local log_file="${SCRIPT_DIR}/Logs/log-${pathway_name}.log"
 
     echo "Processing ${pathway_name} pathway" >> "$log_file"
-    
+
     cp "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/navs/${pathway_name}.nav" "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${pathway_name}.nav"
     navigate --suppress-plots "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${pathway_name}.nav" >> "$log_file" 2>&1
     rm "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${pathway_name}.nav"
+    rm "${SCRIPT_DIR}/single_pathway_full_fleet/${fuel}/${pathway_name}.prt"
 }
 
 # Number of parallel processes
@@ -53,9 +57,9 @@ for inc_file in "${SOURCE_DIR}"/*.inc; do
     filename=$(basename -- "$inc_file")
     fuel=$(echo $filename | cut -d'-' -f1)
     pathway_name=$(basename -- "$filename" .inc)
-    
+
     process_pathway "$inc_file" "$fuel" "$pathway_name" &
-    
+
     # Capture the PID of the background process
     pids+=($!)
 
