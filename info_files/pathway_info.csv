@@ -9,7 +9,7 @@ SMR_H_BEC_C_grid_E,SMR-H+BEC-C (grid),grey_bio_C,Hydrogen from steam methane ref
 SMR_H_BEC_C_nuke_E,SMR-H+BEC-C (nuclear),grey_bio_C,Hydrogen from steam methane reforming and carbon from bioenergy with CO2 capture using nuclear electrical power
 SMR_H_BEC_C_renewable_E,SMR-H+BEC-C (renewables),grey_bio_C,Hydrogen from steam methane reforming and carbon from bioenergy with CO2 capture using renewable electrical power
 SMR_H_DAC_C_nuke_E,SMR-H+DAC-C (nuclear),electro_nuke,Hydrogen from steam methane reforming and carbon from direct air capture using nuclear electrical power
-SMR_H_DAC_C_renewable_E,SMR-H+DAC-C (renewables),blue_dac_C,Hydrogen from steam methane reforming and carbon from direct air capture using renewable electrical power
+SMR_H_DAC_C_renewable_E,SMR-H+DAC-C (renewables),electro_renew,Hydrogen from steam methane reforming and carbon from direct air capture using renewable electrical power
 SMR_H_DAC_C_grid_E,SMR-H+DAC-C (grid),electro_grid,Hydrogen from steam methane reforming and carbon from direct air capture using grid electrical power 
 SMRCCS_H_renewable_E,SMRCCS-H (renewables),blue,Hydrogen from steam methane reforming with CO2 capture using renewable electrical power
 SMRCCS_H_nuke_E,SMRCCS-H (nuclear),blue,Hydrogen from steam methane reforming with CO2 capture using nuclear electrical power
