@@ -39,10 +39,10 @@ vessel_sizes = {
 }
 
 vessel_type_title = {
-    "bulk_carrier_ice": "Bulk Carrier (ICE)",
-    "container_ice": "Container (ICE)",
-    "tanker_ice": "Tanker (ICE)",
-    "gas_carrier_ice": "Gas Carrier (ICE)",
+    "bulk_carrier_ice": "Bulk Carrier",
+    "container_ice": "Container",
+    "tanker_ice": "Tanker",
+    "gas_carrier_ice": "Gas Carrier",
 }
 
 vessel_size_title = {
@@ -1730,7 +1730,8 @@ def structure_results_fuels_types(
 
     Returns
     -------
-    None
+    results_fuels_types : Dictionary
+        Dictionary containing the results for all fuel types
     """
     
     # If supplied fuels is None, get unique fuels based on filenames in the results dir
@@ -1871,7 +1872,98 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
     print(f"Saving figure to {filepath_save_log}")
     plt.savefig(filepath_save_log, dpi=200)
     plt.close()
+    
+def collect_cargo_mile_results(fuels=None):
+    """
+    Collect CargoMiles for each fuel and vessel type. Note that CargoMiles is independent of the fuel production pathway and region.
+    
+    Parameters
+    ----------
+    fuels : list of str
+        List of fuels to plot. If None provided, gets a list of unique available fuels.
 
+    Returns
+    -------
+    results_fuels_types : Dictionary
+        Dictionary containing the results for all fuel types
+    """
+    
+    # If supplied fuels is None, get unique fuels based on filenames in the results dir
+    if fuels is None:
+        fuels = find_unique_identifiers(RESULTS_DIR, "fuel", "")
+    
+    cargo_mile_results = {}
+    for fuel in fuels:
+        cargo_mile_results[fuel] = {}
+        
+        pathways = find_unique_identifiers(
+            RESULTS_DIR, "pathway", fuel
+        )
+        
+        processed_cargo_miles = ProcessedQuantity("CargoMiles", "fleet", fuel, pathways[0])
+        result_df = processed_cargo_miles.result_df
+        for vessel_type in vessel_types:
+            cargo_mile_results[fuel][vessel_type] = result_df.loc["Global Average", vessel_type]
+    
+    return cargo_mile_results
+    
+def plot_cargo_miles():
+    """
+    Plot a stacked horizontal bar chart for cargo miles by fuel and vessel type.
+    
+    Parameters
+    ----------
+    cargo_mile_results : dict
+        Dictionary where keys are fuel types and values are dictionaries.
+        Each inner dictionary contains cargo miles for different vessel types (e.g., 'bulk_carrier_ice', 'container_ice', etc.).
+    
+    Returns
+    -------
+    None
+        This function generates and displays a horizontal stacked bar plot, showing cargo miles stacked by vessel type for each fuel.
+    """
+    
+    cargo_mile_results = collect_cargo_mile_results()
+    
+    # Get the list of fuels (keys) and vessel types (sub-keys) from the dictionary
+    fuels = list(cargo_mile_results.keys())
+    fuel_labels = [get_fuel_label(fuel) for fuel in fuels]
+    vessel_types = list(next(iter(cargo_mile_results.values())).keys())
+
+    # Create a figure and axes object for the plot
+    fig, ax = plt.subplots(figsize=(12, len(fuels) * 0.7))  # Adjust the figure size based on the number of fuels
+    
+    # Initialize the bottom position for the stacked bars (all zeros at the start)
+    bottom = [0] * len(fuels)
+
+    # Loop over vessel types to plot the stacking
+    for vessel_type in vessel_types:
+        # Get the values of cargo miles for each fuel for the current vessel type
+        values = [cargo_mile_results[fuel][vessel_type] for fuel in fuels]
+        
+        # Plot a horizontal bar for this vessel type on top of the previous bars (stacking)
+        ax.barh(fuels, values, left=bottom, label=vessel_type_title[vessel_type])
+
+        # Update the bottom position for the next stack
+        bottom = [b + v for b, v in zip(bottom, values)]
+
+    # Update the y-axis labels to use the fuel_labels
+    ax.set_yticks(range(len(fuels)))  # Set y-ticks based on the number of fuels
+    ax.set_yticklabels(fuel_labels, fontsize=18)  # Use fuel_labels for the y-axis tick labels
+    
+    # Add a vertical dashed line at the LSFO Cargo Miles
+    lsfo_cargo_miles = cargo_mile_results.get("lsfo", {})
+    total_cargo_miles_lsfo = sum(lsfo_cargo_miles.values())
+    ax.axvline(total_cargo_miles_lsfo, color="black", linestyle="--")
+
+    # Add labels and title
+    ax.set_xlabel("Cargo Miles (tonne-miles)", fontsize=20)
+    ax.legend(title="Vessel Type", bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=18, title_fontsize=20)
+
+    # Show the plot
+    plt.tight_layout()
+    plt.savefig("plots/cargo_miles_comparison.png", dpi=300)
+    
 
 def main():
 
@@ -1891,7 +1983,7 @@ def main():
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
 # -----------------------------------------------------------------------------#
-    
+    """
     # Loop through all fuels of interest
     for fuel in ["liquid_hydrogen", "compressed_hydrogen"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
@@ -1901,11 +1993,13 @@ def main():
         #processed_fuel.map_all_by_region()
         processed_fuel.make_all_stacked_hists()
     """
-    for quantity in ["TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
+    """
+    for quantity in ["CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
         for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
             if quantity == "AverageCostEmissionsRatio" and modifier != "vessel":
                 continue
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
     """
+    plot_cargo_miles()
 main()
