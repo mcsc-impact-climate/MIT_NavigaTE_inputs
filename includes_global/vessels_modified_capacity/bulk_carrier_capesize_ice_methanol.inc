@@ -19,7 +19,7 @@ Vessel "bulk_carrier_capesize_ice_methanol" {
 	
 	Route=Route("globalized_bulk_carrier_capesize")
 	
-    NominalCapacity = 195261.60067430115
+    NominalCapacity = 195183.41708542712
 	
 
 	Lifetime=25

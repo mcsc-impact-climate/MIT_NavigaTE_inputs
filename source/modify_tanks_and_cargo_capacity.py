@@ -14,7 +14,7 @@ import matplotlib.patches as mpatches
 
 M3_PER_TEU = 38.28
 L_PER_M3 = 1000
-KG_PER_DWT = 1016.5
+KG_PER_DWT = 1000
 VESSELS_ORIG_DIR = "includes_global/vessels_orig_capacity"
 VESSELS_MODIFIED_DIR = "includes_global/vessels_modified_capacity"
 TANKS_ORIG_DIR = "includes_global/tanks_orig_size"
@@ -638,11 +638,8 @@ def main():
     
     tank_size_factors_dict = get_tank_size_factors(fuels, LHV_dict, mass_density_dict)
     plot_tank_size_factors(tank_size_factors_dict)
-    print(collect_nominal_capacity(top_dir, "bulk_carrier_panamax"))
-    print(collect_nominal_tank_size(top_dir, "bulk_carrier_panamax"))
 
     modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, LHV_dict, mass_density_dict)
-    
     plot_vessel_capacities(modified_capacities_df)
     
     make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df)

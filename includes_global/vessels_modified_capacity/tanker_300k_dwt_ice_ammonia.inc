@@ -20,7 +20,7 @@ Vessel "tanker_300k_dwt_ice_ammonia" {
 	
 	Route=Route("globalized_tanker_300k_dwt")
 	
-    NominalCapacity = 291560.5278856318
+    NominalCapacity = 291421.27659574465
 	
 
 	Lifetime=25

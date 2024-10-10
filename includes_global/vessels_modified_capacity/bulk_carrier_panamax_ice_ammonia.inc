@@ -19,7 +19,7 @@ Vessel "bulk_carrier_panamax_ice_ammonia" {
 	
 	Route=Route("globalized_bulk_carrier_panamax")
 	
-    NominalCapacity = 71835.19795711192
+    NominalCapacity = 71782.97872340426
 	
 
 	Lifetime=25
