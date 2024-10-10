@@ -202,12 +202,12 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
                 + float(results_df_vessel["TotalExcludingFuelOPEX"].loc["2024-01-01"])
             )
             results_dict["Miles"] = float(results_df_vessel["Miles"].loc["2024-01-01"])
-            if vessel_type == "container":
+            if "container" in vessel_type:
                 results_dict["CargoMiles"] = (
                     float(results_df_vessel["CargoMiles"].loc["2024-01-01"])
                     * TONNES_PER_TEU
                 )
-            elif vessel_type == "gas_carrier":
+            elif "gas_carrier" in vessel_type:
                 results_dict["CargoMiles"] = (
                     float(results_df_vessel["CargoMiles"].loc["2024-01-01"])
                     * TONNES_PER_M3_LNG
