@@ -4,15 +4,15 @@ Author: danikam
 Purpose: Makes validation plots for csv files produced by make_output_csvs.py
 """
 
-from common_tools import get_top_dir
+from common_tools import get_top_dir, generate_blue_shades, get_pathway_type, get_pathway_type_color, get_pathway_type_label, get_pathway_label, read_pathway_labels, read_fuel_labels, get_fuel_label, create_directory_if_not_exists
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.colors as mcolors
 import re
 import os
 import geopandas as gpd
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-import matplotlib.colors as mcolors
 
 from parse import parse
 
@@ -39,10 +39,10 @@ vessel_sizes = {
 }
 
 vessel_type_title = {
-    "bulk_carrier_ice": "Bulk Carrier (ICE)",
-    "container_ice": "Container (ICE)",
-    "tanker_ice": "Tanker (ICE)",
-    "gas_carrier_ice": "Gas Carrier (ICE)",
+    "bulk_carrier_ice": "Bulk Carrier",
+    "container_ice": "Container",
+    "tanker_ice": "Tanker",
+    "gas_carrier_ice": "Gas Carrier",
 }
 
 vessel_size_title = {
@@ -73,66 +73,19 @@ region_label_mapping = {
 result_components = {
     "TotalCost": ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"],
     "TotalEquivalentWTW": ["TotalEquivalentTTW", "TotalEquivalentWTT"],
-}
-
-delta_wtw_sign_colors_labels = {
-    "positive": {
-        "color": "red",
-        "label": r"WTW Emissions $\geq$ LSFO",
-    },
-    "negative": {
-        "color": "green",
-        "label": "WTW Emissions < LSFO",
-    },
+    "CostTimesEmissions": [],
+    "AverageCostEmissionsRatio": ["HalfCostRatio", "HalfWTWRatio"],
+    "CAC": [],
 }
 
 # Global string representing the absolute path to the top level of the repo
 top_dir = get_top_dir()
 
-
-def read_pathway_labels(top_dir):
-    """
-    Reads in the label and description of each fuel production pathway from an info file.
-
-    Parameters
-    ----------
-    top_dir: str
-        Absolute path to the top level of the repo
-
-    Returns
-    -------
-    pathway_labels_df : pandas.DataFrame
-        Dataframe containing the label and description of each fuel production pathway.
-    """
-    pathway_labels_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv").set_index(
-        "Pathway Name"
-    )
-    return pathway_labels_df
-
+# Global dataframe with labels for each fuel production pathway
+fuel_labels_df = read_fuel_labels()
 
 # Global dataframe with labels for each fuel production pathway
-pathway_labels_df = read_pathway_labels(top_dir)
-
-
-def get_pathway_label(pathway, pathway_labels_df=pathway_labels_df):
-    """
-    Returns the label in the row of the pathway_labels_df corresponding to the given pathway.
-
-    Parameters
-    ----------
-    pathway_labels_df: pandas DataFrame
-        Dataframe containing labels and descriptions for each fuel production pathway
-
-    pathway : str
-        String identifier for the pathway of interest
-
-    Returns
-    -------
-    pathway_label : str
-        User-friendly label corresponding to the given pathway ID.
-    """
-    return pathway_labels_df.loc[pathway, "Label"]
-
+pathway_labels_df = read_pathway_labels()
 
 def read_quantity_info(top_dir):
     """
@@ -320,19 +273,6 @@ def find_unique_identifiers(
 
     return unique_identifier_values
 
-def create_directory_if_not_exists(directory_path):
-    """
-    Creates a directory if it doesn't already exist.
-
-    Parameters:
-    ----------
-    directory_path : str
-        The path of the directory to create.
-    """
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-        print(f"Directory created: {directory_path}")
-
 
 def add_west_australia(world):
     """
@@ -376,7 +316,6 @@ def add_west_australia(world):
 
     return world_with_west_australia
 
-
 def get_custom_tab20_without_blue():
     # Define the tab20 colormap
     tab20 = plt.get_cmap("tab20")
@@ -402,44 +341,6 @@ def get_custom_tab20_without_blue():
     ]
 
     return mcolors.ListedColormap(custom_colors)
-
-
-def generate_blue_shades(num_shades):
-    """
-    Generates a list of blue shades ranging from light to dark.
-
-    Parameters
-    ----------
-    num_shades : int
-        The number of blue shades to generate.
-
-    Returns
-    -------
-    blue_shades : list of str
-        A list of blue shades in hex format, ranging from light to dark.
-    """
-    # Define the start and end colors (light blue to dark blue)
-    light_blue = mcolors.to_rgba("#add8e6")  # Light blue
-    dark_blue = mcolors.to_rgba("#00008b")  # Dark blue
-
-    # Create a list of colors by interpolating between light blue and dark blue
-    blue_shades = [
-        mcolors.to_hex(
-            (
-                light_blue[0] * (1 - i / (num_shades - 1))
-                + dark_blue[0] * (i / (num_shades - 1)),
-                light_blue[1] * (1 - i / (num_shades - 1))
-                + dark_blue[1] * (i / (num_shades - 1)),
-                light_blue[2] * (1 - i / (num_shades - 1))
-                + dark_blue[2] * (i / (num_shades - 1)),
-                1.0,
-            )
-        )
-        for i in range(num_shades)
-    ]
-
-    return blue_shades
-
 
 def assign_colors_to_strings(strings):
     """
@@ -504,76 +405,27 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
     """
 
     base_units = quantity_info_df.loc[quantity, "Units"]
-
-    # Modify the denominator if needed based on the modifier
-    modifier_denom_dict = {
-        "vessel": "year",
-        "fleet": "year",
-        "per_mile": "nm",
-        "per_tonne_mile": "tonne-nm",
-    }
-
-    denom_units = modifier_denom_dict[modifier]
-
-    if "/" not in base_units:
-        units = f"{base_units} / {denom_units}"
+    if pd.isna(base_units):
+        return None
+    
     else:
-        units = base_units
+        # Modify the denominator if needed based on the modifier
+        modifier_denom_dict = {
+            "vessel": "year",
+            "fleet": "year",
+            "per_mile": "nm",
+            "per_tonne_mile": "tonne-nm",
+        }
 
-    return units
+        denom_units = modifier_denom_dict[modifier]
+
+        if "/" not in base_units:
+            units = f"{base_units} / {denom_units}"
+        else:
+            units = base_units
+
+        return units
     
-def get_pathway_type(pathway, info_file=f"{top_dir}/info_files/pathway_info.csv"):
-    """
-    Reads in the pathway type label for the given fuel production pathway based on the csv info file.
-    
-    Parameters
-    ----------
-    pathway : str
-        Name of the pathway
-        
-    info_file : str
-        Path to an info file that contains a mapping between pathway names and types
-
-    Returns
-    -------
-    pathway_type : str
-        Pathway type associated with the given pathway name
-    """
-    
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type.")
-    try:
-        pathway_type = info_df["Pathway Type"][info_df["Pathway Name"] == pathway].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type.")
-    return pathway_type
-
-def get_pathway_type_color(pathway_type, info_file=f"{top_dir}/info_files/pathway_type_info.csv"):
-
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway color.")
-    try:
-        pathway_color = info_df["Color"][info_df["Pathway Type"] == pathway_type].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway color.")
-    return pathway_color
-    
-def get_pathway_type_label(pathway_type, info_file=f"{top_dir}/info_files/pathway_type_info.csv"):
-
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type label.")
-    try:
-        pathway_type_label = info_df["Label"][info_df["Pathway Type"] == pathway_type].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type label.")
-    return pathway_type_label
-
 
 class ProcessedQuantity:
     """
@@ -618,9 +470,6 @@ class ProcessedQuantity:
     read_result(file_path):
         Reads in a processed csv file and saves it to a pandas dataframe.
 
-    get_units(self):
-        Collects the units for the given quantity and modifier
-
     make_hist_by_region(self, vessel_type):
         Plots a stacked histogram of either vessel sizes (if a vessel type is provided as input) or vessel types (if "all" is provided).
 
@@ -634,6 +483,7 @@ class ProcessedQuantity:
         self.quantity = quantity
         self.modifier = modifier
         self.fuel = fuel
+        self.fuel_label = get_fuel_label(self.fuel)
         self.pathway = pathway
         self.pathway_label = get_pathway_label(self.pathway)
         self.pathway_type = get_pathway_type(pathway)
@@ -641,8 +491,6 @@ class ProcessedQuantity:
         self.pathway_type_label = get_pathway_type_label(self.pathway_type)
         self.results_dir = results_dir
         self.result_df = self.read_result()
-        self.cac_result_df = self.read_custom_quantity_df("CAC")
-        self.delta_wtw_result_df = self.read_custom_quantity_df("DeltaWTW")
         self.label = get_quantity_label(self.quantity)
         self.units = get_units(self.quantity, self.modifier)
 
@@ -693,7 +541,7 @@ class ProcessedQuantity:
         custom_file_path = f"{top_dir}/{self.results_dir}/{self.fuel}-{self.pathway}-{custom_quantity}-{modifier}.csv"
         return pd.read_csv(custom_file_path, index_col=0)
 
-    def make_hist_by_region(self, vessel_type="all", color_by_delta_wtw_sign=False):
+    def make_hist_by_region(self, vessel_type="all"):
         """
         Plots a stacked histogram of either vessel sizes (if a vessel type is provided as input) or vessel types (if "all" is provided).
 
@@ -706,19 +554,10 @@ class ProcessedQuantity:
                 * tanker_ice: tanker vessel (internal combustion engine)
                 * gas_carrier_ice: gas carrier vessel (internal combustion engine)
 
-        color_by_delta_wtw_sign : bool
-            Option to color bars according to whether emissions increase or decrease relative to LSFO.
-
         Returns
         -------
         None
         """
-
-        # color_by_delta_wtw_sign can only be provided with vessel modifier
-        if color_by_delta_wtw_sign and self.modifier != "vessel":
-            raise Exception(
-                f"color_by_delta_wtw_sign can only be set to True if modifier is vessel. Provided modifier is {self.modifier}."
-            )
 
         # Access the results dataframe for the quantity to use for coloring based on sign
         fig, ax = plt.subplots(figsize=(16, 11))
@@ -738,48 +577,17 @@ class ProcessedQuantity:
             # Only stack vessel types if the quantity is expressed for the full fleet with no normalization
             if self.modifier == "fleet":
                 stack_by = [
-                    f"{vessel_type}_{self.fuel}" for vessel_type in vessel_types
+                    f"{vessel_type}" for vessel_type in vessel_types
                 ]
 
                 result_df_region_av[stack_by].plot(kind="barh", stacked=True, ax=ax)
                 stack_vessel_types = True
             else:
                 bar_color = plt.rcParams["axes.prop_cycle"].by_key()["color"][0]
-                if color_by_delta_wtw_sign:
-                    bar_color = self.delta_wtw_result_df[f"fleet_{self.fuel}"].apply(
-                        lambda x: delta_wtw_sign_colors_labels["positive"]["color"]
-                        if x >= 0
-                        else delta_wtw_sign_colors_labels["negative"]["color"]
-                    )
-                result_df_region_av[f"fleet_{self.fuel}"].plot(
+
+                result_df_region_av[f"fleet"].plot(
                     kind="barh", stacked=False, ax=ax, color=bar_color
                 )
-
-                # Add legend for positive and negative colors if color_by_delta_wtw_sign is True
-                if color_by_delta_wtw_sign:
-                    handles = [
-                        plt.Line2D(
-                            [0],
-                            [0],
-                            color=delta_wtw_sign_colors_labels["positive"]["color"],
-                            lw=16,
-                            label=delta_wtw_sign_colors_labels["positive"]["label"],
-                        ),
-                        plt.Line2D(
-                            [0],
-                            [0],
-                            color=delta_wtw_sign_colors_labels["negative"]["color"],
-                            lw=16,
-                            label=delta_wtw_sign_colors_labels["negative"]["label"],
-                        ),
-                    ]
-                    ax.legend(
-                        handles=handles,
-                        fontsize=20,
-                        bbox_to_anchor=(1.05, 1),
-                        loc="upper left",
-                        borderpad=0.8,
-                    )
 
             # Add individual region estimates as unfilled circles
             for idx, row in result_df_region_individual.iterrows():
@@ -790,7 +598,7 @@ class ProcessedQuantity:
 
                     # Plot individual estimates as unfilled circles
                     ax.scatter(
-                        [row[f"fleet_{self.fuel}"]],
+                        [row[f"fleet"]],
                         [x],
                         marker="D",
                         color="black",
@@ -801,7 +609,7 @@ class ProcessedQuantity:
             if stack_vessel_types:
                 handles, labels = ax.get_legend_handles_labels()
                 new_labels = [
-                    vessel_type_title[label.replace(f"_{self.fuel}", "")]
+                    vessel_type_title[label]
                     for label in labels
                 ]
 
@@ -823,7 +631,7 @@ class ProcessedQuantity:
             )
             if self.modifier == "fleet":
                 stack_by = [
-                    f"{vessel_size}_{self.fuel}"
+                    f"{vessel_size}"
                     for vessel_size in vessel_sizes[vessel_type]
                 ]
 
@@ -832,42 +640,9 @@ class ProcessedQuantity:
 
             else:
                 bar_color = plt.rcParams["axes.prop_cycle"].by_key()["color"][0]
-                if color_by_delta_wtw_sign:
-                    bar_color = self.delta_wtw_result_df[f"fleet_{self.fuel}"].apply(
-                        lambda x: delta_wtw_sign_colors_labels["positive"]["color"]
-                        if x >= 0
-                        else delta_wtw_sign_colors_labels["negative"]["color"]
-                    )
-                result_df_region_av[f"{vessel_type}_{self.fuel}"].plot(
+                result_df_region_av[f"{vessel_type}"].plot(
                     kind="barh", stacked=False, ax=ax, color=bar_color
                 )
-
-                # Add legend for positive and negative colors if color_by_delta_wtw_sign is True
-                if color_by_delta_wtw_sign:
-                    handles = [
-                        plt.Line2D(
-                            [0],
-                            [0],
-                            color=delta_wtw_sign_colors_labels["positive"]["color"],
-                            lw=16,
-                            label=delta_wtw_sign_colors_labels["positive"]["label"],
-                        ),
-                        plt.Line2D(
-                            [0],
-                            [0],
-                            color=delta_wtw_sign_colors_labels["negative"]["color"],
-                            lw=16,
-                            label=delta_wtw_sign_colors_labels["negative"]["label"],
-                        ),
-                    ]
-                    ax.legend(
-                        handles=handles,
-                        fontsize=20,
-                        title_fontsize=22,
-                        bbox_to_anchor=(1.05, 1),
-                        loc="upper left",
-                        borderpad=0.8,
-                    )
 
             # Add individual region estimates as unfilled circles
             for idx, row in result_df_region_individual.iterrows():
@@ -878,7 +653,7 @@ class ProcessedQuantity:
 
                     # Plot individual estimates as unfilled circles
                     ax.scatter(
-                        [row[f"{vessel_type}_{self.fuel}"]],
+                        [row[f"{vessel_type}"]],
                         [x],
                         marker="D",
                         color="black",
@@ -889,7 +664,7 @@ class ProcessedQuantity:
             if stack_vessel_sizes:
                 handles, labels = ax.get_legend_handles_labels()
                 new_labels = [
-                    vessel_size_title[label.replace(f"_{self.fuel}", "")]
+                    vessel_size_title[label]
                     for label in labels
                 ]
 
@@ -906,7 +681,7 @@ class ProcessedQuantity:
         ax.text(
             1.05,
             0.5,
-            f"Fuel: {self.fuel}",
+            f"Fuel: {self.fuel_label}",
             transform=ax.transAxes,
             fontsize=20,
             va="top",
@@ -932,16 +707,10 @@ class ProcessedQuantity:
         )
 
         # Plot styling common to both cases
-        ax.set_xlabel(f"{self.label} ({self.units})", fontsize=22)
-        
-        # In the case where we're coloring by the sign of DeltaWTW, we need to add separate axis labels on top and bottom to distinguish between whether DeltaWTW is positive or negative
-        if color_by_delta_wtw_sign > 0:
-            ax.set_xlabel(f"{self.label} ({self.units})", fontsize=22, color=delta_wtw_sign_colors_labels["negative"]["color"])
-            ax.tick_params(axis='x', colors=delta_wtw_sign_colors_labels["negative"]["color"])
-            
-            ax_top = ax.secondary_xaxis('top')
-            ax_top.set_xlabel("Savings from Added Carbon (USD / tonne CO2)", color=delta_wtw_sign_colors_labels["positive"]["color"], fontsize=22)
-            ax_top.tick_params(axis='x', colors=delta_wtw_sign_colors_labels["positive"]["color"])
+        if self.units is None:
+            ax.set_xlabel(f"{self.label}", fontsize=22)
+        else:
+            ax.set_xlabel(f"{self.label} ({self.units})", fontsize=22)
         ax.set_yticks(range(len(result_df_region_av)))
         ax.set_yticklabels(make_region_labels(result_df_region_av.index))
         if stack_vessel_types or stack_vessel_sizes:
@@ -965,27 +734,22 @@ class ProcessedQuantity:
         plt.savefig(filepath_save, dpi=200)
         plt.close()
 
-    def make_all_hists_by_region(self, color_by_delta_wtw_sign=False):
+    def make_all_hists_by_region(self):
         """
         Plots all stacked histograms for the available vessel types
 
         Parameters
         ----------
-        quantity_sign_color : str, optional
-            Color for bars where the value is exactly zero (if applicable).
-        quantity_pos_color : str, optional
-            Color for positive values.
-        quantity_neg_color : str, optional
-            Color for negative values.
+        None
 
         Returns
         -------
         None
         """
         for vessel_type in vessel_types:
-            self.make_hist_by_region(vessel_type, color_by_delta_wtw_sign)
+            self.make_hist_by_region(vessel_type)
 
-        self.make_hist_by_region("all", color_by_delta_wtw_sign)
+        self.make_hist_by_region("all")
 
     def add_region_names(self):
         """
@@ -1006,7 +770,7 @@ class ProcessedQuantity:
                 lambda x: region_name_mapping.get(x, x)
             )
 
-    def map_by_region(self, vessel_type="all", vessel_size="all", color_by_delta_wtw_sign=False):
+    def map_by_region(self, vessel_type="all", vessel_size="all"):
         """
         Maps the quantity geospatially by region, overlaid on a map of the world
 
@@ -1021,9 +785,6 @@ class ProcessedQuantity:
                 
         vessel_size : str
             Size class for the given vessel
-            
-        color_by_delta_wtw_sign : bool
-            Option to color bars according to whether emissions increase or decrease relative to LSFO.
 
         Returns
         -------
@@ -1031,7 +792,7 @@ class ProcessedQuantity:
         """
         # If vessel option is provided as "all", plot the quantity for the full fleet
         if vessel_type == "all":
-            column = f"fleet_{self.fuel}"
+            column = f"fleet"
 
         # If a vessel_type option other than "all" is provided and vessel_size is set to "all", plot the given quantity for all vessel sizes of the given vessel type
         else:
@@ -1045,7 +806,7 @@ class ProcessedQuantity:
 
             # If the vessel size is provided as "all", plot the quantity for all sizes of the given vessel type
             if vessel_size == "all":
-                column = f"{vessel_type}_{self.fuel}"
+                column = f"{vessel_type}"
 
             # If a vessel size other than "all" is provided, plot the quantity for the given vessel type and size
             else:
@@ -1056,7 +817,7 @@ class ProcessedQuantity:
                         f"Error: Vessel size {vessel_size} not recognized. Acceptable sizes: {vessel_sizes_list}"
                     )
 
-                column = f"{vessel_size}_{self.fuel}"
+                column = f"{vessel_size}"
 
         # Load a base world map from geopandas
         url = "https://github.com/nvkelso/natural-earth-vector/raw/master/geojson/ne_110m_admin_0_countries.geojson"
@@ -1071,125 +832,34 @@ class ProcessedQuantity:
         # Create a figure and axis with appropriate size
         fig, ax = plt.subplots(1, 1, figsize=(15, 10))
         
-        # Add a column to result_df indicating whether self.delta_wtw_result_df is positive or negative
-        self.result_df["DeltaWTW_sign"] = self.delta_wtw_result_df[column].apply(
-            lambda x: "positive" if x >= 0 else "negative"
-        )
-        
         # Merge the result_df with the world geodataframe based on the column "NAME" with region names
         merged = world.merge(self.result_df, on="NAME", how="left")
 
         # Plot the base map
         world.plot(ax=ax, color="lightgrey", edgecolor="black")
 
-        if color_by_delta_wtw_sign:
-            # Define colormaps for each sign
-            def create_cmap_name(color):
-                return color.capitalize() + "s"
-            cmap_positive = plt.get_cmap(create_cmap_name(delta_wtw_sign_colors_labels["positive"]["color"])).reversed()
-            cmap_negative = plt.get_cmap(create_cmap_name(delta_wtw_sign_colors_labels["negative"]["color"]))
+        # Plot the regions with data, using a colormap to represent the quantity
+        merged.plot(
+            column=column,
+            cmap="coolwarm",
+            linewidth=0.8,
+            ax=ax,
+            edgecolor="0.8",
+            legend=False,
+        )
 
-            # Separate the data for positive and negative delta WTW emissions
-            positive_merged = merged[merged["DeltaWTW_sign"] == "positive"]
-            negative_merged = merged[merged["DeltaWTW_sign"] == "negative"]
-            positive_data = positive_merged[column]
-            negative_data = negative_merged[column]
-            
-            # Calculate the min and max for positive and negative separately
-            positive_min, positive_max = positive_data.min(), positive_data.max()
-            negative_min, negative_max = negative_data.min(), negative_data.max()
-            
-            # Set the positive and negative extrema to 0 if there are no entries in one of the positive- or negative-DeltaWTW dataframes
-            if len(positive_data) == 0:
-                positive_min = 0
-                positive_max = 0
-                
-            if len(negative_data) == 0:
-                negative_min = 0
-                negative_max = 0
-            
-            # Adjust min and max if they are equal
-            if positive_min == positive_max:
-                positive_min -= 1  # Small adjustment
-                positive_max += 1
-
-            if negative_min == negative_max:
-                negative_min -= 1  # Small adjustment
-                negative_max += 1
-
-            # Plot regions with positive delta WTW emissions, if they're non-empty
-            if len(positive_merged) > 0:
-                positive_merged.plot(
-                    column=column,
-                    cmap=cmap_positive,
-                    linewidth=0.8,
-                    ax=ax,
-                    edgecolor="0.8",
-                    legend=False,
-                    norm=plt.Normalize(vmin=positive_min, vmax=positive_max)
-                )
-
-            # Plot regions with negative delta WTW emissions
-            if len(negative_merged) > 0:
-                negative_merged.plot(
-                    column=column,
-                    cmap=cmap_negative,
-                    linewidth=0.8,
-                    ax=ax,
-                    edgecolor="0.8",
-                    legend=False,
-                    norm=plt.Normalize(vmin=negative_min, vmax=negative_max)
-                )
-
-            ax.set_aspect('equal')
-            ax.set_xticks([])  # Remove x-axis ticks
-            ax.set_yticks([])  # Remove y-axis ticks
-
-            # Add colorbars for positive and negative regions
-            divider = make_axes_locatable(ax)
-            if len(positive_merged) > 0:
-                cax_pos = divider.append_axes("top", size="5%", pad=1)
-
-                sm_positive = plt.cm.ScalarMappable(
-                    cmap=cmap_positive,
-                    norm=plt.Normalize(vmin=positive_min, vmax=positive_max)
-                )
-                sm_positive._A = []
-                cbar_positive = fig.colorbar(sm_positive, cax=cax_pos, orientation="horizontal")
-                pos_cbar_label = delta_wtw_sign_colors_labels["positive"]["label"]
-                cbar_positive.set_label(f"Savings from Added Carbon (USD / tonne CO2) [{pos_cbar_label}]", fontsize=20)
-
-            if len(negative_merged) > 0:
-                cax_neg = divider.append_axes("bottom", size="5%", pad=0.2)
-                sm_negative = plt.cm.ScalarMappable(
-                    cmap=cmap_negative,
-                    norm=plt.Normalize(vmin=negative_min, vmax=negative_max)
-                )
-                sm_negative._A = []
-                neg_cbar_label = delta_wtw_sign_colors_labels["negative"]["label"]
-                cbar_negative = fig.colorbar(sm_negative, cax=cax_neg, orientation="horizontal")
-                cbar_negative.set_label(f" {self.label} ({self.units}) [{neg_cbar_label}]", fontsize=20)
-
+        # Create a horizontal colorbar with appropriate formatting
+        divider = make_axes_locatable(ax)
+        cax = divider.append_axes("bottom", size="5%", pad=1)
+        sm = plt.cm.ScalarMappable(
+            cmap="coolwarm",
+            norm=plt.Normalize(vmin=merged[column].min(), vmax=merged[column].max()),
+        )
+        sm._A = []
+        cbar = fig.colorbar(sm, cax=cax, orientation="horizontal")
+        if self.units is None:
+            cbar.set_label(f"{self.label}", fontsize=20)
         else:
-            # Plot the regions with data, using a colormap to represent the quantity
-            merged.plot(
-                column=column,
-                cmap="coolwarm",
-                linewidth=0.8,
-                ax=ax,
-                edgecolor="0.8",
-                legend=False,
-            )
-
-            # Create a horizontal colorbar with appropriate formatting
-            divider = make_axes_locatable(ax)
-            cax = divider.append_axes("bottom", size="5%", pad=1)
-            sm = plt.cm.ScalarMappable(
-                cmap="coolwarm",
-                norm=plt.Normalize(vmin=merged[column].min(), vmax=merged[column].max()),
-            )
-            sm._A = []
-            cbar = fig.colorbar(sm, cax=cax, orientation="horizontal")
             cbar.set_label(f"{self.label} ({self.units})", fontsize=20)
 
         vessel_type_label = "All"
@@ -1203,7 +873,7 @@ class ProcessedQuantity:
         ax.text(
             1.03,
             0.75,
-            f"Fuel: {self.fuel}",
+            f"Fuel: {self.fuel_label}",
             transform=ax.transAxes,
             fontsize=20,
             va="top",
@@ -1276,11 +946,7 @@ class ProcessedPathway:
         Fuel produced by the given production pathway (eg. ammonia, hydrogen, etc.)
 
     pathway_type : str
-        Color associated with the given production pathway
-            * grey: From fossil sources
-            * blue: From fossil sources coupled with carbon capture and storage (CCS)
-            * electro_grid: From electrolytic hydrogen powered by the grid
-            * electro_renew: From electrolytic hydrogen powered by renewables
+        Fuel production pathway type classification
 
     pathway : str
         Name of the production pathway, as it's saved in the name of the input csv file
@@ -1394,7 +1060,7 @@ class ProcessedPathway:
     def apply_to_all_quantities(
         self,
         method_name,
-        quantities=["TotalEquivalentWTW", "TotalCost"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1468,7 +1134,7 @@ class ProcessedPathway:
         """
         region_av_results_dict = {}
 
-        column_name = f"fleet_{self.fuel}"
+        column_name = f"fleet"
         for quantity in quantities:
             processed_quantity = self.ProcessedQuantities[quantity][modifier]
             processed_quantity_av = processed_quantity.result_df.loc[
@@ -1514,7 +1180,7 @@ class ProcessedPathway:
 
         individual_region_results_dict = {}
         multiple_region_results_dict = {}
-        column_name = f"fleet_{self.fuel}"
+        column_name = f"fleet"
         for region in countries_av:
             if region != "Global Average":
                 region_label = get_region_label(region)
@@ -1536,7 +1202,7 @@ class ProcessedPathway:
 
     def make_all_hists_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1557,27 +1223,9 @@ class ProcessedPathway:
 
         self.apply_to_all_quantities("make_all_hists_by_region", quantities, modifiers)
 
-    def make_cac_hist_by_region(self):
-        """
-        Executes make_all_hists_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary for the Carbon Abatement Cost (CAC) quantity to produce validation hists for the given pathway.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        None
-        """
-
-        processed_quantity = ProcessedQuantity(
-            "CAC", "vessel", self.fuel, self.pathway
-        )
-        processed_quantity.make_all_hists_by_region(color_by_delta_wtw_sign=True)
-
     def map_all_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1596,23 +1244,6 @@ class ProcessedPathway:
         None
         """
         self.apply_to_all_quantities("map_by_region", quantities, modifiers)
-        
-    def map_cac_by_region(self):
-        """
-        Executes map_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary for the Carbon Abatement Cost (CAC) quantity to produce geospatial maps for the given pathway.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        None
-        """
-        processed_quantity = ProcessedQuantity(
-            "CAC", "vessel", self.fuel, self.pathway
-        )
-        processed_quantity.map_by_region(color_by_delta_wtw_sign=True)
         
 
 class ProcessedFuel:
@@ -1749,6 +1380,7 @@ class ProcessedFuel:
         -------
         None
         """
+        fuel_label = get_fuel_label(self.fuel)
         quantity_label = get_quantity_label(quantity)
         quantity_units = get_units(quantity, modifier)
 
@@ -1886,7 +1518,7 @@ class ProcessedFuel:
         i_pathway = 0
         for pathway_name in self.pathways:
             pathway = self.ProcessedPathways[pathway_name]
-            pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
+            pathway_label = get_pathway_label(pathway_name)
 
             make_bar(pathway, pathway_name, pathway_label)
 
@@ -1903,8 +1535,11 @@ class ProcessedFuel:
         )
 
         # Add labels and title
-        ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
-        ax.set_title(f"Fuel: {self.fuel}", fontsize=24)
+        if quantity_units is None:
+            ax.set_xlabel(f"{quantity_label}", fontsize=20)
+        else:
+            ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
+        ax.set_title(f"Fuel: {fuel_label}", fontsize=24)
 
         # Add a legend for the stacked bar components (sub-quantities)
         if bar_handles:
@@ -1943,231 +1578,17 @@ class ProcessedFuel:
         # Save the figure
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
+        filepath_save_log = f"{top_dir}/plots/{self.fuel}/{filename_save}_logx.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
-        plt.close()
-
-    def make_cac_hist(self):
-        """
-        Makes a histogram of Cost of Carbon Abatement (CAC) with respect to the available fuel production pathways.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        None
-        """
-
-        num_pathways = len(self.pathways)
-        fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
-
-        fig, ax = plt.subplots(figsize=(18, fig_height))
-
-        # Get all individual countries with processed data for the given fuel
-        countries = self.get_all_countries()
-        region_colors = assign_colors_to_strings(countries)
-
-        countries_labelled = []
-        scatter_handles = []  # To collect scatter plot legend handles
-        scatter_labels = []  # To collect scatter plot legend labels
-
-        def make_bar(pathway, pathway_name, pathway_label):
-            """
-            Plots a single bar for a given pathway
-
-            Parameters
-            ----------
-            pathway : ProcessedPathway
-                ProcessedPathway class instance containing the info to plot
-
-            pathway_name : str
-                Name of the pathway
-
-            pathway_label : str
-                Name of the pathway to use for labels when plotting
-
-            Returns
-            -------
-            None
-            """
-
-            # Collect the region average results
-            region_average_results = pathway.get_region_average_results(
-                ["CAC"], "vessel"
-            )
-            
-            region_average_delta_wtw = pathway.get_region_average_results(
-                ["DeltaWTW"], "vessel"
-            )["DeltaWTW"]
-
-            # Collect the individual region results
-            all_region_results, multiple_region_results = (
-                pathway.get_all_region_results("CAC", "vessel")
-            )
-            
-            all_region_results_deltawtw, multiple_region_results_deltawtw = (
-                pathway.get_all_region_results("DeltaWTW", "vessel")
-            )
-
-            # Plot the bar
-            value = region_average_results.get("CAC", 0)
-            bar = ax.barh(
-                pathway_label,
-                value,
-                color = delta_wtw_sign_colors_labels["positive"]["color"] if region_average_delta_wtw >= 0 else delta_wtw_sign_colors_labels["negative"]["color"],
-                alpha=0.7,
-            )
-
-            # Plot the individual region results as a scatter plot
-            if all_region_results:
-                for region in all_region_results:
-                    if "Global" in region:
-                        continue
-                    scatter = ax.scatter(
-                        all_region_results[region],
-                        pathway_label,
-                        color="black",
-                        s=50,
-                        marker="D" if all_region_results_deltawtw[region] >= 0 else "o",
-                    )
-                        
-            if i_pathway == 0:
-                scatter_handles.append(scatter)
-                scatter_labels.append("Individual Countries")
-
-            # Set the y-axis label color to match the pathway type
-            y_labels = ax.get_yticklabels()
-            pathway_type = get_pathway_type(pathway_name)
-            if i_pathway < len(y_labels):
-                y_labels[i_pathway].set_color(get_pathway_type_color(pathway_type))
-                y_labels[i_pathway].set_fontweight("bold")
-
-        # Loop through each color and pathway
-        i_pathway = 0
-        for pathway_name in self.pathways:
-            pathway = self.ProcessedPathways[pathway_name]
-            pathway_label = get_pathway_label(pathway_name, pathway_labels_df)
-
-            make_bar(pathway, pathway_name, pathway_label)
-
-            i_pathway += 1
-
-        # Add a bar for LSFO fossil for comparison
-        lsfo_pathway = ProcessedPathway("lsfo", "fossil")
-        make_bar(lsfo_pathway, "fossil", "LSFO (fossil)")
-        plt.axvline(
-            lsfo_pathway.get_region_average_results(["CAC"], "vessel")["CAC"],
-            linewidth=3,
-            linestyle="--",
-            color="black",
-        )
-
-        # Add labels and title
-        ax.set_xlabel(f"Cost of Abated Carbon (USD/tonne)", fontsize=22, color=delta_wtw_sign_colors_labels["negative"]["color"])
-        ax.tick_params(axis='x', colors=delta_wtw_sign_colors_labels["negative"]["color"])
-        ax_top = ax.secondary_xaxis('top')
-        ax_top.set_xlabel("Savings from Added Carbon (USD / tonne CO2)", color=delta_wtw_sign_colors_labels["positive"]["color"], fontsize=22)
-        ax_top.tick_params(axis='x', colors=delta_wtw_sign_colors_labels["positive"]["color"])
-        #ax.set_title(f"Fuel: {self.fuel}", fontsize=24)
-        
-        # Create the first legend for positive and negative delta WTW sign colors
-        handles = [
-            plt.Line2D(
-                [0],
-                [0],
-                color=delta_wtw_sign_colors_labels["positive"]["color"],
-                lw=16,
-                label=delta_wtw_sign_colors_labels["positive"]["label"],
-                alpha=0.7,
-            ),
-            plt.Line2D(
-                [0],
-                [0],
-                color=delta_wtw_sign_colors_labels["negative"]["color"],
-                lw=16,
-                label=delta_wtw_sign_colors_labels["negative"]["label"],
-                alpha=0.7,
-            ),
-        ]
-        legend1 = ax.legend(
-            handles=handles,
-            fontsize=16,
-            bbox_to_anchor=(1.0, 0.9),
-            loc="upper left",
-            borderpad=0.8,
-            title="Country Averages",
-            title_fontsize = 20,
-        )
-        ax.add_artist(legend1)  # Add the first legend to the axes
-        
-        # Create a legend for positive and negative Delta WTW using black markers
-        handles = [
-            plt.Line2D(
-                [0],
-                [0],
-                color="black",
-                marker="D",  # Diamond marker for positive Delta WTW
-                markersize=10,
-                linestyle="None",
-                label=delta_wtw_sign_colors_labels["positive"]["label"],
-                alpha=0.7,
-            ),
-            plt.Line2D(
-                [0],
-                [0],
-                color="black",
-                marker="o",  # Circle marker for negative Delta WTW
-                markersize=10,
-                linestyle="None",
-                label=delta_wtw_sign_colors_labels["negative"]["label"],
-                alpha=0.7,
-            ),
-        ]
-
-        # Create the legend and add it to the axes
-        legend2 = ax.legend(
-            handles=handles,
-            fontsize=16,
-            bbox_to_anchor=(1.0, 0.5),
-            loc="upper left",
-            borderpad=0.8,
-            title="Individual Countries",
-            title_fontsize = 20,
-        )
-        ax.add_artist(legend2)  # Add the first legend to the axes
-
-#        # Create the second legend for countries
-#        if scatter_handles:
-#            ax.legend(
-#                scatter_handles,
-#                scatter_labels,
-#                fontsize=16,
-#                title="Countries",
-#                title_fontsize=20,
-#                bbox_to_anchor=(1.01, 0.3),
-#                loc="center left",
-#                borderaxespad=0.0,
-#                ncol=2,
-#            )
-
-        plt.subplots_adjust(left=0.3, right=0.73)
-        # plt.tight_layout()
-
-        # Construct the filename to save to
-        filename_save = f"{self.fuel}-CAC-pathway_hist"
-
-        # Save the figure
-        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
-        filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
-        print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200)
+        ax.set_xscale("log")
+        print(f"Saving figure to {filepath_save_log}")
+        plt.savefig(filepath_save_log, dpi=200)
         plt.close()
 
     def make_all_stacked_hists(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -2214,11 +1635,8 @@ class ProcessedFuel:
                 modifiers = all_available_modifiers
 
             for modifier in modifiers:
-                if modifier not in all_available_modifiers:
-                    raise Exception(
-                        f"Error: Provided modifier '{modifier}' is not available in self.ProcessedQuantities. \n\nAvailable modifiers: {self.modifiers}."
-                    )
-                self.make_stacked_hist(quantity, modifier, sub_quantities)
+                if modifier in all_available_modifiers:
+                    self.make_stacked_hist(quantity, modifier, sub_quantities)
 
     def apply_to_all_pathways(self, method_name, *args, **kwargs):
         """
@@ -2248,7 +1666,7 @@ class ProcessedFuel:
 
     def make_all_hists_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -2269,31 +1687,9 @@ class ProcessedFuel:
 
         self.apply_to_all_pathways("make_all_hists_by_region", quantities, modifiers)
 
-    def make_all_cac_hists_by_region(self):
-        """
-        Applies make_all_cac_hists_by_region to all available pathways for the given fuel
-
-        Parameters
-        ----------
-        quantity_sign_color : str, optional
-            Color for bars where the value is exactly zero (if applicable).
-
-        quantity_pos_color : str, optional
-            Color for positive values.
-
-        quantity_neg_color : str, optional
-            Color for negative values.
-
-        Returns
-        -------
-        None
-        """
-
-        self.apply_to_all_pathways("make_cac_hist_by_region")
-
     def map_all_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost"],
+        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -2313,21 +1709,6 @@ class ProcessedFuel:
         """
 
         self.apply_to_all_pathways("map_all_by_region", quantities, modifiers)
-        
-    def map_all_cac_by_region(self):
-        """
-        Applies map_cac_by_region to all available pathways for the given fuel
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        None
-        """
-
-        self.apply_to_all_pathways("map_cac_by_region")
 
 
 def structure_results_fuels_types(
@@ -2349,7 +1730,8 @@ def structure_results_fuels_types(
 
     Returns
     -------
-    None
+    results_fuels_types : Dictionary
+        Dictionary containing the results for all fuel types
     """
     
     # If supplied fuels is None, get unique fuels based on filenames in the results dir
@@ -2372,7 +1754,7 @@ def structure_results_fuels_types(
                 for region in result_df.index:
                     if "_" not in region and region != "Global Average":
                         results_fuels_types[fuel][pathway_type].append(
-                            result_df.loc[region, f"fleet_{fuel}"]
+                            result_df.loc[region, f"fleet"]
                         )
     return results_fuels_types
 
@@ -2443,7 +1825,7 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
 
         # Store the position of the tick for this fuel, centered among its subcategories on the left side
         y_tick_positions.append(y_base + (n_pathway_types - 1) / 2)
-        y_tick_labels.append(fuel)
+        y_tick_labels.append(get_fuel_label(fuel))
 
         # Update y_base to the next starting position for the next fuel
         y_base += n_pathway_types + 1  # Add 1 for spacing between different fuels
@@ -2475,52 +1857,149 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
 
     quantity_label = get_quantity_label(quantity)
     units = get_units(quantity, modifier)
-    ax.set_xlabel(f"{quantity_label} ({units})", fontsize=22)
+    if units is None:
+        ax.set_xlabel(f"{quantity_label}", fontsize=22)
+    else:
+        ax.set_xlabel(f"{quantity_label} ({units})", fontsize=22)
     plt.subplots_adjust(left=0.2, right=0.75)
     plt.tight_layout()
     create_directory_if_not_exists(f"{top_dir}/plots/scatter_violin")
     filepath_save = f"{top_dir}/plots/scatter_violin/{quantity}-{modifier}.png"
+    filepath_save_log = f"{top_dir}/plots/scatter_violin/{quantity}-{modifier}_logx.png"
     print(f"Saving figure to {filepath_save}")
     plt.savefig(filepath_save, dpi=200)
+    ax.set_xscale("log")
+    print(f"Saving figure to {filepath_save_log}")
+    plt.savefig(filepath_save_log, dpi=200)
     plt.close()
+    
+def collect_cargo_mile_results(fuels=None):
+    """
+    Collect CargoMiles for each fuel and vessel type. Note that CargoMiles is independent of the fuel production pathway and region.
+    
+    Parameters
+    ----------
+    fuels : list of str
+        List of fuels to plot. If None provided, gets a list of unique available fuels.
 
+    Returns
+    -------
+    results_fuels_types : Dictionary
+        Dictionary containing the results for all fuel types
+    """
+    
+    # If supplied fuels is None, get unique fuels based on filenames in the results dir
+    if fuels is None:
+        fuels = find_unique_identifiers(RESULTS_DIR, "fuel", "")
+    
+    cargo_mile_results = {}
+    for fuel in fuels:
+        cargo_mile_results[fuel] = {}
+        
+        pathways = find_unique_identifiers(
+            RESULTS_DIR, "pathway", fuel
+        )
+        
+        processed_cargo_miles = ProcessedQuantity("CargoMiles", "fleet", fuel, pathways[0])
+        result_df = processed_cargo_miles.result_df
+        for vessel_type in vessel_types:
+            cargo_mile_results[fuel][vessel_type] = result_df.loc["Global Average", vessel_type]
+    
+    return cargo_mile_results
+    
+def plot_cargo_miles():
+    """
+    Plot a stacked horizontal bar chart for cargo miles by fuel and vessel type.
+    
+    Parameters
+    ----------
+    cargo_mile_results : dict
+        Dictionary where keys are fuel types and values are dictionaries.
+        Each inner dictionary contains cargo miles for different vessel types (e.g., 'bulk_carrier_ice', 'container_ice', etc.).
+    
+    Returns
+    -------
+    None
+        This function generates and displays a horizontal stacked bar plot, showing cargo miles stacked by vessel type for each fuel.
+    """
+    
+    cargo_mile_results = collect_cargo_mile_results()
+    
+    # Get the list of fuels (keys) and vessel types (sub-keys) from the dictionary
+    fuels = list(cargo_mile_results.keys())
+    fuel_labels = [get_fuel_label(fuel) for fuel in fuels]
+    vessel_types = list(next(iter(cargo_mile_results.values())).keys())
+
+    # Create a figure and axes object for the plot
+    fig, ax = plt.subplots(figsize=(12, len(fuels) * 0.7))  # Adjust the figure size based on the number of fuels
+    
+    # Initialize the bottom position for the stacked bars (all zeros at the start)
+    bottom = [0] * len(fuels)
+
+    # Loop over vessel types to plot the stacking
+    for vessel_type in vessel_types:
+        # Get the values of cargo miles for each fuel for the current vessel type
+        values = [cargo_mile_results[fuel][vessel_type] for fuel in fuels]
+        
+        # Plot a horizontal bar for this vessel type on top of the previous bars (stacking)
+        ax.barh(fuels, values, left=bottom, label=vessel_type_title[vessel_type])
+
+        # Update the bottom position for the next stack
+        bottom = [b + v for b, v in zip(bottom, values)]
+
+    # Update the y-axis labels to use the fuel_labels
+    ax.set_yticks(range(len(fuels)))  # Set y-ticks based on the number of fuels
+    ax.set_yticklabels(fuel_labels, fontsize=18)  # Use fuel_labels for the y-axis tick labels
+    
+    # Add a vertical dashed line at the LSFO Cargo Miles
+    lsfo_cargo_miles = cargo_mile_results.get("lsfo", {})
+    total_cargo_miles_lsfo = sum(lsfo_cargo_miles.values())
+    ax.axvline(total_cargo_miles_lsfo, color="black", linestyle="--")
+
+    # Add labels and title
+    ax.set_xlabel("Cargo Miles (tonne-miles)", fontsize=20)
+    ax.legend(title="Vessel Type", bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=18, title_fontsize=20)
+
+    # Show the plot
+    plt.tight_layout()
+    plt.savefig("plots/cargo_miles_comparison.png", dpi=300)
+    
 
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("CAC", "vessel", "methanol", "LTE_H_Bio_C_grid")
-#    processed_quantity.map_by_region(color_by_delta_wtw_sign=True)
-#    processed_quantity.make_hist_by_region(color_by_delta_wtw_sign=True)
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "methanol", "LTE_H_DAC_C_grid_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity.make_hist_by_region()
 #
-#    processed_pathway = ProcessedPathway("methanol", "LTE_H_Bio_C_grid")
+#    processed_pathway = ProcessedPathway("methanol", "LTE_H_DAC_C_grid_E")
 #    processed_pathway.make_all_hists_by_region()
-#    processed_pathway.make_cac_hist_by_region()
 #    processed_pathway.map_all_by_region()
-#    processed_pathway.map_cac_by_region()
 #
-#    processed_fuel = ProcessedFuel("methanol")
-#    processed_fuel.make_all_cac_hists_by_region()
-#    processed_fuel.map_all_cac_by_region()
-#    processed_fuel.make_cac_hist()
+#    processed_fuel = ProcessedFuel("ammonia")
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+#    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
+#    processed_fuel.make_stacked_hist("CAC", "vessel", [])
 # -----------------------------------------------------------------------------#
-
+    """
     # Loop through all fuels of interest
-    for fuel in ["FTdiesel"]:#, "hydrogen", "ammonia", "lsfo"]:
+    for fuel in ["liquid_hydrogen", "compressed_hydrogen"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
 
         # Make validation plots for each fuel, pathway and quantity
-        processed_fuel.make_all_hists_by_region()
-        processed_fuel.make_all_cac_hists_by_region()
-        processed_fuel.map_all_by_region()
-        processed_fuel.map_all_cac_by_region()
+        #processed_fuel.make_all_hists_by_region()
+        #processed_fuel.map_all_by_region()
         processed_fuel.make_all_stacked_hists()
-        processed_fuel.make_cac_hist()
-
-    for quantity in ["TotalCost", "TotalEquivalentWTW"]:
+    """
+    """
+    for quantity in ["CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
         for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+            if quantity == "AverageCostEmissionsRatio" and modifier != "vessel":
+                continue
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
-
+    """
+    plot_cargo_miles()
 main()

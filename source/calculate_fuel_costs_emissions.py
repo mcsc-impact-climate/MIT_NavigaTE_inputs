@@ -358,7 +358,7 @@ def main():
                 if E_pathway == "grid":
                     elect_price = grid_price
                     elect_emissions_intensity = grid_emissions_intensity
-                elif E_pathway == "renew":
+                elif E_pathway == "renewable":
                     elect_price = renew_price
                     elect_emissions_intensity = renew_emissions_intensity
                 elif E_pathway == "nuke":
@@ -424,7 +424,7 @@ def main():
                 if E_pathway == "grid":
                     elect_price = grid_price
                     elect_emissions_intensity = grid_emissions_intensity
-                elif E_pathway == "renew":
+                elif E_pathway == "renewable":
                     elect_price = renew_price
                     elect_emissions_intensity = renew_emissions_intensity
                 elif E_pathway == "nuke":
@@ -447,7 +447,7 @@ def main():
                     emissions -= emissions_H2prod
                     fuel = "compressed_hydrogen"
                     comment = "compression of STP hydrogen to gaseous hydrogen at 700 bar"
-                elif process == "ammonia":
+                elif process == "hydrogen_to_ammonia_conversion":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     CapEx -= (CapEx_H2prod*NH3_H2_demand)
