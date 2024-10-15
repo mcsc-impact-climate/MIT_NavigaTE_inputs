@@ -1,4 +1,4 @@
-"""	
+""" 
 Date: July 25, 2024
 Author: danikam
 Purpose: Reads in NavigaTE outputs from a 2024 run including tankers, bulk vessels, containerships and gas carriers, and produces CSV files to process and structure the outputs for visualization.
@@ -247,186 +247,6 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             ) 
 
     return all_results_df
-    
-def read_results_dask(fuel, pathway, region, number, filename, all_results_df):
-    """
-    Reads the results from an Excel file and extracts relevant data for each vessel type and size.
-
-    Parameters
-    ----------
-    fuel : str
-        The type of fuel being used (eg. ammonia, hydrogen)
-
-    pathway : str
-        The fuel production pathway (e.g., fossil, SMR).
-
-    region : str
-        The region associated with the results.
-
-    number : int
-        The number of instances or scenarios for this configuration.
-
-    filename : str
-        The path to the Excel file containing the results.
-
-    all_results_df : pandas.DataFrame
-        The DataFrame to which results will be appended.
-
-    Returns
-    -------
-    all_results_df : pandas.DataFrame
-        The updated DataFrame with the new results appended.
-    """
-    
-    # Replace 'compressed_hydrogen' and 'liquid_hydrogen' in all_results_df with compressedhydrogen and liquidhydrogen to facilitate vessel name parsing
-    fuel_orig = fuel
-    fuel = fuel.replace('compressed_hydrogen', 'compressedhydrogen').replace('liquid_hydrogen', 'liquidhydrogen')
-    
-    # Define columns to read based on the fuel type
-    if fuel == "lsfo":
-        results_df_columns = [
-            "Date",
-            "Time (days)",
-            "TotalEquivalentWTT",
-            "TotalEquivalentTTW",
-            "TotalEquivalentWTW",
-            "Miles",
-            "CargoMiles", # GE - another term for ton-miles
-            "SpendEnergy",
-            "TotalCAPEX",
-            "TotalExcludingFuelOPEX",
-            "TotalFuelOPEX",
-            "ConsumedEnergy_lsfo",
-        ]
-    elif fuel == "FTdiesel": # GE - FT = Fischer-Tropsch: synthetic, biomass fuel
-        results_df_columns = [
-            "Date",
-            "Time (days)",
-            "TotalEquivalentWTT",
-            "TotalEquivalentTTW",
-            "TotalEquivalentWTW",
-            "Miles",
-            "CargoMiles",
-            "SpendEnergy",
-            "TotalCAPEX",
-            "TotalExcludingFuelOPEX",
-            "TotalFuelOPEX",
-            f"ConsumedEnergy_{fuel}",
-        ]
-    else:
-        results_df_columns = [
-            "Date",
-            "Time (days)",
-            "TotalEquivalentWTT",
-            "TotalEquivalentTTW",
-            "TotalEquivalentWTW",
-            "Miles",
-            "CargoMiles",
-            "SpendEnergy",
-            "TotalCAPEX",
-            "TotalExcludingFuelOPEX",
-            "TotalFuelOPEX",
-            f"ConsumedEnergy_{fuel_orig}",
-            "ConsumedEnergy_lsfo",
-        ]
-    # Read the results from the Excel file
-    #results = pd.ExcelFile(filename)
-    results_df = pd.read_excel(filename, sheet_name="Vessels")
-    results_df = dd.from_pandas(results_df, npartitions=8)  # npartitions can be adjusted
-
-    # Extract relevant data for each vessel type and size
-    results_dict = {}
-    for vessel_type in vessels:
-        for vessel in vessels[vessel_type]:
-#            results_df_vessel = results_df.filter(regex=f"Date|Time|{vessel}").drop(
-#                [0, 1, 2]
-#            )
-            # Get the columns that match the pattern "Date|Time|<vessel>"
-            matching_columns = [col for col in results_df.columns if pd.Series(col).str.contains(f"Date|Time|{vessel}").any()]
-
-            # Select those columns
-            results_df_vessel = results_df[matching_columns]
-
-            # Filter out the first three rows (equivalent to drop([0, 1, 2], axis=0))
-            results_df_vessel = results_df_vessel.loc[3:]
-            
-            results_df_vessel.columns = results_df_columns
-            results_df_vessel = results_df_vessel.set_index("Date")
-
-            results_dict["Vessel"] = f"{vessel}_{fuel}"
-            results_dict["Fuel"] = fuel
-            results_dict["Pathway"] = pathway
-            results_dict["Region"] = region
-            results_dict["Number"] = number
-            results_dict["TotalEquivalentWTT"] = float(
-                results_df_vessel["TotalEquivalentWTT"].loc["2024-01-01"].compute().iloc[0]
-            )
-            results_dict["TotalEquivalentTTW"] = float(
-                results_df_vessel["TotalEquivalentTTW"].loc["2024-01-01"].compute().iloc[0]
-            )
-            results_dict["TotalEquivalentWTW"] = float(
-                results_df_vessel["TotalEquivalentWTW"].loc["2024-01-01"].compute().iloc[0]
-            )
-            results_dict["TotalCAPEX"] = float(
-                results_df_vessel["TotalCAPEX"].loc["2024-01-01"].compute().iloc[0]
-            )
-            results_dict["TotalFuelOPEX"] = float(
-                results_df_vessel["TotalFuelOPEX"].loc["2024-01-01"].compute().iloc[0]
-            )
-            results_dict["TotalExcludingFuelOPEX"] = float(
-                results_df_vessel["TotalExcludingFuelOPEX"].loc["2024-01-01"].compute().iloc[0]
-            )
-            results_dict["TotalCost"] = (
-                float(results_df_vessel["TotalCAPEX"].loc["2024-01-01"].compute().iloc[0])
-                + float(results_df_vessel["TotalFuelOPEX"].loc["2024-01-01"].compute().iloc[0])
-                + float(results_df_vessel["TotalExcludingFuelOPEX"].loc["2024-01-01"].compute().iloc[0])
-            )
-            results_dict["Miles"] = float(results_df_vessel["Miles"].loc["2024-01-01"].compute().iloc[0])
-            if vessel_type == "container":
-                results_dict["CargoMiles"] = (
-                    float(results_df_vessel["CargoMiles"].loc["2024-01-01"].compute().iloc[0])
-                    * TONNES_PER_TEU
-                )
-            elif vessel_type == "gas_carrier":
-                results_dict["CargoMiles"] = (
-                    float(results_df_vessel["CargoMiles"].loc["2024-01-01"].compute().iloc[0])
-                    * TONNES_PER_M3_LNG
-                )
-            else:
-                results_dict["CargoMiles"] = float(
-                    results_df_vessel["CargoMiles"].loc["2024-01-01"].compute().iloc[0]
-                )
-
-            if fuel == "lsfo":
-                results_dict["ConsumedEnergy_main"] = float(
-                    results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"].compute().iloc[0]
-                )
-                results_dict["ConsumedEnergy_lsfo"] = (
-                    float(results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"].compute().iloc[0])
-                    * 0
-                )
-            if fuel == "FTdiesel":
-                results_dict["ConsumedEnergy_main"] = float(
-                    results_df_vessel[f"ConsumedEnergy_{fuel}"].loc["2024-01-01"].compute().iloc[0]
-                )
-                results_dict["ConsumedEnergy_lsfo"] = (
-                    float(results_df_vessel[f"ConsumedEnergy_{fuel}"].loc["2024-01-01"].compute().iloc[0])
-                    * 0
-                )
-            else:
-                results_dict["ConsumedEnergy_main"] = float(
-                    results_df_vessel[f"ConsumedEnergy_{fuel_orig}"].loc["2024-01-01"].compute().iloc[0]
-                )
-                results_dict["ConsumedEnergy_lsfo"] = float(
-                    results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"].compute().iloc[0]
-                )
-
-            results_row_df = pd.DataFrame([results_dict])
-            all_results_df = dd.concat(
-                [all_results_df, results_row_df], ignore_index=True
-            )
-
-    return all_results_df
 
 
 def extract_info_from_filename(filename):
@@ -612,7 +432,7 @@ def add_vessel_type_quantities(all_results_df):
             vessel_type_df = group_df[group_df["Vessel"].str.contains("|".join(vessel_names))]
 
             if not vessel_type_df.empty:
-                vessel_type_row = vessel_type_df[quantities_fleet + ["Miles", "CargoMiles"]].sum()
+                vessel_type_row = vessel_type_df[quantities_fleet + ["Miles", "CargoMiles", "ConsumedEnergy_main", "ConsumedEnergy_lsfo"]].sum()
                 vessel_type_row["Fuel"] = fuel
                 vessel_type_row["Pathway"] = pathway
                 vessel_type_row["Region"] = region
@@ -683,7 +503,7 @@ def add_fleet_level_quantities(all_results_df):
 
         if not fleet_df.empty:
             # Sum quantities for the full fleet
-            fleet_row = fleet_df[quantities_fleet + ["Miles", "CargoMiles"]].sum()
+            fleet_row = fleet_df[quantities_fleet + ["Miles", "CargoMiles", "ConsumedEnergy_main", "ConsumedEnergy_lsfo"]].sum()
             fleet_row["Fuel"] = fuel
             fleet_row["Pathway"] = pathway
             fleet_row["Region"] = region
@@ -999,6 +819,64 @@ def generate_csv_files(all_results_df, top_dir):
                 # Save the DataFrame to a CSV file
                 pivot_df.to_csv(filepath)
     print(f"Saved processed csv files to {top_dir}/processed_results")
+    
+def make_lower_heating_values_dict(top_dir):
+    """
+    Makes a dictionary of lower heating values for each fuel
+    
+    Parameters
+    ----------
+    top_dir : str
+        The top-level directory of the repository
+
+    Returns
+    -------
+    lower_heating_values : Dictionary
+        Dictionary containingi the lower heating value for each fuel, in MJ / kg
+    """
+    
+    info_file = f"{top_dir}/info_files/fuel_info.csv"
+    lhv_info_df = pd.read_csv(info_file, usecols=["Fuel", "Lower Heating Value (MJ / kg)"], index_col="Fuel")
+    lower_heating_values = lhv_info_df.to_dict(orient="index")
+    return lower_heating_values
+    
+
+# GE - working to add columns for data by 10/11
+@time_function
+def add_fuel_mass(all_results_df, top_dir):
+    """
+    Adds columns to all_results_df with mass of fuel consumed by each vessel size and class, and by the global fleet as a whole.
+    
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the processed results.
+
+    Returns
+    -------
+    None
+    """
+    
+    # Read in the lower heating values for each fuel as a dictionary
+    lower_heating_values_read = make_lower_heating_values_dict(top_dir)
+
+    # Map lower_heating_values dictionary to column in DataFrame
+    LHV_fuel = all_results_df["Fuel"].map(lower_heating_values)
+
+    # Get a list of all modifiers to handle
+    all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
+    
+    # Calculate the consumed mass of each fuel based on consumed energy and LHV
+    all_results_df["ConsumedMass_lsfo"] = all_results_df["ConsumedEnergy_lsfo"]/LHV_lsfo * 1000 # * 1000 converts from GJ to MJ
+    all_results_df["ConsumedMass_main"] = all_results_df["ConsumedEnergy_main"]/LHV_fuel * 1000
+    
+    # Repeat for all modifiers
+    for modifier in all_modifiers:
+        all_results_df[f"ConsumedMass_lsfo-{modifier}"] = all_results_df[f"ConsumedEnergy_lsfo-{modifier}"]/LHV_lsfo * 1000
+        all_results_df[f"ConsumedMass_main-{modifier}"] = all_results_df[f"ConsumedEnergy_main-{modifier}"]/LHV_fuel * 1000
+    
+    return all_results_df
+
 
 # GE - function where the code is actually being run and where the functions above are called
 def main():
@@ -1035,6 +913,9 @@ def main():
     # Add a column for the average ratios of cost and emissions relative to LSFO
     all_results_df = add_av_cost_emissions_ratios(all_results_df)
 
+    # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
+    all_results_df = add_fuel_mass(all_results_df, top_dir)
+    
     # Output all_results_df to a csv file to help with debugging
     all_results_df.to_csv("all_results_df.csv")
 
