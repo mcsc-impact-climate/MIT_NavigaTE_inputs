@@ -432,7 +432,7 @@ def add_vessel_type_quantities(all_results_df):
             vessel_type_df = group_df[group_df["Vessel"].str.contains("|".join(vessel_names))]
 
             if not vessel_type_df.empty:
-                vessel_type_row = vessel_type_df[quantities_fleet + ["Miles", "CargoMiles"]].sum()
+                vessel_type_row = vessel_type_df[quantities_fleet + ["Miles", "CargoMiles", "ConsumedEnergy_main", "ConsumedEnergy_lsfo"]].sum()
                 vessel_type_row["Fuel"] = fuel
                 vessel_type_row["Pathway"] = pathway
                 vessel_type_row["Region"] = region
@@ -503,7 +503,7 @@ def add_fleet_level_quantities(all_results_df):
 
         if not fleet_df.empty:
             # Sum quantities for the full fleet
-            fleet_row = fleet_df[quantities_fleet + ["Miles", "CargoMiles"]].sum()
+            fleet_row = fleet_df[quantities_fleet + ["Miles", "CargoMiles", "ConsumedEnergy_main", "ConsumedEnergy_lsfo"]].sum()
             fleet_row["Fuel"] = fuel
             fleet_row["Pathway"] = pathway
             fleet_row["Region"] = region
@@ -819,10 +819,31 @@ def generate_csv_files(all_results_df, top_dir):
                 # Save the DataFrame to a CSV file
                 pivot_df.to_csv(filepath)
     print(f"Saved processed csv files to {top_dir}/processed_results")
+    
+def make_lower_heating_values_dict(top_dir):
+    """
+    Makes a dictionary of lower heating values for each fuel
+    
+    Parameters
+    ----------
+    top_dir : str
+        The top-level directory of the repository
 
+    Returns
+    -------
+    lower_heating_values : Dictionary
+        Dictionary containingi the lower heating value for each fuel, in MJ / kg
+    """
+    
+    info_file = f"{top_dir}/info_files/fuel_info.csv"
+    lhv_info_df = pd.read_csv(info_file, usecols=["Fuel", "Lower Heating Value (MJ / kg)"], index_col="Fuel")
+    lower_heating_values = lhv_info_df.to_dict(orient="index")
+    return lower_heating_values
+    
 
 # GE - working to add columns for data by 10/11
-def add_fuel_mass(all_results_df):
+@time_function
+def add_fuel_mass(all_results_df, top_dir):
     """
     Adds columns to all_results_df with mass of fuel consumed by each vessel size and class, and by the global fleet as a whole.
     
@@ -835,16 +856,9 @@ def add_fuel_mass(all_results_df):
     -------
     None
     """
-    # Make a dictionary that contains LHV for each fuel
-    lower_heating_values = {}
-    lower_heating_values["ammonia"] = 18.8 # MJ / kg 
-    lower_heating_values["FTdiesel"] = 43.2 
-    lower_heating_values["compressed_hydrogen"] = 120
-    lower_heating_values["liquid_hydrogen"] = 120
-    lower_heating_values["methanol"] = 19.9
-
-    # Define variable for LHV of low-sulfur fuel oil
-    LHV_lsfo = 41.2 # MJ / kg 
+    
+    # Read in the lower heating values for each fuel as a dictionary
+    lower_heating_values_read = make_lower_heating_values_dict(top_dir)
 
     # Map lower_heating_values dictionary to column in DataFrame
     LHV_fuel = all_results_df["Fuel"].map(lower_heating_values)
@@ -854,12 +868,12 @@ def add_fuel_mass(all_results_df):
     
     # Calculate the consumed mass of each fuel based on consumed energy and LHV
     all_results_df["ConsumedMass_lsfo"] = all_results_df["ConsumedEnergy_lsfo"]/LHV_lsfo * 1000 # * 1000 converts from GJ to MJ
-    all_results_df["ConsumedEnergy_main"] = all_results_df["ConsumedEnergy_main"]/LHV_fuel * 1000
+    all_results_df["ConsumedMass_main"] = all_results_df["ConsumedEnergy_main"]/LHV_fuel * 1000
     
     # Repeat for all modifiers
     for modifier in all_modifiers:
-        all_results_df[f"ConsumedMass_lsfo-{modifier}"] = all_results_df["ConsumedEnergy_lsfo-{modifier}"]/LHV_lsfo * 1000
-        all_results_df[f"ConsumedMass_main-{modifier}"] = all_results_df["ConsumedEnergy_main-{modifier}"]/LHV_fuel * 1000
+        all_results_df[f"ConsumedMass_lsfo-{modifier}"] = all_results_df[f"ConsumedEnergy_lsfo-{modifier}"]/LHV_lsfo * 1000
+        all_results_df[f"ConsumedMass_main-{modifier}"] = all_results_df[f"ConsumedEnergy_main-{modifier}"]/LHV_fuel * 1000
     
     return all_results_df
 
@@ -899,11 +913,11 @@ def main():
     # Add a column for the average ratios of cost and emissions relative to LSFO
     all_results_df = add_av_cost_emissions_ratios(all_results_df)
 
+    # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
+    all_results_df = add_fuel_mass(all_results_df, top_dir)
+    
     # Output all_results_df to a csv file to help with debugging
     all_results_df.to_csv("all_results_df.csv")
-
-    # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
-    all_results_df = add_fuel_mass(all_results_df)
 
     # Generate CSV files for each combination of fuel pathway, quantity, and evaluation choice
     generate_csv_files(all_results_df, top_dir)
