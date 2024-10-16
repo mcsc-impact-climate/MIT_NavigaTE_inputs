@@ -9,7 +9,7 @@ import pandas as pd
 
 # QUESTION: where did these data points come from/what sources?
 # twenty-foot equivalent unit (cargo capacity)
-TONNES_PER_TEU = 14  # Average tons of cargo in one TEU
+TONNES_PER_TEU = 14  # Average tons of cargo in one TEU. Obtained from https://www.mpc-container.com/about-us/industry-terms/
 # Heavy fuel oil (HFO) mostly used marine fuel
 HFO_GRAV_DENSITY = 41.2  # Gravitational energy density of HFO (MJ/kg)
 #conversion units
