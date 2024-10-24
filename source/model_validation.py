@@ -7,16 +7,19 @@ Purpose: Model validations to compare NavigaTE fleet model inputs and outputs wi
 from common_tools import get_top_dir
 import pandas as pd
 
-# QUESTION: where did these data points come from/what sources?
 # twenty-foot equivalent unit (cargo capacity)
 TONNES_PER_TEU = 14  # Average tons of cargo in one TEU. Obtained from https://www.mpc-container.com/about-us/industry-terms/
-# Heavy fuel oil (HFO) mostly used marine fuel
-HFO_GRAV_DENSITY = 41.2  # Gravitational energy density of HFO (MJ/kg)
+
 #conversion units
 MJ_PER_GJ = 1000
 KG_PER_TONNE = 1000
 G_PER_KG = 1000
 TONNES_PER_KT = 1000
+
+# Collect the lower heating value of HFO (in MJ/kg) from the relevant info file
+top_dir = get_top_dir()
+fuel_info_df = pd.read_csv(f"{top_dir}/info_files/fuel_info.csv").set_index("Fuel")
+HFO_LHV = fuel_info_df.loc["lsfo", "Lower Heating Value (MJ / kg)"]
 
 #vessels dictionary holds different container types:
 vessels = {
@@ -205,7 +208,7 @@ def read_results(filename, fuel="lsfo"):
 # (unit conversions)
 def energy_to_fuel_consumption_lsfo(energy_consumption_GJ):
     energy_consumption_MJ = energy_consumption_GJ * MJ_PER_GJ
-    fuel_consumption_kg = energy_consumption_MJ / HFO_GRAV_DENSITY
+    fuel_consumption_kg = energy_consumption_MJ / HFO_LHV
     fuel_consumption_thou_tonnes = fuel_consumption_kg / (KG_PER_TONNE * 1000)
     return fuel_consumption_thou_tonnes
 
@@ -560,7 +563,7 @@ def main():
     top_dir = get_top_dir()
 
     all_results_df = read_results(
-        f"{top_dir}/all_outputs_full_fleet/report_lsfo.xlsx", "lsfo"
+        f"{top_dir}/all_outputs_full_fleet/lsfo-1_excel_report.xlsx", "lsfo"
     )
 
     fuel_consumption_df = compare_fuel_consumption(all_results_df)
