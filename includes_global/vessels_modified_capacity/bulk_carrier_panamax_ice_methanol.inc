@@ -19,7 +19,7 @@ Vessel "bulk_carrier_panamax_ice_methanol" {
 	
 	Route=Route("globalized_bulk_carrier_panamax")
 	
-    NominalCapacity = 72110.05025125628
+    NominalCapacity = 71967.24120603014
 	
 
 	Lifetime=25

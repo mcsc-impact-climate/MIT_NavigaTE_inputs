@@ -19,7 +19,7 @@ Vessel "bulk_carrier_handy_ice_ammonia" {
 	
 	Route=Route("globalized_bulk_carrier_handy")
 	
-    NominalCapacity = 32855.31914893617
+    NominalCapacity = 32743.893617021276
 	
 
 	Lifetime=25

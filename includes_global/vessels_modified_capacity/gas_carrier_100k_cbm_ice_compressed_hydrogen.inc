@@ -11,7 +11,7 @@ Vessel "gas_carrier_100k_cbm_ice_compressed_hydrogen" {
     
     Route=Route("globalized_gas_carrier_100k_cbm")
     
-    NominalCapacity = 86043.37722695584
+    NominalCapacity = 84856.4420345985
 
     Lifetime=25
     Finance=Finance("vessel_finance")
