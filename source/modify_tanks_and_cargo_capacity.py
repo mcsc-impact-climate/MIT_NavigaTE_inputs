@@ -11,14 +11,19 @@ import matplotlib.pyplot as plt
 import parse
 import numpy as np
 import matplotlib.patches as mpatches
+import re
 
 M3_PER_TEU = 38.28
 L_PER_M3 = 1000
 KG_PER_DWT = 1000
-VESSELS_ORIG_DIR = "includes_global/vessels_orig_capacity"
+VESSELS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Vessel"
+VESSELS_DIR_LOCAL = "includes_global/vessels_orig_capacity"
 VESSELS_MODIFIED_DIR = "includes_global/vessels_modified_capacity"
-TANKS_ORIG_DIR = "includes_global/tanks_orig_size"
+TANKS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Tank"
+TANKS_DIR_LOCAL = "includes_global/tanks_orig_size"
 TANKS_MODIFIED_DIR = "includes_global/tanks_modified_size"
+PROPULSION_EFF_DIR_NAVIGATE="NavigaTE/navigate/defaults/installation/Forecast"
+PROPULSION_EFF_DIR_LOCAL="includes_global/vessels_orig_capacity"
 
 # Dictionary containing the keyword for the given fuel in vessel file names
 fuel_vessel_dict = {
@@ -28,6 +33,15 @@ fuel_vessel_dict = {
     "compressed_hydrogen": "hydrogen",
     "liquid_hydrogen": "hydrogen",
     "lsfo": "oil",
+}
+
+# Dictionary to indicate whether to look for input files in the default NavigaTE inputs, or in the relevant local dir with custom inputs
+input_file_types = {
+    "ammonia": "NavigaTE",
+    "methanol": "NavigaTE",
+    "diesel": "local",
+    "hydrogen": "local",
+    "oil": "NavigaTE",
 }
 
 # Vessel type and size information
@@ -88,14 +102,12 @@ def get_fuel_info_dict(info_filepath, column_name):
     
     return fuel_info_dict
     
-def get_tank_size(tank_size_lsfo, LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_density_fuel):
+def get_tank_size_factor_energy(LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_density_fuel):
     """
-    Calculates the size of the tank needed to provide equivalent fuel energy to the vessel as LSFO
+    Calculates the multiplying factor to the tank needed to provide equivalent fuel energy to the vessel as LSFO
 
     Parameters
     ----------
-    tank_size_lsfo : float
-        Size of the tank for the LSFO vessel
 
     LHV_lsfo : float
         LHV of LSFO
@@ -111,15 +123,37 @@ def get_tank_size(tank_size_lsfo, LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_de
 
     Returns
     -------
+    tank_size_factor : float
+        Size of the tank with an equivalent fuel energy to the LSFO tank
+    """
+    
+    tank_size_factor = ( LHV_lsfo * mass_density_lsfo ) / ( LHV_fuel * mass_density_fuel )
+    
+    return tank_size_factor
+    
+def get_tank_size_factor_propulsion_eff(propulsion_eff_lsfo, propulsion_eff_fuel):
+    """
+    Calculates the multiplyinf factor to the tank size needed to account for a different engine efficiency relative to LSFO
+
+    Parameters
+    ----------
+    propulsion_eff_lsfo : float
+        Efficiency of an engine running on LSFO
+
+    propulsion_eff_fuel : float
+        Efficiency of an engine running on the given fuel
+
+    Returns
+    -------
     tank_size_fuel : float
         Size of the tank with an equivalent fuel energy to the LSFO tank
     """
     
-    tank_size_fuel = ( tank_size_lsfo * LHV_lsfo * mass_density_lsfo ) / ( LHV_fuel * mass_density_fuel )
+    tank_size_factor = propulsion_eff_lsfo / propulsion_eff_fuel
     
-    return tank_size_fuel
+    return tank_size_factor
     
-def get_tank_size_factors(fuels, LHV_dict, mass_density_dict):
+def get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dict):
     """
     Creates a dictionary of tank size scaling factors for each fuel relative to LSFO
     
@@ -127,6 +161,15 @@ def get_tank_size_factors(fuels, LHV_dict, mass_density_dict):
     ----------
     fuels : list of str
         List of fuels to include as keys in the dictionary
+        
+    LHV_dict : dictionary of float
+        Dictionary containing the lower heating value for each fuel
+        
+    mass_density_dict : dictionary of float
+        Dictionary containing the mass density of each fuel
+        
+    propulsion_eff_dict : dictionary of float
+        Dictionary containing the engine efficiency for each fuel
 
     Returns
     -------
@@ -135,12 +178,17 @@ def get_tank_size_factors(fuels, LHV_dict, mass_density_dict):
     """
     LHV_lsfo = LHV_dict["lsfo"]
     mass_density_lsfo = mass_density_dict["lsfo"]
+    propulsion_eff_lsfo = propulsion_eff_dict["lsfo"]
     
     tank_size_factors_dict = {}
     for fuel in fuels:
+        tank_size_factors_dict[fuel] = {}
         LHV_fuel = LHV_dict[fuel]
         mass_density_fuel = mass_density_dict[fuel]
-        tank_size_factors_dict[fuel] = get_tank_size(1, LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_density_fuel)
+        propulsion_eff_fuel = propulsion_eff_dict[fuel]
+        tank_size_factors_dict[fuel]["Constant Energy"] = get_tank_size_factor_energy(LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_density_fuel)
+        tank_size_factors_dict[fuel]["Engine Efficiency"] = get_tank_size_factor_propulsion_eff(propulsion_eff_lsfo, propulsion_eff_fuel)
+        tank_size_factors_dict[fuel]["Total"] = tank_size_factors_dict[fuel]["Constant Energy"] * tank_size_factors_dict[fuel]["Engine Efficiency"]
         
     return tank_size_factors_dict
     
@@ -152,22 +200,59 @@ def plot_tank_size_factors(tank_size_factors_dict):
     ----------
     tank_size_factors_dict : dict
         A dictionary with fuel types as keys and tank size scaling factors as values.
+        
+    Returns
+    -------
+    None
     """
-    # Extracting keys and values from the dictionary
+    # Set up lists for plotting
     fuels = list(tank_size_factors_dict.keys())
-    factors = list(tank_size_factors_dict.values())
+    corrections = list(tank_size_factors_dict[fuels[0]].keys())  # Assumes all fuels have the same corrections
 
-    # Obtain labels for each fuel using get_fuel_label
-    labels = [get_fuel_label(fuel) for fuel in fuels]
-    
-    # Creating the plot
-    plt.figure(figsize=(10, 5))
-    bars = plt.barh(labels, factors, color='skyblue')
-    plt.xlabel('Tank Size Scaling Factor', fontsize=22)
-    plt.xticks(fontsize=20)  # Set font size for x-ticks
-    plt.yticks(fontsize=20)  # Set font size for y-ticks
-    plt.axvline(1, color='black', linestyle='--')  # Adding a dashed line at x=1
-    plt.gca().invert_yaxis()  # Invert y-axis to display the first item at the top
+    # Separate 'Total' from other corrections and set a unique color
+    other_corrections = [c for c in corrections if c != 'Total']
+    colors = ["green", "blue"]
+    total_color = 'black'
+    bar_width = 0.2  # Width of each individual bar
+    buffer_width = 0.5  # Space between groups of bars for different fuels
+
+    # Calculate positions for each fuel's corrections
+    positions = []
+    all_factors = []
+
+    for i, fuel in enumerate(fuels):
+        start_pos = i * (len(corrections) * bar_width + buffer_width)
+        # Place 'Total' at the bottom of each cluster
+        positions.append(start_pos)
+        all_factors.append(tank_size_factors_dict[fuel]['Total'])
+        for j, correction in enumerate(other_corrections):
+            positions.append(start_pos + (j + 1) * bar_width)
+            all_factors.append(tank_size_factors_dict[fuel][correction])
+
+    # Plotting
+    plt.figure(figsize=(12, 6))
+    # Plot 'Total' first in black
+    for i, fuel in enumerate(fuels):
+        plt.barh(positions[i * (len(corrections))], all_factors[i * (len(corrections))], color=total_color, height=bar_width, label='Total' if i == 0 else "")
+
+    # Plot other corrections with unique colors
+    for j, correction in enumerate(other_corrections):
+        correction_positions = positions[j + 1::len(corrections)]
+        correction_factors = [tank_size_factors_dict[fuel][correction] for fuel in fuels]
+        plt.barh(correction_positions, correction_factors, color=colors[j], height=bar_width, label=correction)
+
+    # Add a line at scaling factor 1 for reference
+    plt.axvline(1, color='black', linestyle='--')
+
+    # Setting x and y labels, title, and ticks
+    plt.yticks(
+        ticks=[(i * (len(corrections) * bar_width + buffer_width)) + (bar_width * (len(corrections) - 1) / 2) for i in range(len(fuels))],
+        labels=[get_fuel_label(fuel) for fuel in fuels],
+        fontsize=18
+    )
+    plt.xticks(fontsize=18)
+    plt.xlabel("Tank Size Scaling Factor", fontsize=20)
+    plt.legend(title="Correction", fontsize=18, title_fontsize=22)
     plt.tight_layout()
     plt.savefig("plots/tank_size_scaling_factors.png", dpi=300)
     
@@ -237,7 +322,7 @@ def collect_nominal_capacity(top_dir, type_class_keyword):
     """
     
     # Construct the filepath to the vessel .inc file for the given vessel
-    filepath = f"{top_dir}/{VESSELS_ORIG_DIR}/{type_class_keyword}_ice_oil.inc"
+    filepath = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{type_class_keyword}_ice_oil.inc"
     
     # Initialize the nominal capacity variable
     nom_capacity = None
@@ -261,6 +346,53 @@ def collect_nominal_capacity(top_dir, type_class_keyword):
     
     return nom_capacity
     
+def collect_propulsion_eff(top_dir, fuel):
+    """
+    Reads in the propulsion efficiency for the given fuel in 2024 from the relevant NavigaTE input file.
+    
+    Parameters
+    ----------
+    top_dir : str
+        The top directory where vessel files are located.
+    
+    fuel : str
+        Name of the fuel to collect the propulsion efficiency for
+        
+    Returns
+    ----------
+    propulsion_eff : float
+        Propulsion efficiency for the given fuel in 2024
+    """
+    
+    # Construct the filepath to the vessel .inc file for the given vessel
+    fuel_vessel = fuel_vessel_dict[fuel]        # Fuel name as defined in vessel input filenames
+    input_type = input_file_types[fuel_vessel]
+    if input_type == "local":
+        filepath = f"{top_dir}/{VESSELS_DIR_LOCAL}/bulk_carrier_capesize_ice_{fuel_vessel}.inc"
+    else:
+        filepath = f"{top_dir}/{PROPULSION_EFF_DIR_NAVIGATE}/propulsion_ice_{fuel_vessel}_thermal_efficiency.inc"
+    
+    # Initialize the variable to contain the propulsion efficiency
+    propulsion_eff = None
+    
+    # Define a regex pattern to match the date "01-01-2024" with any amount of surrounding whitespace and capture the efficiency value
+    pattern = r'^\s*"01-01-2024"\s+([\d.]+)'
+    
+    # Try to open the file and read its content
+    try:
+        with open(filepath, 'r') as file:
+            for line in file:
+                match = re.match(pattern, line)
+                if match:
+                    propulsion_eff = float(match.group(1))
+                    break
+    except FileNotFoundError:
+        print(f"File not found: {filepath}")
+    except Exception as e:
+        print(f"An error occurred while reading the file: {e}")
+    
+    return propulsion_eff
+    
 def collect_nominal_tank_size(top_dir, type_class_keyword):
     """
     Reads in the tank .inc file for the given vessel type and size class, and collects the nominal tank size.
@@ -280,7 +412,7 @@ def collect_nominal_tank_size(top_dir, type_class_keyword):
     """
     
     # Construct the filepath to the vessel .inc file for the given vessel
-    filepath = f"{top_dir}/{TANKS_ORIG_DIR}/main_oil_{type_class_keyword}.inc"
+    filepath = f"{top_dir}/{TANKS_DIR_NAVIGATE}/main_oil_{type_class_keyword}.inc"
     
     # Initialize the nominal tank size variable
     nom_tank_size = None
@@ -304,7 +436,30 @@ def collect_nominal_tank_size(top_dir, type_class_keyword):
     
     return nom_tank_size
     
-def make_modified_capacities_df(top_dir, vessels, fuels, LHV_dict, mass_density_dict):
+def get_propulsion_eff_dict(top_dir, fuels):
+    """
+    Constructs a dictionary containing the 2024 engine efficiency for each fuel
+    
+    Parameters
+    ----------
+    top_dir : str
+        The top directory where vessel files are located.
+    
+    fuels : list of str
+        List of fuels to collect engine efficiencies for
+        
+    Returns
+    ----------
+    propulsion_eff_dict : dictionary of float
+        Dictionary containing the 2024 engine efficiency for each fuel
+    """
+    propulsion_eff_dict = {}
+    for fuel in fuels:
+        propulsion_eff_dict[fuel] = collect_propulsion_eff(top_dir, fuel)
+    
+    return propulsion_eff_dict
+    
+def make_modified_capacities_df(top_dir, vessels, fuels):
     """
     Creates a DataFrame containing the nominal and modified capacities for each vessel and fuel combination.
     
@@ -319,12 +474,6 @@ def make_modified_capacities_df(top_dir, vessels, fuels, LHV_dict, mass_density_
     fuels : list
         List of fuels to include in the calculations.
 
-    LHV_dict : dict
-        Dictionary containing the LHV values for each fuel.
-
-    mass_density_dict : dict
-        Dictionary containing the mass density values for each fuel.
-
     Returns
     -------
     df : pd.DataFrame
@@ -334,8 +483,13 @@ def make_modified_capacities_df(top_dir, vessels, fuels, LHV_dict, mass_density_
     # Create an empty list to hold rows for the DataFrame
     data = []
     
+    # Get dictionaries of LHV, mass density and engine efficiency for each fuel
+    mass_density_dict = get_fuel_info_dict(f"{top_dir}/info_files/fuel_info.csv", "Mass density (kg/L)")
+    LHV_dict = get_fuel_info_dict(f"{top_dir}/info_files/fuel_info.csv", "Lower Heating Value (MJ / kg)")
+    propulsion_eff_dict = get_propulsion_eff_dict(top_dir, fuels + ["lsfo"])
+    
     # Get the tank size scaling factors
-    tank_size_factors_dict = get_tank_size_factors(fuels, LHV_dict, mass_density_dict)
+    tank_size_factors_dict = get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dict)
     
     # Loop through each vessel type and size
     for vessel_type, vessel_classes in vessels.items():
@@ -517,7 +671,12 @@ def make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modifie
             # Loop through each fuel
             for fuel in fuels:
                 # Define the original and modified file paths
-                original_filepath = f"{top_dir}/{VESSELS_ORIG_DIR}/{vessel_class}_ice_{fuel_vessel_dict[fuel]}.inc"
+                input_type = input_file_types[fuel_vessel_dict[fuel]]
+                if input_type == "local":
+                    original_filepath = f"{top_dir}/{VESSELS_DIR_LOCAL}/{vessel_class}_ice_{fuel_vessel_dict[fuel]}.inc"
+                else:
+                    original_filepath = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{vessel_class}_ice_{fuel_vessel_dict[fuel]}.inc"
+                    
                 modified_filepath = f"{top_dir}/{VESSELS_MODIFIED_DIR}/{vessel_class}_ice_{fuel}.inc"
 
                 try:
@@ -587,7 +746,11 @@ def make_modified_tank_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_
             # Loop through each fuel
             for fuel in fuels:
                 # Define the original and modified file paths for the tank .inc file
-                original_filepath = f"{top_dir}/{TANKS_ORIG_DIR}/main_{fuel_vessel_dict[fuel]}_{vessel_class}.inc"
+                input_type = input_file_types[fuel_vessel_dict[fuel]]
+                if input_type == "local":
+                    original_filepath = f"{top_dir}/{TANKS_DIR_LOCAL}/main_{fuel_vessel_dict[fuel]}_{vessel_class}.inc"
+                else:
+                    original_filepath = f"{top_dir}/{TANKS_DIR_NAVIGATE}/main_{fuel_vessel_dict[fuel]}_{vessel_class}.inc"
                 modified_filepath = f"{top_dir}/{TANKS_MODIFIED_DIR}/main_{fuel}_{vessel_class}.inc"
 
                 try:
@@ -632,18 +795,20 @@ def main():
     fuels = ["ammonia", "methanol", "FTdiesel", "liquid_hydrogen", "compressed_hydrogen"]
 
     top_dir = get_top_dir()
+    
     mass_density_dict = get_fuel_info_dict(f"{top_dir}/info_files/fuel_info.csv", "Mass density (kg/L)")
-    
     LHV_dict = get_fuel_info_dict(f"{top_dir}/info_files/fuel_info.csv", "Lower Heating Value (MJ / kg)")
-    
-    tank_size_factors_dict = get_tank_size_factors(fuels, LHV_dict, mass_density_dict)
+    propulsion_eff_dict = get_propulsion_eff_dict(top_dir, fuels + ["lsfo"])
+ 
+    tank_size_factors_dict = get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dict)
+    print(tank_size_factors_dict)
     plot_tank_size_factors(tank_size_factors_dict)
 
-    modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, LHV_dict, mass_density_dict)
-    plot_vessel_capacities(modified_capacities_df)
-    
-    make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df)
-    make_modified_tank_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df)
+#    modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, LHV_dict, mass_density_dict)
+#    plot_vessel_capacities(modified_capacities_df)
+#
+#    make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df)
+#    make_modified_tank_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df)
     
 if __name__ == "__main__":
     main()
