@@ -59,10 +59,7 @@ vessel_size_title = {
 }
 
 region_name_mapping = {
-    "SaudiArabia": "Saudi Arabia",
-    "UAE": "United Arab Emirates",
-    "USA": "United States of America",
-    "WestAustralia": "West Australia",
+    "United States": "United States of America",
 }
 
 region_label_mapping = {
@@ -824,7 +821,7 @@ class ProcessedQuantity:
         world = gpd.read_file(url)
 
         # Add West Australia to the world geojson
-        world = add_west_australia(world)
+        #world = add_west_australia(world)
 
         # Add a column "NAME" to self.results_df with region names to match the geojson world file, if needed
         self.add_region_names()
@@ -836,7 +833,7 @@ class ProcessedQuantity:
         merged = world.merge(self.result_df, on="NAME", how="left")
 
         # Plot the base map
-        world.plot(ax=ax, color="lightgrey", edgecolor="black")
+        world.plot(ax=ax, color="white", edgecolor="black")
 
         # Plot the regions with data, using a colormap to represent the quantity
         merged.plot(
@@ -1968,8 +1965,8 @@ def plot_cargo_miles():
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "methanol", "LTE_H_DAC_C_grid_E")
-#    processed_quantity.map_by_region()
+    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "ammonia", "LTE_H_grid_E")
+    processed_quantity.map_by_region()
 #    processed_quantity.make_hist_by_region()
 #
 #    processed_pathway = ProcessedPathway("methanol", "LTE_H_DAC_C_grid_E")
