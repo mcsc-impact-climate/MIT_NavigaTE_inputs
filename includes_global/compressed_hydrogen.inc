@@ -4,7 +4,7 @@ Fuel "compressed_hydrogen" {
     FuelType = HYDROGEN
     FuelPath = USER_DEFINED
     FuelOrigin = USER_DEFINED
-    LowerHeatingValue = Variable("lower_heating_value_hydrogen")
-    MassDensity = 0.03873  # kg / L for H2 at 700 bar and 20 C, from https://cmb.tech/hydrogen-tools
+    LowerHeatingValue = 120.0   # Units: MJ/kg. Source: GREET1_2023 (https://greet.anl.gov/greet_1_series)
+    MassDensity = 0.03873  # Units: kg / L for H2 at 700 bar and 20 C. Source: https://cmb.tech/hydrogen-tools
     # set_TTW("nitrous_oxide", 0.00018)   # DMM: Normally defined elsewhere
 }

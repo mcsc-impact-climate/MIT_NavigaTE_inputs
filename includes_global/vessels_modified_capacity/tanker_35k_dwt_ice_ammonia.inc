@@ -20,7 +20,7 @@ Vessel "tanker_35k_dwt_ice_ammonia" {
 	
 	Route = Route("globalized_tanker_35k_dwt")
 	
-    NominalCapacity = 32855.31914893617
+    NominalCapacity = 32743.893617021276
 	
 	Lifetime = 30
 	Finance = Finance("vessel_finance")

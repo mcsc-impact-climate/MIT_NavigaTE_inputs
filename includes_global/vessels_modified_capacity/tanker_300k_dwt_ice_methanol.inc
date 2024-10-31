@@ -20,7 +20,7 @@ Vessel "tanker_300k_dwt_ice_methanol" {
 	
 	Route=Route("globalized_tanker_300k_dwt")
 	
-    NominalCapacity = 292293.4673366834
+    NominalCapacity = 291912.6432160804
 	
 
 	Lifetime=25

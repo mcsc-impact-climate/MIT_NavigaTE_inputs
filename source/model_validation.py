@@ -2,17 +2,26 @@
 Date: July 1, 2024
 Purpose: Model validations to compare NavigaTE fleet model inputs and outputs with other sources
 """
-
+# get_top_dir used for file organization
+# pandas as pd used to organize data in table format
 from common_tools import get_top_dir
 import pandas as pd
 
-TONNES_PER_TEU = 14  # Average tons of cargo in one TEU
-HFO_GRAV_DENSITY = 41.2  # Gravitational energy density of HFO (MJ/kg)
+# twenty-foot equivalent unit (cargo capacity)
+TONNES_PER_TEU = 14  # Average tons of cargo in one TEU. Obtained from https://www.mpc-container.com/about-us/industry-terms/
+
+#conversion units
 MJ_PER_GJ = 1000
 KG_PER_TONNE = 1000
 G_PER_KG = 1000
 TONNES_PER_KT = 1000
 
+# Collect the lower heating value of HFO (in MJ/kg) from the relevant info file
+top_dir = get_top_dir()
+fuel_info_df = pd.read_csv(f"{top_dir}/info_files/fuel_info.csv").set_index("Fuel")
+HFO_LHV = fuel_info_df.loc["lsfo", "Lower Heating Value (MJ / kg)"]
+
+#vessels dictionary holds different container types:
 vessels = {
     "bulk": [
         "bulk_carrier_capesize_ice",
@@ -27,6 +36,8 @@ vessels = {
     "tanker": ["tanker_100k_dwt_ice", "tanker_300k_dwt_ice", "tanker_35k_dwt_ice"],
 }
 
+# maps the names for the vessel models to specific strings to be understandable to readers
+#capesize: largest dry cargo ships
 vessel_size_title = {
     "bulk_carrier_capesize_ice": "Capesize",
     "bulk_carrier_handy_ice": "Handy",
@@ -51,6 +62,7 @@ vessel_size_number = {
     "tanker_35k_dwt_ice": 8464,
 }
 
+# different types of fuel in categories
 fuel_components = {
     "hydrogen": ["hydrogen (main)", "lsfo (pilot)"],
     "ammonia": ["ammonia (main)", "lsfo (pilot)"],
@@ -60,7 +72,7 @@ fuel_components = {
 # Number of vessels of each type (from IMO 4th GHG study, Table 7)
 vessel_numbers_imo = {"bulk": 11672, "container": 5182, "tanker": 13003}
 
-
+#parameters: file name and lsfo fuel (Low Sulphur Fuel Oil heavy fuel oils)
 def read_results(filename, fuel="lsfo"):
     columns = [
         "Vessel",
@@ -78,9 +90,9 @@ def read_results(filename, fuel="lsfo"):
         "Miles / year",
         "Cargo tonne-miles / year",
     ]
-
+# sets up predetermined columns
     all_results_df = pd.DataFrame(columns=columns)
-
+# use different sets of columns for the different fuels
     if fuel == "lsfo":
         results_df_columns = [
             "Date",
@@ -112,11 +124,12 @@ def read_results(filename, fuel="lsfo"):
             f"ConsumedEnergy_{fuel}",
             "ConsumedEnergy_lsfo",
         ]
-
+# reads excel that's named "Vessels"
     results = pd.ExcelFile(filename)
     results_df = pd.read_excel(results, "Vessels")
-
+# iterates over each vessel type
     for vessel_type in vessels:
+        # iterates over each vessel in the vessel type
         for vessel in vessels[vessel_type]:
             results_dict = {}
             results_df_vessel = results_df.filter(regex=f"Date|Time|{vessel}").drop(
@@ -124,7 +137,7 @@ def read_results(filename, fuel="lsfo"):
             )
             results_df_vessel.columns = results_df_columns
             results_df_vessel = results_df_vessel.set_index("Date")
-
+            #extracts info from the excel sheet
             results_dict["Vessel"] = f"{vessel}_{fuel}"
             results_dict["Fuel"] = fuel
             results_dict["WTT Emissions (tonnes CO2 / year)"] = results_df_vessel[
@@ -145,6 +158,7 @@ def read_results(filename, fuel="lsfo"):
             results_dict["Other OPEX (USD / year)"] = results_df_vessel[
                 "TotalExcludingFuelOPEX"
             ].loc["2024-01-01"]
+            # calculates total cost per year (capital expenditures + operating expenditures of fuel + OPEX non fuel) 
             results_dict["Total Cost (USD / year)"] = (
                 results_df_vessel["TotalCAPEX"].loc["2024-01-01"]
                 + results_df_vessel["TotalFuelOPEX"].loc["2024-01-01"]
@@ -154,6 +168,7 @@ def read_results(filename, fuel="lsfo"):
                 "SpendEnergy"
             ].loc["2024-01-01"]
             results_dict["Miles / year"] = results_df_vessel["Miles"].loc["2024-01-01"]
+            # difference of cargo tonne-mile/year depending on vessel type
             if vessel_type == "container":
                 results_dict["Cargo tonne-miles / year"] = (
                     results_df_vessel["CargoMiles"].loc["2024-01-01"] * TONNES_PER_TEU
@@ -183,19 +198,19 @@ def read_results(filename, fuel="lsfo"):
             all_results_df = pd.concat(
                 [all_results_df, results_row_df], ignore_index=True
             )
-
+    # return the DataFrame containing all the vessels info
     return all_results_df
 
 
 # Convert energy consumption to fuel consumption for LSFO
 # Assume energy consumption is in GJ
 # Fuel consumption is in 1000's of tonnes
+# (unit conversions)
 def energy_to_fuel_consumption_lsfo(energy_consumption_GJ):
     energy_consumption_MJ = energy_consumption_GJ * MJ_PER_GJ
-    fuel_consumption_kg = energy_consumption_MJ / HFO_GRAV_DENSITY
+    fuel_consumption_kg = energy_consumption_MJ / HFO_LHV
     fuel_consumption_thou_tonnes = fuel_consumption_kg / (KG_PER_TONNE * 1000)
     return fuel_consumption_thou_tonnes
-
 
 # Compare annual fuel consumption evaluated for each vessel type between NavigaTE and IMO
 def compare_fuel_consumption(all_results_df, fuel="lsfo"):
@@ -231,7 +246,8 @@ def compare_fuel_consumption(all_results_df, fuel="lsfo"):
                 * vessel_size_number[vessel]
             )
             vessel_type_number_navigate += vessel_size_number[vessel]
-
+            
+# find percentage difference between the average fuel consumptions of the NavigaTE model and the IMO data
         fuel_consumption_info["Global perc diff"] = (
             100
             * (
@@ -547,7 +563,7 @@ def main():
     top_dir = get_top_dir()
 
     all_results_df = read_results(
-        f"{top_dir}/all_outputs_full_fleet/report_lsfo.xlsx", "lsfo"
+        f"{top_dir}/all_outputs_full_fleet/lsfo-1_excel_report.xlsx", "lsfo"
     )
 
     fuel_consumption_df = compare_fuel_consumption(all_results_df)

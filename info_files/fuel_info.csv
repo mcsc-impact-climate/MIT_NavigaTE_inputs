@@ -1,7 +1,7 @@
-Fuel,Label,Lower Heating Value (MJ / kg),Mass density (kg/L),Description
-ammonia,Ammonia,18.8,0.623,
-methanol,Methanol,19.9,0.791,
-FTdiesel,F-T Diesel,43.2,0.9,Fischer-Tropsch diesel
-lsfo,LSFO,41.2,0.9,Low-sulfur fuel oil
-compressed_hydrogen,Compressed Hydrogen,120.0,0.03873,Hydrogen compressed to 700 bar (assume at 20C)
-liquid_hydrogen,Liquid Hydrogen,120.0,0.069,Liquid hydrogen (assume cryogenic)
+Fuel,Label,Lower Heating Value (MJ / kg),LHV source,Mass density (kg/L),Mass density source,Description
+ammonia,Ammonia,18.8,GREET1_2023 (https://greet.anl.gov/greet_1_series),0.6818,https://pubchem.ncbi.nlm.nih.gov/compound/Ammonia#section=Density&fullscreen=true (at boiling point of -33.35C),
+methanol,Methanol,19.9,https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MEPCDocuments/MEPC.308(73).pdf,0.792,https://pubchem.ncbi.nlm.nih.gov/compound/Methanol#section=Density&fullscreen=true (at 20C),
+FTdiesel,F-T Diesel,41.2,https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MEPCDocuments/MEPC.308(73).pdf,0.900,https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MEPCDocuments/MEPC.308(73).pdf,Fischer-Tropsch diesel
+lsfo,LSFO,40.2,https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MEPCDocuments/MEPC.308(73).pdf,0.991,https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MEPCDocuments/MEPC.308(73).pdf,Low-sulfur fuel oil
+compressed_hydrogen,Compressed Hydrogen,120.0,GREET1_2023 (https://greet.anl.gov/greet_1_series),0.03873,https://cmb.tech/hydrogen-tools,Hydrogen compressed to 700 bar (assume at 20C)
+liquid_hydrogen,Liquid Hydrogen,120.0,GREET1_2023 (https://greet.anl.gov/greet_1_series),0.0708,GREET1_2023 (https://greet.anl.gov/greet_1_series),Liquid hydrogen (assume cryogenic)

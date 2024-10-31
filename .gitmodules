@@ -1,0 +1,3 @@
+[submodule "NavigaTE"]
+	path = NavigaTE
+	url = https://github.com/zerocarbonshipping/NavigaTE.git

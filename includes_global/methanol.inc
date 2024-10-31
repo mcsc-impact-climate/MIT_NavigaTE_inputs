@@ -3,8 +3,8 @@ Fuel "methanol" {
     FuelPath = USER_DEFINED
     FuelOrigin = USER_DEFINED
     
-    LowerHeatingValue = Variable("lower_heating_value_methanol")
-    MassDensity = Variable("mass_density_methanol")
+    LowerHeatingValue = 19.9    # Units: MJ/kg. From https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MEPCDocuments/MEPC.308(73).pdf
+    MassDensity = 0.792         # Units: kg/L. From https://pubchem.ncbi.nlm.nih.gov/compound/Methanol#section=Density&fullscreen=true (at 20C)
     
     set_TTW("carbon_dioxide", Variable("carbon_dioxide_per_methanol"))
 }
