@@ -839,148 +839,31 @@ def add_fuel_mass(all_results_df):
     lower_heating_values = {}
     lower_heating_values["ammonia"] = 18.8 # MJ / kg 
     lower_heating_values["FTdiesel"] = 43.2 
-    lower_heating_values["compressedhydrogen"] = 120
-    lower_heating_values["liquidhydrogen"] = 120
+    lower_heating_values["compressed_hydrogen"] = 120
+    lower_heating_values["liquid_hydrogen"] = 120
     lower_heating_values["methanol"] = 19.9
 
     # Define variable for LHV of low-sulfur fuel oil
     LHV_lsfo = 41.2 # MJ / kg 
 
     # Map lower_heating_values dictionary to column in DataFrame
-    # THIS LINE IS NOT WORKING RIGHT
     LHV_fuel = all_results_df["Fuel"].map(lower_heating_values)
-    print(all_results_df["Fuel"])
 
     # Get a list of all modifiers to handle
     all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
     
     # Calculate the consumed mass of each fuel based on consumed energy and LHV
     all_results_df["ConsumedMass_lsfo"] = all_results_df["ConsumedEnergy_lsfo"]/LHV_lsfo * 1000 # * 1000 converts from GJ to MJ
-    all_results_df["ConsumedMass_main"] = all_results_df["ConsumedEnergy_main"]/LHV_fuel * 1000
-
+    all_results_df["ConsumedEnergy_main"] = all_results_df["ConsumedEnergy_main"]/LHV_fuel * 1000
+    
     # Repeat for all modifiers
     for modifier in all_modifiers:
-        all_results_df[f"ConsumedMass_lsfo-{modifier}"] = all_results_df[f"ConsumedEnergy_lsfo-{modifier}"]/LHV_lsfo * 1000
-        all_results_df[f"ConsumedMass_main-{modifier}"] = all_results_df[f"ConsumedEnergy_main-{modifier}"]/LHV_fuel * 1000
+        all_results_df[f"ConsumedMass_lsfo-{modifier}"] = all_results_df["ConsumedEnergy_lsfo-{modifier}"]/LHV_lsfo * 1000
+        all_results_df[f"ConsumedMass_main-{modifier}"] = all_results_df["ConsumedEnergy_main-{modifier}"]/LHV_fuel * 1000
     
     return all_results_df
 
 
-# GE - working to add reverse engineered resource requirements by 10/25
-
-# GE - helper function 
-def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
-    """
-    Reads in the pathway type label for the given fuel production pathway based on the csv info file.
-    
-    Parameters
-    ----------
-    fuel: str
-        Type of fuel
-
-    pathway : str
-        Name of the pathway
-        
-    resource : str
-        Type of resource
-
-    Returns
-    -------
-    resource_demand_rate : float
-        Resource demand rate associated with the given fuel, pathway, and resource.
-    """
-    if info_file is None:
-        top_dir = get_top_dir()
-        fuel_read = fuel
-        if fuel_read == "liquidhydrogen":
-            fuel_read = "liquid_hydrogen"
-        if fuel_read == "compressedhydrogen":
-            fuel_read = "compressed_hydrogen"
-        info_file = f"{top_dir}/input_fuel_pathway_data/production/{fuel_read}_resource_demands.csv"
-    try:
-        info_df = pd.read_csv(info_file)
-    except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type.")
-    try:
-        if resource == "Electricity":
-            resource_demand_rate = info_df["Electricity Demand [kWh / kg fuel]"][info_df["Fuel Pathway"] == pathway].iloc[0]
-        elif resource == "NG":
-            resource_demand_rate = info_df["NG Demand [GJ / kg fuel]"][info_df["Fuel Pathway"] == pathway].iloc[0]
-        elif resource == "Water":
-            resource_demand_rate = info_df["Water Demand [m^3 / kg fuel]"][info_df["Fuel Pathway"] == pathway].iloc[0]
-        elif resource == "CO2":
-            resource_demand_rate = info_df["CO2 Demand [kg CO2 / kg fuel]"][info_df["Fuel Pathway"] == pathway].iloc[0]
-    except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type.")
-
-    return resource_demand_rate
-
-
-def calculate_resource_demands(fuel, pathway, fuel_mass, resource):
-    """
-    Reads in demand of resources for a given fuel and pathway and returns total demand of a given resource.
-    
-    Parameters
-    ----------
-    fuel : str
-        The type of fuel being used (eg. ammonia, hydrogen)
-
-    pathway : str
-        The fuel production pathway (e.g., fossil, SMR).
-
-    fuel_mass: float
-        Mass of fuel
-        
-    resource: str
-        Type of resource
-        
-    Returns
-    -------
-    total_demand: float
-        Total demand of a given resource
-    """
-
-    # print(fuel_mass)
-    total_demand = get_resource_demand_rate(fuel, pathway, resource) * fuel_mass
-
-    return total_demand
-
-
-def add_resource_demands(all_results_df):
-    """
-    Adds columns to all_results_df with total requirements for each resource.
-    
-    Parameters
-    ----------
-    all_results_df : pandas.DataFrame
-        The DataFrame containing the processed results.
-
-    Returns
-    -------
-    all_results_df : pandas.DataFrame
-        The DataFrame containing the processed results.
-    """
-    # Get a list of resources to handle
-    all_resources = ["Water", "NG", "Electricity", "CO2"]
-
-    # Get a list of all modifiers to handle
-    all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
-    
-    # Calculate the consumed mass of each fuel based on consumed energy and LHV
-    for resource in all_resources:
-        # What is "Consumed{resource}_main"? What is this line doing? because fuel_mass in above fn is nan
-        all_results_df[f"Consumed{resource}_main"] = all_results_df.apply(lambda row: 0
-            if row['Fuel'] == 'lsfo' else calculate_resource_demands(row["Fuel"], row["Pathway"], row["ConsumedMass_main"], f"{resource}"), axis=1) 
-        print(all_results_df[['Fuel', 'Pathway', 'ConsumedMass_main']].isnull().sum())
-
-        # Repeat for all modifiers
-        for modifier in all_modifiers:
-            all_results_df[f"Consumed{resource}_main-{modifier}"] = all_results_df.apply(lambda row: 0
-            if row['Fuel'] == 'lsfo' else calculate_resource_demands(row["Fuel"], row["Pathway"], row[f"ConsumedMass_main-{modifier}"], f"{resource}"), axis=1) 
-
-    return all_results_df
-
-    
 # GE - function where the code is actually being run and where the functions above are called
 def main():
     # Get the path to the top level of the Git repo
@@ -1021,9 +904,6 @@ def main():
 
     # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
     all_results_df = add_fuel_mass(all_results_df)
-
-    # GE - adds resources demands columns
-    all_results_df = add_resource_demands(all_results_df)
 
     # Generate CSV files for each combination of fuel pathway, quantity, and evaluation choice
     generate_csv_files(all_results_df, top_dir)
