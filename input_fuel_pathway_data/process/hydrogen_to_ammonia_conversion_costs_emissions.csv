@@ -14,6 +14,7 @@ ammonia,n/a,n/a,grid,grid,Japan,1,2024,100.87066328605857,192.8737016095652,293.
 ammonia,n/a,n/a,grid,grid,Russia,1,2024,66.8092207066732,98.41067221601607,165.21989292268927,0.43806476102497616,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,grid,grid,South Korea,1,2024,107.90815142229522,120.75522701648045,228.66337843877568,0.42813131973189256,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,grid,grid,Taipei,1,2024,79.38286617674933,20.884163643930307,100.26702982067964,0.03476704452579171,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
+ammonia,n/a,n/a,grid,grid,South Arabia,1,2024,99.65083200911089,90.52127552827093,190.1721075373818,0.7032876435503015,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,grid,grid,South Africa,1,2024,114.28880733248309,91.3995540476733,205.68836138015638,0.7032876435503015,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,grid,grid,Turkey,1,2024,68.31055150907034,134.2619231440174,202.57247465308774,0.4619050201283761,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,grid,grid,Belgium,1,2024,107.53281872169592,159.62961304894185,267.1624317706378,0.13708148984455026,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
@@ -52,6 +53,7 @@ ammonia,n/a,n/a,renewable,renewable,Japan,1,2024,100.87066328605857,45.858770471
 ammonia,n/a,n/a,renewable,renewable,Russia,1,2024,66.8092207066732,43.77674510405766,110.58596581073087,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,renewable,renewable,South Korea,1,2024,107.90815142229522,46.25441731835539,154.1625687406506,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,renewable,renewable,Taipei,1,2024,79.38286617674933,44.72442274733035,124.10728892407968,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
+ammonia,n/a,n/a,renewable,renewable,South Arabia,1,2024,99.65083200911089,45.82078970939585,145.47162171850673,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,renewable,renewable,South Africa,1,2024,114.28880733248309,46.699068228798154,160.98787556128124,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,renewable,renewable,Turkey,1,2024,68.31055150907034,43.86760737695889,112.17815888602922,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,renewable,renewable,Belgium,1,2024,107.53281872169592,46.38838230779163,153.92120102948755,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
@@ -90,6 +92,7 @@ ammonia,n/a,n/a,nuke,nuke,Japan,1,2024,100.87066328605857,55.79221176501486,156.
 ammonia,n/a,n/a,nuke,nuke,Russia,1,2024,66.8092207066732,53.71018639714104,120.51940710381425,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,nuke,nuke,South Korea,1,2024,107.90815142229522,56.18785861143877,164.096010033734,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,nuke,nuke,Taipei,1,2024,79.38286617674933,54.65786404041367,134.040730217163,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
+ammonia,n/a,n/a,nuke,nuke,South Arabia,1,2024,99.65083200911089,55.75423100247917,155.40506301159007,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,nuke,nuke,South Africa,1,2024,114.28880733248309,56.63250952188148,170.92131685436456,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,nuke,nuke,Turkey,1,2024,68.31055150907034,53.801048670042206,122.11160017911254,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,nuke,nuke,Belgium,1,2024,107.53281872169592,56.32182360087496,163.85464232257087,0.00993344129308335,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure

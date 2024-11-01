@@ -14,6 +14,7 @@ liquid_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Japan,1,2024,851.2074376716657,4883.88
 liquid_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Russia,1,2024,563.7764610439311,1184.1535762622664,1747.9300373061974,14.516299098117301,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,grid,SMR_H_grid_E,South Korea,1,2024,910.594003090619,3661.128234360354,4571.722237450973,14.436299091657995,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Taipei,1,2024,669.8804579257946,7608.421719125928,8278.302177051723,11.26829883586946,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,SMR,n/a,grid,SMR_H_grid_E,South Arabia,1,2024,840.9137663323804,8383.089941899922,9224.003708232302,16.65229927058078,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,grid,SMR_H_grid_E,South Africa,1,2024,964.4378224038035,8390.501385264206,9354.939207668009,16.65229927058078,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Turkey,1,2024,576.4455949999744,2702.0077714388576,3278.453366438832,14.708299113619637,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Belgium,1,2024,907.4267196016082,4649.93056561509,5557.357285216698,12.09229890240032,Liquid cryogenic hydrogen at atmospheric pressure
@@ -52,6 +53,7 @@ liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Japan,1,2024,1165.4713857377549,
 liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Russia,1,2024,771.9215131584012,1309.2925129737293,2081.2140261321306,6.012437918020228,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Korea,1,2024,1246.783342882249,4450.530421657866,5697.313764540115,5.932437897647557,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Taipei,1,2024,917.1988765898982,9757.035987715979,10674.234864305878,2.7644370908897935,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Arabia,1,2024,1151.3773131660425,10593.27218403805,11744.649497204093,8.148438461970539,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Africa,1,2024,1320.5061840265907,10603.419916289684,11923.926100316276,8.148438461970539,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Turkey,1,2024,789.2680640158934,3178.8802548628614,3968.1483188787547,6.204437966914638,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Belgium,1,2024,1242.4467051678762,5637.541359868191,6879.9880650360665,3.5884373007283026,Liquid cryogenic hydrogen at atmospheric pressure
@@ -90,6 +92,7 @@ liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Japan,1,2024,1246.7527499999999,11228.
 liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Russia,1,2024,825.7562399999999,5671.920535867088,6497.676775867088,26.03224800162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Korea,1,2024,1333.7355,6914.248287138223,8247.983787138222,25.44194759342,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taipei,1,2024,981.1654199999999,1143.0342665358012,2124.199686535801,2.0660514287000002,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Arabia,1,2024,1231.6757400000001,5129.993805478774,6361.669545478775,41.79326890056,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,1412.5998599999998,5140.849252678775,6553.449112678774,41.79326890056,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Turkey,1,2024,844.3125599999998,7799.925292711854,8644.237852711854,27.448968981300002,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Belgium,1,2024,1329.0964199999999,9284.198126225972,10613.294546225972,8.146145633160002,Liquid cryogenic hydrogen at atmospheric pressure
@@ -128,6 +131,7 @@ liquid_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Japan,1,2024,851.20743767166
 liquid_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Russia,1,2024,563.7764610439311,744.1535407360813,1307.9300017800124,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,South Korea,1,2024,910.594003090619,3061.128185915557,3971.722189006176,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Taipei,1,2024,669.8804579257946,7800.421734628263,8470.302192554058,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,South Arabia,1,2024,840.9137663323804,8023.089912833044,8864.003679165424,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,South Africa,1,2024,964.4378224038035,8030.501356197328,8994.939178601131,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Turkey,1,2024,576.4455949999744,1974.0077126591696,2550.4533076591442,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Belgium,1,2024,907.4267196016082,3737.9304919789975,4645.3572115806055,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
@@ -166,6 +170,7 @@ liquid_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Japan,1,2024,1165.4713
 liquid_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Russia,1,2024,771.9215131584012,869.29240092404,1641.213914082441,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Korea,1,2024,1246.783342882249,3850.5302688628353,5097.313611745084,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Taipei,1,2024,917.1988765898982,9949.036036610389,10866.234913200287,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Arabia,1,2024,1151.3773131660425,10233.272092361032,11384.649405527074,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Africa,1,2024,1320.5061840265907,10243.419824612665,11563.926008639257,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Turkey,1,2024,789.2680640158934,2450.8800694715565,3240.1481334874497,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Belgium,1,2024,1242.4467051678762,4725.541127619744,5967.9878327876195,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
@@ -204,6 +209,7 @@ liquid_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Japan,1,2024,1246.7527499999
 liquid_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Russia,1,2024,825.7562399999999,2425.2682907670865,3251.0245307670866,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,South Korea,1,2024,1333.7355,2486.995225638222,3820.730725638222,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Taipei,1,2024,981.1654199999999,2559.755246215801,3540.920666215801,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,South Arabia,1,2024,1231.6757400000001,2473.641968578774,3705.3177085787743,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,South Africa,1,2024,1412.5998599999998,2484.497415778774,3897.097275778774,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Turkey,1,2024,844.3125599999998,2428.1915780918525,3272.5041380918524,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Belgium,1,2024,1329.0964199999999,2554.7734727459697,3883.8698927459695,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
@@ -242,6 +248,7 @@ liquid_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Japan,1,2024,851.2074376716657,3779.88
 liquid_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Russia,1,2024,563.7764610439311,824.1535471953878,1387.9300082393188,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,South Korea,1,2024,910.594003090619,3141.1281923748625,4051.7221954654815,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Taipei,1,2024,669.8804579257946,7880.421741087569,8550.302199013364,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,South Arabia,1,2024,840.9137663323804,8103.08991929235,8944.00368562473,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,South Africa,1,2024,964.4378224038035,8110.501362656634,9074.939185060437,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Turkey,1,2024,576.4455949999744,2054.007719118476,2630.45331411845,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Belgium,1,2024,907.4267196016082,3817.930498438304,4725.357218039912,11.068298819721196,Liquid cryogenic hydrogen at atmospheric pressure
@@ -280,6 +287,7 @@ liquid_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Japan,1,2024,1165.4713857377549,
 liquid_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Russia,1,2024,771.9215131584012,949.2924212967107,1721.213934455112,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Korea,1,2024,1246.783342882249,3930.530289235506,5177.313632117755,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Taipei,1,2024,917.1988765898982,10029.03605698306,10946.234933572958,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Arabia,1,2024,1151.3773131660425,10313.272112733703,11464.649425899745,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Africa,1,2024,1320.5061840265907,10323.419844985336,11643.926029011927,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Turkey,1,2024,789.2680640158934,2530.8800898442278,3320.148153860121,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Belgium,1,2024,1242.4467051678762,4805.541147992415,6047.987853160292,2.5644370399581162,Liquid cryogenic hydrogen at atmospheric pressure
@@ -318,6 +326,7 @@ liquid_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Japan,1,2024,1246.7527499999999,3082.5
 liquid_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Russia,1,2024,825.7562399999999,3015.5686989670867,3841.3249389670864,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,South Korea,1,2024,1333.7355,3077.295633838223,4411.031133838223,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Taipei,1,2024,981.1654199999999,3150.0556544158017,4131.221074415802,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,South Arabia,1,2024,1231.6757400000001,3063.942376778775,4295.6181167787745,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,South Africa,1,2024,1412.5998599999998,3074.797823978775,4487.397683978775,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Turkey,1,2024,844.3125599999998,3018.491986291853,3862.804546291853,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Belgium,1,2024,1329.0964199999999,3145.0738809459704,4474.170300945971,0.5903004082,Liquid cryogenic hydrogen at atmospheric pressure
