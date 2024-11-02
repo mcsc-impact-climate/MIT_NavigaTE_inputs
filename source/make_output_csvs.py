@@ -838,6 +838,7 @@ def make_lower_heating_values_dict(top_dir):
     info_file = f"{top_dir}/info_files/fuel_info.csv"
     lhv_info_df = pd.read_csv(info_file, usecols=["Fuel", "Lower Heating Value (MJ / kg)"], index_col="Fuel")
     lower_heating_values = lhv_info_df.to_dict(orient="index")
+    # print(lower_heating_values)
     return lower_heating_values
     
 
@@ -858,23 +859,26 @@ def add_fuel_mass(all_results_df, top_dir):
     """
     
     # Read in the lower heating values for each fuel as a dictionary
+    # this line is not working - returning NaN for most entries in lower_heating_values_read
     lower_heating_values_read = make_lower_heating_values_dict(top_dir)
-
+    # print(lower_heating_values_read)
+    
     # Map lower_heating_values dictionary to column in DataFrame
-    # THIS LINE IS NOT WORKING RIGHT
-    LHV_fuel = all_results_df["Fuel"].map(lower_heating_values)
+    # THIS LINE IS NOT WORKING RIGHT - most of the values are NaN, and the ones that aren't are not floats, they're (I think) dictionaries
+    LHV_fuel = all_results_df["Fuel"].map(lower_heating_values_read)
     print(all_results_df["Fuel"])
+    # print(LHV_fuel) - "liquidhydrogen" not "liquid_hydrogen"
 
     # Get a list of all modifiers to handle
     all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
     
     # Calculate the consumed mass of each fuel based on consumed energy and LHV
-    all_results_df["ConsumedMass_lsfo"] = all_results_df["ConsumedEnergy_lsfo"]/LHV_lsfo * 1000 # * 1000 converts from GJ to MJ
+    # all_results_df["ConsumedMass_lsfo"] = all_results_df["ConsumedEnergy_lsfo"]/LHV_lsfo * 1000 # * 1000 converts from GJ to MJ
     all_results_df["ConsumedMass_main"] = all_results_df["ConsumedEnergy_main"]/LHV_fuel * 1000
 
     # Repeat for all modifiers
     for modifier in all_modifiers:
-        all_results_df[f"ConsumedMass_lsfo-{modifier}"] = all_results_df[f"ConsumedEnergy_lsfo-{modifier}"]/LHV_lsfo * 1000
+        # all_results_df[f"ConsumedMass_lsfo-{modifier}"] = all_results_df[f"ConsumedEnergy_lsfo-{modifier}"]/LHV_lsfo * 1000
         all_results_df[f"ConsumedMass_main-{modifier}"] = all_results_df[f"ConsumedEnergy_main-{modifier}"]/LHV_fuel * 1000
     
     return all_results_df
@@ -985,7 +989,7 @@ def add_resource_demands(all_results_df):
         # What is "Consumed{resource}_main"? What is this line doing? because fuel_mass in above fn is nan
         all_results_df[f"Consumed{resource}_main"] = all_results_df.apply(lambda row: 0
             if row['Fuel'] == 'lsfo' else calculate_resource_demands(row["Fuel"], row["Pathway"], row["ConsumedMass_main"], f"{resource}"), axis=1) 
-        print(all_results_df[['Fuel', 'Pathway', 'ConsumedMass_main']].isnull().sum())
+        # print(all_results_df[['Fuel', 'Pathway', 'ConsumedMass_main']].isnull().sum())
 
         # Repeat for all modifiers
         for modifier in all_modifiers:
