@@ -867,7 +867,7 @@ def add_fuel_mass(all_results_df, top_dir):
     # THIS LINE IS NOT WORKING RIGHT - most of the values are NaN, and the ones that aren't are not floats, they're (I think) dictionaries
     LHV_fuel = all_results_df["Fuel"].map(lower_heating_values_read)
     print(all_results_df["Fuel"])
-    # print(LHV_fuel) - "liquidhydrogen" not "liquid_hydrogen"
+    # print(LHV_fuel) - printing "liquidhydrogen" not "liquid_hydrogen"
 
     # Get a list of all modifiers to handle
     all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
