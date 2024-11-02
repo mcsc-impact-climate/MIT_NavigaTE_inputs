@@ -822,7 +822,8 @@ def generate_csv_files(all_results_df, top_dir):
     
 def make_lower_heating_values_dict(top_dir):
     """
-    Makes a dictionary of lower heating values for each fuel
+    Makes a dictionary of lower heating values for each fuel, including entries
+    without underscores for any fuel names containing '_'
     
     Parameters
     ----------
@@ -832,13 +833,20 @@ def make_lower_heating_values_dict(top_dir):
     Returns
     -------
     lower_heating_values : Dictionary
-        Dictionary containingi the lower heating value for each fuel, in MJ / kg
+        Dictionary containing the lower heating value for each fuel, in MJ / kg
     """
     
     info_file = f"{top_dir}/info_files/fuel_info.csv"
     lhv_info_df = pd.read_csv(info_file, usecols=["Fuel", "Lower Heating Value (MJ / kg)"], index_col="Fuel")
-    lower_heating_values = lhv_info_df.to_dict(orient="index")
-    # print(lower_heating_values)
+    
+    # Convert the dataframe into a dictionary such that each fuel will have a float entry corresponding to its LHV
+    lower_heating_values = lhv_info_df["Lower Heating Value (MJ / kg)"].to_dict()
+    
+    # Add additional entries without underscores for fuels whose names contain underscores (eg. liquid_hydrogen)
+    for fuel, lhv in list(lower_heating_values.items()):
+        if '_' in fuel:
+            lower_heating_values[fuel.replace('_', '')] = lhv
+    
     return lower_heating_values
     
 
@@ -859,15 +867,13 @@ def add_fuel_mass(all_results_df, top_dir):
     """
     
     # Read in the lower heating values for each fuel as a dictionary
-    # this line is not working - returning NaN for most entries in lower_heating_values_read
     lower_heating_values_read = make_lower_heating_values_dict(top_dir)
     # print(lower_heating_values_read)
     
-    # Map lower_heating_values dictionary to column in DataFrame
-    # THIS LINE IS NOT WORKING RIGHT - most of the values are NaN, and the ones that aren't are not floats, they're (I think) dictionaries
+    # Map lower_heating_values dictionary to column in DataFrame.
     LHV_fuel = all_results_df["Fuel"].map(lower_heating_values_read)
     print(all_results_df["Fuel"])
-    # print(LHV_fuel) - printing "liquidhydrogen" not "liquid_hydrogen"
+    # print(LHV_fuel)
 
     # Get a list of all modifiers to handle
     all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
