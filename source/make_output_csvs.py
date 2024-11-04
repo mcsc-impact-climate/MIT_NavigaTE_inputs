@@ -868,23 +868,18 @@ def add_fuel_mass(all_results_df, top_dir):
     
     # Read in the lower heating values for each fuel as a dictionary
     lower_heating_values_read = make_lower_heating_values_dict(top_dir)
-    # print(lower_heating_values_read)
     
     # Map lower_heating_values dictionary to column in DataFrame.
     LHV_fuel = all_results_df["Fuel"].map(lower_heating_values_read)
-    print(all_results_df["Fuel"])
-    # print(LHV_fuel)
 
     # Get a list of all modifiers to handle
     all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
     
     # Calculate the consumed mass of each fuel based on consumed energy and LHV
-    # all_results_df["ConsumedMass_lsfo"] = all_results_df["ConsumedEnergy_lsfo"]/LHV_lsfo * 1000 # * 1000 converts from GJ to MJ
     all_results_df["ConsumedMass_main"] = all_results_df["ConsumedEnergy_main"]/LHV_fuel * 1000
 
     # Repeat for all modifiers
     for modifier in all_modifiers:
-        # all_results_df[f"ConsumedMass_lsfo-{modifier}"] = all_results_df[f"ConsumedEnergy_lsfo-{modifier}"]/LHV_lsfo * 1000
         all_results_df[f"ConsumedMass_main-{modifier}"] = all_results_df[f"ConsumedEnergy_main-{modifier}"]/LHV_fuel * 1000
     
     return all_results_df
@@ -964,7 +959,6 @@ def calculate_resource_demands(fuel, pathway, fuel_mass, resource):
         Total demand of a given resource
     """
 
-    # print(fuel_mass)
     total_demand = get_resource_demand_rate(fuel, pathway, resource) * fuel_mass
 
     return total_demand
@@ -992,10 +986,8 @@ def add_resource_demands(all_results_df):
     
     # Calculate the consumed mass of each fuel based on consumed energy and LHV
     for resource in all_resources:
-        # What is "Consumed{resource}_main"? What is this line doing? because fuel_mass in above fn is nan
         all_results_df[f"Consumed{resource}_main"] = all_results_df.apply(lambda row: 0
-            if row['Fuel'] == 'lsfo' else calculate_resource_demands(row["Fuel"], row["Pathway"], row["ConsumedMass_main"], f"{resource}"), axis=1) 
-        # print(all_results_df[['Fuel', 'Pathway', 'ConsumedMass_main']].isnull().sum())
+            if row['Fuel'] == 'lsfo' else calculate_resource_demands(row["Fuel"], row["Pathway"], row["ConsumedMass_main"], f"{resource}"), axis=1)
 
         # Repeat for all modifiers
         for modifier in all_modifiers:
