@@ -133,7 +133,7 @@ def get_tank_size_factor_energy(LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_dens
     
 def get_tank_size_factor_propulsion_eff(propulsion_eff_lsfo, propulsion_eff_fuel):
     """
-    Calculates the multiplyinf factor to the tank size needed to account for a different engine efficiency relative to LSFO
+    Calculates the multiplicative scaling factor to the tank size needed to account for a different engine efficiency relative to LSFO
 
     Parameters
     ----------
@@ -145,11 +145,37 @@ def get_tank_size_factor_propulsion_eff(propulsion_eff_lsfo, propulsion_eff_fuel
 
     Returns
     -------
-    tank_size_fuel : float
-        Size of the tank with an equivalent fuel energy to the LSFO tank
+    tank_size_factor : float
+        Tank size scaling factor needed to correct for the different propulsion efficiency relative to LSFO
     """
     
     tank_size_factor = propulsion_eff_lsfo / propulsion_eff_fuel
+    
+    return tank_size_factor
+    
+def get_tank_size_factor_boiloff(boiloff_rate, N_days):
+    """
+    Calculates the multiplicative scaling factor to the tank size needed to account for boil-off of liquefied fuels.
+
+    Parameters
+    ----------
+    boiloff_rate : float
+        Average boil-off rate of the fuel, in %/day
+
+    N_days : float
+        Number of days it would take to empty the tank without boil-off
+
+    Returns
+    -------
+    tank_size_fuel : float
+        Tank size scaling factor needed to correct for fuel loss due to boil-off
+    """
+    
+    # Convert the % boil-off rate to a fractional rate relative to 1
+    boiloff_rate_rel = boiloff_rate / 100
+    
+    # The tank size factor gets incrased by a factor of 1/(1 - boiloff_rate_rel) for every day that the boil-off occurs
+    tank_size_factor = 1 / (1 - boiloff_rate_rel)**N_days
     
     return tank_size_factor
     
