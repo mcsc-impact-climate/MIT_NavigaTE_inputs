@@ -545,7 +545,7 @@ def get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dic
                 mass_density_fuel = mass_density_dict[fuel]
                 propulsion_eff_fuel = propulsion_eff_dict[fuel]
                 boiloff_rate_fuel = boiloff_rate_dict[fuel]
-                tank_size_factors_dict[fuel][vessel_class]["Energy Density"] = get_tank_size_factor_energy(LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_density_fuel)
+                tank_size_factors_dict[fuel][vessel_class]["Consistent Energy Density"] = get_tank_size_factor_energy(LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_density_fuel)
                 tank_size_factors_dict[fuel][vessel_class]["Engine Efficiency"] = get_tank_size_factor_propulsion_eff(propulsion_eff_lsfo, propulsion_eff_fuel)
                 
                 days_to_empty_tank, days_at_sea, days_at_port = calculate_days_to_empty_tank(fuel, tank_size_lsfo, tank_size_factors_dict, mass_density_fuel, propulsion_eff_fuel, LHV_fuel, vessel_class)
@@ -554,7 +554,7 @@ def get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dic
                 days_to_empty_tank_dict[fuel][vessel_class]["Total Days"] = days_to_empty_tank
                 
                 tank_size_factors_dict[fuel][vessel_class]["Boil-off"] = get_tank_size_factor_boiloff(boiloff_rate_fuel, days_to_empty_tank)
-                tank_size_factors_dict[fuel][vessel_class]["Total"] = tank_size_factors_dict[fuel][vessel_class]["Energy Density"] * tank_size_factors_dict[fuel][vessel_class]["Engine Efficiency"] * tank_size_factors_dict[fuel][vessel_class]["Boil-off"]
+                tank_size_factors_dict[fuel][vessel_class]["Total"] = tank_size_factors_dict[fuel][vessel_class]["Consistent Energy Density"] * tank_size_factors_dict[fuel][vessel_class]["Engine Efficiency"] * tank_size_factors_dict[fuel][vessel_class]["Boil-off"]
                         
     return tank_size_factors_dict, days_to_empty_tank_dict
     
@@ -651,7 +651,7 @@ def plot_tank_size_factors(tank_size_factors_dict):
     
     colors = ["green", "blue", "magenta"]
     total_color = "red"
-    bar_width = 0.3
+    bar_width = 0.5
     buffer_width = 1.0  # Space between groups of bars for different fuels
 
     # Initialize lists for plotting data
@@ -668,7 +668,7 @@ def plot_tank_size_factors(tank_size_factors_dict):
             error_bars[corr].append([abs(min_error), abs(max_error)])  # Ensure positive values for error bars
 
     # Plotting
-    fig, ax = plt.subplots(figsize=(12, 8))
+    fig, ax = plt.subplots(figsize=(10, 6))
     
     # Plot 'Total' correction separately
     for i, fuel in enumerate(fuels):
@@ -691,10 +691,10 @@ def plot_tank_size_factors(tank_size_factors_dict):
 
     # Setting labels, title, and ticks
     ax.set_yticks([i * (len(corrections) * bar_width + buffer_width) + bar_width for i in range(len(fuels))])
-    ax.set_yticklabels([fuel.capitalize() for fuel in fuels], fontsize=16)
-    ax.set_xlabel("Average Tank Size Scaling Factor", fontsize=18)
-    ax.set_title("Average Tank Size Scaling Factors with Error Bars", fontsize=20)
-    ax.legend(title="Correction", fontsize=14, title_fontsize=16)
+    ax.set_yticklabels([get_fuel_label(fuel).replace(' ', '\n') for fuel in fuels], fontsize=20)
+    ax.tick_params(axis='x', labelsize=18)
+    ax.set_xlabel("Tank Size Scaling Factor", fontsize=22)
+    ax.legend(title="Correction", fontsize=18, title_fontsize=20)
 
     plt.tight_layout()
     plt.savefig("plots/tank_size_scaling_factors.png", dpi=300)
