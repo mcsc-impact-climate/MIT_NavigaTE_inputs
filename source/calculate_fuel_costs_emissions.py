@@ -296,7 +296,7 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
 def calculate_resource_demands_STP_hydrogen(H_pathway):
     if H_pathway == "LTE":
         elect_demand = H2_LTE_elect_demand
-        NG_demand = H2_LTE_elect_demand
+        NG_demand = H2_LTE_NG_demand
         water_demand = H2_LTE_water_demand
         CO2_demand = 0
     elif H_pathway == "SMRCCS":
