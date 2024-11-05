@@ -1,343 +1,457 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,United States,1,2024,363.98087225271235,2176.694855744632,2540.6757279973444,12.095299051610294,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,South Africa,1,2024,443.3287024038036,7934.234838064206,8377.56354046801,13.112299270580781,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Taiwan,1,2024,307.9278179257946,7506.704560725928,7814.632378651722,11.093298835869462,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Switzerland,1,2024,402.1988638392471,8268.360986255257,8670.559850094503,11.093298835869462,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Singapore,1,2024,301.0121813529931,8175.214413750567,8476.226595103559,12.40129911749522,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Hungary,1,2024,336.3183259615062,6618.991126277029,6955.309452238535,11.60029894503174,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Philippines,1,2024,252.96670621563504,6453.530973424794,6706.497679640429,12.82129920792551,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Netherlands,1,2024,410.5704239010595,6777.734463304824,7188.3048872058835,11.792298986371302,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Norway,1,2024,482.27465573484386,6438.722393064804,6920.997048799648,11.078298832639808,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Oman,1,2024,347.6017330013403,6697.432645597989,7045.034378599329,12.6832991782127,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Italy,1,2024,338.5022111950225,7237.154327010129,7575.656538205152,11.981299027064932,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Austria,1,2024,378.54010714282083,6505.587869085329,6884.127976228149,11.321298884960191,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Finland,1,2024,419.30596483512454,5638.3779862974525,6057.683951132577,11.22529886429041,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Portugal,1,2024,331.2225937499682,5550.551938289731,5881.774532039699,11.486298920486375,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Germany,1,2024,379.26806888732625,5396.310914033594,5775.57898292092,12.131299059361464,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Greece,1,2024,334.8624024724954,5238.2278953719015,5573.090297844396,11.999299030940513,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,France,1,2024,374.1723366757883,5095.097771731658,5469.270108407447,11.156298849434005,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Brazil,1,2024,371.2604896977666,4582.10873982348,4953.369229521247,11.282298876563093,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Canada,1,2024,323.942976304914,1465.676641403206,1789.6196177081201,11.498298923070097,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Mexico,1,2024,294.82450652469703,1674.1437001643471,1968.968206689044,12.509299140748723,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Australia,1,2024,356.3372739354054,2146.8629243065134,2503.2001982419188,12.63529916787781,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,United Kingdom,1,2024,369.8045662087557,4193.3543265586095,4563.158892767366,11.702298966993382,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Spain,1,2024,318.4832632211233,4057.512780904978,4375.996044126102,11.51029892565382,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Sweden,1,2024,441.1448171702873,3890.312052235418,4331.456869405705,11.111298839745045,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Czech Republic,1,2024,326.12686153843026,4052.760367155395,4378.887228693826,12.59029915818885,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Japan,1,2024,391.27943767166573,3916.2880766047497,4307.567514276416,12.443299126538248,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Belgium,1,2024,417.1220796016083,3850.51228721509,4267.634366816698,11.402298902400318,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Poland,1,2024,340.32211555628606,4887.891590878302,5228.213706434588,12.974299240867971,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,India,1,2024,230.7638730082196,3283.3623384725342,3514.1262114807537,13.127299273810433,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Indonesia,1,2024,231.85581562497777,3108.1009163929507,3339.9567320179285,13.127299273810433,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Philippines,1,2024,252.96670621563504,6453.530973424794,6706.497679640429,12.82129920792551,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Singapore,1,2024,301.0121813529931,8175.214413750567,8476.226595103559,12.40129911749522,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Thailand,1,2024,237.31552870876843,1385.1136274663434,1622.4291561751118,12.63829916852374,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,China,1,2024,286.8169273351373,2544.721832039103,2831.5387593742403,12.734299189193521,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Japan,1,2024,391.27943767166573,3916.2880766047497,4307.567514276416,12.443299126538248,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Russia,1,2024,259.15438104393115,690.8762514622664,950.0306325061975,12.311299098117301,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,South Korea,1,2024,418.5780030906191,3056.607274360354,3475.185277450973,12.281299091657994,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Taipei,1,2024,307.9278179257946,7506.704560725928,7814.632378651722,11.093298835869462,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,South Africa,1,2024,443.3287024038036,7934.234838064206,8377.56354046801,13.112299270580781,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Turkey,1,2024,264.97807499997464,2028.3197202388576,2293.2977952388324,12.383299113619636,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Belgium,1,2024,417.1220796016083,3850.51228721509,4267.634366816698,11.402298902400318,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,France,1,2024,374.1723366757883,5095.097771731658,5469.270108407447,11.156298849434005,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Germany,1,2024,379.26806888732625,5396.310914033594,5775.57898292092,12.131299059361464,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Italy,1,2024,338.5022111950225,7237.154327010129,7575.656538205152,11.981299027064932,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Netherlands,1,2024,410.5704239010595,6777.734463304824,7188.3048872058835,11.792298986371302,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Spain,1,2024,318.4832632211233,4057.512780904978,4375.996044126102,11.51029892565382,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,United Kingdom,1,2024,369.8045662087557,4193.3543265586095,4563.158892767366,11.702298966993382,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Czech Republic,1,2024,326.12686153843026,4052.760367155395,4378.887228693826,12.59029915818885,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Finland,1,2024,419.30596483512454,5638.3779862974525,6057.683951132577,11.22529886429041,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Hungary,1,2024,336.3183259615062,6618.991126277029,6955.309452238535,11.60029894503174,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Norway,1,2024,482.27465573484386,6438.722393064804,6920.997048799648,11.078298832639808,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Poland,1,2024,340.32211555628606,4887.891590878302,5228.213706434588,12.974299240867971,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Sweden,1,2024,441.1448171702873,3890.312052235418,4331.456869405705,11.111298839745045,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Oman,1,2024,347.6017330013403,6697.432645597989,7045.034378599329,12.6832991782127,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,China,1,2024,286.8169273351373,2544.721832039103,2831.5387593742403,12.734299189193521,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,United Arab Emirates,1,2024,347.6017330013403,2457.3481361929475,2804.9498691942877,12.383299113619636,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,United States,1,2024,363.98087225271235,2176.694855744632,2540.6757279973444,12.095299051610294,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Turkey,1,2024,264.97807499997464,2028.3197202388576,2293.2977952388324,12.383299113619636,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Australia,1,2024,356.3372739354054,2146.8629243065134,2503.2001982419188,12.63529916787781,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Malaysia,1,2024,318.4832632211233,1688.7296875648162,2007.2129507859395,11.303298881084606,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Canada,1,2024,323.942976304914,1465.676641403206,1789.6196177081201,11.498298923070097,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Mexico,1,2024,294.82450652469703,1674.1437001643471,1968.968206689044,12.509299140748723,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Thailand,1,2024,237.31552870876843,1385.1136274663434,1622.4291561751118,12.63829916852374,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Russia,1,2024,259.15438104393115,690.8762514622664,950.0306325061975,12.311299098117301,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Saudi Arabia,1,2024,347.6017330013403,638.611302028583,986.2130350299233,12.311299098117301,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Greece,1,2024,334.8624024724954,5238.2278953719015,5573.090297844396,11.999299030940513,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Austria,1,2024,378.54010714282083,6505.587869085329,6884.127976228149,11.321298884960191,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Switzerland,1,2024,402.1988638392471,8268.360986255257,8670.559850094503,11.093298835869462,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Portugal,1,2024,331.2225937499682,5550.551938289731,5881.774532039699,11.486298920486375,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United States,1,2024,656.3194285932603,2697.7056784540014,3354.025107047262,3.5914377713369987,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Africa,1,2024,799.397064026591,10147.153369089685,10946.550433116276,4.608438461970538,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Taiwan,1,2024,555.2462365898981,9655.318829315978,10210.565065905876,2.5894370908897932,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Switzerland,1,2024,725.2329685955525,10421.518546627623,11146.751515223175,2.5894370908897932,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Singapore,1,2024,542.7761674466262,10248.919727012775,10791.6958944594,3.8974379791382403,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Hungary,1,2024,606.4391520201725,8387.033941155925,8993.473093176097,3.09643743518793,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Philippines,1,2024,456.14200287231586,8177.555428332345,8633.69743120466,4.317438264355632,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Netherlands,1,2024,740.3283154531975,8525.424738090482,9265.75305354368,3.288437565573023,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Norway,1,2024,869.62324288607,8194.89230448714,9064.51554737321,2.574437080703458,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Oman,1,2024,626.7850543065637,8436.1028591166,9062.887913423163,4.179438170641346,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Italy,1,2024,610.3770685917322,8913.256967016468,9523.6340356082,3.477437693920849,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Austria,1,2024,682.5722057369908,8117.1463306694895,8799.71853640648,2.8174372457220915,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Finland,1,2024,756.0799817394358,7159.141209237856,7915.221190977291,2.721437180529545,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Portugal,1,2024,597.2506800198669,7020.626747810576,7617.877427830443,2.982437357771781,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Germany,1,2024,683.8848445941773,6725.050613337127,7408.935457931305,3.6274377957842034,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Greece,1,2024,603.8138743057995,6547.208653203786,7151.022527509585,3.4954377061444517,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,France,1,2024,674.6963725938716,6403.685416355033,7078.381788948905,2.652437133672402,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Brazil,1,2024,669.4458171651255,5805.185890673675,6474.631707838801,2.7784372192376194,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Canada,1,2024,584.1242914480017,1801.8721358434284,2385.9964272914303,2.9944373659208496,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Mexico,1,2024,531.6187371605408,1995.0347383815692,2526.65347554211,4.005438052479855,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Australia,1,2024,642.5367205928019,2622.682819345293,3265.219539938095,4.131438138045073,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United Kingdom,1,2024,666.8205394507524,5301.236587451616,5968.0571269023685,3.198437504455011,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Spain,1,2024,574.2795000191028,5107.158762699813,5681.438262718916,3.0064373740699173,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Sweden,1,2024,795.4591474550315,4953.569326477953,5749.0284739329845,2.607437103113396,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Czech Republic,1,2024,588.0622080195612,5094.7471851752325,5682.809393194793,4.0864381074860665,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Japan,1,2024,705.5433857377548,4888.852603028939,5594.395988766693,3.9394380076599798,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Belgium,1,2024,752.1420651678762,4838.123081468191,5590.265146636068,2.8984373007283026,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Poland,1,2024,613.6586657346984,5824.623209608767,6438.281875343466,4.470438368256254,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,India,1,2024,416.106517728127,4119.675757847719,4535.782275575846,4.623438472156874,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Indonesia,1,2024,418.07547601390684,3945.2058596181582,4363.281335632065,4.623438472156874,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Philippines,1,2024,456.14200287231586,8177.555428332345,8633.69743120466,4.317438264355632,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Singapore,1,2024,542.7761674466262,10248.919727012775,10791.6958944594,3.8974379791382403,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Thailand,1,2024,427.92026744280577,1690.5944028836157,2118.5146703264213,4.13443814008234,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,China,1,2024,517.1797097314892,3205.08972562973,3722.269435361219,4.230438205274886,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Japan,1,2024,705.5433857377548,4888.852603028939,5594.395988766693,3.9394380076599798,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Russia,1,2024,467.29943315840126,816.0151881737294,1283.3146213321306,3.807437918020228,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Korea,1,2024,754.7673428822492,3846.0094616578667,4600.776804540116,3.777437897647557,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Taipei,1,2024,555.2462365898981,9655.318829315978,10210.565065905876,2.5894370908897932,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Africa,1,2024,799.397064026591,10147.153369089685,10946.550433116276,4.608438461970538,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Turkey,1,2024,477.8005440158934,2505.192203662861,2982.9927476787548,3.879437966914638,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Belgium,1,2024,752.1420651678762,4838.123081468191,5590.265146636068,2.8984373007283026,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,France,1,2024,674.6963725938716,6403.685416355033,7078.381788948905,2.652437133672402,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Germany,1,2024,683.8848445941773,6725.050613337127,7408.935457931305,3.6274377957842034,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Italy,1,2024,610.3770685917322,8913.256967016468,9523.6340356082,3.477437693920849,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Netherlands,1,2024,740.3283154531975,8525.424738090482,9265.75305354368,3.288437565573023,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Spain,1,2024,574.2795000191028,5107.158762699813,5681.438262718916,3.0064373740699173,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United Kingdom,1,2024,666.8205394507524,5301.236587451616,5968.0571269023685,3.198437504455011,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Czech Republic,1,2024,588.0622080195612,5094.7471851752325,5682.809393194793,4.0864381074860665,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Finland,1,2024,756.0799817394358,7159.141209237856,7915.221190977291,2.721437180529545,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Hungary,1,2024,606.4391520201725,8387.033941155925,8993.473093176097,3.09643743518793,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Norway,1,2024,869.62324288607,8194.89230448714,9064.51554737321,2.574437080703458,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Poland,1,2024,613.6586657346984,5824.623209608767,6438.281875343466,4.470438368256254,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Sweden,1,2024,795.4591474550315,4953.569326477953,5749.0284739329845,2.607437103113396,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Oman,1,2024,626.7850543065637,8436.1028591166,9062.887913423163,4.179438170641346,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,China,1,2024,517.1797097314892,3205.08972562973,3722.269435361219,4.230438205274886,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United Arab Emirates,1,2024,626.7850543065637,3079.365828947354,3706.150883253918,3.879437966914638,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United States,1,2024,656.3194285932603,2697.7056784540014,3354.025107047262,3.5914377713369987,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Turkey,1,2024,477.8005440158934,2505.192203662861,2982.9927476787548,3.879437966914638,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Australia,1,2024,642.5367205928019,2622.682819345293,3265.219539938095,4.131438138045073,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Malaysia,1,2024,574.2795000191028,2069.342349245406,2643.6218492645085,2.7994372334984887,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Canada,1,2024,584.1242914480017,1801.8721358434284,2385.9964272914303,2.9944373659208496,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Mexico,1,2024,531.6187371605408,1995.0347383815692,2526.65347554211,4.005438052479855,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Thailand,1,2024,427.92026744280577,1690.5944028836157,2118.5146703264213,4.13443814008234,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Russia,1,2024,467.29943315840126,816.0151881737294,1283.3146213321306,3.807437918020228,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Saudi Arabia,1,2024,626.7850543065637,777.2581113642093,1404.0431656707729,3.807437918020228,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Greece,1,2024,603.8138743057995,6547.208653203786,7151.022527509585,3.4954377061444517,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Austria,1,2024,682.5722057369908,8117.1463306694895,8799.71853640648,2.8174372457220915,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Switzerland,1,2024,725.2329685955525,10421.518546627623,11146.751515223175,2.5894370908897932,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Portugal,1,2024,597.2506800198669,7020.626747810576,7617.877427830443,2.982437357771781,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,United States,1,2024,731.93,7540.47944269813,8272.40944269813,19.93708506258,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,891.4907400000001,4684.582705478775,5576.073445478775,38.25326890056,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,619.2127800000001,1041.317108135801,1660.529888135801,1.8910514287000002,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Switzerland,1,2024,808.78265,14668.261586975803,15477.044236975802,1.8910514287000002,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Singapore,1,2024,605.3061099999999,17496.759452839848,18102.06556283985,25.44814922622,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Hungary,1,2024,676.30332,8712.518169013782,9388.821489013782,11.02212832728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Philippines,1,2024,508.69135,8253.445158676324,8762.136508676324,33.01235494102,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Netherlands,1,2024,825.6170399999999,13268.521690864287,14094.138730864286,14.480050939760002,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Norway,1,2024,969.80725,6878.098217440243,7847.905467440243,1.6209012246,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Oman,1,2024,698.9931499999999,12142.012989475064,12841.006139475065,30.526973063299998,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Italy,1,2024,680.6949,25723.029583460673,26403.72448346067,17.88394351142,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Austria,1,2024,761.2072,16835.372975368482,17596.580175368483,5.997334531020001,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Finland,1,2024,843.18336,7121.708292256936,7964.891652256936,4.26837322478,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Portugal,1,2024,666.0563000000001,8347.113430633843,9013.169730633843,8.96898677612,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Germany,1,2024,762.67106,14857.000004543155,15619.671064543156,20.58544555242,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Greece,1,2024,673.3756,12777.70232570888,13451.07792570888,18.20812375634,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,France,1,2024,752.4240400000001,10510.804184571149,11263.228224571149,3.0256822859200003,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Brazil,1,2024,746.5686000000001,6389.573470391394,7136.142070391394,5.294944000360001,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Canada,1,2024,651.4177,6277.418340713323,6928.836040713323,9.1851069394,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Mexico,1,2024,592.8633000000001,10638.679204286034,11231.542504286035,27.39323069574,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Australia,1,2024,716.5594699999999,9922.668994951668,10639.228464951668,29.662492410180008,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,United Kingdom,1,2024,743.6408799999999,6755.491635997854,7499.132515997854,12.859149715160001,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Spain,1,2024,640.4387499999999,7993.933700401285,8634.372450401284,9.40122710268,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Sweden,1,2024,887.0991599999999,4538.71417530447,5425.81333530447,2.21523167362,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Czech Republic,1,2024,655.80928,8524.208571157396,9180.017851157396,28.852041797880005,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Japan,1,2024,786.82475,10261.144322793567,11047.969072793567,26.204569797700003,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Belgium,1,2024,838.79178,8484.77984782597,9323.57162782597,7.456145633160001,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Poland,1,2024,684.35455,30009.165849791578,30693.520399791578,35.76788702284,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,India,1,2024,464.04362,6959.231104173783,7423.274724173783,38.52341910466,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Indonesia,1,2024,466.23941,3773.021329193783,4239.260739193783,38.52341910466,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Philippines,1,2024,508.69135,8253.445158676324,8762.136508676324,33.01235494102,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Singapore,1,2024,605.3061099999999,17496.759452839848,18102.06556283985,25.44814922622,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Thailand,1,2024,477.21836,6263.046873923645,6740.265233923645,29.716522451000003,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,China,1,2024,576.76084,4896.575049213322,5473.335889213322,31.445483757239998,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Japan,1,2024,786.82475,10261.144322793567,11047.969072793567,26.204569797700003,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Russia,1,2024,521.1341600000001,5178.643211067088,5699.777371067088,23.827248001620003,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Korea,1,2024,841.7194999999999,6309.727327138223,7151.446827138223,23.28694759342,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taipei,1,2024,619.2127800000001,1041.317108135801,1660.529888135801,1.8910514287000002,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,891.4907400000001,4684.582705478775,5576.073445478775,38.25326890056,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Turkey,1,2024,532.84504,7126.237241511853,7659.082281511854,25.123968981300003,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Belgium,1,2024,838.79178,8484.77984782597,9323.57162782597,7.456145633160001,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,France,1,2024,752.4240400000001,10510.804184571149,11263.228224571149,3.0256822859200003,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Germany,1,2024,762.67106,14857.000004543155,15619.671064543156,20.58544555242,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Italy,1,2024,680.6949,25723.029583460673,26403.72448346067,17.88394351142,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Netherlands,1,2024,825.6170399999999,13268.521690864287,14094.138730864286,14.480050939760002,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Spain,1,2024,640.4387499999999,7993.933700401285,8634.372450401284,9.40122710268,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,United Kingdom,1,2024,743.6408799999999,6755.491635997854,7499.132515997854,12.859149715160001,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Czech Republic,1,2024,655.80928,8524.208571157396,9180.017851157396,28.852041797880005,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Finland,1,2024,843.18336,7121.708292256936,7964.891652256936,4.26837322478,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Hungary,1,2024,676.30332,8712.518169013782,9388.821489013782,11.02212832728,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Norway,1,2024,969.80725,6878.098217440243,7847.905467440243,1.6209012246,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Poland,1,2024,684.35455,30009.165849791578,30693.520399791578,35.76788702284,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Sweden,1,2024,887.0991599999999,4538.71417530447,5425.81333530447,2.21523167362,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Oman,1,2024,698.9931499999999,12142.012989475064,12841.006139475065,30.526973063299998,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,China,1,2024,576.76084,4896.575049213322,5473.335889213322,31.445483757239998,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,United Arab Emirates,1,2024,698.9931499999999,6045.172206471381,6744.1653564713815,25.123968981300003,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,United States,1,2024,731.93,7540.47944269813,8272.40944269813,19.93708506258,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Turkey,1,2024,532.84504,7126.237241511853,7659.082281511854,25.123968981300003,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Australia,1,2024,716.5594699999999,9922.668994951668,10639.228464951668,29.662492410180008,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Malaysia,1,2024,640.4387499999999,7133.302598447014,7773.741348447014,5.673154286100001,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Canada,1,2024,651.4177,6277.418340713323,6928.836040713323,9.1851069394,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Mexico,1,2024,592.8633000000001,10638.679204286034,11231.542504286035,27.39323069574,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Thailand,1,2024,477.21836,6263.046873923645,6740.265233923645,29.716522451000003,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Russia,1,2024,521.1341600000001,5178.643211067088,5699.777371067088,23.827248001620003,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Saudi Arabia,1,2024,698.9931499999999,3770.843508518128,4469.836658518128,23.827248001620003,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Greece,1,2024,673.3756,12777.70232570888,13451.07792570888,18.20812375634,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Austria,1,2024,761.2072,16835.372975368482,17596.580175368483,5.997334531020001,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Switzerland,1,2024,808.78265,14668.261586975803,15477.044236975802,1.8910514287000002,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Portugal,1,2024,666.0563000000001,8347.113430633843,9013.169730633843,8.96898677612,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,United States,1,2024,363.98087225271235,1885.69479308936,2249.6756653420725,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,South Africa,1,2024,720.476232,874.3632046785763,1594.8394366785762,3.990008142750728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Taiwan,1,2024,500.42930399999995,751.6910610934378,1252.1203650934378,1.3114681427507282,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Switzerland,1,2024,653.6340200000001,1763.8433440534377,2417.4773640534377,1.3114681427507282,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Singapore,1,2024,489.190348,1836.807532132728,2325.997880132728,3.046748142750728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Hungary,1,2024,546.5681760000001,1087.6646544773514,1634.2328304773514,1.9840881427507284,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Philippines,1,2024,411.10918000000004,1017.8574397745946,1428.9666197745946,3.6039481427507285,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Netherlands,1,2024,667.239072,1516.6176693260616,2183.8567413260616,2.2388081427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Norway,1,2024,783.7693000000002,1100.928983717837,1884.698283717837,1.2915681427507284,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Oman,1,2024,564.9054199999999,1365.6714205764001,1930.5768405764002,3.420868142750728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Italy,1,2024,550.1173200000001,2408.065214860767,2958.182534860767,2.4895481427507287,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Austria,1,2024,615.18496,1773.0024874590877,2388.1874474590877,1.6139481427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Finland,1,2024,681.435648,1046.7738806688108,1728.209528668811,1.4865881427507284,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Portugal,1,2024,538.2868400000001,1027.552281161612,1565.8391211616122,1.8328481427507284,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Germany,1,2024,616.368008,1601.991181867854,2218.359189867854,2.6885481427507285,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Greece,1,2024,544.20208,1345.2990521821775,1889.5011321821776,2.5134281427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,France,1,2024,608.086672,1257.578706654217,1865.665378654217,1.3950481427507282,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Brazil,1,2024,603.3544800000001,838.9923095047052,1442.3467895047052,1.5622081427507284,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,United Kingdom,1,2024,600.988384,918.7848590730358,1519.7732430730357,2.1194081427507285,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Spain,1,2024,517.5835,983.0748338035986,1500.6583338035985,1.8646881427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Sweden,1,2024,716.9270879999999,803.3949706943536,1520.3220586943535,1.3353481427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Czech Republic,1,2024,530.005504,981.4902101900611,1511.495714190061,3.297488142750728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Japan,1,2024,635.8883,1151.850060181964,1787.7383601819638,3.1024681427507286,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Belgium,1,2024,677.886504,1098.9178279429998,1776.8043319429999,1.7214081427507284,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Poland,1,2024,553.0749400000001,2539.5812902027023,3092.6562302027023,3.8069281427507287,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,India,1,2024,375.02621600000003,814.5560257731565,1189.5822417731565,4.009908142750728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Indonesia,1,2024,376.80078800000007,580.3425000931564,957.1432880931566,4.009908142750728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,South Korea,1,2024,680.2526,824.3626453977602,1504.6152453977602,2.8875481427507284,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,China,1,2024,466.12091200000003,713.7738853741962,1179.8947973741963,3.488528142750728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,United Arab Emirates,1,2024,564.9054199999999,784.5978379294252,1349.5032579294252,3.0228681427507285,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,United States,1,2024,591.524,929.9555406035238,1521.4795406035237,2.6407881427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Turkey,1,2024,430.629472,771.0250720726003,1201.6545440726004,3.0228681427507285,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Australia,1,2024,579.101996,1097.0238681325175,1676.1258641325176,3.3571881427507284,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Malaysia,1,2024,517.5835,771.0415278120155,1288.6250278120156,1.5900681427507282,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Canada,1,2024,526.45636,777.4312344874841,1303.887594487484,1.8487681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Mexico,1,2024,479.13444000000004,1002.8071451343345,1481.9415851343347,3.1900281427507284,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Thailand,1,2024,385.673648,692.7753806264615,1078.4490286264615,3.3611681427507287,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Russia,1,2024,421.16508799999997,573.4546485708163,994.6197365708163,2.927348142750728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Saudi Arabia,1,2024,564.9054199999999,532.2284732000331,1097.133893200033,2.927348142750728,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,South Africa,1,2024,443.3287024038036,7799.234808997328,8242.563511401131,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Taiwan,1,2024,307.9278179257946,7578.704576228263,7886.632394154058,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Switzerland,1,2024,402.1988638392471,7584.36083898307,7986.5597028223165,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Singapore,1,2024,301.0121813529931,7329.214231598128,7630.226412951121,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Hungary,1,2024,336.3183259615062,6258.991048765353,6595.3093747268595,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Philippines,1,2024,252.96670621563504,6117.530901080563,6370.497607296198,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Netherlands,1,2024,410.5704239010595,6168.734332180905,6579.304756081964,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Norway,1,2024,482.27465573484386,6186.72233880663,6668.996994541474,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Oman,1,2024,347.6017330013403,6148.432527392684,6496.034260394024,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Italy,1,2024,338.5022111950225,5935.1540466762335,6273.6562578712565,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Austria,1,2024,378.54010714282083,5698.587695329988,6077.127802472808,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Finland,1,2024,419.30596483512454,5371.377928809626,5790.68389364475,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Portugal,1,2024,331.2225937499682,5211.551865299569,5542.774459049537,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Germany,1,2024,379.26806888732625,4700.310764177686,5079.578833065012,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Greece,1,2024,334.8624024724954,4653.227769415427,4988.090171887922,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,France,1,2024,374.1723366757883,4639.097673550202,5013.27001022599,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Brazil,1,2024,371.2604896977666,4351.108690086821,4722.369179784588,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Canada,1,2024,323.942976304914,1243.6765936043391,1567.6195699092532,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Mexico,1,2024,294.82450652469703,1206.1435993991674,1500.9681059238644,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Australia,1,2024,356.3372739354054,1723.8628332302935,2080.2001071656987,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,United Kingdom,1,2024,369.8045662087557,3944.354272946367,4314.158839155123,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Spain,1,2024,318.4832632211233,3739.5127124363307,4057.995975657454,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Sweden,1,2024,441.1448171702873,3767.312025752262,4208.456842922549,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Czech Republic,1,2024,326.12686153843026,3704.7602922274414,4030.8871537658715,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Japan,1,2024,391.27943767166573,3472.287981007016,3863.5674186786814,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Belgium,1,2024,417.1220796016083,3508.5122135789975,3925.6342931806057,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Poland,1,2024,340.32211555628606,3345.891258869954,3686.21337442624,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,India,1,2024,230.7638730082196,3019.3622816306383,3250.1261546388578,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Indonesia,1,2024,231.85581562497777,3021.1008976609623,3252.95671328594,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Philippines,1,2024,252.96670621563504,6117.530901080563,6370.497607296198,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Singapore,1,2024,301.0121813529931,7329.214231598128,7630.226412951121,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Thailand,1,2024,237.31552870876843,1160.1135790215455,1397.429107730314,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,China,1,2024,286.8169273351373,2397.7218003885014,2684.5387277236387,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Japan,1,2024,391.27943767166573,3472.287981007016,3863.5674186786814,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Russia,1,2024,259.15438104393115,525.8762159360814,785.0305969800125,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,South Korea,1,2024,418.5780030906191,2831.6072259155567,3250.1852290061756,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Taipei,1,2024,307.9278179257946,7578.704576228263,7886.632394154058,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,South Africa,1,2024,443.3287024038036,7799.234808997328,8242.563511401131,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Turkey,1,2024,264.97807499997464,1755.3196614591695,2020.2977364591443,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Belgium,1,2024,417.1220796016083,3508.5122135789975,3925.6342931806057,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,France,1,2024,374.1723366757883,4639.097673550202,5013.27001022599,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Germany,1,2024,379.26806888732625,4700.310764177686,5079.578833065012,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Italy,1,2024,338.5022111950225,5935.1540466762335,6273.6562578712565,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Netherlands,1,2024,410.5704239010595,6168.734332180905,6579.304756081964,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Spain,1,2024,318.4832632211233,3739.5127124363307,4057.995975657454,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,United Kingdom,1,2024,369.8045662087557,3944.354272946367,4314.158839155123,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Czech Republic,1,2024,326.12686153843026,3704.7602922274414,4030.8871537658715,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Finland,1,2024,419.30596483512454,5371.377928809626,5790.68389364475,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Hungary,1,2024,336.3183259615062,6258.991048765353,6595.3093747268595,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Norway,1,2024,482.27465573484386,6186.72233880663,6668.996994541474,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Poland,1,2024,340.32211555628606,3345.891258869954,3686.21337442624,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Sweden,1,2024,441.1448171702873,3767.312025752262,4208.456842922549,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Oman,1,2024,347.6017330013403,6148.432527392684,6496.034260394024,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,China,1,2024,286.8169273351373,2397.7218003885014,2684.5387277236387,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,United Arab Emirates,1,2024,347.6017330013403,2247.348090977803,2594.9498239791433,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,United States,1,2024,363.98087225271235,1885.69479308936,2249.6756653420725,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Turkey,1,2024,264.97807499997464,1755.3196614591695,2020.2977364591443,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Australia,1,2024,356.3372739354054,1723.8628332302935,2080.2001071656987,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Malaysia,1,2024,318.4832632211233,1415.729628785128,1734.2128920062512,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Canada,1,2024,323.942976304914,1243.6765936043391,1567.6195699092532,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Mexico,1,2024,294.82450652469703,1206.1435993991674,1500.9681059238644,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Thailand,1,2024,237.31552870876843,1160.1135790215455,1397.429107730314,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Russia,1,2024,259.15438104393115,525.8762159360814,785.0305969800125,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Saudi Arabia,1,2024,347.6017330013403,554.6112839425252,902.2130169438656,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Greece,1,2024,334.8624024724954,4653.227769415427,4988.090171887922,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Austria,1,2024,378.54010714282083,5698.587695329988,6077.127802472808,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Switzerland,1,2024,402.1988638392471,7584.36083898307,7986.5597028223165,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,renewable,SMR_H_renewable_E,Portugal,1,2024,331.2225937499682,5211.551865299569,5542.774459049537,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United States,1,2024,656.3194285932603,2406.705480839094,3063.0249094323544,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Africa,1,2024,799.397064026591,10012.153277412664,10811.550341439255,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Taiwan,1,2024,555.2462365898981,9727.318878210388,10282.565114800285,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Switzerland,1,2024,725.2329685955525,9737.51808213073,10462.751050726281,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Singapore,1,2024,542.7761674466262,9402.919152503458,9945.695319950084,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Hungary,1,2024,606.4391520201725,8027.033696683874,8633.472848704047,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Philippines,1,2024,456.14200287231586,7841.555200158433,8297.697203030748,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Netherlands,1,2024,740.3283154531975,7916.424324525265,8656.752639978462,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Norway,1,2024,869.62324288607,7942.892133356705,8812.515376242774,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Oman,1,2024,626.7850543065637,7887.102486296723,8513.887540603288,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Italy,1,2024,610.3770685917322,7611.256082842556,8221.633151434287,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Austria,1,2024,682.5722057369908,7310.145782644645,7992.717988381635,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Finland,1,2024,756.0799817394358,6892.141027921087,7648.221009660522,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Portugal,1,2024,597.2506800198669,6681.626517599395,7278.877197619262,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Germany,1,2024,683.8848445941773,6029.0501406911635,6712.934985285341,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Greece,1,2024,603.8138743057995,5962.208255936705,6566.022130242505,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,France,1,2024,674.6963725938716,5947.685106690437,6622.381479284309,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Brazil,1,2024,669.4458171651255,5574.18573380411,6243.631550969236,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Canada,1,2024,584.1242914480017,1579.8719850856644,2163.996276533666,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Mexico,1,2024,531.6187371605408,1527.0344205679046,2058.6531577284454,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Australia,1,2024,642.5367205928019,2199.682532090635,2842.219252683437,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United Kingdom,1,2024,666.8205394507524,5052.236418358448,5719.0569578092,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Spain,1,2024,574.2795000191028,4789.158546749503,5363.438046768606,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Sweden,1,2024,795.4591474550315,4830.569242950003,5626.028390405035,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Czech Republic,1,2024,588.0622080195612,4746.746948852251,5334.809156871812,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Japan,1,2024,705.5433857377548,4444.85230151341,5150.395687251164,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Belgium,1,2024,752.1420651678762,4496.122849219743,5248.26491438762,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Poland,1,2024,613.6586657346984,4282.622162453487,4896.280828188186,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,India,1,2024,416.106517728127,3855.675578568216,4271.782096296343,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Indonesia,1,2024,418.07547601390684,3858.2058005374124,4276.281276551319,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Philippines,1,2024,456.14200287231586,7841.555200158433,8297.697203030748,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Singapore,1,2024,542.7761674466262,9402.919152503458,9945.695319950084,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Thailand,1,2024,427.92026744280577,1465.5942500885847,1893.5145175313905,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,China,1,2024,517.1797097314892,3058.0896258036423,3575.2693355351316,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Japan,1,2024,705.5433857377548,4444.85230151341,5150.395687251164,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Russia,1,2024,467.29943315840126,651.0150761240399,1118.3145092824411,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Korea,1,2024,754.7673428822492,3621.009308862835,4375.776651745085,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Taipei,1,2024,555.2462365898981,9727.318878210388,10282.565114800285,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Africa,1,2024,799.397064026591,10012.153277412664,10811.550341439255,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Turkey,1,2024,477.8005440158934,2232.1920182715567,2709.9925622874503,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Belgium,1,2024,752.1420651678762,4496.122849219743,5248.26491438762,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,France,1,2024,674.6963725938716,5947.685106690437,6622.381479284309,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Germany,1,2024,683.8848445941773,6029.0501406911635,6712.934985285341,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Italy,1,2024,610.3770685917322,7611.256082842556,8221.633151434287,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Netherlands,1,2024,740.3283154531975,7916.424324525265,8656.752639978462,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Spain,1,2024,574.2795000191028,4789.158546749503,5363.438046768606,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United Kingdom,1,2024,666.8205394507524,5052.236418358448,5719.0569578092,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Czech Republic,1,2024,588.0622080195612,4746.746948852251,5334.809156871812,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Finland,1,2024,756.0799817394358,6892.141027921087,7648.221009660522,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Hungary,1,2024,606.4391520201725,8027.033696683874,8633.472848704047,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Norway,1,2024,869.62324288607,7942.892133356705,8812.515376242774,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Poland,1,2024,613.6586657346984,4282.622162453487,4896.280828188186,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Sweden,1,2024,795.4591474550315,4830.569242950003,5626.028390405035,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Oman,1,2024,626.7850543065637,7887.102486296723,8513.887540603288,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,China,1,2024,517.1797097314892,3058.0896258036423,3575.2693355351316,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United Arab Emirates,1,2024,626.7850543065637,2869.3656863386586,3496.1507406452224,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United States,1,2024,656.3194285932603,2406.705480839094,3063.0249094323544,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Turkey,1,2024,477.8005440158934,2232.1920182715567,2709.9925622874503,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Australia,1,2024,642.5367205928019,2199.682532090635,2842.219252683437,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Malaysia,1,2024,574.2795000191028,1796.3421638541015,2370.6216638732044,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Canada,1,2024,584.1242914480017,1579.8719850856644,2163.996276533666,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Mexico,1,2024,531.6187371605408,1527.0344205679046,2058.6531577284454,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Thailand,1,2024,427.92026744280577,1465.5942500885847,1893.5145175313905,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Russia,1,2024,467.29943315840126,651.0150761240399,1118.3145092824411,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Saudi Arabia,1,2024,626.7850543065637,693.2580543207309,1320.0431086272947,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Greece,1,2024,603.8138743057995,5962.208255936705,6566.022130242505,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Austria,1,2024,682.5722057369908,7310.145782644645,7992.717988381635,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Switzerland,1,2024,725.2329685955525,9737.51808213073,10462.751050726281,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Portugal,1,2024,597.2506800198669,6681.626517599395,7278.877197619262,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,United States,1,2024,731.93,2299.5654831581296,3031.4954831581294,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,South Africa,1,2024,891.4907400000001,2253.2308685787743,3144.7216085787745,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Taiwan,1,2024,619.2127800000001,2338.0380878158007,2957.250867815801,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Switzerland,1,2024,808.78265,2349.412280015801,3158.194930015801,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Singapore,1,2024,605.3061099999999,2260.2879415998455,2865.5940515998454,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Hungary,1,2024,676.30332,2228.913270613782,2905.216590613782,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Philippines,1,2024,508.69135,2202.0805868363245,2710.7719368363246,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Netherlands,1,2024,825.6170399999999,2300.4234044042864,3126.040444404286,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Norway,1,2024,969.80725,2339.5747885602423,3309.382038560242,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Oman,1,2024,698.9931499999999,2254.5155194150634,2953.508669415063,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Italy,1,2024,680.6949,2273.991867580672,2954.686767580672,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Austria,1,2024,761.2072,2301.2919947884816,3062.4991947884814,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Finland,1,2024,843.18336,2313.034659276935,3156.218019276935,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Portugal,1,2024,666.0563000000001,2241.718817973843,2907.7751179738434,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Germany,1,2024,762.67106,2322.0305343031528,3084.701594303153,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Greece,1,2024,673.3756,2241.8443658088813,2915.219965808881,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,France,1,2024,752.4240400000001,2298.237979931146,3050.6620199311465,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Brazil,1,2024,746.5686000000001,2229.260327251393,2975.828927251393,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Canada,1,2024,651.4177,2279.1953200333214,2930.6130200333214,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Mexico,1,2024,592.8633000000001,2209.9928363660333,2802.8561363660333,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Australia,1,2024,716.5594699999999,2304.433239331667,3020.9927093316674,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,United Kingdom,1,2024,743.6408799999999,2270.9982479378546,3014.6391279378545,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Spain,1,2024,640.4387499999999,2266.749373481285,2907.188123481285,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Sweden,1,2024,887.0991599999999,2323.4825016844698,3210.5816616844695,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Czech Republic,1,2024,655.80928,2256.723836037396,2912.5331160373958,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Japan,1,2024,786.82475,2264.698281433567,3051.5230314335668,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Belgium,1,2024,838.79178,2325.35519434597,3164.14697434597,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Poland,1,2024,684.35455,2237.7248683115768,2922.079418311577,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,India,1,2024,464.04362,2204.587512013782,2668.631132013782,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Indonesia,1,2024,466.23941,2206.150145413782,2672.389555413782,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Philippines,1,2024,508.69135,2202.0805868363245,2710.7719368363246,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Singapore,1,2024,605.3061099999999,2260.2879415998455,2865.5940515998454,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Thailand,1,2024,477.21836,2210.7938124236443,2688.012172423644,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,China,1,2024,576.76084,2249.103049033322,2825.863889033322,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Japan,1,2024,786.82475,2264.698281433567,3051.5230314335668,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Russia,1,2024,521.1341600000001,2206.9909659670866,2728.1251259670867,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,South Korea,1,2024,841.7194999999999,2257.4742656382223,3099.1937656382224,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Taipei,1,2024,619.2127800000001,2338.0380878158007,2957.250867815801,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,South Africa,1,2024,891.4907400000001,2253.2308685787743,3144.7216085787745,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Turkey,1,2024,532.84504,2209.5035268918527,2742.348566891853,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Belgium,1,2024,838.79178,2325.35519434597,3164.14697434597,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,France,1,2024,752.4240400000001,2298.237979931146,3050.6620199311465,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Germany,1,2024,762.67106,2322.0305343031528,3084.701594303153,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Italy,1,2024,680.6949,2273.991867580672,2954.686767580672,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Netherlands,1,2024,825.6170399999999,2300.4234044042864,3126.040444404286,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Spain,1,2024,640.4387499999999,2266.749373481285,2907.188123481285,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,United Kingdom,1,2024,743.6408799999999,2270.9982479378546,3014.6391279378545,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Czech Republic,1,2024,655.80928,2256.723836037396,2912.5331160373958,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Finland,1,2024,843.18336,2313.034659276935,3156.218019276935,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Hungary,1,2024,676.30332,2228.913270613782,2905.216590613782,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Norway,1,2024,969.80725,2339.5747885602423,3309.382038560242,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Poland,1,2024,684.35455,2237.7248683115768,2922.079418311577,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Sweden,1,2024,887.0991599999999,2323.4825016844698,3210.5816616844695,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Oman,1,2024,698.9931499999999,2254.5155194150634,2953.508669415063,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,China,1,2024,576.76084,2249.103049033322,2825.863889033322,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,United Arab Emirates,1,2024,698.9931499999999,2263.069349071381,2962.062499071381,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,United States,1,2024,731.93,2299.5654831581296,3031.4954831581294,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Turkey,1,2024,532.84504,2209.5035268918527,2742.348566891853,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Australia,1,2024,716.5594699999999,2304.433239331667,3020.9927093316674,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Malaysia,1,2024,640.4387499999999,2216.5688838270135,2857.0076338270133,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Canada,1,2024,651.4177,2279.1953200333214,2930.6130200333214,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Mexico,1,2024,592.8633000000001,2209.9928363660333,2802.8561363660333,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Thailand,1,2024,477.21836,2210.7938124236443,2688.012172423644,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Russia,1,2024,521.1341600000001,2206.9909659670866,2728.1251259670867,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Saudi Arabia,1,2024,698.9931499999999,2258.0023655581276,2956.9955155581274,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Greece,1,2024,673.3756,2241.8443658088813,2915.219965808881,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Austria,1,2024,761.2072,2301.2919947884816,3062.4991947884814,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Switzerland,1,2024,808.78265,2349.412280015801,3158.194930015801,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,renewable,LTE_H_renewable_E,Portugal,1,2024,666.0563000000001,2241.718817973843,2907.7751179738434,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,United States,1,2024,363.98087225271235,1915.6947995486664,2279.675671801379,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,South Africa,1,2024,720.476232,695.2632046785764,1415.7394366785763,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Taiwan,1,2024,500.42930399999995,847.2110610934378,1347.6403650934378,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Switzerland,1,2024,653.6340200000001,856.403344053438,1510.037364053438,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Singapore,1,2024,489.190348,714.4475321327278,1203.6378801327278,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Hungary,1,2024,546.5681760000001,610.0646544773514,1156.6328304773515,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Philippines,1,2024,411.10918000000004,572.0974397745945,983.2066197745945,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Netherlands,1,2024,667.239072,708.6776693260616,1375.9167413260616,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Norway,1,2024,783.7693000000002,766.608983717837,1550.3782837178371,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Oman,1,2024,564.9054199999999,637.3314205764,1202.2368405764,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Italy,1,2024,550.1173200000001,680.7452148607669,1230.862534860767,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Austria,1,2024,615.18496,702.3824874590877,1317.5674474590878,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Finland,1,2024,681.435648,692.5538806688107,1373.9895286688106,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Portugal,1,2024,538.2868400000001,577.8122811616121,1116.0991211616122,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Germany,1,2024,616.368008,678.6311818678539,1294.999189867854,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Greece,1,2024,544.20208,569.1990521821775,1113.4011321821777,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,France,1,2024,608.086672,652.6187066542169,1260.705378654217,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Brazil,1,2024,603.3544800000001,532.5323095047052,1135.8867895047051,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,United Kingdom,1,2024,600.988384,588.444859073036,1189.433243073036,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Spain,1,2024,517.5835,561.1948338035988,1078.7783338035988,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Sweden,1,2024,716.9270879999999,640.2149706943534,1357.1420586943532,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Czech Republic,1,2024,530.005504,519.8102101900612,1049.815714190061,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Japan,1,2024,635.8883,562.8100601819638,1198.6983601819638,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Belgium,1,2024,677.886504,645.1978279429999,1323.0843319429998,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Poland,1,2024,553.0749400000001,493.8612902027022,1046.9362302027023,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,India,1,2024,375.02621600000003,464.3160257731565,839.3422417731565,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Indonesia,1,2024,376.80078800000007,464.92250009315643,841.7232880931565,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,South Korea,1,2024,680.2526,525.8626453977602,1206.1152453977602,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,China,1,2024,466.12091200000003,518.753885374196,984.8747973741961,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,United Arab Emirates,1,2024,564.9054199999999,505.9978379294252,1070.903257929425,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,United States,1,2024,591.524,543.8955406035237,1135.4195406035237,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Turkey,1,2024,430.629472,408.8450720726003,839.4745440726003,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Australia,1,2024,579.101996,535.8438681325177,1114.9458641325177,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Malaysia,1,2024,517.5835,408.86152781201554,926.4450278120155,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Canada,1,2024,526.45636,482.9112344874841,1009.3675944874841,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Mexico,1,2024,479.13444000000004,381.92714513433435,861.0615851343343,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Thailand,1,2024,385.673648,394.2753806264614,779.9490286264614,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Russia,1,2024,421.16508799999997,354.5546485708162,775.7197365708162,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,renewable,BG_H_renewable_E,Saudi Arabia,1,2024,564.9054199999999,420.7884732000332,985.6938932000331,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,South Africa,1,2024,443.3287024038036,7829.234815456635,8272.563517860439,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Taiwan,1,2024,307.9278179257946,7608.704582687569,7916.632400613364,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Switzerland,1,2024,402.1988638392471,7614.3608454423775,8016.559709281624,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Singapore,1,2024,301.0121813529931,7359.214238057434,7660.226419410427,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Hungary,1,2024,336.3183259615062,6288.991055224659,6625.309381186165,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Philippines,1,2024,252.96670621563504,6147.530907539869,6400.497613755504,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Netherlands,1,2024,410.5704239010595,6198.734338640211,6609.30476254127,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Norway,1,2024,482.27465573484386,6216.722345265937,6698.997001000781,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Oman,1,2024,347.6017330013403,6178.432533851989,6526.034266853329,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Italy,1,2024,338.5022111950225,5965.15405313554,6303.656264330562,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Austria,1,2024,378.54010714282083,5728.5877017892935,6107.127808932114,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Finland,1,2024,419.30596483512454,5401.377935268933,5820.683900104057,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Portugal,1,2024,331.2225937499682,5241.551871758875,5572.774465508843,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Germany,1,2024,379.26806888732625,4730.310770636992,5109.578839524318,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Greece,1,2024,334.8624024724954,4683.227775874734,5018.090178347229,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,France,1,2024,374.1723366757883,4669.097680009508,5043.270016685296,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Brazil,1,2024,371.2604896977666,4381.108696546128,4752.369186243895,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Canada,1,2024,323.942976304914,1273.6766000636453,1597.6195763685594,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Mexico,1,2024,294.82450652469703,1236.1436058584738,1530.9681123831708,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Australia,1,2024,356.3372739354054,1753.8628396896,2110.2001136250055,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,United Kingdom,1,2024,369.8045662087557,3974.3542794056734,4344.158845614429,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Spain,1,2024,318.4832632211233,3769.512718895637,4087.9959821167604,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Sweden,1,2024,441.1448171702873,3797.3120322115683,4238.456849381855,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Czech Republic,1,2024,326.12686153843026,3734.760298686748,4060.887160225178,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Japan,1,2024,391.27943767166573,3502.287987466322,3893.567425137988,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Belgium,1,2024,417.1220796016083,3538.512220038304,3955.634299639912,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Poland,1,2024,340.32211555628606,3375.8912653292605,3716.2133808855465,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,India,1,2024,230.7638730082196,3049.3622880899447,3280.126161098164,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Indonesia,1,2024,231.85581562497777,3051.1009041202688,3282.9567197452466,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Philippines,1,2024,252.96670621563504,6147.530907539869,6400.497613755504,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Singapore,1,2024,301.0121813529931,7359.214238057434,7660.226419410427,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Thailand,1,2024,237.31552870876843,1190.1135854808517,1427.4291141896201,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,China,1,2024,286.8169273351373,2427.7218068478082,2714.5387341829455,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Japan,1,2024,391.27943767166573,3502.287987466322,3893.567425137988,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Russia,1,2024,259.15438104393115,555.8762223953878,815.030603439319,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,South Korea,1,2024,418.5780030906191,2861.6072323748626,3280.1852354654816,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Taipei,1,2024,307.9278179257946,7608.704582687569,7916.632400613364,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,South Africa,1,2024,443.3287024038036,7829.234815456635,8272.563517860439,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Turkey,1,2024,264.97807499997464,1785.319667918476,2050.2977429184507,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Belgium,1,2024,417.1220796016083,3538.512220038304,3955.634299639912,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,France,1,2024,374.1723366757883,4669.097680009508,5043.270016685296,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Germany,1,2024,379.26806888732625,4730.310770636992,5109.578839524318,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Italy,1,2024,338.5022111950225,5965.15405313554,6303.656264330562,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Netherlands,1,2024,410.5704239010595,6198.734338640211,6609.30476254127,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Spain,1,2024,318.4832632211233,3769.512718895637,4087.9959821167604,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,United Kingdom,1,2024,369.8045662087557,3974.3542794056734,4344.158845614429,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Czech Republic,1,2024,326.12686153843026,3734.760298686748,4060.887160225178,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Finland,1,2024,419.30596483512454,5401.377935268933,5820.683900104057,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Hungary,1,2024,336.3183259615062,6288.991055224659,6625.309381186165,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Norway,1,2024,482.27465573484386,6216.722345265937,6698.997001000781,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Poland,1,2024,340.32211555628606,3375.8912653292605,3716.2133808855465,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Sweden,1,2024,441.1448171702873,3797.3120322115683,4238.456849381855,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Oman,1,2024,347.6017330013403,6178.432533851989,6526.034266853329,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,China,1,2024,286.8169273351373,2427.7218068478082,2714.5387341829455,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,United Arab Emirates,1,2024,347.6017330013403,2277.34809743711,2624.94983043845,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,United States,1,2024,363.98087225271235,1915.6947995486664,2279.675671801379,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Turkey,1,2024,264.97807499997464,1785.319667918476,2050.2977429184507,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Australia,1,2024,356.3372739354054,1753.8628396896,2110.2001136250055,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Malaysia,1,2024,318.4832632211233,1445.7296352444343,1764.2128984655576,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Canada,1,2024,323.942976304914,1273.6766000636453,1597.6195763685594,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Mexico,1,2024,294.82450652469703,1236.1436058584738,1530.9681123831708,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Thailand,1,2024,237.31552870876843,1190.1135854808517,1427.4291141896201,11.018298819721196,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Russia,1,2024,259.15438104393115,555.8762223953878,815.030603439319,11.018298819721196,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Saudi Arabia,1,2024,347.6017330013403,584.6112904018316,932.213023403172,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Greece,1,2024,334.8624024724954,4683.227775874734,5018.090178347229,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Austria,1,2024,378.54010714282083,5728.5877017892935,6107.127808932114,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Switzerland,1,2024,402.1988638392471,7614.3608454423775,8016.559709281624,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,nuke,SMR_H_nuke_E,Portugal,1,2024,331.2225937499682,5241.551871758875,5572.774465508843,11.018298819721196,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United States,1,2024,656.3194285932603,2436.7055012117653,3093.0249298050257,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Africa,1,2024,799.397064026591,10042.153297785335,10841.550361811926,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Taiwan,1,2024,555.2462365898981,9757.31889858306,10312.565135172958,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Switzerland,1,2024,725.2329685955525,9767.518102503398,10492.75107109895,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Singapore,1,2024,542.7761674466262,9432.919172876127,9975.695340322753,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Hungary,1,2024,606.4391520201725,8057.033717056546,8663.472869076719,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Philippines,1,2024,456.14200287231586,7871.555220531102,8327.697223403418,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Netherlands,1,2024,740.3283154531975,7946.424344897935,8686.752660351132,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Norway,1,2024,869.62324288607,7972.892153729375,8842.515396615445,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Oman,1,2024,626.7850543065637,7917.102506669394,8543.887560975958,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Italy,1,2024,610.3770685917322,7641.256103215228,8251.63317180696,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Austria,1,2024,682.5722057369908,7340.145803017314,8022.718008754306,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Finland,1,2024,756.0799817394358,6922.141048293757,7678.221030033193,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Portugal,1,2024,597.2506800198669,6711.626537972066,7308.877217991933,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Germany,1,2024,683.8848445941773,6059.050161063834,6742.9350056580115,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Greece,1,2024,603.8138743057995,5992.208276309376,6596.022150615176,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,France,1,2024,674.6963725938716,5977.685127063108,6652.381499656979,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Brazil,1,2024,669.4458171651255,5604.18575417678,6273.631571341906,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Canada,1,2024,584.1242914480017,1609.8720054583353,2193.996296906337,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Mexico,1,2024,531.6187371605408,1557.0344409405752,2088.6531781011163,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Australia,1,2024,642.5367205928019,2229.682552463306,2872.219273056108,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United Kingdom,1,2024,666.8205394507524,5082.236438731119,5749.056978181871,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Spain,1,2024,574.2795000191028,4819.158567122174,5393.438067141276,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Sweden,1,2024,795.4591474550315,4860.569263322674,5656.028410777705,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Czech Republic,1,2024,588.0622080195612,4776.746969224921,5364.809177244482,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Japan,1,2024,705.5433857377548,4474.852321886081,5180.395707623836,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Belgium,1,2024,752.1420651678762,4526.122869592414,5278.26493476029,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Poland,1,2024,613.6586657346984,4312.622182826158,4926.280848560857,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,India,1,2024,416.106517728127,3885.6755989408866,4301.782116669014,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Indonesia,1,2024,418.07547601390684,3888.2058209100837,4306.28129692399,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Philippines,1,2024,456.14200287231586,7871.555220531102,8327.697223403418,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Singapore,1,2024,542.7761674466262,9432.919172876127,9975.695340322753,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Thailand,1,2024,427.92026744280577,1495.5942704612555,1923.5145379040614,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,China,1,2024,517.1797097314892,3088.089646176314,3605.2693559078034,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Japan,1,2024,705.5433857377548,4474.852321886081,5180.395707623836,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Russia,1,2024,467.29943315840126,681.0150964967106,1148.314529655112,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Korea,1,2024,754.7673428822492,3651.009329235507,4405.776672117756,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Taipei,1,2024,555.2462365898981,9757.31889858306,10312.565135172958,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Africa,1,2024,799.397064026591,10042.153297785335,10841.550361811926,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Turkey,1,2024,477.8005440158934,2262.192038644228,2739.9925826601216,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Belgium,1,2024,752.1420651678762,4526.122869592414,5278.26493476029,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,France,1,2024,674.6963725938716,5977.685127063108,6652.381499656979,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Germany,1,2024,683.8848445941773,6059.050161063834,6742.9350056580115,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Italy,1,2024,610.3770685917322,7641.256103215228,8251.63317180696,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Netherlands,1,2024,740.3283154531975,7946.424344897935,8686.752660351132,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Spain,1,2024,574.2795000191028,4819.158567122174,5393.438067141276,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United Kingdom,1,2024,666.8205394507524,5082.236438731119,5749.056978181871,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Czech Republic,1,2024,588.0622080195612,4776.746969224921,5364.809177244482,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Finland,1,2024,756.0799817394358,6922.141048293757,7678.221030033193,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Hungary,1,2024,606.4391520201725,8057.033717056546,8663.472869076719,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Norway,1,2024,869.62324288607,7972.892153729375,8842.515396615445,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Poland,1,2024,613.6586657346984,4312.622182826158,4926.280848560857,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Sweden,1,2024,795.4591474550315,4860.569263322674,5656.028410777705,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Oman,1,2024,626.7850543065637,7917.102506669394,8543.887560975958,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,China,1,2024,517.1797097314892,3088.089646176314,3605.2693559078034,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United Arab Emirates,1,2024,626.7850543065637,2899.3657067113295,3526.1507610178933,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United States,1,2024,656.3194285932603,2436.7055012117653,3093.0249298050257,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Turkey,1,2024,477.8005440158934,2262.192038644228,2739.9925826601216,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Australia,1,2024,642.5367205928019,2229.682552463306,2872.219273056108,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Malaysia,1,2024,574.2795000191028,1826.3421842267724,2400.6216842458753,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Canada,1,2024,584.1242914480017,1609.8720054583353,2193.996296906337,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Mexico,1,2024,531.6187371605408,1557.0344409405752,2088.6531781011163,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Thailand,1,2024,427.92026744280577,1495.5942704612555,1923.5145379040614,2.514437039958116,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Russia,1,2024,467.29943315840126,681.0150964967106,1148.314529655112,2.514437039958116,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Saudi Arabia,1,2024,626.7850543065637,723.2580746934018,1350.0431289999656,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Greece,1,2024,603.8138743057995,5992.208276309376,6596.022150615176,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Austria,1,2024,682.5722057369908,7340.145803017314,8022.718008754306,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Switzerland,1,2024,725.2329685955525,9767.518102503398,10492.75107109895,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Portugal,1,2024,597.2506800198669,6711.626537972066,7308.877217991933,2.514437039958116,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,United States,1,2024,731.93,2839.8658913581303,3571.79589135813,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,South Africa,1,2024,891.4907400000001,2793.5312767787746,3685.0220167787747,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Taiwan,1,2024,619.2127800000001,2878.3384960158014,3497.5512760158017,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Switzerland,1,2024,808.78265,2889.712688215802,3698.495338215802,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Singapore,1,2024,605.3061099999999,2800.588349799846,3405.894459799846,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Hungary,1,2024,676.30332,2769.2136788137827,3445.5169988137827,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Philippines,1,2024,508.69135,2742.380995036325,3251.0723450363253,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Netherlands,1,2024,825.6170399999999,2840.7238126042866,3666.3408526042867,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Norway,1,2024,969.80725,2879.875196760243,3849.682446760243,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Oman,1,2024,698.9931499999999,2794.815927615064,3493.809077615064,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Italy,1,2024,680.6949,2814.2922757806728,3494.9871757806727,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Austria,1,2024,761.2072,2841.5924029884823,3602.799602988482,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Finland,1,2024,843.18336,2853.3350674769354,3696.5184274769354,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Portugal,1,2024,666.0563000000001,2782.019226173844,3448.075526173844,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Germany,1,2024,762.67106,2862.330942503153,3625.002002503153,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Greece,1,2024,673.3756,2782.1447740088815,3455.5203740088814,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,France,1,2024,752.4240400000001,2838.5383881311463,3590.962428131146,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Brazil,1,2024,746.5686000000001,2769.5607354513936,3516.1293354513937,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Canada,1,2024,651.4177,2819.495728233322,3470.913428233322,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Mexico,1,2024,592.8633000000001,2750.2932445660335,3343.1565445660335,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Australia,1,2024,716.5594699999999,2844.7336475316674,3561.293117531667,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,United Kingdom,1,2024,743.6408799999999,2811.2986561378552,3554.939536137855,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Spain,1,2024,640.4387499999999,2807.049781681286,3447.4885316812856,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Sweden,1,2024,887.0991599999999,2863.78290988447,3750.8820698844697,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Czech Republic,1,2024,655.80928,2797.0242442373965,3452.8335242373964,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Japan,1,2024,786.82475,2804.998689633567,3591.8234396335674,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Belgium,1,2024,838.79178,2865.6556025459704,3704.4473825459704,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Poland,1,2024,684.35455,2778.0252765115774,3462.3798265115774,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,India,1,2024,464.04362,2744.8879202137823,3208.9315402137822,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Indonesia,1,2024,466.23941,2746.4505536137826,3212.6899636137828,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Philippines,1,2024,508.69135,2742.380995036325,3251.0723450363253,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Singapore,1,2024,605.3061099999999,2800.588349799846,3405.894459799846,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Thailand,1,2024,477.21836,2751.094220623645,3228.312580623645,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,China,1,2024,576.76084,2789.4034572333226,3366.1642972333225,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Japan,1,2024,786.82475,2804.998689633567,3591.8234396335674,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Russia,1,2024,521.1341600000001,2747.291374167087,3268.425534167087,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,South Korea,1,2024,841.7194999999999,2797.774673838223,3639.494173838223,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Taipei,1,2024,619.2127800000001,2878.3384960158014,3497.5512760158017,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,South Africa,1,2024,891.4907400000001,2793.5312767787746,3685.0220167787747,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Turkey,1,2024,532.84504,2749.8039350918534,3282.6489750918536,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Belgium,1,2024,838.79178,2865.6556025459704,3704.4473825459704,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,France,1,2024,752.4240400000001,2838.5383881311463,3590.962428131146,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Germany,1,2024,762.67106,2862.330942503153,3625.002002503153,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Italy,1,2024,680.6949,2814.2922757806728,3494.9871757806727,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Netherlands,1,2024,825.6170399999999,2840.7238126042866,3666.3408526042867,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Spain,1,2024,640.4387499999999,2807.049781681286,3447.4885316812856,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,United Kingdom,1,2024,743.6408799999999,2811.2986561378552,3554.939536137855,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Czech Republic,1,2024,655.80928,2797.0242442373965,3452.8335242373964,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Finland,1,2024,843.18336,2853.3350674769354,3696.5184274769354,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Hungary,1,2024,676.30332,2769.2136788137827,3445.5169988137827,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Norway,1,2024,969.80725,2879.875196760243,3849.682446760243,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Poland,1,2024,684.35455,2778.0252765115774,3462.3798265115774,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Sweden,1,2024,887.0991599999999,2863.78290988447,3750.8820698844697,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Oman,1,2024,698.9931499999999,2794.815927615064,3493.809077615064,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,China,1,2024,576.76084,2789.4034572333226,3366.1642972333225,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,United Arab Emirates,1,2024,698.9931499999999,2803.369757271382,3502.3629072713816,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,United States,1,2024,731.93,2839.8658913581303,3571.79589135813,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Turkey,1,2024,532.84504,2749.8039350918534,3282.6489750918536,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Australia,1,2024,716.5594699999999,2844.7336475316674,3561.293117531667,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Malaysia,1,2024,640.4387499999999,2756.8692920270137,3397.3080420270135,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Canada,1,2024,651.4177,2819.495728233322,3470.913428233322,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Mexico,1,2024,592.8633000000001,2750.2932445660335,3343.1565445660335,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Thailand,1,2024,477.21836,2751.094220623645,3228.312580623645,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Russia,1,2024,521.1341600000001,2747.291374167087,3268.425534167087,0.5403004082,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Saudi Arabia,1,2024,698.9931499999999,2798.3027737581283,3497.295923758128,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Greece,1,2024,673.3756,2782.1447740088815,3455.5203740088814,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Austria,1,2024,761.2072,2841.5924029884823,3602.799602988482,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Switzerland,1,2024,808.78265,2889.712688215802,3698.495338215802,0.5403004082,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,nuke,LTE_H_nuke_E,Portugal,1,2024,666.0563000000001,2782.019226173844,3448.075526173844,0.5403004082,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,South Africa,1,2024,720.476232,735.0632046785763,1455.5394366785763,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Taiwan,1,2024,500.42930399999995,887.0110610934379,1387.4403650934378,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Switzerland,1,2024,653.6340200000001,896.2033440534378,1549.8373640534378,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Singapore,1,2024,489.190348,754.2475321327279,1243.437880132728,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Hungary,1,2024,546.5681760000001,649.8646544773515,1196.4328304773517,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Philippines,1,2024,411.10918000000004,611.8974397745945,1023.0066197745946,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Netherlands,1,2024,667.239072,748.4776693260616,1415.7167413260615,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Norway,1,2024,783.7693000000002,806.408983717837,1590.178283717837,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Oman,1,2024,564.9054199999999,677.1314205764,1242.0368405764,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Italy,1,2024,550.1173200000001,720.5452148607669,1270.662534860767,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Austria,1,2024,615.18496,742.1824874590877,1357.3674474590878,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Finland,1,2024,681.435648,732.3538806688108,1413.7895286688108,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Portugal,1,2024,538.2868400000001,617.6122811616121,1155.8991211616121,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Germany,1,2024,616.368008,718.431181867854,1334.799189867854,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Greece,1,2024,544.20208,608.9990521821775,1153.2011321821774,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,France,1,2024,608.086672,692.418706654217,1300.505378654217,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Brazil,1,2024,603.3544800000001,572.3323095047052,1175.6867895047053,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,United Kingdom,1,2024,600.988384,628.2448590730359,1229.2332430730357,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Spain,1,2024,517.5835,600.9948338035989,1118.578333803599,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Sweden,1,2024,716.9270879999999,680.0149706943535,1396.9420586943534,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Czech Republic,1,2024,530.005504,559.6102101900613,1089.6157141900612,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Japan,1,2024,635.8883,602.6100601819638,1238.4983601819638,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Belgium,1,2024,677.886504,684.997827943,1362.8843319429998,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Poland,1,2024,553.0749400000001,533.6612902027023,1086.7362302027022,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,India,1,2024,375.02621600000003,504.1160257731565,879.1422417731565,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Indonesia,1,2024,376.80078800000007,504.72250009315655,881.5232880931567,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,South Korea,1,2024,680.2526,565.6626453977601,1245.9152453977601,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,China,1,2024,466.12091200000003,558.553885374196,1024.674797374196,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,United Arab Emirates,1,2024,564.9054199999999,545.7978379294252,1110.703257929425,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,United States,1,2024,591.524,583.6955406035238,1175.219540603524,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Turkey,1,2024,430.629472,448.64507207260027,879.2745440726003,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Australia,1,2024,579.101996,575.6438681325177,1154.7458641325177,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Malaysia,1,2024,517.5835,448.6615278120155,966.2450278120155,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Canada,1,2024,526.45636,522.711234487484,1049.1675944874842,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Mexico,1,2024,479.13444000000004,421.7271451343344,900.8615851343345,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Thailand,1,2024,385.673648,434.0753806264614,819.7490286264615,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Russia,1,2024,421.16508799999997,394.35464857081627,815.5197365708162,1.2119681427507283,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,nuke,BG_H_nuke_E,Saudi Arabia,1,2024,564.9054199999999,460.58847320003315,1025.4938932000332,1.2119681427507283,compressed gaseous hydrogen at 700 bar
