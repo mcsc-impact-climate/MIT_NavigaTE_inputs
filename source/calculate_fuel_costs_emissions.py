@@ -14,12 +14,12 @@ NG_GWP = 28 # GWP100 of methane (surrogate for NG) using IPCC-AR5 as in MEPC.391
 gen_admin_rate = 0.2 # 20% G&A rate
 op_maint_rate = 0.04 # O&M rate
 tax_rate = 0.02 # 2% tax rate
-NG_percent_fugitive = 0.02 # 2% fugitive NG emissions # This input should probably be regionalized.
+NG_percent_fugitive = 0.02 # Assume 2% fugitive NG emissions
 LCB_upstream_emissions = 0.056319472 # [kg CO2e/bone-dry kg] upstream emissions for lignocellulosic biomass (LCB) from GREET (not region specific)
-BEC_CO2_price = 0.004 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now # This input should probably be regionalized or made dependent on LCB price
-BEC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now # This input should probably be regionalized or made dependent on LCB price
-DAC_CO2_price = 0.04 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
-DAC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
+BEC_CO2_price = 0.04 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now # This input should probably be regionalized or made dependent on LCB price
+BEC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from bioenergy plant with CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
+DAC_CO2_price = 0.2 # [2024$/kg CO2] price of captured CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
+DAC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from direct-air CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
 
 # Inputs for STP H2 production from low-temperature water electrolysis
 H2_LTE_elect_demand = 51.03004082 # [kWh elect/kg H2] from Aspen Plus
