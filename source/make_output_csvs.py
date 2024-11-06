@@ -890,7 +890,7 @@ def add_fuel_mass(all_results_df, top_dir):
 # GE - helper function 
 def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
     """
-    Reads in the pathway type label for the given fuel production pathway based on the csv info file.
+    Reads in the resource demand rate for the given fuel production pathway and resource based on the csv info file.
     
     Parameters
     ----------
@@ -902,11 +902,14 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
         
     resource : str
         Type of resource
+        
+    info_file : str
+        Path to the info file
 
     Returns
     -------
     resource_demand_rate : float
-        Resource demand rate associated with the given fuel, pathway, and resource.
+        Resource demand rate (per kg of fuel) associated with the given fuel, pathway, and resource.
     """
     if info_file is None:
         top_dir = get_top_dir()
@@ -920,15 +923,15 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
         info_df = pd.read_csv(info_file)
     except FileNotFoundError:
         raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type.")
+        
+    resource_column_names = {
+        "Electricity": "Electricity Demand [kWh / kg fuel]",
+        "NG": "NG Demand [GJ / kg fuel]",
+        "Water": "Water Demand [m^3 / kg fuel]",
+        "CO2": "CO2 Demand [kg CO2 / kg fuel]"
+    }
     try:
-        if resource == "Electricity":
-            resource_demand_rate = info_df["Electricity Demand [kWh / kg fuel]"][info_df["Fuel Pathway"] == pathway].iloc[0]
-        elif resource == "NG":
-            resource_demand_rate = info_df["NG Demand [GJ / kg fuel]"][info_df["Fuel Pathway"] == pathway].iloc[0]
-        elif resource == "Water":
-            resource_demand_rate = info_df["Water Demand [m^3 / kg fuel]"][info_df["Fuel Pathway"] == pathway].iloc[0]
-        elif resource == "CO2":
-            resource_demand_rate = info_df["CO2 Demand [kg CO2 / kg fuel]"][info_df["Fuel Pathway"] == pathway].iloc[0]
+        resource_demand_rate = info_df[resource_column_names[resource]][info_df["Fuel Pathway"] == pathway].iloc[0]
     except KeyError as e:
         raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type.")
 
@@ -963,7 +966,7 @@ def calculate_resource_demands(fuel, pathway, fuel_mass, resource):
 
     return total_demand
 
-
+@time_function
 def add_resource_demands(all_results_df):
     """
     Adds columns to all_results_df with total requirements for each resource.
