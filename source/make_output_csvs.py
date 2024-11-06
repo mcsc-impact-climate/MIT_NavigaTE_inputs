@@ -12,6 +12,7 @@ import os
 import glob
 import time
 import functools
+import numpy as np
 
 # Constants
 TONNES_PER_TEU = 14 # GE - TEU = twenty-foot equivalent
@@ -937,66 +938,43 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
 
     return resource_demand_rate
 
-
-def calculate_resource_demands(fuel, pathway, fuel_mass, resource):
-    """
-    Reads in demand of resources for a given fuel and pathway and returns total demand of a given resource.
-    
-    Parameters
-    ----------
-    fuel : str
-        The type of fuel being used (eg. ammonia, hydrogen)
-
-    pathway : str
-        The fuel production pathway (e.g., fossil, SMR).
-
-    fuel_mass: float
-        Mass of fuel
-        
-    resource: str
-        Type of resource
-        
-    Returns
-    -------
-    total_demand: float
-        Total demand of a given resource
-    """
-
-    total_demand = get_resource_demand_rate(fuel, pathway, resource) * fuel_mass
-
-    return total_demand
-
 @time_function
 def add_resource_demands(all_results_df):
-    """
-    Adds columns to all_results_df with total requirements for each resource.
-    
-    Parameters
-    ----------
-    all_results_df : pandas.DataFrame
-        The DataFrame containing the processed results.
-
-    Returns
-    -------
-    all_results_df : pandas.DataFrame
-        The DataFrame containing the processed results.
-    """
-    # Get a list of resources to handle
+    # List of resources and modifiers
     all_resources = ["Water", "NG", "Electricity", "CO2"]
-
-    # Get a list of all modifiers to handle
     all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
     
-    # Calculate the consumed mass of each fuel based on consumed energy and LHV
+    # Precompute resource demand rates for each unique (fuel, pathway, resource). Note: this will need to be updated if resource demand rates become region-specific.
+    unique_combinations = all_results_df[['Fuel', 'Pathway']].drop_duplicates()
+    resource_demand_rates = {}
+    
+    for _, row in unique_combinations.iterrows():
+        fuel, pathway = row['Fuel'], row['Pathway']
+        if fuel == 'lsfo':
+            continue
+        resource_demand_rates[(fuel, pathway)] = {
+            resource: get_resource_demand_rate(fuel, pathway, resource) for resource in all_resources
+        }
+            
+    # Vectorized calculation for each resource
     for resource in all_resources:
-        all_results_df[f"Consumed{resource}_main"] = all_results_df.apply(lambda row: 0
-            if row['Fuel'] == 'lsfo' else calculate_resource_demands(row["Fuel"], row["Pathway"], row["ConsumedMass_main"], f"{resource}"), axis=1)
+        # Calculate resource consumption at vessel level
+        demand_rate_vessel = all_results_df[['Fuel', 'Pathway']].apply(
+            lambda row: resource_demand_rates.get((row['Fuel'], row['Pathway']), {}).get(resource, 0), axis=1
+        )
+        all_results_df[f"Consumed{resource}_main"] = np.where(
+            all_results_df['Fuel'] == 'lsfo', 0, demand_rate_vessel * all_results_df['ConsumedMass_main']
+        )
 
-        # Repeat for all modifiers
+        # Calculate resource consumption for each modifier
         for modifier in all_modifiers:
-            all_results_df[f"Consumed{resource}_main-{modifier}"] = all_results_df.apply(lambda row: 0
-            if row['Fuel'] == 'lsfo' else calculate_resource_demands(row["Fuel"], row["Pathway"], row[f"ConsumedMass_main-{modifier}"], f"{resource}"), axis=1) 
-
+            demand_rate_modifier = all_results_df[['Fuel', 'Pathway']].apply(
+                lambda row: resource_demand_rates.get((row['Fuel'], row['Pathway']), {}).get(resource, 0), axis=1
+            )
+            all_results_df[f"Consumed{resource}_main-{modifier}"] = np.where(
+                all_results_df['Fuel'] == 'lsfo', 0, demand_rate_modifier * all_results_df[f"ConsumedMass_main-{modifier}"]
+            )
+    
     return all_results_df
 
     
