@@ -291,6 +291,94 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
 
     return CapEx, OpEx, emissions
 
+
+# Added by GE for 10/18 
+def calculate_resource_demands_STP_hydrogen(H_pathway):
+    if H_pathway == "LTE":
+        elect_demand = H2_LTE_elect_demand
+        NG_demand = H2_LTE_NG_demand
+        water_demand = H2_LTE_water_demand
+        CO2_demand = 0
+    elif H_pathway == "SMRCCS":
+        elect_demand = H2_SMRCCS_elect_demand
+        NG_demand = H2_SMRCCS_NG_demand
+        water_demand = H2_SMRCCS_water_demand
+        CO2_demand = 0
+    elif H_pathway == "SMR":
+        elect_demand = H2_SMR_elect_demand
+        NG_demand = H2_SMR_NG_demand
+        water_demand = H2_SMR_water_demand
+        CO2_demand = 0
+
+    return elect_demand, NG_demand, water_demand, CO2_demand
+
+
+def calculate_resource_demands_liquid_hydrogen(H_pathway):
+    elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    elect_demand += H2_liq_elect_demand
+
+    return elect_demand, NG_demand, water_demand, CO2_demand
+
+
+def calculate_resource_demands_compressed_hydrogen(H_pathway):
+    elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    elect_demand += H2_comp_elect_demand
+
+    return elect_demand, NG_demand, water_demand, CO2_demand
+
+
+def calculate_resource_demands_ammonia(H_pathway):
+    elect_demand = NH3_elect_demand
+    H2_demand = NH3_H2_demand
+    CO2_demand = 0
+    NG_demand = NH3_NG_demand
+    water_demand = NH3_water_demand
+
+    # add H2 resource demands
+    H2_elect_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    elect_demand += H2_elect_demand * H2_demand
+    NG_demand += H2_NG_demand * H2_demand
+    water_demand += H2_water_demand * H2_demand
+    CO2_demand += H2_CO2_demand * H2_demand
+
+    return elect_demand, NG_demand, water_demand, CO2_demand
+
+
+def calculate_resource_demands_methanol(H_pathway):
+    elect_demand = MeOH_elect_demand
+    H2_demand = MeOH_H2_demand
+    CO2_demand = MeOH_CO2_demand
+    NG_demand = MeOH_NG_demand
+    water_demand = MeOH_water_demand
+
+    # add H2 resource demands
+    H2_elect_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    elect_demand += H2_elect_demand * H2_demand
+    NG_demand += H2_NG_demand * H2_demand
+    water_demand += H2_water_demand * H2_demand
+    CO2_demand += H2_CO2_demand * H2_demand
+
+    return elect_demand, NG_demand, water_demand, CO2_demand
+
+def calculate_resource_demands_FTdiesel(H_pathway):
+    elect_demand = FTdiesel_elect_demand
+    H2_demand = FTdiesel_H2_demand
+    CO2_demand = FTdiesel_CO2_demand
+    NG_demand = FTdiesel_NG_demand
+    water_demand = FTdiesel_water_demand
+
+    # add H2 resource demands
+    H2_elect_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    elect_demand += H2_elect_demand * H2_demand
+    NG_demand += H2_NG_demand * H2_demand
+    water_demand += H2_water_demand * H2_demand
+    CO2_demand += H2_CO2_demand * H2_demand
+
+    return elect_demand, NG_demand, water_demand, CO2_demand
+
+
+# end of section added by Grace for 10/18
+
 def main():
     top_dir = get_top_dir()
     input_dir = f"{top_dir}/input_fuel_pathway_data/"
@@ -344,10 +432,39 @@ def main():
         
         # List to hold all rows for the output CSV
         output_data = []
+        # GE - list to hold all resource rows for the ouput csv
+        output_resource_data = []
+
 
         # Iterate through each row in the input data and perform calculations
+        # GE - updated outer for loop to calculate and make csv files for resource demands
         for fuel_pathway in fuel_pathways:
             pathway_index = fuel_pathways.index(fuel_pathway)
+            H_pathway = H_pathways[pathway_index]
+            C_pathway = C_pathways[pathway_index]
+
+            if fuel == "hydrogen":
+                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+                comment = "hydrogen at standard temperature and pressure"
+            elif fuel == "liquid_hydrogen":
+                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_liquid_hydrogen(H_pathway)
+                comment = "Liquid cryogenic hydrogen at atmospheric pressure"
+            elif fuel == "compressed_hydrogen":
+                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_compressed_hydrogen(H_pathway)
+                comment = "compressed gaseous hydrogen at 700 bar"
+            elif fuel == "ammonia":
+                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_ammonia(H_pathway)
+                comment = "Liquid cryogenic ammonia at atmospheric pressure"
+            elif fuel == "methanol":
+                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_methanol(H_pathway)
+                comment = "Liquid methanol at STP"
+            elif fuel == "FTdiesel":
+                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_FTdiesel(H_pathway)
+                comment = "liquid Fischer--Tropsch diesel fuel at STP"
+
+            calculated_resource_row = [fuel, H_pathway, C_pathway, fuel_pathway, elect_demand, NG_demand, water_demand, CO2_demand]
+            output_resource_data.append(calculated_resource_row)
+
             for row_index, row in input_df.iterrows():
                 region,instal_cost,src,water_price,src,NG_price,src,grid_price,src,grid_emissions_intensity,src,hourly_labor_rate,src = row
                 H_pathway = H_pathways[pathway_index]
@@ -388,6 +505,23 @@ def main():
                 calculated_row = [fuel, H_pathway, C_pathway, E_pathway, fuel_pathway, region, 1, 2024, CapEx, OpEx, LCOF, emissions, comment]
                 output_data.append(calculated_row)
 
+
+        # GE - Define the resource output to CSV column names - may need to add more columns
+        output_resource_columns = [
+            "Fuel", "Hydrogen Source", "Carbon Source", "Fuel Pathway", "Electricity Demand [kWh / kg fuel]", "NG Demand [GJ / kg fuel]", "Water Demand [m^3 / kg fuel]", "CO2 Demand [kg CO2 / kg fuel]"
+        ]
+
+        # Create a DataFrame for the output data
+        resource_df = pd.DataFrame(output_resource_data, columns=output_resource_columns)
+
+        # Write the output data to a CSV file
+        output_resource_file = f"{fuel}_resource_demands.csv"
+        resource_df.to_csv(os.path.join(output_dir_production, output_resource_file), index=False)
+        print(f"Output CSV file created: {os.path.join(output_dir_production, output_resource_file)}")
+
+
+
+
         # Define the output CSV column names
         output_columns = [
             "Fuel", "Hydrogen Source", "Carbon Source", "Electricity Source", "Pathway Name", "Region", "Number", "Year",
@@ -402,6 +536,7 @@ def main():
         output_df.to_csv(os.path.join(output_dir_production, output_file), index=False)
 
         print(f"Output CSV file created: {os.path.join(output_dir_production, output_file)}")
+
 
     # Gate to Pump Processes
     processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion"]
