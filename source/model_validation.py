@@ -5,6 +5,7 @@ Purpose: Model validations to compare NavigaTE fleet model inputs and outputs wi
 # get_top_dir used for file organization
 # pandas as pd used to organize data in table format
 from common_tools import get_top_dir
+import parse
 import pandas as pd
 
 # twenty-foot equivalent unit (cargo capacity)
@@ -15,6 +16,8 @@ MJ_PER_GJ = 1000
 KG_PER_TONNE = 1000
 G_PER_KG = 1000
 TONNES_PER_KT = 1000
+VESSELS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Vessel"
+DAYS_PER_YEAR = 365
 
 # Collect the lower heating value of HFO (in MJ/kg) from the relevant info file
 top_dir = get_top_dir()
@@ -34,6 +37,7 @@ vessels = {
         "container_3500_teu_ice",
     ],
     "tanker": ["tanker_100k_dwt_ice", "tanker_300k_dwt_ice", "tanker_35k_dwt_ice"],
+    "gas_carrier": ["gas_carrier_100k_cbm_ice"],
 }
 
 # maps the names for the vessel models to specific strings to be understandable to readers
@@ -48,6 +52,7 @@ vessel_size_title = {
     "tanker_100k_dwt_ice": "100k DWT",
     "tanker_300k_dwt_ice": "300k DWT",
     "tanker_35k_dwt_ice": "35k DWT",
+    "gas_carrier_100k_cbm_ice": "100k m$^3$",
 }
 
 vessel_size_number = {
@@ -485,7 +490,7 @@ def compare_annual_miles(all_results_df, fuel="lsfo"):
     return miles_traveled_df
 
 
-# Compare anjnual miles traveled between NavigaTE, UNCTAD and IMO
+# Compare annual miles traveled between NavigaTE, UNCTAD and IMO
 def compare_annual_cargo_miles(all_results_df, fuel="lsfo"):
     # Annual cargo miles traveled by vessel class in 2018 (million tonne-miles), from IMO 4th GHG report using option 1 (categorizing trips by vessel) (Table 69)
     annual_cargo_miles_imo_opt1 = {"bulk": 28464, "container": 15153, "tanker": 21817}
@@ -557,29 +562,90 @@ def compare_annual_cargo_miles(all_results_df, fuel="lsfo"):
         )
 
     return cargo_miles_df
+    
+def collect_capex_opex_navigate(top_dir):
+    """
+    Reads in the default CAPEX and OPEX for each vessel from NavigaTE input files as a dataframe. Saves the dataframe as a csv and returns it.
+    
+    Parameters
+    ----------
+    top_dir : str
+        The top directory where vessel files are located.
 
+    Returns
+    -------
+    capex_opex_df : Dataframe
+        Dataframe containing the CAPEX and OPEX for each vessel.
+    """
+    # Initialize a dataframe to contain the CAPEX and OPEX info
+    capex_opex_df = pd.DataFrame(columns = ["Vessel Name", "CAPEX (Million USD)", "OPEX (USD/day)"])
+    
+    # Define the parse format for the lines containing the CAPEX and OPEX
+    capex_format = "CAPEX = {}"
+    opex_format = "OPEX = {}"
+    
+    # Loop through each vessel type and size
+    for vessel_type, vessel_classes in vessels.items():
+        for vessel_class in vessel_classes:
+            
+            vessel_type_pretty = vessel_type.replace("_", " ").title()
+            vessel_class_pretty = vessel_size_title[vessel_class]
+            vessel_name_pretty = f"{vessel_type_pretty} ({vessel_class_pretty})"
+            print(vessel_name_pretty)
+            
+            
+        
+            # Construct the filepath to the vessel .inc file for the given vessel
+            filepath = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{vessel_class}_oil.inc"
+
+            # Try to open the file and read its content
+            try:
+                with open(filepath, 'r') as file:
+                    capex=None
+                    opex=None
+                    for line in file:
+                        # Parse the line using the format string
+                        result_capex = parse.parse(capex_format, line.strip())
+                        result_opex = parse.parse(opex_format, line.strip())
+                        if result_capex:
+                            capex = float(result_capex[0]) / 1e6    # Convert from USD to million USD
+                        elif result_opex:
+                            opex = float(result_opex[0]) / DAYS_PER_YEAR    # Convert from USD/year to USD/day
+                new_row = {"Vessel Name": vessel_name_pretty, "CAPEX (Million USD)": capex, "OPEX (USD/day)": opex}
+                new_row_df = pd.DataFrame([new_row])
+                capex_opex_df = pd.concat([capex_opex_df, new_row_df], ignore_index=True)
+            
+            except FileNotFoundError:
+                print(f"File not found: {filepath}")
+    
+    # Save the dataframe to csv and return
+    capex_opex_df.to_csv("data/NavigaTE_CAPEX_OPEX.csv")
+    return capex_opex_df
+            
 
 def main():
     top_dir = get_top_dir()
 
-    all_results_df = read_results(
-        f"{top_dir}/all_outputs_full_fleet/lsfo-1_excel_report.xlsx", "lsfo"
-    )
-
-    fuel_consumption_df = compare_fuel_consumption(all_results_df)
-    print(fuel_consumption_df)
-
-    fuel_consumption_rate_df = compare_fuel_consumption_rate(all_results_df)
-    print(fuel_consumption_rate_df)
-
-    miles_traveled_df = compare_annual_miles(all_results_df)
-    print(miles_traveled_df)
-
-    cargo_miles_df = compare_annual_cargo_miles(all_results_df)
-    print(cargo_miles_df)
-
-    ttw_emission_rate_df = compare_ttw_emissions(all_results_df)
-    print(ttw_emission_rate_df)
+#    all_results_df = read_results(
+#        f"{top_dir}/all_outputs_full_fleet/lsfo-1_excel_report.xlsx", "lsfo"
+#    )
+#
+#    fuel_consumption_df = compare_fuel_consumption(all_results_df)
+#    print(fuel_consumption_df)
+#
+#    fuel_consumption_rate_df = compare_fuel_consumption_rate(all_results_df)
+#    print(fuel_consumption_rate_df)
+#
+#    miles_traveled_df = compare_annual_miles(all_results_df)
+#    print(miles_traveled_df)
+#
+#    cargo_miles_df = compare_annual_cargo_miles(all_results_df)
+#    print(cargo_miles_df)
+#
+#    ttw_emission_rate_df = compare_ttw_emissions(all_results_df)
+#    print(ttw_emission_rate_df)
+    
+    collect_capex_opex_navigate(top_dir)
 
 
 main()
