@@ -591,9 +591,6 @@ def collect_capex_opex_navigate(top_dir):
             vessel_type_pretty = vessel_type.replace("_", " ").title()
             vessel_class_pretty = vessel_size_title[vessel_class]
             vessel_name_pretty = f"{vessel_type_pretty} ({vessel_class_pretty})"
-            print(vessel_name_pretty)
-            
-            
         
             # Construct the filepath to the vessel .inc file for the given vessel
             filepath = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{vessel_class}_oil.inc"
@@ -626,26 +623,26 @@ def collect_capex_opex_navigate(top_dir):
 def main():
     top_dir = get_top_dir()
 
-#    all_results_df = read_results(
-#        f"{top_dir}/all_outputs_full_fleet/lsfo-1_excel_report.xlsx", "lsfo"
-#    )
-#
-#    fuel_consumption_df = compare_fuel_consumption(all_results_df)
-#    print(fuel_consumption_df)
-#
-#    fuel_consumption_rate_df = compare_fuel_consumption_rate(all_results_df)
-#    print(fuel_consumption_rate_df)
-#
-#    miles_traveled_df = compare_annual_miles(all_results_df)
-#    print(miles_traveled_df)
-#
-#    cargo_miles_df = compare_annual_cargo_miles(all_results_df)
-#    print(cargo_miles_df)
-#
-#    ttw_emission_rate_df = compare_ttw_emissions(all_results_df)
-#    print(ttw_emission_rate_df)
+    all_results_df = read_results(
+        f"{top_dir}/all_outputs_full_fleet/lsfo-1_excel_report.xlsx", "lsfo"
+    )
+
+    fuel_consumption_df = compare_fuel_consumption(all_results_df)
+    print(fuel_consumption_df)
+
+    fuel_consumption_rate_df = compare_fuel_consumption_rate(all_results_df)
+    print(fuel_consumption_rate_df)
+
+    miles_traveled_df = compare_annual_miles(all_results_df)
+    print(miles_traveled_df)
+
+    cargo_miles_df = compare_annual_cargo_miles(all_results_df)
+    print(cargo_miles_df)
+
+    ttw_emission_rate_df = compare_ttw_emissions(all_results_df)
+    print(ttw_emission_rate_df)
     
-    collect_capex_opex_navigate(top_dir)
+    capex_opex_df = collect_capex_opex_navigate(top_dir)
 
 
 main()
