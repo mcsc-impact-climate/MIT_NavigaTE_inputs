@@ -76,17 +76,17 @@ liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Thailand,1,2024,706.871947442805
 liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Russia,1,2024,771.9215131584012,1502.832692104164,2274.754205262565,6.910871802194141,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Saudi Arabia,1,2024,1035.3722543065635,1280.3073663207313,2315.6796206272948,6.910871802194141,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Africa,1,2024,1208.479997738252,9396.386649957107,10604.866647695359,9.515062088003617,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Taiwan,1,2024,839.3875846359288,8370.943066848184,9210.330651484113,2.191484448252065,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Switzerland,1,2024,1096.3632163388907,11128.62247431558,12224.98569065447,2.191484448252065,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Taiwan,1,2024,839.3875846359288,8370.943066848184,9210.330651484113,2.191484448252064,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Switzerland,1,2024,1096.3632163388907,11128.62247431558,12224.98569065447,2.191484448252064,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Singapore,1,2024,820.5360904183369,11445.577753335672,12266.113843754008,6.936031032102996,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Hungary,1,2024,916.7779293186741,8514.100504812468,9430.878434131142,4.030540348873182,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Philippines,1,2024,689.5678148013835,8268.89824956635,8958.466064367733,8.459509292972562,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Philippines,1,2024,689.5678148013835,8268.89824956635,8958.466064367733,8.45950929297256,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Netherlands,1,2024,1119.1834461812382,9307.031674676029,10426.215120857267,4.726987553842127,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Norway,1,2024,1314.6436757004794,8032.0858220053215,9346.7294977058,2.137074510363866,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Oman,1,2024,947.5356304105343,9068.748712486813,10016.284342897347,7.958937864401133,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Norway,1,2024,1314.6436757004794,8032.0858220053215,9346.7294977058,2.137074510363865,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Oman,1,2024,947.5356304105343,9068.748712486813,10016.284342897347,7.958937864401132,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Italy,1,2024,922.7310327558082,11570.328347157989,12493.059379913797,5.412552771233431,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Austria,1,2024,1031.8712624366028,9508.326374801403,10540.197637238007,3.0185155041526857,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Finland,1,2024,1142.9958599297754,7185.864906019216,8328.860765948992,2.6702919016682136,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Austria,1,2024,1031.8712624366028,9508.326374801403,10540.197637238007,3.018515504152685,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Finland,1,2024,1142.9958599297754,7185.864906019216,8328.860765948992,2.670291901668213,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Portugal,1,2024,902.8873546320275,7276.3324470321495,8179.219801664177,3.6170248209228717,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Germany,1,2024,1033.855630248981,7993.899987570079,9027.75561781906,5.956652150115419,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Greece,1,2024,912.8091936939178,7562.708797696761,8475.51799139068,5.47784469669927,Liquid cryogenic hydrogen at atmospheric pressure
@@ -101,7 +101,7 @@ liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Belgium,1,2024,1137.042756492641
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Poland,1,2024,927.6919522867535,9589.830744420276,10517.52269670703,9.01449065943219,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,India,1,2024,629.0445965238521,4603.293935038071,5232.338531561923,9.569472025891816,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Indonesia,1,2024,632.0211482424191,3961.916408886527,4593.937557128946,9.569472025891816,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Korea,1,2024,1141.0114921173972,4267.698182413218,5408.709674530615,6.500751528997406,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Korea,1,2024,1141.0114921173972,4267.698182413218,5408.709674530615,6.500751528997405,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,China,1,2024,781.8409180769645,3498.7714430189058,4280.61236109587,8.143931653221008,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United Arab Emirates,1,2024,947.5356304105343,3553.76424071558,4501.299871126114,6.870739106637158,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United States,1,2024,992.1839061890412,3440.536343094344,4432.720249283385,5.826068299183741,Liquid cryogenic hydrogen at atmospheric pressure
@@ -109,10 +109,10 @@ liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Turkey,1,2024,722.3098837056219,
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Australia,1,2024,971.3480441590712,3733.768165044984,4705.116209204055,7.7848260631588975,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Malaysia,1,2024,868.1609179154109,2879.986918088477,3748.147836003888,2.953223578686847,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Canada,1,2024,883.0436765082467,2480.771544834049,3363.815221342296,3.660552771233431,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Mexico,1,2024,803.6689640131234,3349.9259858548858,4153.594949868009,7.327782584898028,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Mexico,1,2024,803.6689640131234,3349.9259858548858,4153.594949868009,7.327782584898027,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Thailand,1,2024,646.9039068352549,2414.2523414033367,3061.1562482385916,7.795708050736537,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Russia,1,2024,706.4349412065973,1499.7241467311553,2206.1590879377527,6.609571404773804,Liquid cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Saudi Arabia,1,2024,947.5356304105343,1231.8100613093295,2179.3456917198637,6.609571404773804,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Russia,1,2024,706.4349412065973,1499.7241467311553,2206.1590879377527,6.609571404773803,Liquid cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Saudi Arabia,1,2024,947.5356304105343,1231.8100613093295,2179.3456917198637,6.609571404773803,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,1412.5998599999998,5140.849252678775,6553.449112678774,41.79326890056,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,981.1654199999999,1143.0342665358012,2124.199686535801,2.0660514287000002,Liquid cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Switzerland,1,2024,1281.5458500000002,16036.627378975802,17318.1732289758,2.0660514287000002,Liquid cryogenic hydrogen at atmospheric pressure
