@@ -366,95 +366,106 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
 def calculate_resource_demands_STP_hydrogen(H_pathway):
     if H_pathway == "LTE":
         elect_demand = H2_LTE_elect_demand
+        LCB_demand = H2_LTE_LCB_demand
         NG_demand = H2_LTE_NG_demand
         water_demand = H2_LTE_water_demand
         CO2_demand = 0
     elif H_pathway == "ATRCCS":
         elect_demand = H2_ATRCCS_elect_demand
+        LCB_demand = H2_ATRCCS_LCB_demand
         NG_demand = H2_ATRCCS_NG_demand
         water_demand = H2_ATRCCS_water_demand
         CO2_demand = 0
     elif H_pathway == "SMRCCS":
         elect_demand = H2_SMRCCS_elect_demand
+        LCB_demand = H2_SMRCCS_LCB_demand
         NG_demand = H2_SMRCCS_NG_demand
         water_demand = H2_SMRCCS_water_demand
         CO2_demand = 0
     elif H_pathway == "SMR":
         elect_demand = H2_SMR_elect_demand
+        LCB_demand = H2_SMR_LCB_demand
         NG_demand = H2_SMR_NG_demand
         water_demand = H2_SMR_water_demand
         CO2_demand = 0
     elif H_pathway == "BG":
         elect_demand = H2_BG_elect_demand
+        LCB_demand = H2_BG_LCB_demand
         NG_demand = H2_BG_NG_demand
         water_demand = H2_BG_water_demand
         CO2_demand = 0
 
-    return elect_demand, NG_demand, water_demand, CO2_demand
+    return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 
 def calculate_resource_demands_liquid_hydrogen(H_pathway):
-    elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
     elect_demand += H2_liq_elect_demand
 
-    return elect_demand, NG_demand, water_demand, CO2_demand
+    return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 
 def calculate_resource_demands_compressed_hydrogen(H_pathway):
-    elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
     elect_demand += H2_comp_elect_demand
 
-    return elect_demand, NG_demand, water_demand, CO2_demand
+    return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 
 def calculate_resource_demands_ammonia(H_pathway):
     elect_demand = NH3_elect_demand
+    LCB_demand = 0
     H2_demand = NH3_H2_demand
     CO2_demand = 0
     NG_demand = NH3_NG_demand
     water_demand = NH3_water_demand
 
     # add H2 resource demands
-    H2_elect_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
     elect_demand += H2_elect_demand * H2_demand
+    LCB_demand += H2_LCB_demand * H2_demand
     NG_demand += H2_NG_demand * H2_demand
     water_demand += H2_water_demand * H2_demand
     CO2_demand += H2_CO2_demand * H2_demand
 
-    return elect_demand, NG_demand, water_demand, CO2_demand
+    return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 
 def calculate_resource_demands_methanol(H_pathway):
     elect_demand = MeOH_elect_demand
+    LCB_demand = 0
     H2_demand = MeOH_H2_demand
     CO2_demand = MeOH_CO2_demand
     NG_demand = MeOH_NG_demand
     water_demand = MeOH_water_demand
 
     # add H2 resource demands
-    H2_elect_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
     elect_demand += H2_elect_demand * H2_demand
+    LCB_demand += H2_LCB_demand * H2_demand
     NG_demand += H2_NG_demand * H2_demand
     water_demand += H2_water_demand * H2_demand
     CO2_demand += H2_CO2_demand * H2_demand
 
-    return elect_demand, NG_demand, water_demand, CO2_demand
+    return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 def calculate_resource_demands_FTdiesel(H_pathway):
     elect_demand = FTdiesel_elect_demand
+    LCB_demand = 0
     H2_demand = FTdiesel_H2_demand
     CO2_demand = FTdiesel_CO2_demand
     NG_demand = FTdiesel_NG_demand
     water_demand = FTdiesel_water_demand
 
     # add H2 resource demands
-    H2_elect_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+    H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
     elect_demand += H2_elect_demand * H2_demand
+    LCB_demand += H2_LCB_demand * H2_demand
     NG_demand += H2_NG_demand * H2_demand
     water_demand += H2_water_demand * H2_demand
     CO2_demand += H2_CO2_demand * H2_demand
 
-    return elect_demand, NG_demand, water_demand, CO2_demand
+    return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 
 # end of section added by Grace for 10/18
@@ -526,25 +537,25 @@ def main():
             C_pathway = C_pathways[pathway_index]
 
             if fuel == "hydrogen":
-                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
                 comment = "hydrogen at standard temperature and pressure"
             elif fuel == "liquid_hydrogen":
-                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_liquid_hydrogen(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_liquid_hydrogen(H_pathway)
                 comment = "Liquid cryogenic hydrogen at atmospheric pressure"
             elif fuel == "compressed_hydrogen":
-                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_compressed_hydrogen(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_compressed_hydrogen(H_pathway)
                 comment = "compressed gaseous hydrogen at 700 bar"
             elif fuel == "ammonia":
-                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_ammonia(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_ammonia(H_pathway)
                 comment = "Liquid cryogenic ammonia at atmospheric pressure"
             elif fuel == "methanol":
-                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_methanol(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_methanol(H_pathway)
                 comment = "Liquid methanol at STP"
             elif fuel == "FTdiesel":
-                elect_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_FTdiesel(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_FTdiesel(H_pathway)
                 comment = "liquid Fischer--Tropsch diesel fuel at STP"
 
-            calculated_resource_row = [fuel, H_pathway, C_pathway, fuel_pathway, elect_demand, NG_demand, water_demand, CO2_demand]
+            calculated_resource_row = [fuel, H_pathway, C_pathway, fuel_pathway, elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand]
             output_resource_data.append(calculated_resource_row)
 
             for row_index, row in input_df.iterrows():
@@ -590,7 +601,7 @@ def main():
 
         # GE - Define the resource output to CSV column names - may need to add more columns
         output_resource_columns = [
-            "Fuel", "Hydrogen Source", "Carbon Source", "Fuel Pathway", "Electricity Demand [kWh / kg fuel]", "NG Demand [GJ / kg fuel]", "Water Demand [m^3 / kg fuel]", "CO2 Demand [kg CO2 / kg fuel]"
+            "Fuel", "Hydrogen Source", "Carbon Source", "Fuel Pathway", "Electricity Demand [kWh / kg fuel]", "Lignocellulosic Biomass Demand [kg / kg fuel]", "NG Demand [GJ / kg fuel]", "Water Demand [m^3 / kg fuel]", "CO2 Demand [kg CO2 / kg fuel]"
         ]
 
         # Create a DataFrame for the output data
