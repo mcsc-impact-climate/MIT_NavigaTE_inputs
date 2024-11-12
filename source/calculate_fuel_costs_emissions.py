@@ -14,18 +14,16 @@ NG_GWP = 28 # GWP100 of methane (surrogate for NG) using IPCC-AR5 as in MEPC.391
 gen_admin_rate = 0.2 # 20% G&A rate
 op_maint_rate = 0.04 # O&M rate
 tax_rate = 0.02 # 2% tax rate
-NG_percent_fugitive = 0.02 # 2% fugitive NG emissions
-renew_price = 0.04 # [2024$/kWh] price of renewable electricity #NOTE: just a placeholder value for now
-renew_emissions_intensity = 0.01 # [kg CO2e/kWh] upstream emissions from renewable electricity #NOTE: just a placeholder value for now
-nuke_price = 0.05 # [2024$/kWh] price of nuclear electricity #NOTE: just a placeholder value for now
-nuke_emissions_intensity = 0.01 # [kg CO2e/kWh] upstream emissions from nuclear electricity #NOTE: just a placeholder value for now
-BEC_CO2_price = 0.004 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
-BEC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
-DAC_CO2_price = 0.04 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
-DAC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
+NG_percent_fugitive = 0.02 # Assume 2% fugitive NG emissions
+LCB_upstream_emissions = 0.056319472 # [kg CO2e/bone-dry kg] upstream emissions for lignocellulosic biomass (LCB) from GREET (not region specific)
+BEC_CO2_price = 0.04 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now # This input should probably be regionalized or made dependent on LCB price
+BEC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from bioenergy plant with CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
+DAC_CO2_price = 0.2 # [2024$/kg CO2] price of captured CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
+DAC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from direct-air CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
 
 # Inputs for STP H2 production from low-temperature water electrolysis
 H2_LTE_elect_demand = 51.03004082 # [kWh elect/kg H2] from Aspen Plus
+H2_LTE_LCB_demand = 0 # [kg/kg H2]
 H2_LTE_NG_demand = 0 # [GJ NG/kg H2] zero for LTE
 H2_LTE_water_demand = 0.01430886 # [m^3 H2O/kg H2] from Aspen Plus
 H2_LTE_base_CapEx = 0.56079 # [2024$/kg H2] from H2A
@@ -35,6 +33,7 @@ H2_LTE_onsite_emissions = 0 # [kg CO2e/kg H2] zero for LTE
 
 # Inputs for STP H2 production from steam methane reforming with 96% CO2 capture rate
 H2_SMRCCS_elect_demand = 0.041/20125 # [kWh elect/kg H2] from Zang et al 2021
+H2_SMRCCS_LCB_demand = 0 # [kg/kg H2]
 H2_SMRCCS_NG_demand = 3947/20125 # [GJ NG/kg H2] from Zang et al 2021
 H2_SMRCCS_water_demand = (308.347 + 177.085)/20125 # [m^3 H2O/kg H2] from Zang et al 2021
 H2_SMRCCS_base_CapEx = 1.2253*1419/365*0.1018522 # [2024$/kg] amortized TPC from Zang et al 2021
@@ -44,12 +43,24 @@ H2_SMRCCS_onsite_emissions = 7656/20125 # [kg CO2e output/kg H2] from Zang et al
 
 # Inputs for STP H2 production from steam methane reforming without CO2 capture
 H2_SMR_elect_demand = 0.013/20126 # [kWh elect/kg H2] from Zang et al 2021
+H2_SMR_LCB_demand = 0 # [kg/kg H2]
 H2_SMR_NG_demand = (3712 - 514/0.8)/20126 # [GJ NG/kg H2] (including steam displacement) from Zang et al 2021
 H2_SMR_water_demand = 336.728/20126 # [m^3 H2O/kg H2] from Zang et al 2021
 H2_SMR_base_CapEx = 1.2253*564/365*0.1018522 # [2024$/kg] amortized TPC from Zang et al 2021
 H2_SMR_full_time_employed = 18 # [full-time employees] from H2A
 H2_SMR_yearly_output = 365*24*20126 # [kg H2/year] from Zang et al 2021
 H2_SMR_onsite_emissions = 188221/20126 # [kg CO2e/kgH2] from Zang et al 2021
+
+# Inputs for STP H2 production from lignocellulosic biomass (LCB) gasification (BG) without CO2 capture
+H2_BG_elect_demand = 0.98 # [kWh elect/kg H2] from H2A
+H2_BG_LCB_demand = 13.49 # [kg/kg H2] from H2A
+H2_BG_NG_demand = 0.0062245 # [GJ NG/kg H2] from H2A
+H2_BG_water_demand = 0.005 # [m^3 H2O/kg H2] from H2A
+H2_BG_base_CapEx = 1.3137*0.32 # [2024$/kg] from H2A
+H2_BG_full_time_employed = 54 # [full-time employees] from H2A
+H2_BG_yearly_output = 50995026 # [kg H2/year] from H2A
+H2_BG_emissions = 1.913592126 # [kg CO2e/bone-dry kg] process emissions from gasification of lignocellulosic biomass (LCB) 
+H2_BG_onsite_emissions = 26.16 - H2_BG_emissions*H2_BG_LCB_demand # [kg CO2e/kgH2] from H2A #NOTE: includes biogenic credit
 
 # Inputs for production of liquid H2 at 20 K
 H2_liq_base_CapEx = 0.59898 # [2024$/kg]
@@ -95,9 +106,10 @@ FTdiesel_full_time_employed = 80 # [full-time employees] from H2A
 FTdiesel_yearly_output = 128202750 # [kg FTdiesel/year] from Aspen Plus
 FTdiesel_onsite_emissions = 0.3153886337 # [kg CO2e/kg FTdiesel] synthesis process emissions in Aspen Plus
 
-def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     if H_pathway == "LTE":
         elect_demand = H2_LTE_elect_demand
+        LCB_demand = H2_LTE_LCB_demand
         NG_demand = H2_LTE_NG_demand
         water_demand = H2_LTE_water_demand
         base_CapEx = H2_LTE_base_CapEx
@@ -106,6 +118,7 @@ def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,wa
         onsite_emissions = H2_LTE_onsite_emissions
     elif H_pathway == "SMRCCS":
         elect_demand = H2_SMRCCS_elect_demand
+        LCB_demand = H2_SMRCCS_LCB_demand
         NG_demand = H2_SMRCCS_NG_demand
         water_demand = H2_SMRCCS_water_demand
         base_CapEx = H2_SMRCCS_base_CapEx
@@ -114,12 +127,22 @@ def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,wa
         onsite_emissions = H2_SMRCCS_onsite_emissions
     elif H_pathway == "SMR":
         elect_demand = H2_SMR_elect_demand
+        LCB_demand = H2_SMR_LCB_demand
         NG_demand = H2_SMR_NG_demand
         water_demand = H2_SMR_water_demand
         base_CapEx = H2_SMR_base_CapEx
         full_time_employed = H2_SMR_full_time_employed
         yearly_output = H2_SMR_yearly_output
         onsite_emissions = H2_SMR_onsite_emissions
+    elif H_pathway == "BG":
+        elect_demand = H2_BG_elect_demand
+        LCB_demand = H2_BG_LCB_demand
+        NG_demand = H2_BG_NG_demand
+        water_demand = H2_BG_water_demand
+        base_CapEx = H2_BG_base_CapEx
+        full_time_employed = H2_BG_full_time_employed
+        yearly_output = H2_BG_yearly_output
+        onsite_emissions = H2_BG_onsite_emissions
     # calculate production values
     CapEx = base_CapEx*instal_factor
     Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) \
@@ -127,14 +150,16 @@ def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,wa
     Electricity_OpEx = elect_demand*elect_price
     NG_OpEx = NG_demand*NG_price
     Water_OpEx = water_demand*water_price
-    OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx
+    LCB_OpEx = LCB_demand*LCB_price
+    OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx + LCB_OpEx
     emissions = elect_demand*elect_emissions_intensity \
                 + NG_demand/NG_HHV*NG_GWP*NG_percent_fugitive \
+                + LCB_demand*LCB_upstream_emissions \
                 + onsite_emissions
     
     return CapEx, OpEx, emissions
 
-def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     base_CapEx = H2_liq_base_CapEx
     elect_demand = H2_liq_elect_demand
     # calculate liquefaction values
@@ -142,14 +167,14 @@ def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor
     OpEx = (op_maint_rate + tax_rate)*CapEx + elect_demand*elect_price
     emissions = elect_demand*elect_emissions_intensity
     # add H2 feedstock cost and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += H2_CapEx
     OpEx += H2_OpEx
     emissions += H2_emissions
 
     return CapEx, OpEx, emissions
 
-def calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     base_CapEx = H2_comp_base_CapEx
     elect_demand = H2_comp_elect_demand
     # calculate compression values
@@ -157,14 +182,14 @@ def calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_fa
     OpEx = (op_maint_rate + tax_rate)*CapEx + elect_demand*elect_price
     emissions = elect_demand*elect_emissions_intensity
     # add H2 feedstock cost and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += H2_CapEx
     OpEx += H2_OpEx
     emissions += H2_emissions
 
     return CapEx, OpEx, emissions
 
-def calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     elect_demand = NH3_elect_demand
     H2_demand = NH3_H2_demand
     NG_demand = NH3_NG_demand
@@ -185,7 +210,7 @@ def calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_p
                 + NG_demand/NG_HHV*NG_GWP*NG_percent_fugitive \
                 + onsite_emissions
     # add H2 feedstock cost and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += (H2_CapEx*H2_demand)
     OpEx += (H2_OpEx*H2_demand)
     emissions += (H2_emissions*H2_demand)
@@ -193,7 +218,7 @@ def calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_p
     return CapEx, OpEx, emissions
 
 
-def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     elect_demand = MeOH_elect_demand
     H2_demand = MeOH_H2_demand
     CO2_demand = MeOH_CO2_demand
@@ -215,7 +240,7 @@ def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_fac
                 + NG_demand/NG_HHV*NG_GWP*NG_percent_fugitive \
                 + onsite_emissions
     # add H2 feedstock costs and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += (H2_CapEx*H2_demand)
     OpEx += (H2_OpEx*H2_demand)
     emissions += (H2_emissions*H2_demand)
@@ -236,13 +261,17 @@ def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_fac
         CO2_CapEx = 0 # assumes integrated plant with syngas conversion
         CO2_OpEx = 0 # assumes integrated plant with syngas conversion
         CO2_emissions = -(44.01/32.04) # fossil CO2 that would have been emitted by SMR is instead embodied in fuel 
+    elif C_pathway == "BG":
+        CO2_CapEx = 0 # assumes integrated plant with conversion of gasified biomass
+        CO2_OpEx = 0 # assumes integrated plant with conversion of gasified biomass
+        CO2_emissions = 0 # biogenic CO2 credit is already applied
     CapEx += (CO2_CapEx*CO2_demand)
     OpEx += (CO2_OpEx*CO2_demand)
     emissions += (CO2_emissions) 
 
     return CapEx, OpEx, emissions
 
-def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
+def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate):
     elect_demand = FTdiesel_elect_demand
     H2_demand = FTdiesel_H2_demand
     CO2_demand = FTdiesel_CO2_demand
@@ -264,7 +293,7 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
                 + NG_demand/NG_HHV*NG_GWP*NG_percent_fugitive \
                 + onsite_emissions
     # add H2 feedstock costs and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
     CapEx += (H2_CapEx*H2_demand)
     OpEx += (H2_OpEx*H2_demand)
     emissions += (H2_emissions*H2_demand)
@@ -285,6 +314,10 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
         CO2_CapEx = 0 # assumes integrated plant with syngas conversion
         CO2_OpEx = 0 # assumes integrated plant with syngas conversion
         CO2_emissions = -(12*44.01/167.3) # fossil CO2 that would have been emitted by SMR is instead embodied in fuel 
+    elif C_pathway == "BG":
+        CO2_CapEx = 0 # assumes integrated plant with conversion of gasified biomass
+        CO2_OpEx = 0 # assumes integrated plant with conversion of gasified biomass
+        CO2_emissions = 0 # biogenic CO2 credit is already applied
     CapEx += (CO2_CapEx*CO2_demand)
     OpEx += (CO2_OpEx*CO2_demand)
     emissions += (CO2_emissions) 
@@ -410,8 +443,10 @@ def main():
                         H_pathways_noelec += [Hsource]
                         C_pathways_noelec += [Csource]
                         fuel_pathways_noelec += [Hsource + "_H_C"]
-                    elif ((Hsource == "SMR") & (Csource == "SMRCCS")) | ((Hsource == "SMRCCS") & (Csource == "SMR")):
-                        continue #skip cases where SMR is used for H and SMRCCS is used for C (or vice versa) because that doesn't make sense
+                    elif ((Hsource == "SMR") & (Csource == "SMRCCS")) | ((Hsource != "SMR") & (Csource == "SMR")) | ((Hsource != "BG") & (Csource == "BG")):
+                        #skip case where SMRCCS is used for C and SMR is used for H, because this does not make sense.
+                        #also skip cases where BG or SMR is used for C but not H, because C would not be captured or usable in those cases.
+                        continue
                     else:
                         H_pathways_noelec += [Hsource]
                         C_pathways_noelec += [Csource]
@@ -466,7 +501,7 @@ def main():
             output_resource_data.append(calculated_resource_row)
 
             for row_index, row in input_df.iterrows():
-                region,instal_cost,src,water_price,src,NG_price,src,grid_price,src,grid_emissions_intensity,src,hourly_labor_rate,src = row
+                region,instal_cost,src,water_price,src,NG_price,src,LCB_price,src,grid_price,src,grid_emissions_intensity,src,renew_price,src,renew_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
                 H_pathway = H_pathways[pathway_index]
                 C_pathway = C_pathways[pathway_index]
                 E_pathway = E_pathways[pathway_index]
@@ -482,22 +517,22 @@ def main():
                     elect_price = nuke_price
                     elect_emissions_intensity = nuke_emissions_intensity
                 if fuel == "hydrogen":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "hydrogen at standard temperature and pressure"
                 elif fuel == "liquid_hydrogen":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid cryogenic hydrogen at atmospheric pressure"
                 elif fuel == "compressed_hydrogen":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "compressed gaseous hydrogen at 700 bar"
                 elif fuel == "ammonia":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia(H_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia(H_pathway,instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid cryogenic ammonia at atmospheric pressure"
                 elif fuel == "methanol":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid methanol at STP"
                 elif fuel == "FTdiesel":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "liquid Fischer--Tropsch diesel fuel at STP"
                 CapEx *= 1000 # convert to $/tonne
                 OpEx *= 1000 # convert to $/tonne
@@ -550,7 +585,7 @@ def main():
         for process_pathway in process_pathways:
             pathway_index = process_pathways.index(process_pathway)
             for row_index, row in input_df.iterrows():
-                region,instal_cost,src,water_price,src,NG_price,src,grid_price,src,grid_emissions_intensity,src,hourly_labor_rate,src = row
+                region,instal_cost,src,water_price,src,NG_price,src,LCB_price,src,grid_price,src,grid_emissions_intensity,src,renew_price,src,renew_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
                 H_pathway = "n/a"
                 C_pathway = "n/a"
                 E_pathway = E_pathways[pathway_index]
@@ -567,24 +602,24 @@ def main():
                     elect_emissions_intensity = nuke_emissions_intensity
                 # Calculations use LTE pathway for all, but subtract away the LTE costs/emissions
                 if process == "hydrogen_liquefaction":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen("LTE",instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     CapEx -= CapEx_H2prod
                     OpEx -= OpEx_H2prod
                     emissions -= emissions_H2prod
                     fuel = "liquid_hydrogen"
                     comment = "Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure"
                 elif process == "hydrogen_compression":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen("LTE",instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     CapEx -= CapEx_H2prod
                     OpEx -= OpEx_H2prod
                     emissions -= emissions_H2prod
                     fuel = "compressed_hydrogen"
                     comment = "compression of STP hydrogen to gaseous hydrogen at 700 bar"
                 elif process == "hydrogen_to_ammonia_conversion":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia("LTE",instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = calculate_production_costs_emissions_STP_hydrogen("LTE",instal_cost,water_price,NG_price,LCB_price,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     CapEx -= (CapEx_H2prod*NH3_H2_demand)
                     OpEx -= (OpEx_H2prod*NH3_H2_demand)
                     emissions -= (emissions_H2prod*NH3_H2_demand)
