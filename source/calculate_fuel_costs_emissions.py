@@ -36,56 +36,56 @@ H2_LTE_full_time_employed = 10 # [full-time employees] from H2A
 H2_LTE_yearly_output = 20003825 # [kg H2/year] from Aspen Plus
 H2_LTE_onsite_emissions = 0 # [kg CO2e/kg H2] zero for LTE
 
-# Inputs for STP H2 production from autothermal reforming with 99% CO2 capture rate from Zang et al 2021 (ATR-CC-R-OC case)
+# Inputs for STP H2 production from autothermal reforming with 99% CO2 capture rate from Zang et al 2024 (ATR-CC-R-OC case)
 ATRCCS_prod = 20125 # [kg H2/hr] Table 6, column 5: hourly H2 production
 ATRCCS_elec = 58000 # [kW elec] Table 6, column 5: electricity consumption
 ATRCCS_NG = 3376 # [GJ NG/hr] Table 6, column 5: hourly NG consumption
 ATRCCS_water = 96.831 # [m^3/hr] Table S5: water flow 19
 ATRCCS_emissions = 221 # [kg CO2e/hr] Table 6, column 5: hourly CO2e emissions
-ATRCCS_TPC = 1.2253*1150 # [2024$/(kg H2/day)] total plant cost from Fig 4 case 5 TPC (inflation adjusted from 2019 USD to 2024 USD)
+ATRCCS_TPC = 1.2253*1150 # [2024$/(kg H2/day)] total plant cost from Fig 4 case 5 TPC (inflation adjusted from 2019 USD to 2024 USD using https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401)
 ATRCCS_CRF = 0.1018522 # [-] capital recovery factor from H2A based on data from Table 5
-H2_ATRCCS_elect_demand = ATRCCS_elec/ATRCCS_prod # [kWh elect/kg H2] from Zang et al 2021
+H2_ATRCCS_elect_demand = ATRCCS_elec/ATRCCS_prod # [kWh elect/kg H2] from Zang et al 2024
 H2_ATRCCS_LCB_demand = 0 # [kg/kg H2]
-H2_ATRCCS_NG_demand = ATRCCS_NG/ATRCCS_prod # [GJ NG/kg H2] from Zang et al 2021
-H2_ATRCCS_water_demand = ATRCCS_water/ATRCCS_prod # [m^3 H2O/kg H2] from Zang et al 2021
-H2_ATRCCS_base_CapEx = ATRCCS_TPC/365*ATRCCS_CRF # [2024$/kg] amortized TPC from Zang et al 2021
+H2_ATRCCS_NG_demand = ATRCCS_NG/ATRCCS_prod # [GJ NG/kg H2] from Zang et al 2024
+H2_ATRCCS_water_demand = ATRCCS_water/ATRCCS_prod # [m^3 H2O/kg H2] from Zang et al 2024
+H2_ATRCCS_base_CapEx = ATRCCS_TPC/365*ATRCCS_CRF # [2024$/kg] amortized TPC from Zang et al 2024
 H2_ATRCCS_full_time_employed = 22 # [full-time employees] from H2A
-H2_ATRCCS_yearly_output = 365*24*ATRCCS_prod # [kg H2/year] from Zang et al 2021
-H2_ATRCCS_onsite_emissions = ATRCCS_emissions/ATRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2021
+H2_ATRCCS_yearly_output = 365*24*ATRCCS_prod # [kg H2/year] from Zang et al 2024
+H2_ATRCCS_onsite_emissions = ATRCCS_emissions/ATRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
 
-# Inputs for STP H2 production from steam methane reforming with 96% CO2 capture rate from Zang et al 2021 (SMR-CCS case)
+# Inputs for STP H2 production from steam methane reforming with 96% CO2 capture rate from Zang et al 2024 (SMR-CCS case)
 SMRCCS_prod = 20125 # [kg H2/hr] Table 6, column 2: hourly H2 production
 SMRCCS_elec = 41000 # [kW elec] Table 6, column 2: electricity consumption
 SMRCCS_NG = 3947 # [GJ NG/hr] Table 6, column 2: hourly NG consumption
 SMRCCS_water = 308.347 + 177.085 # [m^3/hr] Table S2: water flows 8+17
 SMRCCS_emissions = 7656 # [kg CO2e/hr] Table 6, column 2: hourly CO2e emissions
-SMRCCS_TPC = 1.2253*1419 # [2024$/(kg H2/day)] total plant cost from Fig 4 case 2 TPC (inflation adjusted from 2019 USD to 2024 USD)
+SMRCCS_TPC = 1.2253*1419 # [2024$/(kg H2/day)] total plant cost from Fig 4 case 2 TPC (inflation adjusted from 2019 USD to 2024 USD using https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401)
 SMRCCS_CRF = 0.1018522 # [-] capital recovery factor from H2A based on data from Table 5
-H2_SMRCCS_elect_demand = SMRCCS_elec/SMRCCS_prod # [kWh elect/kg H2] from Zang et al 2021
+H2_SMRCCS_elect_demand = SMRCCS_elec/SMRCCS_prod # [kWh elect/kg H2] from Zang et al 2024
 H2_SMRCCS_LCB_demand = 0 # [kg/kg H2]
-H2_SMRCCS_NG_demand = SMRCCS_NG/SMRCCS_prod # [GJ NG/kg H2] from Zang et al 2021
-H2_SMRCCS_water_demand = SMRCCS_water/SMRCCS_prod # [m^3 H2O/kg H2] from Zang et al 2021
-H2_SMRCCS_base_CapEx = SMRCCS_TPC/365*SMRCCS_CRF # [2024$/kg] amortized TPC from Zang et al 2021
+H2_SMRCCS_NG_demand = SMRCCS_NG/SMRCCS_prod # [GJ NG/kg H2] from Zang et al 2024
+H2_SMRCCS_water_demand = SMRCCS_water/SMRCCS_prod # [m^3 H2O/kg H2] from Zang et al 2024
+H2_SMRCCS_base_CapEx = SMRCCS_TPC/365*SMRCCS_CRF # [2024$/kg] amortized TPC from Zang et al 2024
 H2_SMRCCS_full_time_employed = 22 # [full-time employees] from H2A
-H2_SMRCCS_yearly_output = 365*24*SMRCCS_prod # [kg H2/year] from Zang et al 2021
-H2_SMRCCS_onsite_emissions = SMRCCS_emissions/SMRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2021
+H2_SMRCCS_yearly_output = 365*24*SMRCCS_prod # [kg H2/year] from Zang et al 2024
+H2_SMRCCS_onsite_emissions = SMRCCS_emissions/SMRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
 
-# Inputs for STP H2 production from steam methane reforming without CO2 capture from Zang et al 2021 (SMR case)
+# Inputs for STP H2 production from steam methane reforming without CO2 capture from Zang et al 2024 (SMR case)
 SMR_prod = 20126 # [kg H2/hr] Table 6, column 1: hourly H2 production
 SMR_elec = 13000 # [kW elec] Table 6, column 1: electricity consumption
 SMR_NG = 3712 - 514/0.8 # [GJ NG/hr] (NG consumption including steam displacement at 80% boiler efficiency) Table 6, column 1: hourly NG consumption - Table 6, column 1: by product steam [GJ/hr] / 80%
 SMR_water = 336.728 # [m^3/hr] Table S1: water flow 13
 SMR_emissions = 188221 # [kg CO2e/hr] Table 6, column 1: hourly CO2e emissions
-SMR_TPC = 1.2253*564 # [2024$/(kg H2/day)] total plant cost from Fig 4 case 1 TPC (inflation adjusted from 2019 USD to 2024 USD)
+SMR_TPC = 1.2253*564 # [2024$/(kg H2/day)] total plant cost from Fig 4 case 1 TPC (inflation adjusted from 2019 USD to 2024 USD using https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401)
 SMR_CRF = 0.1018522 # [-] capital recovery factor from H2A based on data from Table 5
-H2_SMR_elect_demand = SMR_elec/SMR_prod # [kWh elect/kg H2] from Zang et al 2021
+H2_SMR_elect_demand = SMR_elec/SMR_prod # [kWh elect/kg H2] from Zang et al 2024
 H2_SMR_LCB_demand = 0 # [kg/kg H2]
-H2_SMR_NG_demand = SMR_NG/SMR_prod # [GJ NG/kg H2] from Zang et al 2021
-H2_SMR_water_demand = SMR_water/SMR_prod # [m^3 H2O/kg H2] from Zang et al 2021
-H2_SMR_base_CapEx = SMR_TPC/365*SMR_CRF # [2024$/kg] amortized TPC from Zang et al 2021
+H2_SMR_NG_demand = SMR_NG/SMR_prod # [GJ NG/kg H2] from Zang et al 2024
+H2_SMR_water_demand = SMR_water/SMR_prod # [m^3 H2O/kg H2] from Zang et al 2024
+H2_SMR_base_CapEx = SMR_TPC/365*SMR_CRF # [2024$/kg] amortized TPC from Zang et al 2024
 H2_SMR_full_time_employed = 22 # [full-time employees] from H2A
-H2_SMR_yearly_output = 365*24*SMR_prod # [kg H2/year] from Zang et al 2021
-H2_SMR_onsite_emissions = SMR_emissions/SMR_prod # [kg CO2e output/kg H2] from Zang et al 2021
+H2_SMR_yearly_output = 365*24*SMR_prod # [kg H2/year] from Zang et al 2024
+H2_SMR_onsite_emissions = SMR_emissions/SMR_prod # [kg CO2e output/kg H2] from Zang et al 2024
 
 # Inputs for STP H2 production from lignocellulosic biomass (LCB) gasification (BG) without CO2 capture
 H2_BG_elect_demand = 0.98 # [kWh elect/kg H2] from H2A
@@ -274,7 +274,7 @@ def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_fac
     Water_OpEx = water_demand*water_price
     OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx
     emissions = elect_demand*elect_emissions_intensity + NG_demand/NG_HHV*NG_GWP*NG_fugitive_emissions/100 # note fugitive emissions given as percentage
-    if ((C_pathway != "BEC") & (C_pathway != "DAC")): # ignore onsite emissions if biogenic CO2
+    if ((C_pathway != "BEC") & (C_pathway != "DAC")): # ignore onsite emissions if "captured" CO2 (BEC or DAC)
         emissions += onsite_emissions
     # add H2 feedstock costs and emissions
     H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,NG_fugitive_emissions,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
@@ -326,7 +326,7 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
     Water_OpEx = water_demand*water_price
     OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx
     emissions = elect_demand*elect_emissions_intensity + NG_demand/NG_HHV*NG_GWP*NG_fugitive_emissions/100 # note fugitive emissions given as percentage
-    if ((C_pathway != "BEC") & (C_pathway != "DAC")): # ignore onsite emissions if biogenic CO2
+    if ((C_pathway != "BEC") & (C_pathway != "DAC")): # ignore onsite emissions if "captured" CO2 (BEC or DAC)
         emissions += onsite_emissions
     # add H2 feedstock costs and emissions
     H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,NG_fugitive_emissions,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
