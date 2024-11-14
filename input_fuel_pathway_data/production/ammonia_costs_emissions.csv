@@ -1,457 +1,571 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
-ammonia,SMR,n/a,grid,SMR_H_grid_E,South Africa,1,2024,155.98908654799226,1452.5390590823977,1608.5281456303899,2.6541339984762153,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Taiwan,1,2024,108.34709952348231,1343.5492199053485,1451.8963194288308,1.985613322273703,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Switzerland,1,2024,141.5171926400094,1595.8621749767876,1737.379367616797,1.985613322273703,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Singapore,1,2024,105.91377222921969,1603.0240224290908,1708.9377946583104,2.4187114126515565,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Hungary,1,2024,118.33654841571827,1252.4320486254373,1370.7685970411555,2.1534884995073207,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Philippines,1,2024,89.00855102697423,1218.4652331325624,1307.4737841595365,2.557779606809583,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Netherlands,1,2024,144.46279936464308,1319.7433002125101,1464.2060995771533,2.2170625311224184,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Norway,1,2024,169.6925613104185,1205.5211200706078,1375.2136813810264,1.9806466010537735,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Oman,1,2024,122.30671400109408,1295.564167219622,1417.8708812207162,2.5120857715862313,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Italy,1,2024,119.10496756127488,1506.9043037569459,1626.0092713182207,2.27964321849353,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Austria,1,2024,133.19265189647945,1301.4818759972331,1434.6745278937126,2.0611074848166315,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Finland,1,2024,147.53647594686953,1065.0585525006436,1212.5950284475132,2.029320469009083,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Portugal,1,2024,116.54357040941952,1059.5169649235477,1176.0605353329672,2.1157414182358565,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Germany,1,2024,133.44879161166497,1087.5837368905788,1221.0325285022438,2.3293104306928254,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Greece,1,2024,117.8242689853472,1041.8414147931912,1159.6656837785386,2.285603283957445,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,France,1,2024,131.6558136053662,997.1169762196653,1128.7727898250314,2.006473551397407,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Brazil,1,2024,130.63125474462407,871.3454609871853,1001.9767157318095,2.048194009644815,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,United Kingdom,1,2024,130.118975314253,805.1234506142372,935.2424259284902,2.1872622038028413,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Spain,1,2024,112.06112539367261,791.121090607501,903.1822160011735,2.1236881721877436,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Sweden,1,2024,155.22066740243565,732.839395631361,888.0600630337966,1.9915733877376183,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Czech Republic,1,2024,114.75059240312075,795.0177908249615,909.7683832280823,2.481292100022668,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Japan,1,2024,137.67509691222634,786.0741904552989,923.7492873675252,2.432618232067359,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Belgium,1,2024,146.7680568013129,759.131858927647,905.89991572896,2.087927779404251,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Poland,1,2024,119.74531684923872,1126.7103042499407,1246.4556210991793,2.6084401632528635,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,India,1,2024,81.19628971381535,644.3187533716791,725.5150430854944,2.659100719696145,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Indonesia,1,2024,81.58049928659365,586.0393593974444,667.619858684038,2.659100719696145,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,South Korea,1,2024,147.28033623168398,600.0734687356608,747.3538049673448,2.3789776428921203,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,China,1,2024,100.91904778310172,495.81511822982895,596.7341660129307,2.5289726237339916,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,United Arab Emirates,1,2024,122.30671400109408,490.6937906590372,613.0005046601312,2.4127513471876414,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,United States,1,2024,128.06985759276867,453.5437317444912,581.6135893372599,2.317390299764994,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Turkey,1,2024,93.23485632753558,423.2669902330794,516.501846560615,2.4127513471876414,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Australia,1,2024,125.38039058332053,468.4786475554508,593.8590381387713,2.496192263682457,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Malaysia,1,2024,112.06112539367261,363.5136114240976,475.5747368177702,2.0551474193527164,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Canada,1,2024,113.98217325756413,316.2896133081056,430.2717865656697,2.1197147952117996,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Mexico,1,2024,103.73658465014266,390.6489800608513,494.38556471099395,2.454471805435049,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Thailand,1,2024,83.5015471504852,301.4043244964428,384.905871646928,2.497185607926443,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Russia,1,2024,91.1857386060513,169.17133792264676,260.35707652869803,2.3889110853319795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,grid,SMR_H_grid_E,Saudi Arabia,1,2024,122.30671400109408,148.46378123574743,270.7704952368415,2.3889110853319795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Africa,1,2024,219.20493535873754,1845.4173329347702,2064.6222682935077,1.1443711632310314,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Taiwan,1,2024,152.2556447565615,1725.0110103794227,1877.2666551359841,0.4758503207868798,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Switzerland,1,2024,198.86818848227006,1978.1305747353967,2176.9987632176667,0.4758503207868798,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Singapore,1,2024,148.83619174193424,1971.1865880773646,2120.0227798192986,0.9089485188636258,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Hungary,1,2024,166.29339923766295,1566.3277476617764,1732.6211468994393,0.643725539766169,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Philippines,1,2024,125.07999185083953,1524.5459778265288,1649.6259696773684,1.0480167476038655,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Netherlands,1,2024,203.00752634208203,1630.0256394670782,1833.0331658091602,0.7072995871902785,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Norway,1,2024,238.46185496742794,1517.308921436865,1755.770776404293,0.47088359833187127,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Oman,1,2024,171.87250678784426,1604.2450981751697,1776.117604963014,1.0023229010177865,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Italy,1,2024,167.37322650544,1804.4770805097985,1971.8503070152385,0.7698802901233863,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Austria,1,2024,187.17005974801893,1587.595575043337,1774.765634791356,0.5513445021030098,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Finland,1,2024,207.32683541319014,1335.0525995431813,1542.3794349563714,0.5195574783909551,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Portugal,1,2024,163.77380227951653,1320.5118662273749,1484.2856685068914,0.605978449108104,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Germany,1,2024,187.53000217061125,1323.4862123511552,1511.0162145217664,0.8195475146734719,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Greece,1,2024,165.57351439247824,1274.2359170908633,1439.8094314833415,0.7758403570693966,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,France,1,2024,185.01040521246483,1229.4416857813544,1414.4520909938192,0.49671055509791573,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Brazil,1,2024,183.57063552209547,1088.4887643114275,1272.059399833523,0.5384310237199876,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United Kingdom,1,2024,182.85075067691076,1001.8152240296847,1184.6659747065955,0.6774992524602272,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Spain,1,2024,157.47480988415052,977.4736814064643,1134.9484912906148,0.6139252050361176,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Sweden,1,2024,218.12510809096048,921.6085151035574,1139.7336231945178,0.4818103877328901,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Czech Republic,1,2024,161.25420532137014,980.0105850471934,1141.2647903685636,0.9715292217967337,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Japan,1,2024,193.4690521433849,958.7418539930607,1152.2109061364456,0.9228553417376497,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Belgium,1,2024,206.24700814541313,934.4708145395024,1140.7178226849155,0.578164803360056,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Poland,1,2024,168.27308256192086,1293.0162465022393,1461.28932906416,1.0986773166449526,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,India,1,2024,114.10174796177306,792.796597448224,906.8983454099971,1.14933788568604,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Indonesia,1,2024,114.64166159566159,734.6577294443539,849.2993910400155,1.14933788568604,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Korea,1,2024,206.96689299059778,740.222762246712,947.1896552373098,0.8692147392235574,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,China,1,2024,141.81731450138358,613.0558546166244,754.873169118008,1.0192097573648156,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United Arab Emirates,1,2024,171.87250678784426,601.1258892694369,772.9983960572812,0.9029884519176156,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United States,1,2024,179.97121129617202,546.0432204579802,726.0144317541522,0.8076273807814514,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Turkey,1,2024,131.01904182361324,507.93022365473473,638.949265478348,0.9029884519176156,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Australia,1,2024,176.1918158589524,552.9550059963665,729.1468218553189,0.9864293891617593,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Malaysia,1,2024,157.47480988415052,431.0870188636078,588.5618287477583,0.5453844351569996,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Canada,1,2024,160.1743780535931,375.977262754202,536.151640807795,0.6099518270721108,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Mexico,1,2024,145.77668114989933,447.61949904830624,593.3961801982056,0.9447089205396875,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Thailand,1,2024,117.34122976510416,355.63892828251437,472.98015804761854,0.987422733652761,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Russia,1,2024,128.1395024428745,191.38831914343208,319.5278215863066,0.8791481841335744,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Saudi Arabia,1,2024,171.87250678784426,173.078930127685,344.95143691552926,0.8791481841335744,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,235.55511,875.6006392666405,1111.1557492666407,7.11762445812,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,163.61217,195.69392087484272,359.3060908748427,0.35185996615,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Switzerland,1,2024,213.70147500000002,2732.0910354548428,2945.7925104548426,0.35185996615,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Singapore,1,2024,159.937665,3257.9573031845493,3417.8949681845493,4.735029830189999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Hungary,1,2024,178.69698,1624.1137347255249,1802.8107147255248,2.05084094556,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Philippines,1,2024,134.409525,1538.0193279940324,1672.4288529940325,6.14246969479,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Netherlands,1,2024,218.14955999999998,2472.108037618755,2690.257597618755,2.69424202652,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Norway,1,2024,256.24837499999995,1283.527252258896,1539.7756272588958,0.3015942567,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Oman,1,2024,184.692225,2262.1868862050023,2446.879111205002,5.680025167849999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Italy,1,2024,179.85735000000003,4788.859178995395,4968.7165289953955,3.3275899655899996,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Austria,1,2024,201.1308,3135.4166028856253,3336.547402885625,1.11589874979,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Finland,1,2024,222.79104,1328.406814981963,1551.197854981963,0.7941982093100001,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Portugal,1,2024,175.98945000000003,1556.014344483663,1732.0037944836631,1.66882155374,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Germany,1,2024,201.51759,2767.220446160187,2968.7380361601868,3.83024706009,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Greece,1,2024,177.92340000000002,2380.388522793702,2558.3119227937023,3.3879088169300005,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,France,1,2024,198.81006000000005,1958.6134603137318,2157.423520313732,0.56297594584,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Brazil,1,2024,197.26290000000003,1192.2400684653444,1389.5029684653443,0.98520790522,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,United Kingdom,1,2024,196.48932000000002,1260.0015084335573,1456.4908284335575,2.39264776982,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Spain,1,2024,169.220625,1489.9874222529802,1659.2080472529801,1.74924668886,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Sweden,1,2024,234.39473999999998,847.95574686709,1082.35048686709,0.41217881749,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Czech Republic,1,2024,173.28192000000004,1588.8720730223808,1762.153993022381,5.36837776926,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Japan,1,2024,207.89962500000004,1912.5305578702128,2120.430182870213,4.87577381665,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Belgium,1,2024,221.63067,1581.8928482077743,1803.5235182077743,1.3873335808200002,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Poland,1,2024,180.82432500000002,5586.704076926363,5767.528401926363,6.655179931179999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,India,1,2024,122.61243,1296.9270420768771,1419.539472076877,7.167890167569999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Indonesia,1,2024,123.192615,704.0883432926362,827.2809582926362,7.167890167569999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,South Korea,1,2024,222.40425000000002,1177.6275779588498,1400.0318279588498,4.33290415459,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,China,1,2024,152.39526000000004,913.3596501965677,1065.7549101965678,5.85092857998,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,United Arab Emirates,1,2024,184.692225,1127.6707547245776,1312.3629797245776,4.67471097885,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,United States,1,2024,193.395,1405.8220918799234,1599.2170918799234,3.7096093574099998,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Turkey,1,2024,140.79155999999998,1328.3437058550344,1469.1352658550343,4.67471097885,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Australia,1,2024,189.333705,1848.9837244550467,2038.3174294550467,5.51917489761,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Malaysia,1,2024,169.220625,1330.1350107665924,1499.3556357665923,1.05557989845,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Canada,1,2024,172.12155,1170.5590979476538,1342.6806479476538,1.7090341213,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Mexico,1,2024,156.64995000000005,1982.1993174858524,2138.8492674858526,5.096942938230001,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Thailand,1,2024,126.09354,1167.4253582428407,1293.5188982428408,5.5292280395,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Russia,1,2024,137.69724,965.9228277862168,1103.6200677862169,4.433435573490001,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,grid,LTE_H_grid_E,Saudi Arabia,1,2024,184.692225,704.5556415267637,889.2478665267637,4.433435573490001,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,South Africa,1,2024,205.1934478941576,199.13992031765366,404.33336821181126,1.0345759615972603,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Taiwan,1,2024,142.5235278476661,144.27414204911258,286.79766989677864,0.24896160918612387,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Switzerland,1,2024,186.15661734240078,441.05976011954914,627.21637746195,0.24896160918612387,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Singapore,1,2024,139.32264483453886,477.71266563457095,617.0353104691098,0.7579183070334574,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Hungary,1,2024,155.66399495418852,270.40855074838356,426.0725457025721,0.44624069619575546,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Philippines,1,2024,117.08493126965477,253.42381602450075,370.5087472941555,0.9213447696449866,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Netherlands,1,2024,190.0313704635548,385.69242776748774,575.7237982310426,0.5209499362467402,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Norway,1,2024,223.21947328387424,257.85719505796897,481.0766683418432,0.2431249498071407,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Oman,1,2024,160.88648829139612,348.97118726532455,509.85767555672066,0.8676475033583412,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Italy,1,2024,156.6748001162287,649.5549851711706,806.2297852873994,0.5944918444219283,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Austria,1,2024,175.20622808696544,461.26568659659284,636.4719146835582,0.33767883174666824,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Finland,1,2024,194.07459111171553,249.87196974068442,443.94656085239995,0.30032421172117585,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Portugal,1,2024,153.30544957609476,256.51031419795464,409.8157637740494,0.4018820849154833,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Germany,1,2024,175.54316314097883,413.94583928281105,589.4890024237899,0.6528584382117602,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Greece,1,2024,154.99012484616173,350.6966018688137,505.6867267149754,0.6014958356767082,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,France,1,2024,173.18461776288507,315.8095331189336,488.99415088181865,0.27347557857785326,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Brazil,1,2024,171.83687754683146,206.79812164586005,378.6349991926915,0.322503517361312,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,United Kingdom,1,2024,171.1630074388047,223.76124411708201,394.9242515558867,0.4859299799728411,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Spain,1,2024,147.40908613086035,245.28993740924736,392.6990235401077,0.4112207399218563,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Sweden,1,2024,204.1826427321174,184.79271541342828,388.97535814554567,0.2559656004409037,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Czech Republic,1,2024,150.946904198001,249.74904238907368,400.6959465870747,0.8314602152086455,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Japan,1,2024,181.10259153219982,295.2799651655128,476.38255669771263,0.7742609532946103,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Belgium,1,2024,193.06378594967532,270.61785972514986,463.6816456748252,0.3691967923931775,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Poland,1,2024,157.5171377512622,709.794776423601,867.3119141748632,0.980878695310615,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,India,1,2024,106.80841212224624,206.0105422873347,312.8189544095809,1.0404126209762434,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Indonesia,1,2024,107.31381470326633,137.26487927618035,244.57869397944668,1.0404126209762434,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,South Korea,1,2024,193.73765605770217,203.76406811952182,397.501724177224,0.7112250320015919,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,China,1,2024,132.75241128127766,170.75133539553335,303.50374667681103,0.887492145246884,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,United Arab Emirates,1,2024,160.88648829139612,193.71618368709403,354.60267197849015,0.7509143157786776,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,United States,1,2024,168.46752700669754,232.19948286717528,400.6670098738728,0.6388504557022004,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Turkey,1,2024,122.64435966087578,200.0487631858867,322.6931228467625,0.7509143157786776,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Australia,1,2024,164.9297089395569,282.0917786175745,447.0214875571314,0.8489701933455951,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Malaysia,1,2024,147.40908613086035,200.58861663390763,347.99770276476795,0.33067484049188844,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Canada,1,2024,149.9360990359608,194.0995445528092,344.03564358877,0.4065514124186698,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Mexico,1,2024,136.458696875425,271.4608837905539,407.9195806659789,0.7999422545621364,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Thailand,1,2024,109.8408276083668,178.48761901140978,288.32844661977657,0.8501375252213917,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Russia,1,2024,119.94887922876863,148.3244807021084,268.273359930877,0.7228983507595583,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,grid,BG_H_grid_E,Saudi Arabia,1,2024,160.88648829139612,129.57673158990042,290.46321988129654,0.7228983507595583,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,South Africa,1,2024,155.98908654799226,1407.838568103032,1563.8276546510242,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Taiwan,1,2024,108.34709952348231,1367.38948176101,1475.7365812844923,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Switzerland,1,2024,141.5171926400094,1369.3796873480017,1510.896879988011,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Singapore,1,2024,105.91377222921969,1322.9009456250665,1428.814717854286,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Hungary,1,2024,118.33654841571827,1133.2307393471292,1251.5672877628474,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Philippines,1,2024,89.00855102697423,1107.2106778061413,1196.2192288331155,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Netherlands,1,2024,144.46279936464308,1118.0944186833717,1262.5572180480149,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Norway,1,2024,169.6925613104185,1122.0802035757918,1291.7727648862103,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Oman,1,2024,122.30671400109408,1113.782170570202,1236.0888845712961,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Italy,1,2024,119.10496756127488,1075.7929018670643,1194.8978694283392,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Austria,1,2024,133.19265189647945,1034.2722743650252,1167.4649262615046,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Finland,1,2024,147.53647594686953,976.6509147858982,1124.1873907327677,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Portugal,1,2024,116.54357040941952,947.2690653531407,1063.8126357625601,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Germany,1,2024,133.44879161166497,857.1278722858494,990.5766638975144,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Greece,1,2024,117.8242689853472,848.1392872159404,965.9635562012876,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,France,1,2024,131.6558136053662,846.1286511338081,977.7844647391744,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Brazil,1,2024,130.63125474462407,794.8579542002708,925.4892089448949,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,United Kingdom,1,2024,130.118975314253,722.6758783634073,852.7948536776603,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Spain,1,2024,112.06112539367261,685.8266007449954,797.887726138668,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Sweden,1,2024,155.22066740243565,692.1122816279388,847.3329490303745,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Czech Republic,1,2024,114.75059240312075,679.7898585225969,794.5404509257177,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Japan,1,2024,137.67509691222634,639.0592423453852,776.7343392576115,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Belgium,1,2024,146.7680568013129,645.8906151132541,792.658671914567,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Poland,1,2024,119.74531684923872,616.1313628411867,735.8766796904255,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,India,1,2024,81.19628971381535,556.9044599009196,638.1007496147349,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Indonesia,1,2024,81.58049928659365,557.2323763218532,638.8128756084468,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,South Korea,1,2024,147.28033623168398,525.572650436718,672.8529866684021,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,China,1,2024,100.91904778310172,447.1412502745198,548.0602980576215,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,United Arab Emirates,1,2024,122.30671400109408,421.15969358002405,543.4664075811181,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,United States,1,2024,128.06985759276867,357.1893400778586,485.25919767062726,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Turkey,1,2024,93.23485632753558,332.87266403036233,426.1075203578979,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Australia,1,2024,125.38039058332053,328.41710915343856,453.7974997367591,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Malaysia,1,2024,112.06112539367261,273.1192852213804,385.180410615053,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Canada,1,2024,113.98217325756413,242.7821392531488,356.76431251071295,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Mexico,1,2024,103.73658465014266,235.68727799905045,339.4238626491931,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Thailand,1,2024,83.5015471504852,226.90350619750015,310.40505334798536,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Russia,1,2024,91.1857386060513,114.53740450342214,205.72314310947343,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Saudi Arabia,1,2024,122.30671400109408,120.65014240414217,242.95685640523624,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Africa,1,2024,219.20493535873754,1800.716830839693,2019.9217661984308,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Taiwan,1,2024,152.2556447565615,1748.851278163464,1901.1069229200255,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Switzerland,1,2024,198.86818848227006,1751.6480307870063,1950.5162192692765,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Singapore,1,2024,148.83619174193424,1691.063441614882,1839.8996333568164,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Hungary,1,2024,166.29339923766295,1447.126408741571,1613.4198079792338,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Philippines,1,2024,125.07999185083953,1413.2913948343369,1538.3713866851765,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Netherlands,1,2024,203.00752634208203,1428.376707793731,1631.384234135813,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Norway,1,2024,238.46185496742794,1433.867984192721,1672.3298391601488,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Oman,1,2024,171.87250678784426,1422.4630563218564,1594.3355631097006,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Italy,1,2024,167.37322650544,1373.3655714150561,1540.7387979204962,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Austria,1,2024,187.17005974801893,1320.3859069638768,1507.5559667118957,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Finland,1,2024,207.32683541319014,1246.644939844029,1453.9717752572192,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Portugal,1,2024,163.77380227951653,1208.2639387441814,1372.037741023698,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Germany,1,2024,187.53000217061125,1093.0302904387581,1280.5602926093693,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Greece,1,2024,165.57351439247824,1080.5337413455295,1246.1072557380078,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,France,1,2024,185.01040521246483,1078.4533231490943,1263.463728361559,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Brazil,1,2024,183.57063552209547,1012.001238504296,1195.5718740263915,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United Kingdom,1,2024,182.85075067691076,919.3676312765426,1102.2183819534534,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Spain,1,2024,157.47480988415052,872.1791653602828,1029.6539752444332,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Sweden,1,2024,218.12510809096048,880.8813909724872,1099.0064990634478,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Czech Republic,1,2024,161.25420532137014,864.7826240909949,1026.036829412365,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Japan,1,2024,193.4690521433849,811.7268693248075,1005.1959214681924,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Belgium,1,2024,206.24700814541313,821.2295425653075,1027.4765507107206,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Poland,1,2024,168.27308256192086,782.4371781273595,950.7102606892804,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,India,1,2024,114.10174796177306,705.3822822400734,819.4840302018465,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Indonesia,1,2024,114.64166159566159,705.8507392053042,820.4924008009658,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Korea,1,2024,206.96689299059778,665.7219254215837,872.6888184121815,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,China,1,2024,141.81731450138358,564.3819745575406,706.1992890589243,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United Arab Emirates,1,2024,171.87250678784426,531.5917748993172,703.4642816871615,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United States,1,2024,179.97121129617202,449.68880483081404,629.6600161269861,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Turkey,1,2024,131.01904182361324,417.5358749735791,548.5549167971924,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Australia,1,2024,176.1918158589524,412.8934327651253,589.0852486240776,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Malaysia,1,2024,157.47480988415052,340.69267018245216,498.1674800666027,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Canada,1,2024,160.1743780535931,302.4697704200754,462.6441484736685,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Mexico,1,2024,145.77668114989933,292.6577584520393,438.4344396019386,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Thailand,1,2024,117.34122976510416,281.138091457386,398.47932122249017,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Russia,1,2024,128.1395024428745,136.75437213833797,264.89387458121246,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Saudi Arabia,1,2024,171.87250678784426,145.26528437963708,317.13779116748134,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,South Africa,1,2024,235.55511,423.2092542166405,658.7643642166405,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Taiwan,1,2024,163.61217,436.9693262348427,600.5814962348427,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Switzerland,1,2024,213.70147500000002,439.97468453484277,653.6761595348428,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Singapore,1,2024,159.937665,422.9712902045489,582.9089552045489,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Hungary,1,2024,178.69698,417.7367079255247,596.4336879255247,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Philippines,1,2024,134.409525,412.06743631403253,546.4769613140326,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Netherlands,1,2024,218.14955999999998,431.3202339487553,649.4697939487553,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Norway,1,2024,256.24837499999995,439.06333349889576,695.3117084988958,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Oman,1,2024,184.692225,422.4619203350028,607.1541453350028,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Italy,1,2024,179.85735000000003,425.7955987353953,605.6529487353953,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Austria,1,2024,201.1308,431.1214344756257,632.2522344756256,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Finland,1,2024,222.79104,433.67718677196297,656.4682267719629,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Portugal,1,2024,175.98945000000003,420.00931091366334,595.9987609136633,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Germany,1,2024,201.51759,434.89152768018664,636.4091176801867,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Greece,1,2024,177.92340000000002,420.0258542437026,597.9492542437026,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,France,1,2024,198.81006000000005,430.5358930337316,629.3459530337317,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Brazil,1,2024,197.26290000000003,418.1481429353445,615.4110429353445,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,United Kingdom,1,2024,196.48932000000002,425.59073156355754,622.0800515635576,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Spain,1,2024,169.220625,424.35438191298033,593.5750069129804,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Sweden,1,2024,234.39473999999998,435.77692937709,670.17166937709,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Czech Republic,1,2024,173.28192000000004,422.7076137823806,595.9895337823806,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Japan,1,2024,207.89962500000004,424.66555815021263,632.5651831502126,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Belgium,1,2024,221.63067,435.83467274777416,657.4653427477742,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Poland,1,2024,180.82432500000002,419.3891454663634,600.2134704663634,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,India,1,2024,122.61243,412.250555756877,534.862985756877,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Indonesia,1,2024,123.192615,412.547228482636,535.739843482636,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,South Korea,1,2024,222.40425000000002,423.6419362088499,646.0461862088499,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,China,1,2024,152.39526000000004,420.75569758656786,573.1509575865679,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,United Arab Emirates,1,2024,184.692225,423.95082242457767,608.6430474245776,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,United States,1,2024,193.395,430.66732854992347,624.0623285499234,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Turkey,1,2024,140.79155999999998,413.5077938650342,554.2993538650342,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Australia,1,2024,189.333705,431.49071796504666,620.8244229650467,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Malaysia,1,2024,169.220625,415.2990987765923,584.5197237765923,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Canada,1,2024,172.12155,426.62659808765335,598.7481480876534,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Mexico,1,2024,156.64995000000005,413.90918264585235,570.5591326458524,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Thailand,1,2024,126.09354,413.43971649284055,539.5332564928406,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Russia,1,2024,137.69724,413.00002383621666,550.6972638362166,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Saudi Arabia,1,2024,184.692225,423.0676686067635,607.7598936067635,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,South Africa,1,2024,205.1934478941576,146.60998590680498,351.8034338009626,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Taiwan,1,2024,142.5235278476661,172.2901070682319,314.813634915898,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Switzerland,1,2024,186.15661734240078,174.90809243791594,361.0647097803167,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Singapore,1,2024,139.32264483453886,148.5250766599194,287.84772149445826,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Hungary,1,2024,155.66399495418852,130.32872565278717,285.9927206069757,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Philippines,1,2024,117.08493126965477,122.68264593527749,239.76757720493225,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Netherlands,1,2024,190.0313704635548,148.72405698077054,338.75542744432533,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Norway,1,2024,223.21947328387424,159.80131749105146,383.0207907749257,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Oman,1,2024,160.88648829139612,135.34945399454003,296.2359422859362,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Italy,1,2024,156.6748001162287,142.9329510754304,299.6077511916591,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Austria,1,2024,175.20622808696544,147.2534120072977,322.45964009426314,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Finland,1,2024,194.07459111171553,145.97943279478378,340.0540239064993,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Portugal,1,2024,153.30544957609476,124.60181223293476,277.90726180902954,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Germany,1,2024,175.54316314097883,143.12484409799134,318.6680072389702,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Greece,1,2024,154.99012484616173,123.06688608846963,278.05701093463136,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,France,1,2024,173.18461776288507,138.3750879978448,311.55970576072986,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Brazil,1,2024,171.83687754683146,116.91356720951906,288.75044475635053,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,United Kingdom,1,2024,171.1630074388047,126.87269842596116,298.0357058647659,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Spain,1,2024,147.40908613086035,121.5527585748039,268.96184470566425,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Sweden,1,2024,204.1826427321174,136.9321085057662,341.1147512378836,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Czech Republic,1,2024,150.946904198001,114.33854479666383,265.2854489946648,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Japan,1,2024,181.10259153219982,122.51484754761054,303.61743907981037,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Belgium,1,2024,193.06378594967532,137.54202588433327,330.6058118340086,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Poland,1,2024,157.5171377512622,109.78619226412967,267.30333001539185,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,India,1,2024,106.80841212224624,103.28533721723068,210.09374933947691,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Indonesia,1,2024,107.31381470326633,103.41225487807789,210.72606958134423,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,South Korea,1,2024,193.73765605770217,116.21417743477409,309.9518334924762,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,China,1,2024,132.75241128127766,113.55207348149816,246.30448476277581,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,United Arab Emirates,1,2024,160.88648829139612,112.00295238132945,272.8894406727256,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,United States,1,2024,168.46752700669754,118.96829091490153,287.4358179215991,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Turkey,1,2024,122.64435966087578,93.8215624883928,216.46592214926858,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Australia,1,2024,164.9297089395569,117.49798413024878,282.4276930698057,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Malaysia,1,2024,147.40908613086035,94.36141593641374,241.7705020672741,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Canada,1,2024,149.9360990359608,107.7169857438581,257.6530847798189,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Mexico,1,2024,136.458696875425,89.35711116627857,225.81580804170358,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Thailand,1,2024,109.8408276083668,90.93772832666203,200.7785559350288,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Russia,1,2024,119.94887922876863,84.12122753329336,204.07010676206198,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,renewable,BG_H_renewable_E,Saudi Arabia,1,2024,160.88648829139612,96.89143906759458,257.7779273589907,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,South Africa,1,2024,155.98908654799226,1417.7720105428912,1573.7610970908834,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Taiwan,1,2024,108.34709952348231,1377.3229242008688,1485.670023724351,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Switzerland,1,2024,141.5171926400094,1379.3131297878608,1520.8303224278702,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Singapore,1,2024,105.91377222921969,1332.8343880649254,1438.748160294145,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Hungary,1,2024,118.33654841571827,1143.1641817869881,1261.5007302027063,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Philippines,1,2024,89.00855102697423,1117.1441202460003,1206.1526712729744,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Netherlands,1,2024,144.46279936464308,1128.0278611232309,1272.490660487874,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Norway,1,2024,169.6925613104185,1132.013646015651,1301.7062073260695,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Oman,1,2024,122.30671400109408,1123.715613010061,1246.022327011155,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Italy,1,2024,119.10496756127488,1085.7263443069232,1204.831311868198,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Austria,1,2024,133.19265189647945,1044.2057168048843,1177.3983687013638,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Finland,1,2024,147.53647594686953,986.5843572257573,1134.1208331726268,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Portugal,1,2024,116.54357040941952,957.2025077929998,1073.7460782024193,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Germany,1,2024,133.44879161166497,867.0613147257083,1000.5101063373733,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Greece,1,2024,117.8242689853472,858.0727296557993,975.8969986411465,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,France,1,2024,131.6558136053662,856.0620935736672,987.7179071790334,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Brazil,1,2024,130.63125474462407,804.7913966401298,935.4226513847539,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,United Kingdom,1,2024,130.118975314253,732.6093208032662,862.7282961175192,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Spain,1,2024,112.06112539367261,695.7600431848545,807.821168578527,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Sweden,1,2024,155.22066740243565,702.0457240677979,857.2663914702335,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Czech Republic,1,2024,114.75059240312075,689.7233009624558,804.4738933655766,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Japan,1,2024,137.67509691222634,648.9926847852443,786.6677816974706,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Belgium,1,2024,146.7680568013129,655.8240575531131,802.592114354426,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Poland,1,2024,119.74531684923872,626.0648052810457,745.8101221302844,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,India,1,2024,81.19628971381535,566.8379023407787,648.034192054594,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Indonesia,1,2024,81.58049928659365,567.1658187617122,648.7463180483059,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,South Korea,1,2024,147.28033623168398,535.506092876577,682.786429108261,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,China,1,2024,100.91904778310172,457.0746927143788,557.9937404974805,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,United Arab Emirates,1,2024,122.30671400109408,431.09313601988305,553.3998500209772,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,United States,1,2024,128.06985759276867,367.1227825177176,495.1926401104863,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Turkey,1,2024,93.23485632753558,342.8061064702213,436.0409627977569,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Australia,1,2024,125.38039058332053,338.35055159329755,463.7309421766181,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Malaysia,1,2024,112.06112539367261,283.05272766123943,395.11385305491206,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Canada,1,2024,113.98217325756413,252.71558169300778,366.6977549505719,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Mexico,1,2024,103.73658465014266,245.62072043890947,349.35730508905215,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Thailand,1,2024,83.5015471504852,236.83694863735917,320.33849578784435,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Russia,1,2024,91.1857386060513,124.47084694328116,215.65658554933248,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Saudi Arabia,1,2024,122.30671400109408,130.5835848440012,252.8902988450953,1.9607797161740554,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Africa,1,2024,219.20493535873754,1810.6502757497103,2029.8552111084477,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Taiwan,1,2024,152.2556447565615,1758.7847230734808,1911.0403678300422,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Switzerland,1,2024,198.86818848227006,1761.5814756970233,1960.4496641792934,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Singapore,1,2024,148.83619174193424,1700.9968865248995,1849.8330782668338,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Hungary,1,2024,166.29339923766295,1457.059853651588,1623.3532528892508,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Philippines,1,2024,125.07999185083953,1423.2248397443539,1548.3048315951935,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Netherlands,1,2024,203.00752634208203,1438.310152703748,1641.31767904583,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Norway,1,2024,238.46185496742794,1443.8014291027382,1682.2632840701663,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Oman,1,2024,171.87250678784426,1432.3965012318736,1604.2690080197178,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Italy,1,2024,167.37322650544,1383.2990163250731,1550.6722428305131,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Austria,1,2024,187.17005974801893,1330.3193518738938,1517.4894116219127,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Finland,1,2024,207.32683541319014,1256.5783847540463,1463.9052201672364,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Portugal,1,2024,163.77380227951653,1218.1973836541986,1381.971185933715,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Germany,1,2024,187.53000217061125,1102.9637353487753,1290.4937375193865,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Greece,1,2024,165.57351439247824,1090.4671862555467,1256.040700648025,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,France,1,2024,185.01040521246483,1088.3867680591115,1273.3971732715763,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Brazil,1,2024,183.57063552209547,1021.934683414313,1205.5053189364085,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United Kingdom,1,2024,182.85075067691076,929.3010761865596,1112.1518268634704,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Spain,1,2024,157.47480988415052,882.1126102703,1039.5874201544505,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Sweden,1,2024,218.12510809096048,890.8148358825043,1108.9399439734648,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Czech Republic,1,2024,161.25420532137014,874.716069001012,1035.970274322382,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Japan,1,2024,193.4690521433849,821.6603142348246,1015.1293663782095,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Belgium,1,2024,206.24700814541313,831.1629874753245,1037.4099956207376,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Poland,1,2024,168.27308256192086,792.3706230373765,960.6437055992974,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,India,1,2024,114.10174796177306,715.3157271500907,829.4174751118637,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Indonesia,1,2024,114.64166159566159,715.7841841153214,830.425845710983,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Korea,1,2024,206.96689299059778,675.6553703316007,882.6222633221985,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,China,1,2024,141.81731450138358,574.3154194675578,716.1327339689415,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United Arab Emirates,1,2024,171.87250678784426,541.5252198093343,713.3977265971786,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United States,1,2024,179.97121129617202,459.62224974083114,639.5934610370032,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Turkey,1,2024,131.01904182361324,427.4693198835962,558.4883617072094,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Australia,1,2024,176.1918158589524,422.8268776751424,599.0186935340948,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Malaysia,1,2024,157.47480988415052,350.6261150924692,508.1009249766197,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Canada,1,2024,160.1743780535931,312.4032153300925,472.5775933836856,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Mexico,1,2024,145.77668114989933,302.59120336205643,448.36788451195576,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Thailand,1,2024,117.34122976510416,291.07153636740316,408.41276613250733,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Russia,1,2024,128.1395024428745,146.68781704835507,274.82731949122956,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Saudi Arabia,1,2024,171.87250678784426,155.19872928965418,327.07123607749844,0.45101670851183706,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,South Africa,1,2024,235.55511,523.7406731166406,759.2957831166406,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Taiwan,1,2024,163.61217,537.5007451348426,701.1129151348426,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Switzerland,1,2024,213.70147500000002,540.5061034348429,754.2075784348428,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Singapore,1,2024,159.937665,523.502709104549,683.440374104549,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Hungary,1,2024,178.69698,518.2681268255249,696.9651068255248,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Philippines,1,2024,134.409525,512.5988552140326,647.0083802140326,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Netherlands,1,2024,218.14955999999998,531.8516528487554,750.0012128487554,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Norway,1,2024,256.24837499999995,539.5947523988957,795.8431273988956,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Oman,1,2024,184.692225,522.993339235003,707.685564235003,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Italy,1,2024,179.85735000000003,526.3270176353954,706.1843676353953,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Austria,1,2024,201.1308,531.6528533756257,732.7836533756257,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Finland,1,2024,222.79104,534.208605671963,756.999645671963,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Portugal,1,2024,175.98945000000003,520.5407298136633,696.5301798136634,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Germany,1,2024,201.51759,535.4229465801867,736.9405365801867,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Greece,1,2024,177.92340000000002,520.5572731437026,698.4806731437026,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,France,1,2024,198.81006000000005,531.0673119337317,729.8773719337318,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Brazil,1,2024,197.26290000000003,518.6795618353444,715.9424618353445,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,United Kingdom,1,2024,196.48932000000002,526.1221504635575,722.6114704635576,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Spain,1,2024,169.220625,524.8858008129803,694.1064258129803,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Sweden,1,2024,234.39473999999998,536.3083482770901,770.70308827709,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Czech Republic,1,2024,173.28192000000004,523.2390326823806,696.5209526823807,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Japan,1,2024,207.89962500000004,525.1969770502127,733.0966020502127,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Belgium,1,2024,221.63067,536.3660916477742,757.9967616477742,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Poland,1,2024,180.82432500000002,519.9205643663635,700.7448893663635,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,India,1,2024,122.61243,512.7819746568771,635.3944046568771,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Indonesia,1,2024,123.192615,513.0786473826361,636.2712623826361,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,South Korea,1,2024,222.40425000000002,524.17335510885,746.5776051088501,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,China,1,2024,152.39526000000004,521.2871164865679,673.6823764865679,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,United Arab Emirates,1,2024,184.692225,524.4822413245777,709.1744663245777,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,United States,1,2024,193.395,531.1987474499235,724.5937474499235,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Turkey,1,2024,140.79155999999998,514.0392127650343,654.8307727650343,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Australia,1,2024,189.333705,532.0221368650467,721.3558418650467,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Malaysia,1,2024,169.220625,515.8305176765924,685.0511426765925,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Canada,1,2024,172.12155,527.1580169876534,699.2795669876534,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Mexico,1,2024,156.64995000000005,514.4406015458524,671.0905515458523,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Thailand,1,2024,126.09354,513.9711353928407,640.0646753928406,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Russia,1,2024,137.69724,513.5314427362167,651.2286827362167,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Saudi Arabia,1,2024,184.692225,523.5990875067636,708.2913125067636,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,South Africa,1,2024,205.1934478941576,158.28330466477135,363.476752558929,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Taiwan,1,2024,142.5235278476661,183.96342582619823,326.4869536738643,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Switzerland,1,2024,186.15661734240078,186.58141119588228,372.73802853828306,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Singapore,1,2024,139.32264483453886,160.19839541788576,299.52104025242465,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Hungary,1,2024,155.66399495418852,142.00204441075354,297.6660393649421,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Philippines,1,2024,117.08493126965477,134.35596469324383,251.4408959628986,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Netherlands,1,2024,190.0313704635548,160.39737573873688,350.4287462022917,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Norway,1,2024,223.21947328387424,171.47463624901783,394.69410953289207,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Oman,1,2024,160.88648829139612,147.0227727525064,307.9092610439025,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Italy,1,2024,156.6748001162287,154.60626983339677,311.2810699496255,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Austria,1,2024,175.20622808696544,158.92673076526404,334.1329588522295,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Finland,1,2024,194.07459111171553,157.65275155275015,351.7273426644657,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Portugal,1,2024,153.30544957609476,136.27513099090112,289.5805805669959,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Germany,1,2024,175.54316314097883,154.7981628559577,330.3413259969366,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Greece,1,2024,154.99012484616173,134.74020484643597,289.7303296925977,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,France,1,2024,173.18461776288507,150.04840675581116,323.2330245186962,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Brazil,1,2024,171.83687754683146,128.58688596748544,300.4237635143169,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,United Kingdom,1,2024,171.1630074388047,138.54601718392752,309.7090246227322,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Spain,1,2024,147.40908613086035,133.22607733277025,280.6351634636306,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Sweden,1,2024,204.1826427321174,148.60542726373254,352.7880699958499,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Czech Republic,1,2024,150.946904198001,126.01186355463021,276.9587677526312,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Japan,1,2024,181.10259153219982,134.1881663055769,315.2907578377767,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Belgium,1,2024,193.06378594967532,149.21534464229964,342.279130591975,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Poland,1,2024,157.5171377512622,121.45951102209604,278.97664877335825,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,India,1,2024,106.80841212224624,114.95865597519703,221.76706809744326,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Indonesia,1,2024,107.31381470326633,115.08557363604426,222.39938833931058,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,South Korea,1,2024,193.73765605770217,127.88749619274046,321.6251522504426,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,China,1,2024,132.75241128127766,125.22539223946453,257.9778035207422,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,United Arab Emirates,1,2024,160.88648829139612,123.67627113929584,284.5627594306919,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,United States,1,2024,168.46752700669754,130.64160967286793,299.1091366795655,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Turkey,1,2024,122.64435966087578,105.49488124635917,228.13924090723495,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Australia,1,2024,164.9297089395569,129.17130288821514,294.101011827772,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Malaysia,1,2024,147.40908613086035,106.0347346943801,253.44382082524044,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Canada,1,2024,149.9360990359608,119.39030450182445,269.32640353778527,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Mexico,1,2024,136.458696875425,101.03042992424496,237.48912679966998,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Thailand,1,2024,109.8408276083668,102.6110470846284,212.4518746929952,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Russia,1,2024,119.94887922876863,95.79454629125972,215.74342552002835,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
-ammonia,BG,n/a,nuke,BG_H_nuke_E,Saudi Arabia,1,2024,160.88648829139612,108.56475782556093,269.45124611695707,0.21977831229120795,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,South Africa,1,2024,155.97542698820334,1462.5393915908166,1618.51481857902,2.7345733003017108,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Taiwan,1,2024,108.3376118489491,1346.3745606728917,1454.7121725218408,1.989908198066257,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Switzerland,1,2024,141.50480034644062,1627.1990730575324,1768.703873403973,1.989908198066257,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Singapore,1,2024,105.90449763484742,1640.0238832540058,1745.928380888853,2.472336109767086,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Hungary,1,2024,118.32618599105079,1270.8327858634682,1389.158971854519,2.176904338152129,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Philippines,1,2024,89.000756778983,1235.8714070036049,1324.872163782588,2.6272441548086363,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Netherlands,1,2024,144.45014913193214,1347.8715144653686,1492.3216635973008,2.2477194444568376,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Norway,1,2024,169.67770177288128,1220.369038174144,1390.0467399470253,1.9843757678862013,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Oman,1,2024,122.29600391932196,1321.1933391441955,1443.4893430635175,2.576345797152127,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Italy,1,2024,119.09453784813553,1561.1342329665679,1680.2287708147035,2.317428064725535,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Austria,1,2024,133.1809885613559,1337.1280037881365,1470.3089923494924,2.0740011368030986,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Finland,1,2024,147.52355656027112,1080.3180520124104,1227.8416085726815,2.038593583650744,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Portugal,1,2024,116.5333649911864,1077.1244046387135,1193.6577696298998,2.134857868783708,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Germany,1,2024,133.4371058470508,1119.0603891670462,1252.497495014097,2.3727523665260892,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Greece,1,2024,117.81395141966097,1068.7717438089499,1186.5856952286108,2.324066980941602,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,France,1,2024,131.64428484718638,1019.4694004475678,1151.113685294754,2.0131444048224894,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Brazil,1,2024,130.61981570440673,884.8147933492281,1015.4346090536349,2.0596168183349546,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,United Kingdom,1,2024,130.1075811330169,819.5264133420188,949.6339944750357,2.2145248633765053,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Spain,1,2024,112.05131249152537,808.0548951077712,920.1062075992966,2.1437097570717962,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Sweden,1,2024,155.2070751311186,742.657774517836,897.8648496489545,1.9965471142823232,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Czech Republic,1,2024,114.74054399132199,812.9149879910149,927.6555319823368,2.542044730035784,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Japan,1,2024,137.6630410610169,807.7915506342688,945.4545916952857,2.487826914271241,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Belgium,1,2024,146.75520470318637,777.2749645157572,924.0301692189436,2.1038762597753977,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Poland,1,2024,119.73483106237285,1189.5989306226274,1309.3337616850004,2.6836749426452013,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,India,1,2024,81.1891795652881,659.0009538361256,740.1901334014137,2.7401057304817664,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Indonesia,1,2024,81.57335549383048,594.0461994961918,675.6195549900223,2.7401057304817664,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,South Korea,1,2024,147.2674392745762,613.4664438912009,760.7338831657771,2.4280766683266424,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,China,1,2024,100.91021056379657,506.34673118415174,607.2569417479483,2.5951560597643155,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,United Arab Emirates,1,2024,122.29600391932196,503.5319587945255,625.8279627138475,2.4656971935510197,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,United States,1,2024,128.05864284745758,469.6066091435956,597.6652519910532,2.3594745340939562,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Turkey,1,2024,93.22669199294911,438.2169581189917,531.4436501119409,2.4656971935510197,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Australia,1,2024,125.36941134766094,489.50364539166026,614.8730567393212,2.5586420205759497,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Malaysia,1,2024,112.05131249152537,378.4915136403324,490.5428261318578,2.0673622205870323,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Canada,1,2024,113.97219213423725,329.6136796601292,443.5858717943664,2.139283812927752,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Mexico,1,2024,103.72750070644064,412.907766044289,516.6352667507297,2.5121696070634845,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Thailand,1,2024,83.49423513654233,314.57485508333593,398.06909021987826,2.559748506611961,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Russia,1,2024,91.17775370738978,179.9973219670366,271.1750756744264,2.4391415286867537,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,grid,SMR_H_grid_E,Saudi Arabia,1,2024,122.29600391932196,156.43325887676667,278.7292627960886,2.4391415286867537,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Africa,1,2024,219.202128429619,1876.3335839814958,2095.5357124111147,1.3994683168206499,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Taiwan,1,2024,152.25369511613928,1731.064627143285,1883.3183222594243,0.4885330357133396,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Switzerland,1,2024,198.86564196611576,2074.9544952752976,2273.8201372414132,0.4885330357133396,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Singapore,1,2024,148.83428588776266,2087.452149864227,2236.2864357519898,1.0786783292687443,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Hungary,1,2024,166.29126984315926,1624.1990702787466,1790.4903401219058,0.7172820141786226,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Philippines,1,2024,125.07839019588276,1579.5305432014593,1704.608933397342,1.2681745244470852,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Netherlands,1,2024,203.00492682151906,1717.7892785685083,1920.7942053900274,0.80390884626015,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Norway,1,2024,238.45880145258224,1562.2090965878415,1800.6678980404238,0.48176531445697024,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Oman,1,2024,171.87030595261587,1684.8043546876365,1856.6746606402523,1.2059114888884874,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Italy,1,2024,167.37108328369922,1975.4382641376292,2142.8093474213283,0.8891821340904034,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Austria,1,2024,187.1676630269325,1699.1141376166142,1886.2818006435468,0.5914023988101533,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Finland,1,2024,207.32418058367904,1381.7220663712772,1589.0462469549561,0.5480889827693897,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Portugal,1,2024,163.77170514856593,1375.820510308159,1539.592215456725,0.6658473326302159,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Germany,1,2024,187.5276008404458,1421.6378853159483,1609.165486156394,0.9568593466540966,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Greece,1,2024,165.5713942161326,1359.0592451605924,1524.630639376725,0.8973033995980466,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,France,1,2024,185.0080361458525,1298.7753528540773,1483.7833889999297,0.5169574649900908,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Brazil,1,2024,183.56828489179915,1130.7966954516003,1314.3649803433993,0.5738063235435931,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United Kingdom,1,2024,182.8484092647725,1046.268184524918,1229.1165937896906,0.763302518721934,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Spain,1,2024,157.47279341208258,1030.203101466253,1187.6758948783356,0.6766756866404067,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Sweden,1,2024,218.12231498907903,950.9253867624549,1169.0477017515339,0.49665430122098275,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Czech Republic,1,2024,161.2521404539726,1036.3403853730433,1197.5925258270158,1.1639516170989976,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Japan,1,2024,193.46657476341576,1026.5893818821528,1220.0559566455686,1.0976279487865783,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Belgium,1,2024,206.24436714313904,990.0722942629847,1196.3166614061238,0.6279480935945476,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Poland,1,2024,168.2709278174826,1492.6918764697791,1660.9628042872616,1.3372052812620523,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,India,1,2024,114.10028688372614,839.0151300684335,953.1154169521596,1.4062360380770194,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Indonesia,1,2024,114.64019360399615,759.6245056997009,874.2646993036971,1.4062360380770194,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Korea,1,2024,206.9642427701657,781.7506455645608,988.7148883347265,1.0245365592177897,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,China,1,2024,141.8154985242527,645.2019935572132,787.0174920814659,1.2289217411601432,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United Arab Emirates,1,2024,171.87030595261587,640.8298026718843,812.7001086245002,1.070557063761101,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,United States,1,2024,179.96890675666586,595.4579993629604,775.4269061196263,0.9406168156388102,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Turkey,1,2024,131.01736411885273,555.179599193905,686.1969633127577,1.070557063761101,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Australia,1,2024,176.18955971477584,618.2120745358768,794.4016342506527,1.1842547808681056,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Malaysia,1,2024,157.47279341208258,478.3230398204732,635.7958332325558,0.5832811333025101,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Canada,1,2024,160.1723270134326,417.0824238260429,577.2547508394755,0.6712615096353112,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Mexico,1,2024,145.77481447289935,518.2602436193989,664.0350580922983,1.1274059223146033,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Thailand,1,2024,117.33972720534614,397.10188781328924,514.4416150186354,1.1856083251193796,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Russia,1,2024,128.13786161074609,225.62233629571713,353.7601979064632,1.0380720017305283,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Saudi Arabia,1,2024,171.87030595261587,197.58803628781268,369.4583422404286,1.0380720017305283,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Africa,1,2024,199.30975101705664,1631.2527146822963,1830.562465699353,1.3860156852973042,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Taiwan,1,2024,138.43682213499991,1479.149417244996,1617.5862393799957,0.3741329814832614,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Switzerland,1,2024,180.81878068460395,1860.5845210300954,2041.4033017146994,0.3741329814832614,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Singapore,1,2024,135.32772092865832,1893.8005988862612,2029.1283198149195,1.0296766053509028,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Hungary,1,2024,151.20050077156023,1442.6142995371413,1593.8148003087015,0.6282313127530582,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Philippines,1,2024,113.72764938986401,1402.6429872669285,1516.3706366567924,1.2401722643909712,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Netherlands,1,2024,184.58242951333327,1547.7838908489944,1732.3663203623275,0.7244578997428037,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Norway,1,2024,216.8188999159278,1372.3095981328609,1589.1284980487887,0.36661527937468746,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Oman,1,2024,156.27324484506494,1514.1286789638477,1670.4019238089127,1.1710094049920914,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Italy,1,2024,152.1823222051418,1850.702131152266,2002.884453357408,0.8191809463108344,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Austria,1,2024,170.18238182080373,1555.2775562545548,1725.4599380753587,0.4884020535335842,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Finland,1,2024,188.50971524765947,1220.0178313182494,1408.5275465659088,0.4402887600387114,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Portugal,1,2024,148.90958409320325,1225.889078054129,1374.7986621473322,0.5710967767278968,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Germany,1,2024,170.50965563199756,1302.3052564395632,1472.8149120715607,0.8943579673965731,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Greece,1,2024,150.5459531491725,1241.5309597828689,1392.0769129320413,0.8282021888411232,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,France,1,2024,168.21873895364058,1172.284968071594,1340.5037070252347,0.40570733033927164,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Brazil,1,2024,166.9096437088652,1006.3300993418793,1173.2397430507444,0.4688560280512922,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United Kingdom,1,2024,166.2550960864775,934.608691531931,1100.8637876184084,0.6793516870913605,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Spain,1,2024,143.18229239731082,926.7289381287907,1069.9112305261015,0.5831251001016149,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Sweden,1,2024,198.32792958347508,834.4225187432729,1032.750448326748,0.38315422401355004,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Czech Republic,1,2024,146.61866741484627,933.4135329800482,1080.0322003948945,1.1243996519189337,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Japan,1,2024,175.90967351669613,941.3875373938645,1117.2972109105606,1.0507261712549096,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Belgium,1,2024,187.5278938140779,894.0092892643545,1081.5371830784325,0.5289976449198831,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Poland,1,2024,153.00050673312643,1464.735569436018,1617.7360761691446,1.3168528258984247,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,India,1,2024,103.7457981484515,762.0519716014932,865.7977697499447,1.3935333874058782,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Indonesia,1,2024,104.23670886524228,673.4657589351881,777.7024678004303,1.3935333874058782,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Korea,1,2024,188.1824414364656,707.6834709905257,895.8659124269914,0.9695349884823119,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,China,1,2024,128.9458816103782,582.5444389147295,711.4903205251078,1.1965695921612427,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United Arab Emirates,1,2024,156.27324484506494,583.2590975372106,739.5323423822755,1.0206553628206143,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United States,1,2024,163.63690559692665,551.608215448684,715.2451210456106,0.8763154823359959,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Turkey,1,2024,119.12766727456258,519.3927657149115,638.5204329894741,1.0206553628206143,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Australia,1,2024,160.20053057939117,584.8662243256537,745.0667549050448,1.1469527582446553,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Malaysia,1,2024,143.18229239731082,454.58228670231665,597.7645790996274,0.47938081100329555,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Canada,1,2024,145.6368459812647,391.1226424411407,536.7594884224054,0.5771109384147559,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Mexico,1,2024,132.5458935335106,510.233108414089,642.7790019475996,1.0838040605326347,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Thailand,1,2024,106.69126244919617,378.9251010689813,485.6163635181775,1.14845629866637,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Russia,1,2024,116.50947678501177,225.0703550151547,341.57983180016646,0.9845703926994596,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Saudi Arabia,1,2024,156.27324484506494,188.97641853358616,345.2496633786511,0.9845703926994596,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,235.55511,875.6012120769133,1111.1563220769133,7.11762445812,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,163.61217,195.6969091918752,359.3090791918752,0.35185996615000004,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Switzerland,1,2024,213.70147500000002,2732.094023771875,2945.795498771875,0.35185996615000004,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Singapore,1,2024,159.937665,3257.958627529821,3417.896292529821,4.735029830189999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Hungary,1,2024,178.69698000000002,1624.1141604963411,1802.811140496341,2.0508409455599996,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Philippines,1,2024,134.409525,1538.0194299809955,1672.4289549809955,6.14246969479,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Netherlands,1,2024,218.14955999999998,2472.1097506036676,2690.2593106036675,2.69424202652,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Norway,1,2024,256.248375,1283.5296593492556,1539.7780343492554,0.30159425669999995,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Oman,1,2024,184.692225,2262.187706279202,2446.8799312792016,5.6800251678499984,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Italy,1,2024,179.85735000000003,4788.860787517932,4968.7181375179325,3.3275899655899996,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Austria,1,2024,201.13080000000002,3135.4185604412155,3336.5493604412154,1.11589874979,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Finland,1,2024,222.79104,1328.4087319408015,1551.1997719408016,0.79419820931,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Portugal,1,2024,175.98945000000003,1556.014887093913,1732.0043370939131,1.6688215537399997,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Germany,1,2024,201.51759,2767.2225839257508,2968.7401739257507,3.8302470600899996,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Greece,1,2024,177.92340000000002,2380.3893000729836,2558.3127000729837,3.38790881693,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,France,1,2024,198.81006000000002,1958.615327764336,2157.425387764336,0.56297594584,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Brazil,1,2024,197.26290000000003,1192.2404635410555,1389.5033635410555,0.9852079052199999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,United Kingdom,1,2024,196.48932000000002,1260.0029149624986,1456.4922349624985,2.39264776982,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Spain,1,2024,169.220625,1489.988582725996,1659.2092077259958,1.7492466888599998,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Sweden,1,2024,234.39473999999998,847.9578103703027,1082.3525503703027,0.41217881748999996,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Czech Republic,1,2024,173.28192,1588.8726032555717,1762.1545232555718,5.36837776926,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Japan,1,2024,207.89962500000004,1912.5318678580966,2120.4314928580966,4.87577381665,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Belgium,1,2024,221.63067,1581.8951879669353,1803.5258579669353,1.38733358082,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Poland,1,2024,180.82432500000002,5586.704499231604,5767.528824231604,6.655179931179999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,India,1,2024,122.61243000000002,1296.9274678476936,1419.5398978476937,7.167890167569999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Indonesia,1,2024,123.192615,704.0887690634524,827.2813840634525,7.167890167569999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,South Korea,1,2024,222.40425,1177.628715658078,1400.032965658078,4.33290415459,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,China,1,2024,152.39526000000004,913.3611394042606,1065.7563994042607,5.85092857998,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,United Arab Emirates,1,2024,184.692225,1127.6720012373598,1312.3642262373598,4.67471097885,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,United States,1,2024,193.395,1405.8240241863148,1599.2190241863148,3.7096093574099998,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Turkey,1,2024,140.79155999999998,1328.3440073601819,1469.1355673601818,4.67471097885,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Australia,1,2024,189.333705,1848.9856151745207,2038.3193201745207,5.51917489761,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Malaysia,1,2024,169.220625,1330.1354573308672,1499.3560823308671,1.05557989845,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Canada,1,2024,172.12155,1170.5605871553464,1342.6821371553465,1.7090341213,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Mexico,1,2024,156.64995000000005,1982.199511063049,2138.849461063049,5.09694293823,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Thailand,1,2024,126.09354,1167.425844413703,1293.5193844137032,5.5292280395,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Russia,1,2024,137.69724,965.9230784882643,1103.6203184882643,4.43343557349,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,grid,LTE_H_grid_E,Saudi Arabia,1,2024,184.692225,704.5566420172859,889.2488670172859,4.43343557349,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,South Africa,1,2024,205.1882355318849,309.9782909773784,515.1665265092633,0.9944398923120161,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Taiwan,1,2024,142.5199074384028,255.22223261164112,397.74214005004393,0.2098521868895585,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Switzerland,1,2024,186.15188855725194,551.6233636131842,737.7752521704361,0.2098521868895585,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Singapore,1,2024,139.3191057347035,588.1906190668963,727.5097248015998,0.7181437761379857,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Hungary,1,2024,155.6600407483265,381.13050789132376,536.7905486396503,0.406873468043192,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Philippines,1,2024,117.08195705637111,364.1573138410007,481.2392708973718,0.8813566717682146,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Netherlands,1,2024,190.02654325120378,496.2898834846501,686.3164267358538,0.4814850774741538,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Norway,1,2024,223.2138030211392,368.63744920939445,591.8512522305336,0.20402315490276463,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Oman,1,2024,160.88240142278332,459.5974843029924,620.4798857257757,0.8277295774897109,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Italy,1,2024,156.67082023370526,759.7999051602469,916.4707253939522,0.5549308805077569,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Austria,1,2024,175.2017774656489,571.7624869624563,746.9642644281051,0.2984534730888257,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Finland,1,2024,194.06966119271874,360.6426581564346,554.7123193491534,0.2611476683733447,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Portugal,1,2024,153.30155528244276,367.2416932061087,520.5432484885515,0.36257282494355847,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Germany,1,2024,175.53870396077514,524.4979065519761,700.0366105127513,0.6132212003756957,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Greece,1,2024,154.98618775807398,461.3028599643498,616.2890477224238,0.5619257188919096,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,France,1,2024,173.1802184948914,426.483300687056,599.6635191819473,0.23433412123409286,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Brazil,1,2024,171.83251251438642,317.5832699751938,489.41578248958024,0.2832979899231615,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,United Kingdom,1,2024,171.1586595241339,334.53868305845106,505.69734258258495,0.44651088555339047,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Spain,1,2024,147.40534161773346,356.0313432370541,503.4366848547876,0.3718992761224287,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Sweden,1,2024,204.17745604650617,295.6348596570747,499.81231570358085,0.2168470252737112,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Czech Republic,1,2024,150.94306981655902,360.47360739705726,511.41667721361625,0.7915895791715888,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Japan,1,2024,181.09799113035822,405.95756215975445,587.0555532901127,0.7344650657010087,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Belgium,1,2024,193.05888170734,381.3490150936889,574.4078968010289,0.3299302458175127,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Poland,1,2024,157.51313647152088,819.9118812573203,977.4250177288411,0.9408127980335124,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,India,1,2024,106.80569895502057,316.7776138847591,423.58331283977964,1.00026892429881,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Indonesia,1,2024,107.31108869770995,248.1219249586038,355.43301365631373,1.00026892429881,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,South Korea,1,2024,193.7327346975925,314.5519468096671,508.28468150725956,0.6715115202436346,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,China,1,2024,132.74903907974164,281.5792665120236,414.32830559176523,0.8475482862448102,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,United Arab Emirates,1,2024,160.88240142278332,304.5110225893179,465.39342401210126,0.7111489377538331,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,United States,1,2024,168.46324756312393,342.95386236368586,511.41710992680976,0.5992315236073904,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Turkey,1,2024,122.64124422595421,310.80929354400007,433.4505377699543,0.7111489377538331,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Australia,1,2024,164.9255193642983,392.77860170379944,557.7041210680977,0.8090766751319706,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Malaysia,1,2024,147.40534161773346,311.3490772072316,458.754418824965,0.291458634704673,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Canada,1,2024,149.9322903311803,304.8873290735956,454.8196194047759,0.3672360505329936,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Mexico,1,2024,136.4552305261304,382.1213147753204,518.5765453014508,0.7601128064429018,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Thailand,1,2024,109.8380374111568,289.2722582929772,399.110295704134,0.8102424815293292,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Russia,1,2024,119.94583226494422,259.13829934005514,379.08413160499936,0.6831695842172224,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,grid,BG_H_grid_E,Saudi Arabia,1,2024,160.88240142278332,240.4329518994234,401.3153533222067,0.6831695842172224,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,South Africa,1,2024,155.97542698820334,1412.7475199703183,1568.7229469585216,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Taiwan,1,2024,108.3376118489491,1372.9302255371576,1481.2678373861067,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Switzerland,1,2024,141.50480034644062,1374.9202568470068,1516.4250571934474,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Singapore,1,2024,105.90449763484742,1327.994821098882,1433.8993187337296,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Hungary,1,2024,118.32618599105079,1138.054461542139,1256.3806475331899,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Philippines,1,2024,89.000756778983,1111.9449709703645,1200.9457277493475,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Netherlands,1,2024,144.45014913193214,1123.25484915512,1267.7049982870521,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Norway,1,2024,169.67770177288128,1127.4242111492138,1297.101912922095,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Oman,1,2024,122.29600391932196,1118.7063945541684,1241.0023984734903,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Italy,1,2024,119.09453784813553,1080.9192933377608,1200.0138311858964,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Austria,1,2024,133.1809885613559,1039.483260101157,1172.6642486625128,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Finland,1,2024,147.52355656027112,981.8407948074246,1129.3643513676957,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Portugal,1,2024,116.5333649911864,952.0914825694618,1068.6248475606483,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Germany,1,2024,133.4371058470508,862.3556288124765,995.7927346595274,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Greece,1,2024,117.81395141966097,853.0069667867901,970.8209182064511,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,France,1,2024,131.64428484718638,851.2835229738841,982.9278078210705,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Brazil,1,2024,130.61981570440673,799.6153685763753,930.235184280782,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,United Kingdom,1,2024,130.1075811330169,727.6880723530995,857.7956534861164,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Spain,1,2024,112.05131249152537,690.7673752905973,802.8186877821227,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Sweden,1,2024,155.2070751311186,697.2918470413819,852.4989221725004,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Czech Republic,1,2024,114.74054399132199,684.56260781373,799.3031518050519,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Japan,1,2024,137.6630410610169,644.0316173046297,781.6946583656465,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Belgium,1,2024,146.75520470318637,651.1355564104946,797.8907611136809,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Poland,1,2024,119.73483106237285,620.8651081129344,740.5999391753073,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,India,1,2024,81.1891795652881,561.6301826671511,642.8193622324392,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Indonesia,1,2024,81.57335549383048,561.9581044518707,643.5314599457012,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,South Korea,1,2024,147.2674392745762,530.4799911903702,677.7474304649464,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,China,1,2024,100.91021056379657,452.12891541960903,553.0391259834056,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,United Arab Emirates,1,2024,122.29600391932196,426.07793627375014,548.3739401930721,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,United States,1,2024,128.05864284745758,362.2774636505213,490.3361064979789,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Turkey,1,2024,93.22669199294911,337.52672884198387,430.75342083493297,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Australia,1,2024,125.36941134766094,333.4891143140986,458.85852566175953,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Malaysia,1,2024,112.05131249152537,277.80128436332444,389.8525968548498,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Canada,1,2024,113.97219213423725,247.7337129953096,361.70590512954686,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Mexico,1,2024,103.72750070644064,240.29594442656122,344.02344513300187,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Thailand,1,2024,83.49423513654233,231.58840238250522,315.0826375190476,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Russia,1,2024,91.17775370738978,119.14058998642746,210.31834369381724,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,renewable,SMR_H_renewable_E,Saudi Arabia,1,2024,122.29600391932196,125.45164986845653,247.7476537877785,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Africa,1,2024,219.202128429619,1815.4240926741718,2034.6262211037908,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Taiwan,1,2024,152.25369511613928,1763.5496891738576,1915.8033842899968,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Switzerland,1,2024,198.86564196611576,1766.346405984856,1965.2120479509717,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Singapore,1,2024,148.83428588776266,1705.7526710049967,1854.5869568927594,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Hungary,1,2024,166.29126984315926,1461.7737601258825,1628.0650299690417,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Philippines,1,2024,125.07839019588276,1427.9335870587868,1553.0119772546695,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Netherlands,1,2024,203.00492682151906,1443.0197955599137,1646.0247223814329,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Norway,1,2024,238.45880145258224,1448.5113794808374,1686.9701809334197,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Oman,1,2024,171.87030595261587,1437.1057567045195,1608.9760626571353,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Italy,1,2024,167.37108328369922,1388.0000590847721,1555.3711423684713,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Austria,1,2024,187.1676630269325,1335.010734023945,1522.1783970508775,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Finland,1,2024,207.32418058367904,1261.2566280079031,1468.5808085915821,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Portugal,1,2024,163.77170514856593,1222.8700099142122,1386.641715062778,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Germany,1,2024,187.5276008404458,1107.615619020412,1295.1432198608577,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Greece,1,2024,165.5713942161326,1095.118116162189,1260.6895103783215,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,France,1,2024,185.0080361458525,1093.03662666045,1278.0446628063025,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Brazil,1,2024,183.56828489179915,1026.5737881035127,1210.1420729953118,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United Kingdom,1,2024,182.8484092647725,933.9240116691873,1116.77242093396,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Spain,1,2024,157.47279341208258,886.7274108312236,1044.2002042433062,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Sweden,1,2024,218.12231498907903,895.4300724602264,1113.5523874493053,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Czech Republic,1,2024,161.2521404539726,879.3292522252751,1040.5813926792478,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Japan,1,2024,193.46657476341576,826.264832693621,1019.7314074570368,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Belgium,1,2024,206.24436714313904,835.7682496177641,1042.0126167609033,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Poland,1,2024,168.2709278174826,796.970131315013,965.2410591324956,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,India,1,2024,114.10028688372614,719.9032359563333,834.0035228400595,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Indonesia,1,2024,114.64019360399615,720.3717224127588,835.011916016755,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,South Korea,1,2024,206.9642427701657,680.234826719021,887.1990694891867,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,China,1,2024,141.8154985242527,578.8783252447938,720.6938237690465,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United Arab Emirates,1,2024,171.87030595261587,546.0817050827138,717.9520110353296,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,United States,1,2024,179.96890675666586,464.1642069893955,644.1331137460613,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Turkey,1,2024,131.01736411885273,432.00707232798334,563.024436446836,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Australia,1,2024,176.18955971477584,427.3623351062619,603.5518948210378,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Malaysia,1,2024,157.47279341208258,355.1505129545516,512.6233063666341,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Canada,1,2024,160.1723270134326,316.9201492317769,477.0924762452095,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Mexico,1,2024,145.77481447289935,307.1073404206761,452.8821548935755,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Thailand,1,2024,117.33972720534614,295.5860689677495,412.92579617309565,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Russia,1,2024,128.13786161074609,151.17740247565462,279.3152640864007,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,renewable,SMRCCS_H_renewable_E,Saudi Arabia,1,2024,171.87030595261587,159.68879725214452,331.5591032047604,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,South Africa,1,2024,199.30975101705664,1563.5933957051313,1762.903146722188,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Taiwan,1,2024,138.43682213499991,1515.2343873661505,1653.6712095011503,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Switzerland,1,2024,180.81878068460395,1517.7773048791266,1698.5960855637306,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Singapore,1,2024,135.32772092865832,1469.8021999626949,1605.1299208913533,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Hungary,1,2024,151.20050077156023,1262.1894489313684,1413.3899497029286,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Philippines,1,2024,113.72764938986401,1234.246460034874,1347.974109424738,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Netherlands,1,2024,184.58242951333327,1242.565185240895,1427.1476147542282,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Norway,1,2024,216.8188999159278,1246.0122027088198,1462.8311026247477,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Oman,1,2024,156.27324484506494,1238.980781790044,1395.2540266351089,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Italy,1,2024,152.1823222051418,1198.165588128054,1350.3479103331958,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Austria,1,2024,170.18238182080373,1150.8251828132807,1321.0075646340845,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Finland,1,2024,188.50971524765947,1086.202733785634,1274.7124490332935,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Portugal,1,2024,148.90958409320325,1055.9890104003593,1204.8985944935625,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Germany,1,2024,170.50965563199756,953.4838786017357,1123.9935342337333,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Greece,1,2024,150.5459531491725,948.3405775484881,1098.8865306976606,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,France,1,2024,168.21873895364058,943.7468239709482,1111.9655629245888,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Brazil,1,2024,166.9096437088652,890.5574868698416,1057.4671305787067,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,United Kingdom,1,2024,166.2550960864775,809.8148365296048,976.0699326160823,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Spain,1,2024,143.18229239731082,767.3536534270246,910.5359458243354,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Sweden,1,2024,198.32792958347508,772.7773614529672,971.1052910364423,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Czech Republic,1,2024,146.61866741484627,759.0028440611346,905.6215114759809,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Japan,1,2024,175.90967351669613,718.8635549800781,894.7732284967742,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Belgium,1,2024,187.5278938140779,722.6056811888701,910.133575002948,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Poland,1,2024,153.00050673312643,691.915792674624,844.9162994077503,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,India,1,2024,103.7457981484515,629.740414490593,733.4862126390445,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Indonesia,1,2024,104.23670886524228,629.8630867054598,734.099795570702,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,South Korea,1,2024,188.1824414364656,594.9179393619177,783.1003807983833,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,China,1,2024,128.9458816103782,508.8709582507056,637.8168398610837,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,United Arab Emirates,1,2024,156.27324484506494,478.0112680171763,634.2845128622412,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,United States,1,2024,163.63690559692665,405.76479454235096,569.4017001392776,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Turkey,1,2024,119.12766727456258,382.57058733886714,501.69825461342975,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Australia,1,2024,160.20053057939117,372.86702486387054,533.0675554432617,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Malaysia,1,2024,143.18229239731082,317.7601083262722,460.942400723583,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Canada,1,2024,145.6368459812647,279.8606512342474,425.4974972155121,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Mexico,1,2024,132.5458935335106,275.68080262658424,408.22669616009483,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Thailand,1,2024,106.69126244919617,266.15956944037333,372.8508318895695,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Russia,1,2024,116.50947678501177,142.37563182084213,258.88510860585393,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,renewable,ATRCCS_H_renewable_E,Saudi Arabia,1,2024,156.27324484506494,146.87728672557247,303.15053157063744,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,South Africa,1,2024,235.55511,423.2098270269132,658.7649370269132,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Taiwan,1,2024,163.61217,436.9723145518751,600.5844845518751,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Switzerland,1,2024,213.70147500000002,439.97767285187524,653.6791478518753,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Singapore,1,2024,159.937665,422.9726145498209,582.9102795498209,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Hungary,1,2024,178.69698000000002,417.7371336963411,596.4341136963411,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Philippines,1,2024,134.409525,412.0675383009956,546.4770633009956,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Netherlands,1,2024,218.14955999999998,431.3219469336679,649.4715069336679,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Norway,1,2024,256.248375,439.06574058925554,695.3141155892556,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Oman,1,2024,184.692225,422.4627404092014,607.1549654092014,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Italy,1,2024,179.85735000000003,425.79720725793317,605.6545572579332,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Austria,1,2024,201.13080000000002,431.12339203121655,632.2541920312166,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Finland,1,2024,222.79104,433.67910373080156,656.4701437308015,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Portugal,1,2024,175.98945000000003,420.00985352391314,595.9993035239131,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Germany,1,2024,201.51759,434.8936654457509,636.411255445751,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Greece,1,2024,177.92340000000002,420.0266315229837,597.9500315229836,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,France,1,2024,198.81006000000002,430.53776048433576,629.3478204843358,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Brazil,1,2024,197.26290000000003,418.14853801105545,615.4114380110555,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,United Kingdom,1,2024,196.48932000000002,425.5921380924987,622.0814580924987,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Spain,1,2024,169.220625,424.35554238599616,593.5761673859962,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Sweden,1,2024,234.39473999999998,435.7789928803026,670.1737328803026,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Czech Republic,1,2024,173.28192,422.7081440155717,595.9900640155718,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Japan,1,2024,207.89962500000004,424.6668681380966,632.5664931380967,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Belgium,1,2024,221.63067,435.837012506935,657.467682506935,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Poland,1,2024,180.82432500000002,419.3895677716034,600.2138927716035,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,India,1,2024,122.61243000000002,412.25098152769345,534.8634115276934,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Indonesia,1,2024,123.192615,412.54765425345244,535.7402692534524,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,South Korea,1,2024,222.40425,423.64307390807807,646.047323908078,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,China,1,2024,152.39526000000004,420.75718679426063,573.1524467942606,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,United Arab Emirates,1,2024,184.692225,423.9520689373598,608.6442939373599,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,United States,1,2024,193.395,430.6692608563147,624.0642608563147,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Turkey,1,2024,140.79155999999998,413.50809537018205,554.299655370182,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Australia,1,2024,189.333705,431.492608684521,620.826313684521,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Malaysia,1,2024,169.220625,415.2995453408672,584.5201703408673,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Canada,1,2024,172.12155,426.6280872953462,598.7496372953462,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Mexico,1,2024,156.64995000000005,413.9093762230491,570.5593262230491,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Thailand,1,2024,126.09354,413.4402026637031,539.533742663703,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Russia,1,2024,137.69724,413.00027453826425,550.6975145382643,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,renewable,LTE_H_renewable_E,Saudi Arabia,1,2024,184.692225,423.0686690972858,607.7608940972858,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,South Africa,1,2024,205.1882355318849,257.5170030962334,462.7052386281183,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Taiwan,1,2024,142.5199074384028,283.2015861482518,425.7214935866546,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Switzerland,1,2024,186.15188855725194,285.81950501538273,471.97139357263467,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Singapore,1,2024,139.3191057347035,259.4332150117209,398.7523207464244,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Hungary,1,2024,155.6600407483265,241.23374020827032,396.89378095659686,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Philippines,1,2024,117.08195705637111,233.58699733681755,350.66895439318864,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Netherlands,1,2024,190.02654325120378,259.63118482081813,449.6577280720219,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Norway,1,2024,223.2138030211392,270.70971183125715,493.92351485239635,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Oman,1,2024,160.88240142278332,246.254913586336,407.13731500911933,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Italy,1,2024,156.67082023370526,253.83992870653722,410.5107489402425,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Austria,1,2024,175.2017774656489,258.16056607294485,433.36234353859373,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Finland,1,2024,194.06966119271874,256.88588879150336,450.9555499842221,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Portugal,1,2024,153.30155528244276,235.50557030456682,388.8071255870096,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Germany,1,2024,175.53870396077514,254.03082236473966,429.5695263255148,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Greece,1,2024,154.98618775807398,233.9706124793882,388.9568002374622,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,France,1,2024,173.1802184948914,249.28072828852171,422.4609467834131,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Brazil,1,2024,171.83251251438642,227.81617737856783,399.6486898929543,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,United Kingdom,1,2024,171.1586595241339,237.77675207767248,408.9354116018064,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Spain,1,2024,147.40534161773346,232.45586511702356,379.86120673475705,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Sweden,1,2024,204.17745604650617,247.83679736536476,452.0142534118709,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Czech Republic,1,2024,150.94306981655902,225.24006530343905,376.18313511999804,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Japan,1,2024,181.09799113035822,233.41821535065523,414.51620648101346,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Belgium,1,2024,193.05888170734,248.4470857947882,441.5059675021282,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Poland,1,2024,157.51313647152088,220.68739301490834,378.2005294864292,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,India,1,2024,106.80569895502057,214.1866509171866,320.99234987220717,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Indonesia,1,2024,107.31108869770995,214.31353943519923,321.62462813290915,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,South Korea,1,2024,193.7327346975925,227.1164670077587,420.8492017053512,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,China,1,2024,132.74903907974164,224.45475304144347,357.2037921211851,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,United Arab Emirates,1,2024,160.88240142278332,222.9045747742034,383.78697619698676,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,United States,1,2024,168.46324756312393,229.87064181988438,398.33388938300834,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Turkey,1,2024,122.64124422595421,204.72091138435127,327.3621556103055,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Australia,1,2024,164.9255193642983,228.39989967621167,393.32541904051,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Malaysia,1,2024,147.40534161773346,205.26069504758283,352.66603666531626,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Canada,1,2024,149.9322903311803,218.61765566904603,368.5499460002263,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Mexico,1,2024,136.4552305261304,200.25551678735104,336.7107473134814,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Thailand,1,2024,109.8380374111568,201.83677849106888,311.6748159022257,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Russia,1,2024,119.94583226494422,195.01894748532234,314.96477975026653,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,renewable,BG_H_renewable_E,Saudi Arabia,1,2024,160.88240142278332,207.79037277337758,368.6727741961609,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,South Africa,1,2024,155.97542698820334,1423.8123803304288,1579.787807318632,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Taiwan,1,2024,108.3376118489491,1383.9950858972682,1492.3326977462173,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Switzerland,1,2024,141.50480034644062,1385.9851172071176,1527.4899175535581,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Singapore,1,2024,105.90449763484742,1339.059681458993,1444.9641790938404,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Hungary,1,2024,118.32618599105079,1149.1193219022498,1267.4455078933006,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Philippines,1,2024,89.000756778983,1123.009831330475,1212.010588109458,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Netherlands,1,2024,144.45014913193214,1134.3197095152307,1278.769858647163,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Norway,1,2024,169.67770177288128,1138.4890715093243,1308.1667732822057,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Oman,1,2024,122.29600391932196,1129.7712549142793,1252.0672588336013,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Italy,1,2024,119.09453784813553,1091.9841536978715,1211.0786915460071,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Austria,1,2024,133.1809885613559,1050.5481204612677,1183.7291090226236,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Finland,1,2024,147.52355656027112,992.9056551675354,1140.4292117278064,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Portugal,1,2024,116.5333649911864,963.1563429295725,1079.6897079207588,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Germany,1,2024,133.4371058470508,873.4204891725872,1006.857595019638,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Greece,1,2024,117.81395141966097,864.071827146901,981.885778566562,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,France,1,2024,131.64428484718638,862.348383333995,993.9926681811814,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Brazil,1,2024,130.61981570440673,810.680228936486,941.3000446408927,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,United Kingdom,1,2024,130.1075811330169,738.7529327132102,868.860513846227,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Spain,1,2024,112.05131249152537,701.8322356507082,813.8835481422335,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Sweden,1,2024,155.2070751311186,708.3567074014926,863.5637825326112,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Czech Republic,1,2024,114.74054399132199,695.627468173841,810.3680121651629,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Japan,1,2024,137.6630410610169,655.0964776647403,792.7595187257572,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Belgium,1,2024,146.75520470318637,662.2004167706054,808.9556214737918,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Poland,1,2024,119.73483106237285,631.9299684730452,751.6647995354181,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,India,1,2024,81.1891795652881,572.6950430272617,653.8842225925498,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Indonesia,1,2024,81.57335549383048,573.0229648119813,654.5963203058118,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,South Korea,1,2024,147.2674392745762,541.5448515504811,688.8122908250573,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,China,1,2024,100.91021056379657,463.1937757797197,564.1039863435162,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,United Arab Emirates,1,2024,122.29600391932196,437.1427966338609,559.4388005531829,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,United States,1,2024,128.05864284745758,373.3423240106321,501.4009668580897,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Turkey,1,2024,93.22669199294911,348.5915892020946,441.8182811950437,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Australia,1,2024,125.36941134766094,344.55397467420926,469.9233860218702,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Malaysia,1,2024,112.05131249152537,288.8661447234352,400.91745721496056,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Canada,1,2024,113.97219213423725,258.7985733554204,372.7707654896576,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Mexico,1,2024,103.72750070644064,251.360804786672,355.0883054931126,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Thailand,1,2024,83.49423513654233,242.65326274261594,326.14749787915827,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Russia,1,2024,91.17775370738978,130.2054503465382,221.383204053928,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMR,n/a,nuke,SMR_H_nuke_E,Saudi Arabia,1,2024,122.29600391932196,136.5165102285673,258.81251414788926,1.96224604716598,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Africa,1,2024,219.202128429619,1828.9595351869104,2048.1616636165295,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Taiwan,1,2024,152.25369511613928,1777.0851316865962,1929.3388268027356,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Switzerland,1,2024,198.86564196611576,1779.881848497595,1978.7474904637108,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Singapore,1,2024,148.83428588776266,1719.2881135177358,1868.1223994054985,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Hungary,1,2024,166.29126984315926,1475.3092026386212,1641.6004724817803,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Philippines,1,2024,125.07839019588276,1441.4690295715254,1566.5474197674082,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Netherlands,1,2024,203.00492682151906,1456.5552380726524,1659.5601648941715,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Norway,1,2024,238.45880145258224,1462.0468219935756,1700.5056234461579,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Oman,1,2024,171.87030595261587,1450.6411992172584,1622.5115051698742,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Italy,1,2024,167.37108328369922,1401.5355015975108,1568.90658488121,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Austria,1,2024,187.1676630269325,1348.5461765366838,1535.7138395636164,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Finland,1,2024,207.32418058367904,1274.792070520642,1482.116251104321,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Portugal,1,2024,163.77170514856593,1236.405452426951,1400.1771575755167,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Germany,1,2024,187.5276008404458,1121.1510615331506,1308.6786623735964,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Greece,1,2024,165.5713942161326,1108.6535586749276,1274.2249528910602,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,France,1,2024,185.0080361458525,1106.5720691731883,1291.5801053190407,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Brazil,1,2024,183.56828489179915,1040.1092306162511,1223.6775155080502,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United Kingdom,1,2024,182.8484092647725,947.4594541819258,1130.3078634466983,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Spain,1,2024,157.47279341208258,900.2628533439622,1057.7356467560448,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Sweden,1,2024,218.12231498907903,908.9655149729649,1127.087829962044,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Czech Republic,1,2024,161.2521404539726,892.8646947380138,1054.1168351919864,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Japan,1,2024,193.46657476341576,839.8002752063595,1033.2668499697752,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Belgium,1,2024,206.24436714313904,849.3036921305029,1055.548059273642,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Poland,1,2024,168.2709278174826,810.5055738277517,978.7765016452344,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,India,1,2024,114.10028688372614,733.438678469072,847.5389653527982,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Indonesia,1,2024,114.64019360399615,733.9071649254976,848.5473585294937,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,South Korea,1,2024,206.9642427701657,693.7702692317597,900.7345120019254,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,China,1,2024,141.8154985242527,592.4137677575324,734.229266281785,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United Arab Emirates,1,2024,171.87030595261587,559.6171475954524,731.4874535480683,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,United States,1,2024,179.96890675666586,477.6996495021341,657.6685562588,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Turkey,1,2024,131.01736411885273,445.5425148407221,576.5598789595748,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Australia,1,2024,176.18955971477584,440.89777761900064,617.0873373337765,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Malaysia,1,2024,157.47279341208258,368.6859554672902,526.1587488793728,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Canada,1,2024,160.1723270134326,330.4555917445156,490.6279187579482,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Mexico,1,2024,145.77481447289935,320.6427829334148,466.41759740631414,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Thailand,1,2024,117.33972720534614,309.1215114804881,426.46123868583425,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Russia,1,2024,128.13786161074609,164.71284498839324,292.85070659913936,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,SMRCCS,n/a,nuke,SMRCCS_H_nuke_E,Saudi Arabia,1,2024,171.87030595261587,173.22423976488315,345.09454571749905,0.45469442943149296,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,South Africa,1,2024,199.30975101705664,1578.628799922279,1777.9385509393358,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Taiwan,1,2024,138.43682213499991,1530.269791583298,1668.7066137182978,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Switzerland,1,2024,180.81878068460395,1532.8127090962741,1713.6314897808782,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Singapore,1,2024,135.32772092865832,1484.8376041798429,1620.1653251085013,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Hungary,1,2024,151.20050077156023,1277.2248531485159,1428.425353920076,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Philippines,1,2024,113.72764938986401,1249.2818642520215,1363.0095136418854,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Netherlands,1,2024,184.58242951333327,1257.6005894580428,1442.183018971376,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Norway,1,2024,216.8188999159278,1261.0476069259676,1477.8665068418954,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Oman,1,2024,156.27324484506494,1254.016186007192,1410.2894308522568,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Italy,1,2024,152.1823222051418,1213.200992345202,1365.3833145503438,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Austria,1,2024,170.18238182080373,1165.8605870304282,1336.042968851232,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Finland,1,2024,188.50971524765947,1101.238138002782,1289.7478532504415,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Portugal,1,2024,148.90958409320325,1071.024414617507,1219.9339987107103,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Germany,1,2024,170.50965563199756,968.5192828188834,1139.028938450881,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Greece,1,2024,150.5459531491725,963.375981765636,1113.9219349148084,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,France,1,2024,168.21873895364058,958.782228188096,1127.0009671417365,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Brazil,1,2024,166.9096437088652,905.5928910869894,1072.5025347958547,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,United Kingdom,1,2024,166.2550960864775,824.8502407467525,991.10533683323,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Spain,1,2024,143.18229239731082,782.3890576441723,925.5713500414831,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Sweden,1,2024,198.32792958347508,787.8127656701148,986.1406952535899,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Czech Republic,1,2024,146.61866741484627,774.0382482782825,920.6569156931288,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Japan,1,2024,175.90967351669613,733.8989591972258,909.808632713922,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Belgium,1,2024,187.5278938140779,737.6410854060181,925.1689792200959,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Poland,1,2024,153.00050673312643,706.9511968917718,859.9517036248983,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,India,1,2024,103.7457981484515,644.7758187077407,748.5216168561922,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Indonesia,1,2024,104.23670886524228,644.8984909226075,749.1351997878497,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,South Korea,1,2024,188.1824414364656,609.9533435790654,798.135785015531,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,China,1,2024,128.9458816103782,523.9063624678532,652.8522440782315,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,United Arab Emirates,1,2024,156.27324484506494,493.0466722343241,649.319917079389,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,United States,1,2024,163.63690559692665,420.80019875949876,584.4371043564254,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Turkey,1,2024,119.12766727456258,397.6059915560149,516.7336588305775,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Australia,1,2024,160.20053057939117,387.9024290810182,548.1029596604094,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Malaysia,1,2024,143.18229239731082,332.79551254341993,475.9778049407307,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Canada,1,2024,145.6368459812647,294.89605545139517,440.53290143265986,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Mexico,1,2024,132.5458935335106,290.71620684373187,423.26210037724246,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Thailand,1,2024,106.69126244919617,281.1949736575211,387.88623610671726,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Russia,1,2024,116.50947678501177,157.41103603798987,273.9205128230017,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,ATRCCS,n/a,nuke,ATRCCS_H_nuke_E,Saudi Arabia,1,2024,156.27324484506494,161.91269094272022,318.1859357877852,0.3365444709403921,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,South Africa,1,2024,235.55511,523.7412459269133,759.2963559269133,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Taiwan,1,2024,163.61217,537.5037334518752,701.1159034518752,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Switzerland,1,2024,213.70147500000002,540.5090917518752,754.2105667518751,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Singapore,1,2024,159.937665,523.5040334498209,683.4416984498209,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Hungary,1,2024,178.69698000000002,518.2685525963412,696.9655325963413,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Philippines,1,2024,134.409525,512.5989572009955,647.0084822009956,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Netherlands,1,2024,218.14955999999998,531.8533658336679,750.0029258336679,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Norway,1,2024,256.248375,539.5971594892555,795.8455344892556,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Oman,1,2024,184.692225,522.9941593092015,707.6863843092015,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Italy,1,2024,179.85735000000003,526.3286261579333,706.1859761579333,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Austria,1,2024,201.13080000000002,531.6548109312167,732.7856109312168,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Finland,1,2024,222.79104,534.2105226308016,757.0015626308016,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Portugal,1,2024,175.98945000000003,520.5412724239131,696.5307224239132,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Germany,1,2024,201.51759,535.425084345751,736.942674345751,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Greece,1,2024,177.92340000000002,520.5580504229838,698.4814504229838,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,France,1,2024,198.81006000000002,531.0691793843358,729.8792393843358,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Brazil,1,2024,197.26290000000003,518.6799569110555,715.9428569110555,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,United Kingdom,1,2024,196.48932000000002,526.1235569924988,722.6128769924989,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Spain,1,2024,169.220625,524.8869612859963,694.1075862859964,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Sweden,1,2024,234.39473999999998,536.3104117803026,770.7051517803026,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Czech Republic,1,2024,173.28192,523.2395629155718,696.5214829155718,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Japan,1,2024,207.89962500000004,525.1982870380966,733.0979120380966,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Belgium,1,2024,221.63067,536.3684314069351,757.9991014069351,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Poland,1,2024,180.82432500000002,519.9209866716035,700.7453116716035,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,India,1,2024,122.61243000000002,512.7824004276936,635.3948304276936,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Indonesia,1,2024,123.192615,513.0790731534524,636.2716881534525,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,South Korea,1,2024,222.40425,524.1744928080781,746.578742808078,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,China,1,2024,152.39526000000004,521.2886056942606,673.6838656942606,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,United Arab Emirates,1,2024,184.692225,524.4834878373599,709.1757128373599,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,United States,1,2024,193.395,531.2006797563147,724.5956797563147,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Turkey,1,2024,140.79155999999998,514.0395142701822,654.8310742701822,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Australia,1,2024,189.333705,532.024027584521,721.357732584521,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Malaysia,1,2024,169.220625,515.8309642408673,685.0515892408673,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Canada,1,2024,172.12155,527.1595061953462,699.2810561953463,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Mexico,1,2024,156.64995000000005,514.4407951230492,671.0907451230491,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Thailand,1,2024,126.09354,513.9716215637031,640.0651615637031,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Russia,1,2024,137.69724,513.5316934382644,651.2289334382643,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,LTE,n/a,nuke,LTE_H_nuke_E,Saudi Arabia,1,2024,184.692225,523.600087997286,708.292312997286,0.10053141889999999,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,South Africa,1,2024,205.1882355318849,269.1750670698211,474.36330260170604,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Taiwan,1,2024,142.5199074384028,294.8596501218396,437.3795575602424,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Switzerland,1,2024,186.15188855725194,297.4775689889705,483.62945754622245,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Singapore,1,2024,139.3191057347035,271.09127898530863,410.41038472001213,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Hungary,1,2024,155.6600407483265,252.89180418185808,408.5518449301846,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Philippines,1,2024,117.08195705637111,245.24506131040533,362.32701836677643,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Netherlands,1,2024,190.02654325120378,271.2892487944059,461.31579204560967,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Norway,1,2024,223.2138030211392,282.3677758048448,505.581578825984,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Oman,1,2024,160.88240142278332,257.91297755992383,418.7953789827071,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Italy,1,2024,156.67082023370526,265.497992680125,422.16881291383027,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Austria,1,2024,175.2017774656489,269.81863004653263,445.0204075121815,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Finland,1,2024,194.06966119271874,268.5439527650912,462.61361395780995,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Portugal,1,2024,153.30155528244276,247.16363427815457,400.4651895605973,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Germany,1,2024,175.53870396077514,265.68888633832745,441.2275902991026,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Greece,1,2024,154.98618775807398,245.62867645297592,400.6148642110499,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,France,1,2024,173.1802184948914,260.9387922621095,434.11901075700086,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Brazil,1,2024,171.83251251438642,239.47424135215567,411.30675386654207,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,United Kingdom,1,2024,171.1586595241339,249.43481605126027,420.59347557539417,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Spain,1,2024,147.40534161773346,244.11392909061138,391.51927070834483,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Sweden,1,2024,204.17745604650617,259.49486133895255,463.6723173854587,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Czech Republic,1,2024,150.94306981655902,236.8981292770268,387.84119909358583,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Japan,1,2024,181.09799113035822,245.07627932424305,426.17427045460124,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Belgium,1,2024,193.05888170734,260.10514976837595,453.16403147571594,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Poland,1,2024,157.51313647152088,232.34545698849612,389.858593460017,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,India,1,2024,106.80569895502057,225.84471489077438,332.65041384579496,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Indonesia,1,2024,107.31108869770995,225.97160340878702,333.28269210649694,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,South Korea,1,2024,193.7327346975925,238.7745309813465,432.507265678939,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,China,1,2024,132.74903907974164,236.11281701503123,368.86185609477286,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,United Arab Emirates,1,2024,160.88240142278332,234.56263874779117,395.4450401705745,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,United States,1,2024,168.46324756312393,241.52870579347217,409.9919533565961,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Turkey,1,2024,122.64124422595421,216.37897535793905,339.02021958389327,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Australia,1,2024,164.9255193642983,240.05796364979946,404.98348301409777,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Malaysia,1,2024,147.40534161773346,216.9187590211706,364.32410063890404,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Canada,1,2024,149.9322903311803,230.2757196426338,380.2080099738141,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Mexico,1,2024,136.4552305261304,211.91358076093883,348.3688112870692,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Thailand,1,2024,109.8380374111568,213.49484246465667,323.3328798758135,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Russia,1,2024,119.94583226494422,206.67701145891013,326.6228437238543,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
+ammonia,BG,n/a,nuke,BG_H_nuke_E,Saudi Arabia,1,2024,160.88240142278332,219.4484367469654,380.33083816974874,0.18070702695558905,Liquid cryogenic ammonia at atmospheric pressure
