@@ -10,19 +10,18 @@
 Vessel "tanker_300k_dwt_ice_ammonia" {
 	
 	PropulsionLoadLevel = Surface("speed_draft_power_surface_tanker_300k_dwt")
-	ElectricalLoadLevelAtSea=1
-	ElectricalLoadLevelInPort=1.2
-	HeatLoadLevelAtSea=0.6	
-	HeatLoadLevelInPort=0.6	
+	ElectricalLoadLevelAtSea = 1
+	ElectricalLoadLevelInPort = 1.2
+	HeatLoadLevelAtSea = 4.0	
+	HeatLoadLevelInPort = 4.0	
 	
 	PowerSystem=PowerSystem("ice_ammonia_tanker_300k_dwt")
     Tanks = [Tank("main_ammonia_tanker_300k_dwt"), Tank("pilot_oil_bulk_carrier_capesize")]
 	
 	Route=Route("globalized_tanker_300k_dwt")
 	
-    NominalCapacity = 290975.57446808513
+    NominalCapacity = 289766.9569862934
 	
-
 	Lifetime=25
 	Finance=Finance("vessel_finance")
 	CAPEX = 90e6

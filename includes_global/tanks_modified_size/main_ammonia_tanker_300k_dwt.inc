@@ -8,7 +8,7 @@
 
 Tank "main_ammonia_tanker_300k_dwt" {
 	FuelTypes=[AMMONIA]
-	Size=8000
+    Size=26636.906737616046
 	
 	CAPEX = 675
 	OPEX = 6.75 

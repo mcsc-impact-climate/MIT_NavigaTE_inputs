@@ -8,7 +8,7 @@
 
 Tank "main_compressed_hydrogen_bulk_carrier_panamax" {
 	FuelTypes=[HYDROGEN]
-	Size=3000
+    Size=26853.599578495403
 	
 	CAPEX = 675
 	OPEX = 6.75 
