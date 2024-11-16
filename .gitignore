@@ -12,3 +12,5 @@ all_results_df.csv
 all_reports
 navs
 *_df.csv
+data/vessel_ranges.csv
+data/NavigaTE_CAPEX_OPEX.csv
