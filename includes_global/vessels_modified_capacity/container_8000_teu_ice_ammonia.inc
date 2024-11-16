@@ -19,7 +19,7 @@ Vessel "container_8000_teu_ice_ammonia" {
 	
 	Route=Route("globalized_container_8000_teu")
 	
-    NominalCapacity = 7504.382234736825
+    NominalCapacity = 7441.68088656894
 
 	Lifetime=25
 	Finance=Finance("vessel_finance")

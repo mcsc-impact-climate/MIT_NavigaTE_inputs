@@ -8,7 +8,7 @@
 
 Tank "main_methanol_bulk_carrier_panamax" {
 	FuelTypes=[METHANOL]
-	Size=3000
+    Size=7425.043076326914
 	
 	CAPEX = 215
 	OPEX = 2.15 

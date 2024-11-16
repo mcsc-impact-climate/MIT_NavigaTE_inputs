@@ -8,7 +8,7 @@
 
 Tank "main_FTdiesel_bulk_carrier_handy" {
 	FuelTypes=[DIESEL]
-	Size=2000
+    Size=2148.7702265372163
 	
 	CAPEX = 140
 	OPEX = 1.4 

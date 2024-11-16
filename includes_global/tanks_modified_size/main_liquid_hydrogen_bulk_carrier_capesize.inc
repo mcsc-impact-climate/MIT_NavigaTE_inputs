@@ -8,7 +8,7 @@
 
 Tank "main_liquid_hydrogen_bulk_carrier_capesize" {
 	FuelTypes=[HYDROGEN]
-	Size=5000
+    Size=39869.05769582206
 	
 	CAPEX = 675
 	OPEX = 6.75 
