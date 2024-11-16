@@ -10,19 +10,18 @@
 Vessel "tanker_100k_dwt_ice_methanol" {
 	
 	PropulsionLoadLevel = Surface("speed_draft_power_surface_tanker_100k_dwt")
-	ElectricalLoadLevelAtSea=0.75
-	ElectricalLoadLevelInPort=1.2
-	HeatLoadLevelAtSea=1.63
-	HeatLoadLevelInPort=1.63
+	ElectricalLoadLevelAtSea = 0.75
+	ElectricalLoadLevelInPort = 1.2
+	HeatLoadLevelAtSea = 3.7
+	HeatLoadLevelInPort = 3.7
 	
 	PowerSystem=PowerSystem("ice_methanol_tanker_100k_dwt")
     Tanks = [Tank("main_methanol_tanker_100k_dwt"), Tank("pilot_oil_bulk_carrier_capesize")]
 	
 	Route=Route("globalized_tanker_100k_dwt")
 	
-    NominalCapacity = 96967.24120603014
+    NominalCapacity = 97097.51802934913
 	
-
 	Lifetime=25
 	Finance=Finance("vessel_finance")
 	CAPEX = 50e6
