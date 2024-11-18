@@ -65,7 +65,7 @@ quantities = [
 ]
 
 # Evaluation choices
-evaluation_choices = ["per_year", "per_mile", "per_tonne_mile"] # per tonne-mile = multiply weight by distance
+evaluation_choices = ["per_year", "per_mile", "per_tonne_mile", "per_cbm_mile"] # per tonne-mile = multiply weight by distance
 
 def time_function(func):
     """A decorator that logs the time a function takes to execute."""
@@ -384,7 +384,9 @@ def add_quantity_modifiers(all_results_df):
             if evaluation_choice == "per_mile":
                 column_divide = "Miles"
             elif evaluation_choice == "per_tonne_mile":
-                column_divide = "CargoMiles"
+                column_divide = "TonneMiles"
+            elif evaluation_choice == "per_cbm_mile":
+                column_divide = "CbmMiles"
             else:
                 continue
 
@@ -412,7 +414,7 @@ def scale_quantities_to_fleet(all_results_df):
     all_results_df : pandas.DataFrame
         The updated DataFrame with fleet-level quantities added.
     """
-    for quantity in quantities + ["Miles", "CargoMiles"]:
+    for quantity in quantities + ["Miles", "CargoMiles", "CbmMiles", "TonneMiles"]:
         # Multiply by the number of vessels to sum the quantity to the full fleet
         all_results_df[f"{quantity}-fleet"] = (
             all_results_df[quantity] * all_results_df["n_vessels"]
@@ -423,7 +425,7 @@ def scale_quantities_to_fleet(all_results_df):
 @time_function
 def add_vessel_type_quantities(all_results_df):
     quantities_fleet = [col for col in all_results_df.columns if "-fleet" in col]
-    
+        
     # Perform groupby once
     grouped = all_results_df.groupby(["Fuel", "Pathway", "Region", "Number"])
 
@@ -433,13 +435,18 @@ def add_vessel_type_quantities(all_results_df):
             vessel_type_df = group_df[group_df["Vessel"].str.contains("|".join(vessel_names))]
 
             if not vessel_type_df.empty:
-                vessel_type_row = vessel_type_df[quantities_fleet + ["Miles", "CargoMiles", "ConsumedEnergy_main", "ConsumedEnergy_lsfo"]].sum()
+                vessel_type_row = vessel_type_df[quantities_fleet].sum()
                 vessel_type_row["Fuel"] = fuel
                 vessel_type_row["Pathway"] = pathway
                 vessel_type_row["Region"] = region
                 vessel_type_row["Number"] = number
                 vessel_type_row["Vessel"] = f"{vessel_type}_{fuel}"
                 vessel_type_row["n_vessels"] = vessel_type_df["n_vessels"].sum()
+                
+                # The value for an individual vessel in the fleet is its total value scaled up to the fleet, divided by the total numbef of vessels of the given type in the fleet
+                for quantity_fleet in quantities_fleet:
+                    quantity_vessel = quantity_fleet.replace("-fleet", "")
+                    vessel_type_row[quantity_vessel] = vessel_type_row[quantity_fleet] / vessel_type_row["n_vessels"]
 
                 # Add rows in bulk
                 new_rows.append(vessel_type_row)
@@ -504,7 +511,7 @@ def add_fleet_level_quantities(all_results_df):
 
         if not fleet_df.empty:
             # Sum quantities for the full fleet
-            fleet_row = fleet_df[quantities_fleet + ["Miles", "CargoMiles", "ConsumedEnergy_main", "ConsumedEnergy_lsfo"]].sum()
+            fleet_row = fleet_df[quantities_fleet].sum()
             fleet_row["Fuel"] = fuel
             fleet_row["Pathway"] = pathway
             fleet_row["Region"] = region
@@ -513,7 +520,7 @@ def add_fleet_level_quantities(all_results_df):
             fleet_row["n_vessels"] = fleet_df["n_vessels"].sum()
 
             # Evaluate the average based on the fleet sum for each vessel-level quantity
-            for quantity in quantities + ["Miles", "CargoMiles"]:
+            for quantity in quantities + ["Miles", "CargoMiles", "CbmMiles", "TonneMiles"]:
                 fleet_row[f"{quantity}"] = (
                     fleet_row[f"{quantity}-fleet"] / fleet_row["n_vessels"]
                 )
@@ -524,6 +531,148 @@ def add_fleet_level_quantities(all_results_df):
     # Convert the list of new rows to a DataFrame and concatenate with the original DataFrame
     new_rows_df = pd.DataFrame(new_rows)
     all_results_df = pd.concat([all_results_df, new_rows_df], ignore_index=True)
+
+    return all_results_df
+    
+def get_boiloff_factor(tank_size_factors, fuel, vessel):
+    """
+    For the given vessel and fuel, reads in the boil-off factor that accounts for fuel lost to boil-off.
+
+    Parameters
+    ----------
+    tank_size_factors : pandas.DataFrame
+        Dataframe containing the boiloff factor for each vessel and fuel
+        
+    fuel : str
+        Fuel being used by the vessel
+        
+    vessel : str
+        Name of the vessel
+
+    Returns
+    -------
+    boiloff_factor : float
+        The boiloff factor for the given vessel and fuel
+    """
+    vessel_read = vessel.split(f"_ice")[0]
+    
+    fuel_read = fuel
+    if fuel_read == "liquidhydrogen":
+        fuel_read = "liquid_hydrogen"
+    if fuel_read == "compressedhydrogen":
+        fuel_read = "compressed_hydrogen"
+    
+    boiloff_factor = tank_size_factors.loc[(tank_size_factors["Fuel"] == fuel_read) & (tank_size_factors["Vessel Class"] == vessel_read), "Boil-off"].iloc[0]
+    
+    return boiloff_factor
+    
+@time_function
+def add_boiloff(all_results_df):
+    """
+    Adds in fuel losses due to boiloff for liquid hydrogen, ammonia, and methanol.
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which fleet-level quantities will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with the cost of carbon abatement added.
+    """
+
+    top_dir = get_top_dir()
+
+    # Load the tank size factors
+    tank_size_factors = pd.read_csv(f"{top_dir}/tables/tank_size_factors.csv")
+
+    # Prepare mapping of boiloff factors
+    def map_boiloff_factors(row):
+        fuel = row['Fuel']
+        vessel = row['Vessel'].split(f"_ice")[0]
+
+        if fuel == "liquidhydrogen":
+            fuel = "liquid_hydrogen"
+        if fuel == "compressedhydrogen":
+            fuel = "compressed_hydrogen"
+
+        try:
+            return tank_size_factors.loc[
+                (tank_size_factors["Fuel"] == fuel) &
+                (tank_size_factors["Vessel Class"] == vessel), "Boil-off"
+            ].iloc[0]
+        except IndexError:
+            return 1.0  # Default boiloff factor if none found
+
+    # Vectorized calculation of boiloff factors
+    all_results_df['Boil-off Factor'] = all_results_df.apply(map_boiloff_factors, axis=1)
+
+    # Update columns using vectorized operations
+    all_results_df['TotalEquivalentWTT'] *= all_results_df['Boil-off Factor']
+    all_results_df['ConsumedEnergy_main'] *= all_results_df['Boil-off Factor']
+    all_results_df['TotalFuelOPEX'] *= all_results_df['Boil-off Factor']
+
+    # Recalculate TotalEquivalentWTW and TotalCost
+    all_results_df['TotalEquivalentWTW'] = (
+        all_results_df['TotalEquivalentWTT'] + all_results_df['TotalEquivalentTTW']
+    )
+    all_results_df['TotalCost'] = (
+        all_results_df['TotalCAPEX'] +
+        all_results_df['TotalFuelOPEX'] +
+        all_results_df['TotalExcludingFuelOPEX']
+    )
+
+    # Drop the temporary Boil-off Factor column
+    all_results_df = all_results_df.drop(columns=['Boil-off Factor'])
+
+    return all_results_df
+    
+@time_function
+def add_cargo_miles(all_results_df):
+    """
+    Adds the cargo miles under both mass-constrained (tonne-miles) and volume-constrained (m^3-miles) scenarios
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which fleet-level quantities will be added.
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with the cost of carbon abatement added.
+    """
+
+    # Read in the csv file containing per-vessel cargo miles
+    cargo_miles_df = pd.read_csv(f"tables/cargo_miles.csv")
+
+    # Ensure proper matching of Vessel types without the "_ice" suffix
+    all_results_df["Vessel_type"] = all_results_df["Vessel"].str.split("_ice").str[0]
+    cargo_miles_df["Vessel_type"] = cargo_miles_df["Vessel"]
+
+    # Rename the liquid hydrogen and compressed hydrogen fuels in cargo_miles_df to match all_results_df
+    cargo_miles_df["Fuel_merge"] = cargo_miles_df["Fuel"].replace({"liquid_hydrogen": "liquidhydrogen", "compressed_hydrogen": "compressedhydrogen"})
+    all_results_df["Fuel_merge"] = all_results_df["Fuel"]
+
+    # Merge cargo_miles_df with all_results_df on Vessel_type and Fuel_merge
+    all_results_df = all_results_df.merge(
+        cargo_miles_df,
+        how="left",
+        left_on=["Vessel_type", "Fuel_merge"],
+        right_on=["Vessel_type", "Fuel_merge"]
+    )
+
+    # Drop the temporary columns used for merging
+    all_results_df.drop(columns=["Vessel_type", "Fuel_merge", "Vessel_y", "Fuel_y", "Unnamed: 0"], inplace=True)
+
+    # Rename the columns from the merged data for clarity
+    all_results_df.rename(columns={
+        "Cargo miles (m^3-miles)": "CbmMiles",
+        "Cargo miles (tonne-miles)": "TonneMiles",
+        "Vessel_x": "Vessel",
+        "Fuel_x": "Fuel",
+    }, inplace=True)
 
     return all_results_df
 
@@ -543,8 +692,6 @@ def add_cac(all_results_df):
     -------
     all_results_df : pandas.DataFrame
         The updated DataFrame with the cost of carbon abatement added.
-        
-    NOTE: This function is not currently being used. Instead, the product of total cost and emissions is being included in the output csvs (see function add_cost_times_emissions).
     """
 
     # Mapping vessels to LSFO equivalents
@@ -886,8 +1033,6 @@ def add_fuel_mass(all_results_df, top_dir):
     return all_results_df
 
 
-# GE - working to add reverse engineered resource requirements by 10/25
-
 # GE - helper function 
 def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
     """
@@ -983,39 +1128,53 @@ def main():
     # Get the path to the top level of the Git repo
     top_dir = get_top_dir()
     
-    # Collect all results from the Excel files in parallel
+    # Collect all results from the Excel files
     all_results_df = collect_all_results(top_dir)
 
     # Add the number of vessels to the DataFrame
     all_results_df = add_number_of_vessels(all_results_df)
+        
+    # Add fuel needed to offset fuel loss due to boiloff
+    all_results_df = add_boiloff(all_results_df)
+    
+    #all_results_df.to_csv("all_results_df_with_boiloff.csv")
+    
+    # Add cargo miles (both tonne-miles and m^3-miles) to the dataframe
+    all_results_df = add_cargo_miles(all_results_df)
 
     # Multiply by number of vessels of each type+size the fleet to get fleet-level quantities
     all_results_df = scale_quantities_to_fleet(all_results_df)
+    
+    #all_results_df.to_csv("all_results_df_fleet.csv")
 
     # Group vessels by type to get type-level quantities
     all_results_df = add_vessel_type_quantities(all_results_df)
 
+    #all_results_df.to_csv("all_results_df_with_vessel_quantities.csv")
+
     # Group all vessel together to get fleet-level quantities
     all_results_df = add_fleet_level_quantities(all_results_df)
+    
+    #all_results_df.to_csv("all_results_df_with_cargo_miles.csv")
 
     # Add evaluated quantities (per mile and per tonne-mile) to the dataframe
     add_quantity_modifiers(all_results_df)
 
     # Append the region number to countries for which there's data for >1 region
     mark_countries_with_multiples(all_results_df)
-    
+
     # Add a column quantifying the cost of carbon abatement
     all_results_df = add_cac(all_results_df)
-    
+
     # Add a column for cost times emissions
     all_results_df = add_cost_times_emissions(all_results_df)
-    
+
     # Add a column for the average ratios of cost and emissions relative to LSFO
     all_results_df = add_av_cost_emissions_ratios(all_results_df)
 
     # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
     all_results_df = add_fuel_mass(all_results_df, top_dir)
-    
+
     # GE - adds resources demands columns
     all_results_df = add_resource_demands(all_results_df)
 
