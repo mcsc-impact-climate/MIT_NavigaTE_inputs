@@ -1546,10 +1546,10 @@ def calculate_cargo_miles(top_dir, fuel, vessel_class, modified_capacities_df):
 
     Returns
     -------
-    cargo_miles_mass : float
+    cargo_capacity_tonnes : float
         Cargo miles carried by mass, in tonne-miles
         
-    cargo_miles_volume : float
+    cargo_capacity_cbm : float
         Cargo miles carried by volume, in tonne-m^3
         
     """
