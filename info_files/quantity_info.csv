@@ -7,7 +7,7 @@ TotalFuelOPEX,Total Fuel OPEX,USD,
 TotalExcludingFuelOPEX,Total Non-fuel OPEX,USD,
 TotalCost,Total Cost,USD,"Sum of CAPEX, fuel and other OPEX"
 Miles,Annual Nautical Miles,nm,
-CargoMiles,Cargo-miles Carried,nm,Assume 14 tonnes / TEU for containerships and 3.49 lb / gal for gas carriers
+CargoMiles,Cargo-miles Carried,tonne-nm,Assume 14 tonnes / TEU for containerships and 3.49 lb / gal for gas carriers
 ConsumedEnergy_lsfo,LSFO Energy Consumed ,GJ,Low sulfur fuel oil (main fuel for LSFO vessel and pilot fuel for other vessels)
 ConsumedEnergy_main,Main Fuel Energy Consumed,GJ,
 CostTimesEmissions,Cost $\times$ Emissions,USD-tonnes CO2,Product of TotalCost times TotalEquivalentWTW
@@ -15,3 +15,7 @@ AverageCostEmissionsRatio,Average Cost and Emissions Ratio,,(1/2) x (TotalCost f
 HalfWTWRatio,Half of Emissions Ratio,,(1/2) x (TotalEquivalentWTW for alt fuel / TotalEquivalentWTW for LSFO)
 HalfCostRatio,Half of Cost Ratio,,(1/2) x (TotalCost for alt fuel / TotalCost for LSFO)
 CAC,Cost of Abated Carbon,USD/tonne CO2,Ratio in change of overall cost relative to LSFO divided by reduction in overall emissions relative to LSFO
+CbmMiles_lsfo,Cargo-miles Carried (LSFO),m^3-nm,Cargo-miles (in m^3-miles) carried by an LSFO vessel
+CbmMiles,Cargo-miles Carried,m^3-nm,Cargo-miles (in m^3-miles) carried with the given fuel
+TonneMiles_lsfo,Cargo-miles Carried (LSFO),tonne-nm,Cargo-miles (in tonne-miles) carried by an LSFO vessel
+TonneMiles,Cargo-miles Carried,tonne-nm,Cargo-miles (in tonne-miles) carried with the given fuel

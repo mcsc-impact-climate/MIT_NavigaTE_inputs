@@ -412,6 +412,9 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
             "fleet": "year",
             "per_mile": "nm",
             "per_tonne_mile": "tonne-nm",
+            "per_tonne_mile_orig": "tonne-nm",
+            "per_cbm_mile": "$m^3-nm$",
+            "per_cbm_mile_orig": "$m^3-nm$",
         }
 
         denom_units = modifier_denom_dict[modifier]
@@ -977,6 +980,7 @@ class ProcessedPathway:
 
     def __init__(self, fuel, pathway, results_dir=RESULTS_DIR):
         self.fuel = fuel
+        print(pathway)
         self.pathway_type = get_pathway_type(pathway)
         self.pathway = pathway
         self.results_dir = results_dir
@@ -1058,7 +1062,7 @@ class ProcessedPathway:
         self,
         method_name,
         quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
-        modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
+        modifiers=["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig", "per_mile", "vessel", "fleet"],
     ):
         """
         Applies the provided method to instances of the ProcessedQuantity class for all provided quantities and modifiers
@@ -1200,7 +1204,7 @@ class ProcessedPathway:
     def make_all_hists_by_region(
         self,
         quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
-        modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
+        modifiers=["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig", "per_mile", "vessel", "fleet"],
     ):
         """
         Executes make_all_hists_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce validation hists for the given pathway, for the selected quantities.
@@ -1586,7 +1590,7 @@ class ProcessedFuel:
     def make_all_stacked_hists(
         self,
         quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
-        modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
+        modifiers=["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig", "per_mile", "vessel", "fleet"],
     ):
         """
         Plot a stacked histogram for the given quantities and modifiers with respect to the pathway and region.
@@ -1664,7 +1668,7 @@ class ProcessedFuel:
     def make_all_hists_by_region(
         self,
         quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
-        modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
+        modifiers=["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig", "per_mile", "vessel", "fleet"],
     ):
         """
         Applies make_all_hists_by_region to all available pathways for the given fuel
@@ -1965,16 +1969,21 @@ def plot_cargo_miles():
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "ammonia", "LTE_H_grid_E")
-    processed_quantity.map_by_region()
-#    processed_quantity.make_hist_by_region()
+    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile", "liquid_hydrogen", "LTE_H_grid_E")
+    processed_quantity.make_hist_by_region()
+    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile_orig", "liquid_hydrogen", "LTE_H_grid_E")
+#    processed_quantity.map_by_region()
+    processed_quantity.make_hist_by_region()
 #
 #    processed_pathway = ProcessedPathway("methanol", "LTE_H_DAC_C_grid_E")
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_all_by_region()
 #
-#    processed_fuel = ProcessedFuel("ammonia")
-#    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#    processed_fuel = ProcessedFuel("liquid_hydrogen")
+#    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile_orig", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile_orig", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
@@ -1991,12 +2000,13 @@ def main():
         processed_fuel.make_all_stacked_hists()
     """
     """
-    for quantity in ["CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
-        for modifier in ["vessel", "fleet", "per_mile", "per_tonne_mile"]:
+    for quantity in ["TotalCost"]: #["CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
+        for modifier in ["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
             if quantity == "AverageCostEmissionsRatio" and modifier != "vessel":
                 continue
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
     """
-    plot_cargo_miles()
+    
+    #plot_cargo_miles()
 main()
