@@ -1965,15 +1965,15 @@ def plot_cargo_miles():
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "ammonia", "LTE_H_grid_E")
-    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("ConsumedElectricity_main", "vessel", "liquid_hydrogen", "LTE_H_grid_E")
+#    processed_quantity.map_by_region()
 #    processed_quantity.make_hist_by_region()
 #
-#    processed_pathway = ProcessedPathway("methanol", "LTE_H_DAC_C_grid_E")
+#    processed_pathway = ProcessedPathway("liquid_hydrogen", "LTE_H_grid_E")
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_all_by_region()
-#
-#    processed_fuel = ProcessedFuel("ammonia")
+
+    processed_fuel = ProcessedFuel("liquid_hydrogen")
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
@@ -1998,5 +1998,5 @@ def main():
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
     """
-    plot_cargo_miles()
+#    plot_cargo_miles()
 main()
