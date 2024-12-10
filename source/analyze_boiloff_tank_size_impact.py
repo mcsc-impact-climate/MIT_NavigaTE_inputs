@@ -50,7 +50,6 @@ def generate_orange_shades(num_shades):
 
     return orange_shades
 
-
 def generate_purple_shades(num_shades):
     """
     Generates a list of purple shades ranging from light to dark.
@@ -927,7 +926,6 @@ if __name__ == "__main__":
         pathways = get_pathways(fuel)
 
         for pathway in pathways:
-            print(pathway)
             plot_histogram_for_vessel_types(fuel, pathway, modifier="per_tonne_mile")
             plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile")
 
