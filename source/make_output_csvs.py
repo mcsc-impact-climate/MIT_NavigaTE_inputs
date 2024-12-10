@@ -65,7 +65,8 @@ quantities = [
 ]
 
 # Evaluation choices
-evaluation_choices = ["per_year", "per_mile", "per_tonne_mile"] # per tonne-mile = multiply weight by distance
+# per_*_mile_orig: Prior to tank size modification
+evaluation_choices = ["per_year", "per_mile", "per_tonne_mile_orig", "per_tonne_mile", "per_cbm_mile_orig", "per_cbm_mile"] # per tonne-mile = multiply weight by distance
 
 def time_function(func):
     """A decorator that logs the time a function takes to execute."""
@@ -384,7 +385,13 @@ def add_quantity_modifiers(all_results_df):
             if evaluation_choice == "per_mile":
                 column_divide = "Miles"
             elif evaluation_choice == "per_tonne_mile":
-                column_divide = "CargoMiles"
+                column_divide = "TonneMiles"
+            elif evaluation_choice == "per_tonne_mile_orig":
+                column_divide = "TonneMiles_lsfo"
+            elif evaluation_choice == "per_cbm_mile":
+                column_divide = "CbmMiles"
+            elif evaluation_choice == "per_cbm_mile_orig":
+                column_divide = "CbmMiles_lsfo"
             else:
                 continue
 
@@ -412,7 +419,7 @@ def scale_quantities_to_fleet(all_results_df):
     all_results_df : pandas.DataFrame
         The updated DataFrame with fleet-level quantities added.
     """
-    for quantity in quantities + ["Miles", "CargoMiles"]:
+    for quantity in quantities + ["Miles", "CargoMiles", "CbmMiles", "TonneMiles", "CbmMiles_lsfo", "TonneMiles_lsfo"]:
         # Multiply by the number of vessels to sum the quantity to the full fleet
         all_results_df[f"{quantity}-fleet"] = (
             all_results_df[quantity] * all_results_df["n_vessels"]
@@ -423,7 +430,7 @@ def scale_quantities_to_fleet(all_results_df):
 @time_function
 def add_vessel_type_quantities(all_results_df):
     quantities_fleet = [col for col in all_results_df.columns if "-fleet" in col]
-    
+        
     # Perform groupby once
     grouped = all_results_df.groupby(["Fuel", "Pathway", "Region", "Number"])
 
@@ -433,13 +440,18 @@ def add_vessel_type_quantities(all_results_df):
             vessel_type_df = group_df[group_df["Vessel"].str.contains("|".join(vessel_names))]
 
             if not vessel_type_df.empty:
-                vessel_type_row = vessel_type_df[quantities_fleet + ["Miles", "CargoMiles", "ConsumedEnergy_main", "ConsumedEnergy_lsfo"]].sum()
+                vessel_type_row = vessel_type_df[quantities_fleet].sum()
                 vessel_type_row["Fuel"] = fuel
                 vessel_type_row["Pathway"] = pathway
                 vessel_type_row["Region"] = region
                 vessel_type_row["Number"] = number
                 vessel_type_row["Vessel"] = f"{vessel_type}_{fuel}"
                 vessel_type_row["n_vessels"] = vessel_type_df["n_vessels"].sum()
+                
+                # The value for an individual vessel in the fleet is its total value scaled up to the fleet, divided by the total numbef of vessels of the given type in the fleet
+                for quantity_fleet in quantities_fleet:
+                    quantity_vessel = quantity_fleet.replace("-fleet", "")
+                    vessel_type_row[quantity_vessel] = vessel_type_row[quantity_fleet] / vessel_type_row["n_vessels"]
 
                 # Add rows in bulk
                 new_rows.append(vessel_type_row)
@@ -504,7 +516,7 @@ def add_fleet_level_quantities(all_results_df):
 
         if not fleet_df.empty:
             # Sum quantities for the full fleet
-            fleet_row = fleet_df[quantities_fleet + ["Miles", "CargoMiles", "ConsumedEnergy_main", "ConsumedEnergy_lsfo"]].sum()
+            fleet_row = fleet_df[quantities_fleet].sum()
             fleet_row["Fuel"] = fuel
             fleet_row["Pathway"] = pathway
             fleet_row["Region"] = region
@@ -513,7 +525,7 @@ def add_fleet_level_quantities(all_results_df):
             fleet_row["n_vessels"] = fleet_df["n_vessels"].sum()
 
             # Evaluate the average based on the fleet sum for each vessel-level quantity
-            for quantity in quantities + ["Miles", "CargoMiles"]:
+            for quantity in quantities + ["Miles", "CargoMiles", "CbmMiles", "CbmMiles_lsfo", "TonneMiles", "TonneMiles_lsfo"]:
                 fleet_row[f"{quantity}"] = (
                     fleet_row[f"{quantity}-fleet"] / fleet_row["n_vessels"]
                 )
@@ -700,8 +712,6 @@ def add_cac(all_results_df):
     -------
     all_results_df : pandas.DataFrame
         The updated DataFrame with the cost of carbon abatement added.
-        
-    NOTE: This function is not currently being used. Instead, the product of total cost and emissions is being included in the output csvs (see function add_cost_times_emissions).
     """
 
     # Mapping vessels to LSFO equivalents
@@ -1043,8 +1053,6 @@ def add_fuel_mass(all_results_df, top_dir):
     return all_results_df
 
 
-# GE - working to add reverse engineered resource requirements by 10/25
-
 # GE - helper function 
 def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
     """
@@ -1140,7 +1148,7 @@ def main():
     # Get the path to the top level of the Git repo
     top_dir = get_top_dir()
     
-    # Collect all results from the Excel files in parallel
+    # Collect all results from the Excel files
     all_results_df = collect_all_results(top_dir)
 
     # Add the number of vessels to the DataFrame
@@ -1154,11 +1162,17 @@ def main():
     # Add cargo miles (both tonne-miles and m^3-miles) to the dataframe
     all_results_df = add_cargo_miles(all_results_df)
 
+    all_results_df.to_csv("all_results_df_with_cargo_miles.csv")
+
     # Multiply by number of vessels of each type+size the fleet to get fleet-level quantities
     all_results_df = scale_quantities_to_fleet(all_results_df)
+    
+    #all_results_df.to_csv("all_results_df_fleet.csv")
 
     # Group vessels by type to get type-level quantities
     all_results_df = add_vessel_type_quantities(all_results_df)
+
+    #all_results_df.to_csv("all_results_df_with_vessel_quantities.csv")
 
     # Group all vessel together to get fleet-level quantities
     all_results_df = add_fleet_level_quantities(all_results_df)
@@ -1168,19 +1182,19 @@ def main():
 
     # Append the region number to countries for which there's data for >1 region
     mark_countries_with_multiples(all_results_df)
-    
+
     # Add a column quantifying the cost of carbon abatement
     all_results_df = add_cac(all_results_df)
-    
+
     # Add a column for cost times emissions
     all_results_df = add_cost_times_emissions(all_results_df)
-    
+
     # Add a column for the average ratios of cost and emissions relative to LSFO
     all_results_df = add_av_cost_emissions_ratios(all_results_df)
 
     # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
     all_results_df = add_fuel_mass(all_results_df, top_dir)
-    
+
     # GE - adds resources demands columns
     all_results_df = add_resource_demands(all_results_df)
 
