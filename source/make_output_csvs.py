@@ -1196,7 +1196,7 @@ def main():
     # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
     all_results_df = add_fuel_mass(all_results_df, top_dir)
 
-    # GE - adds resources demands columns
+    # GE - adds resource demands columns
     all_results_df = add_resource_demands(all_results_df)
 
     # Output all_results_df to a csv file to help with debugging
