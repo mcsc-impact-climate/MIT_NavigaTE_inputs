@@ -336,7 +336,6 @@ def calculate_propulsion_power_distribution(speed_distribution, utilization_dist
     return None
 
 
-    
 def calculate_average_propulsion_power(type_class_keyword, route_properties_dict):
     """
     Calculates the average propulsion power of a given vessel type and size class over all voyage conditions
@@ -362,16 +361,13 @@ def calculate_average_propulsion_power(type_class_keyword, route_properties_dict
     
     return average_propulsion_power
     
-def calculate_average_propulsion_energy_per_distance(fuel, type_class_keyword, route_properties_dict):
+def calculate_average_propulsion_energy_per_distance(type_class_keyword, route_properties_dict):
     """
     Calculates the average propulsion power divided by speed for a given vessel type and size class over all voyage conditions.
-    Units: MW / nautical miles
+    Units: MJ / nautical miles
     
     Parameters
     ----------
-    fuel : str
-        Name of the fuel
-        
     type_class_keyword : str
         Unique keyword in the filename for the given type and class.
         
@@ -486,7 +482,6 @@ def calculate_days_to_empty_tank(fuel, tank_size_lsfo, tank_size_factors_dict, m
     
     N_days_at_sea = m_fuel_tank / fuel_usage_rate
 
-    
     # Calculate the number of days at port based on the average fraction of time the vessel spends at port vs. at sea
     TimeAtPort = 1 - route_properties_dict["TimeAtSea"]
     N_days_at_port = N_days_at_sea * TimeAtPort / route_properties_dict["TimeAtSea"]
@@ -533,7 +528,7 @@ def get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dic
     LHV_dict : dictionary of float
         Dictionary containing the lower heating value for each fuel
         
-    mass_density_dict : dictionary of float
+    mass_density_dict : dictionary of floatf
         Dictionary containing the mass density of each fuel
         
     propulsion_eff_dict : dictionary of float
@@ -663,6 +658,7 @@ def plot_tank_size_factors_boiloff(tank_size_factors_dict, days_to_empty_tank_di
         
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
         plt.savefig(f"plots/boiloff_tank_size_factor_{fuel}.png", dpi=300)
+        plt.savefig(f"plots/boiloff_tank_size_factor_{fuel}.pdf")
     
 def save_tank_size_factors(top_dir, tank_size_factors_dict, vessel_range=None):
     """
@@ -806,6 +802,7 @@ def plot_tank_size_factors(tank_size_factors_dict):
 
     plt.tight_layout()
     plt.savefig("plots/tank_size_scaling_factors.png", dpi=300)
+    plt.savefig("plots/tank_size_scaling_factors.pdf")
     
     
 def modify_cargo_capacity(vessel_class, fuel, cargo_capacity_lsfo, tank_size_lsfo, tank_size_factors_dict, mass_density_dict):
@@ -1198,7 +1195,7 @@ def calculate_average_fuel_per_distance(fuel, LHV_fuel, propulsion_eff_fuel, ves
     """
 
     # Calculate the average propulsion power over speed, in MW / nautical miles
-    average_propulsion_energy_per_distance = calculate_average_propulsion_energy_per_distance(fuel, vessel_type_class, route_properties_dict)
+    average_propulsion_energy_per_distance = calculate_average_propulsion_energy_per_distance(vessel_type_class, route_properties_dict)
     
     # Use the propulsion efficiency and the fuel LHV to convert to kg/nm
     fuel_per_distance = average_propulsion_energy_per_distance / (propulsion_eff_fuel * LHV_fuel)
@@ -1503,130 +1500,6 @@ def make_modified_capacities_df(top_dir, vessels, fuels, mass_density_dict, carg
     capacities_df.to_csv("tables/modified_tank_sizes_and_capacities.csv")
     
     return capacities_df
-    
-def plot_vessel_capacities(modified_capacities_df, capacity_type="mass"):
-    """
-    Plots vertical bar plots of nominal and modified capacities for each Vessel Type and Fuel,
-    with percentage difference plotted as markers below the bars.
-    
-    Parameters
-    ----------
-    modified_capacities_df : pd.DataFrame
-        DataFrame containing the modified cargo capacity for each vessel (by both mass and volume) and related info
-    """
-    
-    # Get the unique vessel types from the DataFrame
-    vessel_types = modified_capacities_df["Vessel Type"].unique()
-
-    # Define the colors for each fuel, consistent across all vessels
-    fuel_colors = {
-        "ammonia": "blue",
-        "methanol": "green",
-        "FTdiesel": "orange",
-        "liquid_hydrogen": "red",
-        "compressed_hydrogen": "purple"
-    }
-
-    # Loop through each vessel type to plot
-    for vessel_type in vessel_types:
-        # Filter the dataframe for the current vessel type
-        df_vessel_type = modified_capacities_df[modified_capacities_df["Vessel Type"] == vessel_type]
-        
-        # Get the unique vessels for this vessel type
-        vessels = df_vessel_type["Vessel"].unique()
-
-        # Set up the figure and axis for the bar plots and percentage difference panel
-        fig, (ax_bars, ax_diff) = plt.subplots(
-            2, 1, gridspec_kw={'height_ratios': [3, 1]}, figsize=(14, 8), sharex=True
-        )
-        
-        plt.subplots_adjust(right=0.7)
-        
-        # Set font size for the x-ticks and y-ticks on ax_bars
-        ax_bars.tick_params(axis='x', labelsize=20)
-        ax_bars.tick_params(axis='y', labelsize=20)
-
-        # Set font size for the x-ticks and y-ticks on ax_diff
-        ax_diff.tick_params(axis='x', labelsize=20)
-        ax_diff.tick_params(axis='y', labelsize=20)
-        
-        # Initialize the x position
-        x_pos = np.arange(len(vessels)) * 6  # Give some space between vessels
-        
-        bar_width = 1  # Width of each bar for fuel
-        
-        # Loop through each vessel and plot its bars and markers for each fuel
-        for i, vessel in enumerate(vessels):
-            # Get the data for the current vessel
-            df_vessel = df_vessel_type[df_vessel_type["Vessel"] == vessel]
-            
-            # Plot bars for each fuel
-            for j, fuel in enumerate(fuel_colors.keys()):
-                # Get the data for the specific fuel for this vessel
-                df_fuel = df_vessel[df_vessel["Fuel"] == fuel]
-
-                if not df_fuel.empty:
-                    # Calculate the x position for the current fuel bar within the cluster
-                    x_bar = x_pos[i] + j * bar_width
-                    
-                    # Plot the solid bar for the nominal capacity
-                    if capacity_type == "mass":
-                        nominal_capacity_label = "Nominal capacity (tonnes)"
-                        modified_capacity_label = "Modified capacity (tonnes)"
-                        perc_diff_label = "Percent mass difference (%)"
-                    elif capacity_type == "volume":
-                        nominal_capacity_label = "Nominal capacity (m^3)"
-                        modified_capacity_label = "Modified capacity (m^3)"
-                        perc_diff_label = "Percent volume difference (%)"
-                    else:
-                        raise Exception(f"Error: capacity type {capacity_type} supplied to plot_vessel_capacities is not recognized. Accepted types are 'mass' and 'volume'")
-                    
-                    ax_bars.bar(x_bar, df_fuel[nominal_capacity_label].values[0],
-                                width=bar_width, color=fuel_colors[fuel], label=get_fuel_label(fuel) if i == 0 else "", alpha=0.7, edgecolor='black')
-                    
-                    # Plot the hatched bar for the modified capacity overlaid
-                    ax_bars.bar(x_bar, df_fuel[modified_capacity_label].values[0],
-                                width=bar_width, color='none', edgecolor='black', hatch='xxx')
-
-                    # Plot the % difference marker on the lower axis
-                    ax_diff.plot(x_bar, df_fuel[perc_diff_label].values[0],
-                                 marker='o', color=fuel_colors[fuel], markersize=8)
-                    ax_diff.hlines(df_fuel[perc_diff_label].values[0],
-                                   x_bar - bar_width / 2, x_bar + bar_width / 2, color=fuel_colors[fuel])
-
-        # Adjust the layout of the bar axis
-        if capacity_type == "mass":
-            ax_bars.set_ylabel("Capacity (tonnes)", fontsize=22)
-        else:
-            ax_bars.set_ylabel("Capacity (m$^3$)", fontsize=22)
-        ax_bars.set_title(f"{vessel_type_title[vessel_type]}", fontsize=24)
-
-        # Create the first legend for fuel types
-        fuel_legend = ax_bars.legend(title="Fuel", bbox_to_anchor=(1.01, 1), loc='upper left', fontsize=18, title_fontsize=22)
-
-        # Create custom legend handles for nominal and modified capacities
-        solid_patch = mpatches.Patch(facecolor='grey', edgecolor='black', label='Nominal Capacity', alpha=0.7)
-        hatched_patch = mpatches.Patch(facecolor='none', edgecolor='black', hatch='xxx', label='Modified Capacity')
-        
-        # Add the second legend for nominal and modified capacities
-        capacity_legend = ax_bars.legend(handles=[solid_patch, hatched_patch], bbox_to_anchor=(1.01, 0.3), loc='upper left', fontsize=18, title_fontsize=22)
-        
-        # Add the fuel legend back to avoid being overwritten by the second legend
-        ax_bars.add_artist(fuel_legend)
-
-        # Adjust the layout of the % difference panel
-        ax_diff.set_ylabel("% Diff", fontsize=22)
-        ax_diff.axhline(0, color='black', linestyle='--', linewidth=0.8)
-        ax_diff.set_ylim([modified_capacities_df[modified_capacities_df["Vessel Type"] == vessel_type][perc_diff_label].min() - 5,
-                          modified_capacities_df[modified_capacities_df["Vessel Type"] == vessel_type][perc_diff_label].max() + 5])
-
-        # Set the x-axis ticks and labels
-        ax_diff.set_xticks(x_pos + (bar_width * len(fuel_colors) / 2 - bar_width / 2))
-        vessel_labels = [vessel_size_title[vessel] for vessel in vessels]
-        ax_diff.set_xticklabels(vessel_labels, rotation=0, ha="center", fontsize=22)
-        
-        #plt.tight_layout()
-        plt.savefig(f"plots/modified_capacities_{vessel_type}_{capacity_type}.png", dpi=300)
     
 def calculate_cargo_miles(top_dir, fuel, vessel_class, modified_capacities_df):
     """
@@ -2019,6 +1892,9 @@ def plot_vessel_capacities(modified_capacities_df, capacity_type="mass"):
         
         #plt.tight_layout()
         plt.savefig(f"plots/modified_capacities_{vessel_type}_{capacity_type}.png", dpi=300)
+        ax_bars.set_title("")
+        plt.savefig(f"plots/modified_capacities_{vessel_type}_{capacity_type}.pdf")
+        plt.close()
     
 def calculate_cargo_miles(top_dir, fuel, vessel_class, modified_capacities_df):
     """
@@ -2146,6 +2022,9 @@ def get_fuel_properties(fuel):
     fuel_properties_dict["Mass density (kg/L)"] = fuel_info.loc[fuel, "Mass density (kg/L)"]
     fuel_properties_dict["Lower Heating Value (MJ / kg)"] = fuel_info.loc[fuel, "Lower Heating Value (MJ / kg)"]
     fuel_properties_dict["Boil-off Rate (%/day)"] = fuel_info.loc[fuel, "Boil-off Rate (%/day)"]
+    fuel_properties_dict["Engine efficiency"] = collect_propulsion_eff(top_dir, fuel)
+    fuel_properties_dict["Tank size scaling factor (energy density)"] = get_tank_size_factor_energy(fuel_info.loc["lsfo", "Lower Heating Value (MJ / kg)"], fuel_info.loc["lsfo", "Mass density (kg/L)"], fuel_info.loc[fuel, "Lower Heating Value (MJ / kg)"], fuel_info.loc[fuel, "Mass density (kg/L)"])
+    fuel_properties_dict["Tank size scaling factor (engine efficiency)"] = get_tank_size_factor_propulsion_eff(collect_propulsion_eff(top_dir, "lsfo"), collect_propulsion_eff(top_dir, fuel))
     
     return fuel_properties_dict
     
@@ -2163,8 +2042,8 @@ def fetch_and_save_vessel_info(cargo_info_df):
 
     Returns
     -------
-    cargo_miles_df : pd.DataFrame
-        DataFrame with the cargo miles for each vessel and fuel
+    vessel_info_df : pd.DataFrame
+        DataFrame with the info collected for each vessel
     """
     
     top_dir = get_top_dir()
@@ -2176,17 +2055,25 @@ def fetch_and_save_vessel_info(cargo_info_df):
         for vessel_class in vessel_classes:
             vessel_info_dict = {}
             nominal_capacity_cbm, nominal_capacity_tonnes = get_nominal_cargo_capacity_mass_volume(top_dir, cargo_info_df, vessel_class)
+            nominal_tank_size_cbm = collect_tank_size(top_dir, vessel_class, fuel="oil")
             route_properties_dict = get_route_properties(top_dir, vessel_class)
             average_speed = np.sum(route_properties_dict["ConditionDistribution"] * route_properties_dict["Speeds"])
             average_utilization = np.sum(route_properties_dict["ConditionDistribution"] * route_properties_dict["CapacityUtilizations"])
             average_propulsion_power = calculate_average_propulsion_power(vessel_class, route_properties_dict)
+            average_propulsion_energy_per_distance = calculate_average_propulsion_energy_per_distance(vessel_class, route_properties_dict)
+            fuel_properties_lsfo = get_fuel_properties("lsfo")
+            propulsion_eff_lsfo = collect_propulsion_eff(top_dir, "lsfo")
+            nominal_vessel_range = calculate_vessel_range(top_dir, vessel_class, "lsfo", fuel_properties_lsfo["Lower Heating Value (MJ / kg)"], 1, fuel_properties_lsfo["Mass density (kg/L)"] * L_PER_M3, propulsion_eff_lsfo, route_properties_dict)
             
             vessel_info_dict["Vessel"] = f"{vessel_type_title[vessel_type]} ({vessel_size_title[vessel_class]})"
-            vessel_info_dict["Nominal Capacity (m^3)"] = nominal_capacity_cbm
-            vessel_info_dict["Nominal Capacity (tonnes)"] = nominal_capacity_tonnes
+            vessel_info_dict["Nominal Cargo Capacity (m^3)"] = nominal_capacity_cbm
+            vessel_info_dict["Nominal Cargo Capacity (tonnes)"] = nominal_capacity_tonnes
+            vessel_info_dict["Nominal Tank Capacity (m^3)"] = nominal_tank_size_cbm
+            vessel_info_dict["Nominal Range (nautical miles)"] = nominal_vessel_range
             vessel_info_dict["Average Speed (knots)"] = average_speed
-            vessel_info_dict["Average Utilization"] = average_utilization
+            vessel_info_dict["Average Power over Speed (MJ / nautical mile)"] = average_propulsion_energy_per_distance
             vessel_info_dict["Average Propulsion Power (MW)"] = average_propulsion_power
+            vessel_info_dict["Average Utilization"] = average_utilization
             vessel_info_dict["Fraction Year at Sea"] = route_properties_dict["TimeAtSea"]
 
             data.append(vessel_info_dict)
@@ -2194,6 +2081,34 @@ def fetch_and_save_vessel_info(cargo_info_df):
     # Create a DataFrame from the collected info
     vessel_info_df = pd.DataFrame(data)
     vessel_info_df.to_csv(f"{top_dir}/tables/vessel_info.csv")
+    return vessel_info_df
+    
+def fetch_and_save_fuel_properties(fuels):
+    """
+    Fetches info for each fuel relevant for assessing the impact of tank displacement on cargo capacity, and saves it to a csv file for reference.
+    
+    Parameters
+    ----------
+    fuels : list of str
+        List of fuels to consider
+
+    Returns
+    -------
+    fuel_info_df : pd.DataFrame
+        DataFrame with the info collected for each fuel
+    """
+    top_dir = get_top_dir()
+    data = []
+    
+    for fuel in fuels + ["lsfo"]:
+        fuel_properties_fuel = {}
+        fuel_properties_fuel["Fuel"] = fuel
+        fuel_properties_fuel.update(get_fuel_properties(fuel))
+        data.append(fuel_properties_fuel)
+    
+    fuel_info_df = pd.DataFrame(data)
+    fuel_info_df.to_csv(f"{top_dir}/tables/fuel_info.csv")
+    return fuel_info_df
     
 def main():
     # List of fuels to consider
@@ -2212,10 +2127,23 @@ def main():
     
     cargo_info_df = pd.read_csv(f"{top_dir}/info_files/assumed_cargo_density.csv")
     fetch_and_save_vessel_info(cargo_info_df)
+    fetch_and_save_fuel_properties(fuels)
     
-    """
     #propulsion_power_distribution = calculate_propulsion_power_distribution([12, 22], [0, 0.5], "container_15000_teu")
     
+    """
+    # First, consider original vessel design ranges
+    tank_size_factors_dict, days_to_empty_tank_dict = get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict, vessel_range=None)
+    save_tank_size_factors(top_dir, tank_size_factors_dict, vessel_range=None)
+    plot_tank_size_factors_boiloff(tank_size_factors_dict, days_to_empty_tank_dict)
+    plot_tank_size_factors(tank_size_factors_dict)
+    modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, mass_density_dict, cargo_info_df, tank_size_factors_dict)
+    plot_vessel_capacities(modified_capacities_df, capacity_type="mass")
+    plot_vessel_capacities(modified_capacities_df, capacity_type="volume")
+    """
+    
+    """
+    # Next, consider a range of vessel design ranges
     vessel_ranges = range(5000, 55000, 5000)
     
     tank_size_factors_dicts = {}
@@ -2233,10 +2161,6 @@ def main():
         # Modified vessel capacities
         modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, mass_density_dict, cargo_info_df, tank_size_factors_dict)
         modified_capacities_df.to_csv(f"{top_dir}/tables/modified_capacities_{vessel_range}.csv", index=False)
-    
-    #plot_tank_size_factors_boiloff(tank_size_factors_dict, days_to_empty_tank_dict)
-
-    #plot_tank_size_factors(tank_size_factors_dict)
 
     #modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict)
 
@@ -2248,10 +2172,6 @@ def main():
     
     # Save the ranges to a csv file
     #vessel_ranges_df.to_csv(f"{top_dir}/data/vessel_ranges.csv")
-    
-    #modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, mass_density_dict, cargo_info_df)
-    #plot_vessel_capacities(modified_capacities_df, capacity_type="mass")
-    #plot_vessel_capacities(modified_capacities_df, capacity_type="volume")
     
     #cargo_miles_cbm, cargo_miles_tonnes = calculate_cargo_miles(top_dir, "lsfo", "bulk_carrier_handy", modified_capacities_df)
     
