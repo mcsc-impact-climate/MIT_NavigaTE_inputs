@@ -615,13 +615,16 @@ def add_boiloff(all_results_df):
 
     # Update columns using vectorized operations
     all_results_df['TotalEquivalentWTT'] *= all_results_df['Boil-off Factor']
+    all_results_df['TotalEquivalentTTW'] *= all_results_df['Boil-off Factor']
+    all_results_df['TotalEquivalentWTW'] *= all_results_df['Boil-off Factor']
     all_results_df['ConsumedEnergy_main'] *= all_results_df['Boil-off Factor']
     all_results_df['TotalFuelOPEX'] *= all_results_df['Boil-off Factor']
 
-    # Recalculate TotalEquivalentWTW and TotalCost
+    # Recalculate TotalCost
     all_results_df['TotalEquivalentWTW'] = (
         all_results_df['TotalEquivalentWTT'] + all_results_df['TotalEquivalentTTW']
     )
+    
     all_results_df['TotalCost'] = (
         all_results_df['TotalCAPEX'] +
         all_results_df['TotalFuelOPEX'] +
