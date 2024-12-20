@@ -9,6 +9,10 @@ import os
 from common_tools import get_top_dir, get_fuel_label
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.optimize import minimize
+from scipy.optimize import differential_evolution
+from statistics import mean
+
 
 KG_PER_TONNE=1000
 L_PER_CBM=1000
@@ -113,7 +117,7 @@ def extract_fuel_params(fuel_params_df, fuel):
     
     return fuel_params_dict
 
-def calculate_days_to_empty_tank(R, P_s_av, f_s, P_av):
+def calculate_days_to_empty_tank(R, P_s_av, P_av, f_s):
     """
     Calculates the total number of days needed to empty the vessel's tank
     
@@ -236,6 +240,12 @@ def calculate_scaling_term(R, P_s_av, e_l, L_l, rho_l, m_c, V_c, cargo_type="mas
         
     e_l : float
         Energy conversion efficiency of the given fuel by the main engine
+        
+    m_c : float
+        Mass cargo capacity of the vessel, in kg
+        
+    V_c : float
+        Volume cargo capacity of the vessel, in m^3
 
     Returns
     -------
@@ -275,7 +285,56 @@ def calculate_boiloff_term(r_f, N_days):
     return boiloff_term
     
 def calculate_cargo_loss(R, P_s_av, P_av, r_f, f_s, e_l, L_l, rho_l, e_f, L_f, rho_f, m_c, V_c, cargo_type = "mass"):
-    N_days_to_empty = calculate_days_to_empty_tank(R, P_s_av, f_s, P_av)
+    """
+    Calculates the fractional cargo loss due to tank displacement.
+    
+    Parameters
+    ----------
+    R : float
+        Vessel design range, in nautical miles
+    
+    P_s_av : float
+        Average ratio of main engine power to vessel speed, in MJ / nautical mile
+        
+    P_av : float
+        Average main engine power, in MW (MJ/s)
+        
+    r_f : float
+        Fractional loss of fuel to boil-off per day
+        
+    f_s : float
+        Fraction of time that the vessel spends at sea (vs. at port)
+        
+    e_l : float
+        Energy conversion efficiency of LSFO fuel by the main engine
+        
+    L_l : float
+        Lower heating value of LSFO fuel (MJ/kg)
+        
+    rho_l : float
+        Mass density of LSFO fuel (kg/m^3)
+        
+    e_f : float
+        Energy conversion efficiency of the given fuel by the main engine
+        
+    L_f : float
+        Lower heating value of the given fuel (MJ/kg)
+        
+    rho_f : float
+        Mass density of the given fuel (kg/m^3)
+        
+    m_c : float
+        Mass cargo capacity of the vessel, in kg
+        
+    V_c : float
+        Volume cargo capacity of the vessel, in m^3
+
+    Returns
+    -------
+    cargo_loss : float
+        Fractional cargo loss
+    """
+    N_days_to_empty = calculate_days_to_empty_tank(R, P_s_av, P_av, f_s)
     
     scaling_term = calculate_scaling_term(R, P_s_av, e_l, L_l, rho_l, m_c, V_c, cargo_type)
     fuel_term = calculate_fuel_term(L_l, rho_l, e_l, L_f, rho_f, e_f, cargo_type)
@@ -495,7 +554,7 @@ def plot_cargo_loss_vs_range(vessel, fuel, cargo_type):
     total_size_corr_factor = []
     cargo_losses = []
     for R in vessel_ranges:
-        N_days = calculate_days_to_empty_tank(R, P_s_av, f_s, P_av)
+        N_days = calculate_days_to_empty_tank(R, P_s_av, P_av, f_s)
         N_days_to_empty.append(N_days)
         
         fuel_term = calculate_fuel_term(L_l, rho_l, e_l, L_f, rho_f, e_f, cargo_type=cargo_type)
@@ -615,6 +674,263 @@ def plot_cargo_loss_vs_dimensionless_params(parameter_values_df, fuel, cargo_typ
     plt.savefig(f"plots/cargo_loss_vs_dimensionless_params_{fuel}_{cargo_type}.pdf")
     plt.close()
     
+def get_cargo_loss_parameter_extrema(parameter_values_df):
+    """
+    Gets the upper and lower extrema of tunable vessel design parameters used to evaluate the fractional cargo loss.
+
+    Parameters
+    ----------
+    parameter_values_df : pd.DataFrame
+        Dataframe containing parameters related to cargo loss for each vessel, along with maxima and minima
+        
+    Returns
+    -------
+    Rs : list of floats
+        Extreme values of the vessel design range, in nautical miles
+        
+    P_s_avs : list of floats
+        Extreme values of the average ratio of main engine power to vessel speed, in MJ / nautical mile
+        
+    P_avs : list of floats
+        Extreme values of the average main engine power, in MW (MJ/s)
+        
+    f_ss : list of floats
+        Extreme values of the fraction of time that the vessel spends at sea (vs. at port)
+        
+    m_cs : float
+        Extreme values of the mass cargo capacity of the vessel, in kg
+        
+    V_cs : float
+        Extreme values of the volume cargo capacity of the vessel, in m^3
+    """
+    
+    def get_bounds(parameter_str):
+        param_min = parameter_values_df.loc[parameter_values_df["Vessel"] == "Minimum", parameter_str].iloc[0]
+        param_max = parameter_values_df.loc[parameter_values_df["Vessel"] == "Maximum", parameter_str].iloc[0]
+        return [param_min, param_max]
+        
+    Rs = get_bounds("R (nm)")
+    P_s_avs = get_bounds("P_s_av (MJ/nm)")
+    P_avs = get_bounds("P_av (MW)")
+    f_ss = get_bounds("f_s")
+    m_cs = get_bounds("m_c (kg)")
+    V_cs = get_bounds("V_c (m^3)")
+    
+    return Rs, P_s_avs, P_avs, f_ss, m_cs, V_cs
+    
+def minimize_cargo_loss(fuel, fuel_params_df, parameter_values_df, cargo_type):
+    """
+    Finds the values of tunable vessel design parameters (R, P_s_av, P_av, f_s, m_c, V_c) that minimize fractional cargo loss for the given cargo type.
+    
+    Parameters
+    ----------
+    fuel : str
+        Name of the fuel to consider
+    
+    fuel_params_df : pandas.DataFrame
+        DataFrame containing the fuel parameters for all fuels.
+        
+    cargo_type : str
+        Type of cargo (mass or volume)
+
+    Returns
+    -------
+    R_min : float
+        Vessel design range that minimizes cargo loss, in nautical miles
+        
+    P_s_av_min : float
+        Average ratio of main engine power to vessel speed that minimizes cargo loss, in MJ / nautical mile
+        
+    f_s_min : float
+        Fraction of time that the vessel spends at sea that minimizes cargo loss
+        
+    P_av_min : float
+        Average main engine power that minimizes cargo loss, in MW (MJ/s)
+        
+    m_c_min : float
+        Mass cargo capacity of the vessel that minimizes cargo loss, in kg
+        
+    V_c_min : float
+        Volume cargo capacity of the vessel that minimizes cargo loss, in m^3
+        
+    cargo_loss_min : float
+        Minimum cargo loss
+    """
+    
+    fuel_params_lsfo = extract_fuel_params(fuel_params_df, "lsfo")
+    fuel_params_fuel = extract_fuel_params(fuel_params_df, fuel)
+    
+    r_f = fuel_params_fuel["Boil-off Rate (%/day)"]
+    e_l = fuel_params_lsfo["Engine efficiency"]
+    L_l = fuel_params_lsfo["Lower Heating Value (MJ / kg)"]
+    rho_l = fuel_params_lsfo["Mass density (kg/m^3)"]
+    e_f = fuel_params_fuel["Engine efficiency"]
+    L_f = fuel_params_fuel["Lower Heating Value (MJ / kg)"]
+    rho_f = fuel_params_fuel["Mass density (kg/m^3)"]
+    
+    Rs, P_s_avs, P_avs, f_ss, m_cs, V_cs = get_cargo_loss_parameter_extrema(parameter_values_df)
+
+    def objective_function(params):
+        R, P_s_av, P_av, f_s, m_c, V_c = params
+        
+        return calculate_cargo_loss(R, P_s_av, P_av, r_f, f_s, e_l, L_l, rho_l, e_f, L_f, rho_f, m_c, V_c, cargo_type=cargo_type)
+    
+    result_minimize = minimize(objective_function, x0=[mean(Rs), mean(P_s_avs), mean(P_avs), mean(f_ss), mean(m_cs), mean(V_cs)], bounds=[(Rs[0], Rs[1]), (P_s_avs[0], P_s_avs[1]), (P_avs[0], P_avs[1]), (f_ss[0], f_ss[1]), (m_cs[0], m_cs[1]), (V_cs[0], V_cs[1])])
+    
+    bounds = [(Rs[0], Rs[1]), (P_s_avs[0], P_s_avs[1]), (P_avs[0], P_avs[1]), (f_ss[0], f_ss[1]), (m_cs[0], m_cs[1]), (V_cs[0], V_cs[1])]
+    result_global = differential_evolution(objective_function, bounds)
+    result_local = minimize(objective_function, x0=result_global.x, bounds=bounds)
+
+    R_min = result_local.x[0]
+    P_s_av_min = result_local.x[1]
+    P_av_min = result_local.x[2]
+    f_s_min = result_local.x[3]
+    m_c_min = result_local.x[4]
+    V_c_min = result_local.x[5]
+    cargo_loss_min = result_local.fun
+    
+    return R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min
+    
+def plot_parameter_profiles(fuel, fuel_params_df, parameter_values_df, R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min, cargo_type):
+    """
+    Plot profiles of each vessel design parameter within its extrema, with the values of all other tunable parameters set to the values that minimize the cargo loss.
+
+    Parameters
+    ----------
+    fuel : str
+        Name of the fuel to consider
+
+    fuel_params_df : pandas.DataFrame
+        DataFrame containing the fuel parameters for all fuels.
+
+    parameter_values_df : pd.DataFrame
+        Dataframe containing parameters related to cargo loss for each vessel, along with maxima and minima
+
+    R_min : float
+        Vessel design range that minimizes cargo loss, in nautical miles
+
+    P_s_av_min : float
+        Average ratio of main engine power to vessel speed that minimizes cargo loss, in MJ / nautical mile
+
+    f_s_min : float
+        Fraction of time that the vessel spends at sea that minimizes cargo loss
+
+    P_av_min : float
+        Average main engine power that minimizes cargo loss, in MW (MJ/s)
+
+    m_c_min : float
+        Mass cargo capacity of the vessel that minimizes cargo loss, in kg
+
+    V_c_min : float
+        Volume cargo capacity of the vessel that minimizes cargo loss, in m^3
+
+    cargo_loss_min : float
+        Minimum cargo loss
+
+    cargo_type : str
+        Type of cargo (mass or volume)
+
+    Returns
+    -------
+    None
+    """
+
+    fuel_params_lsfo = extract_fuel_params(fuel_params_df, "lsfo")
+    fuel_params_fuel = extract_fuel_params(fuel_params_df, fuel)
+
+    r_f = fuel_params_fuel["Boil-off Rate (%/day)"]
+    e_l = fuel_params_lsfo["Engine efficiency"]
+    L_l = fuel_params_lsfo["Lower Heating Value (MJ / kg)"]
+    rho_l = fuel_params_lsfo["Mass density (kg/m^3)"]
+    e_f = fuel_params_fuel["Engine efficiency"]
+    L_f = fuel_params_fuel["Lower Heating Value (MJ / kg)"]
+    rho_f = fuel_params_fuel["Mass density (kg/m^3)"]
+
+    Rs, P_s_avs, P_avs, f_ss, m_cs, V_cs = get_cargo_loss_parameter_extrema(parameter_values_df)
+
+    # Set up parameter names and their corresponding ranges
+    parameters = {
+        "Range (nautical miles)": (Rs, R_min, "R (nm)"),
+        "Average Power / Speed (MJ/nm)": (P_s_avs, P_s_av_min, "P_s_av (MJ/nm)"),
+        "Fraction of time at sea": (f_ss, f_s_min, "f_s"),
+        "Average power (MW)": (P_avs, P_av_min, "P_av (MW)"),
+        "Mass cargo capacity (kg)": (m_cs, m_c_min, "m_c (kg)"),
+        "Volume cargo capacity (m$^3$)": (V_cs, V_c_min, "V_c (m^3)"),
+    }
+
+    # Filter parameters based on cargo type
+    if cargo_type == "volume":
+        parameters.pop("Mass cargo capacity (kg)", None)
+    elif cargo_type == "mass":
+        parameters.pop("Volume cargo capacity (m^3)", None)
+
+    # Create subplots
+    fig, axes = plt.subplots(1, len(parameters), figsize=(5 * len(parameters), 6), sharey=True)
+    fig.suptitle(f"Fuel: {get_fuel_label(fuel)}", fontsize=22)
+
+    all_handles, all_labels = [], []
+    
+    i=0
+    for ax, (param_name, (param_range, param_min, param_shortname)) in zip(axes, parameters.items()):
+        ax.tick_params(axis='both', which='major', labelsize=18)
+
+        param_values = np.linspace(param_range[0], param_range[1], 1000)
+        cargo_losses_profiled = np.zeros(0)
+
+        for val in param_values:
+            cargo_loss_profiled = calculate_cargo_loss(
+                R_min if param_name != "Range (nautical miles)" else val,
+                P_s_av_min if param_name != "Average Power / Speed (MJ/nm)" else val,
+                P_av_min if param_name != "Average power (MW)" else val,
+                r_f,
+                f_s_min if param_name != "Fraction of time at sea" else val,
+                e_l, L_l, rho_l, e_f, L_f, rho_f,
+                m_c_min if param_name != "Mass cargo capacity (kg)" else val,
+                V_c_min if param_name != "Volume cargo capacity (m^3)" else val,
+                cargo_type=cargo_type
+            )
+            cargo_losses_profiled = np.append(cargo_losses_profiled, cargo_loss_profiled)
+
+        # Plot cargo loss vs parameter
+        ax.plot(param_values, cargo_losses_profiled, color='black')
+        line = ax.axvline(param_min, color='red', linestyle='--')
+        if i==0:
+            all_handles.append(line)
+            all_labels.append("Minimizing Value")
+
+        for vessel in parameter_values_df["Vessel"]:
+            if vessel == "Minimum" or vessel == "Maximum":
+                continue
+            param_value = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel, param_shortname].iloc[0]
+            cargo_loss_value = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel, f"cargo_loss_{cargo_type}"].iloc[0]
+
+            point, = ax.plot(param_value, cargo_loss_value, 'o')
+            
+            if i==0:
+                all_handles.append(point)
+                all_labels.append(vessel)
+        i+=1
+
+        ax.set_xlabel(param_name, fontsize=20)
+
+    # Set shared vertical axis label
+    fig.text(0.03, 0.5, "Fractional Cargo Loss", va='center', rotation='vertical', fontsize=20)
+
+    # Add a legend below all plots
+    handles, labels = axes[-1].get_legend_handles_labels()
+    all_handles.extend(handles)
+    all_labels.extend(labels)
+    fig.legend(all_handles, all_labels, loc='lower center', fontsize=16, ncol=6, bbox_to_anchor=(0.5, -0.1))
+
+    plt.tight_layout(rect=[0.05, 0.05, 1, 0.96])
+    ymin, ymax = ax.get_ylim()
+    if ymax > 1:
+        ax.set_ylim(ymin, 1)
+
+    plt.savefig(f"plots/parameter_profiles_{fuel}_{cargo_type}.png", dpi=300, bbox_inches="tight")
+    plt.savefig(f"plots/parameter_profiles_{fuel}_{cargo_type}.pdf", bbox_inches="tight")
+    plt.close()
+
 
 def main():
     top_dir = get_top_dir()
@@ -629,13 +945,22 @@ def main():
     # Plot cargo loss as a function of range
     #plot_cargo_loss_vs_range("Tanker (35k DWT)", "liquid_hydrogen", "volume")
     
-    for fuel in fuel_params_df["Fuel"]:
+    for fuel in ["liquid_hydrogen"]:#fuel_params_df["Fuel"]:
         if fuel == "lsfo":
             continue
-            
+        
+        print(fuel)
+        print()
+        
         parameter_values_df = get_parameter_values(nominal_vessel_params_df, fuel_params_df, fuel)
         plot_cargo_loss_vs_dimensionless_params(parameter_values_df, fuel, "volume")
         plot_cargo_loss_vs_dimensionless_params(parameter_values_df, fuel, "mass")
+        
+        R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min = minimize_cargo_loss(fuel, fuel_params_df, parameter_values_df, "mass")
+        plot_parameter_profiles(fuel, fuel_params_df, parameter_values_df, R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min, "mass")
+        
+        R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min = minimize_cargo_loss(fuel, fuel_params_df, parameter_values_df, "volume")
+        plot_parameter_profiles(fuel, fuel_params_df, parameter_values_df, R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min, "volume")
 
 if __name__ == "__main__":
     main()
