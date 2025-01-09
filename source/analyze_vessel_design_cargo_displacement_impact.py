@@ -12,7 +12,8 @@ import numpy as np
 from scipy.optimize import minimize
 from scipy.optimize import differential_evolution
 from statistics import mean
-
+import random
+from matplotlib.colors import LinearSegmentedColormap
 
 KG_PER_TONNE=1000
 L_PER_CBM=1000
@@ -334,13 +335,18 @@ def calculate_cargo_loss(R, P_s_av, P_av, r_f, f_s, e_l, L_l, rho_l, e_f, L_f, r
     cargo_loss : float
         Fractional cargo loss
     """
-    N_days_to_empty = calculate_days_to_empty_tank(R, P_s_av, P_av, f_s)
-    
     scaling_term = calculate_scaling_term(R, P_s_av, e_l, L_l, rho_l, m_c, V_c, cargo_type)
     fuel_term = calculate_fuel_term(L_l, rho_l, e_l, L_f, rho_f, e_f, cargo_type)
-    boiloff_term = calculate_boiloff_term(r_f, N_days_to_empty)
+    
+    # If the daily fuel loss to boil-off is zero, don't bother calculating the boil-off term
+    if np.absolute(r_f) < 0.000001:
+        cargo_loss = scaling_term * (fuel_term - 1)
+    
+    else:
+        N_days_to_empty = calculate_days_to_empty_tank(R, P_s_av, P_av, f_s)
+        boiloff_term = calculate_boiloff_term(r_f, N_days_to_empty)
+        cargo_loss = scaling_term * (fuel_term * boiloff_term - 1)
         
-    cargo_loss = scaling_term * (fuel_term * boiloff_term - 1)
     return cargo_loss
     
 def get_cargo_loss_info(nominal_vessel_params_df, fuel_params_df):
@@ -448,6 +454,7 @@ def get_parameter_values(nominal_vessel_params_df, fuel_params_df, fuel="liquid_
         "fuel_term_volume": 9e9,
         "scaling_term_mass": 9e9,
         "fuel_term_mass": 9e9,
+        "boiloff_term": 9e9,
         "cargo_loss_volume": 9e9,
         "cargo_loss_mass": 9e9,
     }
@@ -464,6 +471,7 @@ def get_parameter_values(nominal_vessel_params_df, fuel_params_df, fuel="liquid_
         "r_f": -9e9,
         "scaling_term_volume": -9e9,
         "fuel_term_volume": -9e9,
+        "boiloff_term": -9e9,
         "scaling_term_mass": -9e9,
         "fuel_term_mass": -9e9,
         "cargo_loss_volume": -9e9,
@@ -482,6 +490,7 @@ def get_parameter_values(nominal_vessel_params_df, fuel_params_df, fuel="liquid_
         parameter_value_dict["m_c (kg)"] = nominal_vessel_params["Nominal Cargo Capacity (kg)"]
         parameter_value_dict["V_c (m^3)"] = nominal_vessel_params["Nominal Cargo Capacity (m^3)"]
         parameter_value_dict["N_days"] = calculate_days_to_empty_tank(parameter_value_dict["R (nm)"], parameter_value_dict["P_s_av (MJ/nm)"], parameter_value_dict["f_s"], parameter_value_dict["P_av (MW)"])
+        parameter_value_dict["boiloff_term"] = calculate_boiloff_term(r_f, parameter_value_dict["N_days"])
         parameter_value_dict["r_f"] = r_f
         parameter_value_dict["scaling_term_volume"] = calculate_scaling_term(parameter_value_dict["R (nm)"], parameter_value_dict["P_s_av (MJ/nm)"], e_l, L_l, rho_l,  parameter_value_dict["m_c (kg)"], parameter_value_dict["V_c (m^3)"], cargo_type="volume")
         parameter_value_dict["scaling_term_mass"] = calculate_scaling_term(parameter_value_dict["R (nm)"], parameter_value_dict["P_s_av (MJ/nm)"], e_l, L_l, rho_l,  parameter_value_dict["m_c (kg)"], parameter_value_dict["V_c (m^3)"], cargo_type="mass")
@@ -509,6 +518,89 @@ def get_parameter_values(nominal_vessel_params_df, fuel_params_df, fuel="liquid_
     parameter_values_df.to_csv(f"{top_dir}/tables/parameter_values_{fuel}.csv", index=False)
     
     return parameter_values_df
+    
+def make_mc(nominal_vessel_params_df, fuel_params_df, fuel="liquid_hydrogen", N_events=1000):
+    """
+    Make Monte Carlo parameter value dictionaries for cargo loss without boil-off, for either mass or volume cargo types.
+    
+    Parameters
+    ----------
+    
+    fuel : str
+        Fuel to get parameter values for
+
+    cargo_type : str
+        Type of cargo (mass or volume)
+
+    Returns
+    -------
+    None
+    """
+    top_dir = get_top_dir()
+    
+    # Get a summary of parameter values, along with maxima and minima
+    vessel_parameter_values_df = get_parameter_values(nominal_vessel_params_df, fuel_params_df, fuel)
+    
+    fuel_params_lsfo = extract_fuel_params(fuel_params_df, "lsfo")
+    fuel_params_fuel = extract_fuel_params(fuel_params_df, fuel)
+    r_f = fuel_params_fuel["Boil-off Rate (%/day)"]
+    e_l = fuel_params_lsfo["Engine efficiency"]
+    L_l = fuel_params_lsfo["Lower Heating Value (MJ / kg)"]
+    rho_l = fuel_params_lsfo["Mass density (kg/m^3)"]
+    e_f = fuel_params_fuel["Engine efficiency"]
+    L_f = fuel_params_fuel["Lower Heating Value (MJ / kg)"]
+    rho_f = fuel_params_fuel["Mass density (kg/m^3)"]
+    fuel_term_mass = calculate_fuel_term(L_l, rho_l, e_l, L_f, rho_f, e_f, cargo_type="mass")
+    fuel_term_volume = calculate_fuel_term(L_l, rho_l, e_l, L_f, rho_f, e_f, cargo_type="volume")
+    
+    # Set the relevant MC parameters
+    parameters = ["R (nm)", "P_s_av (MJ/nm)", "P_av (MW)", "f_s", "m_c (kg)", "V_c (m^3)"]
+    r_f = fuel_params_fuel["Boil-off Rate (%/day)"]
+        
+    # Get the bounds on all parameters
+    param_mins = {}
+    param_maxes = {}
+    
+    Rs, P_s_avs, P_avs, f_ss, m_cs, V_cs = get_cargo_loss_parameter_extrema(vessel_parameter_values_df)
+    param_mins["R (nm)"] = Rs[0]
+    param_maxes["R (nm)"] = Rs[1]
+    
+    param_mins["P_s_av (MJ/nm)"] = P_s_avs[0]
+    param_maxes["P_s_av (MJ/nm)"] = P_s_avs[1]
+    
+    param_mins["P_av (MW)"] = P_avs[0]
+    param_maxes["P_av (MW)"] = P_avs[1]
+    
+    param_mins["f_s"] = f_ss[0]
+    param_maxes["f_s"] = f_ss[1]
+    
+    param_mins["m_c (kg)"] = m_cs[0]
+    param_maxes["m_c (kg)"] = m_cs[1]
+    
+    param_mins["V_c (m^3)"] = V_cs[0]
+    param_maxes["V_c (m^3)"] = V_cs[1]
+    
+    data = []
+    for event in range(N_events):
+        parameter_value_dict = {}
+        for parameter in parameters:
+            parameter_value_dict[parameter] = random.uniform(param_mins[parameter], param_maxes[parameter])
+        
+        parameter_value_dict["N_days"] = calculate_days_to_empty_tank(parameter_value_dict["R (nm)"], parameter_value_dict["P_s_av (MJ/nm)"], parameter_value_dict["P_av (MW)"], parameter_value_dict["f_s"])
+        parameter_value_dict["scaling_term_volume"] = calculate_scaling_term(parameter_value_dict["R (nm)"], parameter_value_dict["P_s_av (MJ/nm)"], e_l, L_l, rho_l,  parameter_value_dict["m_c (kg)"], parameter_value_dict["V_c (m^3)"], cargo_type="volume")
+        parameter_value_dict["scaling_term_mass"] = calculate_scaling_term(parameter_value_dict["R (nm)"], parameter_value_dict["P_s_av (MJ/nm)"], e_l, L_l, rho_l,  parameter_value_dict["m_c (kg)"], parameter_value_dict["V_c (m^3)"], cargo_type="mass")
+        parameter_value_dict["fuel_term_volume"] = fuel_term_volume
+        parameter_value_dict["fuel_term_mass"] = fuel_term_mass
+        
+        parameter_value_dict["cargo_loss_volume"] = calculate_cargo_loss(parameter_value_dict["R (nm)"], parameter_value_dict["P_s_av (MJ/nm)"], parameter_value_dict["P_av (MW)"], r_f, parameter_value_dict["f_s"], e_l, L_l, rho_l, e_f, L_f, rho_f, parameter_value_dict["m_c (kg)"], parameter_value_dict["V_c (m^3)"], cargo_type = "volume")
+        parameter_value_dict["cargo_loss_mass"] = calculate_cargo_loss(parameter_value_dict["R (nm)"], parameter_value_dict["P_s_av (MJ/nm)"], parameter_value_dict["P_av (MW)"], r_f, parameter_value_dict["f_s"], e_l, L_l, rho_l, e_f, L_f, rho_f, parameter_value_dict["m_c (kg)"], parameter_value_dict["V_c (m^3)"], cargo_type = "mass")
+        
+        data.append(parameter_value_dict)
+    
+    parameter_values_mc_df = pd.DataFrame(data)
+    parameter_values_mc_df.to_csv(f"{top_dir}/tables/mc_parameter_values_{fuel}.csv", index=False)
+    
+    return parameter_values_mc_df
 
 def plot_cargo_loss_vs_range(vessel, fuel, cargo_type):
     """
@@ -582,6 +674,292 @@ def plot_cargo_loss_vs_range(vessel, fuel, cargo_type):
     ax.set_ylabel(f"Fractional cargo loss ({cargo_type})")
     plt.show()
     
+def plot_cargo_loss_vs_param_with_mc(fuel, parameter_values_df, parameter_values_mc_df, params_powers, param_name_title, param_title_short, show_median_line, x_lim=None):
+    """
+    Plots the cargo loss as a function of the given parameter, using values for both the defined vessels and MC values
+
+    Parameters
+    ----------
+    fuel : str
+        Name of the fuel to consider
+
+    parameter_values_df : pd.DataFrame
+        Dataframe containing parameters related to cargo loss for each vessel, along with maxima and minima
+
+    parameter_values_mc_df : pd.DataFrame
+        Dataframe containing parameters related to cargo loss for MC-generated events
+        
+    params_powers : dictionary
+        Dictionary of the following form:
+        {
+            param1 (str): power1 (float),
+            param2 (str): power2 (float)
+        }
+        
+    where each param is the name of a model parameter as it's saved in parameter_values_df, and the corresponding power represents the power to raise the param to when multiplied with other params in the dictionary. Eg. the above dictionary would resolve to the following expression: (param1^power1) * (param2^power2).
+        
+    param_name_title : str
+        Name of the parameter, as it will be shown in the plot
+        
+    param_title_short: str
+        Short version of the parameter name
+        
+    show_median_line : bool
+        Boolean parameter to determine whether to show the median line
+        
+    x_lim : list of floats
+        If x_lim is not None, it should take the form [x_min, x_max]
+
+    Returns
+    -------
+    None
+    """
+    
+    # Make copies of the vessel and MC parameter value dfs
+    parameter_values_df_cp = parameter_values_df.copy(deep=True)
+    parameter_values_mc_df_cp = parameter_values_mc_df.copy(deep=True)
+    
+    # Add a new column to parameter_values_df_cp and parameter_values_mc_df_cp with the combined parameter products specified in params_powers
+    parameter_values_df_cp["product"] = 1
+    parameter_values_mc_df_cp["product"] = 1
+    
+    for param in params_powers:
+        parameter_values_df_cp["product"] *= parameter_values_df_cp[param] ** params_powers[param]
+        parameter_values_mc_df_cp["product"] *= parameter_values_mc_df_cp[param] ** params_powers[param]
+
+    if "m_c (kg)" in params_powers or "V_c (m^3)" in params_powers:
+        fig, ax = plt.subplots(figsize=(12, 6))
+        axes = [ax, ax]
+        
+    else:
+        fig, axes = plt.subplots(1, 2, figsize=(20, 6))  # 1 row, 2 columns
+    fig.suptitle(f"{get_fuel_label(fuel)}: {param_title_short}", fontsize=24)
+    if x_lim is not None:
+        axes[0].set_xlim(x_lim[0], x_lim[1])
+        axes[1].set_xlim(x_lim[0], x_lim[1])
+    axes[0].tick_params(axis='both', which='major', labelsize=16)
+    axes[1].tick_params(axis='both', which='major', labelsize=16)
+
+    # Use a qualitative colormap for distinct vessel colors
+    vessels = [vessel for vessel in parameter_values_df_cp["Vessel"] if vessel not in {"Minimum", "Maximum"}]
+    colors = plt.cm.tab10(np.linspace(0, 1, len(vessels)))  # Use 'tab10' for categorical data
+    vessel_color_map = dict(zip(vessels, colors))
+
+    # Bin the MC points into 10 bins and calculate the average cargo loss in each bin
+    num_bins = 10
+    if x_lim is None:
+        bins = np.linspace(parameter_values_mc_df_cp["product"].min(), parameter_values_mc_df_cp["product"].max(), num_bins + 1)
+    else:
+        bins = np.linspace(x_lim[0], x_lim[1], num_bins + 1)
+    bin_centers = 0.5 * (bins[:-1] + bins[1:])  # Calculate bin centers
+
+    # Calculate binned averages for volume and mass
+    binned_avg_volume = parameter_values_mc_df_cp.groupby(np.digitize(parameter_values_mc_df_cp["product"], bins) - 1)["cargo_loss_volume"].median()
+    binned_avg_mass = parameter_values_mc_df_cp.groupby(np.digitize(parameter_values_mc_df_cp["product"], bins) - 1)["cargo_loss_mass"].median()
+
+    # Plot on the first subplot
+    if not ("m_c (kg)" in params_powers):
+        axes[0].scatter(parameter_values_mc_df_cp["product"], parameter_values_mc_df_cp["cargo_loss_volume"],
+                        label="MC", color="black", marker='o', s=3, alpha=0.3)
+        for vessel in vessels:
+            vessel_data = parameter_values_df_cp[parameter_values_df_cp["Vessel"] == vessel]
+            axes[0].scatter(vessel_data["product"], vessel_data["cargo_loss_volume"],
+                            label=vessel, color=vessel_color_map[vessel], marker='o', edgecolors='white', linewidth=1, s=300)
+        # Add the average cargo loss line
+        if show_median_line:
+            axes[0].plot(bin_centers, binned_avg_volume[:num_bins], label="Median over MC", color="red", linestyle='-', linewidth=4)
+        axes[0].set_xlabel(param_name_title, fontsize=20)
+        axes[0].set_ylabel("Fractional Cargo Loss (Volume)", fontsize=20)
+        ymin, ymax = axes[0].get_ylim()
+        cargo_loss_min = parameter_values_df_cp.loc[parameter_values_df_cp["Vessel"] == "Minimum", "cargo_loss_volume"].iloc[0]
+        cargo_loss_max = parameter_values_df_cp.loc[parameter_values_df_cp["Vessel"] == "Maximum", "cargo_loss_volume"].iloc[0]
+        axes[0].set_ylim(cargo_loss_min - 0.5*(cargo_loss_max - cargo_loss_min), cargo_loss_max + 0.5*(cargo_loss_max - cargo_loss_min))
+
+    if not ("V_c (m^3)" in params_powers):
+        # Plot on the second subplot
+        axes[1].scatter(parameter_values_mc_df_cp["product"], parameter_values_mc_df_cp["cargo_loss_mass"],
+                        color="black", marker='o', s=3, label="MC", alpha=0.3)
+        for vessel in vessels:
+            if vessel == "Minimum" or vessel == "Maximum":
+                continue
+            vessel_data = parameter_values_df_cp[parameter_values_df_cp["Vessel"] == vessel]
+            axes[1].scatter(vessel_data["product"], vessel_data["cargo_loss_mass"], label=vessel,
+                            color=vessel_color_map[vessel], marker='o', edgecolors='white', linewidth=1, s=300)
+        # Add the average cargo loss line
+        if show_median_line:
+            axes[1].plot(bin_centers, binned_avg_mass[:num_bins], label="Median over MC", color="red", linestyle='-', linewidth=4)
+        axes[1].set_xlabel(param_name_title, fontsize=20)
+        axes[1].set_ylabel("Fractional Cargo Loss (Mass)", fontsize=20)
+        ymin, ymax = axes[0].get_ylim()
+        cargo_loss_min = parameter_values_df_cp.loc[parameter_values_df_cp["Vessel"] == "Minimum", "cargo_loss_mass"].iloc[0]
+        cargo_loss_max = parameter_values_df_cp.loc[parameter_values_df_cp["Vessel"] == "Maximum", "cargo_loss_mass"].iloc[0]
+        axes[1].set_ylim(cargo_loss_min - 0.5*(cargo_loss_max - cargo_loss_min), cargo_loss_max + 0.5*(cargo_loss_max - cargo_loss_min))
+
+    # Combine legends and place them to the right of the second plot
+    if "V_c (m^3)" in params_powers:
+        lines_labels = [axes[1].get_legend_handles_labels()]
+    else:
+        lines_labels = [axes[0].get_legend_handles_labels()]
+    lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+    fig.legend(lines, labels, loc='center right', bbox_to_anchor=(1, 0.5), fontsize=16)
+
+    # Adjust layout to prevent overlapping
+    if "m_c (kg)" in params_powers or "V_c (m^3)" in params_powers:
+        plt.tight_layout(rect=[0, 0, 0.68, 1])  # Leave space for the legend on the right
+    else:
+        plt.tight_layout(rect=[0, 0, 0.82, 1])  # Leave space for the legend on the right
+    param_name_save_plot = ""
+    for param in params_powers:
+        param_name_save_plot += "_" + param.split(" ")[0] + str(params_powers[param])
+    plt.savefig(f"plots/cargo_loss_vs{param_name_save_plot}_{fuel}.png", dpi=300)
+    plt.savefig(f"plots/cargo_loss_vs{param_name_save_plot}_{fuel}.pdf")
+    plt.close()
+    
+def plot_x_vs_y_with_mc(fuel, parameter_values_df, parameter_values_mc_df, x_powers, y_powers, x_name_title, y_name_title, x_title_short, y_title_short, show_best_fit_line, color_gradient_param=None, color_gradient_title=None):
+    """
+    Plots the cargo loss as a function of the given parameter, using values for both the defined vessels and MC values
+
+    Parameters
+    ----------
+    fuel : str
+        Name of the fuel to consider
+
+    parameter_values_df : pd.DataFrame
+        Dataframe containing parameters related to cargo loss for each vessel, along with maxima and minima
+
+    parameter_values_mc_df : pd.DataFrame
+        Dataframe containing parameters related to cargo loss for MC-generated events
+        
+    x_powers, y_powers : dictionaries
+        Dictionary of the following form for the x and y parameters:
+        {
+            param1 (str): power1 (float),
+            param2 (str): power2 (float)
+        }
+        
+    where each param is the name of a model parameter as it's saved in parameter_values_df, and the corresponding power represents the power to raise the param to when multiplied with other params in the dictionary. Eg. the above dictionary would resolve to the following expression: (param1^power1) * (param2^power2).
+        
+    x_name_title, y_name_title : strs
+        Names of the x and y parameters, as they will be shown in the plot
+        
+    x_title_short, y_title_short: str
+        Short versions of the x and y parameter names
+        
+    show_median_line : bool
+        Boolean parameter to determine whether to show the median line
+        
+    color_gradient_param : str
+        Parameter whose value to use for defining a red-blue color gradient for the color of vessel markers
+        
+    color_gradient_title : str
+        Name to put on the color gradient for the vessel markers
+
+    Returns
+    -------
+    None
+    """
+    
+    # Make copies of the vessel and MC parameter value dfs
+    parameter_values_df_cp = parameter_values_df.copy(deep=True)
+    parameter_values_mc_df_cp = parameter_values_mc_df.copy(deep=True)
+    
+    # Add a new column to parameter_values_df_cp and parameter_values_mc_df_cp with the combined parameter products specified in params_powers
+    parameter_values_df_cp["x_product"] = 1
+    parameter_values_mc_df_cp["x_product"] = 1
+    parameter_values_df_cp["y_product"] = 1
+    parameter_values_mc_df_cp["y_product"] = 1
+    
+    for param in x_powers:
+        parameter_values_df_cp["x_product"] *= parameter_values_df_cp[param] ** x_powers[param]
+        parameter_values_mc_df_cp["x_product"] *= parameter_values_mc_df_cp[param] ** x_powers[param]
+        
+    for param in y_powers:
+        parameter_values_df_cp["y_product"] *= parameter_values_df_cp[param] ** y_powers[param]
+        parameter_values_mc_df_cp["y_product"] *= parameter_values_mc_df_cp[param] ** y_powers[param]
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.set_title(f"{get_fuel_label(fuel)}: {x_title_short} vs. {y_title_short}", fontsize=24)
+    ax.tick_params(axis='both', which='major', labelsize=16)
+
+    # Use a qualitative colormap for distinct vessel colors
+    vessels = [vessel for vessel in parameter_values_df_cp["Vessel"] if vessel not in {"Minimum", "Maximum"}]
+    
+    if color_gradient_param is None:
+        colors = plt.cm.tab10(np.linspace(0, 1, len(vessels)))  # Use 'tab10' for categorical data
+        vessel_color_map = dict(zip(vessels, colors))
+        
+    else:
+        # Normalize the values of the color_gradient_param for the colormap
+        norm = plt.Normalize(parameter_values_df_cp[color_gradient_param].min(),
+                              parameter_values_df_cp[color_gradient_param].max())
+        cmap = plt.cm.coolwarm  # Use a red-blue colormap
+
+        # Create a color map for vessels based on the color_gradient_param
+        vessel_color_map = {
+            vessel: cmap(norm(parameter_values_df_cp.loc[parameter_values_df_cp["Vessel"] == vessel, color_gradient_param].iloc[0]))
+            for vessel in vessels
+        }
+
+        # Add a colorbar for the gradient
+        sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+        sm.set_array([])  # ScalarMappable needs a dummy array
+        cbar = fig.colorbar(sm, ax=ax, orientation='vertical', pad=0.02)
+        cbar.set_label(color_gradient_title, fontsize=18)
+        cbar.ax.tick_params(labelsize=16)
+        
+
+    # Plot the vessel and MC data as scatterplots
+    ax.scatter(parameter_values_mc_df_cp["x_product"], parameter_values_mc_df_cp["y_product"],
+                    label="MC", color="black", marker='o', s=3, alpha=0.3)
+    for vessel in vessels:
+        vessel_data = parameter_values_df_cp[parameter_values_df_cp["Vessel"] == vessel]
+        ax.scatter(vessel_data["x_product"], vessel_data["y_product"],
+                        label=vessel, color=vessel_color_map[vessel], marker='o', edgecolors='white', linewidth=1, s=300)
+                  
+    # Add a best fit line
+    if show_best_fit_line:
+        # Use only the vessel data for regression
+        vessel_data_x = parameter_values_df_cp["x_product"]
+        vessel_data_y = parameter_values_df_cp["y_product"]
+        
+        # Fit a linear regression model to vessel data
+        coefficients = np.polyfit(vessel_data_x, vessel_data_y, 1)  # Linear fit: degree=1
+        best_fit_line = np.poly1d(coefficients)  # Create a polynomial function
+        
+        # Generate x values for the best fit line
+        x_fit = np.linspace(vessel_data_x.min(), vessel_data_x.max(), 500)
+        y_fit = best_fit_line(x_fit)
+        
+        # Plot the best fit line
+        ax.plot(x_fit, y_fit, color="red", linestyle="--", linewidth=4, label="Best Fit Line (Vessels)")
+        
+    ax.set_xlabel(x_name_title, fontsize=20)
+    ax.set_ylabel(y_name_title, fontsize=20)
+
+    # Place the legend to the right of the plot
+    lines_labels = [ax.get_legend_handles_labels()]
+    lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+    fig.legend(lines, labels, loc='center right', bbox_to_anchor=(1, 0.5), fontsize=16)
+
+    # Adjust layout to prevent overlapping
+    plt.tight_layout(rect=[0, 0, 0.68, 1])  # Leave space for the legend on the right
+    param_name_save_plot = ""
+    y_param_keys = list(y_powers.keys())
+    param_name_save_plot += y_param_keys[0].split(" ")[0] + str(y_powers[y_param_keys[0]])
+    
+    if len(y_param_keys) > 1:
+        for param in y_powers[1:]:
+            param_name_save_plot += "_" + param.split(" ")[0] + str(y_powers[param])
+            
+    param_name_save_plot += "_vs"
+    for param in x_powers:
+        param_name_save_plot += "_" + param.split(" ")[0] + str(x_powers[param])
+    
+    plt.savefig(f"plots/{param_name_save_plot}_{fuel}.png", dpi=300)
+    plt.savefig(f"plots/{param_name_save_plot}_{fuel}.pdf")
+    plt.close()
+    
+    
 def plot_cargo_loss_vs_dimensionless_params(parameter_values_df, fuel, cargo_type):
     """
     Plots the cargo loss as a function of dimensionless parameters that vary between different vessel designs.
@@ -612,7 +990,7 @@ def plot_cargo_loss_vs_dimensionless_params(parameter_values_df, fuel, cargo_typ
         scaling_term_col = "scaling_term_mass"
         fuel_term_col = "fuel_term_mass"
     else:
-        raise ValueError("Invalid cargo_type. Choose 'volume' or 'mass'.")
+        raise ValueError("Invalid cargo_type. Please choose 'volume' or 'mass'.")
 
     # Remove "Minimum" and "Maximum" rows from the vessel data
     vessel_data = parameter_values_df[~parameter_values_df["Vessel"].isin(["Minimum", "Maximum"])]
@@ -886,7 +1264,7 @@ def plot_parameter_profiles(fuel, fuel_params_df, parameter_values_df, R_min, P_
                 f_s_min if param_name != "Fraction of time at sea" else val,
                 e_l, L_l, rho_l, e_f, L_f, rho_f,
                 m_c_min if param_name != "Mass cargo capacity (kg)" else val,
-                V_c_min if param_name != "Volume cargo capacity (m^3)" else val,
+                V_c_min if param_name != "Volume cargo capacity (m$^3$)" else val,
                 cargo_type=cargo_type
             )
             cargo_losses_profiled = np.append(cargo_losses_profiled, cargo_loss_profiled)
@@ -914,7 +1292,7 @@ def plot_parameter_profiles(fuel, fuel_params_df, parameter_values_df, R_min, P_
         ax.set_xlabel(param_name, fontsize=20)
 
     # Set shared vertical axis label
-    fig.text(0.03, 0.5, "Fractional Cargo Loss", va='center', rotation='vertical', fontsize=20)
+    fig.text(0.03, 0.5, f"Fractional Cargo Loss ({cargo_type})", va='center', rotation='vertical', fontsize=20)
 
     # Add a legend below all plots
     handles, labels = axes[-1].get_legend_handles_labels()
@@ -925,12 +1303,191 @@ def plot_parameter_profiles(fuel, fuel_params_df, parameter_values_df, R_min, P_
     plt.tight_layout(rect=[0.05, 0.05, 1, 0.96])
     ymin, ymax = ax.get_ylim()
     if ymax > 1:
-        ax.set_ylim(ymin, 1)
+        ax.set_ylim(-1, 1)
 
-    plt.savefig(f"plots/parameter_profiles_{fuel}_{cargo_type}.png", dpi=300, bbox_inches="tight")
-    plt.savefig(f"plots/parameter_profiles_{fuel}_{cargo_type}.pdf", bbox_inches="tight")
+    filename_png = f"plots/parameter_profiles_minimum_{fuel}_{cargo_type}.png"
+    filename_pdf = f"plots/parameter_profiles_minimum_{fuel}_{cargo_type}.pdf"
+    print(f"Saving figure to {filename_png}")
+    plt.savefig(filename_png, dpi=300, bbox_inches="tight")
+    plt.savefig(filename_pdf, bbox_inches="tight")
     plt.close()
 
+def plot_parameter_profiles_vessel(fuel, vessel_to_profile, fuel_params_df, parameter_values_df, cargo_type="mass"):
+    """
+    Plot profiles of each vessel design parameter within its extrema, with the values of all other tunable parameters set to their values for the given vessel.
+
+    Parameters
+    ----------
+    fuel : str
+        Name of the fuel to consider
+
+    vessel_to_profile : str
+        Name of the vessel to consider
+
+    fuel_params_df : pandas.DataFrame
+        DataFrame containing the fuel parameters for all fuels.
+
+    parameter_values_df : pd.DataFrame
+        Dataframe containing parameters related to cargo loss for each vessel, along with maxima and minima
+
+    cargo_loss_min : float
+        Minimum cargo loss
+
+    cargo_type : str
+        Type of cargo (mass or volume)
+
+    Returns
+    -------
+    None
+    """
+
+    fuel_params_lsfo = extract_fuel_params(fuel_params_df, "lsfo")
+    fuel_params_fuel = extract_fuel_params(fuel_params_df, fuel)
+
+    r_f = fuel_params_fuel["Boil-off Rate (%/day)"]
+    e_l = fuel_params_lsfo["Engine efficiency"]
+    L_l = fuel_params_lsfo["Lower Heating Value (MJ / kg)"]
+    rho_l = fuel_params_lsfo["Mass density (kg/m^3)"]
+    e_f = fuel_params_fuel["Engine efficiency"]
+    L_f = fuel_params_fuel["Lower Heating Value (MJ / kg)"]
+    rho_f = fuel_params_fuel["Mass density (kg/m^3)"]
+    
+    R_vessel = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel_to_profile, "R (nm)"].iloc[0]
+    P_s_av_vessel = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel_to_profile, "P_s_av (MJ/nm)"].iloc[0]
+    P_av_vessel = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel_to_profile, "P_av (MW)"].iloc[0]
+    f_s_vessel = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel_to_profile, "f_s"].iloc[0]
+    m_c_vessel = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel_to_profile, "m_c (kg)"].iloc[0]
+    V_c_vessel = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel_to_profile, "V_c (m^3)"].iloc[0]
+
+    Rs, P_s_avs, P_avs, f_ss, m_cs, V_cs = get_cargo_loss_parameter_extrema(parameter_values_df)
+
+    # Set up parameter names and their corresponding ranges
+    parameters = {
+        "Range (nautical miles)": (Rs, R_vessel, "R (nm)"),
+        "Average Power / Speed (MJ/nm)": (P_s_avs, P_s_av_vessel, "P_s_av (MJ/nm)"),
+        "Fraction of time at sea": (f_ss, f_s_vessel, "f_s"),
+        "Average power (MW)": (P_avs, P_av_vessel, "P_av (MW)"),
+        "Mass cargo capacity (kg)": (m_cs, m_c_vessel, "m_c (kg)"),
+        "Volume cargo capacity (m$^3$)": (V_cs, V_c_vessel, "V_c (m^3)"),
+    }
+
+    # Filter parameters based on cargo type
+    if cargo_type == "volume":
+        parameters.pop("Mass cargo capacity (kg)", None)
+    elif cargo_type == "mass":
+        parameters.pop("Volume cargo capacity (m$^3$)", None)
+
+    # Create subplots
+    fig, axes = plt.subplots(1, len(parameters), figsize=(5 * len(parameters), 6), sharey=True)
+    fig.suptitle(f"Fuel: {get_fuel_label(fuel)}. Vessel profiled: {vessel_to_profile}", fontsize=22)
+
+    all_handles, all_labels = [], []
+    
+    i=0
+    for ax, (param_name, (param_range, param_vessel, param_shortname)) in zip(axes, parameters.items()):
+        ax.tick_params(axis='both', which='major', labelsize=18)
+
+        param_values = np.linspace(param_range[0], param_range[1], 1000)
+        cargo_losses_profiled = np.zeros(0)
+        
+        param_min = 9e9
+        cargo_loss_profiled_min = 9e9
+
+        for val in param_values:
+            cargo_loss_profiled = calculate_cargo_loss(
+                R_vessel if param_name != "Range (nautical miles)" else val,
+                P_s_av_vessel if param_name != "Average Power / Speed (MJ/nm)" else val,
+                P_av_vessel if param_name != "Average power (MW)" else val,
+                r_f,
+                f_s_vessel if param_name != "Fraction of time at sea" else val,
+                e_l, L_l, rho_l, e_f, L_f, rho_f,
+                m_c_vessel if param_name != "Mass cargo capacity (kg)" else val,
+                V_c_vessel if param_name != "Volume cargo capacity (m$^3$)" else val,
+                cargo_type=cargo_type
+            )
+            if cargo_loss_profiled < cargo_loss_profiled_min:
+                cargo_loss_profiled_min = cargo_loss_profiled
+                param_min = val
+            cargo_losses_profiled = np.append(cargo_losses_profiled, cargo_loss_profiled)
+
+        # Plot cargo loss vs parameter
+        ax.plot(param_values, cargo_losses_profiled, color='black')
+        line_vessel = ax.axvline(param_vessel, color='blue', linestyle='--')
+        star_param_min, = ax.plot(param_min, cargo_loss_profiled_min, '*', markersize=20, color="red")
+        if i==0:
+            all_handles.append(line_vessel)
+            all_labels.append(f"Value for Profiled Vessel: {param_vessel:.2e}")
+            all_handles.append(star_param_min)
+            all_labels.append(f"Minimizing value: {param_min:.2e}")
+
+        for vessel in parameter_values_df["Vessel"]:
+            if vessel == "Minimum" or vessel == "Maximum":
+                continue
+            param_value = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel, param_shortname].iloc[0]
+            cargo_loss_value = parameter_values_df.loc[parameter_values_df["Vessel"] == vessel, f"cargo_loss_{cargo_type}"].iloc[0]
+
+            point, = ax.plot(param_value, cargo_loss_value, 'o')
+            
+            if i==0:
+                all_handles.append(point)
+                all_labels.append(vessel)
+        i+=1
+
+        ax.set_xlabel(param_name, fontsize=20)
+
+    # Set shared vertical axis label
+    fig.text(0.03, 0.5, f"Fractional Cargo Loss ({cargo_type})", va='center', rotation='vertical', fontsize=20)
+
+    # Add a legend below all plots
+    handles, labels = axes[-1].get_legend_handles_labels()
+    all_handles.extend(handles)
+    all_labels.extend(labels)
+    fig.legend(all_handles, all_labels, loc='lower center', fontsize=16, ncol=6, bbox_to_anchor=(0.5, -0.1))
+
+    plt.tight_layout(rect=[0.05, 0.05, 1, 0.96])
+    ymin, ymax = ax.get_ylim()
+    if ymax > 1:
+        ax.set_ylim(-1, 1)
+
+    vessel_to_profile_save = vessel_to_profile.replace(" ", "_").replace("(", "").replace(")", "")
+    filename_png = f"plots/parameter_profiles_{vessel_to_profile_save}_{fuel}_{cargo_type}.png"
+    filename_pdf = f"plots/parameter_profiles_{vessel_to_profile_save}_{fuel}_{cargo_type}.pdf"
+    print(f"Saving figure to {filename_png}")
+    plt.savefig(filename_png, dpi=300, bbox_inches="tight")
+    plt.savefig(filename_pdf, bbox_inches="tight")
+    plt.close()
+    
+def plot_parameter_profiles_all_vessels(fuel, fuel_params_df, parameter_values_df, cargo_type="mass"):
+    """
+    Creates plots of parameter profiles for each vessel.
+    
+    Parameters
+    ----------
+    fuel : str
+        Name of the fuel to consider
+
+    fuel_params_df : pandas.DataFrame
+        DataFrame containing the fuel parameters for all fuels.
+
+    parameter_values_df : pd.DataFrame
+        Dataframe containing parameters related to cargo loss for each vessel, along with maxima and minima
+
+    cargo_loss_min : float
+        Minimum cargo loss
+
+    cargo_type : str
+        Type of cargo (mass or volume)
+
+    Returns
+    -------
+    None
+    """
+    
+    for vessel in parameter_values_df["Vessel"]:
+        if vessel == "Minimum" or vessel == "Maximum":
+            continue
+        
+        plot_parameter_profiles_vessel(fuel, vessel, fuel_params_df, parameter_values_df, cargo_type)
 
 def main():
     top_dir = get_top_dir()
@@ -945,7 +1502,80 @@ def main():
     # Plot cargo loss as a function of range
     #plot_cargo_loss_vs_range("Tanker (35k DWT)", "liquid_hydrogen", "volume")
     
-    for fuel in ["liquid_hydrogen"]:#fuel_params_df["Fuel"]:
+    ################ Make plots of cargo loss vs. various parameters ################
+    
+    params_powers = {
+        "Vessel Design Range (nautical miles)": {"R (nm)": 1},
+        "Average Power / Speed (MJ/nm)": {"P_s_av (MJ/nm)": 1},
+        "Volume cargo capacity (m$^3$)": {"V_c (m^3)": 1},
+        "Mass cargo capacity (kg)": {"m_c (kg)": 1},
+        "Average Propulsion Power (MW)": {"P_av (MW)": 1},
+        r"R $\times$ (P/s)$_\text{av}$ (MJ)": {"R (nm)": 1, "P_s_av (MJ/nm)": 1},
+        r"R $\times$ (P/s)$_\text{av}$ / V$_c$ (MJ/m$^3$)": {"R (nm)": 1, "P_s_av (MJ/nm)": 1, "V_c (m^3)": -1},
+        r"R $\times$ (P/s)$_\text{av}$ / m$_c$ (MJ/kg)": {"R (nm)": 1, "P_s_av (MJ/nm)": 1, "m_c (kg)": -1},
+        "Days to Empty Tank": {"N_days": 1},
+    }
+    
+    param_titles_short = {
+        "Vessel Design Range (nautical miles)": "R",
+        "Average Power / Speed (MJ/nm)": r"(P/s)$_\text{av}$",
+        "Volume cargo capacity (m$^3$)": r"V$_c$",
+        "Mass cargo capacity (kg)": r"m$_c$",
+        "Average Propulsion Power (MW)": r"P$_\text{av}$",
+        r"R $\times$ (P/s)$_\text{av}$ (MJ)": r"R $\times$ (P/s)$_\text{av}$",
+        r"R $\times$ (P/s)$_\text{av}$ / V$_c$ (MJ/m$^3$)": r"R $\times$ (P/s)$_\text{av}$ / V$_c$",
+        r"R $\times$ (P/s)$_\text{av}$ / m$_c$ (MJ/kg)": r"R $\times$ (P/s)$_\text{av}$ / m$_c$",
+        "Days to Empty Tank": "N",
+    }
+    
+    show_median_line = {
+        "Vessel Design Range (nautical miles)": True,
+        "Average Power / Speed (MJ/nm)": True,
+        "Volume cargo capacity (m$^3$)": True,
+        "Mass cargo capacity (kg)": True,
+        "Average Propulsion Power (MW)": True,
+        r"R $\times$ (P/s)$_\text{av}$ (MJ)": True,
+        r"R $\times$ (P/s)$_\text{av}$ / V$_c$ (MJ/m$^3$)": False,
+        r"R $\times$ (P/s)$_\text{av}$ / m$_c$ (MJ/kg)": False,
+        "Days to Empty Tank": {"N_days": True},
+    }
+    
+    x_lims = {
+        "Vessel Design Range (nautical miles)": None,
+        "Average Power / Speed (MJ/nm)": None,
+        "Volume cargo capacity (m$^3$)": None,
+        "Mass cargo capacity (kg)": None,
+        "Average Propulsion Power (MW)": None,
+        r"R $\times$ (P/s)$_\text{av}$ (MJ)": None,
+        r"R $\times$ (P/s)$_\text{av}$ / V$_c$ (MJ/m$^3$)": None,
+        r"R $\times$ (P/s)$_\text{av}$ / m$_c$ (MJ/kg)": None,
+        "Days to Empty Tank": [0, 500],
+    }
+    
+    for fuel in ["liquid_hydrogen"]: #["methanol", "ammonia", "liquid_hydrogen"]:
+        parameter_values_df = get_parameter_values(nominal_vessel_params_df, fuel_params_df, fuel)
+        parameter_values_mc_df = make_mc(nominal_vessel_params_df, fuel_params_df, fuel, 10000)
+        
+        plot_x_vs_y_with_mc(fuel, parameter_values_df, parameter_values_mc_df, {"P_s_av (MJ/nm)": 1}, {"R (nm)": 1}, "Average Power / Speed (MJ/nm)", "Vessel Design Range (nautical miles)", r"(P/s)$_\text{av}$", "R", show_best_fit_line=False)
+
+        plot_x_vs_y_with_mc(fuel, parameter_values_df, parameter_values_mc_df, {"P_s_av (MJ/nm)": 1}, {"V_c (m^3)": 1}, "Average Power / Speed (MJ/nm)", "Volume cargo capacity (m$^3$)", r"(P/s)$_\text{av}$", r"V$_c$", show_best_fit_line=True)
+
+        plot_x_vs_y_with_mc(fuel, parameter_values_df, parameter_values_mc_df, {"P_s_av (MJ/nm)": 1}, {"m_c (kg)": 1}, "Average Power / Speed (MJ/nm)", "Mass cargo capacity (kg)", r"(P/s)$_\text{av}$", r"m$_c$", show_best_fit_line=True)
+
+        plot_x_vs_y_with_mc(fuel, parameter_values_df, parameter_values_mc_df, {"R (nm)": 1}, {"V_c (m^3)": 1}, "Vessel Design Range (nautical miles)", "Volume cargo capacity (m$^3$)", "R", r"V$_c$", show_best_fit_line=True)
+
+        plot_x_vs_y_with_mc(fuel, parameter_values_df, parameter_values_mc_df, {"R (nm)": 1}, {"m_c (kg)": 1}, "Vessel Design Range (nautical miles)", "Mass cargo capacity (kg)", "R", r"m$_c$", show_best_fit_line=True)
+        
+        plot_x_vs_y_with_mc(fuel, parameter_values_df, parameter_values_mc_df, {"R (nm)": 1, "P_s_av (MJ/nm)": 1}, {"V_c (m^3)": 1}, r"R $\times$ (P/s)$_\text{av}$ [Energy capacity] (MJ)", "Volume cargo capacity (m$^3$)", r"R $\times$ (P/s)$_\text{av}$", r"V$_c$", show_best_fit_line=True, color_gradient_param="cargo_loss_volume", color_gradient_title="Fractional Cargo Loss (volume)")
+        
+        plot_x_vs_y_with_mc(fuel, parameter_values_df, parameter_values_mc_df, {"R (nm)": 1, "P_s_av (MJ/nm)": 1}, {"m_c (kg)": 1}, r"R $\times$ (P/s)$_\text{av}$ [Energy capacity] (MJ)", "Mass cargo capacity (kg)", r"R $\times$ (P/s)$_\text{av}$", r"m$_c$", show_best_fit_line=True, color_gradient_param="cargo_loss_mass", color_gradient_title="Fractional Cargo Loss (mass)")
+        
+        
+        for param_title in params_powers:
+            plot_cargo_loss_vs_param_with_mc(fuel, parameter_values_df, parameter_values_mc_df, params_powers[param_title], param_title, param_titles_short[param_title], show_median_line=show_median_line[param_title], x_lim = x_lims[param_title])
+        
+    """
+    for fuel in fuel_params_df["Fuel"]:
         if fuel == "lsfo":
             continue
         
@@ -958,9 +1588,12 @@ def main():
         
         R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min = minimize_cargo_loss(fuel, fuel_params_df, parameter_values_df, "mass")
         plot_parameter_profiles(fuel, fuel_params_df, parameter_values_df, R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min, "mass")
-        
+        plot_parameter_profiles_all_vessels(fuel, fuel_params_df, parameter_values_df, "mass")
+
         R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min = minimize_cargo_loss(fuel, fuel_params_df, parameter_values_df, "volume")
         plot_parameter_profiles(fuel, fuel_params_df, parameter_values_df, R_min, P_s_av_min, P_av_min, f_s_min, m_c_min, V_c_min, cargo_loss_min, "volume")
+        plot_parameter_profiles_all_vessels(fuel, fuel_params_df, parameter_values_df, "volume")
+        """
 
 if __name__ == "__main__":
     main()
