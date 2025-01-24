@@ -730,10 +730,11 @@ def plot_cargo_loss_vs_param_with_mc(fuel, parameter_values_df, parameter_values
     if "m_c (kg)" in params_powers or "V_c (m^3)" in params_powers:
         fig, ax = plt.subplots(figsize=(12, 6))
         axes = [ax, ax]
+        plt.title(f"{get_fuel_label(fuel)}: {param_title_short}", fontsize=24)
         
     else:
         fig, axes = plt.subplots(1, 2, figsize=(20, 6))  # 1 row, 2 columns
-    fig.suptitle(f"{get_fuel_label(fuel)}: {param_title_short}", fontsize=24)
+        fig.suptitle(f"{get_fuel_label(fuel)}: {param_title_short}", fontsize=24)
     if x_lim is not None:
         axes[0].set_xlim(x_lim[0], x_lim[1])
         axes[1].set_xlim(x_lim[0], x_lim[1])
@@ -1552,7 +1553,7 @@ def main():
         "Days to Empty Tank": [0, 500],
     }
     
-    for fuel in ["liquid_hydrogen"]: #["methanol", "ammonia", "liquid_hydrogen"]:
+    for fuel in ["methanol"]: #["methanol", "ammonia", "liquid_hydrogen"]:
         parameter_values_df = get_parameter_values(nominal_vessel_params_df, fuel_params_df, fuel)
         parameter_values_mc_df = make_mc(nominal_vessel_params_df, fuel_params_df, fuel, 10000)
         
