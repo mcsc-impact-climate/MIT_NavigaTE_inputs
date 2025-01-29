@@ -1492,10 +1492,9 @@ class ProcessedFuel:
                                 # if region not in countries_labelled
                                 # else "",
                             )
-                            
-                    if i_pathway == 0:
-                        scatter_handles.append(scatter)
-                        scatter_labels.append("Individual Countries")
+            if not plot_global and i_pathway == 0:
+                scatter_handles.append(scatter)
+                scatter_labels.append("Individual Countries")
 
             # If there are negative values, draw a yellow vertical bar at the cumulative sum position
             if cumulative_values_negative[pathway_name]:
@@ -2012,7 +2011,7 @@ def plot_cargo_miles():
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("ConsumedElectricity_main", "vessel", "liquid_hydrogen", "LTE_H_grid_E")
+#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "ammonia", "ATRCCS_H_grid_E")
 #    processed_quantity.map_by_region()
 #    processed_quantity.make_hist_by_region()
 #    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile", "liquid_hydrogen", "LTE_H_grid_E")
@@ -2044,27 +2043,40 @@ def main():
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
 # -----------------------------------------------------------------------------#
-    
+   
     # Loop through all fuels of interest
-     #for fuel in ["liquid_hydrogen", "compressed_hydrogen"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
-        #processed_fuel = ProcessedFuel(fuel)
+    for fuel in ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol", "FTdiesel"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
+        processed_fuel = ProcessedFuel(fuel)
 
-        # Make validation plots for each fuel, pathway and quantity
-        #processed_fuel.make_all_hists_by_region()
-        #processed_fuel.map_all_by_region()
-        #processed_fuel.make_all_stacked_hists()
+         Make validation plots for each fuel, pathway and quantity
+        processed_fuel.make_all_hists_by_region()
+        processed_fuel.map_all_by_region()
+        processed_fuel.make_all_stacked_hists()
+        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
+        processed_fuel.make_stacked_hist("CAC", "vessel", [])
     
-    # GE - getting errors when running code below
+#    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
+#    plot_scatter_violin(structured_results, "ConsumedCO2_main", "fleet")
+#    structured_results = structure_results_fuels_types("TotalCost", "fleet")
+#    plot_scatter_violin(structured_results, "TotalCost", "fleet")
+#    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
+#    plot_scatter_violin(structured_results, "TotalEquivalentWTW", "fleet")
+#    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
+#    plot_scatter_violin(structured_results, "CostTimesEmissions", "vessel")
+#    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
+#    plot_scatter_violin(structured_results, "AverageCostEmissionsRatio", "vessel")
+#    structured_results = structure_results_fuels_types("CAC", "vessel")
+#    plot_scatter_violin(structured_results, "CAC", "vessel")
     
-    for quantity in ["ConsumedCO2_main"]: #["CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
-        for modifier in ["fleet"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
-            if quantity == "AverageCostEmissionsRatio" and modifier != "vessel":
+    
+    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main",  "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
+        for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
+            if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
                 continue
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
     
-   
-# ideas for scatter violin plots of resource demands - use code similar to above. Edit plot_scatter_violin to only plot regions (scatter dots) if a condition is met. Find a way to get modified structure_results_fuel_types() object with resources as key and dictionary of pathways as subcategories holding data for that fuel and pathway globally.
-
-#    plot_cargo_miles()
 main()
