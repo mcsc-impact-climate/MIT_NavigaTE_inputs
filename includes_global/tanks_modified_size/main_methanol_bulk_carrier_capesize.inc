@@ -8,7 +8,7 @@
 
 Tank "main_methanol_bulk_carrier_capesize" {
 	FuelTypes=[METHANOL]
-    Size=12372.822286035918
+    Size=12312.785570784457
 	
 	CAPEX = 215
 	OPEX = 2.15 

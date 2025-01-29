@@ -980,7 +980,7 @@ class ProcessedPathway:
 
     def __init__(self, fuel, pathway, results_dir=RESULTS_DIR):
         self.fuel = fuel
-        print(pathway)
+        #print(pathway)
         self.pathway_type = get_pathway_type(pathway)
         self.pathway = pathway
         self.results_dir = results_dir
@@ -1365,7 +1365,8 @@ class ProcessedFuel:
 
         return all_countries
 
-    def make_stacked_hist(self, quantity, modifier, sub_quantities=[]):
+    # GE - added two boolean statements as arguments (plot_global and exclude_lsfo)
+    def make_stacked_hist(self, quantity, modifier, sub_quantities=[], plot_global = False, exclude_lsfo = False):
         """
         Makes a histogram of the given quantity with respect to the available fuel production pathways.
 
@@ -1473,24 +1474,25 @@ class ProcessedFuel:
                     bar_handles.append(bar[0])
                     bar_labels.append(get_quantity_label(sub_quantity))
 
-                # Plot the individual region results as a scatter plot
-                if all_region_results:
-                    for region in all_region_results:
-                        if "Global" in region:
-                            continue
-                        scatter = ax.scatter(
-                            all_region_results[region],
-                            pathway_label,
-                            color="black",  # region_colors[region],
-                            s=50,
-                            marker="o",
-                            zorder=100,
-                            # label=get_region_label(region)
-                            # if region not in countries_labelled
-                            # else "",
-                        )
-                            
-            if i_pathway == 0:
+                # GE - if plot_global is true, dots for individual countries will not be included in hist
+                if not plot_global:
+                    # Plot the individual region results as a scatter plot
+                    if all_region_results:
+                        for region in all_region_results:
+                            if "Global" in region:
+                                continue
+                            scatter = ax.scatter(
+                                all_region_results[region],
+                                pathway_label,
+                                color="black",  # region_colors[region],
+                                s=50,
+                                marker="o",
+                                zorder=100,
+                                # label=get_region_label(region)
+                                # if region not in countries_labelled
+                                # else "",
+                            )
+            if not plot_global and i_pathway == 0:
                 scatter_handles.append(scatter)
                 scatter_labels.append("Individual Countries")
 
@@ -1524,16 +1526,18 @@ class ProcessedFuel:
             make_bar(pathway, pathway_name, pathway_label)
 
             i_pathway += 1
-
-        # Add a bar for LSFO fossil for comparison
-        lsfo_pathway = ProcessedPathway("lsfo", "fossil")
-        make_bar(lsfo_pathway, "fossil", "LSFO (fossil)")
-        plt.axvline(
-            lsfo_pathway.get_region_average_results([quantity], modifier)[quantity],
-            linewidth=3,
-            linestyle="--",
-            color="black",
-        )
+            
+        # GE - do not execute the code adding a LSFO bar if exclude_lsfo is true
+        if not exclude_lsfo:
+            # Add a bar for LSFO fossil for comparison
+            lsfo_pathway = ProcessedPathway("lsfo", "fossil")
+            make_bar(lsfo_pathway, "fossil", "LSFO (fossil)")
+            plt.axvline(
+                lsfo_pathway.get_region_average_results([quantity], modifier)[quantity],
+                linewidth=3,
+                linestyle="--",
+                color="black",
+            )
 
         # Add labels and title
         if quantity_units is None:
@@ -1638,6 +1642,43 @@ class ProcessedFuel:
             for modifier in modifiers:
                 if modifier in all_available_modifiers:
                     self.make_stacked_hist(quantity, modifier, sub_quantities)
+                    
+    # GE - function to produce histograms of resource demands for each fuel and resource
+    # modeled off make_all_stacked_hists()
+    def make_all_resource_demands_hists(
+        self,
+        quantities=["ConsumedCO2_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedWater_main"],
+        modifier = "fleet",
+    ):
+        """
+        Plot a stacked histogram for the given quantities at fleet level with respect to the pathway and fuel.
+
+        Parameters
+        ----------
+        quantities : list of str
+            List of quantities to make stacked hists for
+
+        Returns
+        -------
+        None
+        """
+        # Handle the situation where the user wants to plot all quantities
+        sample_processed_pathway = self.ProcessedPathways[self.pathways[0]]
+        all_available_quantities = ["ConsumedCO2_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedWater_main"]
+
+        if quantities == "all":
+            quantities = all_available_quantities
+
+        # Handle the case where user enters invalid quantity
+        for quantity in quantities:
+            if quantity not in all_available_quantities:
+                raise Exception(
+                    f"Error: Provided quantity '{quantity}' is not available in self.ProcessedQuantities. \n\nAvailable quanities: {all_available_quantities}."
+                )
+
+        for quantity in quantities:
+            self.make_stacked_hist(quantity, modifier, plot_global = True, exclude_lsfo = True)
+    
 
     def apply_to_all_pathways(self, method_name, *args, **kwargs):
         """
@@ -1874,6 +1915,7 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
     plt.savefig(filepath_save_log, dpi=200)
     plt.close()
     
+    
 def collect_cargo_mile_results(fuels=None):
     """
     Collect CargoMiles for each fuel and vessel type. Note that CargoMiles is independent of the fuel production pathway and region.
@@ -1969,17 +2011,29 @@ def plot_cargo_miles():
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile", "liquid_hydrogen", "LTE_H_grid_E")
-    processed_quantity.make_hist_by_region()
-    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile_orig", "liquid_hydrogen", "LTE_H_grid_E")
+#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "ammonia", "ATRCCS_H_grid_E")
 #    processed_quantity.map_by_region()
-    processed_quantity.make_hist_by_region()
+#    processed_quantity.make_hist_by_region()
+#    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile", "liquid_hydrogen", "LTE_H_grid_E")
+#    processed_quantity.make_hist_by_region()
+#    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile_orig", "liquid_hydrogen", "LTE_H_grid_E")
+#    processed_quantity.map_by_region()
 #
-#    processed_pathway = ProcessedPathway("methanol", "LTE_H_DAC_C_grid_E")
+#    processed_pathway = ProcessedPathway("liquid_hydrogen", "LTE_H_grid_E")
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_all_by_region()
-#
+    
+    # GE - test make_stacked_hist() with two new boolean arguments so it applies to global scale
+#    processed_fuel_GE = ProcessedFuel("methanol")
+#    processed_fuel_GE.make_stacked_hist("ConsumedWater_main", "fleet", plot_global = True, exclude_lsfo = True)
+    
+    # GE - test make_all_resource_demands_hist() - NOT WOKRING FOR "all" CASE
+    #processed_fuel_GE_test = ProcessedFuel("ammonia")
+    #processed_fuel_GE_test.make_all_resource_demands_hists()
+    
 #    processed_fuel = ProcessedFuel("liquid_hydrogen")
+#    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+
 #    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile_orig", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
@@ -1989,24 +2043,40 @@ def main():
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
 # -----------------------------------------------------------------------------#
-    """
+   
     # Loop through all fuels of interest
-    for fuel in ["liquid_hydrogen", "compressed_hydrogen"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
+    for fuel in ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol", "FTdiesel"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
 
-        # Make validation plots for each fuel, pathway and quantity
-        #processed_fuel.make_all_hists_by_region()
-        #processed_fuel.map_all_by_region()
+         Make validation plots for each fuel, pathway and quantity
+        processed_fuel.make_all_hists_by_region()
+        processed_fuel.map_all_by_region()
         processed_fuel.make_all_stacked_hists()
-    """
-    """
-    for quantity in ["TotalCost"]: #["CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
-        for modifier in ["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
-            if quantity == "AverageCostEmissionsRatio" and modifier != "vessel":
+        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
+        processed_fuel.make_stacked_hist("CAC", "vessel", [])
+    
+#    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
+#    plot_scatter_violin(structured_results, "ConsumedCO2_main", "fleet")
+#    structured_results = structure_results_fuels_types("TotalCost", "fleet")
+#    plot_scatter_violin(structured_results, "TotalCost", "fleet")
+#    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
+#    plot_scatter_violin(structured_results, "TotalEquivalentWTW", "fleet")
+#    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
+#    plot_scatter_violin(structured_results, "CostTimesEmissions", "vessel")
+#    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
+#    plot_scatter_violin(structured_results, "AverageCostEmissionsRatio", "vessel")
+#    structured_results = structure_results_fuels_types("CAC", "vessel")
+#    plot_scatter_violin(structured_results, "CAC", "vessel")
+    
+    
+    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main",  "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
+        for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
+            if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
                 continue
             structured_results = structure_results_fuels_types(quantity, modifier)
             plot_scatter_violin(structured_results, quantity, modifier)
-    """
     
-    #plot_cargo_miles()
 main()

@@ -1044,7 +1044,7 @@ def add_fuel_mass(all_results_df, top_dir):
     LHV_fuel = all_results_df["Fuel"].map(lower_heating_values_read)
 
     # Get a list of all modifiers to handle
-    all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
+    all_modifiers = ["per_mile", "per_tonne_mile", "per_cbm_mile", "fleet"]
     
     # Calculate the consumed mass of each fuel based on consumed energy and LHV
     all_results_df["ConsumedMass_main"] = all_results_df["ConsumedEnergy_main"]/LHV_fuel * 1000
@@ -1110,7 +1110,7 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
 def add_resource_demands(all_results_df):
     # List of resources and modifiers
     all_resources = ["Water", "NG", "Electricity", "CO2"]
-    all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
+    all_modifiers = ["per_mile", "per_tonne_mile", "per_cbm_mile", "fleet"]
     
     # Precompute resource demand rates for each unique (fuel, pathway, resource). Note: this will need to be updated if resource demand rates become region-specific.
     unique_combinations = all_results_df[['Fuel', 'Pathway']].drop_duplicates()
@@ -1163,7 +1163,7 @@ def main():
     #all_results_df.to_csv("all_results_df_with_boiloff.csv")
     
     # Add cargo miles (both tonne-miles and m^3-miles) to the dataframe
-    #all_results_df = add_cargo_miles(all_results_df)
+    all_results_df = add_cargo_miles(all_results_df)
 
     all_results_df.to_csv("all_results_df_with_cargo_miles.csv")
 
@@ -1198,7 +1198,7 @@ def main():
     # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
     all_results_df = add_fuel_mass(all_results_df, top_dir)
 
-    # GE - adds resources demands columns
+    # GE - adds resource demands columns
     all_results_df = add_resource_demands(all_results_df)
 
     # Output all_results_df to a csv file to help with debugging

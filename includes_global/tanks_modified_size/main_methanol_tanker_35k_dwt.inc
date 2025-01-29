@@ -8,7 +8,7 @@
 
 Tank "main_methanol_tanker_35k_dwt" {
 	FuelTypes=[METHANOL]
-    Size=4982.41892013721
+    Size=4925.114228313782
 	
 	CAPEX = 215
 	OPEX = 2.15 
