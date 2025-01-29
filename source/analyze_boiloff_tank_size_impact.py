@@ -452,10 +452,13 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
 
     # Save and display the plot
     create_directory_if_not_exists(f"{get_top_dir()}/plots/{fuel}-{pathway}")
-    output_path = f"{get_top_dir()}/plots/{fuel}-{pathway}/total_cost_comparison_{fuel}_{pathway}_{modifier}.png"
-    plt.savefig(output_path, dpi=300)
+    output_path_png = f"{get_top_dir()}/plots/{fuel}-{pathway}/total_cost_comparison_{fuel}_{pathway}_{modifier}.png"
+    output_path_pdf = f"{get_top_dir()}/plots/{fuel}-{pathway}/total_cost_comparison_{fuel}_{pathway}_{modifier}.pdf"
+    plt.savefig(output_path_png, dpi=300)
+    plt.savefig(output_path_pdf)
     plt.close()
-    print(f"Plot saved at {output_path}")
+    print(f"Plot saved at {output_path_png}")
+    print(f"Plot saved at {output_path_pdf}")
     
 def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="TotalCost", modifier="per_tonne_mile"):
     """
@@ -771,10 +774,13 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
 
     # Save and display the plot
     create_directory_if_not_exists(f"{get_top_dir()}/plots/{fuel}-{pathway}")
-    output_path = f"{get_top_dir()}/plots/{fuel}-{pathway}/{vessel_type}_total_cost_comparison_{pathway}_{modifier}.png"
-    plt.savefig(output_path, dpi=300)
+    output_path_png = f"{get_top_dir()}/plots/{fuel}-{pathway}/{vessel_type}_total_cost_comparison_{fuel}_{pathway}_{modifier}.png"
+    output_path_pdf = f"{get_top_dir()}/plots/{fuel}-{pathway}/{vessel_type}_total_cost_comparison_{fuel}_{pathway}_{modifier}.pdf"
+    plt.savefig(output_path_png, dpi=300)
+    plt.savefig(output_path_pdf, dpi=300)
     plt.close()
-    print(f"Plot saved at {output_path}")
+    print(f"Plot saved at {output_path_png}")
+    print(f"Plot saved at {output_path_pdf}")
     
 def get_filename_info(
     filepath,
@@ -925,9 +931,9 @@ if __name__ == "__main__":
         print(fuel)
         pathways = get_pathways(fuel)
 
-        for pathway in pathways:
-            plot_histogram_for_vessel_types(fuel, pathway, modifier="per_tonne_mile")
-            plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile")
+        for pathway in ["BG_H_grid_E"]:#pathways:
+            #plot_histogram_for_vessel_types(fuel, pathway, modifier="per_tonne_mile")
+            #plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile")
 
             for vessel_type in VESSEL_TYPES:
                 print(vessel_type)

@@ -11,7 +11,7 @@ Vessel "bulk_carrier_handy_ice_liquid_hydrogen" {
     
     Route=Route("globalized_bulk_carrier_handy")
     
-    NominalCapacity = 35614.74542282797
+    NominalCapacity = 12688.49467271139
 
     Lifetime=25
     Finance=Finance("vessel_finance")

@@ -109,7 +109,7 @@ def plot_days_to_empty_tank(top_dir):
         idx += 1
 
     # Plot only Total Days for each vessel class
-    plt.figure(figsize=(14, 8))
+    plt.figure(figsize=(10, 6))
     for vessel_class in vessel_class_titles:
         vessel_data = all_data[all_data["Vessel Class"] == vessel_class]
         plt.plot(
@@ -130,6 +130,7 @@ def plot_days_to_empty_tank(top_dir):
     plt.tight_layout()
     create_directory_if_not_exists("plots")
     plt.savefig("plots/total_days_vs_range.png", dpi=300)
+    plt.savefig("plots/total_days_vs_range.pdf")
     
 def plot_tank_size_correction_factors(top_dir):
     # Define the parse pattern for matching filenames
@@ -215,6 +216,7 @@ def plot_tank_size_correction_factors(top_dir):
         # Adjust layout and save plot
         plt.tight_layout()
         plt.savefig(f"plots/tank_size_correction_factor_{fuel}.png", dpi=300)
+        plt.savefig(f"plots/tank_size_correction_factor_{fuel}.pdf")
         plt.close(fig)
         
 def plot_cargo_loss(top_dir):
@@ -283,7 +285,7 @@ def plot_cargo_loss(top_dir):
             vessel_data = fuel_data[fuel_data["Vessel"] == vessel_class].sort_values(by="vessel_range")
             ax1.plot(
                 vessel_data["vessel_range"],
-                -1*vessel_data["Percent volume difference (%)"],
+                vessel_data["Percent volume difference (%)"],
                 label=vessel_class_titles[vessel_class],
                 linewidth=1.5,
                 color=vessel_colors[vessel_class],
@@ -302,7 +304,7 @@ def plot_cargo_loss(top_dir):
             vessel_data = fuel_data[fuel_data["Vessel"] == vessel_class].sort_values(by="vessel_range")
             ax2.plot(
                 vessel_data["vessel_range"],
-                -1*vessel_data["Percent mass difference (%)"],
+                vessel_data["Percent mass difference (%)"],
                 label=vessel_class_titles[vessel_class],
                 linewidth=1.5,
                 color=vessel_colors[vessel_class],
@@ -317,11 +319,12 @@ def plot_cargo_loss(top_dir):
         # Adjust layout and save plot
         plt.tight_layout()
         plt.savefig(f"plots/cargo_capacity_loss_{fuel}.png", dpi=300)
+        plt.savefig(f"plots/cargo_capacity_loss_{fuel}.pdf")
         plt.close(fig)
             
 
 if __name__ == "__main__":
     top_dir = get_top_dir()
-    #plot_days_to_empty_tank(top_dir)
-    #plot_tank_size_correction_factors(top_dir)
+    plot_days_to_empty_tank(top_dir)
+    plot_tank_size_correction_factors(top_dir)
     plot_cargo_loss(top_dir)
