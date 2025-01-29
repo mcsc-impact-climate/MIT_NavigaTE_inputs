@@ -65,6 +65,7 @@ vessel_size_number = {
     "tanker_100k_dwt_ice": 3673,
     "tanker_300k_dwt_ice": 866,
     "tanker_35k_dwt_ice": 8464,
+    "gas_carrier_100k_cbm_ice": 2156,
 }
 
 # different types of fuel in categories
@@ -75,7 +76,7 @@ fuel_components = {
 }
 
 # Number of vessels of each type (from IMO 4th GHG study, Table 7)
-vessel_numbers_imo = {"bulk": 11672, "container": 5182, "tanker": 13003}
+vessel_numbers_imo = {"bulk": 11672, "container": 5182, "tanker": 13862, "gas_carrier": 1953}
 
 #parameters: file name and lsfo fuel (Low Sulphur Fuel Oil heavy fuel oils)
 def read_results(filename, fuel="lsfo"):
@@ -220,7 +221,7 @@ def energy_to_fuel_consumption_lsfo(energy_consumption_GJ):
 # Compare annual fuel consumption evaluated for each vessel type between NavigaTE and IMO
 def compare_fuel_consumption(all_results_df, fuel="lsfo"):
     # Total HFO-equivalent fuel consumption for each vessel type in thousand tonnes (from IMO 4th GHG study, Figure 5)
-    annual_fuel_consumption_imo = {"bulk": 54359, "container": 63906, "tanker": 74674}
+    annual_fuel_consumption_imo = {"bulk": 54359, "container": 63906, "tanker": 54495, "gas_carrier": 19965}
 
     columns = [
         "Vessel",
@@ -292,10 +293,10 @@ def compare_fuel_consumption(all_results_df, fuel="lsfo"):
 # Compare annual fuel consumption rate (tonnes / cargo tonne-mile) evaluated for each vessel type between NavigaTE and IMO
 def compare_fuel_consumption_rate(all_results_df, fuel="lsfo"):
     # Total HFO-equivalent fuel consumption for each vessel type in thousand tonnes (from IMO 4th GHG study, Figure 5)
-    annual_fuel_consumption_imo = {"bulk": 54359, "container": 63906, "tanker": 74674}
+    annual_fuel_consumption_imo = {"bulk": 54359, "container": 63906, "tanker": 54495, "gas_carrier": 19965}
 
     # Annual cargo miles traveled by vessel class in 2018 (million tonne-miles), from IMO 4th GHG report using option 2 (categorizing trips by journey) (Table 69)
-    annual_cargo_miles_imo_opt2 = {"bulk": 26234, "container": 13406, "tanker": 20185}
+    annual_cargo_miles_imo_opt2 = {"bulk": 26234, "container": 13406, "tanker": 16859, "gas_carrier": 3326}
 
     columns = [
         "Vessel",
@@ -362,12 +363,14 @@ def compare_ttw_emissions(all_results_df, fuel="lsfo"):
         "bulk": 7.3,
         "container": 15.3,
         "tanker": 9.7,  # Using the value for oil tanker
+        "gas_carrier": 19.5,
     }
 
     annual_ttw_emissions_imo_opt2 = {
         "bulk": 6.9,
         "container": 14.8,
         "tanker": 8.2,  # Using the value for oil tanker
+        "gas_carrier": 18.5,
     }
 
     columns = [
@@ -455,6 +458,7 @@ def compare_annual_miles(all_results_df, fuel="lsfo"):
         "tanker_100k_dwt_ice": 53429,
         "tanker_300k_dwt_ice": 72529,
         "tanker_35k_dwt_ice": 45492,
+        "gas_carrier_100k_cbm_ice": 87745.5,
     }
 
     columns = [
@@ -493,13 +497,13 @@ def compare_annual_miles(all_results_df, fuel="lsfo"):
 # Compare annual miles traveled between NavigaTE, UNCTAD and IMO
 def compare_annual_cargo_miles(all_results_df, fuel="lsfo"):
     # Annual cargo miles traveled by vessel class in 2018 (million tonne-miles), from IMO 4th GHG report using option 1 (categorizing trips by vessel) (Table 69)
-    annual_cargo_miles_imo_opt1 = {"bulk": 28464, "container": 15153, "tanker": 21817}
+    annual_cargo_miles_imo_opt1 = {"bulk": 28464, "container": 15153, "tanker": 18333, "gas_carrier": 3484}
 
     # Annual cargo miles traveled by vessel class in 2018 (million tonne-miles), from IMO 4th GHG report using option 2 (categorizing trips by journey) (Table 69)
-    annual_cargo_miles_imo_opt2 = {"bulk": 26234, "container": 13406, "tanker": 20185}
+    annual_cargo_miles_imo_opt2 = {"bulk": 26234, "container": 13406, "tanker": 16859, "gas_carrier": 3326}
 
     # Annual cargo miles traveled by vessel class in 2018 (million tonne-miles), from UNCTAD (as reported in Table 69 of IMO 4th GHG report)
-    annual_cargo_miles_unctad = {"bulk": 34193, "container": 9535, "tanker": 16686}
+    annual_cargo_miles_unctad = {"bulk": 34193, "container": 9535, "tanker": 14920, "gas_carrier": 1766}
 
     columns = [
         "Vessel",
@@ -618,6 +622,30 @@ def collect_capex_opex_navigate(top_dir):
     # Save the dataframe to csv and return
     capex_opex_df.to_csv("data/NavigaTE_CAPEX_OPEX.csv")
     return capex_opex_df
+    
+def compare_capex_opex(capex_opex_navigate):
+    capex_opex_public = pd.read_csv("data/public_CAPEX_OPEX.csv", usecols=["Vessel Type", "CAPEX (Million USD)", "OPEX (USD/day)"])
+    
+    # Rename columns to clarify their sources
+    capex_opex_navigate = capex_opex_navigate.rename(columns={"CAPEX (Million USD)": "NavigaTE CAPEX (Million USD)", "OPEX (USD/day)": "NavigaTE OPEX (USD/day)"})
+    capex_opex_public = capex_opex_public.rename(columns={"CAPEX (Million USD)": "Public CAPEX (Million USD)", "OPEX (USD/day)": "Public OPEX (USD/day)"})
+    
+    print(capex_opex_navigate)
+    print(capex_opex_public)
+    
+    # Perform a left merge to preserve rows in capex_opex_navigate
+    merged_df = capex_opex_navigate.merge(
+        capex_opex_public,
+        left_on="Vessel Name",  # Column in capex_opex_navigate
+        right_on="Vessel Type",  # Column in capex_opex_public
+        how="left"
+    )
+    merged_df.drop(columns=["Vessel Type"], inplace=True)
+    
+    merged_df["CAPEX Diff (%)"] = 100 * (merged_df["NavigaTE CAPEX (Million USD)"] - merged_df["Public CAPEX (Million USD)"]) / merged_df["Public CAPEX (Million USD)"]
+    merged_df["OPEX Diff (%)"] = 100 * (merged_df["NavigaTE OPEX (USD/day)"] - merged_df["Public OPEX (USD/day)"]) / merged_df["Public OPEX (USD/day)"]
+    
+    return merged_df
             
 
 def main():
@@ -644,5 +672,7 @@ def main():
     
     capex_opex_df = collect_capex_opex_navigate(top_dir)
 
+    capex_opex_comparison_df = compare_capex_opex(capex_opex_df)
+    print(capex_opex_comparison_df)
 
 main()
