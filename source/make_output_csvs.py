@@ -1041,7 +1041,7 @@ def add_fuel_mass(all_results_df, top_dir):
     LHV_fuel = all_results_df["Fuel"].map(lower_heating_values_read)
 
     # Get a list of all modifiers to handle
-    all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
+    all_modifiers = ["per_mile", "per_tonne_mile", "per_cbm_mile", "fleet"]
     
     # Calculate the consumed mass of each fuel based on consumed energy and LHV
     all_results_df["ConsumedMass_main"] = all_results_df["ConsumedEnergy_main"]/LHV_fuel * 1000
@@ -1107,7 +1107,7 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
 def add_resource_demands(all_results_df):
     # List of resources and modifiers
     all_resources = ["Water", "NG", "Electricity", "CO2"]
-    all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
+    all_modifiers = ["per_mile", "per_tonne_mile", "per_cbm_mile", "fleet"]
     
     # Precompute resource demand rates for each unique (fuel, pathway, resource). Note: this will need to be updated if resource demand rates become region-specific.
     unique_combinations = all_results_df[['Fuel', 'Pathway']].drop_duplicates()
