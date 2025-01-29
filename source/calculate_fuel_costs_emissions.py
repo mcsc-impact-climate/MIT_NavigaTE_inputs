@@ -36,6 +36,7 @@ H2_LTE_full_time_employed = 10 # [full-time employees] from H2A
 H2_LTE_yearly_output = 20003825 # [kg H2/year] from Aspen Plus
 H2_LTE_onsite_emissions = 0 # [kg CO2e/kg H2] zero for LTE
 
+# IS THIS DATA FROM ONE ATR PLANT OR AVERAGES?
 # Inputs for STP H2 production from autothermal reforming with 99% CO2 capture rate from Zang et al 2024 (ATR-CC-R-OC case)
 ATRCCS_prod = 20125 # [kg H2/hr] Table 6, column 5: hourly H2 production
 ATRCCS_elec = 58000 # [kW elec] Table 6, column 5: electricity consumption
@@ -53,6 +54,7 @@ H2_ATRCCS_full_time_employed = 22 # [full-time employees] from H2A
 H2_ATRCCS_yearly_output = 365*24*ATRCCS_prod # [kg H2/year] from Zang et al 2024
 H2_ATRCCS_onsite_emissions = ATRCCS_emissions/ATRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
 
+# IS THIS DATA FROM ONE SMR PLANT OR AVERAGES?
 # Inputs for STP H2 production from steam methane reforming with 96% CO2 capture rate from Zang et al 2024 (SMR-CCS case)
 SMRCCS_prod = 20125 # [kg H2/hr] Table 6, column 2: hourly H2 production
 SMRCCS_elec = 41000 # [kW elec] Table 6, column 2: electricity consumption
@@ -70,6 +72,7 @@ H2_SMRCCS_full_time_employed = 22 # [full-time employees] from H2A
 H2_SMRCCS_yearly_output = 365*24*SMRCCS_prod # [kg H2/year] from Zang et al 2024
 H2_SMRCCS_onsite_emissions = SMRCCS_emissions/SMRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
 
+# IS THIS DATA FROM ONE SMR PLANT OR AVERAGES?
 # Inputs for STP H2 production from steam methane reforming without CO2 capture from Zang et al 2024 (SMR case)
 SMR_prod = 20126 # [kg H2/hr] Table 6, column 1: hourly H2 production
 SMR_elec = 13000 # [kW elec] Table 6, column 1: electricity consumption
