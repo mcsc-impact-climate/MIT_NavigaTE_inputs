@@ -1097,7 +1097,8 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
         "Electricity": "Electricity Demand [kWh / kg fuel]",
         "NG": "NG Demand [GJ / kg fuel]",
         "Water": "Water Demand [m^3 / kg fuel]",
-        "CO2": "CO2 Demand [kg CO2 / kg fuel]"
+        "CO2": "CO2 Demand [kg CO2 / kg fuel]",
+        "LCB": "Lignocellulosic Biomass Demand [kg / kg fuel]",
     }
     try:
         resource_demand_rate = info_df[resource_column_names[resource]][info_df["Fuel Pathway"] == pathway].iloc[0]
@@ -1109,7 +1110,7 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
 @time_function
 def add_resource_demands(all_results_df):
     # List of resources and modifiers
-    all_resources = ["Water", "NG", "Electricity", "CO2"]
+    all_resources = ["Water", "NG", "Electricity", "CO2", "LCB"]
     all_modifiers = ["per_mile", "per_tonne_mile", "per_cbm_mile", "fleet"]
     
     # Precompute resource demand rates for each unique (fuel, pathway, resource). Note: this will need to be updated if resource demand rates become region-specific.
