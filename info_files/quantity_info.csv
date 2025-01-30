@@ -19,6 +19,7 @@ ConsumedCO2_main,Consumed CO2,kg,
 ConsumedNG_main,Consumed NG,GJ,
 ConsumedWater_main,Consumed water,m^3,
 ConsumedElectricity_main,Consumed electricity,kWh,
+ConsumedLCB_main,Consumed ligno biomass,kg,
 ConsumedMass_main,Consumed mass,kg,
 CbmMiles_lsfo,Cargo-miles Carried (LSFO),m^3-nm,Cargo-miles (in m^3-miles) carried by an LSFO vessel
 CbmMiles,Cargo-miles Carried,m^3-nm,Cargo-miles (in m^3-miles) carried with the given fuel

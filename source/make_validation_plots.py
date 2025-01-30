@@ -2056,15 +2056,17 @@ def main():
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
 # -----------------------------------------------------------------------------#
-   
+    
     # Loop through all fuels of interest
     for fuel in ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol", "FTdiesel"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
 
-         Make validation plots for each fuel, pathway and quantity
+
+#         Make validation plots for each fuel, pathway and quantity
         processed_fuel.make_all_hists_by_region()
         processed_fuel.map_all_by_region()
         processed_fuel.make_all_stacked_hists()
+    
 #        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
@@ -2073,6 +2075,8 @@ def main():
     
 #    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
 #    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
 #    structured_results = structure_results_fuels_types("TotalCost", "fleet")
 #    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
 #    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
@@ -2084,8 +2088,8 @@ def main():
 #    structured_results = structure_results_fuels_types("CAC", "vessel")
 #    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
     
-    
-    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
+
+    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "ConsumedLCB_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
         for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
             if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
                 continue
@@ -2094,5 +2098,6 @@ def main():
                 plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="bar")
             else:
                 plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
-    
+
+
 main()
