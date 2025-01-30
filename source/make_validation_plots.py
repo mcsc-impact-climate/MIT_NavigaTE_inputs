@@ -12,6 +12,7 @@ import matplotlib.colors as mcolors
 import re
 import os
 import geopandas as gpd
+import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from parse import parse
@@ -1801,9 +1802,9 @@ def structure_results_fuels_types(
     return results_fuels_types
 
 
-def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 10)):
+def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 10), overlay_type='bar'):
     """
-    Plot the data from a dictionary as horizontal scatterplots with optional overlayed violin plots.
+    Plot the data from a dictionary as horizontal scatterplots overlaid on either bars extending to the mean value or violin plots.
 
     Parameters
     ----------
@@ -1812,6 +1813,8 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
         and values are dictionaries with subcategories (e.g., 'green', 'blue', 'grey') containing lists of float values.
     plot_size: tuple, optional
         Size of the plot (default: (12, 6)).
+    overlay_type: str, optional
+        Type of plot to overlay ('bar' for bars extending to mean value, 'violin' for violin plots). Default is 'bar'.
 
     Returns
     -------
@@ -1820,24 +1823,33 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
     fig, ax = plt.subplots(figsize=plot_size)
     
     y_base = 0
-    y_tick_positions = []  # This will store the y positions for the tick labels on the left side
-    y_tick_labels = []  # This will store the corresponding labels for the ticks on the left side
-
-    y_tick_positions_right = []  # This will store the y positions for the tick labels on the right side
-    y_tick_labels_right = []  # This will store the corresponding labels for the ticks on the right side
-    y_tick_colors_right = []  # This will store the colors for the right-side tick labels
+    y_tick_positions = []  # Y positions for left-side labels
+    y_tick_labels = []  # Left-side tick labels
+    y_tick_positions_right = []  # Y positions for right-side labels
+    y_tick_labels_right = []  # Right-side tick labels
+    y_tick_colors_right = []  # Colors for right-side labels
 
     n_fuels = len(structured_results.keys())
     i_fuel = 0
     for fuel in structured_results.keys():
-        n_pathway_types = 0  # Keep track of how many pathway types are present for this fuel
+        n_pathway_types = 0  # Track number of pathway types per fuel
 
-        for i, pathway_type in enumerate(structured_results[fuel]):
+        for pathway_type in structured_results[fuel]:
             values = structured_results[fuel][pathway_type]
             y_value = y_base + n_pathway_types
+            mean_value = np.mean(values) if values else 0
 
-            # Plot the violin plot using Matplotlib's violinplot directly
-            if len(values) > 1:
+            if overlay_type == 'bar':
+                # Plot the bar extending to the mean value
+                ax.barh(
+                    y_value,
+                    mean_value,
+                    color=get_pathway_type_color(pathway_type),
+                    alpha=0.3,
+                    height=0.5
+                )
+            elif overlay_type == 'violin' and len(values) > 1:
+                # Plot the violin plot
                 parts = ax.violinplot(
                     values,
                     positions=[y_value],
@@ -1856,6 +1868,7 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
                 [y_value] * len(values),
                 color=get_pathway_type_color(pathway_type),
                 edgecolor="black",
+                zorder=3
             )
 
             # Add right-side labels
@@ -1865,22 +1878,22 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
 
             n_pathway_types += 1
 
-        # Store the position of the tick for this fuel, centered among its subcategories on the left side
+        # Center the fuel label among its subcategories
         y_tick_positions.append(y_base + (n_pathway_types - 1) / 2)
         y_tick_labels.append(get_fuel_label(fuel))
 
-        # Update y_base to the next starting position for the next fuel
-        y_base += n_pathway_types + 1  # Add 1 for spacing between different fuels
+        # Update y_base for next fuel
+        y_base += n_pathway_types + 1  # Space between fuels
 
         # Add a horizontal line to separate different fuels
         i_fuel += 1
-        if not i_fuel == n_fuels:
+        if i_fuel != n_fuels:
             ax.axhline(y=y_base - 1, color="black", linewidth=2)
 
-    # Add a vertical line for LSFO
+    # Add a vertical line for LSFO reference
     ax.axvline(structured_results["lsfo"]["grey"], ls="--", color="grey")
 
-    # Set y-ticks with calculated positions and corresponding labels on the left side
+    # Set y-ticks with labels on the left side
     ax.set_yticks(y_tick_positions)
     ax.set_yticklabels(y_tick_labels)
 
@@ -1888,28 +1901,28 @@ def plot_scatter_violin(structured_results, quantity, modifier, plot_size=(12, 1
     ax_right = ax.twinx()
     ax_right.set_yticks(y_tick_positions_right)
     ax_right.set_yticklabels(y_tick_labels_right)
+    ax_right.set_ylim(ax.get_ylim())  # Match left axis limits
 
-    # Set identical limits for both y-axes
-    ax.set_ylim(ax.get_ylim())  # Lock the left axis limits
-    ax_right.set_ylim(ax.get_ylim())  # Set the right axis limits to match the left
-
-    # Color the right-side y-axis labels
+    # Color right-side labels
     for tick_label, color in zip(ax_right.get_yticklabels(), y_tick_colors_right):
         tick_label.set_color(color)
 
+    # Set axis labels
     quantity_label = get_quantity_label(quantity)
     units = get_units(quantity, modifier)
-    if units is None:
-        ax.set_xlabel(f"{quantity_label}", fontsize=22)
-    else:
-        ax.set_xlabel(f"{quantity_label} ({units})", fontsize=22)
+    xlabel = f"{quantity_label} ({units})" if units else f"{quantity_label}"
+    ax.set_xlabel(xlabel, fontsize=22)
+    
     plt.subplots_adjust(left=0.2, right=0.75)
     plt.tight_layout()
-    create_directory_if_not_exists(f"{top_dir}/plots/scatter_violin")
-    filepath_save = f"{top_dir}/plots/scatter_violin/{quantity}-{modifier}.png"
-    filepath_save_log = f"{top_dir}/plots/scatter_violin/{quantity}-{modifier}_logx.png"
+    
+    # Save plots
+    create_directory_if_not_exists(f"{top_dir}/plots/scatter_overlay")
+    filepath_save = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}.png"
+    filepath_save_log = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}_logx.png"
     print(f"Saving figure to {filepath_save}")
     plt.savefig(filepath_save, dpi=200)
+    
     ax.set_xscale("log")
     print(f"Saving figure to {filepath_save_log}")
     plt.savefig(filepath_save_log, dpi=200)
@@ -2052,31 +2065,34 @@ def main():
         processed_fuel.make_all_hists_by_region()
         processed_fuel.map_all_by_region()
         processed_fuel.make_all_stacked_hists()
-        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
-        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
-        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
-        processed_fuel.make_stacked_hist("CAC", "vessel", [])
+#        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+#        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+#        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
+#        processed_fuel.make_stacked_hist("CAC", "vessel", [])
     
-#    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
-#    plot_scatter_violin(structured_results, "ConsumedCO2_main", "fleet")
+#    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
 #    structured_results = structure_results_fuels_types("TotalCost", "fleet")
-#    plot_scatter_violin(structured_results, "TotalCost", "fleet")
+#    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
 #    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
-#    plot_scatter_violin(structured_results, "TotalEquivalentWTW", "fleet")
+#    plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
 #    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
-#    plot_scatter_violin(structured_results, "CostTimesEmissions", "vessel")
+#    plot_scatter_overlay(structured_results, "CostTimesEmissions", "vessel", overlay_type="violin")
 #    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
-#    plot_scatter_violin(structured_results, "AverageCostEmissionsRatio", "vessel")
+#    plot_scatter_overlay(structured_results, "AverageCostEmissionsRatio", "vessel", overlay_type="violin")
 #    structured_results = structure_results_fuels_types("CAC", "vessel")
-#    plot_scatter_violin(structured_results, "CAC", "vessel")
+#    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
     
     
-    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main",  "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
+    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
         for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
             if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
                 continue
             structured_results = structure_results_fuels_types(quantity, modifier)
-            plot_scatter_violin(structured_results, quantity, modifier)
+            if "_main" in quantity:
+                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="bar")
+            else:
+                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
     
 main()
