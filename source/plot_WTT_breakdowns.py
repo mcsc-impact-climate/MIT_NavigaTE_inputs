@@ -79,8 +79,8 @@ fuel_pathways = {
     "e-hydrogen (compressed)": ["LTE_H_grid_E", "LTE_H_nuke_E", "LTE_H_renewable_E"],
     "e-ammonia": ["LTE_H_grid_E", "LTE_H_nuke_E", "LTE_H_renewable_E"],
     "Blue ammonia": ["SMRCCS_H_renewable_E", "SMRCCS_H_nuke_E", "SMRCCS_H_grid_E"],
-    "e-methanol": ["LTE_H_SMR_C_grid_E", "LTE_H_SMR_C_nuke_E", "LTE_H_SMR_C_renewable_E", "LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_renewable_E", "LTE_H_SMRCCS_C_nuke_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_renewable_E", "LTE_H_BEC_C_nuke_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_renewable_E", "LTE_H_DAC_C_nuke_E"],
-    "e-diesel": ["LTE_H_SMR_C_grid_E", "LTE_H_SMR_C_nuke_E", "LTE_H_SMR_C_renewable_E", "LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_renewable_E", "LTE_H_SMRCCS_C_nuke_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_renewable_E", "LTE_H_BEC_C_nuke_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_renewable_E", "LTE_H_DAC_C_nuke_E"],
+    "e-methanol": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_renewable_E", "LTE_H_SMRCCS_C_nuke_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_renewable_E", "LTE_H_BEC_C_nuke_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_renewable_E", "LTE_H_DAC_C_nuke_E"],
+    "e-diesel": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_renewable_E", "LTE_H_SMRCCS_C_nuke_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_renewable_E", "LTE_H_BEC_C_nuke_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_renewable_E", "LTE_H_DAC_C_nuke_E"],
 }
 
 fuel_fuels = {
@@ -184,7 +184,7 @@ class PathwayWTT:
         }
         
         if continent == "all":
-            pathway_data_df = self.pathway_data_df[pathway_data_df].copy()
+            pathway_data_df = self.pathway_data_df.copy()
         else:
             regions = continent_regions[continent]
             pathway_data_df = self.pathway_data_df[self.pathway_data_df["Region"].isin(regions)]
@@ -368,27 +368,34 @@ class FuelWTT:
 
     def make_stacked_hist(self, quantity="cost"):
         """
-        Makes a histogram of emissions or cost stages respect to the available fuel production pathways.
+        Makes a histogram of emissions or cost stages with fuel pathways grouped by color.
 
         Parameters
         ----------
         quantity : str
-            Indicates which quantity we're considering (currently either cost or emissions)
+            Indicates which quantity we're considering (either cost or emissions)
 
         Returns
         -------
         None
         """
-        
-        if not (quantity == "cost" or quantity == "emissions"):
-            raise Exception("Error: supplied quantity must be either cost or emissions")
+
+        if quantity not in {"cost", "emissions"}:
+            raise ValueError("Error: supplied quantity must be either 'cost' or 'emissions'")
 
         num_pathways = len(self.pathways)
         fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
 
         fig, ax = plt.subplots(figsize=(20, fig_height))
 
-        # Create an empty dictionary to hold the cumulative values for stacking
+        # Sort pathways by their associated color
+        sorted_pathways = sorted(
+            self.pathways,
+            key=lambda p: get_pathway_type_color(get_pathway_type(p))
+        )
+
+        y_positions = np.arange(len(sorted_pathways))  # Assign new y-positions
+
         cumulative_values = {}
         cumulative_values_negative = {}
 
@@ -396,12 +403,12 @@ class FuelWTT:
         scatter_labels = []  # To collect scatter plot legend labels
         bar_handles = []  # To collect bar plot legend handles
         bar_labels = []  # To collect bar plot legend labels
-        
-        # Add a vertical line at 0
+
         ax.axvline(0, color="black")
-        def plot_bar(pathway_wtt, pathway_name, pathway_label):
+
+        def plot_bar(pathway_wtt, pathway_name, pathway_label, y_pos):
             """
-            Plots a single bar for a given pathway
+            Plots a single bar for a given pathway.
 
             Parameters
             ----------
@@ -412,30 +419,29 @@ class FuelWTT:
                 Name of the pathway
 
             pathway_label : str
-                Name of the pathway to use for labels when plotting
+                Label for the pathway
+
+            y_pos : float
+                Adjusted y position for plotting based on sorting
 
             Returns
             -------
             None
             """
-            # Initialize cumulative positive and negative values for this pathway
             if pathway_name not in cumulative_values:
                 cumulative_values[pathway_name] = 0
                 cumulative_values_negative[pathway_name] = 0
 
-            # Collect the info for the bar and all cumulative results for the given pathway
             bar_info = pathway_wtt.make_bar(quantity)
 
-            # Collect all results for the given pathway, summed over all stages
             all_summed_results = pathway_wtt.get_all_summed_results(quantity)
-            
-            # Get the values for each sub_quantity and stack them
+
             for i in range(len(bar_info["data"])):
                 value = bar_info["data"][i]
-                
+
                 if value >= 0:
                     bar = ax.barh(
-                        pathway_label,
+                        y_pos,
                         value,
                         left=cumulative_values[pathway_name],
                         label=bar_info["label"][i],
@@ -446,7 +452,7 @@ class FuelWTT:
                     cumulative_values[pathway_name] += value
                 else:
                     bar = ax.barh(
-                        pathway_label,
+                        y_pos,
                         value,
                         left=cumulative_values_negative[pathway_name],
                         label=bar_info["label"][i],
@@ -456,74 +462,47 @@ class FuelWTT:
                     )
                     cumulative_values_negative[pathway_name] += value
 
-                # Add the bar handles and labels only once
                 if i_pathway == 0:
                     bar_handles.append(bar[0])
                     bar_labels.append(bar_info["label"][i])
-                    
-                # Get the current y-tick labels and positions (categories)
-                yticks = ax.get_yticks()
-                yticklabels = [tick.get_text() for tick in ax.get_yticklabels()]
 
-                # Find the numeric y-position for the current pathway label
-                y_pos = yticks[yticklabels.index(pathway_label)]
+            scatter = ax.scatter(
+                all_summed_results[quantity],
+                y_pos * np.ones(len(all_summed_results[quantity])),
+                color="black",
+                s=50,
+                marker="o",
+                zorder=100,
+            )
 
-                # Plot the individual region results as a scatter plot
-                scatter = ax.scatter(
-                    all_summed_results[quantity],
-                    y_pos*np.ones(len(all_summed_results[quantity])),
-                    color="black",  # region_colors[region],
-                    s=50,
-                    marker="o",
-                    zorder=100,
-                )
-                            
             if i_pathway == 0:
                 scatter_handles.append(scatter)
                 scatter_labels.append("Individual Countries")
 
-            # If there are negative values, draw a gray vertical bar at the cumulative sum position
-            if cumulative_values_negative[pathway_name] and cumulative_values[pathway_name]:
-                bar_width = cumulative_values[pathway_name] + cumulative_values_negative[pathway_name]  # Get the total width of the bar
-                bar_height = bar[0].get_height()  # Get the height of the horizontal bar
-                y_center = bar[0].get_y() + bar_height / 2  # Calculate the center of the bar
-
-                ax.plot(
-                    [bar_width, bar_width],  # x coordinates (vertical line)
-                    [y_center - bar_height * 0.4, y_center + bar_height * 0.4],  # y coordinates
-                    color='gray',
-                    linewidth=5,
-                    label="Sum" if i_pathway==0 else ""
-                )
-            # Set the y-axis label color to match the pathway type
-            y_labels = ax.get_yticklabels()
-            pathway_type = get_pathway_type(pathway_name)
-            if i_pathway < len(y_labels):
-                y_labels[i_pathway].set_color(get_pathway_type_color(pathway_type))
-                y_labels[i_pathway].set_fontweight("bold")
-                
-
-        # Loop through each color and pathway
+        # Loop through each sorted pathway and assign colors to labels
         i_pathway = 0
-        for pathway_name in self.pathways:
+        for pathway_name, y_pos in zip(sorted_pathways, y_positions):
             pathway_wtt = PathwayWTT(self.fuel, pathway_name, self.cost_emissions_df)
             pathway_label = pathway_wtt.pathway_label
-
-            plot_bar(pathway_wtt, pathway_name, pathway_label)
-
+            plot_bar(pathway_wtt, pathway_name, pathway_label, y_pos)
             i_pathway += 1
 
-        # Add labels and title
-        if quantity == "cost":
-            quantity_label = "WTT Cost"
-            quantity_units = "USD/tonne"
-        if quantity == "emissions":
-            quantity_label = "WTT Emissions"
-            quantity_units = "kg CO2e / kg fuel"
+        # Set y-axis labels **after all bars have been plotted**
+        ax.set_yticks(y_positions)
+        ax.set_yticklabels([get_pathway_label(p) for p in sorted_pathways], fontsize=18)
+
+        # Apply colors to y-axis labels
+        y_labels = ax.get_yticklabels()
+        for idx, pathway_name in enumerate(sorted_pathways):
+            pathway_type = get_pathway_type(pathway_name)
+            y_labels[idx].set_color(get_pathway_type_color(pathway_type))
+            y_labels[idx].set_fontweight("bold")
+
+        quantity_label = "WTT Cost" if quantity == "cost" else "WTT Emissions"
+        quantity_units = "USD/tonne" if quantity == "cost" else "kg CO2e / kg fuel"
         ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
         ax.set_title(f"Fuel: {self.fuel_label}", fontsize=24)
 
-        # Add a legend for the stacked bar components (sub-quantities)
         if bar_handles:
             legend1 = ax.legend(
                 bar_handles,
@@ -536,7 +515,6 @@ class FuelWTT:
                 borderaxespad=0.0,
             )
 
-        # Add a separate legend for countries
         if scatter_handles:
             ax.legend(
                 scatter_handles,
@@ -549,17 +527,12 @@ class FuelWTT:
                 borderaxespad=0.0,
             )
 
-        # Add the bar component legend back after the region legend if both legends are present
-        if bar_handles and scatter_handles:
             ax.add_artist(legend1)
 
-        # If quantity is cost, add the legend for OpEx (no hatch) and CapEx (hatch)
         if quantity == "cost":
-            # Create custom patches for OpEx and CapEx
             op_ex_patch = Patch(facecolor='white', edgecolor='black', label='OpEx')
             cap_ex_patch = Patch(facecolor='white', edgecolor='black', hatch='xxx', label='CapEx')
 
-            # Add the OpEx and CapEx legend
             ax.legend(
                 handles=[op_ex_patch, cap_ex_patch],
                 fontsize=16,
@@ -572,10 +545,7 @@ class FuelWTT:
 
         plt.subplots_adjust(left=0.25, right=0.8)
 
-        # Construct the filename to save to
         filename_save = f"{self.fuel}-{quantity}-WTT_hist"
-
-        # Save the figure
         top_dir = get_top_dir()
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
@@ -867,14 +837,14 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
 
 def main():
     
-#    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel"]:
-#        fuel_wtt = FuelWTT(fuel)
-#        fuel_wtt.make_stacked_hist("emissions")
-#        fuel_wtt.make_stacked_hist("cost")
+    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel"]:
+        fuel_wtt = FuelWTT(fuel)
+        fuel_wtt.make_stacked_hist("emissions")
+        fuel_wtt.make_stacked_hist("cost")
 
-    for MMMCZCS_fuel in fuel_pathways.keys():
-        for continent in continent_regions.keys():
-            make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, "cost")
+#    for MMMCZCS_fuel in fuel_pathways.keys():
+#        for continent in continent_regions.keys():
+#            make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, "cost")
 
 main()
 
