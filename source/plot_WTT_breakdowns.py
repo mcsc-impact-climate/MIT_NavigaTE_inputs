@@ -1,7 +1,7 @@
 """
 Date: Sept 3, 2024
 Author: danikam
-Purpose: Plots WTT cost and emission breakdowns for each fuel
+Purpose: Plots WTG cost and emission breakdowns for each fuel
 """
 
 from common_tools import get_top_dir, get_pathway_type, get_pathway_type_color, get_pathway_type_label, get_pathway_label, get_fuel_label, create_directory_if_not_exists
@@ -18,10 +18,10 @@ matplotlib.rc("ytick", labelsize=18)
 
 # Python dictionary containing paths to files to read in for production and processing data for each fuel
 # Note: File paths are provided relative to the top level of the git repo
-WTT_input_files = {
+WTG_input_files = {
     "ammonia": {
         "Production": {
-            "Hydrogen Production": "input_fuel_pathway_data/production/hydrogen_costs_emissions.csv",
+            "H Production": "input_fuel_pathway_data/production/hydrogen_costs_emissions.csv",
         },
         "Process": {
             "H-NH3 Conversion": "input_fuel_pathway_data/process/hydrogen_to_ammonia_conversion_costs_emissions.csv",
@@ -29,18 +29,18 @@ WTT_input_files = {
     },
     "compressed_hydrogen": {
         "Production": {
-            "Hydrogen Production": "input_fuel_pathway_data/production/hydrogen_costs_emissions.csv",
+            "H Production": "input_fuel_pathway_data/production/hydrogen_costs_emissions.csv",
         },
         "Process": {
-            "Hydrogen Compression": "input_fuel_pathway_data/process/hydrogen_compression_costs_emissions.csv",
+            "H Compression": "input_fuel_pathway_data/process/hydrogen_compression_costs_emissions.csv",
         },
     },
     "liquid_hydrogen": {
         "Production": {
-            "Hydrogen Production": "input_fuel_pathway_data/production/hydrogen_costs_emissions.csv",
+            "H Production": "input_fuel_pathway_data/production/hydrogen_costs_emissions.csv",
         },
         "Process": {
-            "Hydrogen Liquefaction": "input_fuel_pathway_data/process/hydrogen_liquefaction_costs_emissions.csv",
+            "H Liquefaction": "input_fuel_pathway_data/process/hydrogen_liquefaction_costs_emissions.csv",
         },
     },
     "FTdiesel": {
@@ -51,19 +51,19 @@ WTT_input_files = {
     },
     "methanol": {
         "Production": {
-            "Methanol Production": "input_fuel_pathway_data/production/methanol_costs_emissions.csv"
+            "MeOH Production": "input_fuel_pathway_data/production/methanol_costs_emissions.csv"
         },
         "Process": {},
     },
 }
 
 stage_colors = {
-    "Hydrogen Production": "gold",
+    "H Production": "gold",
     "F-T Diesel Production": "gold",
-    "Methanol Production": "gold",
+    "MeOH Production": "gold",
     "H-NH3 Conversion": "turquoise",
-    "Hydrogen Compression": "orangered",
-    "Hydrogen Liquefaction": "orchid",
+    "H Compression": "orangered",
+    "H Liquefaction": "orchid",
 }
 
 continent_regions = {
@@ -92,9 +92,9 @@ fuel_fuels = {
     "e-diesel": "FTdiesel",
 }
     
-class PathwayWTT:
+class PathwayWTG:
     """
-    A class to contain results and functions for WTT costs and emissions for a given fuel and production pathway. Each fuel pathway result is read in from csv files produced by calculate_fuel_costs_emissions.py.
+    A class to contain results and functions for WTG costs and emissions for a given fuel and production pathway. Each fuel pathway result is read in from csv files produced by calculate_fuel_costs_emissions.py.
     
     Attributes
     ----------
@@ -108,7 +108,7 @@ class PathwayWTT:
         Name of the production pathway, as it's saved in the name of the input csv file
     
     pathway_data_df : pandas.DataFrame
-        Dataframe containing the WTT costs and emissions for the given pathway
+        Dataframe containing the WTG costs and emissions for the given pathway
         
     cost_bar_dict : Dictionary
         Dictionary with the contents of a cost bar to be plotted for the given pathway
@@ -134,12 +134,12 @@ class PathwayWTT:
         Parameters
         ----------
         data_df : pandas.DataFrame
-            Dataframe containing the WTT costs and emissions for all production pathways and regions for the given fuel
+            Dataframe containing the WTG costs and emissions for all production pathways and regions for the given fuel
 
         Returns
         -------
         pathway_data_df : pandas.DataFrame
-            Dataframe containing the WTT costs and emissions for the given pathway
+            Dataframe containing the WTG costs and emissions for the given pathway
         """
         return data_df[data_df["Pathway Name"] == self.pathway]
         
@@ -157,7 +157,7 @@ class PathwayWTT:
             List of distinct stages for which costs and emissions are quantified
         """
         
-        return list(WTT_input_files[self.fuel]["Production"].keys()) + list(WTT_input_files[self.fuel]["Process"].keys())
+        return list(WTG_input_files[self.fuel]["Production"].keys()) + list(WTG_input_files[self.fuel]["Process"].keys())
         
     def make_bar(self, quantity, continent="all"):
         """
@@ -249,9 +249,9 @@ class PathwayWTT:
             summed_result_arr = summed_result_arr[summed_result_arr["Region"].isin(regions)]
         return summed_result_arr
             
-class FuelWTT:
+class FuelWTG:
     """
-    A class to contain results and functions for WTT costs and emissions for a given fuel.
+    A class to contain results and functions for WTG costs and emissions for a given fuel.
     
     Attributes
     ----------
@@ -262,7 +262,7 @@ class FuelWTT:
         List of all pathways for the given fuel
     
     cost_emissions_df : pandas.DataFrame
-        Pandas dataframe containing the breakdown of costs and emissions for all WTT stages for the given fuel
+        Pandas dataframe containing the breakdown of costs and emissions for all WTG stages for the given fuel
     """
     
     def __init__(self, fuel):
@@ -298,7 +298,7 @@ class FuelWTT:
         Returns
         -------
         costs_emissions_df : pandas DataFrame
-            Pandas dataframe containing the breakdown of WTT costs (CapEx and OpEx) and emissions by fuel production and process stage
+            Pandas dataframe containing the breakdown of WTG costs (CapEx and OpEx) and emissions by fuel production and process stage
         """
         
         i_stage=0
@@ -343,8 +343,8 @@ class FuelWTT:
             return stage_data_df
         
         # First, collect the costs and emissions associated with production (these can be distinct for each production pathway)
-        for production_stage in WTT_input_files[self.fuel]["Production"]:
-            filepath_stage = WTT_input_files[self.fuel]["Production"][production_stage]
+        for production_stage in WTG_input_files[self.fuel]["Production"]:
+            filepath_stage = WTG_input_files[self.fuel]["Production"][production_stage]
             stage_data_df = collect_stage_data(filepath_stage, production_stage, "Production")
             
             # Either initialize or merge the production process dataframes, depending on whether we've already read one in
@@ -356,8 +356,8 @@ class FuelWTT:
             i_stage += 1
         
         # Next, collect the costs and emissions associated with fuel processing (these can be distinct for each electricity source)
-        for process_stage in WTT_input_files[self.fuel]["Process"]:
-            filepath_stage = WTT_input_files[self.fuel]["Process"][process_stage]
+        for process_stage in WTG_input_files[self.fuel]["Process"]:
+            filepath_stage = WTG_input_files[self.fuel]["Process"][process_stage]
             stage_data_df = collect_stage_data(filepath_stage, process_stage, "Process")
             
             # Add columns with the costs and emissions for this process stage to the existing dataframe
@@ -412,8 +412,8 @@ class FuelWTT:
 
             Parameters
             ----------
-            pathway_wtt : PathwayWTT
-                PathwayWTT class instance containing the info to plot
+            pathway_wtt : PathwayWTG
+                PathwayWTG class instance containing the info to plot
 
             pathway_name : str
                 Name of the pathway
@@ -482,7 +482,7 @@ class FuelWTT:
         # Loop through each sorted pathway and assign colors to labels
         i_pathway = 0
         for pathway_name, y_pos in zip(sorted_pathways, y_positions):
-            pathway_wtt = PathwayWTT(self.fuel, pathway_name, self.cost_emissions_df)
+            pathway_wtt = PathwayWTG(self.fuel, pathway_name, self.cost_emissions_df)
             pathway_label = pathway_wtt.pathway_label
             plot_bar(pathway_wtt, pathway_name, pathway_label, y_pos)
             i_pathway += 1
@@ -498,18 +498,18 @@ class FuelWTT:
             y_labels[idx].set_color(get_pathway_type_color(pathway_type))
             y_labels[idx].set_fontweight("bold")
 
-        quantity_label = "WTT Cost" if quantity == "cost" else "WTT Emissions"
+        quantity_label = "WTG Cost" if quantity == "cost" else "WTG Emissions"
         quantity_units = "USD/tonne" if quantity == "cost" else "kg CO2e / kg fuel"
-        ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
-        ax.set_title(f"Fuel: {self.fuel_label}", fontsize=24)
+        ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=24)
+        ax.set_title(f"Fuel: {self.fuel_label}", fontsize=28)
 
         if bar_handles:
             legend1 = ax.legend(
                 bar_handles,
                 bar_labels,
-                fontsize=16,
+                fontsize=20,
                 title="Components",
-                title_fontsize=20,
+                title_fontsize=22,
                 bbox_to_anchor=(1.01, 0.8),
                 loc="upper left",
                 borderaxespad=0.0,
@@ -519,9 +519,9 @@ class FuelWTT:
             ax.legend(
                 scatter_handles,
                 scatter_labels,
-                fontsize=16,
+                fontsize=20,
                 title="Individual Countries",
-                title_fontsize=20,
+                title_fontsize=22,
                 bbox_to_anchor=(1.01, 0.35),
                 loc="center left",
                 borderaxespad=0.0,
@@ -535,22 +535,26 @@ class FuelWTT:
 
             ax.legend(
                 handles=[op_ex_patch, cap_ex_patch],
-                fontsize=16,
+                fontsize=20,
                 title="Cost Types",
-                title_fontsize=20,
+                title_fontsize=22,
                 bbox_to_anchor=(1.01, 0.35),
                 loc="center left",
                 borderaxespad=0.0,
             )
 
-        plt.subplots_adjust(left=0.25, right=0.8)
+        ax.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
+        plt.tight_layout()
+        plt.subplots_adjust(left=0.27, right=0.8)
 
-        filename_save = f"{self.fuel}-{quantity}-WTT_hist"
+        filename_save = f"{self.fuel}-{quantity}-WTG_hist"
         top_dir = get_top_dir()
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
+        filepath_save_pdf = f"{top_dir}/plots/{self.fuel}/{filename_save}.pdf"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
+        plt.savefig(filepath_save_pdf)
         plt.close()
         
 def get_MMMCZCS_fuel_cost(MMMCZCS_fuel, year, continent):
@@ -587,7 +591,7 @@ def get_MMMCZCS_fuel_cost(MMMCZCS_fuel, year, continent):
         
 def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
     """
-    For a given fuel defined in the MMMCZCS fuel cost calculator tool (https://www.zerocarbonshipping.com/cost-calculator), make a stacked horizontal histogram of our internally-calculated WTT costs, with one bar per region and pathway
+    For a given fuel defined in the MMMCZCS fuel cost calculator tool (https://www.zerocarbonshipping.com/cost-calculator), make a stacked horizontal histogram of our internally-calculated WTG costs, with one bar per region and pathway
     
     Parameters
     ----------
@@ -605,7 +609,7 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
     None
     """
     
-    fuel_wtt = FuelWTT(fuel_fuels[MMMCZCS_fuel])
+    fuel_wtt = FuelWTG(fuel_fuels[MMMCZCS_fuel])
     regions = continent_regions[continent]
     
     # Create a mapping of pathway to color
@@ -641,8 +645,8 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
 
         Parameters
         ----------
-        pathway_wtt : PathwayWTT
-            PathwayWTT class instance containing the info to plot
+        pathway_wtt : PathwayWTG
+            PathwayWTG class instance containing the info to plot
 
         pathway_name : str
             Name of the pathway
@@ -745,7 +749,7 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
     # Loop through each pathway and region
     i_pathway = 0
     for pathway_name in sorted_pathways:
-        pathway_wtt = PathwayWTT(fuel_wtt.fuel, pathway_name, fuel_wtt.cost_emissions_df)
+        pathway_wtt = PathwayWTG(fuel_wtt.fuel, pathway_name, fuel_wtt.cost_emissions_df)
         pathway_label = pathway_wtt.pathway_label
 
         plot_bar(pathway_wtt, pathway_name, pathway_label)
@@ -764,10 +768,10 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
         
     # Add labels and title
     if quantity == "cost":
-        quantity_label = "WTT Cost"
+        quantity_label = "WTG Cost"
         quantity_units = "USD/tonne"
     if quantity == "emissions":
-        quantity_label = "WTT Emissions"
+        quantity_label = "WTG Emissions"
         quantity_units = "kg CO2e / kg fuel"
     ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
     ax.set_title(f"{MMMCZCS_fuel} ({continent})", fontsize=24)
@@ -777,9 +781,9 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
         legend1 = ax.legend(
             bar_handles,
             bar_labels,
-            fontsize=16,
+            fontsize=20,
             title="Components",
-            title_fontsize=20,
+            title_fontsize=22,
             bbox_to_anchor=(1.01, 0.8),
             loc="upper left",
             borderaxespad=0.0,
@@ -825,7 +829,7 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
     # Construct the filename to save to
     MMMCZCS_fuel_save = MMMCZCS_fuel.replace(" ", "_").replace("(", "").replace(")", "")
     continent_save = continent.replace(" ", "")
-    filename_save = f"{MMMCZCS_fuel_save}-{continent_save}-{quantity}-WTT_hist"
+    filename_save = f"{MMMCZCS_fuel_save}-{continent_save}-{quantity}-WTG_hist"
 
     # Save the figure
     top_dir = get_top_dir()
@@ -838,7 +842,7 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
 def main():
     
     for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel"]:
-        fuel_wtt = FuelWTT(fuel)
+        fuel_wtt = FuelWTG(fuel)
         fuel_wtt.make_stacked_hist("emissions")
         fuel_wtt.make_stacked_hist("cost")
 
