@@ -733,6 +733,9 @@ class ProcessedQuantity:
         filepath_save = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{filename_save}.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
+        filepath_save_pdf = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{filename_save}.pdf"
+        print(f"Saving figure to {filepath_save_pdf}")
+        plt.savefig(filepath_save_pdf)
         plt.close()
 
     def make_all_hists_by_region(self):
@@ -1584,12 +1587,15 @@ class ProcessedFuel:
         # Save the figure
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
-        filepath_save_log = f"{top_dir}/plots/{self.fuel}/{filename_save}_logx.png"
+        filepath_save_pdf = f"{top_dir}/plots/{self.fuel}/{filename_save}.pdf"
+        #filepath_save_log = f"{top_dir}/plots/{self.fuel}/{filename_save}_logx.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
-        ax.set_xscale("log")
-        print(f"Saving figure to {filepath_save_log}")
-        plt.savefig(filepath_save_log, dpi=200)
+        print(f"Saving figure to {filepath_save_pdf}")
+        plt.savefig(filepath_save_pdf, dpi=200)
+#        ax.set_xscale("log")
+#        print(f"Saving figure to {filepath_save_log}")
+#        plt.savefig(filepath_save_log, dpi=200)
         plt.close()
 
     def make_all_stacked_hists(
@@ -1919,13 +1925,17 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     # Save plots
     create_directory_if_not_exists(f"{top_dir}/plots/scatter_overlay")
     filepath_save = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}.png"
-    filepath_save_log = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}_logx.png"
     print(f"Saving figure to {filepath_save}")
     plt.savefig(filepath_save, dpi=200)
     
-    ax.set_xscale("log")
-    print(f"Saving figure to {filepath_save_log}")
-    plt.savefig(filepath_save_log, dpi=200)
+    filepath_save_pdf = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}.pdf"
+    print(f"Saving figure to {filepath_save_pdf}")
+    plt.savefig(filepath_save_pdf)
+    
+#    filepath_save_log = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}_logx.png"
+#    ax.set_xscale("log")
+#    print(f"Saving figure to {filepath_save_log}")
+#    plt.savefig(filepath_save_log, dpi=200)
     plt.close()
     
     
@@ -2024,8 +2034,9 @@ def plot_cargo_miles():
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "ammonia", "ATRCCS_H_grid_E")
+#    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "ATRCCS_H_grid_E")
 #    processed_quantity.map_by_region()
+#    processed_quantity.make_hist_by_region("bulk_carrier_ice")
 #    processed_quantity.make_hist_by_region()
 #    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile", "liquid_hydrogen", "LTE_H_grid_E")
 #    processed_quantity.make_hist_by_region()
@@ -2044,7 +2055,7 @@ def main():
     #processed_fuel_GE_test = ProcessedFuel("ammonia")
     #processed_fuel_GE_test.make_all_resource_demands_hists()
     
-#    processed_fuel = ProcessedFuel("liquid_hydrogen")
+#    processed_fuel = ProcessedFuel("ammonia")
 #    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 
 #    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
@@ -2054,9 +2065,13 @@ def main():
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
+#    processed_fuel.make_stacked_hist("TotalCost", "vessel", [])
+#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", [])
 #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
+#    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
 # -----------------------------------------------------------------------------#
-   
+    """
     # Loop through all fuels of interest
     for fuel in ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol", "FTdiesel"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
@@ -2070,9 +2085,17 @@ def main():
 #        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
 #        processed_fuel.make_stacked_hist("CAC", "vessel", [])
-    
-#    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
-#    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
+    """
+    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
+    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
+    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
+    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
+    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
+    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
+    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
+    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
+    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
+    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
 #    structured_results = structure_results_fuels_types("TotalCost", "fleet")
 #    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
 #    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
@@ -2084,7 +2107,7 @@ def main():
 #    structured_results = structure_results_fuels_types("CAC", "vessel")
 #    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
     
-    
+    """
     for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
         for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
             if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
@@ -2094,5 +2117,5 @@ def main():
                 plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="bar")
             else:
                 plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
-    
+    """
 main()
