@@ -1,6 +1,6 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,South Africa,1,2024,443.3287024038036,7989.991831511108,8433.320533914912,13.569617704248671,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Taiwan,1,2024,307.9278179257946,7521.489199644304,7829.417017570098,11.115906385556436,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Taiwan,1,2024,307.9278179257946,8115.775893473181,8423.703711398975,11.115906385556436,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Switzerland,1,2024,402.1988638392471,8445.91998291983,8848.118846759076,11.115906385556436,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Singapore,1,2024,301.0121813529931,8385.175889672804,8686.188071025797,12.705532143282758,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Hungary,1,2024,336.3183259615062,6722.9739196758765,7059.292245637383,11.732068663207235,compressed gaseous hydrogen at 700 bar
@@ -38,7 +38,7 @@ compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Thailand,1,2024,237.31552870876843
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Russia,1,2024,259.15438104393115,752.6129089650673,1011.7672900089984,12.59615422417315,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMR,n/a,grid,SMR_H_grid_E,Saudi Arabia,1,2024,347.6017330013403,684.0243237023071,1031.6260567036475,12.59615422417315,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Africa,1,2024,799.397064026591,10320.320897785336,11119.717961811926,6.0508221127531465,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Taiwan,1,2024,555.2462365898981,9687.915070011632,10243.161306601529,2.6607413674115326,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Taiwan,1,2024,555.2462365898981,10508.98960417312,11064.235840763018,2.6607413674115326,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Switzerland,1,2024,725.2329685955525,10967.505578279799,11692.738546875351,2.6607413674115326,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Singapore,1,2024,542.7761674466262,10904.919071012775,11447.6952384594,4.856989814616501,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Hungary,1,2024,606.4391520201725,8712.996348112447,9319.435500132618,3.512039504057495,compressed gaseous hydrogen at 700 bar
@@ -76,7 +76,7 @@ compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Thailand,1,2024,427.92026744
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Russia,1,2024,467.29943315840126,1009.5553673041642,1476.8548004625654,4.705871802194141,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Saudi Arabia,1,2024,626.7850543065637,915.7921343207311,1542.5771886272946,4.705871802194141,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Africa,1,2024,687.3708777382521,8940.120102757106,9627.490980495359,5.975062088003616,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Taiwan,1,2024,477.43494463592884,8269.225908448185,8746.660853084113,2.016484448252064,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Taiwan,1,2024,477.43494463592884,9227.989883603463,9705.424828239391,2.016484448252064,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Switzerland,1,2024,623.6000163388904,9760.25668231558,10383.85669865447,2.016484448252064,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Singapore,1,2024,466.712410418337,9814.348332535674,10281.06074295401,4.581031032102995,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Hungary,1,2024,521.4537693186741,7690.381055212469,8211.834824531143,3.0105403488731826,compressed gaseous hydrogen at 700 bar
@@ -114,7 +114,7 @@ compressed_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Thailand,1,2024,367.95222683
 compressed_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Russia,1,2024,401.8128612065973,1006.4468219311553,1408.2596831377527,4.404571404773803,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Saudi Arabia,1,2024,538.9484304105343,867.2948293093295,1406.243259719864,4.404571404773803,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,891.4907400000001,4684.582705478775,5576.073445478775,38.25326890056,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,619.2127800000001,1041.317108135801,1660.529888135801,1.8910514287000002,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,619.2127800000001,9848.2137617958,10467.4265417958,1.8910514287000002,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Switzerland,1,2024,808.78265,14668.261586975803,15477.044236975802,1.8910514287000002,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Singapore,1,2024,605.3061099999999,17496.759452839848,18102.06556283985,25.44814922622,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Hungary,1,2024,676.30332,8712.518169013782,9388.821489013782,11.02212832728,compressed gaseous hydrogen at 700 bar
@@ -152,7 +152,7 @@ compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Thailand,1,2024,477.21836,6263.046
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Russia,1,2024,521.1341600000001,5178.643211067088,5699.777371067088,23.827248001620003,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,LTE,n/a,grid,LTE_H_grid_E,Saudi Arabia,1,2024,698.9931499999999,3770.843508518128,4469.836658518128,23.827248001620003,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,South Africa,1,2024,720.476232,1499.2128819585764,2219.6891139585764,3.769858465470728,compressed gaseous hydrogen at 700 bar
-compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Taiwan,1,2024,500.42930399999995,1376.540738373438,1876.970042373438,1.0913184654707282,compressed gaseous hydrogen at 700 bar
+compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Taiwan,1,2024,500.42930399999995,2025.280738373438,2525.710042373438,1.0913184654707282,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Switzerland,1,2024,653.6340200000001,2388.693021333438,3042.327041333438,1.0913184654707282,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Singapore,1,2024,489.190348,2461.6572094127278,2950.847557412728,2.826598465470728,compressed gaseous hydrogen at 700 bar
 compressed_hydrogen,BG,n/a,grid,BG_H_grid_E,Hungary,1,2024,546.5681760000001,1712.5143317573518,2259.082507757352,1.7639384654707282,compressed gaseous hydrogen at 700 bar

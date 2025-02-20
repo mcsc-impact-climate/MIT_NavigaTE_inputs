@@ -1,6 +1,6 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
 ammonia,n/a,n/a,grid,grid,South Africa,1,2024,114.26798884439226,91.26549851854482,205.53348736293708,0.7021864572219707,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
-ammonia,n/a,n/a,grid,grid,Taiwan,1,2024,79.36840604462714,20.857141358107594,100.22554740273473,0.034712607348543756,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
+ammonia,n/a,n/a,grid,grid,Taiwan,1,2024,79.36840604462714,182.51871272418273,261.88711876880984,0.034712607348543756,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,grid,grid,Switzerland,1,2024,103.66677148854966,272.2458161942578,375.9125876828075,0.034712607348543756,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,grid,grid,Singapore,1,2024,77.58590047152086,324.1161802142312,401.70208068575204,0.46713251603326,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
 ammonia,n/a,n/a,grid,grid,Hungary,1,2024,86.68606050264242,163.95895049873243,250.64501100137485,0.2023249114029404,conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure
