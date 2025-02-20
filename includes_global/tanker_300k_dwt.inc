@@ -9,30 +9,34 @@
 Fleet "tanker_300k_dwt" {
 	# vessel types
 	Vessels = [Vessel("tanker_300k_dwt_ice_oil"),
-			   Vessel("tanker_300k_dwt_ice_ammonia")]#,
-#			   Vessel("tanker_300k_dwt_ice_methane"),
-#			   Vessel("tanker_300k_dwt_ice_methanol")]
+			   Vessel("tanker_300k_dwt_ice_ammonia"),
+			   Vessel("tanker_300k_dwt_ice_liquid_hydrogen"),
+			   Vessel("tanker_300k_dwt_ice_methanol"),
+               Vessel("tanker_300k_dwt_ice_diesel")]
 	
 	# initial conditions
 	InitialVessels = 1529
 	
-	InitialSplit = [1.000,#0.978,
-					0.000]#,
-#					0.022,
-#					0.000]
+	InitialSplit = [1.000,      #0.978,
+					0.000,
+                    0.000,
+					0.000,
+					0.000]
 	
 	InitialAges = Array [
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#,
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 	]
 	
 	InitialAgeSplit = Array [
 		[0.017, 0.033, 0.037, 0.036, 0.036, 0.029, 0.035, 0.034, 0.064, 0.064, 0.073, 0.063, 0.038, 0.021, 0.020, 0.049, 0.072, 0.047, 0.063, 0.041, 0.039, 0.051, 0.010, 0.005, 0.021],
-		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]#,
-#		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.182, 0.000, 0.212, 0.455, 0.030, 0.121],
-#		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
 	]
 
 	# trade growth
@@ -40,9 +44,10 @@ Fleet "tanker_300k_dwt" {
 
 	# orderbook
 	Orderbooks = [Forecast("tanker_300k_dwt_orderbook_oil"),
-				  Forecast("tanker_300k_dwt_orderbook_ammonia")]#,
-#				  Forecast("tanker_300k_dwt_orderbook_methane"),
-#				  Forecast("tanker_300k_dwt_orderbook_methanol")]
+				  Forecast("tanker_300k_dwt_orderbook_ammonia"),
+				  Forecast("tanker_300k_dwt_orderbook_liquid_hydrogen"),
+				  Forecast("tanker_300k_dwt_orderbook_methanol"),
+                  Forecast("tanker_300k_dwt_orderbook_diesel")]
 	
 	# energy efficiency	
 #	Efficiencies = [Efficiency("air_lubrication_tanker_300k_dwt"),
@@ -96,6 +101,9 @@ Fleet "tanker_300k_dwt" {
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_methanol*", 31.0e6)
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_ammonia*", 48.8e6)
 #	set_fuel_conversion_cost("*ice_methane*", "*ice_ammonia*", 23.3e6)
+
+    # 5% discount rate
+    DiscountRate = 0.05
 }
 
 Forecast "tanker_300k_dwt_trade_growth" {
@@ -150,6 +158,27 @@ Forecast "tanker_300k_dwt_orderbook_ammonia" {
 	]
 	
 	Extrapolate = FLAT
+}
+
+Forecast "tanker_300k_dwt_orderbook_liquid_hydrogen" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
+}
+
+# DMM: This needs to be checked/updated
+Forecast "tanker_300k_dwt_orderbook_diesel" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
 }
 
 Forecast "tanker_300k_dwt_orderbook_methane" {

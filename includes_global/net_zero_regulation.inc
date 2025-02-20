@@ -15,6 +15,8 @@ Regulation "net_zero_regulation" {
     ExtraFraction = 0.
     
     RemedialCost = 1200
+    
+    # SharedThreshold units: kg emissions per GJ fuel
     SharedThreshold = <100 * Forecast("regulation_reduction")>
     set_include_vessel("*", TRUE)
     

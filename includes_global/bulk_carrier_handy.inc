@@ -9,30 +9,34 @@
 Fleet "bulk_carrier_handy" {
     # vessel types		
 	Vessels = [Vessel("bulk_carrier_handy_ice_oil"),
-			   Vessel("bulk_carrier_handy_ice_ammonia")]#,
-# 			   Vessel("bulk_carrier_handy_ice_methane"),
-#			   Vessel("bulk_carrier_handy_ice_methanol")]
+			   Vessel("bulk_carrier_handy_ice_ammonia"),
+ 			   Vessel("bulk_carrier_handy_ice_liquid_hydrogen"),
+			   Vessel("bulk_carrier_handy_ice_methanol"),
+               Vessel("bulk_carrier_handy_ice_diesel")]
 	
 	# initial conditions
 	InitialVessels = 6929
 	
-	InitialSplit = [1.000,#0.999,
-					0.000]#,
-#					0.001,
-#					0.000]
+	InitialSplit = [1.000,  #0.999,
+					0.000,
+                    0.000,
+					0.000,
+					0.000]
 	
 	InitialAges = Array [
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#,
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 	]
 	
 	InitialAgeSplit = Array [
 		[0.020, 0.017, 0.015, 0.018, 0.022, 0.020, 0.025, 0.030, 0.051, 0.084, 0.095, 0.092, 0.057, 0.046, 0.058, 0.047, 0.039, 0.024, 0.029, 0.030, 0.031, 0.031, 0.035, 0.046, 0.039],
-		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]#,
-#		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.111, 0.000, 0.000, 0.000, 0.000, 0.222, 0.667, 0.000],
-#		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 1.000]
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
 	]
 	
 	# trade growth
@@ -40,9 +44,10 @@ Fleet "bulk_carrier_handy" {
 	
 	# orderbook
 	Orderbooks = [Forecast("bulk_carrier_handy_orderbook_oil"),
-				  Forecast("bulk_carrier_handy_orderbook_ammonia")]#,
-#				  Forecast("bulk_carrier_handy_orderbook_methane"),
-#				  Forecast("bulk_carrier_handy_orderbook_methanol")]
+				  Forecast("bulk_carrier_handy_orderbook_ammonia"),
+				  Forecast("bulk_carrier_handy_orderbook_liquid_hydrogen"),
+				  Forecast("bulk_carrier_handy_orderbook_methanol"),
+                  Forecast("bulk_carrier_handy_orderbook_diesel")]
 
 	# energy efficiency
 #	Efficiencies = [Efficiency("air_lubrication_bulk_carrier_handy"),
@@ -88,6 +93,9 @@ Fleet "bulk_carrier_handy" {
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_methanol*", 14.3e6)
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_ammonia*", 19.0e6)
 #	set_fuel_conversion_cost("*ice_methane*", "*ice_ammonia*", 11.0e6)
+
+    # 5% discount rate
+    DiscountRate = 0.05
 }
 
 Forecast "bulk_carrier_handy_trade_growth" {
@@ -143,6 +151,27 @@ Forecast "bulk_carrier_handy_orderbook_ammonia" {
 	]
 	
 	Extrapolate = FLAT
+}
+
+Forecast "bulk_carrier_handy_orderbook_liquid_hydrogen" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
+}
+
+# DMM: This needs to be checked/updated
+Forecast "bulk_carrier_handy_orderbook_diesel" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
 }
 
 Forecast "bulk_carrier_handy_orderbook_methane" {

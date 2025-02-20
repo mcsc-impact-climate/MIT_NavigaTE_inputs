@@ -6,43 +6,48 @@
 # terms of the full license agreement found in the LICENSE
 # file located in the root directory of this source tree.
 
-Fleet "gas_carrier_100k_cbm" {
-	# vessel types
+    # vessel types
+    Fleet "gas_carrier_100k_cbm" {
 	Vessels = [Vessel("gas_carrier_100k_cbm_ice_oil"),
-			   Vessel("gas_carrier_100k_cbm_ice_ammonia")]#,
-#			   Vessel("gas_carrier_100k_cbm_ice_methane"),
-#			   Vessel("gas_carrier_100k_cbm_ice_methanol")]
+			   Vessel("gas_carrier_100k_cbm_ice_ammonia"),
+			   Vessel("gas_carrier_100k_cbm_ice_liquid_hydrogen"),
+			   Vessel("gas_carrier_100k_cbm_ice_methanol"),
+               Vessel("gas_carrier_100k_cbm_ice_diesel")]
 	
 	# initial conditions
 	InitialVessels = 2156
 	
-	InitialSplit = [1.000,#0.623,
-					0.000]#,
-#					0.377,
-#					0.000]
+	InitialSplit = [1.000,      #0.623,
+					0.000,
+                    0.000,
+					0.000,
+					0.000]
 	
 	InitialAges = Array [
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#,
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 	]
 	
 	InitialAgeSplit = Array [
 		[0.023, 0.019, 0.025, 0.016, 0.013, 0.031, 0.048, 0.080, 0.060, 0.051, 0.045, 0.033, 0.037, 0.038, 0.063, 0.067, 0.052, 0.031, 0.031, 0.039, 0.038, 0.040, 0.060, 0.038, 0.025],
-		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 1.000]#,
-#		[0.001, 0.011, 0.017, 0.025, 0.020, 0.032, 0.034, 0.036, 0.026, 0.025, 0.014, 0.002, 0.022, 0.044, 0.037, 0.042, 0.044, 0.069, 0.053, 0.048, 0.079, 0.043, 0.048, 0.111, 0.117],
-#		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
 	]
 	
 	# trade growth
 	TradeGrowth = Forecast("gas_carrier_100k_cbm_trade_growth")
 	
 	# orderbooks
-	Orderbooks = [Forecast("gas_carrier_100k_cbm_orderbook_oil"),
-				  Forecast("gas_carrier_100k_cbm_orderbook_ammonia")]#,
-#				  Forecast("gas_carrier_100k_cbm_orderbook_methane"),
-#				  Forecast("gas_carrier_100k_cbm_orderbook_methanol")]
+	Orderbooks = [Forecast("gas_carrier_100k_cbm_orderbook_oil"), 
+				  Forecast("gas_carrier_100k_cbm_orderbook_ammonia"),
+				  Forecast("gas_carrier_100k_cbm_orderbook_liquid_hydrogen"),
+				  Forecast("gas_carrier_100k_cbm_orderbook_methanol"),
+                  Forecast("gas_carrier_100k_cbm_orderbook_diesel")]
 	
 	# energy efficiency
 #	Efficiencies = [Efficiency("air_lubrication_gas_carrier_100k_cbm"),
@@ -86,6 +91,9 @@ Fleet "gas_carrier_100k_cbm" {
 #		[0]
 #		[0]
 #	]
+
+    # 5% discount rate
+    DiscountRate = 0.05
 }
 
 Forecast "gas_carrier_100k_cbm_trade_growth" {
@@ -142,6 +150,29 @@ Forecast "gas_carrier_100k_cbm_orderbook_ammonia" {
 	]
 	
 	Extrapolate = FLAT
+}
+
+Forecast "gas_carrier_100k_cbm_orderbook_liquid_hydrogen" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+        "01-01-2028"    0
+    ]
+    
+    Extrapolate = FLAT
+}
+
+# DMM: This needs to be checked/updated
+Forecast "gas_carrier_100k_cbm_orderbook_diesel" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+        "01-01-2028"    0
+    ]
+    
+    Extrapolate = FLAT
 }
 
 Forecast "gas_carrier_100k_cbm_orderbook_methane" {

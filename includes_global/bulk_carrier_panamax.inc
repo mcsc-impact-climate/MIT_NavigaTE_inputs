@@ -9,30 +9,34 @@
 Fleet "bulk_carrier_panamax" {
 	# vessel types
 	Vessels = [Vessel("bulk_carrier_panamax_ice_oil"),
-			   Vessel("bulk_carrier_panamax_ice_ammonia")]#,
-#			   Vessel("bulk_carrier_panamax_ice_methane"),
-#			   Vessel("bulk_carrier_panamax_ice_methanol")]
+			   Vessel("bulk_carrier_panamax_ice_ammonia"),
+			   Vessel("bulk_carrier_panamax_ice_liquid_hydrogen"),
+			   Vessel("bulk_carrier_panamax_ice_methanol"),
+               Vessel("bulk_carrier_panamax_ice_diesel")]
 	
 	# initial conditions
 	InitialVessels = 3110
 	
-	InitialSplit = [1.000,#0.999,
-					0.000]#,
-#					0.001,
-#					0.000]
+	InitialSplit = [1.000,  #0.999,
+					0.000,
+                    0.000,
+					0.000,
+					0.000]
 	
 	InitialAges = Array [
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#,
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 	]
 	
 	InitialAgeSplit = Array [
 		[0.033, 0.017, 0.008, 0.025, 0.029, 0.034, 0.026, 0.024, 0.025, 0.055, 0.085, 0.105, 0.077, 0.050, 0.039, 0.037, 0.035, 0.022, 0.045, 0.047, 0.034, 0.038, 0.040, 0.034, 0.036],
-		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]#,
-#		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.667, 0.000, 0.333],
-#		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 1.000]
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
 	]
 
 	# trade growth
@@ -40,9 +44,10 @@ Fleet "bulk_carrier_panamax" {
 
 	# orderbook
 	Orderbooks = [Forecast("bulk_carrier_panamax_orderbook_oil"),
-				  Forecast("bulk_carrier_panamax_orderbook_ammonia")]#,
-#				  Forecast("bulk_carrier_panamax_orderbook_methane"),
-#				  Forecast("bulk_carrier_panamax_orderbook_methanol")]
+				  Forecast("bulk_carrier_panamax_orderbook_ammonia"),
+				  Forecast("bulk_carrier_panamax_orderbook_liquid_hydrogen"),
+				  Forecast("bulk_carrier_panamax_orderbook_methanol"),
+                  Forecast("bulk_carrier_panamax_orderbook_diesel")]
 	
 	# energy efficiency
 #	Efficiencies = [Efficiency("air_lubrication_bulk_carrier_panamax"),
@@ -88,6 +93,9 @@ Fleet "bulk_carrier_panamax" {
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_methanol*", 17.2e6)
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_ammonia*", 23.7e6)
 #	set_fuel_conversion_cost("*ice_methane*", "*ice_ammonia*", 14.1e6)
+
+    # 5% discount rate
+    DiscountRate = 0.05
 }
 
 Forecast "bulk_carrier_panamax_trade_growth" {
@@ -144,6 +152,27 @@ Forecast "bulk_carrier_panamax_orderbook_ammonia" {
 	]
 	
 	Extrapolate = FLAT
+}
+
+Forecast "bulk_carrier_panamax_orderbook_liquid_hydrogen" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
+}
+
+# DMM: This needs to be checked/updated
+Forecast "bulk_carrier_panamax_orderbook_diesel" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
 }
 
 Forecast "bulk_carrier_panamax_orderbook_methane" {

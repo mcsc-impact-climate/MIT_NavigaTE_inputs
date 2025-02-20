@@ -9,40 +9,45 @@
 Fleet "container_3500_teu" {	
 	# vessel types
 	Vessels = [Vessel("container_3500_teu_ice_oil"),
-			   Vessel("container_3500_teu_ice_ammonia")]#,
-#			   Vessel("container_3500_teu_ice_methane"),
-#			   Vessel("container_3500_teu_ice_methanol")]
+			   Vessel("container_3500_teu_ice_ammonia"),
+               Vessel("container_3500_teu_ice_liquid_hydrogen"),
+			   Vessel("container_3500_teu_ice_methanol"),
+               Vessel("container_3500_teu_ice_diesel")]
 	
 	# initial conditions
 	InitialVessels = 3983
 	
 	InitialSplit = [1.000, #0.986
-					0.000]#,
-#					0.010,
-#					0.004]
+					0.000,
+                    0.000,
+					0.000,
+					0.000]
 	
-	InitialAges = Array [
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#,
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-#		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-	]
+    InitialAges = Array [
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+    ]
 	
 	InitialAgeSplit = Array [
 		[0.033, 0.037, 0.032, 0.037, 0.056, 0.070, 0.086, 0.090, 0.058, 0.045, 0.028, 0.033, 0.031, 0.026, 0.023, 0.018, 0.022, 0.026, 0.028, 0.026, 0.027, 0.035, 0.057, 0.062, 0.013],
-		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]#,
-#		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.024, 0.000, 0.000, 0.000, 0.024, 0.024, 0.000, 0.098, 0.098, 0.049, 0.073, 0.024, 0.024, 0.317, 0.244],
-#		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.067, 0.533, 0.400]
+		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
 	]
 	
 	# trade growth
 	TradeGrowth = Forecast("container_3500_teu_trade_growth")	
 
-	# orderbook
-	Orderbooks = [Forecast("container_3500_teu_orderbook_oil"),
-				  Forecast("container_3500_teu_orderbook_ammonia")]#,
-#				  Forecast("container_3500_teu_orderbook_methane"),
-#			      Forecast("container_3500_teu_orderbook_methanol")]
+	# orderbook                  
+    Orderbooks = [Forecast("container_3500_teu_orderbook_oil"),
+                  Forecast("container_3500_teu_orderbook_ammonia"),
+                  Forecast("container_3500_teu_orderbook_liquid_hydrogen"),
+                  Forecast("container_3500_teu_orderbook_methanol"),
+                  Forecast("container_3500_teu_orderbook_diesel")]
 	
 	# energy efficiency
 #	Efficiencies = [Efficiency("air_lubrication_container_3500_teu"),
@@ -89,6 +94,9 @@ Fleet "container_3500_teu" {
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_methanol*", 12.4e6)
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_ammonia*", 18.6e6)
 #	set_fuel_conversion_cost("*ice_methane*", "*ice_ammonia*", 18.7e6)
+
+    # 5% discount rate
+    DiscountRate = 0.05
 }
 
 Forecast "container_3500_teu_trade_growth" {
@@ -143,6 +151,27 @@ Forecast "container_3500_teu_orderbook_ammonia" {
 	]
 	
 	Extrapolate = FLAT
+}
+
+Forecast "container_3500_teu_orderbook_liquid_hydrogen" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
+}
+
+# DMM: This needs to be checked/updated
+Forecast "container_3500_teu_orderbook_diesel" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
 }
 
 Forecast "container_3500_teu_orderbook_methane" {

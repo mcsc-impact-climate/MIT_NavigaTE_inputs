@@ -9,30 +9,34 @@
 Fleet "container_15000_teu" {	
 	# vessel types
 	Vessels = [Vessel("container_15000_teu_ice_oil"),
-			   Vessel("container_15000_teu_ice_ammonia")]#,
-			   #Vessel("container_15000_teu_ice_methane"),
-			   #Vessel("container_15000_teu_ice_methanol")]
+			   Vessel("container_15000_teu_ice_ammonia"),
+			   Vessel("container_15000_teu_ice_liquid_hydrogen"),
+			   Vessel("container_15000_teu_ice_methanol"),
+               Vessel("container_15000_teu_ice_diesel")]
 
 	# initial conditions
 	InitialVessels = 808
 	
 	InitialSplit = [1.000, # 0.817
-					0.000]#,
-					#0.146,
-					#0.037]
+					0.000,
+					0.000,
+					0.000,
+                    0.000]
 	
 	InitialAges = Array [
 		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]#,
-		#[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-		#[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+		[24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+        [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 	]
 	
 	InitialAgeSplit = Array [
 		[0.000, 0.000, 0.000, 0.000, 0.000, 0.003, 0.008, 0.003, 0.008, 0.038, 0.053, 0.065, 0.052, 0.064, 0.068, 0.044, 0.065, 0.079, 0.073, 0.042, 0.041, 0.030, 0.097, 0.118, 0.050],
-		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]#,
-		#[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.008, 0.000, 0.000, 0.000, 0.000, 0.000, 0.051, 0.093, 0.110, 0.186, 0.331, 0.220],
-		#[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.267, 0.733]
+		[0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
 	]
 
 	# trade growth
@@ -40,9 +44,10 @@ Fleet "container_15000_teu" {
 	
 	# orderbook
 	Orderbooks = [Forecast("container_15000_teu_orderbook_oil"),
-			      Forecast("container_15000_teu_orderbook_ammonia")]#,
-				  #Forecast("container_15000_teu_orderbook_methane"),
-				  #Forecast("container_15000_teu_orderbook_methanol")]
+			      Forecast("container_15000_teu_orderbook_ammonia"),
+				  Forecast("container_15000_teu_orderbook_liquid_hydrogen"),
+				  Forecast("container_15000_teu_orderbook_methanol"),
+                  Forecast("container_15000_teu_orderbook_diesel")]
 	
 	# energy efficiency
 #	Efficiencies = [Efficiency("air_lubrication_container_15000_teu"),
@@ -94,6 +99,9 @@ Fleet "container_15000_teu" {
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_methanol*", 24.3e6)
 #	set_fuel_conversion_cost("*ice_oil*", "*ice_ammonia*", 36.4e6)
 #	set_fuel_conversion_cost("*ice_methane*", "*ice_ammonia*", 25.9e6)
+
+    # 5% discount rate
+    DiscountRate = 0.05
 }
 
 Forecast "container_15000_teu_trade_growth" {
@@ -148,6 +156,27 @@ Forecast "container_15000_teu_orderbook_ammonia" {
 	]
 	
 	Extrapolate = FLAT
+}
+
+Forecast "container_15000_teu_orderbook_liquid_hydrogen" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
+}
+
+# DMM: This needs to be checked/updated
+Forecast "container_15000_teu_orderbook_diesel" {
+    Table [
+        "01-01-2025"    0
+        "01-01-2026"    0
+        "01-01-2027"    0
+    ]
+    
+    Extrapolate = FLAT
 }
 
 Forecast "container_15000_teu_orderbook_methane" {

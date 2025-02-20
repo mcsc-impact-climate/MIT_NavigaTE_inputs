@@ -24,9 +24,51 @@ Report "excel_report" {
     add_fleet_property("*", TotalEquivalentWTW)
     #add_fleet_property("*", Miles)
     #add_fleet_property("*", SpendEnergy, BOTH)         # DMM: Absolute number in GJ
-    
-    #add_fleet_property("*", TotalCAPEX)
-    #add_fleet_property("*", TotalExcludingFuelOPEX)
-    #add_fleet_property("*", TotalFuelOPEX)
     add_fleet_property("*", ConsumedEnergy)
+    
+    add_property(TotalEquivalentWTT)
+    add_property(TotalEquivalentTTW)
+    add_property(TotalEquivalentWTW)
+    add_property(ConsumedEnergy)
+    add_property(FuelExpenses)
+    add_property(RegulationExpenses)
+    add_property(FuelRelatedExpenses)
+    add_property(VesselExpenses)
+    add_property(FuelConversionExpenses)
+    add_property(VesselRelatedExpenses)
+    add_property(Expenses)
+    
+    #add_property(StaticSupplyMass)
+    #add_property(StaticSupplyEnergy)
+    #add_property(DynamicSupplyMass)
+    #add_property(DynamicSupplyEnergy)
+    
+    add_property(ConverterFuelTypeEnergy)
+    
+    add_property(FuelTypeDemand)
+    # add_property(FuelTypeSupply)
+        
+#    add_property(CumulativeConsumedMass)
+#    add_property(CumulativeFuelRelatedExpenses)
+#    add_property(CumulativeRegulationExpenses)
+        
+#    add_property(CumulativeWTT)
+#    add_property(CumulativeEquivalentTTW)
+#    add_property(CumulativeTotalEquivalentWTW)
+    
+#    add_property(CumulativeIntensityWTT)
+#    add_property(CumulativeIntensityEquivalentTTW)
+#    add_property(CumulativeIntensityTotalEquivalentWTW)
+
+    add_regulation_property("*", FlexibilityCost)
+    add_regulation_property("*", RemedialCost)
+    add_regulation_property("*", IntendedUnits)
+    add_regulation_property("*", SurplusUnits)
+    add_regulation_property("*", FlexibilityUnits)
+    add_regulation_property("*", RemedialUnits)
+    add_regulation_property("*", SurplusRevenue)
+    add_regulation_property("*", FlexibilityExpenses)
+    add_regulation_property("*", RemedialExpenses)
+        
+    add_regulation_property("*", VesselThreshold)
 }
