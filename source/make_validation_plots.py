@@ -930,6 +930,10 @@ class ProcessedQuantity:
         filepath_save = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
+        
+        filepath_save_pdf = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.pdf"
+        print(f"Saving figure to {filepath_save_pdf}")
+        plt.savefig(filepath_save_pdf)
         plt.close()
 
 class ProcessedPathway:
@@ -1369,10 +1373,10 @@ class ProcessedFuel:
 
         return all_countries
 
-    # GE - added two boolean statements as arguments (plot_global and exclude_lsfo)
-    def make_stacked_hist(self, quantity, modifier, sub_quantities=[], plot_global = False, exclude_lsfo = False):
+    def make_stacked_hist(self, quantity, modifier, sub_quantities=[], plot_global=False, exclude_lsfo=False):
         """
         Makes a histogram of the given quantity with respect to the available fuel production pathways.
+        Stacks pathways grouped by color and includes yellow bands to indicate total stacked results.
 
         Parameters
         ----------
@@ -1390,15 +1394,22 @@ class ProcessedFuel:
         quantity_label = get_quantity_label(quantity)
         quantity_units = get_units(quantity, modifier)
 
-        if sub_quantities == []:
+        if not sub_quantities:
             sub_quantities = [quantity]
 
         num_pathways = len(self.pathways)
-        fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
+        fig_height = max(6, num_pathways * 0.9)  # Adjust height based on pathways
 
         fig, ax = plt.subplots(figsize=(20, fig_height))
 
-        # Create an empty dictionary to hold the cumulative values for stacking
+        # Sort pathways by their associated color
+        sorted_pathways = sorted(
+            self.pathways,
+            key=lambda p: get_pathway_type_color(get_pathway_type(p))
+        )
+
+        y_positions = np.arange(len(sorted_pathways))  # Assign y-positions
+
         cumulative_values = {}
         cumulative_values_negative = {}
 
@@ -1408,17 +1419,14 @@ class ProcessedFuel:
         countries = self.get_all_countries()
         region_colors = assign_colors_to_strings(countries)
 
-        countries_labelled = []
-        scatter_handles = []  # To collect scatter plot legend handles
-        scatter_labels = []  # To collect scatter plot legend labels
-        bar_handles = []  # To collect bar plot legend handles
-        bar_labels = []  # To collect bar plot legend labels
-        
-        # Add a vertical line at 0
-        ax.axvline(0, color="black")
-        def make_bar(pathway, pathway_name, pathway_label):
+        scatter_handles, scatter_labels = [], []
+        bar_handles, bar_labels = [], []
+
+        ax.axvline(0, color="black")  # Vertical reference line at 0
+
+        def make_bar(pathway, pathway_name, pathway_label, y_pos):
             """
-            Plots a single bar for a given pathway
+            Plots a single bar for a given pathway.
 
             Parameters
             ----------
@@ -1429,34 +1437,24 @@ class ProcessedFuel:
                 Name of the pathway
 
             pathway_label : str
-                Name of the pathway to use for labels when plotting
+                Label for the pathway
 
-            Returns
-            -------
-            None
+            y_pos : float
+                Adjusted y position for plotting based on sorting
             """
-            # Initialize cumulative positive and negative values for this pathway
             if pathway_name not in cumulative_values:
                 cumulative_values[pathway_name] = 0
                 cumulative_values_negative[pathway_name] = 0
 
-            # Collect the region average results
-            region_average_results = pathway.get_region_average_results(
-                sub_quantities, modifier
-            )
+            region_average_results = pathway.get_region_average_results(sub_quantities, modifier)
+            all_region_results, _ = pathway.get_all_region_results(quantity, modifier)
 
-            # Collect the individual region results
-            all_region_results, multiple_region_results = (
-                pathway.get_all_region_results(quantity, modifier)
-            )
-
-            # Get the values for each sub_quantity and stack them
             for i, sub_quantity in enumerate(sub_quantities):
                 value = region_average_results.get(sub_quantity, 0)
-                
+
                 if value >= 0:
                     bar = ax.barh(
-                        pathway_label,
+                        y_pos,
                         value,
                         left=cumulative_values[pathway_name],
                         label=get_quantity_label(sub_quantity) if i_pathway == 0 else "",
@@ -1465,7 +1463,7 @@ class ProcessedFuel:
                     cumulative_values[pathway_name] += value
                 else:
                     bar = ax.barh(
-                        pathway_label,
+                        y_pos,
                         value,
                         left=cumulative_values_negative[pathway_name],
                         label=get_quantity_label(sub_quantity) if i_pathway == 0 else "",
@@ -1473,69 +1471,64 @@ class ProcessedFuel:
                     )
                     cumulative_values_negative[pathway_name] += value
 
-                # Add the bar handles and labels only once
                 if i_pathway == 0:
                     bar_handles.append(bar[0])
                     bar_labels.append(get_quantity_label(sub_quantity))
 
-                # GE - if plot_global is true, dots for individual countries will not be included in hist
-                if not plot_global:
-                    # Plot the individual region results as a scatter plot
-                    if all_region_results:
-                        for region in all_region_results:
-                            if "Global" in region:
-                                continue
-                            scatter = ax.scatter(
-                                all_region_results[region],
-                                pathway_label,
-                                color="black",  # region_colors[region],
-                                s=50,
-                                marker="o",
-                                zorder=100,
-                                # label=get_region_label(region)
-                                # if region not in countries_labelled
-                                # else "",
-                            )
+            if not plot_global and all_region_results:
+                for region in all_region_results:
+                    if "Global" in region:
+                        continue
+                    scatter = ax.scatter(
+                        all_region_results[region],
+                        y_pos,
+                        color="black",
+                        s=50,
+                        marker="o",
+                        zorder=100,
+                    )
+
             if not plot_global and i_pathway == 0:
                 scatter_handles.append(scatter)
                 scatter_labels.append("Individual Countries")
 
-            # If there are negative values, draw a yellow vertical bar at the cumulative sum position
-            if cumulative_values_negative[pathway_name]:
-                bar_width = cumulative_values[pathway_name] + cumulative_values_negative[pathway_name]  # Get the total width of the bar
+            # **Add yellow band showing total stacked value**
+            if cumulative_values_negative[pathway_name] or cumulative_values[pathway_name]:
+                total_width = cumulative_values[pathway_name] + cumulative_values_negative[pathway_name]
                 bar_height = bar[0].get_height()  # Get the height of the horizontal bar
                 y_center = bar[0].get_y() + bar_height / 2  # Calculate the center of the bar
 
                 ax.plot(
-                    [bar_width, bar_width],  # x coordinates (vertical line)
+                    [total_width, total_width],  # x coordinates (vertical line)
                     [y_center - bar_height * 0.4, y_center + bar_height * 0.4],  # y coordinates
                     color='yellow',
                     linewidth=5,
-                    label="Sum" if i_pathway==0 else ""
+                    label="Sum" if i_pathway == 0 else ""
                 )
-            # Set the y-axis label color to match the pathway type
-            y_labels = ax.get_yticklabels()
-            pathway_type = get_pathway_type(pathway_name)
-            if i_pathway < len(y_labels):
-                y_labels[i_pathway].set_color(get_pathway_type_color(pathway_type))
-                y_labels[i_pathway].set_fontweight("bold")
-                
 
-        # Loop through each color and pathway
+        # Loop through pathways and sort by color
         i_pathway = 0
-        for pathway_name in self.pathways:
+        for pathway_name, y_pos in zip(sorted_pathways, y_positions):
             pathway = self.ProcessedPathways[pathway_name]
             pathway_label = get_pathway_label(pathway_name)
-
-            make_bar(pathway, pathway_name, pathway_label)
-
+            make_bar(pathway, pathway_name, pathway_label, y_pos)
             i_pathway += 1
-            
-        # GE - do not execute the code adding a LSFO bar if exclude_lsfo is true
+
+        # Set y-axis labels **after** all bars are plotted
+        ax.set_yticks(y_positions)
+        ax.set_yticklabels([get_pathway_label(p) for p in sorted_pathways], fontsize=18)
+
+        # Apply colors to y-axis labels
+        y_labels = ax.get_yticklabels()
+        for idx, pathway_name in enumerate(sorted_pathways):
+            pathway_type = get_pathway_type(pathway_name)
+            y_labels[idx].set_color(get_pathway_type_color(pathway_type))
+            y_labels[idx].set_fontweight("bold")
+
+        # Add a LSFO bar for comparison (unless excluded)
         if not exclude_lsfo:
-            # Add a bar for LSFO fossil for comparison
             lsfo_pathway = ProcessedPathway("lsfo", "fossil")
-            make_bar(lsfo_pathway, "fossil", "LSFO (fossil)")
+            make_bar(lsfo_pathway, "fossil", "LSFO (fossil)", len(y_positions) + 1)
             plt.axvline(
                 lsfo_pathway.get_region_average_results([quantity], modifier)[quantity],
                 linewidth=3,
@@ -1544,13 +1537,11 @@ class ProcessedFuel:
             )
 
         # Add labels and title
-        if quantity_units is None:
-            ax.set_xlabel(f"{quantity_label}", fontsize=20)
-        else:
-            ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=20)
+        xlabel = f"{quantity_label} ({quantity_units})" if quantity_units else quantity_label
+        ax.set_xlabel(xlabel, fontsize=20)
         ax.set_title(f"Fuel: {fuel_label}", fontsize=24)
 
-        # Add a legend for the stacked bar components (sub-quantities)
+        # Add legend for stacked bars
         if bar_handles:
             legend1 = ax.legend(
                 bar_handles,
@@ -1563,7 +1554,7 @@ class ProcessedFuel:
                 borderaxespad=0.0,
             )
 
-        # Add a separate legend for countries
+        # Add legend for country scatter points
         if scatter_handles:
             ax.legend(
                 scatter_handles,
@@ -1573,30 +1564,23 @@ class ProcessedFuel:
                 loc="center left",
                 borderaxespad=0.0,
             )
-
-        # Add the bar component legend back after the region legend if both legends are present
-        if bar_handles and scatter_handles:
             ax.add_artist(legend1)
 
         plt.subplots_adjust(left=0.25, right=0.8)
-        # plt.tight_layout()
 
-        # Construct the filename to save to
+        # Construct filename and save figure
         filename_save = f"{self.fuel}-{quantity}-{modifier}-pathway_hist"
-
-        # Save the figure
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
         filepath_save_pdf = f"{top_dir}/plots/{self.fuel}/{filename_save}.pdf"
-        #filepath_save_log = f"{top_dir}/plots/{self.fuel}/{filename_save}_logx.png"
+
         print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200)
+        plt.savefig(filepath_save, dpi=200, bbox_inches="tight")
         print(f"Saving figure to {filepath_save_pdf}")
-        plt.savefig(filepath_save_pdf, dpi=200)
-#        ax.set_xscale("log")
-#        print(f"Saving figure to {filepath_save_log}")
-#        plt.savefig(filepath_save_log, dpi=200)
+        plt.savefig(filepath_save_pdf, dpi=200, bbox_inches="tight")
         plt.close()
+
+
 
     def make_all_stacked_hists(
         self,
@@ -2034,8 +2018,18 @@ def plot_cargo_miles():
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "ATRCCS_H_grid_E")
-#    processed_quantity.map_by_region()
+    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "LTE_H_grid_E")
+    processed_quantity.map_by_region()
+
+    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "LTE_H_grid_E")
+    processed_quantity.map_by_region()
+    
+    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
+    processed_quantity.map_by_region()
+    
+    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "ATRCCS_H_grid_E")
+    processed_quantity.map_by_region()
+    
 #    processed_quantity.make_hist_by_region("bulk_carrier_ice")
 #    processed_quantity.make_hist_by_region()
 #    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile", "liquid_hydrogen", "LTE_H_grid_E")
@@ -2070,6 +2064,8 @@ def main():
 #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
+
+
 # -----------------------------------------------------------------------------#
     """
     # Loop through all fuels of interest
@@ -2078,9 +2074,9 @@ def main():
 
 
 #         Make validation plots for each fuel, pathway and quantity
-        processed_fuel.make_all_hists_by_region()
-        processed_fuel.map_all_by_region()
-        processed_fuel.make_all_stacked_hists()
+#        processed_fuel.make_all_hists_by_region()
+#        processed_fuel.map_all_by_region()
+#        processed_fuel.make_all_stacked_hists()
     
 #        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
@@ -2088,16 +2084,17 @@ def main():
 #        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
 #        processed_fuel.make_stacked_hist("CAC", "vessel", [])
     """
-    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
-    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
-    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
-    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
-    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
-    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
-    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
-    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
-    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
-    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
+    
+#    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
     
 #    structured_results = structure_results_fuels_types("TotalCost", "fleet")
 #    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
