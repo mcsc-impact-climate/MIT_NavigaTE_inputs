@@ -19,7 +19,6 @@ Vessel "gas_carrier_100k_cbm_ice_diesel" {
     CAPEX = 129e6
     OPEX = 2.9e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_diesel_gas_carrier_100k_cbm" {

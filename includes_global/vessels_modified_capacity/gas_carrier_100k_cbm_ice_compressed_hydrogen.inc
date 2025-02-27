@@ -18,7 +18,6 @@ Vessel "gas_carrier_100k_cbm_ice_compressed_hydrogen" {
     CAPEX = 129e6
     OPEX = 2.9e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_gas_carrier_100k_cbm" {

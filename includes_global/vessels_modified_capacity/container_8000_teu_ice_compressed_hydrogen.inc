@@ -18,7 +18,6 @@ Vessel "container_8000_teu_ice_compressed_hydrogen" {
     CAPEX = 85e6
     OPEX = 2.1e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_container_8000_teu" {

@@ -19,7 +19,6 @@ Vessel "tanker_35k_dwt_ice_FTdiesel" {
     CAPEX = 30e6
     OPEX = 2.3e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_diesel_tanker_35k_dwt" {

@@ -19,7 +19,6 @@ Vessel "bulk_carrier_panamax_ice_FTdiesel" {
     CAPEX = 30e6
     OPEX = 1.8e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_diesel_bulk_carrier_panamax" {

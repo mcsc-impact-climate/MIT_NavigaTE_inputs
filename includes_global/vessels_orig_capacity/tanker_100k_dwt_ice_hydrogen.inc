@@ -18,7 +18,6 @@ Vessel "tanker_100k_dwt_ice_hydrogen" {
     CAPEX = 50e6
     OPEX = 2.5e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_tanker_100k_dwt" {
