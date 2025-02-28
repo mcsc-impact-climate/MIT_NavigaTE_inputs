@@ -10,10 +10,9 @@
     Fleet "gas_carrier_100k_cbm" {
 	Vessels = [Vessel("gas_carrier_100k_cbm_ice_oil"),
 			   Vessel("gas_carrier_100k_cbm_ice_ammonia"),
-#			   Vessel("gas_carrier_100k_cbm_ice_liquid_hydrogen"),
-               Vessel("gas_carrier_100k_cbm_ice_hydrogen"),
+			   Vessel("gas_carrier_100k_cbm_ice_liquid_hydrogen"),
 			   Vessel("gas_carrier_100k_cbm_ice_methanol"),
-               Vessel("gas_carrier_100k_cbm_ice_diesel")]
+               Vessel("gas_carrier_100k_cbm_ice_FTdiesel")]
 	
 	# initial conditions
 	InitialVessels = 2156

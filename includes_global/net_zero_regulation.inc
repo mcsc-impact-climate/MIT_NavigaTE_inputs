@@ -14,6 +14,7 @@ Regulation "net_zero_regulation" {
     InterFraction = 1.
     ExtraFraction = 0.
     
+    # Penalty to be paid for breaching emissions threshold (USD / tonne CO2e)
     RemedialCost = 1200
     
     # SharedThreshold units: kg emissions per GJ fuel

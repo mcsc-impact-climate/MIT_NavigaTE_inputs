@@ -42,7 +42,8 @@ PowerSystem "ice_hydrogen_bulk_carrier_handy" {
 }
 
 Converter "propulsion_ice_hydrogen_bulk_carrier_handy" {
-    PowerCapacity=6.3
+    PowerCapacity=7.1
+    MinimumLoad=0.2
     MainFuelTypes = [HYDROGEN]
     PilotFuelTypes = [DIESEL, HFO]
     MinimumPilotFuel = 0.05

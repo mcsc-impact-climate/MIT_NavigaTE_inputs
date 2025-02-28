@@ -43,9 +43,9 @@ Report "excel_report" {
     #add_property(DynamicSupplyMass)
     #add_property(DynamicSupplyEnergy)
     
-    add_property(ConverterFuelTypeEnergy)
+#    add_property(ConverterFuelTypeEnergy)
     
-    add_property(FuelTypeDemand)
+#    add_property(FuelTypeDemand)
     # add_property(FuelTypeSupply)
         
 #    add_property(CumulativeConsumedMass)

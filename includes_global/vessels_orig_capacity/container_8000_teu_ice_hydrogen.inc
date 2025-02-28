@@ -42,7 +42,8 @@ PowerSystem "ice_hydrogen_container_8000_teu" {
 }
 
 Converter "propulsion_ice_hydrogen_container_8000_teu" {
-    PowerCapacity=50.
+    PowerCapacity=49.7
+    MinimumLoad=0.15
     MainFuelTypes = [HYDROGEN]
     PilotFuelTypes = [DIESEL, HFO]
     MinimumPilotFuel = 0.05

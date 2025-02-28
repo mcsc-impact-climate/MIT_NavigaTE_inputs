@@ -10,10 +10,9 @@ Fleet "tanker_100k_dwt" {
 	# vessel types
 	Vessels = [Vessel("tanker_100k_dwt_ice_oil"),
 			   Vessel("tanker_100k_dwt_ice_ammonia"),
-#			   Vessel("tanker_100k_dwt_ice_liquid_hydrogen"),
-               Vessel("tanker_100k_dwt_ice_hydrogen"),
+			   Vessel("tanker_100k_dwt_ice_liquid_hydrogen"),
 			   Vessel("tanker_100k_dwt_ice_methanol"),
-               Vessel("tanker_100k_dwt_ice_diesel")]
+               Vessel("tanker_100k_dwt_ice_FTdiesel")]
 	
 	# initial conditions
 	InitialVessels = 1643

@@ -10,10 +10,9 @@ Fleet "bulk_carrier_capesize" {
 	# vessel types
 	Vessels = [Vessel("bulk_carrier_capesize_ice_oil"),
 			   Vessel("bulk_carrier_capesize_ice_ammonia"),
-#			   Vessel("bulk_carrier_capesize_ice_liquid_hydrogen"),
-               Vessel("bulk_carrier_capesize_ice_hydrogen"),
+               Vessel("bulk_carrier_capesize_ice_liquid_hydrogen"),
 			   Vessel("bulk_carrier_capesize_ice_methanol"),
-               Vessel("bulk_carrier_capesize_ice_diesel")]
+               Vessel("bulk_carrier_capesize_ice_FTdiesel")]
 	
 	# initial conditions
 	InitialVessels = 2067
