@@ -18,7 +18,7 @@ Report "excel_report" {
     add_fleet_property("*", ExistingVessels)
     add_fleet_property("*", Scrap)
     add_fleet_property("*", Newbuilds)
-    #add_fleet_property("*", FuelConversions)
+    add_fleet_property("*", FuelConversions)
     add_fleet_property("*", TotalEquivalentWTT)
     add_fleet_property("*", TotalEquivalentTTW)
     add_fleet_property("*", TotalEquivalentWTW)
