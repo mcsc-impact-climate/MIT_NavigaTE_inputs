@@ -147,8 +147,8 @@ Forecast "container_3500_teu_orderbook_oil" {
 Forecast "container_3500_teu_orderbook_ammonia" {
 	Table [
 		"01-01-2025"	0
-		"01-01-2026"    1
-		"01-01-2027"    1
+		"01-01-2026"    0
+		"01-01-2027"    0
 	]
 	
 	Extrapolate = FLAT
@@ -188,8 +188,8 @@ Forecast "container_3500_teu_orderbook_methane" {
 Forecast "container_3500_teu_orderbook_methanol" {
 	Table [
 		"01-01-2025"	0
-		"01-01-2026"    12
-		"01-01-2027"    12
+		"01-01-2026"    0
+		"01-01-2027"    0
 	]
 	
 	Extrapolate = FLAT

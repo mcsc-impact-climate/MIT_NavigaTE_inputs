@@ -151,7 +151,7 @@ Forecast "tanker_100k_dwt_orderbook_ammonia" {
 	Table [
 		"01-01-2025"	0
 		"01-01-2026"    0
-		"01-01-2027"    2
+		"01-01-2027"    0
 	]
 	
 	Extrapolate = FLAT
@@ -191,8 +191,8 @@ Forecast "tanker_100k_dwt_orderbook_methane" {
 Forecast "tanker_100k_dwt_orderbook_methanol" {
 	Table [
 		"01-01-2025"	0
-		"01-01-2026"    1
-		"01-01-2027"    3
+		"01-01-2026"    0
+		"01-01-2027"    0
 	]
 	
 	Extrapolate = FLAT

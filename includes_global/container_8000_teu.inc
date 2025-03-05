@@ -193,8 +193,8 @@ Forecast "container_8000_teu_orderbook_methane" {
 Forecast "container_8000_teu_orderbook_methanol" {
 	Table [
 		"01-01-2025"	0
-		"01-01-2026"    11
-		"01-01-2027"    17
+		"01-01-2026"    0
+		"01-01-2027"    0
 	]
 	
 	Extrapolate = FLAT

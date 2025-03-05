@@ -189,9 +189,9 @@ Forecast "bulk_carrier_panamax_orderbook_methane" {
 Forecast "bulk_carrier_panamax_orderbook_methanol" {
 	Table [
 		"01-01-2025"	0
-		"01-01-2026"    3
-		"01-01-2027"    7
-		"01-01-2028"    8
+		"01-01-2026"    0
+		"01-01-2027"    0
+		"01-01-2028"    0
 	]
 	
 	Extrapolate = FLAT

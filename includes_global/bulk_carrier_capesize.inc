@@ -152,9 +152,9 @@ Forecast "bulk_carrier_capesize_orderbook_oil" {
 Forecast "bulk_carrier_capesize_orderbook_ammonia" {
 	Table [
 		"01-01-2025"	0
-		"01-01-2026"    4
-		"01-01-2027"    9
-		"01-01-2028"    10
+		"01-01-2026"    0
+		"01-01-2027"    0
+		"01-01-2028"    0
 	]
 	
 	Extrapolate = FLAT
@@ -196,8 +196,8 @@ Forecast "bulk_carrier_capesize_orderbook_methane" {
 Forecast "bulk_carrier_capesize_orderbook_methanol" {
 	Table [
 		"01-01-2025"	0
-		"01-01-2026"    1
-		"01-01-2027"    2
+		"01-01-2026"    0
+		"01-01-2027"    0
 	]
 	
 	Extrapolate = FLAT
