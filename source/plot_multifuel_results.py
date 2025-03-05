@@ -547,8 +547,8 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
                     if save_label is not None and not save_label.startswith("_"):
                         save_label = "_" + save_label
 
-                    save_path_png = f"plots/multifuel/vessel_{vessel_class}_{vessel_size}_{column}{save_label}.png"
-                    save_path_pdf = f"plots/multifuel/vessel_{vessel_class}_{vessel_size}_{column}{save_label}.pdf"
+                    save_path_png = f"plots/multifuel/size_{vessel_size}_{column}{save_label}.png"
+                    save_path_pdf = f"plots/multifuel/size_{vessel_size}_{column}{save_label}.pdf"
 
                     print(f"Saving to {save_path_png}")
                     plt.savefig(save_path_png, dpi=300, bbox_inches="tight")
@@ -694,10 +694,10 @@ def make_all_plots(results_file, results_label=None, regulations=None):
 def main():
 
     results_file_base = "multi_fuel_full_fleet/all_fuels_base/plots/all_fuels_base_excel_report.xlsx"
-    #make_all_plots(results_file, results_label="base")
+    make_all_plots(results_file_base, results_label="base")
     
-    results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap/plots/all_fuels_mod_cap_excel_report.xlsx"
-    make_all_plots(results_file_mod_cap, results_label="mod_cap")
+    #results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap/plots/all_fuels_mod_cap_excel_report.xlsx"
+    #make_all_plots(results_file_mod_cap, results_label="mod_cap")
     
     ###################################################################################################
 
