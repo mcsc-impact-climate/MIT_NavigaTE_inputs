@@ -46,6 +46,15 @@ fuel_vessel_dict = {
     "lsfo": "oil",
 }
 
+fuel_power_system_dict = {
+    "ammonia": "dual",
+    "methanol": "dual",
+    "FTdiesel": "single",
+    "compressed_hydrogen": "dual",
+    "liquid_hydrogen": "dual",
+    "lsfo": "single",
+}
+
 # Dictionary to indicate whether to look for input files in the default NavigaTE inputs, or in the relevant local dir with custom inputs
 input_file_types = {
     "ammonia": "NavigaTE",
@@ -1607,11 +1616,23 @@ def calculate_modified_cargo_capacities(top_dir, vessel_type_class, fuel, cargo_
 #    capacity_dict["Tank size difference (tonnes)"] = capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] - capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]
     
     # Calculate the modified cargo capacity, in both cbm and tonnes
-    capacity_dict["Modified capacity (m^3)"] = capacity_dict["Nominal capacity (m^3)"] - capacity_dict["Modified tank size (m^3)"]
-    capacity_dict["Modified capacity (tonnes)"] = np.minimum(capacity_dict["Nominal capacity (tonnes)"],
-        capacity_dict["Nominal capacity (tonnes)"] - 0.95 * (
-            capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] -
-            capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]))
+    # Subtract off the LSFO tank capacity for single-fuel diesel power system, but not for dual fuel
+    if fuel_power_system_dict[fuel] == "single":
+        capacity_dict["Modified capacity (m^3)"] = capacity_dict["Nominal capacity (m^3)"] - (capacity_dict["Modified tank size (m^3)"] - capacity_dict["Nominal tank size (m^3)"])
+    else:
+        capacity_dict["Modified capacity (m^3)"] = capacity_dict["Nominal capacity (m^3)"] - capacity_dict["Modified tank size (m^3)"]
+       
+    if fuel_power_system_dict[fuel] == "single":
+        capacity_dict["Modified capacity (tonnes)"] = (
+            capacity_dict["Nominal capacity (tonnes)"] -
+            (capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] -
+             capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]))
+    else:
+        capacity_dict["Modified capacity (tonnes)"] = np.minimum(capacity_dict["Nominal capacity (tonnes)"],
+            capacity_dict["Nominal capacity (tonnes)"] - 0.95 * (
+                capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] -
+                capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]))
+
     
     capacity_dict["Percent volume difference (%)"] = 100 * (capacity_dict["Modified capacity (m^3)"] - capacity_dict["Nominal capacity (m^3)"]) / capacity_dict["Nominal capacity (m^3)"]
     #print("Cargo loss (%): ", capacity_dict["Percent volume difference (%)"])
