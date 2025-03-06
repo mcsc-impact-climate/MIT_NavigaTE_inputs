@@ -11,7 +11,7 @@ Vessel "bulk_carrier_panamax_ice_liquid_hydrogen" {
     
     Route=Route("globalized_bulk_carrier_panamax")
     
-    NominalCapacity = 71138.61161001689
+    NominalCapacity = 68138.61161001689
 
     Lifetime=25
     Finance=Finance("vessel_finance")
