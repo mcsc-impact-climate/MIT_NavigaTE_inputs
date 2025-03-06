@@ -340,12 +340,19 @@ def calculate_cargo_loss(R, P_s_av, P_av, r_f, f_s, e_l, L_l, rho_l, e_f, L_f, r
     
     # If the daily fuel loss to boil-off is zero, don't bother calculating the boil-off term
     if np.absolute(r_f) < 0.000001:
-        cargo_loss = scaling_term * (fuel_term - 1)
+        if cargo_type == "mass":
+            cargo_loss = max(0, 0.95*scaling_term * (fuel_term - 1))
+        else if cargo_type == "volume":
+            cargo_loss = scaling_term * fuel_term
     
     else:
         N_days_to_empty = calculate_days_to_empty_tank(R, P_s_av, P_av, f_s)
         boiloff_term = calculate_boiloff_term(r_f, N_days_to_empty)
-        cargo_loss = scaling_term * (fuel_term * boiloff_term - 1)
+        
+        if cargo_type == "mass":
+            cargo_loss = max(0, 0.95*scaling_term * (fuel_term * boiloff_term - 1))
+        else:
+            cargo_loss = scaling_term * fuel_term * boiloff_term 
         
     return cargo_loss
     
@@ -1553,7 +1560,7 @@ def main():
         "Days to Empty Tank": [0, 500],
     }
     
-    for fuel in ["methanol"]: #["methanol", "ammonia", "liquid_hydrogen"]:
+    for fuel in ["methanol", "ammonia", "liquid_hydrogen"]:
         parameter_values_df = get_parameter_values(nominal_vessel_params_df, fuel_params_df, fuel)
         parameter_values_mc_df = make_mc(nominal_vessel_params_df, fuel_params_df, fuel, 10000)
         
