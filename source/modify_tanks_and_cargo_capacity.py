@@ -46,6 +46,15 @@ fuel_vessel_dict = {
     "lsfo": "oil",
 }
 
+fuel_power_system_dict = {
+    "ammonia": "dual",
+    "methanol": "dual",
+    "FTdiesel": "single",
+    "compressed_hydrogen": "dual",
+    "liquid_hydrogen": "dual",
+    "lsfo": "single",
+}
+
 # Dictionary to indicate whether to look for input files in the default NavigaTE inputs, or in the relevant local dir with custom inputs
 input_file_types = {
     "ammonia": "NavigaTE",
@@ -1297,8 +1306,6 @@ def get_modified_tank_size(vessel_range, vessel_type_class, fuel):
     """
     lsfo_tank_size = get_lsfo_tank_size(vessel_range, vessel_type_class)
     
-    
-    
     return tank_size
     
 def calculate_all_vessel_ranges(top_dir, fuels, tank_size_factors_dict, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict):
@@ -1605,17 +1612,32 @@ def calculate_modified_cargo_capacities(top_dir, vessel_type_class, fuel, cargo_
     capacity_dict["Modified tank size (m^3)"] = capacity_dict["Nominal tank size (m^3)"] * tank_size_factors_dict[fuel][vessel_type_class]["Total"]
     
     # Calculate the change in tank size, in both cbm and tonnes
-    capacity_dict["Tank size difference (m^3)"] = capacity_dict["Modified tank size (m^3)"] - capacity_dict["Nominal tank size (m^3)"]
-    capacity_dict["Tank size difference (tonnes)"] = capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] - capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]
+#    capacity_dict["Tank size difference (m^3)"] = capacity_dict["Modified tank size (m^3)"] - capacity_dict["Nominal tank size (m^3)"]
+#    capacity_dict["Tank size difference (tonnes)"] = capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] - capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]
     
     # Calculate the modified cargo capacity, in both cbm and tonnes
-    capacity_dict["Modified capacity (m^3)"] = capacity_dict["Nominal capacity (m^3)"] - capacity_dict["Tank size difference (m^3)"]
-    capacity_dict["Modified capacity (tonnes)"] = capacity_dict["Nominal capacity (tonnes)"] - capacity_dict["Tank size difference (tonnes)"]
+    # Subtract off the LSFO tank capacity for single-fuel diesel power system, but not for dual fuel
+    if fuel_power_system_dict[fuel] == "single":
+        capacity_dict["Modified capacity (m^3)"] = capacity_dict["Nominal capacity (m^3)"] - (capacity_dict["Modified tank size (m^3)"] - capacity_dict["Nominal tank size (m^3)"])
+    else:
+        capacity_dict["Modified capacity (m^3)"] = capacity_dict["Nominal capacity (m^3)"] - capacity_dict["Modified tank size (m^3)"]
+       
+    if fuel_power_system_dict[fuel] == "single":
+        capacity_dict["Modified capacity (tonnes)"] = (
+            capacity_dict["Nominal capacity (tonnes)"] -
+            (capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] -
+             capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]))
+    else:
+        capacity_dict["Modified capacity (tonnes)"] = np.minimum(capacity_dict["Nominal capacity (tonnes)"],
+            capacity_dict["Nominal capacity (tonnes)"] - 0.95 * (
+                capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] -
+                capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]))
+
     
-    capacity_dict["Percent volume difference (%)"] = 100 * (capacity_dict["Modified tank size (m^3)"] - capacity_dict["Nominal tank size (m^3)"]) / capacity_dict["Nominal capacity (m^3)"]
+    capacity_dict["Percent volume difference (%)"] = 100 * (capacity_dict["Modified capacity (m^3)"] - capacity_dict["Nominal capacity (m^3)"]) / capacity_dict["Nominal capacity (m^3)"]
     #print("Cargo loss (%): ", capacity_dict["Percent volume difference (%)"])
 
-    capacity_dict["Percent mass difference (%)"] = 100 * capacity_dict["Tank size difference (tonnes)"] / capacity_dict["Nominal capacity (tonnes)"]
+    capacity_dict["Percent mass difference (%)"] = 100 * (capacity_dict["Modified capacity (tonnes)"] - capacity_dict["Nominal capacity (tonnes)"]) / capacity_dict["Nominal capacity (tonnes)"]
     
     return capacity_dict
     
@@ -2046,15 +2068,19 @@ def main():
     plot_tank_size_factors_boiloff(tank_size_factors_dict, days_to_empty_tank_dict)
     plot_tank_size_factors(tank_size_factors_dict)
     modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, mass_density_dict, cargo_info_df, tank_size_factors_dict)
+    modified_capacities_df.to_csv(f"{top_dir}/tables/modified_capacities.csv", index=False)
     plot_vessel_capacities(modified_capacities_df, capacity_type="mass")
     plot_vessel_capacities(modified_capacities_df, capacity_type="volume")
-
-    # Next, consider a range of vessel design ranges
-    vessel_ranges = range(5000, 55000, 5000)
     
-    tank_size_factors_dicts = {}
-    days_to_empty_tank_dicts = {}
-    modified_capacities_dfs = {}
+    make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df)
+    make_modified_tank_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df)
+
+#    # Next, consider a range of vessel design ranges
+#    vessel_ranges = range(5000, 55000, 5000)
+#
+#    tank_size_factors_dicts = {}
+#    days_to_empty_tank_dicts = {}
+#    modified_capacities_dfs = {}
     
 #    for vessel_range in vessel_ranges:
 #        print(f"Processing vessel range {vessel_range} nm")
@@ -2067,19 +2093,16 @@ def main():
 #        # Modified vessel capacities
 #        modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, mass_density_dict, cargo_info_df, tank_size_factors_dict, vessel_range)
 #        modified_capacities_df.to_csv(f"{top_dir}/tables/modified_capacities_{vessel_range}.csv", index=False)
-    
-    make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df)
-    make_modified_tank_incs(top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df)
 
-    # Collect the range (in nautical miles) for each fuel
-    vessel_ranges_df = calculate_all_vessel_ranges(top_dir, fuels, tank_size_factors_dict, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict)
-    
-    # Save the ranges to a csv file
-    vessel_ranges_df.to_csv(f"{top_dir}/data/vessel_ranges.csv")
-    
+#    # Collect the range (in nautical miles) for each fuel
+#    vessel_ranges_df = calculate_all_vessel_ranges(top_dir, fuels, tank_size_factors_dict, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict)
+#
+#    # Save the ranges to a csv file
+#    vessel_ranges_df.to_csv(f"{top_dir}/data/vessel_ranges.csv")
+#
     #cargo_miles_cbm, cargo_miles_tonnes = calculate_cargo_miles(top_dir, "lsfo", "bulk_carrier_handy", modified_capacities_df)
     
-    #cargo_miles_df = make_cargo_miles_df(top_dir, vessels, fuels, modified_capacities_df)
+    cargo_miles_df = make_cargo_miles_df(top_dir, vessels, fuels, modified_capacities_df)
         
 if __name__ == "__main__":
     main()
