@@ -11,7 +11,7 @@ Vessel "container_15000_teu_ice_FTdiesel" {
     
     Route=Route("globalized_container_15000_teu")
     
-    NominalCapacity = 573084.2233009709
+    NominalCapacity = 14970.852228343021
 
     Lifetime=25
     Finance=Finance("vessel_finance")

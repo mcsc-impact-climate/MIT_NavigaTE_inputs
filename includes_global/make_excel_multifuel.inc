@@ -25,6 +25,7 @@ Report "excel_report" {
     #add_fleet_property("*", Miles)
     #add_fleet_property("*", SpendEnergy, BOTH)         # DMM: Absolute number in GJ
     add_fleet_property("*", ConsumedEnergy)
+    add_fleet_property("*", Trade)
     
     add_property(TotalEquivalentWTT)
     add_property(TotalEquivalentTTW)

@@ -11,7 +11,7 @@ Vessel "bulk_carrier_handy_ice_compressed_hydrogen" {
     
     Route=Route("globalized_bulk_carrier_handy")
     
-    NominalCapacity = 12097.600281003066
+    NominalCapacity = 35000.0
 
     Lifetime=25
     Finance=Finance("vessel_finance")
@@ -42,7 +42,8 @@ PowerSystem "ice_hydrogen_bulk_carrier_handy" {
 }
 
 Converter "propulsion_ice_hydrogen_bulk_carrier_handy" {
-    PowerCapacity=6.3
+    PowerCapacity=7.1
+    MinimumLoad=0.2
     MainFuelTypes = [HYDROGEN]
     PilotFuelTypes = [DIESEL, HFO]
     MinimumPilotFuel = 0.05

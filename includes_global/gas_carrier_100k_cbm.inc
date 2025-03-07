@@ -145,9 +145,9 @@ Forecast "gas_carrier_100k_cbm_orderbook_oil" {
 Forecast "gas_carrier_100k_cbm_orderbook_ammonia" {
 	Table [
 		"01-01-2025"	0
-		"01-01-2026"    4
-		"01-01-2027"    6
-		"01-01-2028"    8
+		"01-01-2026"    0
+		"01-01-2027"    0
+		"01-01-2028"    0
 	]
 	
 	Extrapolate = FLAT

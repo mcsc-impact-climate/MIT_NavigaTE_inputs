@@ -87,6 +87,13 @@ vessel_type_title = {
     "gas_carrier": "Gas Carrier",
 }
 
+vessel_capacity_unit = {
+    "bulk_carrier": "DWT",
+    "container": "TEU",
+    "tanker": "DWT",
+    "gas_carrier": "m^3",
+}
+
 vessel_size_title = {
     "bulk_carrier_capesize": "Capesize",
     "bulk_carrier_handy": "Handy",
@@ -1073,10 +1080,23 @@ def make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modifie
                         content = file.readlines()
 
                     # Get the modified capacity for this vessel and fuel combination from the DataFrame
-                    modified_capacity = modified_capacities_df[
-                        (modified_capacities_df["Vessel"] == vessel_class) &
-                        (modified_capacities_df["Fuel"] == fuel)
-                    ]["Modified capacity (m^3)"].values[0]
+                    if vessel_capacity_unit[vessel_type] == "m^3":
+                        modified_capacity = modified_capacities_df[
+                            (modified_capacities_df["Vessel"] == vessel_class) &
+                            (modified_capacities_df["Fuel"] == fuel)
+                        ]["Modified capacity (m^3)"].values[0]
+                    
+                    elif vessel_capacity_unit[vessel_type] == "TEU":
+                         modified_capacity = modified_capacities_df[
+                            (modified_capacities_df["Vessel"] == vessel_class) &
+                            (modified_capacities_df["Fuel"] == fuel)
+                        ]["Modified capacity (m^3)"].values[0] / M3_PER_TEU
+                        
+                    elif vessel_capacity_unit[vessel_type] == "DWT":
+                        modified_capacity = modified_capacities_df[
+                            (modified_capacities_df["Vessel"] == vessel_class) &
+                            (modified_capacities_df["Fuel"] == fuel)
+                        ]["Modified capacity (tonnes)"].values[0]
 
                     # Loop through the lines and make necessary updates
                     for i, line in enumerate(content):
