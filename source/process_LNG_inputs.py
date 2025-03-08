@@ -4,7 +4,7 @@ Purpose: Process NG related inputs from GREET to get them in the form needed for
 """
 
 import pandas as pd
-from common_tools import get_top_dir, get_fuel_LHV, get_fuel_density
+from common_tools import get_top_dir, get_fuel_LHV
 
 BTU_PER_MJ = 947.817
 BTU_PER_MMBTU = 1e6
