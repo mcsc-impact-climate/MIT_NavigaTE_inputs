@@ -21,6 +21,7 @@ KG_PER_DWT = 1000
 VESSELS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Vessel"
 VESSELS_DIR_LOCAL = "includes_global/vessels_orig_capacity"
 VESSELS_MODIFIED_DIR = "includes_global/vessels_modified_capacity"
+VESSELS_MODIFIED_TANKS_ORIG_DIR = "includes_global/vessels_modified_capacity_orig_tanks"
 TANKS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Tank"
 TANKS_DIR_LOCAL = "includes_global/tanks_orig_size"
 TANKS_MODIFIED_DIR = "includes_global/tanks_modified_size"
@@ -1073,11 +1074,14 @@ def make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modifie
                     original_filepath = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{vessel_class}_ice_{fuel_vessel_dict[fuel]}.inc"
                     
                 modified_filepath = f"{top_dir}/{VESSELS_MODIFIED_DIR}/{vessel_class}_ice_{fuel}.inc"
+                modified_filepath_orig_tanks = f"{top_dir}/{VESSELS_MODIFIED_TANKS_ORIG_DIR}/{vessel_class}_ice_{fuel}.inc"
 
                 try:
                     # Read the original .inc file
                     with open(original_filepath, 'r') as file:
                         content = file.readlines()
+                        content_modified_capacity = content[:]
+                        content_modified_capacity_orig_tanks = content[:]
 
                     # Get the modified capacity for this vessel and fuel combination from the DataFrame
                     if vessel_capacity_unit[vessel_type] == "m^3":
@@ -1102,22 +1106,28 @@ def make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modifie
                     for i, line in enumerate(content):
                         # Update the "NominalCapacity" line
                         if line.strip().startswith("NominalCapacity"):
-                            content[i] = f"    NominalCapacity = {modified_capacity}\n"
+                            content_modified_capacity[i] = f"    NominalCapacity = {modified_capacity}\n"
+                            content_modified_capacity_orig_tanks[i] = f"    NominalCapacity = {modified_capacity}\n"
                         
                         # Update the "Vessel" line to replace the fuel keyword with the actual fuel name
                         if line.strip().startswith("Vessel"):
-                            content[i] = f'Vessel "{vessel_class}_ice_{fuel}" {{\n'
+                            content_modified_capacity[i] = f'Vessel "{vessel_class}_ice_{fuel}" {{\n'
+                            content_modified_capacity_orig_tanks[i] = f'Vessel "{vessel_class}_ice_{fuel}" {{\n'
                             
                         # Update the "Tanks" line
                         if line.strip().startswith("Tanks"):
-                            content[i] = f'    Tanks = [Tank("main_{fuel}_{vessel_class}"), Tank("pilot_oil_bulk_carrier_capesize")]\n'
+                            content_modified_capacity[i] = f'    Tanks = [Tank("main_{fuel}_{vessel_class}"), Tank("pilot_oil_bulk_carrier_capesize")]\n'
 
                     # Write the modified content to the new file
                     os.makedirs(os.path.dirname(modified_filepath), exist_ok=True)
                     with open(modified_filepath, 'w') as file:
-                        file.writelines(content)
-                        
+                        file.writelines(content_modified_capacity)
                     print(f"Modified file written to: {modified_filepath}")
+
+                    os.makedirs(os.path.dirname(modified_filepath_orig_tanks), exist_ok=True)
+                    with open(modified_filepath_orig_tanks, 'w') as file:
+                        file.writelines(content_modified_capacity_orig_tanks)
+                    print(f"Modified file written to: {modified_filepath_orig_tanks}")
                 
                 except FileNotFoundError:
                     print(f"File not found: {original_filepath}")
