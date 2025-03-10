@@ -16,7 +16,7 @@ Vessel "tanker_35k_dwt_ice_ammonia" {
 	HeatLoadLevelInPort = 3.7
 	
 	PowerSystem = PowerSystem("ice_ammonia_tanker_35k_dwt")
-    Tanks = [Tank("main_ammonia_tanker_35k_dwt"), Tank("pilot_oil_bulk_carrier_capesize")]
+	Tanks = [Tank("main_ammonia_tanker_35k_dwt"), Tank("pilot_oil_tanker_35k_dwt")]
 	
 	Route = Route("globalized_tanker_35k_dwt")
 	

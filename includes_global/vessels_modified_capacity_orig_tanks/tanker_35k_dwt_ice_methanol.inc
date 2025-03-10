@@ -7,7 +7,7 @@
 # file located in the root directory of this source tree.
 
 
-Vessel "tanker_35k_dwt_ice_ammonia" {
+Vessel "tanker_35k_dwt_ice_methanol" {
 	
 	PropulsionLoadLevel = Surface("speed_draft_power_surface_tanker_35k_dwt")
 	ElectricalLoadLevelAtSea = 0.6
@@ -15,12 +15,12 @@ Vessel "tanker_35k_dwt_ice_ammonia" {
 	HeatLoadLevelAtSea = 3.7
 	HeatLoadLevelInPort = 3.7
 	
-	PowerSystem = PowerSystem("ice_ammonia_tanker_35k_dwt")
-    Tanks = [Tank("main_ammonia_tanker_35k_dwt"), Tank("pilot_oil_bulk_carrier_capesize")]
+	PowerSystem = PowerSystem("ice_methanol_tanker_35k_dwt")
+	Tanks = [Tank("main_methanol_tanker_35k_dwt"), Tank("pilot_oil_tanker_35k_dwt")]
 	
 	Route = Route("globalized_tanker_35k_dwt")
 	
-    NominalCapacity = 32376.257452484857
+    NominalCapacity = 33177.24405461671
 	
 	Lifetime = 30
 	Finance = Finance("vessel_finance")
