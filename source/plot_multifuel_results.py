@@ -49,6 +49,23 @@ vessel_size_title = {
     "gas_carrier_100k_cbm_ice": "100k m$^3$",
 }
 
+fuel_colors = {
+    "ammonia": "tab:blue",
+    "hydrogen": "tab:orange",
+    "methanol": "tab:green",
+    "diesel": "tab:red",
+    "oil": "tab:grey"
+}
+
+fuel_names = {
+    "ammonia": "ammonia",
+    "hydrogen": "liquid hydrogen",
+    "methanol": "methanol",
+    "diesel": "FT diesel",
+    "oil": "LSFO"
+}
+
+
 # Read in results for the fleet sheet
 def read_results_fleet(filename):
     """
@@ -403,8 +420,35 @@ def plot_regulation_vessel_info(data_dict, column_name, regulation_name="net_zer
     plt.savefig(f"plots/multifuel/regulation_{regulation_name}_{vessel_name}_{column_name}{save_label}.pdf")
     plt.close()
     
+def sort_color_label_columns(columns):
+    """
+    Returns:
+        sorted_cols: list of original column names sorted according to fuel_colors
+        color_list: list of colors matching sorted_cols
+        label_list: list of display names (from fuel_names) matching sorted_cols
+    """
+    sorted_cols = []
+    colors = []
+    labels = []
+    remaining_cols = list(columns)
+
+    for fuel_key in fuel_colors.keys():
+        matching_cols = [col for col in remaining_cols if fuel_key in col.lower()]
+        for col in matching_cols:
+            sorted_cols.append(col)
+            colors.append(fuel_colors[fuel_key])
+            labels.append(fuel_names[fuel_key])
+            remaining_cols.remove(col)
+
+    for col in remaining_cols:
+        sorted_cols.append(col)
+        colors.append("grey")
+        labels.append(col)
+
+    return sorted_cols, colors, labels
     
 def plot_global_stacked_fuel_info(global_results_dict, column_name, ylabel=None, save_label=None):
+
     # Access the 'fuel info' dictionary
     fuel_info = global_results_dict['fuel info']
     
@@ -414,20 +458,24 @@ def plot_global_stacked_fuel_info(global_results_dict, column_name, ylabel=None,
     # Loop through each fuel and extract the column if it exists
     for fuel, df in fuel_info.items():
         if column_name in df.columns:
-            # Ensure Date is datetime for proper plotting
             df['Date'] = pd.to_datetime(df['Date'])
-            
-            # Get the formatted fuel label
-            fuel_label = get_fuel_label(fuel)
 
-            # Add data to stacked_data, using Date as the index
+            # Determine label from fuel_names (fallback: original fuel name)
+            label = None
+            for fuel_key in fuel_names.keys():
+                if fuel_key in fuel.lower():
+                    label = fuel_names[fuel_key]
+                    break
+            if label is None:
+                label = fuel
+
             if stacked_data.empty:
                 stacked_data['Date'] = df['Date']
-                stacked_data[fuel_label] = df[column_name]
+                stacked_data[label] = df[column_name]
             else:
                 stacked_data = pd.merge(
                     stacked_data,
-                    df[['Date', column_name]].rename(columns={column_name: fuel_label}),
+                    df[['Date', column_name]].rename(columns={column_name: label}),
                     on='Date',
                     how='outer'
                 )
@@ -435,7 +483,6 @@ def plot_global_stacked_fuel_info(global_results_dict, column_name, ylabel=None,
     # Ensure all columns except Date are numeric
     stacked_data = stacked_data.sort_values('Date')
 
-    # Convert all non-Date columns to numeric before filling NaNs
     for col in stacked_data.columns:
         if col != 'Date':
             stacked_data[col] = pd.to_numeric(stacked_data[col], errors='coerce')
@@ -445,35 +492,41 @@ def plot_global_stacked_fuel_info(global_results_dict, column_name, ylabel=None,
 
     stacked_data.set_index('Date', inplace=True)
 
+    # Sort columns and assign colors and labels
+    sorted_cols, color_list, label_list = sort_color_label_columns(stacked_data.columns)
+
     # Plotting the stacked area chart
     plt.figure(figsize=(14, 6))
-    plt.stackplot(stacked_data.index, stacked_data.T, labels=stacked_data.columns, alpha=0.8)
+    plt.stackplot(
+        stacked_data.index,
+        [stacked_data[col] for col in sorted_cols],
+        labels=label_list,
+        colors=color_list,
+        alpha=0.8
+    )
 
     # Labeling
     plt.xlabel('Date', fontsize=22)
-    if ylabel is None:
-        plt.ylabel(column_name, fontsize=22)
-    else:
-        plt.ylabel(ylabel, fontsize=22)
+    plt.ylabel(ylabel if ylabel else column_name, fontsize=22)
     plt.xticks(fontsize=18)
     plt.yticks(fontsize=18)
     plt.legend(title='Fuel', fontsize=20, title_fontsize=22, loc='upper left', bbox_to_anchor=(1, 1))
 
     plt.grid(True)
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 0.85, 1])
 
     # Save the plot
-    if save_label is not None:
+    if save_label is not None and not save_label.startswith("_"):
         save_label = "_" + save_label
         
     save_path_png = f"plots/multifuel/global_stacked_{column_name}{save_label}.png"
     save_path_pdf = f"plots/multifuel/global_stacked_{column_name}{save_label}.pdf"
         
     print(f"Saving to {save_path_png}")
-    plt.savefig(save_path_png, dpi=300)
+    plt.savefig(save_path_png, dpi=300, bbox_inches="tight")
     
     print(f"Saving to {save_path_pdf}")
-    plt.savefig(save_path_pdf)
+    plt.savefig(save_path_pdf, bbox_inches="tight")
     plt.close()
     
 
@@ -493,28 +546,53 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
         Determines the stacking level: "size" (per vessel size), "class" (per vessel class), or "fleet" (full fleet).
     """
 
-    fleet_stacked_data = None  # Ensure fleet_stacked_data is initialized properly
+    def sort_color_label_columns(columns):
+        """
+        Returns:
+            sorted_cols: list of original column names sorted according to fuel_colors
+            color_list: list of colors matching sorted_cols
+            label_list: list of display names (from fuel_names) matching sorted_cols
+        """
+        sorted_cols = []
+        colors = []
+        labels = []
+        remaining_cols = list(columns)
+
+        for fuel_key in fuel_colors.keys():
+            matching_cols = [col for col in remaining_cols if fuel_key in col.lower()]
+            for col in matching_cols:
+                sorted_cols.append(col)
+                colors.append(fuel_colors[fuel_key])
+                labels.append(fuel_names[fuel_key])
+                remaining_cols.remove(col)
+
+        # Any remaining fuels that weren't explicitly matched
+        for col in remaining_cols:
+            sorted_cols.append(col)
+            colors.append("grey")
+            labels.append(col)
+
+        return sorted_cols, colors, labels
+
+    fleet_stacked_data = None
 
     for vessel_class in vessel_classes:
         fleet_results_class_dict = fleet_results_dict[vessel_class]
-        
-        class_stacked_data = None  # Initialize for class-level aggregation
+
+        class_stacked_data = None
 
         for vessel_size in fleet_results_class_dict:
-            
             main_fuel_size_dict = fleet_results_class_dict[vessel_size]["main fuel info"]
-            
-            stacked_data = None  # Initialize for size-level aggregation
+
+            stacked_data = None
 
             for fuel, df in main_fuel_size_dict.items():
                 if column in df.columns:
-                    df['Date'] = pd.to_datetime(df['Date'])  # Ensure Date is datetime
+                    df['Date'] = pd.to_datetime(df['Date'])
                     
-                    # Extract relevant data
                     df_subset = df[['Date', column]].rename(columns={column: fuel})
                     df_subset.set_index("Date", inplace=True)
 
-                    # Ensure numeric values for addition
                     df_subset[fuel] = pd.to_numeric(df_subset[fuel], errors='coerce')
 
                     if stacked_data is None:
@@ -522,28 +600,30 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
                     else:
                         stacked_data = stacked_data.add(df_subset, fill_value=0)
 
-            # Fill NaNs with 0 after summation
             if stacked_data is not None:
                 stacked_data = stacked_data.fillna(0)
 
-                # If level="size", plot immediately
+                sorted_cols, color_list, label_list = sort_color_label_columns(stacked_data.columns)
+
                 if level == "size":
                     fig, ax = plt.subplots(figsize=(12, 6))
-                    ax.stackplot(stacked_data.index, stacked_data.T, labels=stacked_data.columns, alpha=0.8)
+                    ax.stackplot(
+                        stacked_data.index,
+                        [stacked_data[col] for col in sorted_cols],
+                        labels=label_list,
+                        colors=color_list,
+                        alpha=0.8
+                    )
 
                     ax.set_xlabel('Date', fontsize=22)
-                    if ylabel is None:
-                        ax.set_ylabel(column, fontsize=22)
-                    else:
-                        ax.set_ylabel(ylabel, fontsize=22)
+                    ax.set_ylabel(ylabel if ylabel else column, fontsize=22)
                     ax.set_title(f"{vessel_class}: {vessel_size}", fontsize=24)
                     ax.tick_params(axis='both', labelsize=18)
                     ax.grid(True)
 
                     ax.legend(title='Fuel', fontsize=14, title_fontsize=16, loc='upper left', bbox_to_anchor=(1, 1))
-                    plt.tight_layout(rect=[0, 0, 0.85, 1])  # Adjust layout for legend
+                    plt.tight_layout(rect=[0, 0, 0.85, 1])
 
-                    # Save the plot
                     if save_label is not None and not save_label.startswith("_"):
                         save_label = "_" + save_label
 
@@ -556,36 +636,37 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
                     plt.savefig(save_path_pdf, bbox_inches="tight")
                     plt.close()
 
-            # Accumulate into class-level data if level="class" or "fleet"
-            if level in ["class", "fleet"] and stacked_data is not None:
-                if class_stacked_data is None:
-                    class_stacked_data = stacked_data.copy()
-                else:
-                    # Ensure numeric values before adding
-                    stacked_data = stacked_data.apply(pd.to_numeric, errors='coerce')
-                    class_stacked_data = class_stacked_data.add(stacked_data, fill_value=0)
+                if level in ["class", "fleet"]:
+                    if class_stacked_data is None:
+                        class_stacked_data = stacked_data.copy()
+                    else:
+                        class_stacked_data = class_stacked_data.add(stacked_data, fill_value=0)
 
-        # If level="class", plot the results after iterating over all vessel sizes
         if level == "class" and class_stacked_data is not None:
+            class_stacked_data = class_stacked_data.fillna(0)
+            sorted_cols, color_list, label_list = sort_color_label_columns(class_stacked_data.columns)
+
             fig, ax = plt.subplots(figsize=(12, 6))
-            ax.stackplot(class_stacked_data.index, class_stacked_data.T, labels=class_stacked_data.columns, alpha=0.8)
+            ax.stackplot(
+                class_stacked_data.index,
+                [class_stacked_data[col] for col in sorted_cols],
+                labels=label_list,
+                colors=color_list,
+                alpha=0.8
+            )
 
             ax.set_xlabel('Date', fontsize=22)
-            if ylabel is None:
-                ax.set_ylabel(column, fontsize=22)
-            else:
-                ax.set_ylabel(ylabel, fontsize=22)
+            ax.set_ylabel(ylabel if ylabel else column, fontsize=22)
             ax.set_title(f"{vessel_class} Fleet", fontsize=24)
             ax.tick_params(axis='both', labelsize=18)
             ax.grid(True)
 
             ax.legend(title='Fuel', fontsize=14, title_fontsize=16, loc='upper left', bbox_to_anchor=(1, 1))
-            plt.tight_layout(rect=[0, 0, 0.85, 1])  # Adjust layout for legend
+            plt.tight_layout(rect=[0, 0, 0.85, 1])
 
-            # Save the plot
             if save_label is not None and not save_label.startswith("_"):
                 save_label = "_" + save_label
-            
+
             save_path_png = f"plots/multifuel/class_{vessel_class}_{column}{save_label}.png"
             save_path_pdf = f"plots/multifuel/class_{vessel_class}_{column}{save_label}.pdf"
 
@@ -595,34 +676,34 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
             plt.savefig(save_path_pdf, bbox_inches="tight")
             plt.close()
 
-        # Accumulate into fleet-level data if level="fleet"
         if level == "fleet" and class_stacked_data is not None:
             if fleet_stacked_data is None:
                 fleet_stacked_data = class_stacked_data.copy()
             else:
-                # Ensure numeric values before adding
-                class_stacked_data = class_stacked_data.apply(pd.to_numeric, errors='coerce')
                 fleet_stacked_data = fleet_stacked_data.add(class_stacked_data, fill_value=0)
 
-    # If level="fleet", plot after iterating over all vessel classes
     if level == "fleet" and fleet_stacked_data is not None:
-        fleet_stacked_data = fleet_stacked_data.sort_index()  # Ensure chronological order
+        fleet_stacked_data = fleet_stacked_data.fillna(0)
+        sorted_cols, color_list, label_list = sort_color_label_columns(fleet_stacked_data.columns)
+
         fig, ax = plt.subplots(figsize=(12, 6))
-        ax.stackplot(fleet_stacked_data.index, fleet_stacked_data.T, labels=fleet_stacked_data.columns, alpha=0.8)
+        ax.stackplot(
+            fleet_stacked_data.index,
+            [fleet_stacked_data[col] for col in sorted_cols],
+            labels=label_list,
+            colors=color_list,
+            alpha=0.8
+        )
 
         ax.set_xlabel('Date', fontsize=22)
-        if ylabel is None:
-            ax.set_ylabel(column, fontsize=22)
-        else:
-            ax.set_ylabel(ylabel, fontsize=22)
+        ax.set_ylabel(ylabel if ylabel else column, fontsize=22)
         ax.set_title("Full Fleet", fontsize=24)
         ax.tick_params(axis='both', labelsize=18)
         ax.grid(True)
 
         ax.legend(title='Fuel', fontsize=14, title_fontsize=16, loc='upper left', bbox_to_anchor=(1, 1))
-        plt.tight_layout(rect=[0, 0, 0.85, 1])  # Adjust layout for legend
+        plt.tight_layout(rect=[0, 0, 0.85, 1])
 
-        # Save the plot
         if save_label is not None and not save_label.startswith("_"):
             save_label = "_" + save_label
 
@@ -634,6 +715,7 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
         print(f"Saving to {save_path_pdf}")
         plt.savefig(save_path_pdf, bbox_inches="tight")
         plt.close()
+
         
 def make_all_plots(results_file, results_label=None, regulations=None):
     """
@@ -648,7 +730,7 @@ def make_all_plots(results_file, results_label=None, regulations=None):
     """
 
     ################################## Global results ##################################
-#    global_results_dict = read_results_global(results_file)
+    global_results_dict = read_results_global(results_file)
     
 #    # Fleet info
 #    plot_fleet_info_column(global_results_dict, "TotalEquivalentWTW", info_type="global", ylabel="WTW Emissions (tonnes CO2e)", save_label=results_label)
@@ -657,7 +739,7 @@ def make_all_plots(results_file, results_label=None, regulations=None):
 #    plot_fleet_info_column(global_results_dict, "Expenses", info_type="global", ylabel="Total Expenses (USD)", save_label=results_label)
 
 #    # Global info
-#    plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
+    plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
 #    plot_global_stacked_fuel_info(global_results_dict, "FuelRelatedExpenses", save_label=results_label)
     ####################################################################################
 #
@@ -675,9 +757,9 @@ def make_all_plots(results_file, results_label=None, regulations=None):
     fleet_results_dict = read_results_fleet(results_file)
 
     # Plot fleet info for each vessel class and size
-    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="size", ylabel="Existing Vessels", save_label=results_label)
-    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="size", save_label=results_label)
-    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="size", ylabel = "Scrapped Vessels", save_label=results_label)
+#    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="size", ylabel="Existing Vessels", save_label=results_label)
+#    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="size", save_label=results_label)
+#    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="size", ylabel = "Scrapped Vessels", save_label=results_label)
 
     # Plot fleet info for each vessel class (aggregated over sizes)
     plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="class", ylabel="Existing Vessels", save_label=results_label)
@@ -693,11 +775,23 @@ def make_all_plots(results_file, results_label=None, regulations=None):
             
 def main():
 
-    results_file_base = "multi_fuel_full_fleet/all_fuels_base/plots/all_fuels_base_excel_report.xlsx"
-    make_all_plots(results_file_base, results_label="base")
+#    results_file_base = "multi_fuel_full_fleet/all_fuels_base/plots/all_fuels_base_excel_report.xlsx"
+#    make_all_plots(results_file_base, results_label="base")
     
-    #results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap/plots/all_fuels_mod_cap_excel_report.xlsx"
-    #make_all_plots(results_file_mod_cap, results_label="mod_cap")
+#    results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap_orig_tank/plots/all_fuels_mod_cap_orig_tank_excel_report.xlsx"
+#    make_all_plots(results_file_mod_cap, results_label="mod_cap_orig_tank")
+#
+    results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap/plots/all_fuels_mod_cap_excel_report.xlsx"
+    make_all_plots(results_file_mod_cap, results_label="mod_cap")
+    
+#    results_file_base = "multi_fuel_full_fleet/all_fuels_base/plots/all_fuels_base_age_levelized_excel_report.xlsx"
+#    make_all_plots(results_file_base, results_label="base_age_levelized")
+#
+#    results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap_orig_tank/plots/all_fuels_mod_cap_orig_tank_age_levelized_excel_report.xlsx"
+#    make_all_plots(results_file_mod_cap, results_label="mod_cap_orig_tank_age_levelized")
+#
+#    results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap_orig_tank/plots/all_fuels_mod_cap_orig_tank_cargomiles_levelized_excel_report.xlsx"
+#    make_all_plots(results_file_mod_cap, results_label="mod_cap_orig_tank_cargomiles_levelized")
     
     ###################################################################################################
 
