@@ -4,13 +4,12 @@ Purpose: Process NG related inputs from GREET to get them in the form needed for
 """
 
 import pandas as pd
-from common_tools import get_top_dir, get_fuel_LHV
+from common_tools import get_top_dir
 
 BTU_PER_MJ = 947.817
 BTU_PER_MMBTU = 1e6
-MJ_PER_GJ = 1000
 GAL_PER_M3 = 264.172
-NG_LHV = get_fuel_LHV("LNG")  # LHV of NG, in MJ/kg
+NG_HHV = 55.21  # HHV of NG, in MJ/kg, from GREET 2024
 G_PER_KG = 1000
 
 def Btu_per_mmBtu_to_kg_per_kg(value):
@@ -19,20 +18,20 @@ def Btu_per_mmBtu_to_kg_per_kg(value):
 
 def kg_per_kg_to_GJ_per_kg(value):
     """Convert NG consumption from kg/kg to GJ/kg."""
-    return value * NG_LHV / MJ_PER_GJ
+    return value * NG_HHV
 
 def gal_per_mmBtu_to_m3_per_kg(value):
     """Convert water consumption from gal/mmBtu to m³/kg."""
-    return value / GAL_PER_M3 * NG_LHV / BTU_PER_MMBTU * BTU_PER_MJ
+    return value / GAL_PER_M3 * NG_HHV / BTU_PER_MMBTU * BTU_PER_MJ
 
 def g_per_mmBtu_to_kg_per_kg(value):
     """Convert emissions from g/mmBtu to kg/kg."""
-    return value / G_PER_KG * NG_LHV / BTU_PER_MMBTU * BTU_PER_MJ
+    return value * NG_HHV  * BTU_PER_MJ / (G_PER_KG * BTU_PER_MMBTU)
 
 def main():
     top_dir = get_top_dir()
     input_path = f"{top_dir}/input_fuel_pathway_data/LNG_inputs_GREET.csv"
-    
+
     # Load data
     df = pd.read_csv(input_path)
 
@@ -60,18 +59,18 @@ def main():
         "CO2 Emissions": "CO2 Emissions (g/mmBtu)"
     })
 
-    print("Pivoted Table:")
-    print(df_pivot)
+    #print("Pivoted Table:")
+    #print(df_pivot)
 
     # Apply conversions
     df_pivot["NG Consumption (kg/kg)"] = df_pivot["NG Consumption (Btu/mmBtu)"].apply(Btu_per_mmBtu_to_kg_per_kg)
-    df_pivot["NG Consumption (MJ/kg)"] = df_pivot["NG Consumption (kg/kg)"].apply(kg_per_kg_to_GJ_per_kg)
+    df_pivot["NG Consumption (GJ/kg)"] = df_pivot["NG Consumption (kg/kg)"].apply(kg_per_kg_to_GJ_per_kg)
     df_pivot["Water Consumption (m^3/kg)"] = df_pivot["Water Consumption (gal/mmBtu)"].apply(gal_per_mmBtu_to_m3_per_kg)
     df_pivot["CH4 Emissions (kg/kg)"] = df_pivot["CH4 Emissions (g/mmBtu)"].apply(g_per_mmBtu_to_kg_per_kg)
     df_pivot["CO2 Emissions (kg/kg)"] = df_pivot["CO2 Emissions (g/mmBtu)"].apply(g_per_mmBtu_to_kg_per_kg)
 
     # Select final columns
-    df_final = df_pivot[["Stage", "NG Consumption (kg/kg)", "NG Consumption (MJ/kg)",
+    df_final = df_pivot[["Stage", "NG Consumption (kg/kg)", "NG Consumption (GJ/kg)",
                           "Water Consumption (m^3/kg)", "CH4 Emissions (kg/kg)", "CO2 Emissions (kg/kg)"]]
 
     # Save to CSV
