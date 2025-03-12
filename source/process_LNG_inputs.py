@@ -9,7 +9,8 @@ from common_tools import get_top_dir
 BTU_PER_MJ = 947.817
 BTU_PER_MMBTU = 1e6
 GAL_PER_M3 = 264.172
-NG_HHV = 55.21  # HHV of NG, in MJ/kg, from GREET 2024
+NG_HHV_MJ = 55.21  # HHV of NG, in MJ/kg, from GREET 2024
+NG_HHV_GJ = NG_HHV_MJ/1000  # HHV of NG, in GJ/kg
 G_PER_KG = 1000
 
 def Btu_per_mmBtu_to_kg_per_kg(value):
@@ -18,15 +19,15 @@ def Btu_per_mmBtu_to_kg_per_kg(value):
 
 def kg_per_kg_to_GJ_per_kg(value):
     """Convert NG consumption from kg/kg to GJ/kg."""
-    return value * NG_HHV
+    return value * NG_HHV_GJ
 
 def gal_per_mmBtu_to_m3_per_kg(value):
     """Convert water consumption from gal/mmBtu to m³/kg."""
-    return value / GAL_PER_M3 * NG_HHV / BTU_PER_MMBTU * BTU_PER_MJ
+    return value / GAL_PER_M3 * NG_HHV_MJ / BTU_PER_MMBTU * BTU_PER_MJ
 
 def g_per_mmBtu_to_kg_per_kg(value):
     """Convert emissions from g/mmBtu to kg/kg."""
-    return value * NG_HHV  * BTU_PER_MJ / (G_PER_KG * BTU_PER_MMBTU)
+    return value * NG_HHV_MJ  * BTU_PER_MJ / (G_PER_KG * BTU_PER_MMBTU)
 
 def main():
     top_dir = get_top_dir()
