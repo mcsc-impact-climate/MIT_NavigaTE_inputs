@@ -57,10 +57,10 @@ WTT_input_files = {
     },
     "LNG": {
         "Production": {
-            "Natural Gas Production": "input_fuel_pathway_data/production/NG_costs_emissions.csv"
+            "Natural Gas Production": "input_fuel_pathway_data/production/ng_costs_emissions.csv"
             },
         "Process": {
-            "Natural Gas Liquefaction": "input_fuel_pathway_data/process/NG_liquefaction_costs_emissions.csv"
+            "Natural Gas Liquefaction": "input_fuel_pathway_data/process/ng_liquefaction_costs_emissions.csv"
             },
     },
 }

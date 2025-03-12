@@ -5,5 +5,5 @@ compressed_hydrogen,H,hydrogen_to_ammonia_conversion,nuke,ATRCCS,ATRCCS
 ammonia,NH,,,LTE,BEC
 methanol,CHO,,,BG,DAC
 FTdiesel,CH,,,,BG
-NG,fossil,ng_liquefaction,,,
-LNG,fossil,,,,
+ng,fossil,ng_liquefaction,,,
+lng,fossil,,,,
