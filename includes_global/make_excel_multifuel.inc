@@ -9,6 +9,7 @@ Report "excel_report" {
     add_vessel_property("*", CargoMiles)                # tonne/miles per year
     add_vessel_property("*", SpendEnergy, BOTH)         # Energy demand / year (GJ)
         
+    add_vessel_property("*", TotalCost)
     add_vessel_property("*", TotalCAPEX)
     add_vessel_property("*", TotalBaseCost)
     add_vessel_property("*", TotalPowerSystemCost)
@@ -18,6 +19,7 @@ Report "excel_report" {
     add_vessel_property("*", TotalExcludingFuelOPEX)
     add_vessel_property("*", TotalFuelOPEX)
     add_vessel_property("*", InvestmentMetric)
+    add_vessel_property("*", InvestmentMetricExpected)
     add_vessel_property("*", ConsumedEnergy)            # Dictionary for each fuel
     
     # Fleet properties
