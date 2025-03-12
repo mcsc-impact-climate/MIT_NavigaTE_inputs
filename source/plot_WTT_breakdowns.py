@@ -55,6 +55,14 @@ WTT_input_files = {
         },
         "Process": {},
     },
+    "LNG": {
+        "Production": {
+            "Natural Gas Production": "input_fuel_pathway_data/production/NG_costs_emissions.csv"
+            },
+        "Process": {
+            "Natural Gas Liquefaction": "input_fuel_pathway_data/process/NG_liquefaction_costs_emissions.csv"
+            },
+    },
 }
 
 stage_colors = {
@@ -64,6 +72,8 @@ stage_colors = {
     "H-NH3 Conversion": "turquoise",
     "Hydrogen Compression": "orangered",
     "Hydrogen Liquefaction": "orchid",
+    "Natural Gas Production": "gold",
+    "Natural Gas Liquefaction": "orchid"
 }
 
 continent_regions = {
@@ -184,7 +194,7 @@ class PathwayWTT:
         }
         
         if continent == "all":
-            pathway_data_df = self.pathway_data_df[pathway_data_df].copy()
+            pathway_data_df = self.pathway_data_df.copy()
         else:
             regions = continent_regions[continent]
             pathway_data_df = self.pathway_data_df[self.pathway_data_df["Region"].isin(regions)]
@@ -581,6 +591,11 @@ class FuelWTT:
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
+        
+        filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.pdf"
+        print(f"Saving figure to {filepath_save}")
+        plt.savefig(filepath_save)
+        
         plt.close()
         
 def get_MMMCZCS_fuel_cost(MMMCZCS_fuel, year, continent):
@@ -867,14 +882,14 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
 
 def main():
     
-#    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel"]:
-#        fuel_wtt = FuelWTT(fuel)
-#        fuel_wtt.make_stacked_hist("emissions")
-#        fuel_wtt.make_stacked_hist("cost")
+    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "LNG"]:
+        fuel_wtt = FuelWTT(fuel)
+        fuel_wtt.make_stacked_hist("emissions")
+        fuel_wtt.make_stacked_hist("cost")
 
-    for MMMCZCS_fuel in fuel_pathways.keys():
-        for continent in continent_regions.keys():
-            make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, "cost")
+#    for MMMCZCS_fuel in fuel_pathways.keys():
+#        for continent in continent_regions.keys():
+#            make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, "cost")
 
 main()
 

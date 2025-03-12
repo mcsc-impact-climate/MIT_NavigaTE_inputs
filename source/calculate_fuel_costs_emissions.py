@@ -726,9 +726,15 @@ def main():
 
     # Gate to Pump Processes
     processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion", "ng_liquefaction"]
-    process_pathways = Esources
-    E_pathways = Esources
-    for process in processes: 
+    
+    for process in processes:
+        if process == "ng_liquefaction":
+            process_pathways = ["fossil"]
+            E_pathways = ["n/a"]
+        else:
+            process_pathways = Esources
+            E_pathways = Esources
+            
         # List to hold all rows for the output CSV
         output_data = []
 
