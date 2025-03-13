@@ -733,6 +733,7 @@ class ProcessedQuantity:
         filepath_save = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{filename_save}.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
+
         filepath_save_pdf = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{filename_save}.pdf"
         print(f"Saving figure to {filepath_save_pdf}")
         plt.savefig(filepath_save_pdf)
@@ -930,7 +931,7 @@ class ProcessedQuantity:
         filepath_save = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
-        
+
         filepath_save_pdf = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.pdf"
         print(f"Saving figure to {filepath_save_pdf}")
         plt.savefig(filepath_save_pdf)
@@ -1506,6 +1507,14 @@ class ProcessedFuel:
                     label="Sum" if i_pathway == 0 else ""
                 )
 
+            # Set the y-axis label color to match the pathway type
+            y_labels = ax.get_yticklabels()
+            pathway_type = get_pathway_type(pathway_name)
+            if i_pathway < len(y_labels):
+                y_labels[i_pathway].set_color(get_pathway_type_color(pathway_type))
+                y_labels[i_pathway].set_fontweight("bold")
+            cumulative_values[pathway_name] = 0
+
         # Loop through pathways and sort by color
         i_pathway = 0
         for pathway_name, y_pos in zip(sorted_pathways, y_positions):
@@ -1572,12 +1581,18 @@ class ProcessedFuel:
         filename_save = f"{self.fuel}-{quantity}-{modifier}-pathway_hist"
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
-        filepath_save_pdf = f"{top_dir}/plots/{self.fuel}/{filename_save}.pdf"
-
         print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200, bbox_inches="tight")
+        plt.savefig(filepath_save, dpi=200)
+        
+        filepath_save_pdf = f"{top_dir}/plots/{self.fuel}/{filename_save}.pdf"
         print(f"Saving figure to {filepath_save_pdf}")
-        plt.savefig(filepath_save_pdf, dpi=200, bbox_inches="tight")
+        plt.savefig(filepath_save_pdf)
+        
+#        ax.set_xscale("log")
+#        filepath_save_log = f"{top_dir}/plots/{self.fuel}/{filename_save}_logx.png"
+#        print(f"Saving figure to {filepath_save_log}")
+#        plt.savefig(filepath_save_log, dpi=200)
+
         plt.close()
 
 
@@ -1821,7 +1836,9 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
 
     n_fuels = len(structured_results.keys())
     i_fuel = 0
-    for fuel in structured_results.keys():
+    fuels_ordered = [f for f in structured_results.keys() if f != "lsfo"]
+    fuels_ordered.append("lsfo")       # Ensures that LSFO appears at the top of the plot
+    for fuel in fuels_ordered:
         n_pathway_types = 0  # Track number of pathway types per fuel
 
         for pathway_type in structured_results[fuel]:
@@ -1916,8 +1933,8 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     print(f"Saving figure to {filepath_save_pdf}")
     plt.savefig(filepath_save_pdf)
     
-#    filepath_save_log = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}_logx.png"
 #    ax.set_xscale("log")
+#    filepath_save_log = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}_logx.png"
 #    print(f"Saving figure to {filepath_save_log}")
 #    plt.savefig(filepath_save_log, dpi=200)
     plt.close()
@@ -2013,6 +2030,7 @@ def plot_cargo_miles():
     # Show the plot
     plt.tight_layout()
     plt.savefig("plots/cargo_miles_comparison.png", dpi=300)
+    plt.savefig("plots/cargo_miles_comparison.pdf")
     
 
 def main():
@@ -2031,6 +2049,8 @@ def main():
     processed_quantity.map_by_region()
     
 #    processed_quantity.make_hist_by_region("bulk_carrier_ice")
+#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "lng", "fossil")
+#    processed_quantity.map_by_region()
 #    processed_quantity.make_hist_by_region()
 #    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile", "liquid_hydrogen", "LTE_H_grid_E")
 #    processed_quantity.make_hist_by_region()
@@ -2049,14 +2069,14 @@ def main():
     #processed_fuel_GE_test = ProcessedFuel("ammonia")
     #processed_fuel_GE_test.make_all_resource_demands_hists()
     
-#    processed_fuel = ProcessedFuel("ammonia")
+    processed_fuel = ProcessedFuel("lng")
 #    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 
-#    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile_orig", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile_orig", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+#    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", [])
@@ -2067,11 +2087,10 @@ def main():
 
 
 # -----------------------------------------------------------------------------#
-    """
-    # Loop through all fuels of interest
-    for fuel in ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol", "FTdiesel"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
-        processed_fuel = ProcessedFuel(fuel)
-
+    
+#    # Loop through all fuels of interest
+#    for fuel in ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol", "FTdiesel"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
+#        processed_fuel = ProcessedFuel(fuel)
 
 #         Make validation plots for each fuel, pathway and quantity
 #        processed_fuel.make_all_hists_by_region()
@@ -2118,5 +2137,15 @@ def main():
                 plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="bar")
             else:
                 plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
-    """
+
+#    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "ConsumedLCB_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
+#        for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
+#            if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
+#                continue
+#            structured_results = structure_results_fuels_types(quantity, modifier)
+#            if "_main" in quantity:
+#                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="bar")
+#            else:
+#                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
+
 main()

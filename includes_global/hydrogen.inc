@@ -4,7 +4,6 @@ Fuel "hydrogen" {
     FuelType = HYDROGEN
     FuelPath = USER_DEFINED
     FuelOrigin = USER_DEFINED
-    LowerHeatingValue = Variable("lower_heating_value_hydrogen")
+    LowerHeatingValue = 120.0   # Units: MJ/kg. Source: GREET1_2024 (https://greet.anl.gov/greet_1_series)
     MassDensity = 0.083
-    # set_TTW("nitrous_oxide", 0.00018)   # DMM: Normally defined elsewhere
 }

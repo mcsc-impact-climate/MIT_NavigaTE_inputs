@@ -204,9 +204,6 @@ def get_fuel_label(fuel):
 
     Parameters
     ----------
-    fuel_labels_df: pandas DataFrame
-        Dataframe containing labels and descriptions for each fuel
-
     fuel : str
         String identifier for the fuel of interest
 
@@ -217,6 +214,23 @@ def get_fuel_label(fuel):
     """
     fuel_labels_df = read_fuel_labels()
     return fuel_labels_df.loc[fuel, "Label"]
+    
+def get_fuel_LHV(fuel):
+    """
+    Returns the LHV of the given fuel.
+
+    Parameters
+    ----------
+    fuel : str
+        String identifier for the fuel of interest
+
+    Returns
+    -------
+    fuel_LHV : str
+        LHV the given fuel
+    """
+    fuel_info_df = read_fuel_labels()
+    return fuel_info_df.loc[fuel, "Lower Heating Value (MJ / kg)"]
     
 def create_directory_if_not_exists(directory_path):
     """
