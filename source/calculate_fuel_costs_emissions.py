@@ -10,7 +10,7 @@ from common_tools import get_top_dir, ensure_directory_exists
 top_dir = get_top_dir()
 
 # Inputs for natural gas (NG) production
-NG_info = pd.read_csv(f"{top_dir}/input_fuel_pathway_data/LNG_inputs_GREET_processed.csv", index_col="Stage")
+NG_info = pd.read_csv(f"{top_dir}/input_fuel_pathway_data/lng_inputs_GREET_processed.csv", index_col="Stage")
 NG_water_demand = NG_info.loc["Production", "Water Consumption (m^3/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
 NG_NG_demand_GJ = NG_info.loc["Production", "NG Consumption (GJ/kg)"] # [GJ NG consumed / kg NG produced]. Source: GREET 2024
 NG_NG_demand_kg = NG_info.loc["Production", "NG Consumption (kg/kg)"] # [kg NG consumed / kg NG produced]. Source: GREET 2024
@@ -116,7 +116,6 @@ H2_BG_emissions = 1.913592126 # [kg CO2e/bone-dry kg] process emissions from gas
 H2_BG_onsite_emissions = 26.16 - H2_BG_emissions*H2_BG_LCB_demand # [kg CO2e/kgH2] from H2A #NOTE: includes biogenic credit
 
 # Inputs for production of liquid H2 at 20 K
-H2_liq_base_CapEx = 0.59898 # [2024$/kg]
 H2_liq_elect_demand = 8.0 # [kWh elect/kg H2]
 
 # Inputs for NG liquefaction
@@ -607,10 +606,10 @@ def main():
         for row_index, row in input_df.iterrows():
             region,instal_factor,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,renew_price,src,renew_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
             
-            if fuel == "NG":
+            if fuel == "ng":
                 CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price)
                 comment = "natural gas at standard temperature and pressure"
-            elif fuel == "LNG":
+            elif fuel == "lng":
                 CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price)
                 comment = "liquid natural gas at atmospheric pressure"
         
@@ -629,10 +628,10 @@ def main():
             elif fuel == "compressed_hydrogen":
                 elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_compressed_hydrogen(H_pathway)
                 comment = "compressed gaseous hydrogen at 700 bar"
-            elif fuel == "NG":
+            elif fuel == "ng":
                 elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_NG()
                 comment = "natural gas at standard temperature and pressure"
-            elif fuel == "LNG":
+            elif fuel == "lng":
                 elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_liquid_NG()
                 comment = "liquid natural gas at atmospheric pressure"
             elif fuel == "ammonia":
@@ -676,10 +675,10 @@ def main():
                 elif fuel == "ammonia":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_price,NG_price,NG_fugitive_emissions,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid cryogenic ammonia at atmospheric pressure"
-                elif fuel == "NG":
+                elif fuel == "ng":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price)
                     comment = "natural gas at standard temperature and pressure"
-                elif fuel == "LNG":
+                elif fuel == "lng":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price)
                     comment = "liquid natural gas at atmospheric pressure"
                 elif fuel == "methanol":
@@ -788,7 +787,7 @@ def main():
                     CapEx -= CapEx_NGprod
                     OpEx -= OpEx_NGprod
                     emissions -= emissions_NGprod
-                    fuel = "NG"
+                    fuel = "ng"
                     comment = "conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure"
                 CapEx *= 1000 # convert to $/tonne
                 OpEx *= 1000 # convert to $/tonne

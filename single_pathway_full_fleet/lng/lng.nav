@@ -2,18 +2,20 @@ SIMULATION NAV {
                 
     # model definition
     INCLUDE "../../includes_global/model_definition.inc"
-    INCLUDE "../includes_local/bunker_logistics_lsfo.inc"
+    INCLUDE "../includes_local/bunker_logistics_lng.inc"
     
     # fleets
-    INCLUDE "../../includes_global/fleet_lsfo.inc"
+    INCLUDE "../../includes_global/fleet_lng.inc"
     
     # fuels
+    INCLUDE "../../includes_global/lng.inc"
     INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
     
     # Route
     INCLUDE "../../includes_global/route.inc"
     
     # costs and emission of fuels
+    INCLUDE "../../includes_global/cost_emissions_lng.inc"
     INCLUDE "../../includes_global/cost_emissions_lsfo.inc"
     
     # center default emissions

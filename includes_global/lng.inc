@@ -1,7 +1,7 @@
 # Definition of low_sulfur_fuel_oil
 
 Fuel "lng" {
-    FuelType = HFO
+    FuelType = METHANE
     FuelPath = BLACK
     FuelOrigin = FOSSIL
     

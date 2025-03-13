@@ -129,21 +129,22 @@ def main():
                 print(f"Deleted file: {file_name}")
 
     # Loop through all CSV files in the input directory
-    for file_name in os.listdir(input_dir):
-        if file_name.endswith("costs_emissions.csv") and not file_name.startswith("hydrogen"):
-            csv_file = os.path.join(input_dir, file_name)
-            df = pd.read_csv(csv_file)
+    fuels = ["FTdiesel", "lng", "ammonia", "compressed_hydrogen", "liquid_hydrogen", "methanol"]
+    for fuel in fuels:
+        file_name = f"{fuel}_costs_emissions.csv"
+        csv_file = os.path.join(input_dir, file_name)
+        df = pd.read_csv(csv_file)
 
-            # Iterate over rows in the dataframe and create .inc files
-            for index, row in df.iterrows():
-                cost_emissions_file_content = create_cost_emissions_file_content(row)
-                report_file_content = create_report_file_content(row, top_dir)
-                
-                create_inc_file(row, cost_emissions_dir, cost_emissions_file_content)
-                create_inc_file(row, report_dir, report_file_content)
+        # Iterate over rows in the dataframe and create .inc files
+        for index, row in df.iterrows():
+            cost_emissions_file_content = create_cost_emissions_file_content(row)
+            report_file_content = create_report_file_content(row, top_dir)
+            
+            create_inc_file(row, cost_emissions_dir, cost_emissions_file_content)
+            create_inc_file(row, report_dir, report_file_content)
 
-                # Create a modified version of the nav file that uses the costs and emissions .inc and the report .inc file
-                create_nav_file(row, top_dir, cost_emissions_dir, report_dir)
+            # Create a modified version of the nav file that uses the costs and emissions .inc and the report .inc file
+            create_nav_file(row, top_dir, cost_emissions_dir, report_dir)
 
 
 if __name__ == "__main__":

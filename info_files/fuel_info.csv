@@ -6,4 +6,4 @@ lsfo,LSFO,39.5,GREET1_2024,0.991,GREET1_2024,0,,Low-sulfur fuel oil
 low_sulfur_fuel_oil,LSFO,39.5,GREET1_2024,0.991,GREET1_2024,,,
 compressed_hydrogen,Compressed Hydrogen,120.0,GREET1_2024,0.03873,https://cmb.tech/hydrogen-tools,0,,Hydrogen compressed to 700 bar (assume at 20C)
 liquid_hydrogen,Liquid Hydrogen,120.0,GREET1_2024,0.0708,GREET1_2024,0.5,"https://www.sciencedirect.com/science/article/abs/pii/S0360319997000323, https://www.mdpi.com/1996-1073/15/6/2046",Liquid hydrogen (assume cryogenic)
-LNG,Liquefied Natural Gas,48.6,GREET1_2024,0.428,GREET1_2024,,,
+lng,LNG,48.6,GREET1_2024,0.428,GREET1_2024,,,
