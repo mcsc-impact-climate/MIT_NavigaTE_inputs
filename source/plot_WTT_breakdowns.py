@@ -55,12 +55,12 @@ WTG_input_files = {
         },
         "Process": {},
     },
-    "LNG": {
+    "lng": {
         "Production": {
-            "Natural Gas Production": "input_fuel_pathway_data/production/ng_costs_emissions.csv"
+            "NG Production": "input_fuel_pathway_data/production/ng_costs_emissions.csv"
             },
         "Process": {
-            "Natural Gas Liquefaction": "input_fuel_pathway_data/process/ng_liquefaction_costs_emissions.csv"
+            "NG Liquefaction": "input_fuel_pathway_data/process/ng_liquefaction_costs_emissions.csv"
             },
     },
 }
@@ -70,10 +70,10 @@ stage_colors = {
     "F-T Diesel Production": "gold",
     "MeOH Production": "gold",
     "H-NH3 Conversion": "turquoise",
-    "Hydrogen Compression": "orangered",
-    "Hydrogen Liquefaction": "orchid",
-    "Natural Gas Production": "gold",
-    "Natural Gas Liquefaction": "orchid"
+    "H Compression": "orangered",
+    "H Liquefaction": "orchid",
+    "NG Production": "gold",
+    "NG Liquefaction": "orchid"
 }
 
 continent_regions = {
@@ -851,8 +851,8 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
 
 def main():
     
-    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "LNG"]:
-        fuel_wtt = FuelWTT(fuel)
+    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lng"]:
+        fuel_wtt = FuelWTG(fuel)
         fuel_wtt.make_stacked_hist("emissions")
         fuel_wtt.make_stacked_hist("cost")
 
