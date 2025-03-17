@@ -11,14 +11,13 @@ Vessel "gas_carrier_100k_cbm_ice_compressed_hydrogen" {
     
     Route=Route("globalized_gas_carrier_100k_cbm")
     
-    NominalCapacity = 82097.60028100306
+    NominalCapacity = 82409.3336094433
 
     Lifetime=25
     Finance=Finance("vessel_finance")
     CAPEX = 129e6
     OPEX = 2.9e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_gas_carrier_100k_cbm" {

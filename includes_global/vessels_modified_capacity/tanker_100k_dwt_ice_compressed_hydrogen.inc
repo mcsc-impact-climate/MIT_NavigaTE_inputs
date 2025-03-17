@@ -3,22 +3,21 @@ Vessel "tanker_100k_dwt_ice_compressed_hydrogen" {
     PropulsionLoadLevel = Surface("speed_draft_power_surface_tanker_100k_dwt")
     ElectricalLoadLevelAtSea=0.75
     ElectricalLoadLevelInPort=1.2
-    HeatLoadLevelAtSea=1.63
-    HeatLoadLevelInPort=1.63
+    HeatLoadLevelAtSea=3.7
+    HeatLoadLevelInPort=3.7
     
     PowerSystem=PowerSystem("ice_hydrogen_tanker_100k_dwt")   # DMM: This will need to change for hydrogen
     Tanks = [Tank("main_compressed_hydrogen_tanker_100k_dwt"), Tank("pilot_oil_bulk_carrier_capesize")]
     
     Route=Route("globalized_tanker_100k_dwt")
     
-    NominalCapacity = 90793.45924503401
+    NominalCapacity = 100000.0
 
     Lifetime=25
     Finance=Finance("vessel_finance")
     CAPEX = 50e6
     OPEX = 2.5e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_tanker_100k_dwt" {
@@ -43,7 +42,8 @@ PowerSystem "ice_hydrogen_tanker_100k_dwt" {
 }
 
 Converter "propulsion_ice_hydrogen_tanker_100k_dwt" {
-    PowerCapacity=12.
+    PowerCapacity=13.9
+    MinimumLoad=0.2
     MainFuelTypes = [HYDROGEN]
     PilotFuelTypes = [DIESEL, HFO]
     MinimumPilotFuel = 0.05
@@ -59,7 +59,7 @@ Converter "propulsion_ice_hydrogen_tanker_100k_dwt" {
 }
 
 Converter "electrical_ice_hydrogen_tanker_100k_dwt" {
-    PowerCapacity=3.
+    PowerCapacity=5.
     MainFuelTypes = [HYDROGEN]
     PilotFuelTypes = [DIESEL, HFO]
     MinimumPilotFuel = 0.05
@@ -112,7 +112,7 @@ Forecast "propulsion_ice_hydrogen_thermal_efficiency" {
 }
 
 Converter "heat_boiler_oil_hydrogen_tanker_100k_dwt" {
-    PowerCapacity=2.
+    PowerCapacity=6
     MainFuelTypes = [DIESEL, HFO]
     OutStream = [0, 0, 0, 1.0]
     PrimaryStream = HEAT

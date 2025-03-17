@@ -5,6 +5,9 @@ Fleet "*" {                         # * applies this uptake to all defined nodes
 }
 
 Uptake "uptake" {
+    Method = MULTINOMIAL
     Objective = MINIMIZE
+    Beta = 1
+    #CoefficientOfVariation = 0.15
 }
 

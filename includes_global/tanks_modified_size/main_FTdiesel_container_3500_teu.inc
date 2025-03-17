@@ -8,7 +8,7 @@
 
 Tank "main_FTdiesel_container_3500_teu" {
 	FuelTypes=[DIESEL]
-    Size=3760.347896440129
+    Size=3979.2087806124814
 	
 	CAPEX = 140
 	OPEX = 1.4 

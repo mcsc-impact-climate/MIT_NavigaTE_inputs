@@ -24,7 +24,7 @@ Fleet "lsfo_fleet_tanker" {
     FuelUptake = Uptake("uptake")
     TechnologyUptake = Uptake("uptake")
     InitialVessels = 5565      
-    InitialSplit = [0.28, 0.07, 065] # Vessel numbers taken from the default files tanker_100k_dwt.inc, tanker_300k_dwt.inc and tanker_35k_dwt.inc
+    InitialSplit = [0.28, 0.07, 0.65] # Vessel numbers taken from the default files tanker_100k_dwt.inc, tanker_300k_dwt.inc and tanker_35k_dwt.inc
     TradeGrowth = 0
 }
 

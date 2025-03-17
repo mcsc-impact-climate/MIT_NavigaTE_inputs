@@ -8,7 +8,7 @@
 
 Tank "main_liquid_hydrogen_container_15000_teu" {
 	FuelTypes=[HYDROGEN]
-    Size=184353.5806483065
+    Size=188780.81345139994
 	
 	CAPEX = 675
 	OPEX = 6.75 

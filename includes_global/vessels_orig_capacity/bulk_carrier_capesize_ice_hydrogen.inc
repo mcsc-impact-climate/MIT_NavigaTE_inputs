@@ -18,7 +18,6 @@ Vessel "bulk_carrier_capesize_ice_hydrogen" {
     CAPEX = 50e6
     OPEX = 2.4e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_bulk_carrier_capesize" {
@@ -43,9 +42,10 @@ PowerSystem "ice_hydrogen_bulk_carrier_capesize" {
 }
 
 Converter "propulsion_ice_hydrogen_bulk_carrier_capesize" {
-    PowerCapacity=17
+    PowerCapacity=17.4
+    MinimumLoad=0.2
     MainFuelTypes = [HYDROGEN]
-    PilotFuelTypes = [DIESEL, HFO]
+    PilotFuelTypes = [HFO, DIESEL]
     MinimumPilotFuel = 0.05
     OutStream = [0, Forecast("propulsion_ice_hydrogen_thermal_efficiency"), 0, <1 - Forecast("propulsion_ice_hydrogen_thermal_efficiency")>]
     PrimaryStream = MECHANICAL
@@ -61,7 +61,7 @@ Converter "propulsion_ice_hydrogen_bulk_carrier_capesize" {
 Converter "electrical_ice_hydrogen_bulk_carrier_capesize" {
     PowerCapacity=2.
     MainFuelTypes = [HYDROGEN]
-    PilotFuelTypes = [DIESEL, HFO]
+    PilotFuelTypes = [HFO, DIESEL]
     MinimumPilotFuel = 0.05
     OutStream = [0, 0, 0.48, 0.52]
     PrimaryStream = ELECTRICAL
@@ -113,7 +113,7 @@ Forecast "propulsion_ice_hydrogen_thermal_efficiency" {
 
 Converter "heat_boiler_oil_hydrogen_bulk_carrier_capesize" {
     PowerCapacity=2.
-    MainFuelTypes = [DIESEL, HFO]
+    MainFuelTypes = [HFO, DIESEL]
     OutStream = [0, 0, 0, 1.0]
     PrimaryStream = HEAT
     

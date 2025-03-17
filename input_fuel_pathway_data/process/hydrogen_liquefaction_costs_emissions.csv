@@ -1,6 +1,6 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
 liquid_hydrogen,n/a,n/a,grid,grid,South Africa,1,2024,729.5576399999998,723.7734584000002,1453.3310984,5.6640000000000015,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Taiwan,1,2024,506.73707999999993,158.40422480000004,665.1413048,0.28,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Taiwan,1,2024,506.73707999999993,1462.4042248000003,1969.1413048000002,0.28,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Switzerland,1,2024,661.8729000000001,2183.712373999999,2845.585273999999,0.28,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Singapore,1,2024,495.35645999999997,2605.721387599999,3101.077847599999,3.7680000000000007,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Hungary,1,2024,553.45752,1313.2074512000004,1866.6649712000003,1.6319999999999997,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
