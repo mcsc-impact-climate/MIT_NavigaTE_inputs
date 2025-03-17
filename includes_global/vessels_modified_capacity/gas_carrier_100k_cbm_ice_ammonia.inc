@@ -20,7 +20,7 @@ Vessel "gas_carrier_100k_cbm_ice_ammonia" {
 	
 	Route=Route("globalized_gas_carrier_100k_cbm")
 	
-    NominalCapacity = 93365.37918677846
+    NominalCapacity = 92629.35257688032
 	
 
 	Lifetime=25

@@ -12,14 +12,13 @@ Vessel "bulk_carrier_handy_ice_FTdiesel" {
     
     Route=Route("globalized_bulk_carrier_handy")
     
-    NominalCapacity = 29851.229773462783
+    NominalCapacity = 35169.75462962963
 
     Lifetime=25
     Finance=Finance("vessel_finance")
     CAPEX = 23e6
     OPEX = 1.5e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_diesel_bulk_carrier_handy" {

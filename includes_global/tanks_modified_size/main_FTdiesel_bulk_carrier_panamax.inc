@@ -8,7 +8,7 @@
 
 Tank "main_FTdiesel_bulk_carrier_panamax" {
 	FuelTypes=[DIESEL]
-    Size=3223.1553398058245
+    Size=3410.750383382127
 	
 	CAPEX = 140
 	OPEX = 1.4 

@@ -342,7 +342,7 @@ def calculate_cargo_loss(R, P_s_av, P_av, r_f, f_s, e_l, L_l, rho_l, e_f, L_f, r
     if np.absolute(r_f) < 0.000001:
         if cargo_type == "mass":
             cargo_loss = max(0, 0.95*scaling_term * (fuel_term - 1))
-        else if cargo_type == "volume":
+        elif cargo_type == "volume":
             cargo_loss = scaling_term * fuel_term
     
     else:

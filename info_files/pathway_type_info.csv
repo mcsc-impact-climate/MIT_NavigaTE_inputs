@@ -5,6 +5,5 @@ blue_dac_C,Blue (DAC C),cyan
 electro_grid,Electro (Grid),darkgreen
 electro_renew,Electro (Renewables),limegreen
 electro_nuke,Electro (Nuclear),pink
-grey_bio_C,Grey (Bio C),grey
 grey,Grey,dimgrey
 bio_H,Bio H,gold

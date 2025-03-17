@@ -116,6 +116,7 @@ H2_BG_emissions = 1.913592126 # [kg CO2e/bone-dry kg] process emissions from gas
 H2_BG_onsite_emissions = 26.16 - H2_BG_emissions*H2_BG_LCB_demand # [kg CO2e/kgH2] from H2A #NOTE: includes biogenic credit
 
 # Inputs for production of liquid H2 at 20 K
+H2_liq_base_CapEx = 0.59898 # [2024$/kg]
 H2_liq_elect_demand = 8.0 # [kWh elect/kg H2]
 
 # Inputs for NG liquefaction

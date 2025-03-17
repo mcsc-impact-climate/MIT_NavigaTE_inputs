@@ -18,7 +18,6 @@ Vessel "bulk_carrier_panamax_ice_hydrogen" {
     CAPEX = 30e6
     OPEX = 1.8e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_bulk_carrier_panamax" {
@@ -43,7 +42,8 @@ PowerSystem "ice_hydrogen_bulk_carrier_panamax" {
 }
 
 Converter "propulsion_ice_hydrogen_bulk_carrier_panamax" {
-    PowerCapacity=8.2
+    PowerCapacity=10.3
+    MinimumLoad=0.2
     MainFuelTypes = [HYDROGEN]
     PilotFuelTypes = [DIESEL, HFO]
     MinimumPilotFuel = 0.05

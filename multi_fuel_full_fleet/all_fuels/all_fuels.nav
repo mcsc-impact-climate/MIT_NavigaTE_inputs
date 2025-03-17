@@ -1,0 +1,114 @@
+SIMULATION NAV {
+                
+    # model definition
+    INCLUDE "../../includes_global/model_definition.inc"
+    INCLUDE "../includes_local/bunker_logistics_all_fuels.inc"
+    
+    # fleets
+    INCLUDE "../../includes_global/container_15000_teu.inc"
+    INCLUDE "../../includes_global/container_3500_teu.inc"
+    INCLUDE "../../includes_global/container_8000_teu.inc"
+    INCLUDE "../../includes_global/tanker_100k_dwt.inc"
+    INCLUDE "../../includes_global/tanker_300k_dwt.inc"
+    INCLUDE "../../includes_global/tanker_35k_dwt.inc"
+    INCLUDE "../../includes_global/bulk_carrier_capesize.inc"
+    INCLUDE "../../includes_global/bulk_carrier_handy.inc"
+    INCLUDE "../../includes_global/bulk_carrier_panamax.inc"
+    INCLUDE "../../includes_global/gas_carrier_100k_cbm.inc"
+    INCLUDE "../../includes_global/fleet_uptake.inc"
+    
+    
+    # fuels
+    INCLUDE "../../includes_global/ammonia.inc"
+    INCLUDE "../../includes_global/liquid_hydrogen.inc"
+#    INCLUDE "../../includes_global/compressed_hydrogen.inc"
+    INCLUDE "../../includes_global/methanol.inc"
+    INCLUDE "../../includes_global/FTdiesel.inc"
+    INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
+    
+    # Route
+    INCLUDE "../../includes_global/route.inc"
+    
+    # Locally-defined routes - eventually want to remove this and use NavigaTE's updated default routes
+    INCLUDE "../../includes_global/Route/globalized_bulk_carrier_capesize.inc"
+    INCLUDE "../../includes_global/Route/globalized_bulk_carrier_handy.inc"
+    INCLUDE "../../includes_global/Route/globalized_bulk_carrier_panamax.inc"
+    INCLUDE "../../includes_global/Route/globalized_container_15000_teu.inc"
+    INCLUDE "../../includes_global/Route/globalized_container_8000_teu.inc"
+    INCLUDE "../../includes_global/Route/globalized_container_3500_teu.inc"
+    INCLUDE "../../includes_global/Route/globalized_tanker_300k_dwt.inc"
+    INCLUDE "../../includes_global/Route/globalized_tanker_100k_dwt.inc"
+    INCLUDE "../../includes_global/Route/globalized_tanker_35k_dwt.inc"
+    INCLUDE "../../includes_global/Route/globalized_gas_carrier_100k_cbm.inc"
+    
+    # costs and emission of fuels
+    INCLUDE "../../includes_global/cost_emissions_ammonia.inc"
+#    INCLUDE "../../includes_global/cost_emissions_compressed_hydrogen.inc"
+    INCLUDE "../../includes_global/cost_emissions_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/cost_emissions_methanol.inc"
+    INCLUDE "../../includes_global/cost_emissions_FTdiesel.inc"
+    INCLUDE "../../includes_global/cost_emissions_lsfo.inc"
+    
+    # center default emissions
+    IMPORT CenterDefaultEmissions
+    
+    # output results to excel
+    INCLUDE "../../includes_global/make_excel_multifuel.inc"
+    
+    # 2050 Net zero regulation
+    INCLUDE "../../includes_global/net_zero_regulation.inc"
+    
+    # Hydrogen vessels
+    INCLUDE "../../includes_global/vessels_modified_capacity/container_15000_teu_ice_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/vessels_modified_capacity/container_3500_teu_ice_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/vessels_modified_capacity/container_8000_teu_ice_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/vessels_modified_capacity/bulk_carrier_capesize_ice_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/vessels_modified_capacity/bulk_carrier_handy_ice_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/vessels_modified_capacity/bulk_carrier_panamax_ice_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/vessels_modified_capacity/tanker_100k_dwt_ice_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/vessels_modified_capacity/tanker_300k_dwt_ice_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/vessels_modified_capacity/tanker_35k_dwt_ice_liquid_hydrogen.inc"
+    INCLUDE "../../includes_global/vessels_modified_capacity/gas_carrier_100k_cbm_ice_liquid_hydrogen.inc"
+    
+    # Hydrogen tanks
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_container_15000_teu.inc"
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_container_3500_teu.inc"
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_container_8000_teu.inc"
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_bulk_carrier_capesize.inc"
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_bulk_carrier_handy.inc"
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_bulk_carrier_panamax.inc"
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_tanker_100k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_tanker_300k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_tanker_35k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_modified_size/main_liquid_hydrogen_gas_carrier_100k_cbm.inc"
+    
+    # Diesel vessels
+    INCLUDE "../../includes_global/vessels_orig_capacity/container_15000_teu_ice_diesel.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/container_3500_teu_ice_diesel.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/container_8000_teu_ice_diesel.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/bulk_carrier_capesize_ice_diesel.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/bulk_carrier_handy_ice_diesel.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/bulk_carrier_panamax_ice_diesel.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/tanker_100k_dwt_ice_diesel.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/tanker_300k_dwt_ice_diesel.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/tanker_35k_dwt_ice_diesel.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/gas_carrier_100k_cbm_ice_diesel.inc"
+    
+    # Diesel tanks
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_container_15000_teu.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_container_3500_teu.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_container_8000_teu.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_bulk_carrier_capesize.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_bulk_carrier_handy.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_bulk_carrier_panamax.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_tanker_100k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_tanker_300k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_tanker_35k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_diesel_gas_carrier_100k_cbm.inc"
+
+}
+
+SIMULATION FT {
+    # time steps
+    INCLUDE "../../includes_global/time_steps_yearly_projection.inc"
+}

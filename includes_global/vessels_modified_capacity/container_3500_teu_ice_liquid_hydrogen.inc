@@ -11,14 +11,13 @@ Vessel "container_3500_teu_ice_liquid_hydrogen" {
     
     Route=Route("globalized_container_3500_teu")
     
-    NominalCapacity = 94151.24361199755
+    NominalCapacity = 2591.6366545695755
 
     Lifetime=25
     Finance=Finance("vessel_finance")
     CAPEX = 40e6
     OPEX = 1.8e6
     
-    EnforceMainFuelShare = TRUE
 }
 
 PowerSystem "ice_hydrogen_container_3500_teu" {
@@ -43,7 +42,8 @@ PowerSystem "ice_hydrogen_container_3500_teu" {
 }
 
 Converter "propulsion_ice_hydrogen_container_3500_teu" {
-    PowerCapacity=18.
+    PowerCapacity=26.9
+    MinimumLoad=0.15
     MainFuelTypes = [HYDROGEN]
     PilotFuelTypes = [DIESEL, HFO]
     MinimumPilotFuel = 0.05

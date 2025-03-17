@@ -1,6 +1,6 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
 compressed_hydrogen,n/a,n/a,grid,grid,South Africa,1,2024,208.44852000000003,267.50691119999993,475.95543119999996,2.1240000000000023,compression of STP hydrogen to gaseous hydrogen at 700 bar
-compressed_hydrogen,n/a,n/a,grid,grid,Taiwan,1,2024,144.78444000000002,56.687066399999985,201.4715064,0.10499999999999998,compression of STP hydrogen to gaseous hydrogen at 700 bar
+compressed_hydrogen,n/a,n/a,grid,grid,Taiwan,1,2024,144.78444000000002,545.6870663999994,690.4715063999994,0.10499999999999998,compression of STP hydrogen to gaseous hydrogen at 700 bar
 compressed_hydrogen,n/a,n/a,grid,grid,Switzerland,1,2024,189.10969999999995,815.3465820000001,1004.4562820000001,0.10499999999999998,compression of STP hydrogen to gaseous hydrogen at 700 bar
 compressed_hydrogen,n/a,n/a,grid,grid,Singapore,1,2024,141.53277999999992,974.4919667999987,1116.0247467999986,1.4130000000000003,compression of STP hydrogen to gaseous hydrogen at 700 bar
 compressed_hydrogen,n/a,n/a,grid,grid,Hungary,1,2024,158.13336,489.48800159999985,647.6213615999999,0.6120000000000001,compression of STP hydrogen to gaseous hydrogen at 700 bar

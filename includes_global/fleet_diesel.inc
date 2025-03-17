@@ -24,7 +24,7 @@ Fleet "diesel_fleet_tanker" {
     FuelUptake = Uptake("uptake")
     TechnologyUptake = Uptake("uptake")
     InitialVessels = 5565      
-    InitialSplit = [0.28, 0.07, 065] # Vessel numbers taken from the default files tanker_100k_dwt.inc, tanker_300k_dwt.inc and tanker_35k_dwt.inc
+    InitialSplit = [0.28, 0.07, 0.65] # Vessel numbers taken from the default files tanker_100k_dwt.inc, tanker_300k_dwt.inc and tanker_35k_dwt.inc
     TradeGrowth = 0
 }
 
@@ -41,4 +41,46 @@ Fleet "diesel_fleet_gas" {
 # Define uptake node
 Uptake "uptake" {
     Objective=MINIMIZE
+}
+
+# Need to enforce alternative fuel use in all vessels
+Import Vessel "bulk_carrier_capesize_ice_diesel"
+Vessel "bulk_carrier_capesize_ice_diesel" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "bulk_carrier_handy_ice_diesel"
+Vessel "bulk_carrier_handy_ice_diesel" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "bulk_carrier_panamax_ice_diesel"
+Vessel "bulk_carrier_panamax_ice_diesel" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "container_15000_teu_ice_diesel"
+Vessel "container_15000_teu_ice_diesel" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "container_3500_teu_ice_diesel"
+Vessel "container_3500_teu_ice_diesel" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "container_8000_teu_ice_diesel"
+Vessel "container_8000_teu_ice_diesel" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "tanker_100k_dwt_ice_diesel"
+Vessel "tanker_100k_dwt_ice_diesel" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "tanker_300k_dwt_ice_diesel"
+Vessel "tanker_300k_dwt_ice_diesel" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "tanker_35k_dwt_ice_diesel"
+Vessel "tanker_35k_dwt_ice_diesel" {
+    EnforceMainFuelShare = TRUE
+}
+Import Vessel "gas_carrier_100k_cbm_ice_diesel"
+Vessel "gas_carrier_100k_cbm_ice_diesel" {
+    EnforceMainFuelShare = TRUE
 }

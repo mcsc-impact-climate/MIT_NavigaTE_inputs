@@ -1,6 +1,6 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
 hydrogen,SMR,n/a,grid,SMR_H_grid_E,South Africa,1,2024,234.88018240380362,8320.355682012389,8555.235864416192,11.477700463389287,hydrogen at standard temperature and pressure
-hydrogen,SMR,n/a,grid,SMR_H_grid_E,Taiwan,1,2024,163.14337792579465,8042.743869515686,8205.88724744148,11.042989144697048,hydrogen at standard temperature and pressure
+hydrogen,SMR,n/a,grid,SMR_H_grid_E,Taiwan,1,2024,163.14337792579465,8148.030563344564,8311.17394127036,11.042989144697048,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,grid,SMR_H_grid_E,Switzerland,1,2024,213.08916383924714,8208.515137191212,8421.60430103046,11.042989144697048,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,grid,SMR_H_grid_E,Singapore,1,2024,159.4794013529931,7972.018137972533,8131.497539325525,11.324614902423372,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,grid,SMR_H_grid_E,Hungary,1,2024,178.1849659615062,6711.782527436903,6889.96749339841,11.152151422347847,hydrogen at standard temperature and pressure
@@ -38,7 +38,7 @@ hydrogen,SMR,n/a,grid,SMR_H_grid_E,Thailand,1,2024,125.73224870876845,1188.14061
 hydrogen,SMR,n/a,grid,SMR_H_grid_E,Russia,1,2024,137.3027010439312,490.1953462501314,627.4980472940626,11.305236983313762,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,grid,SMR_H_grid_E,Saudi Arabia,1,2024,184.1630330013403,500.1115397873712,684.2745727887116,11.305236983313762,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,South Africa,1,2024,590.948544026591,10821.640555529439,11412.58909955603,3.9680786504740224,hydrogen at standard temperature and pressure
-hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Taiwan,1,2024,410.4617965898982,10374.42702020634,10784.888816796238,2.596997905132408,hydrogen at standard temperature and pressure
+hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Taiwan,1,2024,410.4617965898982,10706.50155436783,11116.963350957727,2.596997905132408,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Switzerland,1,2024,536.1232685955526,10895.358012874507,11431.48128147006,2.596997905132408,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Singapore,1,2024,401.24338744662623,10652.269827208616,11053.513214655242,3.4852463523373767,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Hungary,1,2024,448.30579202017253,8838.569601667727,9286.875393687898,2.9412960417783705,hydrogen at standard temperature and pressure
@@ -76,7 +76,7 @@ hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Thailand,1,2024,316.33698744280576,1675
 hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Russia,1,2024,345.4477531584013,755.6855949513691,1101.1333481097704,3.4241283399150166,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Saudi Arabia,1,2024,463.34635430656357,740.427140767936,1203.7734950744996,3.4241283399150166,hydrogen at standard temperature and pressure
 hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Africa,1,2024,478.9223577382522,9330.216053668908,9809.13841140716,3.886350172965785,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Taiwan,1,2024,332.6505046359288,8848.22160871242,9180.872113348349,1.9467725332142325,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Taiwan,1,2024,332.6505046359288,9317.9855838677,9650.636088503628,1.9467725332142325,hydrogen at standard temperature and pressure
 hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Switzerland,1,2024,434.49031633889047,9580.592866979816,10015.083183318706,1.9467725332142325,hydrogen at standard temperature and pressure
 hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Singapore,1,2024,325.179630418337,9457.272386215524,9782.45201663386,3.2033191170651643,hydrogen at standard temperature and pressure
 hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Hungary,1,2024,363.320409318674,7726.97534330191,8090.295752620584,2.4338284338353504,hydrogen at standard temperature and pressure
@@ -114,7 +114,7 @@ hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Thailand,1,2024,256.36894683525486,1558
 hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Russia,1,2024,279.9611812065973,747.0158642367454,1026.9770454433428,3.1168594897359716,hydrogen at standard temperature and pressure
 hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Saudi Arabia,1,2024,375.5097304105343,686.3686504149196,1061.8783808254539,3.1168594897359716,hydrogen at standard temperature and pressure
 hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,683.04222,4417.075794278775,5100.118014278775,36.12926890056,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,474.42834,984.630041735801,1459.058381735801,1.7860514287000002,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,474.42834,9302.5266953958,9776.9550353958,1.7860514287000002,hydrogen at standard temperature and pressure
 hydrogen,LTE,n/a,grid,LTE_H_grid_E,Switzerland,1,2024,619.67295,13852.915004975803,14472.587954975803,1.7860514287000002,hydrogen at standard temperature and pressure
 hydrogen,LTE,n/a,grid,LTE_H_grid_E,Singapore,1,2024,463.77333,16522.267486039847,16986.040816039847,24.03514922622,hydrogen at standard temperature and pressure
 hydrogen,LTE,n/a,grid,LTE_H_grid_E,Hungary,1,2024,518.1699600000001,8223.030167413783,8741.200127413782,10.41012832728,hydrogen at standard temperature and pressure
@@ -152,7 +152,7 @@ hydrogen,LTE,n/a,grid,LTE_H_grid_E,Thailand,1,2024,365.63508,5911.351877123645,6
 hydrogen,LTE,n/a,grid,LTE_H_grid_E,Russia,1,2024,399.28248,4886.332110267087,5285.614590267087,22.504248001620002,hydrogen at standard temperature and pressure
 hydrogen,LTE,n/a,grid,LTE_H_grid_E,Saudi Arabia,1,2024,535.55445,3557.0371865181282,4092.5916365181283,22.504248001620002,hydrogen at standard temperature and pressure
 hydrogen,BG,n/a,grid,BG_H_grid_E,South Africa,1,2024,512.0277120000001,1256.1066332085763,1768.1343452085764,1.6471678464045392,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Taiwan,1,2024,355.644864,1343.4409790068114,1699.0858430068115,0.9876278464045393,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Taiwan,1,2024,355.644864,1503.1809790068112,1858.8258430068113,0.9876278464045393,hydrogen at standard temperature and pressure
 hydrogen,BG,n/a,grid,BG_H_grid_E,Switzerland,1,2024,464.52432000000005,1596.9337463668114,2061.4580663668116,0.9876278464045393,hydrogen at standard temperature and pressure
 hydrogen,BG,n/a,grid,BG_H_grid_E,Singapore,1,2024,347.657568,1510.0747534663924,1857.7323214663925,1.4149078464045393,hydrogen at standard temperature and pressure
 hydrogen,BG,n/a,grid,BG_H_grid_E,Hungary,1,2024,388.43481600000007,1242.5468601173516,1630.9816761173515,1.1532478464045393,hydrogen at standard temperature and pressure

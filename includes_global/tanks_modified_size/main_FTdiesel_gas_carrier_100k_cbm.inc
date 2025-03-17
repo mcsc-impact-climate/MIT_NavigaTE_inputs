@@ -8,7 +8,7 @@
 
 Tank "main_FTdiesel_gas_carrier_100k_cbm" {
 	FuelTypes=[DIESEL]
-    Size=2148.7702265372163
+    Size=2273.833588921418
 	
 	CAPEX = 140
 	OPEX = 1.4 

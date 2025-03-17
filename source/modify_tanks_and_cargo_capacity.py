@@ -13,7 +13,7 @@ from parse import search
 import numpy as np
 import matplotlib.patches as mpatches
 import re
-from scipy.interpolate import RegularGridInterpolator, interp1d
+from scipy.interpolate import LinearNDInterpolator, NearestNDInterpolator, interp1d, RegularGridInterpolator
 
 M3_PER_TEU = 38.28
 L_PER_M3 = 1000
@@ -21,12 +21,14 @@ KG_PER_DWT = 1000
 VESSELS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Vessel"
 VESSELS_DIR_LOCAL = "includes_global/vessels_orig_capacity"
 VESSELS_MODIFIED_DIR = "includes_global/vessels_modified_capacity"
+VESSELS_MODIFIED_TANKS_ORIG_DIR = "includes_global/vessels_modified_capacity_orig_tanks"
 TANKS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Tank"
 TANKS_DIR_LOCAL = "includes_global/tanks_orig_size"
 TANKS_MODIFIED_DIR = "includes_global/tanks_modified_size"
 PROPULSION_EFF_DIR_NAVIGATE="NavigaTE/navigate/defaults/installation/Forecast"
 PROPULSION_EFF_DIR_LOCAL="includes_global/vessels_orig_capacity"
 ROUTE_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Route"
+ROUTE_DIR_LOCAL = "includes_global/Route"
 SURFACE_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Surface"
 CURVE_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Curve"
 S_PER_MIN = 60
@@ -87,6 +89,13 @@ vessel_type_title = {
     "gas_carrier": "Gas Carrier",
 }
 
+vessel_capacity_unit = {
+    "bulk_carrier": "DWT",
+    "container": "TEU",
+    "tanker": "DWT",
+    "gas_carrier": "m^3",
+}
+
 vessel_size_title = {
     "bulk_carrier_capesize": "Capesize",
     "bulk_carrier_handy": "Handy",
@@ -98,6 +107,19 @@ vessel_size_title = {
     "tanker_300k_dwt": "300k DWT",
     "tanker_35k_dwt": "35k DWT",
     "gas_carrier_100k_cbm": "100k m$^3$",
+}
+
+vessel_title = {
+    "bulk_carrier_capesize": "Capesize Bulk Carrier",
+    "bulk_carrier_handy": "Handy Bulk Carrier",
+    "bulk_carrier_panamax": "Panamax Bulk Carrier",
+    "container_15000_teu": "15,000 TEU Container Ship",
+    "container_8000_teu": "8,000 TEU Container Ship",
+    "container_3500_teu": "3,500 TEU Container Ship",
+    "tanker_100k_dwt": "100k DWT Tanker",
+    "tanker_300k_dwt": "300k DWT Tanker",
+    "tanker_35k_dwt": "35k DWT Tanker",
+    "gas_carrier_100k_cbm": "100k m$^3$ Gas Carrier",
 }
 
 def get_fuel_info_dict(info_filepath, column_name):
@@ -188,7 +210,8 @@ def get_route_properties(top_dir, type_class_keyword):
     """
     
     # Construct the filepath to the vessel .inc file for the given vessel
-    filepath = f"{top_dir}/{ROUTE_DIR_NAVIGATE}/globalized_{type_class_keyword}.inc"
+    #filepath = f"{top_dir}/{ROUTE_DIR_NAVIGATE}/globalized_{type_class_keyword}.inc"
+    filepath = f"{top_dir}/{ROUTE_DIR_LOCAL}/globalized_{type_class_keyword}.inc"
     
     # Initialize dictionary to store the extracted properties
     route_properties_dict = {}
@@ -244,7 +267,7 @@ def get_route_properties(top_dir, type_class_keyword):
         return None
     
     return route_properties_dict
-
+    
     
 def calculate_propulsion_power_distribution(speed_distribution, utilization_distribution, type_class_keyword):
     """
@@ -263,9 +286,6 @@ def calculate_propulsion_power_distribution(speed_distribution, utilization_dist
     propulsion_power_distribution : numpy array
         Distribution of propulsion powers
     """
-    
-    #print(f"Speed distribution: {speed_distribution}")
-    #print(f"Utilization distribution: {utilization_distribution}")
     
     top_dir = get_top_dir()
     
@@ -293,7 +313,7 @@ def calculate_propulsion_power_distribution(speed_distribution, utilization_dist
                     continue
                 parts = line.split()
                 
-                if len(parts) > 1:
+                if len(parts) > 1 and parts[0] != "Extrapolate":
                     speeds.append(float(parts[0]))  # First column is the speed
                     power_values.append([float(val) for val in parts[1:]])  # Remaining columns are power values
             
@@ -304,16 +324,52 @@ def calculate_propulsion_power_distribution(speed_distribution, utilization_dist
             expected_shape = (len(speeds), len(drafts))
             if power_values.shape != expected_shape:
                 raise ValueError(f"Expected power_values shape {expected_shape}, but got {power_values.shape}")
+                
+            ########################### This is the original (buggy) interpolation ###########################
+#            # Create a 2D interpolator for the speed-draft-power surface
+#            interp_func = RegularGridInterpolator((speeds, drafts), power_values, method='linear')
+#
+#            # Calculate propulsion power distribution
+#            propulsion_power_distribution = np.array([
+#                interp_func([spd, util]) for spd, util in zip(speed_distribution, utilization_distribution)
+#            ])
+#            return propulsion_power_distribution
+            ##################################################################################################
             
-            # Create a 2D interpolator for the speed-draft-power surface
-            interp_func = RegularGridInterpolator((speeds, drafts), power_values, method='linear')
-            
-            # Calculate propulsion power distribution
+            ######################### This is the updated interpolation with bug fix #########################
+
+            # Create (speed, draft) coordinate pairs
+            points = np.array([[s, d] for s in speeds for d in drafts])
+
+            # Flatten the power_values matrix to match points
+            values = power_values.flatten()
+
+            # Create the interpolators
+            linear_interp = LinearNDInterpolator(points, values)
+            nearest_interp = NearestNDInterpolator(points, values)
+
+            def interpolate_with_fallback(query_point):
+                """
+                query_point: a single [speed, draft] pair (shape (2,))
+                Returns: interpolated or extrapolated value (scalar)
+                """
+                query_point = np.atleast_2d(query_point)  # shape (1, 2)
+
+                linear_result = linear_interp(query_point)[0]  # get scalar back
+
+                if np.isnan(linear_result):
+                    fallback_result = nearest_interp(query_point)[0]
+                    return fallback_result
+                else:
+                    return linear_result
+
+            # Interpolation + extrapolation to calculate propulsion power distribution
             propulsion_power_distribution = np.array([
-                interp_func([spd, util]) for spd, util in zip(speed_distribution, utilization_distribution)
+                interpolate_with_fallback([spd, util]) for spd, util in zip(speed_distribution, utilization_distribution)
             ])
-            
+
             return propulsion_power_distribution
+            #################################################################################################
         
     except FileNotFoundError:
         # Fallback to the speed-power curve
@@ -363,10 +419,12 @@ def calculate_average_propulsion_power(type_class_keyword, route_properties_dict
     average_propulsion_power : float
         Average propulsion power over all voyage conditions
     """
-    
+    #print("Vessel: ", vessel_title[type_class_keyword])
     propulsion_power_distribution = calculate_propulsion_power_distribution(route_properties_dict["Speeds"], route_properties_dict["CapacityUtilizations"], type_class_keyword)
-    
+    #print("Propulsion power distribution: ", propulsion_power_distribution)
+    #print(route_properties_dict["ConditionDistribution"])
     average_propulsion_power = np.sum(route_properties_dict["ConditionDistribution"] * propulsion_power_distribution)
+    #print("Average propulsion power (bug fix): ", average_propulsion_power)
     
     return average_propulsion_power
     
@@ -856,7 +914,7 @@ def modify_cargo_capacity(vessel_class, fuel, cargo_capacity_lsfo, tank_size_lsf
     elif ("bulk_carrier" in vessel_class) or ("tanker" in vessel_class):
         cargo_displacement = (tank_size_fuel * mass_density_dict[fuel] * L_PER_M3 - tank_size_lsfo * mass_density_dict["lsfo"] * L_PER_M3) / KG_PER_DWT
         
-    modified_capacity = cargo_capacity_lsfo - cargo_displacement
+    modified_capacity = max(0, cargo_capacity_lsfo - cargo_displacement)
     
     return modified_capacity
     
@@ -1066,38 +1124,60 @@ def make_modified_vessel_incs(top_dir, vessels, fuels, fuel_vessel_dict, modifie
                     original_filepath = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{vessel_class}_ice_{fuel_vessel_dict[fuel]}.inc"
                     
                 modified_filepath = f"{top_dir}/{VESSELS_MODIFIED_DIR}/{vessel_class}_ice_{fuel}.inc"
+                modified_filepath_orig_tanks = f"{top_dir}/{VESSELS_MODIFIED_TANKS_ORIG_DIR}/{vessel_class}_ice_{fuel}.inc"
 
                 try:
                     # Read the original .inc file
                     with open(original_filepath, 'r') as file:
                         content = file.readlines()
+                        content_modified_capacity = content[:]
+                        content_modified_capacity_orig_tanks = content[:]
 
                     # Get the modified capacity for this vessel and fuel combination from the DataFrame
-                    modified_capacity = modified_capacities_df[
-                        (modified_capacities_df["Vessel"] == vessel_class) &
-                        (modified_capacities_df["Fuel"] == fuel)
-                    ]["Modified capacity (m^3)"].values[0]
+                    if vessel_capacity_unit[vessel_type] == "m^3":
+                        modified_capacity = modified_capacities_df[
+                            (modified_capacities_df["Vessel"] == vessel_class) &
+                            (modified_capacities_df["Fuel"] == fuel)
+                        ]["Modified capacity (m^3)"].values[0]
+                    
+                    elif vessel_capacity_unit[vessel_type] == "TEU":
+                         modified_capacity = modified_capacities_df[
+                            (modified_capacities_df["Vessel"] == vessel_class) &
+                            (modified_capacities_df["Fuel"] == fuel)
+                        ]["Modified capacity (m^3)"].values[0] / M3_PER_TEU
+                        
+                    elif vessel_capacity_unit[vessel_type] == "DWT":
+                        modified_capacity = modified_capacities_df[
+                            (modified_capacities_df["Vessel"] == vessel_class) &
+                            (modified_capacities_df["Fuel"] == fuel)
+                        ]["Modified capacity (tonnes)"].values[0]
 
                     # Loop through the lines and make necessary updates
                     for i, line in enumerate(content):
                         # Update the "NominalCapacity" line
                         if line.strip().startswith("NominalCapacity"):
-                            content[i] = f"    NominalCapacity = {modified_capacity}\n"
+                            content_modified_capacity[i] = f"    NominalCapacity = {modified_capacity}\n"
+                            content_modified_capacity_orig_tanks[i] = f"    NominalCapacity = {modified_capacity}\n"
                         
                         # Update the "Vessel" line to replace the fuel keyword with the actual fuel name
                         if line.strip().startswith("Vessel"):
-                            content[i] = f'Vessel "{vessel_class}_ice_{fuel}" {{\n'
+                            content_modified_capacity[i] = f'Vessel "{vessel_class}_ice_{fuel}" {{\n'
+                            content_modified_capacity_orig_tanks[i] = f'Vessel "{vessel_class}_ice_{fuel}" {{\n'
                             
                         # Update the "Tanks" line
                         if line.strip().startswith("Tanks"):
-                            content[i] = f'    Tanks = [Tank("main_{fuel}_{vessel_class}"), Tank("pilot_oil_bulk_carrier_capesize")]\n'
+                            content_modified_capacity[i] = f'    Tanks = [Tank("main_{fuel}_{vessel_class}"), Tank("pilot_oil_bulk_carrier_capesize")]\n'
 
                     # Write the modified content to the new file
                     os.makedirs(os.path.dirname(modified_filepath), exist_ok=True)
                     with open(modified_filepath, 'w') as file:
-                        file.writelines(content)
-                        
+                        file.writelines(content_modified_capacity)
                     print(f"Modified file written to: {modified_filepath}")
+
+                    os.makedirs(os.path.dirname(modified_filepath_orig_tanks), exist_ok=True)
+                    with open(modified_filepath_orig_tanks, 'w') as file:
+                        file.writelines(content_modified_capacity_orig_tanks)
+                    print(f"Modified file written to: {modified_filepath_orig_tanks}")
                 
                 except FileNotFoundError:
                     print(f"File not found: {original_filepath}")
@@ -1618,20 +1698,20 @@ def calculate_modified_cargo_capacities(top_dir, vessel_type_class, fuel, cargo_
     # Calculate the modified cargo capacity, in both cbm and tonnes
     # Subtract off the LSFO tank capacity for single-fuel diesel power system, but not for dual fuel
     if fuel_power_system_dict[fuel] == "single":
-        capacity_dict["Modified capacity (m^3)"] = capacity_dict["Nominal capacity (m^3)"] - (capacity_dict["Modified tank size (m^3)"] - capacity_dict["Nominal tank size (m^3)"])
+        capacity_dict["Modified capacity (m^3)"] = max(0, capacity_dict["Nominal capacity (m^3)"] - (capacity_dict["Modified tank size (m^3)"] - capacity_dict["Nominal tank size (m^3)"]))
     else:
-        capacity_dict["Modified capacity (m^3)"] = capacity_dict["Nominal capacity (m^3)"] - capacity_dict["Modified tank size (m^3)"]
+        capacity_dict["Modified capacity (m^3)"] = max(0, capacity_dict["Nominal capacity (m^3)"] - capacity_dict["Modified tank size (m^3)"])
        
     if fuel_power_system_dict[fuel] == "single":
-        capacity_dict["Modified capacity (tonnes)"] = (
+        capacity_dict["Modified capacity (tonnes)"] = max(0,
             capacity_dict["Nominal capacity (tonnes)"] -
             (capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] -
              capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]))
     else:
-        capacity_dict["Modified capacity (tonnes)"] = np.minimum(capacity_dict["Nominal capacity (tonnes)"],
+        capacity_dict["Modified capacity (tonnes)"] = max(0, min(capacity_dict["Nominal capacity (tonnes)"],
             capacity_dict["Nominal capacity (tonnes)"] - 0.95 * (
                 capacity_dict["Modified tank size (m^3)"] * mass_density_dict[fuel] -
-                capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"]))
+                capacity_dict["Nominal tank size (m^3)"] * mass_density_dict["lsfo"])))
 
     
     capacity_dict["Percent volume difference (%)"] = 100 * (capacity_dict["Modified capacity (m^3)"] - capacity_dict["Nominal capacity (m^3)"]) / capacity_dict["Nominal capacity (m^3)"]
@@ -2094,12 +2174,12 @@ def main():
 #        modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, mass_density_dict, cargo_info_df, tank_size_factors_dict, vessel_range)
 #        modified_capacities_df.to_csv(f"{top_dir}/tables/modified_capacities_{vessel_range}.csv", index=False)
 
-#    # Collect the range (in nautical miles) for each fuel
-#    vessel_ranges_df = calculate_all_vessel_ranges(top_dir, fuels, tank_size_factors_dict, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict)
-#
-#    # Save the ranges to a csv file
-#    vessel_ranges_df.to_csv(f"{top_dir}/data/vessel_ranges.csv")
-#
+    # Collect the range (in nautical miles) for each fuel
+    vessel_ranges_df = calculate_all_vessel_ranges(top_dir, fuels, tank_size_factors_dict, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict)
+
+    # Save the ranges to a csv file
+    vessel_ranges_df.to_csv(f"{top_dir}/data/vessel_ranges.csv")
+
     #cargo_miles_cbm, cargo_miles_tonnes = calculate_cargo_miles(top_dir, "lsfo", "bulk_carrier_handy", modified_capacities_df)
     
     cargo_miles_df = make_cargo_miles_df(top_dir, vessels, fuels, modified_capacities_df)
