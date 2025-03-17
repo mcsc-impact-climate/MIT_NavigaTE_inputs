@@ -11,7 +11,7 @@ Vessel "container_15000_teu_ice_compressed_hydrogen" {
     
     Route=Route("globalized_container_15000_teu")
     
-    NominalCapacity = 11492.476544083673
+    NominalCapacity = 11553.552823166792
 
     Lifetime=25
     Finance=Finance("vessel_finance")

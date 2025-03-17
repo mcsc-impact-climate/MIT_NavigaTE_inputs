@@ -8,7 +8,7 @@
 
 Tank "main_ammonia_bulk_carrier_capesize" {
 	FuelTypes=[AMMONIA]
-    Size=16708.655049240817
+    Size=19099.903025001917
 	
 	CAPEX = 675
 	OPEX = 6.75 

@@ -12,7 +12,7 @@ Vessel "bulk_carrier_capesize_ice_FTdiesel" {
     
     Route=Route("globalized_bulk_carrier_capesize")
     
-    NominalCapacity = 200120.26699029127
+    NominalCapacity = 200424.38657407407
 
     Lifetime=25
     Finance=Finance("vessel_finance")

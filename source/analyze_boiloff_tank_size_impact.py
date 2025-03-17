@@ -172,7 +172,9 @@ def read_processed_data(results_dir, fuel, pathway, quantity):
         Processed data as a pandas DataFrame
     """
     file_path = f"{get_top_dir()}/{results_dir}/{fuel}-{pathway}-{quantity}.csv"
-    return pd.read_csv(file_path, index_col=0)
+    #print(file_path)
+    processed_data = pd.read_csv(file_path, index_col=0)
+    return processed_data
 
 def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifier="per_tonne_mile"):
     """
@@ -561,7 +563,7 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
         tank_corrected_excl_df = read_processed_data(
             RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}"
         )
-        
+                
         lsfo_totalcost_df = read_processed_data(
             RESULTS_DIR_WITH_BOILOFF, "lsfo", "fossil", f"TotalCost-{modifier}"
         )
@@ -927,16 +929,14 @@ if __name__ == "__main__":
 #    plot_histogram_for_vessel_types("liquid_hydrogen", "LTE_H_grid_E", modifier="per_cbm_mile")
 #    plot_histogram_for_vessel_classes("bulk_carrier_ice", "liquid_hydrogen", "LTE_H_grid_E", modifier="per_tonne_mile")
     
-    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"]:
-        print(fuel)
+    for fuel in ["liquid_hydrogen", "ammonia"]:#, "ammonia"]:  # "compressed_hydrogen"
         pathways = get_pathways(fuel)
 
-        for pathway in ["BG_H_grid_E"]:#pathways:
+        for pathway in ["BG_H_grid_E", "LTE_H_grid_E"]:#pathways:
             #plot_histogram_for_vessel_types(fuel, pathway, modifier="per_tonne_mile")
             #plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile")
 
             for vessel_type in VESSEL_TYPES:
-                print(vessel_type)
                 plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_tonne_mile")
                 plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_cbm_mile")
 
