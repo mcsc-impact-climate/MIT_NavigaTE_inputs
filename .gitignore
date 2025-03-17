@@ -14,3 +14,5 @@ navs
 *_df.csv
 data/vessel_ranges.csv
 data/NavigaTE_CAPEX_OPEX.csv
+all_outputs_full_fleet*
+processed_results*
