@@ -232,6 +232,23 @@ def get_fuel_LHV(fuel):
     fuel_info_df = read_fuel_labels()
     return fuel_info_df.loc[fuel, "Lower Heating Value (MJ / kg)"]
     
+def get_fuel_density(fuel):
+    """
+    Returns the density of the given fuel.
+
+    Parameters
+    ----------
+    fuel : str
+        String identifier for the fuel of interest
+
+    Returns
+    -------
+    fuel_density : str
+        Density the given fuel
+    """
+    fuel_info_df = read_fuel_labels()
+    return fuel_info_df.loc[fuel, "Mass density (kg/L)"]
+    
 def create_directory_if_not_exists(directory_path):
     """
     Creates a directory if it doesn't already exist.
