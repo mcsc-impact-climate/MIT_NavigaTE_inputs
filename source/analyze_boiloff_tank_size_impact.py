@@ -176,7 +176,7 @@ def read_processed_data(results_dir, fuel, pathway, quantity):
     processed_data = pd.read_csv(file_path, index_col=0)
     return processed_data
 
-def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifier="per_tonne_mile"):
+def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifier="per_tonne_mile", include_stowage=False):
     """
     Plots a histogram comparing TotalCost per tonne mile between all vessel types for a given fuel and pathway.
     
@@ -207,40 +207,44 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
     ratios_no_boiloff = []
     ratios_with_boiloff = []
     ratios_tank_corrected = []
+    
+    stowage_str=""
+    if include_stowage:
+        stowage_str="_final"
 
     for vessel_type in VESSEL_TYPES:
         x_labels.append(VESSEL_TYPE_TITLES[vessel_type])
         x_positions.append(index)
-
+        
         # Read data for TotalCAPEX, TotalFuelOPEX, and TotalExcludingFuelOPEX from the three cases
         no_boiloff_capex_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_orig"
+            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_lsfo{stowage_str}"
         )
         no_boiloff_opex_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_orig"
+            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}"
         )
         no_boiloff_excl_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_orig"
+            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}"
         )
 
         with_boiloff_capex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_orig"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_lsfo{stowage_str}"
         )
         with_boiloff_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_orig"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}"
         )
         with_boiloff_excl_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_orig"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}"
         )
 
         tank_corrected_capex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}{stowage_str}"
         )
         tank_corrected_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}{stowage_str}"
         )
         tank_corrected_excl_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}{stowage_str}"
         )
         
         lsfo_totalcost_df = read_processed_data(
@@ -454,15 +458,15 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
 
     # Save and display the plot
     create_directory_if_not_exists(f"{get_top_dir()}/plots/{fuel}-{pathway}")
-    output_path_png = f"{get_top_dir()}/plots/{fuel}-{pathway}/total_cost_comparison_{fuel}_{pathway}_{modifier}.png"
-    output_path_pdf = f"{get_top_dir()}/plots/{fuel}-{pathway}/total_cost_comparison_{fuel}_{pathway}_{modifier}.pdf"
+    output_path_png = f"{get_top_dir()}/plots/{fuel}-{pathway}/total_cost_comparison_{fuel}_{pathway}_{modifier}{stowage_str}.png"
+    output_path_pdf = f"{get_top_dir()}/plots/{fuel}-{pathway}/total_cost_comparison_{fuel}_{pathway}_{modifier}{stowage_str}.pdf"
     plt.savefig(output_path_png, dpi=300)
     plt.savefig(output_path_pdf)
     plt.close()
     print(f"Plot saved at {output_path_png}")
     print(f"Plot saved at {output_path_pdf}")
     
-def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="TotalCost", modifier="per_tonne_mile"):
+def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="TotalCost", modifier="per_tonne_mile", include_stowage=False):
     """
     Plots a histogram comparing TotalCost per tonne mile between all vessel types for a given fuel and pathway.
     
@@ -528,6 +532,10 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
     ratios_no_boiloff = []
     ratios_with_boiloff = []
     ratios_tank_corrected = []
+    
+    stowage_str=""
+    if include_stowage:
+        stowage_str="_final"
 
     for vessel_class in classes:
         x_labels.append(vessel_class_titles[vessel_class])
@@ -535,33 +543,33 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
 
         # Read data for TotalCAPEX, TotalFuelOPEX, and TotalExcludingFuelOPEX from the three cases
         no_boiloff_capex_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_orig"
+            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_lsfo{stowage_str}"
         )
         no_boiloff_opex_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_orig"
+            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}"
         )
         no_boiloff_excl_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_orig"
+            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}"
         )
 
         with_boiloff_capex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_orig"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_lsfo{stowage_str}"
         )
         with_boiloff_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_orig"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}"
         )
         with_boiloff_excl_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_orig"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}"
         )
 
         tank_corrected_capex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}{stowage_str}"
         )
         tank_corrected_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}{stowage_str}"
         )
         tank_corrected_excl_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}"
+            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}{stowage_str}"
         )
                 
         lsfo_totalcost_df = read_processed_data(
@@ -776,8 +784,8 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
 
     # Save and display the plot
     create_directory_if_not_exists(f"{get_top_dir()}/plots/{fuel}-{pathway}")
-    output_path_png = f"{get_top_dir()}/plots/{fuel}-{pathway}/{vessel_type}_total_cost_comparison_{fuel}_{pathway}_{modifier}.png"
-    output_path_pdf = f"{get_top_dir()}/plots/{fuel}-{pathway}/{vessel_type}_total_cost_comparison_{fuel}_{pathway}_{modifier}.pdf"
+    output_path_png = f"{get_top_dir()}/plots/{fuel}-{pathway}/{vessel_type}_total_cost_comparison_{fuel}_{pathway}_{modifier}{stowage_str}.png"
+    output_path_pdf = f"{get_top_dir()}/plots/{fuel}-{pathway}/{vessel_type}_total_cost_comparison_{fuel}_{pathway}_{modifier}{stowage_str}.pdf"
     plt.savefig(output_path_png, dpi=300)
     plt.savefig(output_path_pdf, dpi=300)
     plt.close()
@@ -932,11 +940,15 @@ if __name__ == "__main__":
     for fuel in ["liquid_hydrogen", "ammonia"]:#, "ammonia"]:  # "compressed_hydrogen"
         pathways = get_pathways(fuel)
 
-        for pathway in ["BG_H_grid_E", "LTE_H_grid_E"]:#pathways:
-            #plot_histogram_for_vessel_types(fuel, pathway, modifier="per_tonne_mile")
-            #plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile")
-
+        for pathway in ["BG_H_grid_E"]:#, "LTE_H_grid_E"]:#pathways:
+            plot_histogram_for_vessel_types(fuel, pathway, modifier="per_tonne_mile")
+            plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile")
+            plot_histogram_for_vessel_types(fuel, pathway, modifier="per_tonne_mile", include_stowage=True)
+            plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile", include_stowage=True)
+            
             for vessel_type in VESSEL_TYPES:
                 plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_tonne_mile")
                 plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_cbm_mile")
+                plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_tonne_mile", include_stowage=True)
+                plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_cbm_mile", include_stowage=True)
 

@@ -48,7 +48,7 @@ def api_to_density(api):
     Returns
     -------
     density : float
-        Density of the crude oil
+        Density of the crude oil, in kg/L
     """
     
     return 141.5 / (api + 131.5)
@@ -182,8 +182,9 @@ def plot_weighted_sf_petroleum():
     plt.bar(sf_values, weights, width=0.015, align='center', edgecolor='black', alpha=0.8)
 
     # Labeling and styling
-    plt.xlabel("Stowage Factor (m$^3$/tonne)")
-    plt.ylabel("Normalized Weight (Sum = 1)")
+    plt.xlabel("Stowage Factor (m$^3$/tonne)", fontsize=22)
+    plt.tick_params(axis='both', which='major', labelsize=20)
+    plt.tick_params(axis='both', which='minor', labelsize=20)
     #plt.title(title)
     plt.grid(True, axis='y', linestyle='--', alpha=0.5)
 
@@ -229,24 +230,54 @@ def plot_commodity_sfs():
     bulk_df = commodity_info_df[commodity_info_df["Vessel Class"] == "bulk_carrier"].dropna()
     container_df = commodity_info_df[commodity_info_df["Vessel Class"] == "container"].dropna()
 
-    # Plot bulk_carrier commodities
+    # Get tonne-mile sorted commodity lists
+    bulk_sorted_commodities = get_sorted_commodities_by_tmiles("bulk_carrier")
+    container_sorted_commodities = get_sorted_commodities_by_tmiles("container")
+
+    # Plot bulk_carrier commodities with sorted order
     plot_sf_ranges(
         bulk_df,
         title="Stowage Factor Ranges for Bulk Carrier Commodities",
         color='steelblue',
-        save_str="bulk"
+        save_str="bulk",
+        sorted_commodities=bulk_sorted_commodities
     )
 
-    # Plot container commodities
+    # Plot container commodities with sorted order
     plot_sf_ranges(
         container_df,
         title="Stowage Factor Ranges for Container Commodities",
         color='darkorange',
-        save_str="container"
+        save_str="container",
+        sorted_commodities=container_sorted_commodities
     )
 
+def get_sorted_commodities_by_tmiles(vessel_class):
+    """
+    Returns a list of commodity names sorted by tonne-miles, descending.
+    
+    Parameters
+    ----------
+    vessel_class : str
+        Name of the vessel class
+        
+    Returns
+    -------
+    sorted_commodities : list of str
+        Commodity descriptions sorted by tonne-miles
+    """
+    commodity_tmiles = get_commodity_tms(vessel_class)
 
-def plot_sf_ranges(df, title, color, save_str):
+    # If no tonne-miles data is available, return empty list
+    if not commodity_tmiles:
+        print(f"No tonne-mile data found for vessel class: {vessel_class}")
+        return []
+
+    sorted_commodities = [commodity for commodity, tmiles in sorted(commodity_tmiles.items(), key=lambda x: x[1], reverse=True)]
+
+    return sorted_commodities
+
+def plot_sf_ranges(df, title, color, save_str, sorted_commodities=None):
     """
     Helper function to plot stowage factor ranges for the given dataframe.
 
@@ -258,9 +289,21 @@ def plot_sf_ranges(df, title, color, save_str):
         Plot title.
     color : str
         Color of the bars.
+    save_str : str
+        String to append to the filename when saving plots.
+    sorted_commodities : list of str, optional
+        List of commodities to sort and plot in order.
     """
-    # Ensure sorted for better display
-    df_sorted = df.sort_values(by="Lower Stowage Factor (m^3/tonne)")
+    if sorted_commodities:
+        # Filter the sorted commodities to ones present in the dataframe
+        sorted_commodities_in_df = [c for c in sorted_commodities if c in df.index]
+        
+        # Reverse the order for plotting (so highest tonne-miles appears on top)
+        sorted_commodities_in_df = list(reversed(sorted_commodities_in_df))
+
+        df_sorted = df.loc[sorted_commodities_in_df]
+    else:
+        df_sorted = df.sort_values(by="Lower Stowage Factor (m^3/tonne)")
 
     # Extract necessary values
     commodities = df_sorted.index.tolist()
@@ -275,20 +318,27 @@ def plot_sf_ranges(df, title, color, save_str):
     plt.barh(commodities, sf_range, left=lower_sf, height=0.6, color=color, edgecolor='black', alpha=0.7)
 
     # Labels and styling
-    plt.xlabel("Stowage Factor (m³/tonne)", fontsize=20)
-    plt.ylabel("Commodity", fontsize=20)
-    plt.title(title)
+    plt.xlabel("Stowage Factor (m³/tonne)", fontsize=22)
+    plt.ylabel("Commodity", fontsize=22)
+    plt.tick_params(axis='both', which='major', labelsize=18)
+    plt.tick_params(axis='both', which='minor', labelsize=18)
     plt.grid(True, axis='x', linestyle='--', alpha=0.5)
 
     plt.xlim(left=0)
-    
+
     plt.tight_layout()
     plt.savefig(f"{top_dir}/plots/commodity_sf_range_{save_str}.png", dpi=300)
     plt.savefig(f"{top_dir}/plots/commodity_sf_range_{save_str}.pdf")
+
+    print(f"Saved stowage factor range plot for {save_str} to:")
+    print(f"{top_dir}/plots/commodity_sf_range_{save_str}.png")
+    print(f"{top_dir}/plots/commodity_sf_range_{save_str}.pdf")
+    
     
 def plot_sf_ranges_tanker(title="Stowage Factors for Tanker Commodities", color='navy', save_str="tanker"):
     """
-    Plots stowage factors for tanker commodities: crude petroleum, gasoline, and fuel oils.
+    Plots stowage factors for tanker commodities: crude petroleum, gasoline, and fuel oils,
+    sorted by tonne-miles traveled.
     
     Parameters
     ----------
@@ -303,58 +353,66 @@ def plot_sf_ranges_tanker(title="Stowage Factors for Tanker Commodities", color=
     GASOLINE_DENSITY = 0.749  # kg/L, from GREET 2024
     FUEL_OIL_DENSITY = get_fuel_density("lsfo")  # kg/L
 
-    # Calculate stowage factors (m³/tonne = 1000 kg / (density in kg/L))
-    GASOLINE_SF = 1 / GASOLINE_DENSITY  # m³/tonne
-    FUEL_OIL_SF = 1 / FUEL_OIL_DENSITY  # m³/tonne
+    # Calculate stowage factors (m³/tonne = 1 / density in kg/L)
+    GASOLINE_SF = 1 / GASOLINE_DENSITY
+    FUEL_OIL_SF = 1 / FUEL_OIL_DENSITY
 
-    # Crude petroleum SF distribution from existing function
+    # Get crude petroleum SF distribution min/max
     crude_petrol_df = calculate_crude_petrol_sfs()
+    crude_min_sf = crude_petrol_df["Stowage Factor (m^3/tonne)"].min()
+    crude_max_sf = crude_petrol_df["Stowage Factor (m^3/tonne)"].max()
 
-    # Prepare the data to plot
+    # Step 1: Get tonne-miles for tanker commodities
+    commodity_tmiles = get_commodity_tms("tanker")
+
+    # Step 2: Create a dictionary mapping commodity to its SF range
+    tanker_data = {
+        "Crude Petroleum": {
+            "lower_sf": crude_min_sf,
+            "upper_sf": crude_max_sf,
+            "tmiles": commodity_tmiles.get("Crude petroleum", 0)
+        },
+        "Gasoline": {
+            "lower_sf": GASOLINE_SF,
+            "upper_sf": GASOLINE_SF,
+            "tmiles": commodity_tmiles.get("Gasoline", 0)
+        },
+        "Fuel Oils": {
+            "lower_sf": FUEL_OIL_SF,
+            "upper_sf": FUEL_OIL_SF,
+            "tmiles": commodity_tmiles.get("Fuel oils", 0)
+        }
+    }
+
+    # Step 3: Sort commodities by tonne-miles (descending)
+    sorted_commodities = sorted(tanker_data.items(), key=lambda x: x[1]['tmiles'], reverse=True)
+
+    # Reverse the order for plotting (largest on top)
+    sorted_commodities = list(reversed(sorted_commodities))
+
+    # Step 4: Prepare data for plotting
     commodities = []
     lower_sf = []
     upper_sf = []
 
-    # Crude petroleum has a distribution -> plot the min and max of the distribution
-    crude_min_sf = crude_petrol_df["Stowage Factor (m^3/tonne)"].min()
-    crude_max_sf = crude_petrol_df["Stowage Factor (m^3/tonne)"].max()
-
-    commodities.append("Crude Petroleum")
-    lower_sf.append(crude_min_sf)
-    upper_sf.append(crude_max_sf)
-
-    # Gasoline and Fuel oils are treated as point estimates, so lower and upper are equal
-    commodities.append("Gasoline")
-    lower_sf.append(GASOLINE_SF)
-    upper_sf.append(GASOLINE_SF)
-
-    commodities.append("Fuel Oils")
-    lower_sf.append(FUEL_OIL_SF)
-    upper_sf.append(FUEL_OIL_SF)
-
-    # Create a DataFrame for consistency (optional but clean)
-    tanker_df = pd.DataFrame({
-        "Commodity": commodities,
-        "Lower Stowage Factor (m^3/tonne)": lower_sf,
-        "Upper Stowage Factor (m^3/tonne)": upper_sf
-    }).set_index("Commodity")
-
-    # Sort by lower SF if desired
-    tanker_df_sorted = tanker_df.sort_values(by="Lower Stowage Factor (m^3/tonne)")
+    for commodity_name, data in sorted_commodities:
+        commodities.append(commodity_name)
+        lower_sf.append(data['lower_sf'])
+        upper_sf.append(data['upper_sf'])
 
     # Calculate ranges
-    sf_range = tanker_df_sorted["Upper Stowage Factor (m^3/tonne)"] - tanker_df_sorted["Lower Stowage Factor (m^3/tonne)"]
+    sf_range = [upper - lower for lower, upper in zip(lower_sf, upper_sf)]
 
-    # Plot horizontal bars (or markers if range is zero)
-    plt.figure(figsize=(10, 6))
+    # Step 5: Plot horizontal bars (or markers if range is zero)
+    plt.figure(figsize=(10, 8))  # Matching tonne-miles plot dimensions
 
-    for idx, row in tanker_df_sorted.iterrows():
-        if row["Lower Stowage Factor (m^3/tonne)"] == row["Upper Stowage Factor (m^3/tonne)"]:
-            # Plot a single point (marker) for gasoline and fuel oils
+    for idx, (commodity, lower, upper) in enumerate(zip(commodities, lower_sf, upper_sf)):
+        if lower == upper:
+            # Plot a single point for gasoline and fuel oils
             plt.barh(
-                idx,
-                width=0.01,  # Small width to represent a point
-                left=row["Lower Stowage Factor (m^3/tonne)"],
+                commodity,
+                width=0.01,
+                left=lower,
                 height=0.6,
                 color=color,
                 edgecolor='black',
@@ -363,26 +421,27 @@ def plot_sf_ranges_tanker(title="Stowage Factors for Tanker Commodities", color=
         else:
             # Plot a horizontal bar for crude petroleum range
             plt.barh(
-                idx,
-                row["Upper Stowage Factor (m^3/tonne)"] - row["Lower Stowage Factor (m^3/tonne)"],
-                left=row["Lower Stowage Factor (m^3/tonne)"],
+                commodity,
+                upper - lower,
+                left=lower,
                 height=0.6,
                 color=color,
                 edgecolor='black',
                 alpha=0.7
             )
 
-    # Labels and styling
-    plt.xlabel("Stowage Factor (m$^3$/tonne)", fontsize=14)
-    plt.ylabel("Commodity", fontsize=14)
-    plt.title(title, fontsize=16)
+    # Step 6: Labels and styling
+    plt.xlabel("Stowage Factor (m$^3$/tonne)", fontsize=22)
+    plt.ylabel("Commodity", fontsize=22)
+    plt.tick_params(axis='both', which='major', labelsize=18)
+    plt.tick_params(axis='both', which='minor', labelsize=18)
     plt.grid(True, axis='x', linestyle='--', alpha=0.5)
 
     plt.xlim(left=0)
 
     plt.tight_layout()
 
-    # Save plots
+    # Step 7: Save plots
     plt.savefig(f"{top_dir}/plots/commodity_sf_range_{save_str}.png", dpi=300)
     plt.savefig(f"{top_dir}/plots/commodity_sf_range_{save_str}.pdf")
 
@@ -456,13 +515,23 @@ def get_commodity_tms(vessel_class):
 def plot_commodity_tms(vessel_class):
     """
     Plots the tonne-miles traveled by each commodity carried by the given vessel class
-    as a horizontal bar chart.
+    as a horizontal bar chart, using the same colors as plot_sf_ranges.
     
     Parameters
     ----------
     vessel_class : str
         Name of the vessel class
     """
+    # Match vessel-class colors from plot_sf_ranges
+    color_map = {
+        "bulk_carrier": "steelblue",
+        "container": "darkorange",
+        "tanker": "navy"
+        # Extend this dict with other classes as needed
+    }
+
+    # Default to 'teal' if vessel_class not in the color map
+    chosen_color = color_map.get(vessel_class, "teal")
 
     # Get the tonne-miles dictionary
     commodity_tmiles = get_commodity_tms(vessel_class)
@@ -479,15 +548,17 @@ def plot_commodity_tms(vessel_class):
 
     # Create the horizontal bar plot
     plt.figure(figsize=(10, 8))
-    plt.barh(commodities, tmiles, color='teal', edgecolor='black', alpha=0.8)
+    plt.barh(commodities, tmiles, color=chosen_color, edgecolor='black', alpha=0.8)
 
     # Invert y-axis so the largest bar is on top
     plt.gca().invert_yaxis()
 
     # Labels and styling
-    plt.xlabel("Tonne-Miles (2025)", fontsize=14)
-    plt.ylabel("Commodity", fontsize=14)
-    plt.title(f"Tonne-Miles by Commodity for {vessel_class.title()} Vessels", fontsize=16)
+    plt.xlabel("Tonne-Miles (2025)", fontsize=22)
+    plt.ylabel("Commodity", fontsize=22)
+    plt.tick_params(axis='both', which='major', labelsize=20)
+    plt.tick_params(axis='both', which='minor', labelsize=20)
+    #plt.title(f"Tonne-Miles by Commodity for {vessel_class.title()} Vessels", fontsize=16)
     plt.grid(True, axis='x', linestyle='--', alpha=0.5)
 
     plt.tight_layout()
@@ -501,8 +572,6 @@ def plot_commodity_tms(vessel_class):
     print(f"Saved tonne-miles bar chart for {vessel_class} to:")
     print(f"{save_path_png}")
     print(f"{save_path_pdf}")
-
-    #plt.show()
     
     
 def get_sf_distributions(vessel_class):
@@ -729,6 +798,10 @@ def plot_sf_distributions(vessel_class, bins=5):
             linewidth=2,
             #label=vessel_class.capitalize()
         )
+        average_sf = (sf_values*sf_weights).sum()
+        plt.axvline(average_sf, ls="--", color="darkblue", linewidth=2, label=f"Average: {average_sf:.2f}")
+        
+        plt.legend(fontsize=18)
 
     # Non-tanker case: lower, central, upper distributions
     elif isinstance(sf_data, dict):
@@ -763,6 +836,8 @@ def plot_sf_distributions(vessel_class, bins=5):
             linewidth=2,
             label='Lower'
         )
+        average_lower = (lower_values*lower_weights).sum()
+        plt.axvline(average_lower, ls="--", color="darkblue", linewidth=2, label=f"Average Lower: {average_lower:.2f}")
 
         # Central (green)
         plt.hist(
@@ -782,6 +857,8 @@ def plot_sf_distributions(vessel_class, bins=5):
             linewidth=2,
             label='Central'
         )
+        average_central = (central_values*central_weights).sum()
+        plt.axvline(average_central, ls="--", color="darkgreen", linewidth=2, label=f"Average Central: {average_central:.2f}")
 
         # Upper (red)
         plt.hist(
@@ -801,6 +878,9 @@ def plot_sf_distributions(vessel_class, bins=5):
             linewidth=2,
             label='Upper'
         )
+        average_upper = (upper_values*upper_weights).sum()
+        plt.axvline(average_upper, ls="--", color="darkred", linewidth=2, label=f"Average Upper: {average_upper:.2f}")
+        
         plt.legend(fontsize=18)
 
     else:
@@ -809,8 +889,8 @@ def plot_sf_distributions(vessel_class, bins=5):
 
     # Labels and layout
     plt.xlabel("Stowage Factor (m$^3$/tonne)", fontsize=22)
-    plt.tick_params(axis='both', which='major', labelsize=16)
-    plt.tick_params(axis='both', which='minor', labelsize=16)
+    plt.tick_params(axis='both', which='major', labelsize=18)
+    plt.tick_params(axis='both', which='minor', labelsize=18)
 
     plt.grid(True, linestyle='--', alpha=0.6)
     plt.tight_layout()
