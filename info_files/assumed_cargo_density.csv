@@ -8,4 +8,4 @@ container,container_3500_teu,Twenty-foot Equivalent Units (TEU),0.36572,0.73615,
 tanker,tanker_100k_dwt,Deadweight tonnes,0.8875,,0.850,,Middle of the crude oil density range (850-925 kg/m^3) from https://www.aer.ca/providing-information/data-and-reports/statistical-reports/st98/crude-oil/methodology
 tanker,tanker_300k_dwt,Deadweight tonnes,0.8875,,0.850,,Middle of the crude oil density range (850-925 kg/m^3) from https://www.aer.ca/providing-information/data-and-reports/statistical-reports/st98/crude-oil/methodology
 tanker,tanker_35k_dwt,Deadweight tonnes,0.8875,,0.850,,Middle of the crude oil density range (850-925 kg/m^3) from https://www.aer.ca/providing-information/data-and-reports/statistical-reports/st98/crude-oil/methodology
-gas_carrier,gas_carrier_100k_cbm,m^3,0.456,0.456,,,https://www.energy.gov/sites/prod/files/2013/04/f0/LNG_primerupd.pdf
+gas_carrier,gas_carrier_100k_cbm,m^3,0.428,0.428,,,GREET1_2024

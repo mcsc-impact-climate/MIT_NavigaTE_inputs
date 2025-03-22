@@ -66,7 +66,7 @@ quantities = [
 
 # Evaluation choices
 # per_*_mile_orig: Prior to tank size modification
-evaluation_choices = ["per_year", "per_mile", "per_tonne_mile_orig", "per_tonne_mile", "per_cbm_mile_orig", "per_cbm_mile"] # per tonne-mile = multiply weight by distance
+evaluation_choices = ["per_year", "per_mile", "per_tonne_mile_lsfo", "per_tonne_mile_lsfo_final", "per_tonne_mile", "per_tonne_mile_final", "per_cbm_mile_lsfo", "per_cbm_mile_lsfo_final", "per_cbm_mile", "per_cbm_mile_final"] # per tonne-mile = multiply weight by distance
 
 def time_function(func):
     """A decorator that logs the time a function takes to execute."""
@@ -386,12 +386,20 @@ def add_quantity_modifiers(all_results_df):
                 column_divide = "Miles"
             elif evaluation_choice == "per_tonne_mile":
                 column_divide = "TonneMiles"
-            elif evaluation_choice == "per_tonne_mile_orig":
+            elif evaluation_choice == "per_tonne_mile_final":
+                column_divide = "FinalTonneMiles"
+            elif evaluation_choice == "per_tonne_mile_lsfo":
                 column_divide = "TonneMiles_lsfo"
+            elif evaluation_choice == "per_tonne_mile_lsfo_final":
+                column_divide = "FinalTonneMiles_lsfo"
             elif evaluation_choice == "per_cbm_mile":
                 column_divide = "CbmMiles"
-            elif evaluation_choice == "per_cbm_mile_orig":
+            elif evaluation_choice == "per_cbm_mile_final":
+                column_divide = "FinalCbmMiles"
+            elif evaluation_choice == "per_cbm_mile_lsfo":
                 column_divide = "CbmMiles_lsfo"
+            elif evaluation_choice == "per_cbm_mile_lsfo_final":
+                column_divide = "FinalCbmMiles_lsfo"
             else:
                 continue
 
@@ -419,7 +427,7 @@ def scale_quantities_to_fleet(all_results_df):
     all_results_df : pandas.DataFrame
         The updated DataFrame with fleet-level quantities added.
     """
-    for quantity in quantities + ["Miles", "CargoMiles", "CbmMiles", "TonneMiles", "CbmMiles_lsfo", "TonneMiles_lsfo"]:
+    for quantity in quantities + ["Miles", "CargoMiles", "CbmMiles", "TonneMiles", "CbmMiles_lsfo", "TonneMiles_lsfo", "FinalCbmMiles", "FinalCbmMiles_lsfo", "FinalTonneMiles", "FinalTonneMiles_lsfo"]:
         # Multiply by the number of vessels to sum the quantity to the full fleet
         all_results_df[f"{quantity}-fleet"] = (
             all_results_df[quantity] * all_results_df["n_vessels"]
@@ -525,7 +533,7 @@ def add_fleet_level_quantities(all_results_df):
             fleet_row["n_vessels"] = fleet_df["n_vessels"].sum()
 
             # Evaluate the average based on the fleet sum for each vessel-level quantity
-            for quantity in quantities + ["Miles", "CargoMiles", "CbmMiles", "CbmMiles_lsfo", "TonneMiles", "TonneMiles_lsfo"]:
+            for quantity in quantities + ["Miles", "CargoMiles", "CbmMiles", "CbmMiles_lsfo", "TonneMiles", "TonneMiles_lsfo", "FinalCbmMiles", "FinalCbmMiles_lsfo", "FinalTonneMiles", "FinalTonneMiles_lsfo"]:
                 fleet_row[f"{quantity}"] = (
                     fleet_row[f"{quantity}-fleet"] / fleet_row["n_vessels"]
                 )
@@ -673,10 +681,12 @@ def add_cargo_miles(all_results_df):
 
     # Add additional columns for lsfo-specific cargo miles
     lsfo_cargo_miles = cargo_miles_df[cargo_miles_df["Fuel"] == "lsfo"].set_index("Vessel_type")[
-        ["Cargo miles (m^3-miles)", "Cargo miles (tonne-miles)"]
+        ["Cargo miles (m^3-miles)", "Cargo miles (tonne-miles)", "Final Cargo miles (m^3-miles)", "Final Cargo miles (tonne-miles)"]
     ].rename(columns={
         "Cargo miles (m^3-miles)": "CbmMiles_lsfo",
-        "Cargo miles (tonne-miles)": "TonneMiles_lsfo"
+        "Cargo miles (tonne-miles)": "TonneMiles_lsfo",
+        "Final Cargo miles (m^3-miles)": "FinalCbmMiles_lsfo",
+        "Final Cargo miles (tonne-miles)": "FinalTonneMiles_lsfo"
     })
 
     all_results_df = all_results_df.merge(
@@ -693,6 +703,8 @@ def add_cargo_miles(all_results_df):
     all_results_df.rename(columns={
         "Cargo miles (m^3-miles)": "CbmMiles",
         "Cargo miles (tonne-miles)": "TonneMiles",
+        "Final Cargo miles (m^3-miles)": "FinalCbmMiles",
+        "Final Cargo miles (tonne-miles)": "FinalTonneMiles",
         "Vessel_x": "Vessel",
         "Fuel_x": "Fuel",
     }, inplace=True)
@@ -1176,7 +1188,7 @@ def main():
     # Group vessels by type to get type-level quantities
     all_results_df = add_vessel_type_quantities(all_results_df)
 
-    #all_results_df.to_csv("all_results_df_with_vessel_quantities.csv")
+    all_results_df.to_csv("all_results_df_with_vessel_quantities.csv")
 
     # Group all vessel together to get fleet-level quantities
     all_results_df = add_fleet_level_quantities(all_results_df)

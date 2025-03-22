@@ -1,0 +1,43 @@
+Description,Vessel Class,Lower Stowage Factor (m^3/tonne),Lower Stowage Factor Source,Upper Stowage Factor (m^3/tonne),Upper Stowage Factor Source
+Live animals/fish,container,n/a,n/a,n/a,n/a
+Cereal grains,bulk_carrier,1.3,https://www.cargohandbook.com/Cereals,1.8,https://www.cargohandbook.com/Cereals
+Other ag prods.,bulk_carrier,1.17,https://cargohandbook.com/Sugar_(raw_and_refined),3.55,https://www.cargohandbook.com/Peanuts
+Animal feed,bulk_carrier,1.23,https://www.cargohandbook.com/Soybeans,2.07,https://www.cargohandbook.com/Fishmeal
+Meat/seafood,container,2.26,"https://cargohandbook.com/Meat,_frozen",3.96,"https://cargohandbook.com/Meat,_frozen"
+Milled grain prods.,container,1.34,https://www.cargohandbook.com/Rice_(incl._transport_guidelines),1.67,https://www.handybulk.com/wheat-stowage-factor/ (wheat flour bulk)
+Other foodstuffs,container,1.17,https://cargohandbook.com/Sugar_(raw_and_refined),3.96,"https://cargohandbook.com/Meat,_frozen"
+Alcoholic beverages,container,1.7,https://freight-charter.blogspot.com/2015/02/stowage-factor-of-general-cargoes.html (beer cartons),1.87,https://freight-charter.blogspot.com/2015/02/stowage-factor-of-general-cargoes.html (beer cases)
+Tobacco prods.,container,3.12,https://freight-charter.blogspot.com/2015/02/stowage-factor-of-general-cargoes.html (tobacco cases),3.96,https://freight-charter.blogspot.com/2015/02/stowage-factor-of-general-cargoes.html (tobacco cases)
+Building stone,bulk_carrier,0.67,https://www.cargohandbook.com/Limestone,0.84,https://www.cargohandbook.com/Limestone
+Natural sands,bulk_carrier,1.3,https://www.handybulk.com/bulk-aggregates-shipping/ (sand),1.5,https://www.handybulk.com/bulk-aggregates-shipping/ (sand)
+Gravel,bulk_carrier,1.4,https://www.handybulk.com/bulk-aggregates-shipping/,1.7,https://www.handybulk.com/bulk-aggregates-shipping/
+Nonmetallic minerals,bulk_carrier,0.67,https://www.cargohandbook.com/Limestone,1.15,https://www.cargohandbook.com/Clays
+Metallic ores,bulk_carrier,0.29,https://www.cargohandbook.com/Ores,0.8,https://www.cargohandbook.com/Ores
+Coal,bulk_carrier,1.1,https://cargohandbook.com/Coal_and_Coke,1.3,https://cargohandbook.com/Coal_and_Coke
+Crude petroleum,tanker,n/a,n/a,n/a,n/a
+Gasoline,tanker,n/a,n/a,n/a,n/a
+Fuel oils,tanker,n/a,n/a,n/a,n/a
+Natural gas and other fossil products,gas_carrier,n/a,n/a,n/a,n/a
+Basic chemicals,chemical_tanker,n/a,n/a,n/a,n/a
+Pharmaceuticals,container,2,https://www.bpsvibes.com/bulk-density-guide (Pharmaceutical Mix),7.1,https://www.bpsvibes.com/bulk-density-guide (Pharmaceutical Lubricant)
+Fertilizers,bulk_carrier,1,https://www.handybulk.com/bulk-fertilizer-shipping/,1.3,https://www.handybulk.com/bulk-fertilizer-shipping/
+Chemical prods.,chemical_tanker,n/a,n/a,n/a,n/a
+Plastics/rubber,container,0.56,https://www.jingdongrubber.com/what-is-the-density-of-plain-rubber-sheet/,1.15,"https://www.researchgate.net/publication/335163204 (Table 4, PP)"
+Logs,bulk_carrier,0.99,https://www.handybulk.com/log-stowage-factor/,2.55,https://www.handybulk.com/log-stowage-factor/
+Wood prods.,bulk_carrier,1.2,https://www.handybulk.com/bulk-pulpwood-shipping/ (pellets),3.5,https://www.handybulk.com/bulk-pulpwood-shipping/ (wood chips)
+Newsprint/paper,container,1.78,https://www.cargohandbook.com/Paper_(rolls),2.8,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html (newsprint paper rod)
+Paper articles,container,1.84,https://www.handybulk.com/paper-products/ (liner board),9.9,https://www.starmarine.net/stowage-factor/ (toilet paper)
+Printed prods.,container,2,https://www.starmarine.net/stowage-factor/ (note books),2.7,https://www.starmarine.net/stowage-factor/ (printing paper)
+Textiles/leather,container,1.14,https://cargohandbook.com/Fabrics/cloth/textiles,6.50,https://cargohandbook.com/Fabrics/cloth/textiles
+Nonmetal min. prods.,bulk_carrier,0.61,https://www.cargohandbook.com/Cement,1.98,https://www.cargohandbook.com/Glass_Sheets
+Base metals,bulk_carrier,0.24,https://www.cargohandbook.com/Lead_Ore,1.11,https://www.cargohandbook.com/Zinc_and_zinc_products
+Articles-base metal,container,0.34,https://www.cargohandbook.com/Copper_Cathodes,1.04,https://www.cargohandbook.com/Pipes_(steel)
+Machinery,container,4.25,https://www.exbtr.com/en/stowage.html (bicycles),4.25,https://www.exbtr.com/en/stowage.html (bicycles)
+Electronics,container,2.4,https://www.exbtr.com/en/stowage.html (electric fans),2.8,https://www.exbtr.com/en/stowage.html (Radios)
+Motorized vehicles,container,4.2,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html,4.2,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html
+Transport equip.,container,4.2,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html,4.2,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html
+Precision instruments,container,2.4,https://www.exbtr.com/en/stowage.html (electric fans),2.8,https://www.exbtr.com/en/stowage.html (Radios)
+Furniture,container,3.1,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html (bedsheets),6.23,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html (folding chairs)
+Misc. mfg. prods.,container,1.6,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html (containers),3,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html (containers)
+Waste/scrap,container,0.8,https://www.handybulk.com/bulk-steel-scrap-shipping/,2.5,https://www.handybulk.com/bulk-steel-scrap-shipping/
+Mixed freight,container,1.6,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html,3,https://stowagefactor.blogspot.com/2016/09/dry-bulk-stowage-factor.html
