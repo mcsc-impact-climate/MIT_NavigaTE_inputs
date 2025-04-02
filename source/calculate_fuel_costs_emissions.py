@@ -17,6 +17,22 @@ NG_NG_demand_kg = NG_info.loc["Production", "NG Consumption (kg/kg)"] # [kg NG c
 NG_CO2_emissions = NG_info.loc["Production", "CO2 Emissions (kg/kg)"] # [kg CO2 / kg NG]. Source: GREET 2024
 NG_CH4_leakage = NG_info.loc["Production", "CH4 Emissions (kg/kg)"] # [kg CH4 / kg NG]. Source: GREET 2024
 
+def calculate_BEC_upstream_emission_rate(filename = f"{top_dir}/input_fuel_pathway_data/BEC_upstream_emissions_GREET.csv"):
+    """
+    Calculates the upstream emissions for CO2 captured from a bioenergy plant (in kg CO2e / kg CO2), by averaging over GREET estimates for different US states
+    """
+    
+    # Read in the BEC emissions data from GREET
+    BEC_emissions_data = pd.read_csv(filename)
+    
+    # Calculate the upstream emission rate for each state
+    BEC_emissions_data["Upstream emissions (kg CO2e / kg CO2"] = (BEC_emissions_data["Feedstock emissions (g CO2e/mmBtu)"] + BEC_emissions_data["Fuel emissions (g CO2e/mmBtu)"]) / BEC_emissions_data["CO2 from CCS"]
+    
+    # Calculate the average upstream emissions rate over all states
+    average_upstream_emissions_rate = BEC_emissions_data["Upstream emissions (kg CO2e / kg CO2"].mean()
+    
+    return average_upstream_emissions_rate
+
 # Function to calculate CapEx, OpEx, LCOF, and production GHG emissions for STP hydrogen
 workhours_per_year = 52*40 # number of work-hours per year
 NG_HHV = 0.05521 # GJ/kg NG, From GREET 2024
@@ -25,9 +41,10 @@ gen_admin_rate = 0.2 # 20% G&A rate
 op_maint_rate = 0.04 # O&M rate
 tax_rate = 0.02 # 2% tax rate
 NG_percent_fugitive = 0.02 # Assume 2% fugitive NG emissions
-BEC_CO2_price = 0.04 # [2024$/kg CO2] price of biogenic CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now # This input should probably be regionalized or made dependent on LCB price
-BEC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from bioenergy plant with CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
-DAC_CO2_price = 0.2 # [2024$/kg CO2] price of captured CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now
+BEC_CO2_price = 0.02 # [2024$/kg CO2] price of biogenic CO2, based on range of $15-30/tonne CO2 from https://iea.blob.core.windows.net/assets/181b48b4-323f-454d-96fb-0bb1889d96a9/CCUS_in_clean_energy_transitions.pdf. # This input should probably be regionalized or made dependent on LCB price
+BEC_CO2_upstream_emissions = calculate_BEC_upstream_emission_rate() # [kg CO2e/kg CO2] upstream emissions from bioenergy plant with CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
+print(BEC_CO2_upstream_emissions)
+DAC_CO2_price = 0.2 # [2024$/kg CO2] price of captured CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now. Falls roughly between the $125/tonne and $325/tonne estimated by IEA for a large-scale plant built today: https://www.iea.org/reports/direct-air-capture-2022/executive-summary.
 DAC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from direct-air CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
 MW_CO2 = 44.01 # [g/mol] avg molecular weight of carbon dioxide 
 MW_MeOH = 32.04 # [g/mol] avg molecular weight of methanol
