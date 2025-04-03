@@ -13,6 +13,7 @@ top_dir = get_top_dir()
 NG_info = pd.read_csv(f"{top_dir}/input_fuel_pathway_data/lng_inputs_GREET_processed.csv", index_col="Stage")
 NG_water_demand = NG_info.loc["Production", "Water Consumption (m^3/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
 NG_NG_demand_GJ = NG_info.loc["Production", "NG Consumption (GJ/kg)"] # [GJ NG consumed / kg NG produced]. Source: GREET 2024
+NG_elect_demand = NG_info.loc["Production", "Electricity Consumption (kWh/kg)"] # [GJ NG consumed / kg NG produced]. Source: GREET 2024
 NG_NG_demand_kg = NG_info.loc["Production", "NG Consumption (kg/kg)"] # [kg NG consumed / kg NG produced]. Source: GREET 2024
 NG_CO2_emissions = NG_info.loc["Production", "CO2 Emissions (kg/kg)"] # [kg CO2 / kg NG]. Source: GREET 2024
 NG_CH4_leakage = NG_info.loc["Production", "CH4 Emissions (kg/kg)"] # [kg CH4 / kg NG]. Source: GREET 2024
@@ -141,6 +142,7 @@ NG_liq_base_CapEx = 0.82 # [2024$/kg NG]. Obtained from Table 3 (USA Lower 48) i
 NG_liq_NG_demand_GJ = NG_info.loc["Liquefaction", "NG Consumption (GJ/kg)"] # [GJ NG consumed / kg liquefied NG]. Source: GREET 2024
 NG_liq_NG_demand_kg = NG_info.loc["Liquefaction", "NG Consumption (kg/kg)"] # [kg NG consumed / kg liquefied NG]. Source: GREET 2024
 NG_liq_water_demand = NG_info.loc["Liquefaction", "Water Consumption (m^3/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
+NG_liq_elect_demand = NG_info.loc["Liquefaction", "Electricity Consumption (kWh/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
 NG_liq_CO2_emissions = NG_info.loc["Liquefaction", "CO2 Emissions (kg/kg)"] # [kg CO2 / kg NG]. Source: GREET 2024
 NG_liq_CH4_leakage = NG_info.loc["Liquefaction", "CH4 Emissions (kg/kg)"] # [kg CH4 / kg NG]. Source: GREET 2024
 
@@ -257,28 +259,30 @@ def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor
 
     return CapEx, OpEx, emissions
     
-def calculate_production_costs_emissions_NG(water_price,NG_price):
+def calculate_production_costs_emissions_NG(water_price,NG_price,elect_price,elect_emissions_intensity):
     NG_demand = NG_NG_demand_GJ     # Natural gas consumed in the recovery and processing stages, in GJ NG consumed / kg NG produced
     water_demand = NG_water_demand  # Water consumed in the recovery and processing stages, in m^3 water consumed / kg NG produced
+    elect_demand = NG_elect_demand  # Electricity consumed in the recovery and processing stages, in kWh electricity consumed / kg NG produced
     # Assign the price of NG to the OpEx
     CapEx = 0
-    OpEx = NG_price * (NG_HHV + NG_NG_demand_GJ) + water_price * water_demand   # Account for both the NG produced and the NG consumed in the recovery and processing stages
-    emissions = NG_CO2_emissions + NG_CH4_leakage * NG_GWP
+    OpEx = NG_price * (NG_HHV + NG_NG_demand_GJ) + water_price * water_demand + elect_price * elect_demand   # Account for both the NG produced and the NG consumed in the recovery and processing stages
+    emissions = NG_CO2_emissions + NG_CH4_leakage * NG_GWP + elect_demand * elect_emissions_intensity
     
     return CapEx, OpEx, emissions
     
-def calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price):
+def calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity):
     base_CapEx = NG_liq_base_CapEx
     NG_demand = NG_liq_NG_demand_GJ    # Natural gas consumed to power the liquefaction process, in GJ/kg
     water_demand = NG_liq_water_demand  # Water consumed during the liquefaction process, in m^3/kg
+    elect_demand = NG_liq_elect_demand  # Electricity consumed during the liquefaction process, in kWh/kg
     
     # calculate liquefaction values
     CapEx = base_CapEx*instal_factor
-    OpEx = (op_maint_rate + tax_rate)*CapEx + NG_demand*NG_price + water_demand*water_price
-    emissions = NG_liq_CO2_emissions + NG_liq_CH4_leakage * NG_GWP  # kg CO2e / kg NG
+    OpEx = (op_maint_rate + tax_rate)*CapEx + NG_demand*NG_price + water_demand*water_price + elect_demand*elect_price
+    emissions = NG_liq_CO2_emissions + NG_liq_CH4_leakage * NG_GWP + elect_demand * elect_emissions_intensity  # kg CO2e / kg NG
     
     # add H2 feedstock cost and emissions
-    NG_CapEx, NG_OpEx, NG_emissions = calculate_production_costs_emissions_NG(water_price,NG_price)
+    NG_CapEx, NG_OpEx, NG_emissions = calculate_production_costs_emissions_NG(water_price,NG_price,elect_price,elect_emissions_intensity)
     CapEx += NG_CapEx
     OpEx += NG_OpEx
     emissions += NG_emissions
@@ -483,7 +487,7 @@ def calculate_resource_demands_compressed_hydrogen(H_pathway):
 def calculate_resource_demands_NG():
     water_demand = NG_water_demand      # m^3 water / kg NG
     NG_demand = NG_HHV + NG_NG_demand_GJ     # GJ NG / kg NG
-    elect_demand = 0
+    elect_demand = NG_elect_demand
     LCB_demand = 0
     CO2_demand = 0
     
@@ -493,6 +497,7 @@ def calculate_resource_demands_liquid_NG():
     elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_NG()
     NG_demand += NG_liq_NG_demand_GJ
     water_demand += NG_liq_water_demand
+    elect_demand += NG_liq_elect_demand
         
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
@@ -625,10 +630,10 @@ def main():
             region,instal_factor,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,renew_price,src,renew_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
             
             if fuel == "ng":
-                CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price)
+                CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price,elect_price,elect_emissions_intensity)
                 comment = "natural gas at standard temperature and pressure"
             elif fuel == "lng":
-                CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price)
+                CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity)
                 comment = "liquid natural gas at atmospheric pressure"
         
         # Next, iterate through the non-fossil production pathways
@@ -694,10 +699,10 @@ def main():
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_price,NG_price,NG_fugitive_emissions,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
                     comment = "Liquid cryogenic ammonia at atmospheric pressure"
                 elif fuel == "ng":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price, elect_price,elect_emissions_intensity)
                     comment = "natural gas at standard temperature and pressure"
                 elif fuel == "lng":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity)
                     comment = "liquid natural gas at atmospheric pressure"
                 elif fuel == "methanol":
                     CapEx, OpEx, emissions = calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_factor,water_price,NG_price,NG_fugitive_emissions,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
@@ -800,8 +805,8 @@ def main():
                     fuel = "ammonia"
                     comment = "conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure"
                 elif process == "ng_liquefaction":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price)
-                    CapEx_NGprod, OpEx_NGprod, emissions_NGprod = calculate_production_costs_emissions_NG(water_price,NG_price)
+                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity)
+                    CapEx_NGprod, OpEx_NGprod, emissions_NGprod = calculate_production_costs_emissions_NG(water_price,NG_price,elect_price,elect_emissions_intensity)
                     CapEx -= CapEx_NGprod
                     OpEx -= OpEx_NGprod
                     emissions -= emissions_NGprod

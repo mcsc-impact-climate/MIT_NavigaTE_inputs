@@ -8,6 +8,7 @@ from common_tools import get_top_dir
 
 BTU_PER_MJ = 947.817
 BTU_PER_MMBTU = 1e6
+MJ_PER_KWH = 3.6
 GAL_PER_M3 = 264.172
 NG_HHV_MJ = 55.21  # HHV of NG, in MJ/kg, from GREET 2024
 NG_HHV_GJ = NG_HHV_MJ/1000  # HHV of NG, in GJ/kg
@@ -16,6 +17,10 @@ G_PER_KG = 1000
 def Btu_per_mmBtu_to_kg_per_kg(value):
     """Convert NG consumption from Btu/mmBtu to kg/kg."""
     return value / BTU_PER_MMBTU
+    
+def Btu_per_mmBtu_to_kWh_per_kg(value):
+    """Convert electricity consumption from Btu/mmBtu to kWh/kg."""
+    return value * NG_HHV_MJ / (BTU_PER_MMBTU * MJ_PER_KWH)
 
 def kg_per_kg_to_GJ_per_kg(value):
     """Convert NG consumption from kg/kg to GJ/kg."""
@@ -56,6 +61,7 @@ def main():
     df_pivot = df_pivot.rename(columns={
         "NG Consumption": "NG Consumption (Btu/mmBtu)",
         "Water Consumption": "Water Consumption (gal/mmBtu)",
+        "Electricity Consumption": "Electricity Consumption (Btu/mmBtu)",
         "CH4 Emissions": "CH4 Emissions (g/mmBtu)",
         "CO2 Emissions": "CO2 Emissions (g/mmBtu)"
     })
@@ -67,11 +73,12 @@ def main():
     df_pivot["NG Consumption (kg/kg)"] = df_pivot["NG Consumption (Btu/mmBtu)"].apply(Btu_per_mmBtu_to_kg_per_kg)
     df_pivot["NG Consumption (GJ/kg)"] = df_pivot["NG Consumption (kg/kg)"].apply(kg_per_kg_to_GJ_per_kg)
     df_pivot["Water Consumption (m^3/kg)"] = df_pivot["Water Consumption (gal/mmBtu)"].apply(gal_per_mmBtu_to_m3_per_kg)
+    df_pivot["Electricity Consumption (kWh/kg)"] = df_pivot["Electricity Consumption (Btu/mmBtu)"].apply(Btu_per_mmBtu_to_kWh_per_kg)
     df_pivot["CH4 Emissions (kg/kg)"] = df_pivot["CH4 Emissions (g/mmBtu)"].apply(g_per_mmBtu_to_kg_per_kg)
     df_pivot["CO2 Emissions (kg/kg)"] = df_pivot["CO2 Emissions (g/mmBtu)"].apply(g_per_mmBtu_to_kg_per_kg)
 
     # Select final columns
-    df_final = df_pivot[["Stage", "NG Consumption (kg/kg)", "NG Consumption (GJ/kg)",
+    df_final = df_pivot[["Stage", "NG Consumption (kg/kg)", "NG Consumption (GJ/kg)", "Electricity Consumption (kWh/kg)",
                           "Water Consumption (m^3/kg)", "CH4 Emissions (kg/kg)", "CO2 Emissions (kg/kg)"]]
 
     # Save to CSV
