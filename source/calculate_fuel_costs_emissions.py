@@ -44,7 +44,6 @@ tax_rate = 0.02 # 2% tax rate
 NG_percent_fugitive = 0.02 # Assume 2% fugitive NG emissions
 BEC_CO2_price = 0.02 # [2024$/kg CO2] price of biogenic CO2, based on range of $15-30/tonne CO2 from https://iea.blob.core.windows.net/assets/181b48b4-323f-454d-96fb-0bb1889d96a9/CCUS_in_clean_energy_transitions.pdf. # This input should probably be regionalized or made dependent on LCB price
 BEC_CO2_upstream_emissions = calculate_BEC_upstream_emission_rate() # [kg CO2e/kg CO2] upstream emissions from bioenergy plant with CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
-print(BEC_CO2_upstream_emissions)
 DAC_CO2_price = 0.2 # [2024$/kg CO2] price of captured CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now. Falls roughly between the $125/tonne and $325/tonne estimated by IEA for a large-scale plant built today: https://www.iea.org/reports/direct-air-capture-2022/executive-summary.
 DAC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from direct-air CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
 MW_CO2 = 44.01 # [g/mol] avg molecular weight of carbon dioxide 
@@ -568,7 +567,8 @@ def main():
 
     # Read the input CSV files
     input_df = pd.read_csv(input_dir + 'regional_TEA_inputs.csv')
-    pathway_df = pd.read_csv(input_dir + 'fuel_pathway_options.csv')
+#    pathway_df = pd.read_csv(input_dir + 'fuel_pathway_options.csv')
+    pathway_df = pd.read_csv(input_dir + 'fuel_pathway_options_no_hydrogen.csv')
 
     # Populate the arrays using the columns
     fuels = pathway_df['WTG fuels'].dropna().tolist()
@@ -747,7 +747,9 @@ def main():
 
 
     # Gate to Pump Processes
-    processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion", "ng_liquefaction"]
+    #processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion", "ng_liquefaction"]
+    processes = ["hydrogen_to_ammonia_conversion", "ng_liquefaction"]
+    
     
     for process in processes:
         if process == "ng_liquefaction":

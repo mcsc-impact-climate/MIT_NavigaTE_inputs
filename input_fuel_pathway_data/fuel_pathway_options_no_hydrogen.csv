@@ -1,0 +1,7 @@
+WTG fuels,fuel contents,GTT processes,electricity sources,hydrogen sources,carbon sources
+hydrogen,H,,,SMR,SMR
+ammonia,NH,,grid,SMRCCS,SMRCCS
+methanol,CHO,,renewable,ATRCCS,ATRCCS
+FTdiesel,CH,,,LTE,BEC
+ng,fossil,ng_liquefaction,,BG,DAC
+lng,fossil,,,,BG
