@@ -44,43 +44,36 @@ Uptake "uptake" {
 }
 
 # Need to enforce alternative fuel use in all vessels
-Import Vessel "bulk_carrier_capesize_ice_diesel"
+#Import Vessel "bulk_carrier_capesize_ice_diesel"
 Vessel "bulk_carrier_capesize_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
-Import Vessel "bulk_carrier_handy_ice_diesel"
+#Import Vessel "bulk_carrier_handy_ice_diesel"
 Vessel "bulk_carrier_handy_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
-Import Vessel "bulk_carrier_panamax_ice_diesel"
+#Import Vessel "bulk_carrier_panamax_ice_diesel"
 Vessel "bulk_carrier_panamax_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
-Import Vessel "container_15000_teu_ice_diesel"
 Vessel "container_15000_teu_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
-Import Vessel "container_3500_teu_ice_diesel"
 Vessel "container_3500_teu_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
-Import Vessel "container_8000_teu_ice_diesel"
 Vessel "container_8000_teu_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
-Import Vessel "tanker_100k_dwt_ice_diesel"
 Vessel "tanker_100k_dwt_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
-Import Vessel "tanker_300k_dwt_ice_diesel"
 Vessel "tanker_300k_dwt_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
-Import Vessel "tanker_35k_dwt_ice_diesel"
 Vessel "tanker_35k_dwt_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
-Import Vessel "gas_carrier_100k_cbm_ice_diesel"
 Vessel "gas_carrier_100k_cbm_ice_diesel" {
     EnforceMainFuelShare = TRUE
 }
