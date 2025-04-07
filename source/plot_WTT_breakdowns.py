@@ -85,12 +85,12 @@ continent_regions = {
 }
 
 fuel_pathways = {
-    "e-hydrogen (liquefied)": ["LTE_H_grid_E", "LTE_H_nuke_E", "LTE_H_renewable_E"],
-    "e-hydrogen (compressed)": ["LTE_H_grid_E", "LTE_H_nuke_E", "LTE_H_renewable_E"],
-    "e-ammonia": ["LTE_H_grid_E", "LTE_H_nuke_E", "LTE_H_renewable_E"],
-    "Blue ammonia": ["SMRCCS_H_renewable_E", "SMRCCS_H_nuke_E", "SMRCCS_H_grid_E"],
-    "e-methanol": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_renewable_E", "LTE_H_SMRCCS_C_nuke_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_renewable_E", "LTE_H_BEC_C_nuke_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_renewable_E", "LTE_H_DAC_C_nuke_E"],
-    "e-diesel": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_renewable_E", "LTE_H_SMRCCS_C_nuke_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_renewable_E", "LTE_H_BEC_C_nuke_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_renewable_E", "LTE_H_DAC_C_nuke_E"],
+    "e-hydrogen (liquefied)": ["LTE_H_grid_E", "LTE_H_solar_E", "LTE_H_wind_E"],
+    "e-hydrogen (compressed)": ["LTE_H_grid_E", "LTE_H_solar_E", "LTE_H_wind_E"],
+    "e-ammonia": ["LTE_H_grid_E", "LTE_H_solar_E", "LTE_H_wind_E"],
+    "Blue ammonia": ["SMRCCS_H_solar_E", "SMRCCS_H_wind_E" "SMRCCS_H_grid_E"],
+    "e-methanol": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_solar_E", "LTE_H_SMRCCS_C_wind_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_solar_E", "LTE_H_BEC_C_wind_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_solar_E", "LTE_H_DAC_C_wind_E"],
+    "e-diesel": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_solar_E", "LTE_H_SMRCCS_C_wind_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_solar_E", "LTE_H_BEC_C_wind_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_solar_E", "LTE_H_DAC_C_wind_E"],
 }
 
 fuel_fuels = {

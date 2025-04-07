@@ -31,6 +31,7 @@ SIMULATION NAV {
     INCLUDE "../../includes_global/tanks_orig_size/main_diesel_tanker_35k_dwt.inc"
     INCLUDE "../../includes_global/tanks_orig_size/main_diesel_gas_carrier_100k_cbm.inc"
     
+    
     # fuels
     INCLUDE "../../includes_global/FTdiesel.inc"
     
