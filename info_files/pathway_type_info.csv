@@ -3,7 +3,7 @@ blue,Blue,blue
 blue_bio_C,Blue (Bio C),teal
 blue_dac_C,Blue (DAC C),cyan
 electro_grid,Electro (Grid),darkgreen
-electro_renew,Electro (Renewables),limegreen
+electro_renew,Electro (Renewable),limegreen
 electro_nuke,Electro (Nuclear),pink
 grey,Grey,dimgrey
 bio_H,Bio H,gold

@@ -23,5 +23,9 @@ ConsumedLCB_main,Consumed ligno biomass,kg,
 ConsumedMass_main,Consumed mass,kg,
 CbmMiles_lsfo,Cargo-miles Carried (LSFO),m^3-nm,Cargo-miles (in m^3-miles) carried by an LSFO vessel
 CbmMiles,Cargo-miles Carried,m^3-nm,Cargo-miles (in m^3-miles) carried with the given fuel
+FinalCbmMiles,Cargo-miles Carried,m^3-nm,"Cargo-miles (in m^3-miles) carried with the given fuel, accounting for stowage factor"
+FinalCbmMiles_lsfo,Cargo-miles Carried,m^3-nm,"Cargo-miles (in m^3-miles) carried by an LSFO vessel, accounting for stowage factor"
 TonneMiles_lsfo,Cargo-miles Carried (LSFO),tonne-nm,Cargo-miles (in tonne-miles) carried by an LSFO vessel
 TonneMiles,Cargo-miles Carried,tonne-nm,Cargo-miles (in tonne-miles) carried with the given fuel
+FinalTonneMiles,Cargo-miles Carried,tonne-nm,"Cargo-miles (in tonne-miles) carried with the given fuel, accounting for stowage factor"
+FinalTonneMiles_lsfo,Cargo-miles Carried,tonne-nm,"Cargo-miles (in tonne-miles) carried by an LSFO vessel, accounting for stowage factor"

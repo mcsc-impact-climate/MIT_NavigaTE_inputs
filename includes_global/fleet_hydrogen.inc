@@ -42,3 +42,35 @@ Fleet "hydrogen_fleet_gas" {
 Uptake "uptake" {
     Objective=MINIMIZE
 }
+
+# Need to enforce alternative fuel use in all vessels
+Vessel "bulk_carrier_capesize_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
+Vessel "bulk_carrier_handy_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
+Vessel "bulk_carrier_panamax_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
+Vessel "container_15000_teu_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
+Vessel "container_3500_teu_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
+Vessel "container_8000_teu_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
+Vessel "tanker_100k_dwt_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
+Vessel "tanker_300k_dwt_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
+Vessel "tanker_35k_dwt_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
+Vessel "gas_carrier_100k_cbm_ice_hydrogen" {
+    EnforceMainFuelShare = TRUE
+}
