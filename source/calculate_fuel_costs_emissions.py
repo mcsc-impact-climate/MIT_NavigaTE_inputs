@@ -33,6 +33,62 @@ def calculate_BEC_upstream_emission_rate(filename = f"{top_dir}/input_fuel_pathw
     average_upstream_emissions_rate = BEC_emissions_data["Upstream emissions (kg CO2e / kg CO2"].mean()
     
     return average_upstream_emissions_rate
+    
+def calculate_DAC_upstream_resources_emissions(material_reqs_filename=f"{top_dir}/input_fuel_pathway_data/DAC_material_reqs.csv", upstream_elec_NG_filename=f"{top_dir}/input_fuel_pathway_data/DAC_upstream_electricity_NG.csv"):
+    
+    ############### Calculate emissions and resource demands associated with CO2 capture and compression ###############
+    upstream_elec_NG_info = pd.read_csv(upstream_elec_NG_filename)
+    
+    # Collect upstream electricity demand (capture + compression)
+    upstream_elec = upstream_elec_NG_info["Electricity for CO2 capture (MJ/MT-CO2)"][0] + upstream_elec_NG_info["Electricity for CO2 compression at the CO2 source (MJ/MT-CO2)"][0]
+    
+    # Convert from MJ / MT CO2 to kWh / kg CO2
+    KG_PER_TONNE = 1000
+    KG_PER_TON = 907.185
+    MJ_PER_KWH = 3.6
+    upstream_elec = upstream_elec / (MJ_PER_KWH * KG_PER_TONNE)
+
+    # Collect upstream NG consumption associated with CO2 capture
+    upstream_NG = upstream_elec_NG_info["Natural gas for CO2 capture (MJ/MT-CO2)"][0]
+    
+    # Convert from MJ / MT CO2 to GJ / kg CO2
+    MJ_PER_GJ = 1000
+    upstream_NG = upstream_NG / (MJ_PER_GJ * KG_PER_TONNE)
+    ####################################################################################################################
+    
+    ################## Calculate emissions and resource demands embedded in the carbon capture plant ###################
+    material_reqs_info = pd.read_csv(material_reqs_filename)
+    
+    # Convert water consumption from gals / ton to m^3 / kg CO2 for each material
+    GAL_PER_CBM = 264.172
+    material_reqs_info["Water consumption (m^3/kg-CO2)"] = (material_reqs_info["Water consumption (gals/ton)"] / (GAL_PER_CBM * KG_PER_TON)) * (material_reqs_info["kg / ton CO2"] / KG_PER_TON)
+    
+    # Convert NG consumption from mmBtu/ton to GJ / kg CO2 for each material
+    BTU_PER_MJ = 947.817
+    BTU_PER_MMBTU = 1e6
+    material_reqs_info["NG consumption (GJ/kg-CO2)"] = (material_reqs_info["NG consumption (mmBtu/ton)"] * (BTU_PER_MMBTU) / (BTU_PER_MJ * MJ_PER_GJ * KG_PER_TON)) * (material_reqs_info["kg / ton CO2"] / KG_PER_TON)
+    
+    # Convert GHG emissions from g CO2e/ton to kg CO2e/kg CO2 for each material
+    G_PER_KG = 1000
+    material_reqs_info["GHG emissions (kg CO2e/kg-CO2)"] = (material_reqs_info["GHG emissions (g CO2e/ton)"] / (G_PER_KG * KG_PER_TON)) * (material_reqs_info["kg / ton CO2"] / KG_PER_TON)
+    
+    # Sum over all materials to get embedded water, NG, and GHG emissions
+    embedded_water = material_reqs_info["Water consumption (m^3/kg-CO2)"].sum()
+    embedded_NG = material_reqs_info["NG consumption (GJ/kg-CO2)"].sum()
+    embedded_emissions = material_reqs_info["GHG emissions (kg CO2e/kg-CO2)"].sum()
+    
+    print("Embedded water: ", embedded_water)
+    print("Embedded NG: ", embedded_NG)
+    print("Embedded emissions: ", embedded_emissions)
+    
+    upstream_water = embedded_water
+    upstream_NG = upstream_NG + embedded_NG
+    upstream_emissions = embedded_emissions
+
+    return upstream_emissions, upstream_elec, upstream_NG, upstream_water
+    ####################################################################################################################
+
+calculate_DAC_upstream_resources_emissions()
 
 # Function to calculate CapEx, OpEx, LCOF, and production GHG emissions for STP hydrogen
 workhours_per_year = 52*40 # number of work-hours per year
@@ -43,9 +99,13 @@ op_maint_rate = 0.04 # O&M rate
 tax_rate = 0.02 # 2% tax rate
 BEC_CO2_price = 0.02 # [2024$/kg CO2] price of biogenic CO2, based on range of $15-30/tonne CO2 from https://iea.blob.core.windows.net/assets/181b48b4-323f-454d-96fb-0bb1889d96a9/CCUS_in_clean_energy_transitions.pdf. # This input should probably be regionalized or made dependent on LCB price
 BEC_CO2_upstream_emissions = calculate_BEC_upstream_emission_rate() # [kg CO2e/kg CO2] upstream emissions from bioenergy plant with CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
-print(BEC_CO2_upstream_emissions)
+
 DAC_CO2_price = 0.2 # [2024$/kg CO2] price of captured CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now. Falls roughly between the $125/tonne and $325/tonne estimated by IEA for a large-scale plant built today: https://www.iea.org/reports/direct-air-capture-2022/executive-summary.
-DAC_CO2_upstream_emissions = 0.02 # [kg CO2e/kg CO2] upstream emissions from direct-air CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
+DAC_upstream_emissions, DAC_upstream_elect, DAC_upstream_NG, DAC_upstream_water = calculate_DAC_upstream_resources_emissions()
+DAC_CO2_upstream_emissions = DAC_upstream_emissions # [kg CO2e/kg CO2] upstream emissions from direct-air CO2 capture, from GREET 2024, accounting for both operational and embedded emissions
+DAC_CO2_upstream_NG = DAC_upstream_NG   # From GREET 2024, accounting for both operational and embedded emissions
+DAC_CO2_upstream_water = DAC_upstream_water     # From GREET 2024, accounting for both operational and embedded emissions
+DAC_CO2_upstream_elect = DAC_upstream_elect     # From GREET 2024, accounting for operational electricity consumption
 MW_CO2 = 44.01 # [g/mol] avg molecular weight of carbon dioxide 
 MW_MeOH = 32.04 # [g/mol] avg molecular weight of methanol
 MW_NH3 = 17.03 # [g/mol] avg molecular weight of ammonia
@@ -362,7 +422,7 @@ def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_fac
     elif C_pathway == "DAC":
         CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price 
         CO2_OpEx = DAC_CO2_price
-        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand - MW_CO2/MW_MeOH # captured CO2 credit
+        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand + DAC_CO2_upstream_NG/NG_HHV*NG_GWP*NG_CH4_leakage*CO2_demand + DAC_CO2_upstream_elect*elect_emissions_intensity*CO2_demand - MW_CO2/MW_MeOH # captured CO2 credit
     elif (C_pathway == "SMRCCS") | (C_pathway == "ATRCCS"):
         CO2_CapEx = 0 # CO2 is "free" after already paying for upstream CCS
         CO2_OpEx = 0 # CO2 is "free" after already paying for upstream CCS
@@ -414,7 +474,7 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
     elif C_pathway == "DAC":
         CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price 
         CO2_OpEx = DAC_CO2_price
-        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand - nC_FTdiesel*MW_CO2/MW_FTdiesel # captured CO2 credit
+        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand + DAC_CO2_upstream_NG/NG_HHV*NG_GWP*NG_CH4_leakage*CO2_demand + DAC_CO2_upstream_elect*elect_emissions_intensity*CO2_demand - nC_FTdiesel*MW_CO2/MW_FTdiesel # captured CO2 credit
     elif (C_pathway == "SMRCCS") | (C_pathway == "ATRCCS"):
         CO2_CapEx = 0 # CO2 is "free" after already paying for upstream CCS
         CO2_OpEx = 0 # CO2 is "free" after already paying for upstream CCS
@@ -524,8 +584,9 @@ def calculate_resource_demands_methanol(H_pathway):
     LCB_demand = 0
     H2_demand = MeOH_H2_demand
     CO2_demand = MeOH_CO2_demand
-    NG_demand = MeOH_NG_demand
-    water_demand = MeOH_water_demand
+    NG_demand = MeOH_NG_demand + DAC_CO2_upstream_NG * CO2_demand
+    water_demand = MeOH_water_demand + DAC_CO2_upstream_water * CO2_demand
+    elect_demand = DAC_CO2_upstream_elect * CO2_demand
 
     # add H2 resource demands
     H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
@@ -542,8 +603,9 @@ def calculate_resource_demands_FTdiesel(H_pathway):
     LCB_demand = 0
     H2_demand = FTdiesel_H2_demand
     CO2_demand = FTdiesel_CO2_demand
-    NG_demand = FTdiesel_NG_demand
-    water_demand = FTdiesel_water_demand
+    NG_demand = FTdiesel_NG_demand + DAC_CO2_upstream_NG * CO2_demand
+    water_demand = FTdiesel_water_demand + DAC_CO2_upstream_water * CO2_demand
+    elect_demand = DAC_CO2_upstream_elect * CO2_demand
 
     # add H2 resource demands
     H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
