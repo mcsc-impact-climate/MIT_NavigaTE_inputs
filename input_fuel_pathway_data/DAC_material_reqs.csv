@@ -1,0 +1,10 @@
+Material,kg / ton CO2,Source,Water consumption (gals/ton),NG consumption (mmBtu/ton),GHG emissions (g CO2e/ton),Source for material resource consumption and emissions
+Aluminum,0.08,"GREET 2024, E_fuel sheet, Material and Energy Requirements for Direct Air Capture Infrastructure Per Ton Captured CO2, 100 kt CO2 capacity",50844.97,0,8766595,"GREET 2024, E_fuel sheet, Summary of Energy Consumption and Emissions of Material Products"
+Concrete,14.68,"GREET 2024, E_fuel sheet, Material and Energy Requirements for Direct Air Capture Infrastructure Per Ton Captured CO2, 100 kt CO2 capacity",145.34,0.12,86893,
+Copper,0.01,"GREET 2024, E_fuel sheet, Material and Energy Requirements for Direct Air Capture Infrastructure Per Ton Captured CO2, 100 kt CO2 capacity",5860.22,19.35,3527055,
+Insulation,0.05,"GREET 2024, E_fuel sheet, Material and Energy Requirements for Direct Air Capture Infrastructure Per Ton Captured CO2, 100 kt CO2 capacity",2181.36,17.05,1643466,
+Paint,0.01,"GREET 2024, E_fuel sheet, Material and Energy Requirements for Direct Air Capture Infrastructure Per Ton Captured CO2, 100 kt CO2 capacity",4737.36,24.95,3355586,
+Plastic,0.01,"GREET 2024, E_fuel sheet, Material and Energy Requirements for Direct Air Capture Infrastructure Per Ton Captured CO2, 100 kt CO2 capacity",1904.51,56.08,1776962,
+Steel,0.82,"GREET 2024, E_fuel sheet, Material and Energy Requirements for Direct Air Capture Infrastructure Per Ton Captured CO2, 100 kt CO2 capacity",737.75,6.43,2152644,
+Carbon steel,0.14,"GREET 2024, E_fuel sheet, Material and Energy Requirements for Direct Air Capture Infrastructure Per Ton Captured CO2, 100 kt CO2 capacity",737.75,6.43,2152644,
+Stainless steel,0.29,"GREET 2024, E_fuel sheet, Material and Energy Requirements for Direct Air Capture Infrastructure Per Ton Captured CO2, 100 kt CO2 capacity",751.72,7.11,783708,
