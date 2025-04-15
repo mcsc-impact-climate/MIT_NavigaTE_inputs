@@ -129,7 +129,7 @@ def main():
                 print(f"Deleted file: {file_name}")
 
     # Loop through all CSV files in the input directory
-    fuels = ["FTdiesel", "lng", "ammonia", "compressed_hydrogen", "liquid_hydrogen", "methanol"]
+    fuels = ["FTdiesel", "lng", "ammonia", "methanol"]
     for fuel in fuels:
         file_name = f"{fuel}_costs_emissions.csv"
         csv_file = os.path.join(input_dir, file_name)
