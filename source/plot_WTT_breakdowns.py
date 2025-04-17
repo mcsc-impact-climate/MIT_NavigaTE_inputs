@@ -522,33 +522,36 @@ class FuelWTG:
                 borderaxespad=0.0,
             )
 
+            ax.add_artist(legend1)
+
         if scatter_handles:
-            ax.legend(
+            legend2 = ax.legend(
                 scatter_handles,
                 scatter_labels,
                 fontsize=20,
                 title="Individual Countries",
                 title_fontsize=22,
-                bbox_to_anchor=(1.01, 0.35),
+                bbox_to_anchor=(1.01, 0.5),
                 loc="center left",
                 borderaxespad=0.0,
             )
 
-            ax.add_artist(legend1)
+            ax.add_artist(legend2)
 
         if quantity == "cost":
             op_ex_patch = Patch(facecolor='white', edgecolor='black', label='OpEx')
             cap_ex_patch = Patch(facecolor='white', edgecolor='black', hatch='xxx', label='CapEx')
 
-            ax.legend(
+            legend3 = ax.legend(
                 handles=[op_ex_patch, cap_ex_patch],
                 fontsize=20,
                 title="Cost Types",
                 title_fontsize=22,
-                bbox_to_anchor=(1.01, 0.35),
+                bbox_to_anchor=(1.01, 0.25),
                 loc="center left",
                 borderaxespad=0.0,
             )
+            ax.add_artist(legend3)
 
         ax.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
         plt.tight_layout()
@@ -868,6 +871,7 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
 def main():
     
     for fuel in ["ammonia", "methanol", "FTdiesel", "lng"]:
+
         fuel_wtt = FuelWTG(fuel)
         fuel_wtt.make_stacked_hist("emissions")
         fuel_wtt.make_stacked_hist("cost")
