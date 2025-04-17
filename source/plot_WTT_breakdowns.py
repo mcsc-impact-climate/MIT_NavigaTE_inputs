@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib.patches import Patch
 import numpy as np
+from collections import defaultdict
 
 H2_PER_NH3 = 3.02352/17.03022  # kg H2 required to produce 1 kg of NH3
 
@@ -624,9 +625,28 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
         for pathway_name in fuel_wtt.pathways
     }
     
-    # Sort the pathways by their associated color to group them
+    #### Sort the pathways by their associated color to group them ####
     pathways = fuel_pathways[MMMCZCS_fuel]
-    sorted_pathways = sorted(pathways, key=lambda p: pathway_color_mapping[p])
+    
+    # Group pathways by color
+    pathways_by_color = defaultdict(list)
+    for p in self.pathways:
+        color = get_pathway_type_color(get_pathway_type(p))
+        pathways_by_color[color].append(p)
+
+    # Sort each color group alphabetically by pathway label
+    for color in pathways_by_color:
+        pathways_by_color[color].sort(key=lambda p: get_pathway_label(p).lower())
+
+    # Sort color groups by the label of their first pathway
+    sorted_color_groups = sorted(
+        pathways_by_color.items(),
+        key=lambda item: get_pathway_label(item[1][0]).lower()
+    )
+
+    # Flatten to get final sorted pathway list
+    sorted_pathways = [p for _, group in sorted_color_groups for p in group]
+    #sorted_pathways = sorted(pathways, key=lambda p: pathway_color_mapping[p])
     
     num_pathways = len(pathways)
     fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
