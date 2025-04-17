@@ -487,7 +487,6 @@ class FuelWTG:
             )
 
             if i_pathway == 0:
-                print("Adding scatter legend")
                 scatter_handles.append(scatter)
                 scatter_labels.append("Individual Countries")
 
@@ -875,8 +874,7 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
 
 def main():
     
-    #for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lng"]:
-    for fuel in ["ammonia"]:
+    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lng"]:
         fuel_wtt = FuelWTG(fuel)
         fuel_wtt.make_stacked_hist("emissions")
         fuel_wtt.make_stacked_hist("cost")
