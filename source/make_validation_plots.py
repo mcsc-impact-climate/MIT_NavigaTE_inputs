@@ -2112,12 +2112,12 @@ def main():
     
     structured_results = structure_results_fuels_types("TotalCost", "fleet")
     plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
-#    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
-#    plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
-#    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
+    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
+    plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
+    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
 #    plot_scatter_overlay(structured_results, "CostTimesEmissions", "vessel", overlay_type="violin")
-#    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
-#    plot_scatter_overlay(structured_results, "AverageCostEmissionsRatio", "vessel", overlay_type="violin")
+    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
+    plot_scatter_overlay(structured_results, "AverageCostEmissionsRatio", "vessel", overlay_type="violin")
 #    structured_results = structure_results_fuels_types("CAC", "vessel")
 #    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
     

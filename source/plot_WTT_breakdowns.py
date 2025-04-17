@@ -85,8 +85,6 @@ continent_regions = {
 }
 
 fuel_pathways = {
-    "e-hydrogen (liquefied)": ["LTE_H_grid_E", "LTE_H_solar_E", "LTE_H_wind_E"],
-    "e-hydrogen (compressed)": ["LTE_H_grid_E", "LTE_H_solar_E", "LTE_H_wind_E"],
     "e-ammonia": ["LTE_H_grid_E", "LTE_H_solar_E", "LTE_H_wind_E"],
     "Blue ammonia": ["SMRCCS_H_solar_E", "SMRCCS_H_wind_E" "SMRCCS_H_grid_E"],
     "e-methanol": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_solar_E", "LTE_H_SMRCCS_C_wind_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_solar_E", "LTE_H_BEC_C_wind_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_solar_E", "LTE_H_DAC_C_wind_E"],
@@ -94,8 +92,6 @@ fuel_pathways = {
 }
 
 fuel_fuels = {
-    "e-hydrogen (liquefied)": "liquid_hydrogen",
-    "e-hydrogen (compressed)": "compressed_hydrogen",
     "e-ammonia": "ammonia",
     "Blue ammonia": "ammonia",
     "e-methanol": "methanol",
@@ -563,7 +559,7 @@ class FuelWTG:
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
         filepath_save_pdf = f"{top_dir}/plots/{self.fuel}/{filename_save}.pdf"
         print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200)
+        plt.savefig(filepath_save, dpi=300)
         plt.savefig(filepath_save_pdf)
         plt.close()
         
@@ -846,12 +842,12 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
     create_directory_if_not_exists(f"{top_dir}/plots/mmmczcs_fuel_cost_comparison")
     filepath_save = f"{top_dir}/plots/mmmczcs_fuel_cost_comparison/{filename_save}.png"
     print(f"Saving figure to {filepath_save}")
-    plt.savefig(filepath_save, dpi=200)
+    plt.savefig(filepath_save, dpi=300)
     plt.close()
 
 def main():
     
-    for fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lng"]:
+    for fuel in ["ammonia", "methanol", "FTdiesel", "lng"]:
         fuel_wtt = FuelWTG(fuel)
         fuel_wtt.make_stacked_hist("emissions")
         fuel_wtt.make_stacked_hist("cost")
