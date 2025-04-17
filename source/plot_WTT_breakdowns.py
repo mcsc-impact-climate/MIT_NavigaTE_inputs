@@ -396,10 +396,31 @@ class FuelWTG:
         fig, ax = plt.subplots(figsize=(20, fig_height))
 
         # Sort pathways by their associated color
-        sorted_pathways = sorted(
-            self.pathways,
-            key=lambda p: get_pathway_type_color(get_pathway_type(p))
+#        sorted_pathways = sorted(
+#            self.pathways,
+#            key=lambda p: get_pathway_type_color(get_pathway_type(p))
+#        )
+
+        #### Sort the pathways by their associated color to group them ####
+        
+        # Group pathways by color
+        pathways_by_color = defaultdict(list)
+        for p in self.pathways:
+            color = get_pathway_type_color(get_pathway_type(p))
+            pathways_by_color[color].append(p)
+
+        # Sort each color group alphabetically by pathway label
+        for color in pathways_by_color:
+            pathways_by_color[color].sort(key=lambda p: get_pathway_label(p).lower())
+
+        # Sort color groups by the label of their first pathway
+        sorted_color_groups = sorted(
+            pathways_by_color.items(),
+            key=lambda item: get_pathway_label(item[1][0]).lower()
         )
+
+        # Flatten to get final sorted pathway list
+        sorted_pathways = [p for _, group in sorted_color_groups for p in group]
 
         y_positions = np.arange(len(sorted_pathways))  # Assign new y-positions
 
