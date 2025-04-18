@@ -890,9 +890,7 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
     plt.close()
 
 def main():
-    
     for fuel in ["ammonia", "methanol", "FTdiesel", "lng"]:
-
         fuel_wtt = FuelWTG(fuel)
         fuel_wtt.make_stacked_hist("emissions")
         fuel_wtt.make_stacked_hist("cost")

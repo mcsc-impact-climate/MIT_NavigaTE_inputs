@@ -1850,8 +1850,8 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
         for pathway_type in pathway_types_sorted:
             values = structured_results[fuel][pathway_type]
             mean_value = np.mean(values) if values else 0
-
-            # Plot bar or violin
+                
+            # Make the bar or violin plot
             if overlay_type == 'bar':
                 ax.barh(
                     y_position,
@@ -1888,9 +1888,13 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
             y_tick_colors_right.append(get_pathway_type_color(pathway_type))
 
             y_position += 1
+            
+        # Lock in y-axis range to prevent autoscaling shifts
+        ax.set_ylim(-0.5, y_position - 0.5)
 
         # Center the fuel label among its pathways
-        fuel_center = y_position - n_pathways / 2
+        fuel_center = y_position - n_pathways / 2 - 0.5
+            
         y_tick_positions.append(fuel_center)
         y_tick_labels.append(get_fuel_label(fuel))
 
