@@ -22,6 +22,8 @@ import pycountry_convert as pc
 import seaborn as sns
 from matplotlib.ticker import ScalarFormatter
 
+import ipdb
+
 from parse import parse
 
 matplotlib.rc("xtick", labelsize=18)
@@ -1149,13 +1151,18 @@ class ProcessedQuantity:
     
     
     # GE - 3/23/25 - stacked plot to compare continential resource availability to global demand
-    def make_stacked_plot_avail_vs_demand(self, resource_type, fuel, pathway):
+    def make_stacked_plot_avail_vs_demand(self, resource_type, fuel, pathway_type):
         """
-        Makes stacked plot to compare global resource availability (sum of continent-level data) to global demand.
+        Makes stacked plot to compare global resource availability (sum of continent-level data) to global demand (averaged over all pathways within a pathway type).
         
         Parameters:
         -----------
-        
+        resource_type : str
+            The resource type being compared (e.g., "Natural Gas", "CO2").
+        fuel : str
+            The fuel type being produced (e.g., "FT_diesel", "methanol").
+        pathway_type : str
+            The production pathway type (e.g., "blue", "grey", "bio_H").
 
         Returns:
         --------
@@ -1178,12 +1185,38 @@ class ProcessedQuantity:
             resource_type_short = "CO2"
         else:
             resource_type_short = resource_type
+            
+        # Load pathway info to sort into pathways (blue, grey, etc.)
+        pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
         
-        # Get demand data from existing csv for the given pathway and resource
-        all_results_df = pd.read_csv(f"{top_dir}/processed_results/{fuel}-{pathway}-Consumed{resource_type_short}_main-fleet.csv")# Load the correct data
-
-        # Extract the global average for the entire fleet
-        global_demand = all_results_df.loc[all_results_df["Region"] == "Global Average", "fleet"].values[0]
+        # Filter for matching pathway type and fuel
+        matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]["Pathway Name"].tolist()
+        if "fossil" in matching_pathways:
+            matching_pathways.remove("fossil")
+        clean = [] # finlays shit
+        for x in matching_pathways:
+            if "BG" in x:
+                pass
+            elif "ATR" in x:
+                pass
+            else:
+                clean.append(x)
+                
+        matching_pathways = clean
+        
+        # Get demand data from existing csv for the given pathway type and resource
+        global_demands = []
+        
+        for matching_pathway in matching_pathways:
+            # ipdb.set_trace()
+            if fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"] and "_C_" in matching_pathway:
+                pass
+            else:
+                result_df = pd.read_csv(f"{top_dir}/processed_results/{fuel}-{matching_pathway}-Consumed{resource_type_short}_main-fleet.csv") # Load the correct data
+                # Extract the global average for the entire fleet
+                demand_value = result_df.loc[result_df["Region"] == "Global Average", "fleet"].values[0]
+                global_demands.append(demand_value)
+        
         
         # Define unit conversion factors (convert demand to match availability)
         unit_conversions = {
@@ -1195,7 +1228,15 @@ class ProcessedQuantity:
         
         # Convert global demand to match availability units
         conversion_factor = unit_conversions.get(resource_type_short)
-        global_demand *= conversion_factor
+        global_demands = [d * conversion_factor for d in global_demands]
+        
+        # compute statistics
+        if global_demands:
+            avg_demand = np.mean(global_demands)
+            min_demand = np.min(global_demands)
+            max_demand = np.max(global_demands)
+        else:
+            return
         
         # Set color palette (one color per continent)
         colors = sns.color_palette("tab10", len(continent_avail_df))  # Husl gives distinct colors
@@ -1214,20 +1255,20 @@ class ProcessedQuantity:
         max_availability = continent_avail_df.sum()
         
         # format pathway label in legend
-        parts = pathway.split('_')  # Split by underscores
-        if len(parts) > 4:  # Ensure there are at least 3 underscores
-            formatted_pathway = '_'.join(parts[:3]) + '_\n' + '_'.join(parts[3:])  # Rejoin with newline
-        else:
-            formatted_pathway = pathway
+        # parts = pathway.split('_')  # Split by underscores
+        # if len(parts) > 4:  # Ensure there are at least 3 underscores
+            # formatted_pathway = '_'.join(parts[:3]) + '_\n' + '_'.join(parts[3:])  # Rejoin with newline
+        # else:
+            #formatted_pathway = pathway
         
-        if global_demand != 0 and max_availability > 10 * global_demand:
+        if avg_demand != 0 and max_availability > 10 * avg_demand:
             # Create secondary y-axis for demand
             ax2 = ax1.twinx()
-            ax2.bar("Demand", global_demand, color="gray", label=f"Global Demand\n({formatted_pathway})", alpha=1)
+            ax2.bar("Demand", avg_demand, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
         
             # Scale demand axis for visibility vs. availability
             ax1.set_ylim(0, max_availability * 1.2)
-            ax2.set_ylim(0, global_demand * 3)
+            ax2.set_ylim(0, avg_demand * 3)
             
             # Merge legends from both axes
             handles1, labels1 = ax1.get_legend_handles_labels()
@@ -1235,7 +1276,7 @@ class ProcessedQuantity:
             ax1.legend(handles1 + handles2, labels1 + labels2, title="Legend", loc="center left", bbox_to_anchor=(1.3, 0.75))
         else:
             # Create bar for demand
-            ax1.bar("Demand", global_demand, color="gray", label=f"Global Demand\n({formatted_pathway})", alpha=1)
+            ax1.bar("Demand", global_demands, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
             
             # Legend
             handles1, labels1 = ax1.get_legend_handles_labels()
@@ -1278,7 +1319,7 @@ class ProcessedQuantity:
 
 
         # Save plots
-        filepath_save = f"{top_dir}/plots/{fuel}/{fuel}-{pathway}-{resource_type_short}-StackedAvailDemand.png"
+        filepath_save = f"{top_dir}/plots/{fuel}/{fuel}-{pathway_type}-{resource_type_short}-StackedAvailDemand.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
         
@@ -2497,22 +2538,26 @@ def main():
 #                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
 
 # GE - 3/20/2025 - testing out resource mapping functions and stacked plot of availability vs. demand functions
-    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
-        processed_quantity.plot_resource_availability_map(resource)
-        processed_quantity.plot_SD_ratio_map(resource)
-    
-#    for fuel in ["ammonia", "liquid_hydrogen", "compressed_hydrogen", "methanol", "FTdiesel"]:
-#        for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
-#            for h_path in ["SMR_H", "SMRCCS_H", "LTE_H"]:
-#                for e_path in ["grid_E", "renewable_E", "nuke_E"]:
-#                    if fuel == "methanol" or fuel == "FTdiesel":
-#                        for c_path in ["DAC_C", "BEC_C", "C"]: # "C" for if SMRCCS used for both H and C production
-#                            if h_path != "SMRCCS_H" and c_path == "C":
-#                                continue
-#                            else:
-#                                pathway = f"{h_path}_{c_path}_{e_path}"
-#                    else:
-#                        pathway = f"{h_path}_{e_path}"
+#    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
+#        processed_quantity.plot_resource_availability_map(resource)
+#        processed_quantity.plot_SD_ratio_map(resource)
+
+    # Load pathway info
+    pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
+
+    # Get unique fuels and pathway types from the CSV
+    fuels = ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel"]
+    resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
+    pathway_types = pathway_info_df["Pathway Type"].unique()
+
+    # Loop over all combinations
+    for fuel in fuels:
+        for resource in resource_types:
+            for pathway_type in pathway_types:
+                # Check if this fuel-pathway type combination exists in the dataset
+                matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]
+                if not matching_pathways.empty:
+                    processed_quantity.make_stacked_plot_avail_vs_demand(resource, fuel, pathway_type)
 #
 #                    processed_quantity.make_stacked_plot_avail_vs_demand(resource, fuel, pathway)
     
