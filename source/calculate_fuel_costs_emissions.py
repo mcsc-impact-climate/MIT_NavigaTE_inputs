@@ -579,14 +579,19 @@ def calculate_resource_demands_ammonia(H_pathway):
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 
-def calculate_resource_demands_methanol(H_pathway):
+def calculate_resource_demands_methanol(H_pathway, C_pathway):
     elect_demand = MeOH_elect_demand
     LCB_demand = 0
     H2_demand = MeOH_H2_demand
     CO2_demand = MeOH_CO2_demand
-    NG_demand = MeOH_NG_demand + DAC_CO2_upstream_NG * CO2_demand
-    water_demand = MeOH_water_demand + DAC_CO2_upstream_water * CO2_demand
-    elect_demand = DAC_CO2_upstream_elect * CO2_demand
+    NG_demand = MeOH_NG_demand
+    water_demand = MeOH_water_demand
+    elect_demand = 0
+    
+    if C_pathway=="DAC":
+        NG_demand = NG_demand + DAC_CO2_upstream_NG * CO2_demand
+        water_demand = water_demand + DAC_CO2_upstream_water * CO2_demand
+        elect_demand = DAC_CO2_upstream_elect * CO2_demand
 
     # add H2 resource demands
     H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
@@ -598,14 +603,19 @@ def calculate_resource_demands_methanol(H_pathway):
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
-def calculate_resource_demands_FTdiesel(H_pathway):
+def calculate_resource_demands_FTdiesel(H_pathway, C_pathway):
     elect_demand = FTdiesel_elect_demand
     LCB_demand = 0
     H2_demand = FTdiesel_H2_demand
     CO2_demand = FTdiesel_CO2_demand
-    NG_demand = FTdiesel_NG_demand + DAC_CO2_upstream_NG * CO2_demand
-    water_demand = FTdiesel_water_demand + DAC_CO2_upstream_water * CO2_demand
-    elect_demand = DAC_CO2_upstream_elect * CO2_demand
+    NG_demand = FTdiesel_NG_demand
+    water_demand = FTdiesel_water_demand
+    elect_demand = 0
+    
+    if C_pathway=="DAC":
+        NG_demand = NG_demand + DAC_CO2_upstream_NG * CO2_demand
+        water_demand = water_demand + DAC_CO2_upstream_water * CO2_demand
+        elect_demand = DAC_CO2_upstream_elect * CO2_demand
 
     # add H2 resource demands
     H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
@@ -723,10 +733,10 @@ def main():
                 elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_ammonia(H_pathway)
                 comment = "Liquid cryogenic ammonia at atmospheric pressure"
             elif fuel == "methanol":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_methanol(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_methanol(H_pathway, C_pathway)
                 comment = "Liquid methanol at STP"
             elif fuel == "FTdiesel":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_FTdiesel(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_FTdiesel(H_pathway, C_pathway)
                 comment = "liquid Fischer--Tropsch diesel fuel at STP"
 
             calculated_resource_row = [fuel, H_pathway, C_pathway, fuel_pathway, elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand]
