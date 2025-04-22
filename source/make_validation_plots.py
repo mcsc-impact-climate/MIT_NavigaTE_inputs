@@ -1416,6 +1416,9 @@ class ProcessedFuel:
         )
 
         y_positions = np.arange(len(sorted_pathways))  # Assign y-positions
+        
+        y_labels_list = []
+        y_pos_list = []
 
         cumulative_values = {}
         cumulative_values_negative = {}
@@ -1523,33 +1526,39 @@ class ProcessedFuel:
 
         # Loop through pathways and sort by color
         i_pathway = 0
-        for pathway_name, y_pos in zip(sorted_pathways, y_positions):
+        for i_pathway, (pathway_name, y_pos) in enumerate(zip(sorted_pathways, y_positions)):
             pathway = self.ProcessedPathways[pathway_name]
             pathway_label = get_pathway_label(pathway_name)
             make_bar(pathway, pathway_name, pathway_label, y_pos)
+            y_labels_list.append(pathway_label)
+            y_pos_list.append(y_pos)
             i_pathway += 1
-
-        # Set y-axis labels **after** all bars are plotted
-        ax.set_yticks(y_positions)
-        ax.set_yticklabels([get_pathway_label(p) for p in sorted_pathways], fontsize=18)
-
-        # Apply colors to y-axis labels
-        y_labels = ax.get_yticklabels()
-        for idx, pathway_name in enumerate(sorted_pathways):
-            pathway_type = get_pathway_type(pathway_name)
-            y_labels[idx].set_color(get_pathway_type_color(pathway_type))
-            y_labels[idx].set_fontweight("bold")
 
         # Add a LSFO bar for comparison (unless excluded)
         if not exclude_lsfo:
+            lsfo_ypos = len(y_pos_list)  # next row
             lsfo_pathway = ProcessedPathway("lsfo", "fossil")
-            make_bar(lsfo_pathway, "fossil", "LSFO (fossil)", len(y_positions) + 1)
+            make_bar(lsfo_pathway, "lsfo", "LSFO (fossil)", lsfo_ypos)
+            lsfo_value = lsfo_pathway.get_region_average_results([quantity], modifier)[quantity]
             plt.axvline(
                 lsfo_pathway.get_region_average_results([quantity], modifier)[quantity],
                 linewidth=3,
                 linestyle="--",
                 color="black",
             )
+            y_labels_list.append("LSFO (fossil)")
+            y_pos_list.append(lsfo_ypos)
+            
+        # Set y-axis labels **after** all bars are plotted
+        ax.set_yticks(y_pos_list)
+        ticks = ax.set_yticklabels(y_labels_list, fontsize=18)
+        
+        # Apply colors to y-axis labels
+        for idx, label in enumerate(y_labels_list):
+            pathway_name = sorted_pathways[idx] if idx < len(sorted_pathways) else "lsfo"
+            pathway_type = get_pathway_type(pathway_name)
+            ticks[idx].set_color(get_pathway_type_color(pathway_type))
+            ticks[idx].set_fontweight("bold")
 
         # Add labels and title
         xlabel = f"{quantity_label} ({quantity_units})" if quantity_units else quantity_label
@@ -1581,7 +1590,7 @@ class ProcessedFuel:
             )
             ax.add_artist(legend1)
 
-        plt.subplots_adjust(left=0.25, right=0.8)
+        plt.subplots_adjust(left=0.3, right=0.8)
 
         # Construct filename and save figure
         filename_save = f"{self.fuel}-{quantity}-{modifier}-pathway_hist"
@@ -2044,19 +2053,45 @@ def main():
 #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
 #    processed_quantity.map_by_region()
 #
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "ATRCCS_H_solar_E")
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "ATRCCS_H_grid_E")
 #    processed_quantity.map_by_region()
 #
 #    processed_quantity.make_hist_by_region("bulk_carrier_ice")
 #    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "lng", "fossil")
 #    processed_quantity.map_by_region()
 #    processed_quantity.make_hist_by_region()
-#    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile", "liquid_hydrogen", "LTE_H_grid_E")
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "FTdiesel", "LTE_H_grid_E")
 #    processed_quantity.make_hist_by_region()
-#    processed_quantity = ProcessedQuantity("TotalCost", "per_tonne_mile_orig", "liquid_hydrogen", "LTE_H_grid_E")
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "ammonia", "LTE_H_wind_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "ammonia", "LTE_H_wind_E")
 #    processed_quantity.map_by_region()
 #
-#    processed_pathway = ProcessedPathway("liquid_hydrogen", "LTE_H_grid_E")
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "FTdiesel", "LTE_H_BEC_C_wind_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "FTdiesel", "LTE_H_BEC_C_wind_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "FTdiesel", "LTE_H_BEC_C_wind_E")
+#    processed_quantity.map_by_region()
+
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "BG_H_grid_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "ammonia", "BG_H_grid_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "ammonia", "BG_H_grid_E")
+#    processed_quantity.map_by_region()
+#
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "FTdiesel", "BG_H_BEC_C_wind_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "FTdiesel", "BG_H_BEC_C_wind_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "FTdiesel", "BG_H_BEC_C_wind_E")
+#    processed_quantity.map_by_region()
+    
+#
+#    processed_pathway = ProcessedPathway("ammonia", "LTE_H_solar_E")
 #    processed_pathway.make_all_hists_by_region()
 #    processed_pathway.map_all_by_region()
     
@@ -2068,7 +2103,7 @@ def main():
     #processed_fuel_GE_test = ProcessedFuel("ammonia")
     #processed_fuel_GE_test.make_all_resource_demands_hists()
     
-    processed_fuel = ProcessedFuel("lng")
+    processed_fuel = ProcessedFuel("FTdiesel")
 #    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", [])
 
 #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
@@ -2077,7 +2112,7 @@ def main():
 #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
-#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
+    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", [])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", [])
 #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
@@ -2087,11 +2122,11 @@ def main():
 
 # -----------------------------------------------------------------------------#
     
-#    # Loop through all fuels of interest
-#    for fuel in ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol", "FTdiesel"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
+    # Loop through all fuels of interest
+#    for fuel in ["ammonia", "methanol", "FTdiesel", "LNG"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
 #        processed_fuel = ProcessedFuel(fuel)
 
-#         Make validation plots for each fuel, pathway and quantity
+        # Make validation plots for each fuel, pathway and quantity
 #        processed_fuel.make_all_hists_by_region()
 #        processed_fuel.map_all_by_region()
 #        processed_fuel.make_all_stacked_hists()
@@ -2113,15 +2148,15 @@ def main():
 #    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
 #    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
 #    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
-    
-    structured_results = structure_results_fuels_types("TotalCost", "fleet")
-    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
-    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
-    plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
-    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
+#
+#    structured_results = structure_results_fuels_types("TotalCost", "fleet")
+#    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
+#    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
+#    plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
+#    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
 #    plot_scatter_overlay(structured_results, "CostTimesEmissions", "vessel", overlay_type="violin")
-    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
-    plot_scatter_overlay(structured_results, "AverageCostEmissionsRatio", "vessel", overlay_type="violin")
+#    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
+#    plot_scatter_overlay(structured_results, "AverageCostEmissionsRatio", "vessel", overlay_type="violin")
 #    structured_results = structure_results_fuels_types("CAC", "vessel")
 #    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
     

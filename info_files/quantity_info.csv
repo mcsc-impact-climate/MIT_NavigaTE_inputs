@@ -1,5 +1,5 @@
 Quantity,Long Name,Units,Description
-TotalEquivalentWTT,WTT Emissions,tonnes CO2,
+TotalEquivalentWTT,WTG Emissions,tonnes CO2,
 TotalEquivalentTTW,TTW Emissions,tonnes CO2,
 TotalEquivalentWTW,WTW Emissions,tonnes CO2,
 TotalCAPEX,Total CAPEX,USD,"For purchase of base vessel, powertrain, tanks, auxiliary equipment, etc, amortized over the vessel lifetime"
