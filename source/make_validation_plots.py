@@ -1193,30 +1193,34 @@ class ProcessedQuantity:
         matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]["Pathway Name"].tolist()
         if "fossil" in matching_pathways:
             matching_pathways.remove("fossil")
-        clean = [] # finlays shit
-        for x in matching_pathways:
-            if "BG" in x:
-                pass
-            elif "ATR" in x:
-                pass
-            else:
-                clean.append(x)
-                
-        matching_pathways = clean
         
         # Get demand data from existing csv for the given pathway type and resource
         global_demands = []
         
         for matching_pathway in matching_pathways:
-            # ipdb.set_trace()
-            if fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"] and "_C_" in matching_pathway:
+            if "BG" in matching_pathway or "ATR" in matching_pathway or "nuke" in matching_pathway:
+                pass
+            elif fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"] and "_C_" in matching_pathway:
+                pass
+            elif fuel in ["methanol", "FTdiesel"] and not "_C_" in matching_pathway:
                 pass
             else:
-                result_df = pd.read_csv(f"{top_dir}/processed_results/{fuel}-{matching_pathway}-Consumed{resource_type_short}_main-fleet.csv") # Load the correct data
-                # Extract the global average for the entire fleet
-                demand_value = result_df.loc[result_df["Region"] == "Global Average", "fleet"].values[0]
-                global_demands.append(demand_value)
+                filepath = f"{top_dir}/processed_results/{fuel}-{matching_pathway}-Consumed{resource_type_short}_main-fleet.csv"
+                
+                # print(f"Reading: {filepath} for pathway: {matching_pathway}")
         
+                if os.path.exists(filepath):
+                    try:
+                        result_df = pd.read_csv(filepath)
+                        demand_value = result_df.loc[result_df["Region"] == "Global Average", "fleet"].values[0]
+                        global_demands.append(demand_value)
+                    except Exception as e:
+                        print(f"Error reading {filepath}: {e}")
+                else:
+                    print(f"File not found: {filepath}")
+        
+        # remove 0 values for global demand so pathways without data don't affect plot
+        global_demands = [x for x in global_demands if x != 0]
         
         # Define unit conversion factors (convert demand to match availability)
         unit_conversions = {
@@ -1228,16 +1232,19 @@ class ProcessedQuantity:
         
         # Convert global demand to match availability units
         conversion_factor = unit_conversions.get(resource_type_short)
-        global_demands = [d * conversion_factor for d in global_demands]
+        
+        # seems to be giving only one value or several of the same value...
+        # print(global_demands)
         
         # compute statistics
         if global_demands:
+            global_demands = [d * conversion_factor for d in global_demands]
             avg_demand = np.mean(global_demands)
             min_demand = np.min(global_demands)
             max_demand = np.max(global_demands)
         else:
             return
-        
+            
         # Set color palette (one color per continent)
         colors = sns.color_palette("tab10", len(continent_avail_df))  # Husl gives distinct colors
         
@@ -1254,21 +1261,21 @@ class ProcessedQuantity:
         # Set the y-axis limits based on availability if order of magnitude or more different
         max_availability = continent_avail_df.sum()
         
-        # format pathway label in legend
-        # parts = pathway.split('_')  # Split by underscores
-        # if len(parts) > 4:  # Ensure there are at least 3 underscores
-            # formatted_pathway = '_'.join(parts[:3]) + '_\n' + '_'.join(parts[3:])  # Rejoin with newline
-        # else:
-            #formatted_pathway = pathway
-        
         if avg_demand != 0 and max_availability > 10 * avg_demand:
             # Create secondary y-axis for demand
             ax2 = ax1.twinx()
             ax2.bar("Demand", avg_demand, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
         
             # Scale demand axis for visibility vs. availability
-            ax1.set_ylim(0, max_availability * 1.2)
+            ax1.set_ylim(0, max_availability * 1.1)
             ax2.set_ylim(0, avg_demand * 3)
+            
+            # error bar for demand showing max and min values
+            lower_error = max(avg_demand - min_demand, 0)
+            upper_error = max(max_demand - avg_demand, 0)
+
+            asymmetric_error = [[lower_error], [upper_error]]
+            ax2.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='o', color='black', capsize=5, markersize=2)
             
             # Merge legends from both axes
             handles1, labels1 = ax1.get_legend_handles_labels()
@@ -1276,7 +1283,14 @@ class ProcessedQuantity:
             ax1.legend(handles1 + handles2, labels1 + labels2, title="Legend", loc="center left", bbox_to_anchor=(1.3, 0.75))
         else:
             # Create bar for demand
-            ax1.bar("Demand", global_demands, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
+            ax1.bar("Demand", avg_demand, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
+            
+            # error bar for demand showing max and min values
+            lower_error = max(avg_demand - min_demand, 0)
+            upper_error = max(max_demand - avg_demand, 0)
+
+            asymmetric_error = [[lower_error], [upper_error]]
+            ax1.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='o', color='black', capsize=5, markersize=2)
             
             # Legend
             handles1, labels1 = ax1.get_legend_handles_labels()
@@ -2546,7 +2560,7 @@ def main():
     pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
 
     # Get unique fuels and pathway types from the CSV
-    fuels = ["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel"]
+    fuels = ["methanol", "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
     resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
     pathway_types = pathway_info_df["Pathway Type"].unique()
 
