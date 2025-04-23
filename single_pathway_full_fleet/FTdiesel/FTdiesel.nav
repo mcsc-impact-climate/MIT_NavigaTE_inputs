@@ -31,23 +31,24 @@ SIMULATION NAV {
     INCLUDE "../../includes_global/tanks_orig_size/main_diesel_tanker_35k_dwt.inc"
     INCLUDE "../../includes_global/tanks_orig_size/main_diesel_gas_carrier_100k_cbm.inc"
     
+    
     # fuels
     INCLUDE "../../includes_global/FTdiesel.inc"
     
     # Route
     INCLUDE "../../includes_global/route.inc"
 
-    # Locally-defined routes - eventually want to remove this and use NavigaTE's updated default routes
-    INCLUDE "../../includes_global/Route/globalized_bulk_carrier_capesize.inc"
-    INCLUDE "../../includes_global/Route/globalized_bulk_carrier_handy.inc"
-    INCLUDE "../../includes_global/Route/globalized_bulk_carrier_panamax.inc"
-    INCLUDE "../../includes_global/Route/globalized_container_15000_teu.inc"
-    INCLUDE "../../includes_global/Route/globalized_container_8000_teu.inc"
-    INCLUDE "../../includes_global/Route/globalized_container_3500_teu.inc"
-    INCLUDE "../../includes_global/Route/globalized_tanker_300k_dwt.inc"
-    INCLUDE "../../includes_global/Route/globalized_tanker_100k_dwt.inc"
-    INCLUDE "../../includes_global/Route/globalized_tanker_35k_dwt.inc"
-    INCLUDE "../../includes_global/Route/globalized_gas_carrier_100k_cbm.inc"
+#    # Locally-defined routes - eventually want to remove this and use NavigaTE's updated default routes
+#    INCLUDE "../../includes_global/Route/globalized_bulk_carrier_capesize.inc"
+#    INCLUDE "../../includes_global/Route/globalized_bulk_carrier_handy.inc"
+#    INCLUDE "../../includes_global/Route/globalized_bulk_carrier_panamax.inc"
+#    INCLUDE "../../includes_global/Route/globalized_container_15000_teu.inc"
+#    INCLUDE "../../includes_global/Route/globalized_container_8000_teu.inc"
+#    INCLUDE "../../includes_global/Route/globalized_container_3500_teu.inc"
+#    INCLUDE "../../includes_global/Route/globalized_tanker_300k_dwt.inc"
+#    INCLUDE "../../includes_global/Route/globalized_tanker_100k_dwt.inc"
+#    INCLUDE "../../includes_global/Route/globalized_tanker_35k_dwt.inc"
+#    INCLUDE "../../includes_global/Route/globalized_gas_carrier_100k_cbm.inc"
     
     # costs and emission of fuels
     INCLUDE "../../includes_global/cost_emissions_FTdiesel.inc"

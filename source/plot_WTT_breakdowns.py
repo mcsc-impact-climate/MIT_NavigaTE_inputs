@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib.patches import Patch
 import numpy as np
+from collections import defaultdict
 
 H2_PER_NH3 = 3.02352/17.03022  # kg H2 required to produce 1 kg of NH3
 
@@ -85,12 +86,12 @@ continent_regions = {
 }
 
 fuel_pathways = {
-    "e-hydrogen (liquefied)": ["LTE_H_grid_E", "LTE_H_nuke_E", "LTE_H_renewable_E"],
-    "e-hydrogen (compressed)": ["LTE_H_grid_E", "LTE_H_nuke_E", "LTE_H_renewable_E"],
-    "e-ammonia": ["LTE_H_grid_E", "LTE_H_nuke_E", "LTE_H_renewable_E"],
-    "Blue ammonia": ["SMRCCS_H_renewable_E", "SMRCCS_H_nuke_E", "SMRCCS_H_grid_E"],
-    "e-methanol": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_renewable_E", "LTE_H_SMRCCS_C_nuke_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_renewable_E", "LTE_H_BEC_C_nuke_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_renewable_E", "LTE_H_DAC_C_nuke_E"],
-    "e-diesel": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_renewable_E", "LTE_H_SMRCCS_C_nuke_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_renewable_E", "LTE_H_BEC_C_nuke_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_renewable_E", "LTE_H_DAC_C_nuke_E"],
+    "e-hydrogen (liquefied)": ["LTE_H_grid_E", "LTE_H_solar_E", "LTE_H_wind_E"],
+    "e-hydrogen (compressed)": ["LTE_H_grid_E", "LTE_H_solar_E", "LTE_H_wind_E"],
+    "e-ammonia": ["LTE_H_grid_E", "LTE_H_solar_E", "LTE_H_wind_E"],
+    "Blue ammonia": ["SMRCCS_H_solar_E", "SMRCCS_H_wind_E" "SMRCCS_H_grid_E"],
+    "e-methanol": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_solar_E", "LTE_H_SMRCCS_C_wind_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_solar_E", "LTE_H_BEC_C_wind_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_solar_E", "LTE_H_DAC_C_wind_E"],
+    "e-diesel": ["LTE_H_SMRCCS_C_grid_E", "LTE_H_SMRCCS_C_solar_E", "LTE_H_SMRCCS_C_wind_E", "LTE_H_BEC_C_grid_E", "LTE_H_BEC_C_solar_E", "LTE_H_BEC_C_wind_E", "LTE_H_DAC_C_grid_E", "LTE_H_DAC_C_solar_E", "LTE_H_DAC_C_wind_E"],
 }
 
 fuel_fuels = {
@@ -399,10 +400,31 @@ class FuelWTG:
         fig, ax = plt.subplots(figsize=(20, fig_height))
 
         # Sort pathways by their associated color
-        sorted_pathways = sorted(
-            self.pathways,
-            key=lambda p: get_pathway_type_color(get_pathway_type(p))
+#        sorted_pathways = sorted(
+#            self.pathways,
+#            key=lambda p: get_pathway_type_color(get_pathway_type(p))
+#        )
+
+        #### Sort the pathways by their associated color to group them ####
+        
+        # Group pathways by color
+        pathways_by_color = defaultdict(list)
+        for p in self.pathways:
+            color = get_pathway_type_color(get_pathway_type(p))
+            pathways_by_color[color].append(p)
+
+        # Sort each color group alphabetically by pathway label
+        for color in pathways_by_color:
+            pathways_by_color[color].sort(key=lambda p: get_pathway_label(p).lower())
+
+        # Sort color groups by the label of their first pathway
+        sorted_color_groups = sorted(
+            pathways_by_color.items(),
+            key=lambda item: get_pathway_label(item[1][0]).lower()
         )
+
+        # Flatten to get final sorted pathway list
+        sorted_pathways = [p for _, group in sorted_color_groups for p in group]
 
         y_positions = np.arange(len(sorted_pathways))  # Assign new y-positions
 
@@ -525,33 +547,36 @@ class FuelWTG:
                 borderaxespad=0.0,
             )
 
+            ax.add_artist(legend1)
+
         if scatter_handles:
-            ax.legend(
+            legend2 = ax.legend(
                 scatter_handles,
                 scatter_labels,
                 fontsize=20,
                 title="Individual Countries",
                 title_fontsize=22,
-                bbox_to_anchor=(1.01, 0.35),
+                bbox_to_anchor=(1.01, 0.5),
                 loc="center left",
                 borderaxespad=0.0,
             )
 
-            ax.add_artist(legend1)
+            ax.add_artist(legend2)
 
         if quantity == "cost":
             op_ex_patch = Patch(facecolor='white', edgecolor='black', label='OpEx')
             cap_ex_patch = Patch(facecolor='white', edgecolor='black', hatch='xxx', label='CapEx')
 
-            ax.legend(
+            legend3 = ax.legend(
                 handles=[op_ex_patch, cap_ex_patch],
                 fontsize=20,
                 title="Cost Types",
                 title_fontsize=22,
-                bbox_to_anchor=(1.01, 0.35),
+                bbox_to_anchor=(1.01, 0.25),
                 loc="center left",
                 borderaxespad=0.0,
             )
+            ax.add_artist(legend3)
 
         ax.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
         plt.tight_layout()
@@ -628,9 +653,28 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
         for pathway_name in fuel_wtt.pathways
     }
     
-    # Sort the pathways by their associated color to group them
+    #### Sort the pathways by their associated color to group them ####
     pathways = fuel_pathways[MMMCZCS_fuel]
-    sorted_pathways = sorted(pathways, key=lambda p: pathway_color_mapping[p])
+    
+    # Group pathways by color
+    pathways_by_color = defaultdict(list)
+    for p in self.pathways:
+        color = get_pathway_type_color(get_pathway_type(p))
+        pathways_by_color[color].append(p)
+
+    # Sort each color group alphabetically by pathway label
+    for color in pathways_by_color:
+        pathways_by_color[color].sort(key=lambda p: get_pathway_label(p).lower())
+
+    # Sort color groups by the label of their first pathway
+    sorted_color_groups = sorted(
+        pathways_by_color.items(),
+        key=lambda item: get_pathway_label(item[1][0]).lower()
+    )
+
+    # Flatten to get final sorted pathway list
+    sorted_pathways = [p for _, group in sorted_color_groups for p in group]
+    #sorted_pathways = sorted(pathways, key=lambda p: pathway_color_mapping[p])
     
     num_pathways = len(pathways)
     fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed

@@ -1,80 +1,107 @@
 Pathway Name,Label,Pathway Type,Description
-SMR_H_renewable_E,SMR-H (renewables),grey,Hydrogen from steam methane reforming using renewable electrical power
+SMR_H_solar_E,SMR-H (solar),grey,Hydrogen from steam methane reforming using solar electrical power
+SMR_H_wind_E,SMR-H (wind),grey,Hydrogen from steam methane reforming using wind electrical power
 SMR_H_grid_E,SMR-H (grid),grey,Hydrogen from steam methane reforming using grid electrical power
 SMR_H_nuke_E,SMR-H (nuclear),grey,Hydrogen from steam methane reforming using nuclear electrical power
-BG_H_renewable_E,BG-H (renewables),bio_H,Hydrogen from lignocellulosic biomass gasification using renewable electrical power
+BG_H_solar_E,BG-H (solar),bio_H,Hydrogen from lignocellulosic biomass gasification using solar electrical power
+BG_H_wind_E,BG-H (wind),bio_H,Hydrogen from lignocellulosic biomass gasification using wind electrical power
 BG_H_grid_E,BG-H (grid),bio_H,Hydrogen from lignocellulosic biomass gasification using grid electrical power
 BG_H_nuke_E,BG-H (nuclear),bio_H,Hydrogen from lignocellulosic biomass gasification using nuclear electrical power
 SMR_H_C_grid_E,SMR-H+C (grid),grey,Hydrogen and carbon from steam methane reforming using grid electrical power
 SMR_H_C_nuke_E,SMR-H+C (nuclear),grey,Hydrogen and carbon from steam methane reforming using nuclear electrical power
-SMR_H_C_renewable_E,SMR-H+C (renewables),grey,Hydrogen and carbon from steam methane reforming using renewable electrical power
+SMR_H_C_solar_E,SMR-H+C (solar),grey,Hydrogen and carbon from steam methane reforming using solar electrical power
+SMR_H_C_wind_E,SMR-H+C (wind),grey,Hydrogen and carbon from steam methane reforming using wind electrical power
 BG_H_C_grid_E,BG-H+C (grid),bio_H,Hydrogen and carbon from lignocellulosic biomass gasification using grid electrical power
 BG_H_C_nuke_E,BG-H+C (nuclear),bio_H,Hydrogen and carbon from lignocellulosic biomass gasification using nuclear electrical power
-BG_H_C_renewable_E,BG-H+C (renewables),bio_H,Hydrogen and carbon from lignocellulosic biomass gasification using renewable electrical power
+BG_H_C_solar_E,BG-H+C (solar),bio_H,Hydrogen and carbon from lignocellulosic biomass gasification using solar electrical power
+BG_H_C_wind_E,BG-H+C (wind),bio_H,Hydrogen and carbon from lignocellulosic biomass gasification using wind electrical power
 SMR_H_BEC_C_grid_E,SMR-H+BEC-C (grid),grey,Hydrogen from steam methane reforming and carbon from bioenergy with CO2 capture using grid electrical power
 SMR_H_BEC_C_nuke_E,SMR-H+BEC-C (nuclear),grey,Hydrogen from steam methane reforming and carbon from bioenergy with CO2 capture using nuclear electrical power
-SMR_H_BEC_C_renewable_E,SMR-H+BEC-C (renewables),grey,Hydrogen from steam methane reforming and carbon from bioenergy with CO2 capture using renewable electrical power
+SMR_H_BEC_C_solar_E,SMR-H+BEC-C (solar),grey,Hydrogen from steam methane reforming and carbon from bioenergy with CO2 capture using solar electrical power
+SMR_H_BEC_C_wind_E,SMR-H+BEC-C (wind),grey,Hydrogen from steam methane reforming and carbon from bioenergy with CO2 capture using wind electrical power
 SMR_H_DAC_C_nuke_E,SMR-H+DAC-C (nuclear),grey,Hydrogen from steam methane reforming and carbon from direct air capture using nuclear electrical power
-SMR_H_DAC_C_renewable_E,SMR-H+DAC-C (renewables),grey,Hydrogen from steam methane reforming and carbon from direct air capture using renewable electrical power
+SMR_H_DAC_C_solar_E,SMR-H+DAC-C (solar),grey,Hydrogen from steam methane reforming and carbon from direct air capture using solar electrical power
+SMR_H_DAC_C_wind_E,SMR-H+DAC-C (wind),grey,Hydrogen from steam methane reforming and carbon from direct air capture using wind electrical power
 SMR_H_DAC_C_grid_E,SMR-H+DAC-C (grid),grey,Hydrogen from steam methane reforming and carbon from direct air capture using grid electrical power 
-SMRCCS_H_renewable_E,SMRCCS-H (renewables),blue,Hydrogen from steam methane reforming with CO2 capture using renewable electrical power
+SMRCCS_H_solar_E,SMRCCS-H (solar),blue,Hydrogen from steam methane reforming with CO2 capture using solar electrical power
+SMRCCS_H_wind_E,SMRCCS-H (wind),blue,Hydrogen from steam methane reforming with CO2 capture using wind electrical power
 SMRCCS_H_nuke_E,SMRCCS-H (nuclear),blue,Hydrogen from steam methane reforming with CO2 capture using nuclear electrical power
 SMRCCS_H_grid_E,SMRCCS-H (grid),blue,Hydrogenfrom steam methane reforming with CO2 capture and grid electrical power
-ATRCCS_H_renewable_E,ATRCCS-H (renewables),blue,Hydrogen from auto thermal reforming with CO2 capture using renewable electrical power
+ATRCCS_H_solar_E,ATRCCS-H (solar),blue,Hydrogen from auto thermal reforming with CO2 capture using solar electrical power
+ATRCCS_H_wind_E,ATRCCS-H (wind),blue,Hydrogen from auto thermal reforming with CO2 capture using wind electrical power
 ATRCCS_H_nuke_E,ATRCCS-H (nuclear),blue,Hydrogen from auto thermal reforming with CO2 capture using nuclear electrical power
 ATRCCS_H_grid_E,ATRCCS-H (grid),blue,Hydrogen from auto thermal reforming with CO2 capture and grid electrical power
 SMRCCS_H_C_nuke_E,SMRCCS-H+C (nuclear),blue,Hydrogen and carbon from steam methane reforming with CO2 capture using nuclear electrical power
 SMRCCS_H_C_grid_E,SMRCCS-H+C (grid),blue,Hydrogen and carbon from steam methane reforming with CO2 capture using grid electrical power
-SMRCCS_H_C_renewable_E,SMRCCS-H+C (renewables),blue,Hydrogen and carbon from steam methane reforming with CO2 capture using renewable electrical power
+SMRCCS_H_C_solar_E,SMRCCS-H+C (solar),blue,Hydrogen and carbon from steam methane reforming with CO2 capture using solar electrical power
+SMRCCS_H_C_wind_E,SMRCCS-H+C (wind),blue,Hydrogen and carbon from steam methane reforming with CO2 capture using wind electrical power
 ATRCCS_H_C_nuke_E,ATRCCS-H+C (nuclear),blue,Hydrogen and carbon from auto thermal reforming with CO2 capture using nuclear electrical power
 ATRCCS_H_C_grid_E,ATRCCS-H+C (grid),blue,Hydrogen and carbon from auto thermal reforming with CO2 capture using grid electrical power
-ATRCCS_H_C_renewable_E,ATRCCS-H+C (renewables),blue,Hydrogen and carbon from auto thermal reforming with CO2 capture using renewable electrical power
+ATRCCS_H_C_solar_E,ATRCCS-H+C (solar),blue,Hydrogen and carbon from auto thermal reforming with CO2 capture using solar electrical power
+ATRCCS_H_C_wind_E,ATRCCS-H+C (wind),blue,Hydrogen and carbon from auto thermal reforming with CO2 capture using wind electrical power
 SMRCCS_H_BEC_C_grid_E,SMRCCS-H+BEC-C (grid),blue_bio_C,Hydrogen from steam methane reforming with CO2 capture and carbon from bioenergy with CO2 capture using grid electrical power
-SMRCCS_H_BEC_C_renewable_E,SMRCCS-H+BEC-C (renewables),blue_bio_C,Hydrogen from steam methane reforming with CO2 capture and carbon from bioenergy with CO2 capture using renewable electrical power
+SMRCCS_H_BEC_C_solar_E,SMRCCS-H+BEC-C (solar),blue_bio_C,Hydrogen from steam methane reforming with CO2 capture and carbon from bioenergy with CO2 capture using solar electrical power
+SMRCCS_H_BEC_C_wind_E,SMRCCS-H+BEC-C (wind),blue_bio_C,Hydrogen from steam methane reforming with CO2 capture and carbon from bioenergy with CO2 capture using wind electrical power
 SMRCCS_H_BEC_C_nuke_E,SMRCCS-H+BEC-C (nuclear),blue_bio_C,Hydrogen from steam methane reforming with CO2 capture and carbon from bioenergy with CO2 capture using nuclear electrical power
 ATRCCS_H_BEC_C_grid_E,ATRCCS-H+BEC-C (grid),blue_bio_C,Hydrogen from auto thermal reforming with CO2 capture and carbon from bioenergy with CO2 capture using grid electrical power
-ATRCCS_H_BEC_C_renewable_E,ATRCCS-H+BEC-C (renewables),blue_bio_C,Hydrogen from auto thermal reforming with CO2 capture and carbon from bioenergy with CO2 capture using renewable electrical power
+ATRCCS_H_BEC_C_solar_E,ATRCCS-H+BEC-C (solar),blue_bio_C,Hydrogen from auto thermal reforming with CO2 capture and carbon from bioenergy with CO2 capture using solar electrical power
+ATRCCS_H_BEC_C_wind_E,ATRCCS-H+BEC-C (wind),blue_bio_C,Hydrogen from auto thermal reforming with CO2 capture and carbon from bioenergy with CO2 capture using wind electrical power
 ATRCCS_H_BEC_C_nuke_E,ATRCCS-H+BEC-C (nuclear),blue_bio_C,Hydrogen from auto thermal reforming with CO2 capture and carbon from bioenergy with CO2 capture using nuclear electrical power
 SMRCCS_H_ATRCCS_C_grid_E,SMRCCS-H+ATRCCS-C (grid),blue,Hydrogen from steam methane reforming with CO2 capture and carbon from auto thermal reforming with CO2 capture using grid power
-SMRCCS_H_ATRCCS_C_renewable_E,SMRCCS-H+ATRCCS-C (renewables),blue,Hydrogen from steam methane reforming with CO2 capture and carbon from auto thermal reforming with CO2 capture using renewable electrical power
+SMRCCS_H_ATRCCS_C_solar_E,SMRCCS-H+ATRCCS-C (solar),blue,Hydrogen from steam methane reforming with CO2 capture and carbon from auto thermal reforming with CO2 capture using solar electrical power
+SMRCCS_H_ATRCCS_C_wind_E,SMRCCS-H+ATRCCS-C (wind),blue,Hydrogen from steam methane reforming with CO2 capture and carbon from auto thermal reforming with CO2 capture using wind electrical power
 SMRCCS_H_ATRCCS_C_nuke_E,SMRCCS-H+ATRCCS-C (nuclear),blue,Hydrogen from steam methane reforming with CO2 capture and carbon from auto thermal reforming with CO2 capture using nuclear electrical power
 ATRCCS_H_SMRCCS_C_grid_E,ATRCCS-H+SMRCCS-C (grid),blue,Hydrogen from auto thermal reforming with CO2 capture and carbon from steam methane reforming with CO2 capture using grid power
-ATRCCS_H_SMRCCS_C_renewable_E,ATRCCS-H+SMRCCS-C (renewables),blue,Hydrogen from auto thermal reforming with CO2 capture and carbon from steam methane reforming with CO2 capture using renewable electrical power
+ATRCCS_H_SMRCCS_C_solar_E,ATRCCS-H+SMRCCS-C (solar),blue,Hydrogen from auto thermal reforming with CO2 capture and carbon from steam methane reforming with CO2 capture using solar electrical power
+ATRCCS_H_SMRCCS_C_wind_E,ATRCCS-H+SMRCCS-C (wind),blue,Hydrogen from auto thermal reforming with CO2 capture and carbon from steam methane reforming with CO2 capture using wind electrical power
 ATRCCS_H_SMRCCS_C_nuke_E,ATRCCS-H+SMRCCS-C (nuclear),blue,Hydrogen from auto thermal reforming with CO2 capture and carbon from steam methane reforming with CO2 capture using nuclear electrical power
 BG_H_BEC_C_grid_E,BG-H+BEC-C (grid),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from bioenergy with CO2 capture using grid electrical power
-BG_H_BEC_C_renewable_E,BG-H+BEC-C (renewables),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from bioenergy with CO2 capture using renewable electrical power
+BG_H_BEC_C_solar_E,BG-H+BEC-C (solar),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from bioenergy with CO2 capture using solar electrical power
+BG_H_BEC_C_wind_E,BG-H+BEC-C (wind),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from bioenergy with CO2 capture using wind electrical power
 BG_H_BEC_C_nuke_E,BG-H+BEC-C (nuclear),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from bioenergy with CO2 capture using nuclear electrical power
 SMRCCS_H_DAC_C_grid_E,SMRCCS-H+DAC-C (grid),blue_dac_C,Hydrogen from steam methane reforming with CO2 capture using grid electrical power and carbon from direct air capture
-SMRCCS_H_DAC_C_renewable_E,SMRCCS-H+DAC-C (renewables),blue_dac_C,Hydrogen from steam methane reforming with CO2 capture and carbon from direct air capture using renewable electrical power
+SMRCCS_H_DAC_C_solar_E,SMRCCS-H+DAC-C (solar),blue_dac_C,Hydrogen from steam methane reforming with CO2 capture and carbon from direct air capture using solar electrical power
+SMRCCS_H_DAC_C_wind_E,SMRCCS-H+DAC-C (wind),blue_dac_C,Hydrogen from steam methane reforming with CO2 capture and carbon from direct air capture using wind electrical power
 SMRCCS_H_DAC_C_nuke_E,SMRCCS-H+DAC-C (nuclear),blue_dac_C,Hydrogen from steam methane reforming with CO2 capture and carbon from direct air capture using nuclear electrical power
 ATRCCS_H_DAC_C_grid_E,ATRCCS-H+DAC-C (grid),blue_dac_C,Hydrogen from auto thermal reforming with CO2 capture using grid electrical power and carbon from direct air capture
-ATRCCS_H_DAC_C_renewable_E,ATRCCS-H+DAC-C (renewables),blue_dac_C,Hydrogen from auto thermal reforming with CO2 capture and carbon from direct air capture using renewable electrical power
+ATRCCS_H_DAC_C_solar_E,ATRCCS-H+DAC-C (solar),blue_dac_C,Hydrogen from auto thermal reforming with CO2 capture and carbon from direct air capture using solar electrical power
+ATRCCS_H_DAC_C_wind_E,ATRCCS-H+DAC-C (wind),blue_dac_C,Hydrogen from auto thermal reforming with CO2 capture and carbon from direct air capture using wind electrical power
 ATRCCS_H_DAC_C_nuke_E,ATRCCS-H+DAC-C (nuclear),blue_dac_C,Hydrogen from auto thermal reforming with CO2 capture and carbon from direct air capture using nuclear electrical power
 BG_H_DAC_C_grid_E,BG-H+DAC-C (grid),bio_H,Hydrogen from lignocellulosic biomass gasification using grid electrical power and carbon from direct air capture
-BG_H_DAC_C_renewable_E,BG-H+DAC-C (renewables),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from direct air capture using renewable electrical power
+BG_H_DAC_C_solar_E,BG-H+DAC-C (solar),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from direct air capture using solar electrical power
+BG_H_DAC_C_wind_E,BG-H+DAC-C (wind),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from direct air capture using wind electrical power
 BG_H_DAC_C_nuke_E,BG-H+DAC-C (nuclear),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from direct air capture using nuclear electrical power
 LTE_H_grid_E,LTE-H (grid),electro_grid,Hydrogen from low-temperature electrolysis using grid electrical power
 LTE_H_nuke_E,LTE-H (nuclear),electro_nuke,Hydrogen from low-temperature electrolysis using nuclear electrical power
-LTE_H_renewable_E,LTE-H (renewables),electro_renew,Hydrogen from low-temperature electrolysis using renewable electrical power
+LTE_H_solar_E,LTE-H (solar),electro_renew,Hydrogen from low-temperature electrolysis using solar electrical power
+LTE_H_wind_E,LTE-H (wind),electro_renew,Hydrogen from low-temperature electrolysis using wind electrical power
 LTE_H_SMR_C_grid_E,LTE-H+SMR-C (grid),electro_grid,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming using grid electrical power
 LTE_H_SMR_C_nuke_E,LTE-H+SMR-C (nuclear),electro_nuke,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming using nuclear electrical power
-LTE_H_SMR_C_renewable_E,LTE-H+SMR-C (renewables),electro_renew,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming using renewable electrical power
+LTE_H_SMR_C_solar_E,LTE-H+SMR-C (solar),electro_renew,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming using solar electrical power
+LTE_H_SMR_C_wind_E,LTE-H+SMR-C (wind),electro_renew,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming using wind electrical power
 LTE_H_SMRCCS_C_grid_E,LTE-H+SMRCCS-C (grid),electro_grid,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming with CO2 capture using grid electrical power
-LTE_H_SMRCCS_C_renewable_E,LTE-H+SMRCCS-C (renewables),electro_renew,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming with CO2 capture using renewable electrical power
+LTE_H_SMRCCS_C_solar_E,LTE-H+SMRCCS-C (solar),electro_renew,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming with CO2 capture using solar electrical power
+LTE_H_SMRCCS_C_wind_E,LTE-H+SMRCCS-C (wind),electro_renew,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming with CO2 capture using wind electrical power
 LTE_H_SMRCCS_C_nuke_E,LTE-H+SMRCCS-C (nuclear),electro_nuke,Hydrogen from low-temperature electrolysis and carbon from steam methane reforming with CO2 capture using nuclear electrical power
 LTE_H_ATRCCS_C_grid_E,LTE-H+ATRCCS-C (grid),electro_grid,Hydrogen from low-temperature electrolysis and carbon from auto thermal reforming with CO2 capture using grid electrical power
-LTE_H_ATRCCS_C_renewable_E,LTE-H+ATRCCS-C (renewables),electro_renew,Hydrogen from low-temperature electrolysis and carbon from auto thermal reforming with CO2 capture using renewable electrical power
+LTE_H_ATRCCS_C_solar_E,LTE-H+ATRCCS-C (solar),electro_renew,Hydrogen from low-temperature electrolysis and carbon from auto thermal reforming with CO2 capture using solar electrical power
+LTE_H_ATRCCS_C_wind_E,LTE-H+ATRCCS-C (wind),electro_renew,Hydrogen from low-temperature electrolysis and carbon from auto thermal reforming with CO2 capture using wind electrical power
 LTE_H_ATRCCS_C_nuke_E,LTE-H+ATRCCS-C (nuclear),electro_nuke,Hydrogen from low-temperature electrolysis and carbon from auto thermal reforming with CO2 capture using nuclear electrical power
 BG_H_SMRCCS_C_grid_E,BG-H+SMRCCS-C (grid),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from steam methane reforming with CO2 capture using grid electrical power
-BG_H_SMRCCS_C_renewable_E,BG-H+SMRCCS-C (renewables),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from steam methane reforming with CO2 capture using renewable electrical power
+BG_H_SMRCCS_C_solar_E,BG-H+SMRCCS-C (solar),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from steam methane reforming with CO2 capture using solar electrical power
+BG_H_SMRCCS_C_wind_E,BG-H+SMRCCS-C (wind),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from steam methane reforming with CO2 capture using wind electrical power
 BG_H_SMRCCS_C_nuke_E,BG-H+SMRCCS-C (nuclear),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from steam methane reforming with CO2 capture using nuclear electrical power
 BG_H_ATRCCS_C_grid_E,BG-H+ATRCCS-C (grid),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from auto thermal reforming with CO2 capture using grid electrical power
-BG_H_ATRCCS_C_renewable_E,BG-H+ATRCCS-C (renewables),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from auto thermal reforming with CO2 capture using renewable electrical power
+BG_H_ATRCCS_C_solar_E,BG-H+ATRCCS-C (solar),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from auto thermal reforming with CO2 capture using solar electrical power
+BG_H_ATRCCS_C_wind_E,BG-H+ATRCCS-C (wind),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from auto thermal reforming with CO2 capture using wind electrical power
 BG_H_ATRCCS_C_nuke_E,BG-H+ATRCCS-C (nuclear),bio_H,Hydrogen from lignocellulosic biomass gasification and carbon from auto thermal reforming with CO2 capture using nuclear electrical power
 LTE_H_BEC_C_grid_E,LTE-H+BEC-C (grid),electro_grid,Hydrogen from low-temperature electrolysis and carbon from bioenergy with CO2 capture using grid electrical power
-LTE_H_BEC_C_renewable_E,LTE-H+BEC-C (renewables),electro_renew,Hydrogen from low-temperature electrolysis and carbon from bioenergy with CO2 capture using renewable electrical power
+LTE_H_BEC_C_solar_E,LTE-H+BEC-C (solar),electro_renew,Hydrogen from low-temperature electrolysis and carbon from bioenergy with CO2 capture using solar electrical power
+LTE_H_BEC_C_wind_E,LTE-H+BEC-C (wind),electro_renew,Hydrogen from low-temperature electrolysis and carbon from bioenergy with CO2 capture using wind electrical power
 LTE_H_BEC_C_nuke_E,LTE-H+BEC-C (nuclear),electro_nuke,Hydrogen from low-temperature electrolysis and carbon from direct air capture using nuclear electrical power
 LTE_H_DAC_C_grid_E,LTE-H+DAC-C (grid),electro_grid,Hydrogen from low-temperature electrolysis and carbon from direct air capture using grid electrical power
-LTE_H_DAC_C_renewable_E,LTE-H+DAC-C (renewables),electro_renew,Hydrogen from low-temperature electrolysis and carbon from direct air capture using renewable electrical power
+LTE_H_DAC_C_solar_E,LTE-H+DAC-C (solar),electro_renew,Hydrogen from low-temperature electrolysis and carbon from direct air capture using solar electrical power
+LTE_H_DAC_C_wind_E,LTE-H+DAC-C (wind),electro_renew,Hydrogen from low-temperature electrolysis and carbon from direct air capture using wind electrical power
 LTE_H_DAC_C_nuke_E,LTE-H+DAC-C (nuclear),electro_nuke,Hydrogen from low-temperature electrolysis and carbon from direct air capture using nuclear electrical power
 fossil,fossil,grey,Fossil fuel feedstocks
+lsfo,fossil,grey,LSFO from fossil feedstocks

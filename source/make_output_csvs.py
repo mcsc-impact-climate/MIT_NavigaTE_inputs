@@ -1179,7 +1179,7 @@ def main():
     all_results_df = add_number_of_vessels(all_results_df)
         
     # Add fuel needed to offset fuel loss due to boiloff
-    all_results_df = add_boiloff(all_results_df)
+    #all_results_df = add_boiloff(all_results_df)
     
     #all_results_df.to_csv("all_results_df_with_boiloff.csv")
     

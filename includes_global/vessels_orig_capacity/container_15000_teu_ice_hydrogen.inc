@@ -113,7 +113,9 @@ Forecast "propulsion_ice_hydrogen_thermal_efficiency" {
 
 Converter "heat_boiler_oil_hydrogen_container_15000_teu" {
     PowerCapacity=4.
-    MainFuelTypes = [DIESEL, HFO]
+    MainFuelTypes = [HYDROGEN]
+    PilotFuelTypes = [DIESEL, HFO]
+    MinimumPilotFuel = 0.05
     OutStream = [0, 0, 0, 1.0]
     PrimaryStream = HEAT
     
