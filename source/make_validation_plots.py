@@ -2564,7 +2564,6 @@ def main():
 #    structured_results = structure_results_fuels_types("CAC", "vessel")
 #    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
     
-    """
 #    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
 
  #       for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
