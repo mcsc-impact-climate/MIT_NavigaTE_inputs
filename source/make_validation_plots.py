@@ -1204,7 +1204,8 @@ class ProcessedQuantity:
         global_demands = []
         
         for matching_pathway in matching_pathways:
-            if "BG" in matching_pathway or "ATR" in matching_pathway or "nuke" in matching_pathway:
+            #if "BG" in matching_pathway or "ATR" in matching_pathway or "nuke" in matching_pathway:
+            if "nuke" in matching_pathway:
                 pass
             elif fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"] and "_C_" in matching_pathway:
                 pass
