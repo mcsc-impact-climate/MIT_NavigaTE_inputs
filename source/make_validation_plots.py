@@ -441,6 +441,409 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
             units = base_units
 
         return units
+
+# DME: Creating new ProcessedResource class to contain functions relating to resource availability and demand
+class ProcessedResource:
+    """
+    A class to contain results and functions for resource availability and demand
+    """
+    
+    def __init__(
+        self, resource
+    ):
+        self.resource = resource
+        self.resource_excel = self.read_resource_excel(resource)    # DME: Run read_resource_excel once to create class variable for df read from excel file
+    
+    # GE - 3/19/2025 - read in data from excel sheet
+    def read_resource_excel(self, resource_name, file_path=f"{top_dir}/data/NationalResourceAvailabilityData.xlsx"):
+        """
+        Reads the first four columns of data from the sheet with given name in the given Excel file.
+
+        Parameters:
+        -----------
+        filepath : str
+            Path to the Excel file.
+            
+        resource_name : str
+            Name of the sheet to read (e.g., 'Water', 'Carbon Dioxide', 'Natural Gas', 'Electricity').
+        
+
+        Returns:
+        --------
+        DataFrame containing only the first four columns of the excel sheet.
+        """
+        return pd.read_excel(file_path, sheet_name = resource_name, usecols=["Country", "Average", "Standard Deviation", "Ratio of SD:Average"], index_col="Country")
+    
+    # GE - 3/19/2025 - plot relative resource availability by country on a map
+    def plot_resource_availability_map(self, resource_type):
+        """
+        Plots a world map with a log-scale color gradient representing resource availability by country.
+
+        Parameters:
+        -----------
+        resource_type : str
+            Type of resource (e.g., 'Water', 'Carbon Dioxide', 'Natural Gas', 'Electricity').
+
+        Returns:
+        --------
+        None
+        """
+        # Make data frame containing data from resource availability spreadsheet for the desired resource type
+        resource_df = self.resource_excel   # DME: Read from class variable instead of calling read_resource_excel
+        # smaller data frame only containing the country names and the average resource availabilities
+        resource_avg_df = resource_df.iloc[:, [0]]
+        
+        # Load world map
+        url = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+        world = gpd.read_file(url)
+
+        # Merge world map with resource data
+        merged = world.merge(resource_avg_df, left_on="NAME", right_index=True, how="left")
+
+        # Plot
+        fig, ax = plt.subplots(figsize=(12, 8))
+
+        # Filter out NaN and zero values
+        valid_values = merged["Average"].replace(0, np.nan).dropna().values
+
+        # Compute vmin and vmax while ignoring NaNs and zeros
+        vmin = np.nanmin(valid_values)  # Ignores NaNs and zeros
+        vmax = np.nanmax(valid_values)  # Ignores NaNs and zeros
+        
+        merged.plot(column="Average", cmap="coolwarm", linewidth=0.8, ax=ax, edgecolor="black", legend=True, norm=LogNorm(vmin=vmin, vmax=vmax))
+        ax.set_title(f"{resource_type} Availability by Country", fontsize=16)
+        ax.set_axis_off()
+        
+        unit_labels = {
+            "Natural Gas": "Billion Cubic Meters",
+            "Carbon Dioxide": "Megatons",
+            "Water": "Cubic Meters",
+            "Electricity": "TWh"
+        }
+        legend_label = unit_labels.get(resource_type)
+        
+
+        # Find the color bar and modify its label
+        cbar = ax.get_figure().get_axes()[-1]  # Get last axis (which should be the color bar)
+        cbar.set_ylabel(f"Log-normal Distribution", fontsize=12)
+        
+        if resource_type == "Natural Gas":
+            resource_type_short = "NG"
+        elif resource_type == "Carbon Dioxide":
+            resource_type_short = "CO2"
+        else:
+            resource_type_short = resource_type
+
+        create_directory_if_not_exists(f"{top_dir}/plots/availability_maps")     # DME: Create the availability-maps directory if it doesn't exist
+        filepath_save = f"{top_dir}/plots/availability_maps/{resource_type_short}-AvailabilityMap.png"
+        print(f"Saving figure to {filepath_save}")
+        plt.savefig(filepath_save, dpi=200)
+        
+        
+    # GE - 3/23/2025 - plot SD:average ratio by country on a map
+    def plot_SD_ratio_map(self, resource_type):
+        """
+        Plots a world map with a log-scale color gradient representing SD:average ratio by country.
+
+        Parameters:
+        -----------
+        resource_type : str
+            Type of resource (e.g., 'Water', 'Carbon Dioxide', 'Natural Gas', 'Electricity').
+
+        Returns:
+        --------
+        None
+        """
+        # Make data frame containing data from resource availability spreadsheet for the desired resource type
+        resource_df = self.resource_excel   # DME: Read from class variable instead of calling read_resource_excel
+        # smaller data frame only containing the country names and the SD:ratio
+        resource_ratio_df = resource_df.iloc[:, [2]]
+        
+        # Load world map
+        url = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+        world = gpd.read_file(url)
+
+        # Merge world map with resource data
+        merged = world.merge(resource_ratio_df, left_on="NAME", right_index=True, how="left")
+
+        # Plot
+        fig, ax = plt.subplots(figsize=(12, 8))
+
+        # Filter out NaN and zero values
+        valid_values = merged["Ratio of SD:Average"].replace(0, np.nan).dropna().values
+
+        # Compute vmin and vmax while ignoring NaNs and zeros
+        vmin = np.nanmin(valid_values)  # Ignores NaNs and zeros
+        vmax = np.nanmax(valid_values)  # Ignores NaNs and zeros
+        
+        merged.plot(column= "Ratio of SD:Average", cmap="coolwarm", linewidth=0.8, ax=ax, edgecolor="black", legend=True, norm=LogNorm(vmin=vmin, vmax=vmax))
+        ax.set_title(f"{resource_type} Standard Deviation to Average Availability Ratio by Country", fontsize=16)
+        ax.set_axis_off()
+
+        if resource_type == "Natural Gas":
+            resource_type_short = "NG"
+        elif resource_type == "Carbon Dioxide":
+            resource_type_short = "CO2"
+        else:
+            resource_type_short = resource_type
+
+        filepath_save = f"{top_dir}/plots/availability_maps/{resource_type_short}-SDAvailabilityMap.png"
+        print(f"Saving figure to {filepath_save}")
+        plt.savefig(filepath_save, dpi=200)
+        
+        
+    # GE - 3/23/25 - Function to get continent based on country using fuzzy matching
+    def get_continent(self, country_name, country_list):
+        """
+        Returns name of continent a given country is part of.
+
+        Parameters:
+        -----------
+        country_name : str
+            Country name as it appears in the data source.
+            
+        country_list : list of str
+            Country name as it appears in the reference, intended to be pycountry.
+
+        Returns:
+        --------
+        continent_name : str
+            Name of continent the country is part of, according to pycountry.
+        """
+        try:
+            # Find the best match for the country name
+            best_match = process.extractOne(country_name, country_list)
+            
+            if best_match:
+                matched_country = best_match[0]
+                country_alpha2 = pc.country_name_to_country_alpha2(matched_country)
+                continent_code = pc.country_alpha2_to_continent_code(country_alpha2)
+                continent_name = pc.convert_continent_code_to_continent_name(continent_code)
+                return continent_name
+            else:
+                return None
+        except KeyError:
+            return None
+
+    # GE - 3/23/25 - stacked plot to compare continential resource availability to global demand
+    def add_continent_column(self, resource_type):
+        """
+        Adds column to dataframe containing the continent in which each country is found.
+        
+        Parameters:
+        -----------
+        resource_type : str
+            Type of resource (e.g., 'Water', 'Carbon Dioxide', 'Natural Gas', 'Electricity').
+
+        Returns:
+        --------
+        resource_average_df : dataframe
+            Dataframe with column added for continent.
+        """
+        # List of country names recognized by pycountry
+        country_list = [country.name for country in pycountry.countries]
+        
+        # dataframe from NationalResourceAvailabilityData excel sheet.
+        resource_df = self.resource_excel   # DME: Read from class variable instead of calling read_resource_excel
+    
+        # smaller data frame only containing the country names and the average resource availabilities and standard deviation of each country's data
+        resource_avg_df = resource_df.iloc[:, [0,1]]
+        
+        # Apply the get_continent function to create a new 'Continent' column in the dataframe
+        resource_avg_df['Continent'] = resource_avg_df.index.to_series().apply(lambda x: self.get_continent(str(x), country_list) if isinstance(x, str) else None)
+        
+        # Remove NaN values from the DataFrame (filter out countries with NaN availability)
+        resource_avg_df = resource_avg_df.dropna(subset=['Continent'])
+        
+        return resource_avg_df
+    
+    
+    # GE - 3/23/25 - stacked plot to compare continential resource availability to global demand
+    def make_stacked_plot_avail_vs_demand(self, resource_type, fuel, pathway_type):
+        """
+        Makes stacked plot to compare global resource availability (sum of continent-level data) to global demand (averaged over all pathways within a pathway type).
+        
+        Parameters:
+        -----------
+        resource_type : str
+            The resource type being compared (e.g., "Natural Gas", "CO2").
+        fuel : str
+            The fuel type being produced (e.g., "FT_diesel", "methanol").
+        pathway_type : str
+            The production pathway type (e.g., "blue", "grey", "bio_H").
+
+        Returns:
+        --------
+        None
+        """
+        resource_avg_cont_df = self.add_continent_column(resource_type)
+        
+        # Aggregate availability per continent
+        continent_avail_df = resource_avg_cont_df.groupby("Continent")["Average"].sum()
+        
+        # Compute global standard deviation
+        global_stdev = np.sqrt(np.sum(resource_avg_cont_df["Standard Deviation"] ** 2))
+        
+        # Set color palette (one color per continent)
+        colors = sns.color_palette("husl", len(continent_avail_df))  # Husl gives distinct colors
+        
+        if resource_type == "Natural Gas":
+            resource_type_short = "NG"
+        elif resource_type == "Carbon Dioxide":
+            resource_type_short = "CO2"
+        else:
+            resource_type_short = resource_type
+            
+        # Load pathway info to sort into pathways (blue, grey, etc.)
+        pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
+        
+        # Filter for matching pathway type and fuel
+        matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]["Pathway Name"].tolist()
+        if "fossil" in matching_pathways:
+            matching_pathways.remove("fossil")
+        
+        # Get demand data from existing csv for the given pathway type and resource
+        global_demands = []
+        
+        for matching_pathway in matching_pathways:
+            if "BG" in matching_pathway or "ATR" in matching_pathway or "nuke" in matching_pathway:
+                pass
+            elif fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"] and "_C_" in matching_pathway:
+                pass
+            elif fuel in ["methanol", "FTdiesel"] and not "_C_" in matching_pathway:
+                pass
+            else:
+                filepath = f"{top_dir}/processed_results/{fuel}-{matching_pathway}-Consumed{resource_type_short}_main-fleet.csv"
+                
+                # print(f"Reading: {filepath} for pathway: {matching_pathway}")
+        
+                if os.path.exists(filepath):
+                    try:
+                        result_df = pd.read_csv(filepath)
+                        demand_value = result_df.loc[result_df["Region"] == "Global Average", "fleet"].values[0]
+                        global_demands.append(demand_value)
+                    except Exception as e:
+                        print(f"Error reading {filepath}: {e}")
+                else:
+                    print(f"File not found: {filepath}")
+        
+        # remove 0 values for global demand so pathways without data don't affect plot
+        global_demands = [x for x in global_demands if x != 0]
+        
+        # Define unit conversion factors (convert demand to match availability)
+        unit_conversions = {
+            "NG": 1e-6 * 1/35.3,  # Convert from GJ to billion cubic meters
+            "CO2": 1e-9,  # Convert from kilograms to megatons
+            "Water": 1,  # Convert from cubic meters to cubic meters
+            "Electricity": 1e-9,  # Convert from kWh to TWh
+        }
+        
+        # Convert global demand to match availability units
+        conversion_factor = unit_conversions.get(resource_type_short)
+        
+        # seems to be giving only one value or several of the same value...
+        # print(global_demands)
+        
+        # compute statistics
+        if global_demands:
+            global_demands = [d * conversion_factor for d in global_demands]
+            avg_demand = np.mean(global_demands)
+            min_demand = np.min(global_demands)
+            max_demand = np.max(global_demands)
+        else:
+            return
+            
+        # Set color palette (one color per continent)
+        colors = sns.color_palette("tab10", len(continent_avail_df))  # Husl gives distinct colors
+        
+        # Create stacked bar plot
+        fig, ax1 = plt.subplots(figsize=(8, 6))
+
+        # Plot availability (stacked by continent)
+        bottom = 0
+        for continent, value in continent_avail_df.items():
+            ax1.bar("Availability", value, bottom=bottom, label=continent, color=colors.pop(0))
+            bottom += value
+        
+        
+        # Set the y-axis limits based on availability if order of magnitude or more different
+        max_availability = continent_avail_df.sum()
+        
+        if avg_demand != 0 and max_availability > 10 * avg_demand:
+            # Create secondary y-axis for demand
+            ax2 = ax1.twinx()
+            ax2.bar("Demand", avg_demand, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
+        
+            # Scale demand axis for visibility vs. availability
+            ax1.set_ylim(0, max_availability * 1.1)
+            ax2.set_ylim(0, avg_demand * 3)
+            
+            # error bar for demand showing max and min values
+            lower_error = max(avg_demand - min_demand, 0)
+            upper_error = max(max_demand - avg_demand, 0)
+
+            asymmetric_error = [[lower_error], [upper_error]]
+            ax2.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='o', color='black', capsize=5, markersize=2)
+            
+            # Merge legends from both axes
+            handles1, labels1 = ax1.get_legend_handles_labels()
+            handles2, labels2 = ax2.get_legend_handles_labels()
+            ax1.legend(handles1 + handles2, labels1 + labels2, title="Legend", loc="center left", bbox_to_anchor=(1.3, 0.75))
+        else:
+            # Create bar for demand
+            ax1.bar("Demand", avg_demand, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
+            
+            # error bar for demand showing max and min values
+            lower_error = max(avg_demand - min_demand, 0)
+            upper_error = max(max_demand - avg_demand, 0)
+
+            asymmetric_error = [[lower_error], [upper_error]]
+            ax1.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='o', color='black', capsize=5, markersize=2)
+            
+            # Legend
+            handles1, labels1 = ax1.get_legend_handles_labels()
+            ax1.legend(handles1, labels1, title="Legend", loc="center left", bbox_to_anchor=(1.3, 0.75))
+            
+        
+        # Adjust layout to prevent overlap
+        plt.subplots_adjust(right=0.6)  # Moves plot left to create space for the legend
+        plt.subplots_adjust(left=0.2)  # Increase left margin space
+        
+        # add error bars based on standard deviation data
+        ax1.errorbar(x=["Availability"], y=[max_availability], yerr=[global_stdev], fmt='o', color='black', capsize=5, markersize=2)
+        
+        # get y axis units
+        # Define unit labels for each resource type
+        unit_labels = {
+            "NG": "Billion Cubic Meters",
+            "CO2": "Megatons",
+            "Water": "Cubic Meters",
+            "Electricity": "TWh"
+        }
+        y_axis_label = unit_labels.get(resource_type_short)
+        
+
+        # Labels for left-hand axis and title
+        plt.title(f"Global {resource_type} Availability vs. Demand")
+        ax1.set_ylabel(f"{y_axis_label}")
+        ax1.tick_params(axis='y', labelsize=9)  # Adjust label font size
+        if 'ax2' in locals():  # If a second axis (demand) exists
+            ax2.set_ylabel(f"{y_axis_label}")
+            ax2.tick_params(axis='y', labelsize=9)  # Adjust label font size
+            
+        
+        # change y-axis to scientific notation
+        ax1.yaxis.set_major_formatter(ScalarFormatter(useMathText=True))
+        ax1.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
+        if 'ax2' in locals():
+            ax2.yaxis.set_major_formatter(ScalarFormatter(useMathText=True))
+            ax2.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
+
+
+        # Save plots
+        filepath_save = f"{top_dir}/plots/{fuel}/{fuel}-{pathway_type}-{resource_type_short}-StackedAvailDemand.png"
+        print(f"Saving figure to {filepath_save}")
+        plt.savefig(filepath_save, dpi=200)
     
 
 class ProcessedQuantity:
@@ -556,27 +959,6 @@ class ProcessedQuantity:
         """
         custom_file_path = f"{top_dir}/{self.results_dir}/{self.fuel}-{self.pathway}-{custom_quantity}-{modifier}.csv"
         return pd.read_csv(custom_file_path, index_col=0)
-        
-    # GE - 3/19/2025 - read in data from excel sheet
-    def read_resource_excel(self, file_path, resource_name):
-        """
-        Reads the first four columns of data from the sheet with given name in the given Excel file.
-
-        Parameters:
-        -----------
-        filepath : str
-            Path to the Excel file.
-            
-        resource_name : str
-            Name of the sheet to read (e.g., 'Water', 'Carbon Dioxide', 'Natural Gas', 'Electricity').
-        
-
-        Returns:
-        --------
-        DataFrame containing only the first four columns of the excel sheet.
-        """
-        return pd.read_excel(file_path, sheet_name = resource_name, usecols=["Country", "Average", "Standard Deviation", "Ratio of SD:Average"], index_col="Country")
-
 
     def make_hist_by_region(self, vessel_type="all"):
         """
@@ -972,377 +1354,6 @@ class ProcessedQuantity:
         print(f"Saving figure to {filepath_save_pdf}")
         plt.savefig(filepath_save_pdf)
         plt.close()
-        
-    # GE - 3/19/2025 - plot relative resource availability by country on a map
-    def plot_resource_availability_map(self, resource_type):
-        """
-        Plots a world map with a log-scale color gradient representing resource availability by country.
-
-        Parameters:
-        -----------
-        resource_type : str
-            Type of resource (e.g., 'Water', 'Carbon Dioxide', 'Natural Gas', 'Electricity').
-
-        Returns:
-        --------
-        None
-        """
-        # Make data frame containing data from resource availability spreadsheet for the desired resource type
-        resource_df = self.read_resource_excel(f"{top_dir}/data/NationalResourceAvailabilityData.xlsx", resource_type)
-        # smaller data frame only containing the country names and the average resource availabilities
-        resource_avg_df = resource_df.iloc[:, [0]]
-        
-        # Load world map
-        url = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
-        world = gpd.read_file(url)
-
-        # Merge world map with resource data
-        merged = world.merge(resource_avg_df, left_on="NAME", right_index=True, how="left")
-
-        # Plot
-        fig, ax = plt.subplots(figsize=(12, 8))
-
-        # Filter out NaN and zero values
-        valid_values = merged["Average"].replace(0, np.nan).dropna().values
-
-        # Compute vmin and vmax while ignoring NaNs and zeros
-        vmin = np.nanmin(valid_values)  # Ignores NaNs and zeros
-        vmax = np.nanmax(valid_values)  # Ignores NaNs and zeros
-        
-        merged.plot(column="Average", cmap="coolwarm", linewidth=0.8, ax=ax, edgecolor="black", legend=True, norm=LogNorm(vmin=vmin, vmax=vmax))
-        ax.set_title(f"{resource_type} Availability by Country", fontsize=16)
-        ax.set_axis_off()
-        
-        unit_labels = {
-            "Natural Gas": "Billion Cubic Meters",
-            "Carbon Dioxide": "Megatons",
-            "Water": "Cubic Meters",
-            "Electricity": "TWh"
-        }
-        legend_label = unit_labels.get(resource_type)
-        
-
-        # Find the color bar and modify its label
-        cbar = ax.get_figure().get_axes()[-1]  # Get last axis (which should be the color bar)
-        cbar.set_ylabel(f"Log-normal Distribution", fontsize=12)
-        
-        if resource_type == "Natural Gas":
-            resource_type_short = "NG"
-        elif resource_type == "Carbon Dioxide":
-            resource_type_short = "CO2"
-        else:
-            resource_type_short = resource_type
-
-        filepath_save = f"{top_dir}/plots/availability_maps/{resource_type_short}-AvailabilityMap.png"
-        print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200)
-        
-        
-    # GE - 3/23/2025 - plot SD:average ratio by country on a map
-    def plot_SD_ratio_map(self, resource_type):
-        """
-        Plots a world map with a log-scale color gradient representing SD:average ratio by country.
-
-        Parameters:
-        -----------
-        resource_type : str
-            Type of resource (e.g., 'Water', 'Carbon Dioxide', 'Natural Gas', 'Electricity').
-
-        Returns:
-        --------
-        None
-        """
-        # Make data frame containing data from resource availability spreadsheet for the desired resource type
-        resource_df = self.read_resource_excel(f"{top_dir}/data/NationalResourceAvailabilityData.xlsx", resource_type)
-        # smaller data frame only containing the country names and the SD:ratio
-        resource_ratio_df = resource_df.iloc[:, [2]]
-        
-        # Load world map
-        url = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
-        world = gpd.read_file(url)
-
-        # Merge world map with resource data
-        merged = world.merge(resource_ratio_df, left_on="NAME", right_index=True, how="left")
-
-        # Plot
-        fig, ax = plt.subplots(figsize=(12, 8))
-
-        # Filter out NaN and zero values
-        valid_values = merged["Ratio of SD:Average"].replace(0, np.nan).dropna().values
-
-        # Compute vmin and vmax while ignoring NaNs and zeros
-        vmin = np.nanmin(valid_values)  # Ignores NaNs and zeros
-        vmax = np.nanmax(valid_values)  # Ignores NaNs and zeros
-        
-        merged.plot(column= "Ratio of SD:Average", cmap="coolwarm", linewidth=0.8, ax=ax, edgecolor="black", legend=True, norm=LogNorm(vmin=vmin, vmax=vmax))
-        ax.set_title(f"{resource_type} Standard Deviation to Average Availability Ratio by Country", fontsize=16)
-        ax.set_axis_off()
-
-        if resource_type == "Natural Gas":
-            resource_type_short = "NG"
-        elif resource_type == "Carbon Dioxide":
-            resource_type_short = "CO2"
-        else:
-            resource_type_short = resource_type
-
-        filepath_save = f"{top_dir}/plots/availability_maps/{resource_type_short}-SDAvailabilityMap.png"
-        print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200)
-        
-        
-    # GE - 3/23/25 - Function to get continent based on country using fuzzy matching
-    def get_continent(self, country_name, country_list):
-        """
-        Returns name of continent a given country is part of.
-
-        Parameters:
-        -----------
-        country_name : str
-            Country name as it appears in the data source.
-            
-        country_list : list of str
-            Country name as it appears in the reference, intended to be pycountry.
-
-        Returns:
-        --------
-        continent_name : str
-            Name of continent the country is part of, according to pycountry.
-        """
-        try:
-            # Find the best match for the country name
-            best_match = process.extractOne(country_name, country_list)
-            
-            if best_match:
-                matched_country = best_match[0]
-                country_alpha2 = pc.country_name_to_country_alpha2(matched_country)
-                continent_code = pc.country_alpha2_to_continent_code(country_alpha2)
-                continent_name = pc.convert_continent_code_to_continent_name(continent_code)
-                return continent_name
-            else:
-                return None
-        except KeyError:
-            return None
-
-    # GE - 3/23/25 - stacked plot to compare continential resource availability to global demand
-    def add_continent_column(self, resource_type):
-        """
-        Adds column to dataframe containing the continent in which each country is found.
-        
-        Parameters:
-        -----------
-        resource_type : str
-            Type of resource (e.g., 'Water', 'Carbon Dioxide', 'Natural Gas', 'Electricity').
-
-        Returns:
-        --------
-        resource_average_df : dataframe
-            Dataframe with column added for continent.
-        """
-        # List of country names recognized by pycountry
-        country_list = [country.name for country in pycountry.countries]
-        
-        # dataframe from NationalResourceAvailabilityData excel sheet.
-        resource_df = self.read_resource_excel(f"{top_dir}/data/NationalResourceAvailabilityData.xlsx", resource_type)
-    
-        # smaller data frame only containing the country names and the average resource availabilities and standard deviation of each country's data
-        resource_avg_df = resource_df.iloc[:, [0,1]]
-        
-        # Apply the get_continent function to create a new 'Continent' column in the dataframe
-        resource_avg_df['Continent'] = resource_avg_df.index.to_series().apply(lambda x: self.get_continent(str(x), country_list) if isinstance(x, str) else None)
-        
-        # Remove NaN values from the DataFrame (filter out countries with NaN availability)
-        resource_avg_df = resource_avg_df.dropna(subset=['Continent'])
-        
-        return resource_avg_df
-    
-    
-    # GE - 3/23/25 - stacked plot to compare continential resource availability to global demand
-    def make_stacked_plot_avail_vs_demand(self, resource_type, fuel, pathway_type):
-        """
-        Makes stacked plot to compare global resource availability (sum of continent-level data) to global demand (averaged over all pathways within a pathway type).
-        
-        Parameters:
-        -----------
-        resource_type : str
-            The resource type being compared (e.g., "Natural Gas", "CO2").
-        fuel : str
-            The fuel type being produced (e.g., "FT_diesel", "methanol").
-        pathway_type : str
-            The production pathway type (e.g., "blue", "grey", "bio_H").
-
-        Returns:
-        --------
-        None
-        """
-        resource_avg_cont_df = self.add_continent_column(resource_type)
-        
-        # Aggregate availability per continent
-        continent_avail_df = resource_avg_cont_df.groupby("Continent")["Average"].sum()
-        
-        # Compute global standard deviation
-        global_stdev = np.sqrt(np.sum(resource_avg_cont_df["Standard Deviation"] ** 2))
-        
-        # Set color palette (one color per continent)
-        colors = sns.color_palette("husl", len(continent_avail_df))  # Husl gives distinct colors
-        
-        if resource_type == "Natural Gas":
-            resource_type_short = "NG"
-        elif resource_type == "Carbon Dioxide":
-            resource_type_short = "CO2"
-        else:
-            resource_type_short = resource_type
-            
-        # Load pathway info to sort into pathways (blue, grey, etc.)
-        pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
-        
-        # Filter for matching pathway type and fuel
-        matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]["Pathway Name"].tolist()
-        if "fossil" in matching_pathways:
-            matching_pathways.remove("fossil")
-        
-        # Get demand data from existing csv for the given pathway type and resource
-        global_demands = []
-        
-        for matching_pathway in matching_pathways:
-            if "BG" in matching_pathway or "ATR" in matching_pathway or "nuke" in matching_pathway:
-                pass
-            elif fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"] and "_C_" in matching_pathway:
-                pass
-            elif fuel in ["methanol", "FTdiesel"] and not "_C_" in matching_pathway:
-                pass
-            else:
-                filepath = f"{top_dir}/processed_results/{fuel}-{matching_pathway}-Consumed{resource_type_short}_main-fleet.csv"
-                
-                # print(f"Reading: {filepath} for pathway: {matching_pathway}")
-        
-                if os.path.exists(filepath):
-                    try:
-                        result_df = pd.read_csv(filepath)
-                        demand_value = result_df.loc[result_df["Region"] == "Global Average", "fleet"].values[0]
-                        global_demands.append(demand_value)
-                    except Exception as e:
-                        print(f"Error reading {filepath}: {e}")
-                else:
-                    print(f"File not found: {filepath}")
-        
-        # remove 0 values for global demand so pathways without data don't affect plot
-        global_demands = [x for x in global_demands if x != 0]
-        
-        # Define unit conversion factors (convert demand to match availability)
-        unit_conversions = {
-            "NG": 1e-6 * 1/35.3,  # Convert from GJ to billion cubic meters
-            "CO2": 1e-9,  # Convert from kilograms to megatons
-            "Water": 1,  # Convert from cubic meters to cubic meters
-            "Electricity": 1e-9,  # Convert from kWh to TWh
-        }
-        
-        # Convert global demand to match availability units
-        conversion_factor = unit_conversions.get(resource_type_short)
-        
-        # seems to be giving only one value or several of the same value...
-        # print(global_demands)
-        
-        # compute statistics
-        if global_demands:
-            global_demands = [d * conversion_factor for d in global_demands]
-            avg_demand = np.mean(global_demands)
-            min_demand = np.min(global_demands)
-            max_demand = np.max(global_demands)
-        else:
-            return
-            
-        # Set color palette (one color per continent)
-        colors = sns.color_palette("tab10", len(continent_avail_df))  # Husl gives distinct colors
-        
-        # Create stacked bar plot
-        fig, ax1 = plt.subplots(figsize=(8, 6))
-
-        # Plot availability (stacked by continent)
-        bottom = 0
-        for continent, value in continent_avail_df.items():
-            ax1.bar("Availability", value, bottom=bottom, label=continent, color=colors.pop(0))
-            bottom += value
-        
-        
-        # Set the y-axis limits based on availability if order of magnitude or more different
-        max_availability = continent_avail_df.sum()
-        
-        if avg_demand != 0 and max_availability > 10 * avg_demand:
-            # Create secondary y-axis for demand
-            ax2 = ax1.twinx()
-            ax2.bar("Demand", avg_demand, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
-        
-            # Scale demand axis for visibility vs. availability
-            ax1.set_ylim(0, max_availability * 1.1)
-            ax2.set_ylim(0, avg_demand * 3)
-            
-            # error bar for demand showing max and min values
-            lower_error = max(avg_demand - min_demand, 0)
-            upper_error = max(max_demand - avg_demand, 0)
-
-            asymmetric_error = [[lower_error], [upper_error]]
-            ax2.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='o', color='black', capsize=5, markersize=2)
-            
-            # Merge legends from both axes
-            handles1, labels1 = ax1.get_legend_handles_labels()
-            handles2, labels2 = ax2.get_legend_handles_labels()
-            ax1.legend(handles1 + handles2, labels1 + labels2, title="Legend", loc="center left", bbox_to_anchor=(1.3, 0.75))
-        else:
-            # Create bar for demand
-            ax1.bar("Demand", avg_demand, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
-            
-            # error bar for demand showing max and min values
-            lower_error = max(avg_demand - min_demand, 0)
-            upper_error = max(max_demand - avg_demand, 0)
-
-            asymmetric_error = [[lower_error], [upper_error]]
-            ax1.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='o', color='black', capsize=5, markersize=2)
-            
-            # Legend
-            handles1, labels1 = ax1.get_legend_handles_labels()
-            ax1.legend(handles1, labels1, title="Legend", loc="center left", bbox_to_anchor=(1.3, 0.75))
-            
-        
-        # Adjust layout to prevent overlap
-        plt.subplots_adjust(right=0.6)  # Moves plot left to create space for the legend
-        plt.subplots_adjust(left=0.2)  # Increase left margin space
-        
-        # add error bars based on standard deviation data
-        ax1.errorbar(x=["Availability"], y=[max_availability], yerr=[global_stdev], fmt='o', color='black', capsize=5, markersize=2)
-        
-        # get y axis units
-        # Define unit labels for each resource type
-        unit_labels = {
-            "NG": "Billion Cubic Meters",
-            "CO2": "Megatons",
-            "Water": "Cubic Meters",
-            "Electricity": "TWh"
-        }
-        y_axis_label = unit_labels.get(resource_type_short)
-        
-
-        # Labels for left-hand axis and title
-        plt.title(f"Global {resource_type} Availability vs. Demand")
-        ax1.set_ylabel(f"{y_axis_label}")
-        ax1.tick_params(axis='y', labelsize=9)  # Adjust label font size
-        if 'ax2' in locals():  # If a second axis (demand) exists
-            ax2.set_ylabel(f"{y_axis_label}")
-            ax2.tick_params(axis='y', labelsize=9)  # Adjust label font size
-            
-        
-        # change y-axis to scientific notation
-        ax1.yaxis.set_major_formatter(ScalarFormatter(useMathText=True))
-        ax1.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
-        if 'ax2' in locals():
-            ax2.yaxis.set_major_formatter(ScalarFormatter(useMathText=True))
-            ax2.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
-
-
-        # Save plots
-        filepath_save = f"{top_dir}/plots/{fuel}/{fuel}-{pathway_type}-{resource_type_short}-StackedAvailDemand.png"
-        print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200)
-        
         
     
 
@@ -2447,14 +2458,14 @@ def plot_cargo_miles():
 def main():
 
 # ------- Sample execution of class methods for testing and development -------#
-    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "LTE_H_grid_E")
-    processed_quantity.map_by_region()
-
-    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "LTE_H_grid_E")
-    processed_quantity.map_by_region()
-    
-    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
-    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "LTE_H_grid_E")
+#    processed_quantity.map_by_region()
+#
+#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "LTE_H_grid_E")
+#    processed_quantity.map_by_region()
+#
+#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
+#    processed_quantity.map_by_region()
     
 #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "ATRCCS_H_grid_E")
 #    processed_quantity.map_by_region()
@@ -2506,7 +2517,7 @@ def main():
 #    processed_fuel_GE_test = ProcessedFuel("ammonia")
 #    processed_fuel_GE_test.make_all_resource_demands_hists()
     
-    processed_fuel = ProcessedFuel("FTdiesel")
+#    processed_fuel = ProcessedFuel("FTdiesel")
 #    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", [])
 
 #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
@@ -2515,7 +2526,7 @@ def main():
 #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
-    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
+#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", [])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", [])
 #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
@@ -2586,26 +2597,27 @@ def main():
 #                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
 
 # GE - 3/20/2025 - testing out resource mapping functions and stacked plot of availability vs. demand functions
-#    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
-#        processed_quantity.plot_resource_availability_map(resource)
-#        processed_quantity.plot_SD_ratio_map(resource)
+    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
+        processed_resource = ProcessedResource(resource)
+        processed_resource.plot_resource_availability_map(resource)
+        processed_resource.plot_SD_ratio_map(resource)
 
-    # Load pathway info
-    pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
-
-    # Get unique fuels and pathway types from the CSV
-    fuels = ["methanol", "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
-    resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
-    pathway_types = pathway_info_df["Pathway Type"].unique()
-
-    # Loop over all combinations
-    for fuel in fuels:
-        for resource in resource_types:
-            for pathway_type in pathway_types:
-                # Check if this fuel-pathway type combination exists in the dataset
-                matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]
-                if not matching_pathways.empty:
-                    processed_quantity.make_stacked_plot_avail_vs_demand(resource, fuel, pathway_type)
+#    # Load pathway info
+#    pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
+#
+#    # Get unique fuels and pathway types from the CSV
+#    fuels = ["methanol", "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
+#    resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
+#    pathway_types = pathway_info_df["Pathway Type"].unique()
+#
+#    # Loop over all combinations
+#    for fuel in fuels:
+#        for resource in resource_types:
+#            for pathway_type in pathway_types:
+#                # Check if this fuel-pathway type combination exists in the dataset
+#                matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]
+#                if not matching_pathways.empty:
+#                    processed_quantity.make_stacked_plot_avail_vs_demand(resource, fuel, pathway_type)
 #
 #                    processed_quantity.make_stacked_plot_avail_vs_demand(resource, fuel, pathway)
     
