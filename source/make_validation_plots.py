@@ -473,7 +473,7 @@ class ProcessedResource:
         DataFrame containing only the first four columns of the excel sheet.
         """
         return pd.read_excel(file_path, sheet_name = resource_name, usecols=["Country", "Average", "Standard Deviation", "Ratio of SD:Average"], index_col="Country")
-    
+        
     # GE - 3/19/2025 - plot relative resource availability by country on a map
     def plot_resource_availability_map(self, resource_type):
         """
@@ -533,7 +533,7 @@ class ProcessedResource:
             resource_type_short = "CO2"
         else:
             resource_type_short = resource_type
-
+        
         create_directory_if_not_exists(f"{top_dir}/plots/availability_maps")     # DME: Create the availability-maps directory if it doesn't exist
         filepath_save = f"{top_dir}/plots/availability_maps/{resource_type_short}-AvailabilityMap.png"
         print(f"Saving figure to {filepath_save}")
@@ -587,6 +587,7 @@ class ProcessedResource:
         else:
             resource_type_short = resource_type
 
+        create_directory_if_not_exists(f"{top_dir}/plots/availability_maps")     # DME: Create the availability-maps directory if it doesn't exist
         filepath_save = f"{top_dir}/plots/availability_maps/{resource_type_short}-SDAvailabilityMap.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
@@ -657,7 +658,7 @@ class ProcessedResource:
         
         return resource_avg_df
     
-    
+        
     # GE - 3/23/25 - stacked plot to compare continential resource availability to global demand
     def make_stacked_plot_avail_vs_demand(self, resource_type, fuel, pathway_type):
         """
@@ -706,7 +707,8 @@ class ProcessedResource:
         global_demands = []
         
         for matching_pathway in matching_pathways:
-            if "BG" in matching_pathway or "ATR" in matching_pathway or "nuke" in matching_pathway:
+            #if "BG" in matching_pathway or "ATR" in matching_pathway or "nuke" in matching_pathway:
+            if "nuke" in matching_pathway:
                 pass
             elif fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"] and "_C_" in matching_pathway:
                 pass
@@ -783,9 +785,8 @@ class ProcessedResource:
             upper_error = max(max_demand - avg_demand, 0)
 
             asymmetric_error = [[lower_error], [upper_error]]
-            ax2.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='-', color='black', capsize=5, markersize=2)
-            ax2.scatter(x=["Demand"]*len(global_demands), y=global_demands, s=10, color='black')
-            
+            ax2.scatter(x=["Demand"]*len(global_demands), y=global_demands, s=10, color='black')  # DME: Updating from error bar to scatter
+
             # Merge legends from both axes
             handles1, labels1 = ax1.get_legend_handles_labels()
             handles2, labels2 = ax2.get_legend_handles_labels()
@@ -799,7 +800,7 @@ class ProcessedResource:
             upper_error = max(max_demand - avg_demand, 0)
 
             asymmetric_error = [[lower_error], [upper_error]]
-            ax1.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='-', color='black', capsize=5, markersize=2)
+            ax1.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='o', color='black', capsize=5, markersize=2)
             
             # Legend
             handles1, labels1 = ax1.get_legend_handles_labels()
@@ -1355,7 +1356,6 @@ class ProcessedQuantity:
         print(f"Saving figure to {filepath_save_pdf}")
         plt.savefig(filepath_save_pdf)
         plt.close()
-        
     
 
 class ProcessedPathway:
@@ -2596,33 +2596,31 @@ def main():
 #                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
 
 # GE - 3/20/2025 - testing out resource mapping functions and stacked plot of availability vs. demand functions
-#    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
-#        processed_resource = ProcessedResource(resource)
-#        processed_resource.plot_resource_availability_map(resource)
-#        processed_resource.plot_SD_ratio_map(resource)
+    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
+        processed_resource = ProcessedResource(resource)
+        processed_resource.plot_resource_availability_map(resource)
+        processed_resource.plot_SD_ratio_map(resource)
 
-    # Load pathway info
-    pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
-
-    # Get unique fuels and pathway types from the CSV
-    fuels = ["methanol", "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
-    resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
-    pathway_types = pathway_info_df["Pathway Type"].unique()
-    
-    print(pathway_types)
-
-    # Loop over all combinations
-    for fuel in fuels:
-        for resource in resource_types:
-            processed_resource = ProcessedResource(resource)
-            for pathway_type in pathway_types:
-                # Check if this fuel-pathway type combination exists in the dataset
-                matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]
-
-                if not matching_pathways.empty:
-                    processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway_type)
-
-                    #processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway)
+#    # Load pathway info
+#    pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
+#
+#    # Get unique fuels and pathway types from the CSV
+#    fuels = ["methanol", "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
+#    resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
+#    pathway_types = pathway_info_df["Pathway Type"].unique()
+#
+#    # Loop over all combinations
+#    for fuel in fuels:
+#        for resource in resource_types:
+#            processed_resource = ProcessedResource(resource)
+#            for pathway_type in pathway_types:
+#                # Check if this fuel-pathway type combination exists in the dataset
+#                matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]
+#
+#                if not matching_pathways.empty:
+#                    processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway_type)
+#
+#                    #processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway)
     
 #    processed_quantity.make_stacked_plot_avail_vs_demand("Water", "compressed_hydrogen", "LTE_H_grid_E")
 #    processed_quantity.make_stacked_plot_avail_vs_demand("Electricity", "FTdiesel", "SMRCCS_H_BEC_C_grid_E")

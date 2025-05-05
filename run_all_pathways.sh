@@ -17,7 +17,7 @@ mkdir -p "${SCRIPT_DIR}/all_outputs_full_fleet"
 rm ${SCRIPT_DIR}/single_pathway_full_fleet/*/navs/*.nav
 
 # Create the input .inc files
-python ${SCRIPT_DIR}/source/make_cost_emissions_files.py
+python3 ${SCRIPT_DIR}/source/make_cost_emissions_files.py
 
 # Clear out any existing excel and log files
 rm ${SCRIPT_DIR}/all_outputs_full_fleet/*.xlsx
@@ -87,4 +87,4 @@ for pid in "${pids[@]}"; do
 done
 
 # Convert the output xlsx files to csv for faster post-processing
-python "${SCRIPT_DIR}/source/convert_excel_files_to_csv.py" --input_dir "${SCRIPT_DIR}/all_outputs_full_fleet" --output_dir "${SCRIPT_DIR}/all_outputs_full_fleet_csv"
+python3 "${SCRIPT_DIR}/source/convert_excel_files_to_csv.py" --input_dir "${SCRIPT_DIR}/all_outputs_full_fleet" --output_dir "${SCRIPT_DIR}/all_outputs_full_fleet_csv"
