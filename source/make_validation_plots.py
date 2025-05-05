@@ -841,7 +841,7 @@ class ProcessedQuantity:
         self.add_region_names()
 
         # Create a figure and axis with appropriate size
-        fig, ax = plt.subplots(1, 1, figsize=(15, 10))
+        fig, ax = plt.subplots(1, 1, figsize=(9, 6))
         
         # Merge the result_df with the world geodataframe based on the column "NAME" with region names
         merged = world.merge(self.result_df, on="NAME", how="left")
@@ -861,7 +861,7 @@ class ProcessedQuantity:
 
         # Create a horizontal colorbar with appropriate formatting
         divider = make_axes_locatable(ax)
-        cax = divider.append_axes("bottom", size="5%", pad=1)
+        cax = divider.append_axes("bottom", size="5%", pad=0.2)
         sm = plt.cm.ScalarMappable(
             cmap="coolwarm",
             norm=plt.Normalize(vmin=merged[column].min(), vmax=merged[column].max()),
@@ -881,54 +881,58 @@ class ProcessedQuantity:
         if not vessel_size == "all":
             vessel_size_label = vessel_size_title[vessel_size]
 
-        ax.text(
-            1.03,
-            0.75,
-            f"Fuel: {self.fuel_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
-        ax.text(
-            1.03,
-            0.65,
-            f"Fuel Type: {self.pathway_type_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
-        ax.text(
-            1.03,
-            0.55,
-            f"Pathway: {self.pathway_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
-        ax.text(
-            1.03,
-            0.45,
-            f"Vessel Type: {vessel_type_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
-        ax.text(
-            1.03,
-            0.35,
-            f"Vessel Size: {vessel_size_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
+#        ax.text(
+#            1.03,
+#            0.75,
+#            f"Fuel: {self.fuel_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
+#        ax.text(
+#            1.03,
+#            0.65,
+#            f"Fuel Type: {self.pathway_type_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
+#        ax.text(
+#            1.03,
+#            0.55,
+#            f"Pathway: {self.pathway_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
+#        ax.text(
+#            1.03,
+#            0.45,
+#            f"Vessel Type: {vessel_type_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
+#        ax.text(
+#            1.03,
+#            0.35,
+#            f"Vessel Size: {vessel_size_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
 
-        plt.subplots_adjust(left=0.05, right=0.67)
-        #plt.tight_layout()
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.axis("off")
+        plt.tight_layout()
 
         # Save the plot
         create_directory_if_not_exists(
@@ -1407,7 +1411,9 @@ class ProcessedFuel:
         num_pathways = len(self.pathways)
         fig_height = max(6, num_pathways * 0.9)  # Adjust height based on pathways
 
-        fig, ax = plt.subplots(figsize=(20, fig_height))
+        fig, ax = plt.subplots(figsize=(18, fig_height))
+        ax.tick_params(axis='both', which='major', labelsize=24)
+        ax.xaxis.get_offset_text().set_fontsize(24)
 
         # Sort pathways by their associated color
         sorted_pathways = sorted(
@@ -1500,7 +1506,7 @@ class ProcessedFuel:
 
             if not plot_global and i_pathway == 0:
                 scatter_handles.append(scatter)
-                scatter_labels.append("Individual Countries")
+                scatter_labels.append("Individual\nCountries")
 
             # **Add yellow band showing total stacked value**
             if cumulative_values_negative[pathway_name]:# or cumulative_values[pathway_name]:
@@ -1551,7 +1557,7 @@ class ProcessedFuel:
             
         # Set y-axis labels **after** all bars are plotted
         ax.set_yticks(y_pos_list)
-        ticks = ax.set_yticklabels(y_labels_list, fontsize=18)
+        ticks = ax.set_yticklabels(y_labels_list, fontsize=28)
         
         # Apply colors to y-axis labels
         for idx, label in enumerate(y_labels_list):
@@ -1562,17 +1568,17 @@ class ProcessedFuel:
 
         # Add labels and title
         xlabel = f"{quantity_label} ({quantity_units})" if quantity_units else quantity_label
-        ax.set_xlabel(xlabel, fontsize=20)
-        ax.set_title(f"Fuel: {fuel_label}", fontsize=24)
+        ax.set_xlabel(xlabel, fontsize=35, labelpad=25)
+        #ax.set_title(f"Fuel: {fuel_label}", fontsize=24)
 
         # Add legend for stacked bars
         if bar_handles:
             legend1 = ax.legend(
                 bar_handles,
                 bar_labels,
-                fontsize=16,
+                fontsize=30,
                 title="Components",
-                title_fontsize=20,
+                title_fontsize=34,
                 bbox_to_anchor=(1.01, 0.8),
                 loc="upper left",
                 borderaxespad=0.0,
@@ -1583,14 +1589,18 @@ class ProcessedFuel:
             ax.legend(
                 scatter_handles,
                 scatter_labels,
-                fontsize=16,
+                fontsize=34,
                 bbox_to_anchor=(1.01, 0.35),
                 loc="center left",
                 borderaxespad=0.0,
             )
             ax.add_artist(legend1)
 
-        plt.subplots_adjust(left=0.3, right=0.8)
+        ax.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
+        fig_height_in = fig.get_size_inches()[1]  # Get actual height in inches
+        bottom_margin_fraction = 1.4 / fig_height_in  # 1 inch bottom margin
+        top_margin_fraction = 1 - 0.5 / fig_height_in  # 1 inch bottom margin
+        plt.subplots_adjust(left=0.33, right=0.77, bottom=bottom_margin_fraction, top=top_margin_fraction)
 
         # Construct filename and save figure
         filename_save = f"{self.fuel}-{quantity}-{modifier}-pathway_hist"
@@ -1841,6 +1851,8 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     None
     """
     fig, ax = plt.subplots(figsize=plot_size)
+    ax.tick_params(axis='both', which='major', labelsize=22)
+    ax.xaxis.get_offset_text().set_fontsize(22)
     
     y_position = 0
     y_tick_positions = []  # Left-side labels
@@ -1918,12 +1930,20 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     # Set y-ticks for fuel labels
     ax.set_yticks(y_tick_positions)
     ax.set_yticklabels(y_tick_labels)
+    
+    for label in ax.get_yticklabels():
+        label.set_fontsize(24)
+        label.set_fontweight("bold")
 
     # Right-side pathway labels
     ax_right = ax.twinx()
     ax_right.set_yticks(y_tick_positions_right)
     ax_right.set_yticklabels(y_tick_labels_right)
     ax_right.set_ylim(ax.get_ylim())
+    
+    for label in ax_right.get_yticklabels():
+        label.set_fontsize(22)
+        label.set_fontweight("bold")
 
     # Color the right-side labels
     for tick_label, color in zip(ax_right.get_yticklabels(), y_tick_colors_right):
@@ -1933,9 +1953,11 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     quantity_label = get_quantity_label(quantity)
     units = get_units(quantity, modifier)
     xlabel = f"{quantity_label} ({units})" if units else quantity_label
-    ax.set_xlabel(xlabel, fontsize=22)
+    ax.set_xlabel(xlabel, fontsize=26, labelpad=30)
+    ax.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
 
-    plt.subplots_adjust(left=0.2, right=0.75)
+
+    plt.subplots_adjust(left=0.2, right=0.73)
     plt.tight_layout()
 
     # Save
@@ -2055,6 +2077,16 @@ def main():
 #
 #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "ATRCCS_H_grid_E")
 #    processed_quantity.map_by_region()
+    
+#    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "LTE_H_grid_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "LTE_H_grid_E")
+#    processed_quantity.map_by_region()
+#
+#    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "ATRCCS_H_grid_E")
+#    processed_quantity.map_by_region()
+#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "ATRCCS_H_grid_E")
+#    processed_quantity.map_by_region()
 #
 #    processed_quantity.make_hist_by_region("bulk_carrier_ice")
 #    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "lng", "fossil")
@@ -2103,7 +2135,7 @@ def main():
     #processed_fuel_GE_test = ProcessedFuel("ammonia")
     #processed_fuel_GE_test.make_all_resource_demands_hists()
     
-    processed_fuel = ProcessedFuel("FTdiesel")
+#    processed_fuel = ProcessedFuel("FTdiesel")
 #    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", [])
 
 #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
@@ -2112,7 +2144,7 @@ def main():
 #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
-    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
+#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", [])
 #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", [])
 #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
@@ -2140,8 +2172,8 @@ def main():
     
 #    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
 #    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
-#    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
-#    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
+    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
+    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
 #    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
 #    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
 #    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")

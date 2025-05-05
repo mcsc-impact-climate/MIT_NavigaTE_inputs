@@ -1,7 +1,7 @@
 Fuel,Label,Lower Heating Value (MJ / kg),LHV source,Mass density (kg/L),Mass density source,Boil-off Rate (%/day),Boil-off Rate source,Description
 ammonia,Ammonia,18.8,GREET1_2024,0.6028,GREET1_2024,0.03,"https://www.sciencedirect.com/science/article/abs/pii/S0360319920315858, https://www.proquest.com/docview/1323774328?%20Theses&fromopenview=true&pq-origsite=gscholar&sourcetype=Dissertations%20&parentSessionId=Lc4rClj9PHa5ZZLAj2lxA1Y9AtHNfuWdOYWUNvaVRU8%3D",
 methanol,Methanol,20.1,GREET1_2024,0.794,GREET1_2024,0,"https://www.sciencedirect.com/science/article/abs/pii/S0360319920315858 indicates 0.005, will need to confirm.",
-FTdiesel,F-T Diesel,43.2,GREET1_2024,0.797,GREET1_2024,0,,Fischer-Tropsch diesel
+FTdiesel,FT Diesel,43.2,GREET1_2024,0.797,GREET1_2024,0,,Fischer-Tropsch diesel
 lsfo,LSFO,39.5,GREET1_2024,0.991,GREET1_2024,0,,Low-sulfur fuel oil
 low_sulfur_fuel_oil,LSFO,39.5,GREET1_2024,0.991,GREET1_2024,,,
 compressed_hydrogen,Compressed Hydrogen,120.0,GREET1_2024,0.03873,https://cmb.tech/hydrogen-tools,0,,Hydrogen compressed to 700 bar (assume at 20C)

@@ -1,17 +1,17 @@
 Quantity,Long Name,Units,Description
-TotalEquivalentWTT,WTG Emissions,tonnes CO2,
-TotalEquivalentTTW,TTW Emissions,tonnes CO2,
-TotalEquivalentWTW,WTW Emissions,tonnes CO2,
-TotalCAPEX,Total CAPEX,USD,"For purchase of base vessel, powertrain, tanks, auxiliary equipment, etc, amortized over the vessel lifetime"
-TotalFuelOPEX,Total Fuel OPEX,USD,
-TotalExcludingFuelOPEX,Total Non-fuel OPEX,USD,
+TotalEquivalentWTT,WTG,tonnes CO2,
+TotalEquivalentTTW,TTW,tonnes CO2,
+TotalEquivalentWTW,WTW Emissions,tonnes CO$_2$,
+TotalCAPEX,CapEx,USD,"For purchase of base vessel, powertrain, tanks, auxiliary equipment, etc, amortized over the vessel lifetime"
+TotalFuelOPEX,Fuel OpEx,USD,
+TotalExcludingFuelOPEX,Other OpEx,USD,
 TotalCost,Total Cost,USD,"Sum of CAPEX, fuel and other OPEX"
 Miles,Annual Nautical Miles,nm,
 CargoMiles,Cargo-miles Carried,tonne-nm,Assume 14 tonnes / TEU for containerships and 3.49 lb / gal for gas carriers
 ConsumedEnergy_lsfo,LSFO Energy Consumed ,GJ,Low sulfur fuel oil (main fuel for LSFO vessel and pilot fuel for other vessels)
 ConsumedEnergy_main,Main Fuel Energy Consumed,GJ,
 CostTimesEmissions,Cost $\times$ Emissions,USD-tonnes CO2,Product of TotalCost times TotalEquivalentWTW
-AverageCostEmissionsRatio,Average Cost and Emissions Ratio,,(1/2) x (TotalCost for alt fuel / TotalCost for LSFO + TotalEquivalentWTW for alt fuel / TotalEquivalentWTW for LSFO)
+AverageCostEmissionsRatio,R$_\text{av}$,,(1/2) x (TotalCost for alt fuel / TotalCost for LSFO + TotalEquivalentWTW for alt fuel / TotalEquivalentWTW for LSFO)
 HalfWTWRatio,Half of Emissions Ratio,,(1/2) x (TotalEquivalentWTW for alt fuel / TotalEquivalentWTW for LSFO)
 HalfCostRatio,Half of Cost Ratio,,(1/2) x (TotalCost for alt fuel / TotalCost for LSFO)
 CAC,Cost of Abated Carbon,USD/tonne CO2,Ratio in change of overall cost relative to LSFO divided by reduction in overall emissions relative to LSFO

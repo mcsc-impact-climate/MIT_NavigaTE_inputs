@@ -14,8 +14,8 @@ from collections import defaultdict
 
 H2_PER_NH3 = 3.02352/17.03022  # kg H2 required to produce 1 kg of NH3
 
-matplotlib.rc("xtick", labelsize=18)
-matplotlib.rc("ytick", labelsize=18)
+matplotlib.rc("xtick", labelsize=28)
+matplotlib.rc("ytick", labelsize=28)
 
 # Python dictionary containing paths to files to read in for production and processing data for each fuel
 # Note: File paths are provided relative to the top level of the git repo
@@ -25,7 +25,7 @@ WTG_input_files = {
             "H Production": "input_fuel_pathway_data/production/hydrogen_costs_emissions.csv",
         },
         "Process": {
-            "H-NH3 Conversion": "input_fuel_pathway_data/process/hydrogen_to_ammonia_conversion_costs_emissions.csv",
+            "NH$_3$ Synthesis": "input_fuel_pathway_data/process/hydrogen_to_ammonia_conversion_costs_emissions.csv",
         },
     },
     "compressed_hydrogen": {
@@ -70,7 +70,7 @@ stage_colors = {
     "H Production": "gold",
     "F-T Diesel Production": "gold",
     "MeOH Production": "gold",
-    "H-NH3 Conversion": "turquoise",
+    "NH$_3$ Synthesis": "turquoise",
     "H Compression": "orangered",
     "H Liquefaction": "orchid",
     "NG Production": "gold",
@@ -505,7 +505,7 @@ class FuelWTG:
 
             if i_pathway == 0:
                 scatter_handles.append(scatter)
-                scatter_labels.append("Individual Countries")
+                scatter_labels.append("Individual\nCountries")
 
         # Loop through each sorted pathway and assign colors to labels
         i_pathway = 0
@@ -517,7 +517,7 @@ class FuelWTG:
 
         # Set y-axis labels **after all bars have been plotted**
         ax.set_yticks(y_positions)
-        ax.set_yticklabels([get_pathway_label(p) for p in sorted_pathways], fontsize=18)
+        ax.set_yticklabels([get_pathway_label(p) for p in sorted_pathways], fontsize=28)
 
         # Apply colors to y-axis labels
         y_labels = ax.get_yticklabels()
@@ -528,17 +528,17 @@ class FuelWTG:
 
         quantity_label = "WTG Cost" if quantity == "cost" else "WTG Emissions"
         quantity_units = "USD/tonne" if quantity == "cost" else "kg CO2e / kg fuel"
-        ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=24)
-        ax.set_title(f"Fuel: {self.fuel_label}", fontsize=28)
+        ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=34, labelpad=15)
+        #ax.set_title(f"Fuel: {self.fuel_label}", fontsize=28)
 
         if bar_handles:
             legend1 = ax.legend(
                 bar_handles,
                 bar_labels,
-                fontsize=20,
+                fontsize=30,
                 title="Components",
-                title_fontsize=22,
-                bbox_to_anchor=(1.01, 0.8),
+                title_fontsize=34,
+                bbox_to_anchor=(1.01, 0.75),
                 loc="upper left",
                 borderaxespad=0.0,
             )
@@ -549,10 +549,9 @@ class FuelWTG:
             legend2 = ax.legend(
                 scatter_handles,
                 scatter_labels,
-                fontsize=20,
-                title="Individual Countries",
-                title_fontsize=22,
-                bbox_to_anchor=(1.01, 0.5),
+                fontsize=34,
+                #title="Individual Countries",
+                bbox_to_anchor=(1.01, 0.25),
                 loc="center left",
                 borderaxespad=0.0,
             )
@@ -565,10 +564,10 @@ class FuelWTG:
 
             legend3 = ax.legend(
                 handles=[op_ex_patch, cap_ex_patch],
-                fontsize=20,
+                fontsize=30,
                 title="Cost Types",
-                title_fontsize=22,
-                bbox_to_anchor=(1.01, 0.25),
+                title_fontsize=34,
+                bbox_to_anchor=(1.01, 0.445),
                 loc="center left",
                 borderaxespad=0.0,
             )
@@ -576,7 +575,7 @@ class FuelWTG:
 
         ax.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
         plt.tight_layout()
-        plt.subplots_adjust(left=0.27, right=0.8)
+        plt.subplots_adjust(left=0.2, right=0.76)
 
         filename_save = f"{self.fuel}-{quantity}-WTG_hist"
         top_dir = get_top_dir()
@@ -845,9 +844,9 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
             scatter_handles,
             scatter_labels,
             fontsize=16,
-            title="Individual Countries",
+            #title="Individual Countries",
             title_fontsize=20,
-            bbox_to_anchor=(1.5, 0.5),
+            bbox_to_anchor=(1.5, 0.45),
             loc="center left",
             borderaxespad=0.0,
         )
@@ -890,7 +889,7 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
     plt.close()
 
 def main():
-    for fuel in ["ammonia", "methanol", "FTdiesel", "lng"]:
+    for fuel in ["ammonia"]:#, "methanol", "FTdiesel", "lng"]:
         fuel_wtt = FuelWTG(fuel)
         fuel_wtt.make_stacked_hist("emissions")
         fuel_wtt.make_stacked_hist("cost")
