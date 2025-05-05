@@ -783,7 +783,8 @@ class ProcessedResource:
             upper_error = max(max_demand - avg_demand, 0)
 
             asymmetric_error = [[lower_error], [upper_error]]
-            ax2.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='o', color='black', capsize=5, markersize=2)
+            ax2.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='-', color='black', capsize=5, markersize=2)
+            ax2.scatter(x=["Demand"]*len(global_demands), y=global_demands, s=10, color='black')
             
             # Merge legends from both axes
             handles1, labels1 = ax1.get_legend_handles_labels()
@@ -798,7 +799,7 @@ class ProcessedResource:
             upper_error = max(max_demand - avg_demand, 0)
 
             asymmetric_error = [[lower_error], [upper_error]]
-            ax1.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='o', color='black', capsize=5, markersize=2)
+            ax1.errorbar(x=["Demand"], y=[avg_demand], yerr=[[lower_error], [upper_error]], fmt='-', color='black', capsize=5, markersize=2)
             
             # Legend
             handles1, labels1 = ax1.get_legend_handles_labels()
@@ -1409,7 +1410,6 @@ class ProcessedPathway:
 
     def __init__(self, fuel, pathway, results_dir=RESULTS_DIR):
         self.fuel = fuel
-        #print(pathway)
         self.pathway_type = get_pathway_type(pathway)
         self.pathway = pathway
         self.results_dir = results_dir
@@ -1684,17 +1684,12 @@ class ProcessedFuel:
     ----------
     pathway_names : list of str
         List of pathways with processed data available for the given fuel
-
-    ProcessedPathways : dict of ProcessedPathway objects
-        Dictionary containing a ProcessedPathway class object for each pathway
     """
 
     def __init__(self, fuel, results_dir=RESULTS_DIR):
         self.fuel = fuel
         self.results_dir = results_dir
         self.pathways = self.get_pathways()
-        self.ProcessedPathways = self.get_processed_pathways()
-        self.type_pathway_dict = self.organize_pathways_by_type()
 
     def get_pathways(self):
         """
@@ -1773,8 +1768,9 @@ class ProcessedFuel:
             Dictionary containing a list of pathways corresponding to each type
         """
         all_countries = []
-        for pathway in self.ProcessedPathways:
-            processed_quantities = self.ProcessedPathways[pathway].ProcessedQuantities
+        ProcessedPathways = self.get_processed_pathways()       # DME: Switching to in-place call to get_processed_pathways()
+        for pathway in ProcessedPathways:
+            processed_quantities = ProcessedPathways[pathway].ProcessedQuantities
             sample_quantity = list(processed_quantities.keys())[0]
             sample_modifier = list(processed_quantities[sample_quantity].keys())[0]
 
@@ -1872,6 +1868,8 @@ class ProcessedFuel:
 
             region_average_results = pathway.get_region_average_results(sub_quantities, modifier)
             all_region_results, _ = pathway.get_all_region_results(quantity, modifier)
+            
+            ProcessedPathways = self.get_processed_pathways() # DME: Switching to in-place call to get_processed_pathways()
 
             for i, sub_quantity in enumerate(sub_quantities):
                 value = region_average_results.get(sub_quantity, 0)
@@ -1941,7 +1939,7 @@ class ProcessedFuel:
         # Loop through pathways and sort by color
         i_pathway = 0
         for i_pathway, (pathway_name, y_pos) in enumerate(zip(sorted_pathways, y_positions)):
-            pathway = self.ProcessedPathways[pathway_name]
+            pathway = ProcessedPathways[pathway_name]
             pathway_label = get_pathway_label(pathway_name)
             make_bar(pathway, pathway_name, pathway_label, y_pos)
             y_labels_list.append(pathway_label)
@@ -2048,7 +2046,8 @@ class ProcessedFuel:
         """
 
         # Handle the situation where the user wants to plot all quantities and/or all modifiers
-        sample_processed_pathway = self.ProcessedPathways[self.pathways[0]]
+        ProcessedPathways = self.get_processed_pathways()   # DME: Switching to in-line call to get_processed_pathways()
+        sample_processed_pathway = ProcessedPathways[self.pathways[0]]
         all_avalable_quantities = sample_processed_pathway.quantities
 
         if quantities == "all":
@@ -2098,7 +2097,8 @@ class ProcessedFuel:
         None
         """
         # Handle the situation where the user wants to plot all quantities
-        sample_processed_pathway = self.ProcessedPathways[self.pathways[0]]
+        ProcessedPathways = self.get_processed_pathways()   # DME: Switching to in-line call to get_processed_pathways()
+        sample_processed_pathway = ProcessedPathways[self.pathways[0]]
         all_available_quantities = ["ConsumedCO2_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedWater_main"]
 
         if quantities == "all":
@@ -2135,8 +2135,9 @@ class ProcessedFuel:
         None
         """
 
-        for pathway in self.ProcessedPathways:
-            processed_pathway = self.ProcessedPathways[pathway]
+        ProcessedPathways = self.get_processed_pathways()   # DME: Switching to in-line call to get_processed_pathways()
+        for pathway in ProcessedPathways:
+            processed_pathway = ProcessedPathways[pathway]
             # Dynamically get the method from the instance and call it
             method_to_call = getattr(processed_pathway, method_name)
             method_to_call(*args, **kwargs)
@@ -2219,7 +2220,7 @@ def structure_results_fuels_types(
     for fuel in fuels:
         results_fuels_types[fuel] = {}
         processed_fuel = ProcessedFuel(fuel)
-        type_pathway_dict = processed_fuel.type_pathway_dict
+        type_pathway_dict = processed_fuel.organize_pathways_by_type()      # DME: Switching to inline call to organize_pathways_by_type()
         for pathway_type in type_pathway_dict:
             results_fuels_types[fuel][pathway_type] = []
             for pathway in type_pathway_dict[pathway_type]:
@@ -2359,8 +2360,6 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     plt.savefig(f"{filepath_base}.png", dpi=200)
     plt.savefig(f"{filepath_base}.pdf")
     plt.close()
-
-    
     
 def collect_cargo_mile_results(fuels=None):
     """
@@ -2597,31 +2596,34 @@ def main():
 #                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
 
 # GE - 3/20/2025 - testing out resource mapping functions and stacked plot of availability vs. demand functions
-    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
-        processed_resource = ProcessedResource(resource)
-        processed_resource.plot_resource_availability_map(resource)
-        processed_resource.plot_SD_ratio_map(resource)
+#    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
+#        processed_resource = ProcessedResource(resource)
+#        processed_resource.plot_resource_availability_map(resource)
+#        processed_resource.plot_SD_ratio_map(resource)
 
-#    # Load pathway info
-#    pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
-#
-#    # Get unique fuels and pathway types from the CSV
-#    fuels = ["methanol", "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
-#    resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
-#    pathway_types = pathway_info_df["Pathway Type"].unique()
-#
-#    # Loop over all combinations
-#    for fuel in fuels:
-#        for resource in resource_types:
-#            for pathway_type in pathway_types:
-#                # Check if this fuel-pathway type combination exists in the dataset
-#                matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]
-#                if not matching_pathways.empty:
-#                    processed_quantity.make_stacked_plot_avail_vs_demand(resource, fuel, pathway_type)
-#
-#                    processed_quantity.make_stacked_plot_avail_vs_demand(resource, fuel, pathway)
+    # Load pathway info
+    pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
+
+    # Get unique fuels and pathway types from the CSV
+    fuels = ["methanol", "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
+    resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
+    pathway_types = pathway_info_df["Pathway Type"].unique()
     
-        
+    print(pathway_types)
+
+    # Loop over all combinations
+    for fuel in fuels:
+        for resource in resource_types:
+            processed_resource = ProcessedResource(resource)
+            for pathway_type in pathway_types:
+                # Check if this fuel-pathway type combination exists in the dataset
+                matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]
+
+                if not matching_pathways.empty:
+                    processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway_type)
+
+                    #processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway)
+    
 #    processed_quantity.make_stacked_plot_avail_vs_demand("Water", "compressed_hydrogen", "LTE_H_grid_E")
 #    processed_quantity.make_stacked_plot_avail_vs_demand("Electricity", "FTdiesel", "SMRCCS_H_BEC_C_grid_E")
 
