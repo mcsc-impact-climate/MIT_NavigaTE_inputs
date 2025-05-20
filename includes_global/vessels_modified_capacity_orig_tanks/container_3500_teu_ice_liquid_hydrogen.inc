@@ -11,7 +11,7 @@ Vessel "container_3500_teu_ice_liquid_hydrogen" {
     
     Route=Route("globalized_container_3500_teu")
     
-    NominalCapacity = 2591.6366545695755
+    NominalCapacity = 2492.561219859963
 
     Lifetime=25
     Finance=Finance("vessel_finance")
@@ -113,7 +113,9 @@ Forecast "propulsion_ice_hydrogen_thermal_efficiency" {
 
 Converter "heat_boiler_oil_hydrogen_container_3500_teu" {
     PowerCapacity=1.5
-    MainFuelTypes = [DIESEL, HFO]
+    MainFuelTypes = [HYDROGEN]
+    PilotFuelTypes = [DIESEL, HFO]
+    MinimumPilotFuel = 0.05
     OutStream = [0, 0, 0, 1.0]
     PrimaryStream = HEAT
     

@@ -11,7 +11,7 @@ Vessel "bulk_carrier_panamax_ice_liquid_hydrogen" {
     
     Route=Route("globalized_bulk_carrier_panamax")
     
-    NominalCapacity = 39568.95844340046
+    NominalCapacity = 36777.19825084145
 
     Lifetime=25
     Finance=Finance("vessel_finance")
@@ -113,7 +113,9 @@ Forecast "propulsion_ice_hydrogen_thermal_efficiency" {
 
 Converter "heat_boiler_oil_hydrogen_bulk_carrier_panamax" {
     PowerCapacity=2.
-    MainFuelTypes = [DIESEL, HFO]
+    MainFuelTypes = [HYDROGEN]
+    PilotFuelTypes = [DIESEL, HFO]
+    MinimumPilotFuel = 0.05
     OutStream = [0, 0, 0, 1.0]
     PrimaryStream = HEAT
     

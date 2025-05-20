@@ -11,7 +11,7 @@ Vessel "tanker_100k_dwt_ice_liquid_hydrogen" {
     
     Route=Route("globalized_tanker_100k_dwt")
     
-    NominalCapacity = 73464.42463301281
+    NominalCapacity = 71670.26336683944
 
     Lifetime=25
     Finance=Finance("vessel_finance")
@@ -113,7 +113,9 @@ Forecast "propulsion_ice_hydrogen_thermal_efficiency" {
 
 Converter "heat_boiler_oil_hydrogen_tanker_100k_dwt" {
     PowerCapacity=6
-    MainFuelTypes = [DIESEL, HFO]
+    MainFuelTypes = [HYDROGEN]
+    PilotFuelTypes = [DIESEL, HFO]
+    MinimumPilotFuel = 0.05
     OutStream = [0, 0, 0, 1.0]
     PrimaryStream = HEAT
     

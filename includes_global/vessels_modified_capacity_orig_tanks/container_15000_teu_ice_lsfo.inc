@@ -9,20 +9,20 @@
 Vessel "container_15000_teu_ice_lsfo" {
 
 	PropulsionLoadLevel = Curve("speed_power_curve_container_15000_teu")
-	ElectricalLoadLevelAtSea=1.4
-	ElectricalLoadLevelInPort=1.3
-	HeatLoadLevelAtSea=0.15
-	HeatLoadLevelInPort=1.48
+	ElectricalLoadLevelAtSea = 1.4
+	ElectricalLoadLevelInPort = 1.3
+	HeatLoadLevelAtSea = 0.15
+	HeatLoadLevelInPort = 1.48
 	
-	PowerSystem=PowerSystem("ice_oil_container_15000_teu")
+	PowerSystem = PowerSystem("ice_oil_container_15000_teu")
 	Tanks = [Tank("main_oil_container_15000_teu")]
 	
-	Route=Route("globalized_container_15000_teu")
+	Route = Route("globalized_container_15000_teu")
 	
     NominalCapacity = 15000.0
 
-	Lifetime=25
-	Finance=Finance("vessel_finance")
+	Lifetime = 25
+	CostOfCapital = Variable("cost_of_capital_vessel")
 	CAPEX = 140e6
 	OPEX = 2.5e6
 }

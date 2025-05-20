@@ -9,20 +9,20 @@
 Vessel "container_3500_teu_ice_ammonia" {
 	
 	PropulsionLoadLevel = Curve("speed_power_curve_container_3500_teu")
-	ElectricalLoadLevelAtSea=0.9
-	ElectricalLoadLevelInPort=0.7
-	HeatLoadLevelAtSea=0.3
-	HeatLoadLevelInPort=0.74
+	ElectricalLoadLevelAtSea = 0.9
+	ElectricalLoadLevelInPort = 0.7
+	HeatLoadLevelAtSea = 0.3
+	HeatLoadLevelInPort = 0.74
 	
-	PowerSystem=PowerSystem("ice_ammonia_container_3500_teu")
+	PowerSystem = PowerSystem("ice_ammonia_container_3500_teu")
     Tanks = [Tank("main_ammonia_container_3500_teu"), Tank("pilot_oil_bulk_carrier_capesize")]
 	
-	Route=Route("globalized_container_3500_teu")
+	Route = Route("globalized_container_3500_teu")
 	
-    NominalCapacity = 3155.574392982704
+    NominalCapacity = 3153.433460024702
 
-	Lifetime=25
-	Finance=Finance("vessel_finance")
+	Lifetime = 25
+	CostOfCapital = Variable("cost_of_capital_vessel")
 	CAPEX = 40e6
 	OPEX = 1.8e6
 }

@@ -8,7 +8,7 @@
 
 Tank "main_ammonia_bulk_carrier_panamax" {
 	FuelTypes=[AMMONIA]
-    Size=11484.536080718874
+    Size=11556.54702741369
 	
 	CAPEX = 675
 	OPEX = 6.75 

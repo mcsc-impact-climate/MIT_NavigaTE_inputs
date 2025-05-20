@@ -23,7 +23,7 @@ Vessel "tanker_35k_dwt_ice_lng" {
     NominalCapacity = 30986.333029322574
 	
 	Lifetime = 30
-	Finance = Finance("vessel_finance")
+	CostOfCapital = Variable("cost_of_capital_vessel")
 	CAPEX = 30e6
 	OPEX = 2.3e6
 }
