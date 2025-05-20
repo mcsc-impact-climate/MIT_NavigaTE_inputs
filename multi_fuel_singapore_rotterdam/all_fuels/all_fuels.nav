@@ -52,5 +52,5 @@ SIMULATION NAV {
 
 SIMULATION FT {
     # time steps
-    INCLUDE "../../includes_global/time_steps_yearly.inc"
+    INCLUDE "../../includes_global/time_steps_yearly_projection.inc"
 }
