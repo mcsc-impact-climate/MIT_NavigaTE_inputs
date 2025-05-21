@@ -23,13 +23,13 @@ Vessel "bulk_carrier_handy_ice_oil" {
 Import Vessel "bulk_carrier_capesize_ice_liquid_hydrogen"
 Vessel "bulk_carrier_capesize_ice_liquid_hydrogen" {
         Route=Route("singapore_rotterdam_bulk_carrier_capesize")
-        NominalCapacity = 102190.38268173016
+        NominalCapacity = 106253.7448370028
 }
 
 Import Vessel "bulk_carrier_panamax_ice_liquid_hydrogen"
 Vessel "bulk_carrier_panamax_ice_liquid_hydrogen" {
         Route=Route("singapore_rotterdam_bulk_carrier_panamax")
-        NominalCapacity = 39568.95844340046
+        NominalCapacity = 36777.19825084145
 }
 
 Import Vessel "bulk_carrier_handy_ice_liquid_hydrogen"
@@ -42,19 +42,19 @@ Vessel "bulk_carrier_handy_ice_liquid_hydrogen" {
 Import Vessel "bulk_carrier_capesize_ice_ammonia"
 Vessel "bulk_carrier_capesize_ice_ammonia" {
         Route=Route("singapore_rotterdam_bulk_carrier_capesize")
-        NominalCapacity = 128365.56658063084
+        NominalCapacity = 128446.85672208662
 }
 
 Import Vessel "bulk_carrier_panamax_ice_ammonia"
 Vessel "bulk_carrier_panamax_ice_ammonia" {
         Route=Route("singapore_rotterdam_bulk_carrier_panamax")
-        NominalCapacity = 55478.56782353357
+        NominalCapacity = 55432.113651906766
 }
 
 Import Vessel "bulk_carrier_handy_ice_ammonia"
 Vessel "bulk_carrier_handy_ice_ammonia" {
         Route=Route("singapore_rotterdam_bulk_carrier_handy")
-        NominalCapacity = 16522.523177286264
+        NominalCapacity = 16476.821926133485
 }
 
 # Methanol
@@ -95,24 +95,24 @@ Vessel "bulk_carrier_handy_ice_FTdiesel" {
         NominalCapacity = 21419.991691055973
 }
 
-# Methane
-Import Vessel "bulk_carrier_capesize_ice_methane"
-Vessel "bulk_carrier_capesize_ice_methane" {
-        Route=Route("singapore_rotterdam_bulk_carrier_capesize")
-        NominalCapacity = 134865.1809056272
-}
-
-Import Vessel "bulk_carrier_panamax_ice_methane"
-Vessel "bulk_carrier_panamax_ice_methane" {
-        Route=Route("singapore_rotterdam_bulk_carrier_panamax")
-        NominalCapacity = 59369.038826797136
-}
-
-Import Vessel "bulk_carrier_handy_ice_methane"
-Vessel "bulk_carrier_handy_ice_methane" {
-        Route=Route("singapore_rotterdam_bulk_carrier_handy")
-        NominalCapacity = 19321.736324303154
-}
+## Methane
+#Import Vessel "bulk_carrier_capesize_ice_methane"
+#Vessel "bulk_carrier_capesize_ice_methane" {
+#        Route=Route("singapore_rotterdam_bulk_carrier_capesize")
+#        NominalCapacity = 134865.1809056272
+#}
+#
+#Import Vessel "bulk_carrier_panamax_ice_methane"
+#Vessel "bulk_carrier_panamax_ice_methane" {
+#        Route=Route("singapore_rotterdam_bulk_carrier_panamax")
+#        NominalCapacity = 59369.038826797136
+#}
+#
+#Import Vessel "bulk_carrier_handy_ice_methane"
+#Vessel "bulk_carrier_handy_ice_methane" {
+#        Route=Route("singapore_rotterdam_bulk_carrier_handy")
+#        NominalCapacity = 19321.736324303154
+#}
 
 ############################# Container ships ###################################
  
@@ -133,26 +133,26 @@ Vessel "container_3500_teu_ice_oil" {
 Import Vessel "container_8000_teu_ice_liquid_hydrogen"
 Vessel "container_8000_teu_ice_liquid_hydrogen" {
         Route=Route("singapore_rotterdam_container_8000_teu")
-        NominalCapacity = 5418.0980768967065
+        NominalCapacity = 5853.923412859924
 }
 
 Import Vessel "container_3500_teu_ice_liquid_hydrogen"
 Vessel "container_3500_teu_ice_liquid_hydrogen" {
         Route=Route("singapore_rotterdam_container_3500_teu")
-        NominalCapacity = 2591.6366545695755
+        NominalCapacity = 2492.561219859963
 }
 
 # Ammonia
 Import Vessel "container_8000_teu_ice_ammonia"
 Vessel "container_8000_teu_ice_ammonia" {
         Route=Route("singapore_rotterdam_container_8000_teu")
-        NominalCapacity = 7109.007399345198
+        NominalCapacity = 7118.813653865916
 }
 
 Import Vessel "container_3500_teu_ice_ammonia"
 Vessel "container_3500_teu_ice_ammonia" {
         Route=Route("singapore_rotterdam_container_3500_teu")
-        NominalCapacity = 3155.574392982704
+        NominalCapacity = 3153.433460024702
 }
 
 # Methanol
@@ -181,18 +181,18 @@ Vessel "container_3500_teu_ice_FTdiesel" {
         NominalCapacity = 3487.481484310019
 }
 
-# Methane
-Import Vessel "container_8000_teu_ice_methane"
-Vessel "container_8000_teu_ice_methane" {
-        Route=Route("singapore_rotterdam_container_8000_teu")
-        NominalCapacity = 7570.740404227076
-}
-
-Import Vessel "container_3500_teu_ice_methane"
-Vessel "container_3500_teu_ice_methane" {
-        Route=Route("singapore_rotterdam_container_3500_teu")
-        NominalCapacity = 3333.0657127549744
-}
+## Methane
+#Import Vessel "container_8000_teu_ice_methane"
+#Vessel "container_8000_teu_ice_methane" {
+#        Route=Route("singapore_rotterdam_container_8000_teu")
+#        NominalCapacity = 7570.740404227076
+#}
+#
+#Import Vessel "container_3500_teu_ice_methane"
+#Vessel "container_3500_teu_ice_methane" {
+#        Route=Route("singapore_rotterdam_container_3500_teu")
+#        NominalCapacity = 3333.0657127549744
+#}
 
 ############################# Tankers ###################################
 
@@ -213,7 +213,7 @@ Vessel "tanker_35k_dwt_ice_oil" {
 Import Vessel "tanker_100k_dwt_ice_liquid_hydrogen"
 Vessel "tanker_100k_dwt_ice_liquid_hydrogen" {
         Route=Route("singapore_rotterdam_tanker_100k_dwt")
-        NominalCapacity = 73464.42463301281
+        NominalCapacity = 71670.26336683944
 }
 
 Import Vessel "tanker_35k_dwt_ice_liquid_hydrogen"
@@ -226,13 +226,13 @@ Vessel "tanker_35k_dwt_ice_liquid_hydrogen" {
 Import Vessel "tanker_100k_dwt_ice_ammonia"
 Vessel "tanker_100k_dwt_ice_ammonia" {
         Route=Route("singapore_rotterdam_tanker_100k_dwt")
-        NominalCapacity = 87358.52184507225
+        NominalCapacity = 87322.10438702288
 }
 
 Import Vessel "tanker_35k_dwt_ice_ammonia"
 Vessel "tanker_35k_dwt_ice_ammonia" {
         Route=Route("singapore_rotterdam_tanker_35k_dwt")
-        NominalCapacity = 27432.4309768387
+        NominalCapacity = 27398.068124250793
 }
 
 # Methanol
@@ -261,15 +261,15 @@ Vessel "tanker_35k_dwt_ice_FTdiesel" {
         NominalCapacity = 33224.88906755066
 }
 
-# Methane
-Import Vessel "tanker_100k_dwt_ice_methane"
-Vessel "tanker_100k_dwt_ice_methane" {
-        Route=Route("singapore_rotterdam_tanker_100k_dwt")
-        NominalCapacity = 91866.95456526183
-}
-
-Import Vessel "tanker_35k_dwt_ice_methane"
-Vessel "tanker_35k_dwt_ice_methane" {
-        Route=Route("singapore_rotterdam_tanker_35k_dwt")
-        NominalCapacity = 30986.333029322574
-}
+## Methane
+#Import Vessel "tanker_100k_dwt_ice_methane"
+#Vessel "tanker_100k_dwt_ice_methane" {
+#        Route=Route("singapore_rotterdam_tanker_100k_dwt")
+#        NominalCapacity = 91866.95456526183
+#}
+#
+#Import Vessel "tanker_35k_dwt_ice_methane"
+#Vessel "tanker_35k_dwt_ice_methane" {
+#        Route=Route("singapore_rotterdam_tanker_35k_dwt")
+#        NominalCapacity = 30986.333029322574
+#}
