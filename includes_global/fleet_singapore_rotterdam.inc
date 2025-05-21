@@ -5,6 +5,7 @@ Fleet "bulk_carrier_handy" {
                Vessel("bulk_carrier_handy_ice_liquid_hydrogen"),
                Vessel("bulk_carrier_handy_ice_methanol"),
                Vessel("bulk_carrier_handy_ice_FTdiesel")
+               #Vessel("bulk_carrier_handy_ice_methane")
                ]
     InitialVessels = 1
 }
@@ -16,6 +17,7 @@ Fleet "bulk_carrier_panamax" {
                Vessel("bulk_carrier_panamax_ice_liquid_hydrogen"),
                Vessel("bulk_carrier_panamax_ice_methanol"),
                Vessel("bulk_carrier_panamax_ice_FTdiesel")
+               #Vessel("bulk_carrier_panamax_ice_methane")
                ]
     InitialVessels = 4
 }
@@ -27,6 +29,7 @@ Fleet "bulk_carrier_capesize" {
                Vessel("bulk_carrier_capesize_ice_liquid_hydrogen"),
                Vessel("bulk_carrier_capesize_ice_methanol"),
                Vessel("bulk_carrier_capesize_ice_FTdiesel")
+               #Vessel("bulk_carrier_capesize_ice_methane")
                ]
     InitialVessels = 2
 }
@@ -38,6 +41,7 @@ Fleet "bulk_carrier_capesize" {
 #               Vessel("container_15000_teu_ice_liquid_hydrogen"),
 #               Vessel("container_15000_teu_ice_methanol"),
 #               Vessel("container_15000_teu_ice_FTdiesel")
+#               #Vessel("container_15000_teu_ice_methane")
 #               ]
 #    InitialVessels = 0
 #}
@@ -49,6 +53,7 @@ Fleet "container_8000_teu" {
                Vessel("container_8000_teu_ice_liquid_hydrogen"),
                Vessel("container_8000_teu_ice_methanol"),
                Vessel("container_8000_teu_ice_FTdiesel")
+               #Vessel("container_8000_teu_ice_methane")
                ]
     InitialVessels = 37
 }
@@ -60,6 +65,7 @@ Fleet "container_3500_teu" {
                Vessel("container_3500_teu_ice_liquid_hydrogen"),
                Vessel("container_3500_teu_ice_methanol"),
                Vessel("container_3500_teu_ice_FTdiesel")
+               #Vessel("container_3500_teu_ice_methane")
                ]
     InitialVessels = 21
 }
@@ -71,6 +77,7 @@ Fleet "container_3500_teu" {
 #               Vessel("tanker_300k_dwt_ice_liquid_hydrogen"),
 #               Vessel("tanker_300k_dwt_ice_methanol"),
 #               Vessel("tanker_300k_dwt_ice_FTdiesel")
+#               Vessel("tanker_300k_dwt_ice_methane")
 #               ]
 #    InitialVessels = 0
 #}
@@ -82,6 +89,7 @@ Fleet "tanker_100k_dwt" {
                Vessel("tanker_100k_dwt_ice_liquid_hydrogen"),
                Vessel("tanker_100k_dwt_ice_methanol"),
                Vessel("tanker_100k_dwt_ice_FTdiesel")
+               #Vessel("tanker_100k_dwt_ice_methane")
                ]
     InitialVessels = 9
 }
@@ -93,6 +101,7 @@ Fleet "tanker_35k_dwt" {
                Vessel("tanker_35k_dwt_ice_liquid_hydrogen"),
                Vessel("tanker_35k_dwt_ice_methanol"),
                Vessel("tanker_35k_dwt_ice_FTdiesel")
+               #Vessel("tanker_35k_dwt_ice_methane")
                ]
     InitialVessels = 18
 }
