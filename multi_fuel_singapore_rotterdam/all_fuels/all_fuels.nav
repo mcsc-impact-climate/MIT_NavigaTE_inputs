@@ -2,7 +2,7 @@ SIMULATION NAV {
                 
     # model definition
     INCLUDE "../../includes_global/model_definition.inc"
-    INCLUDE "../includes_local/bunker_logistics_all_fuels.inc"
+    INCLUDE "../../includes_global/bunker_logistics_all_pathways.inc"
     
     # Modified fleets for Singapore - Rotterdam roundtrip
     INCLUDE "../../includes_global/fleet_singapore_rotterdam.inc"
@@ -10,13 +10,12 @@ SIMULATION NAV {
     
     
     # fuels
-    INCLUDE "../../includes_global/ammonia.inc"
-    INCLUDE "../../includes_global/liquid_hydrogen.inc"
-#    INCLUDE "../../includes_global/compressed_hydrogen.inc"
-    INCLUDE "../../includes_global/methanol.inc"
-    INCLUDE "../../includes_global/FTdiesel.inc"
+    INCLUDE "../../includes_global/ammonia-all_pathways.inc"
+    INCLUDE "../../includes_global/liquid_hydrogen-all_pathways.inc"
+    INCLUDE "../../includes_global/methanol-all_pathways.inc"
+    INCLUDE "../../includes_global/FTdiesel-all_pathways.inc"
     INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
-#    INCLUDE "../../includes_global/lng.inc"
+    INCLUDE "../../includes_global/lng-all_pathways.inc"
     
     # Route
     INCLUDE "../../includes_global/route_singapore_rotterdam.inc"
@@ -25,19 +24,12 @@ SIMULATION NAV {
     INCLUDE "../../includes_global/cost_emissions_lsfo_singapore_rotterdam.inc"
     
     # costs and emission of alternative fuels at each port
-    INCLUDE "../../includes_global/cost_emissions_ammonia_singapore.inc"
-#    INCLUDE "../../includes_global/cost_emissions_compressed_hydrogen_singapore.inc"
-    INCLUDE "../../includes_global/cost_emissions_liquid_hydrogen_singapore.inc"
-    INCLUDE "../../includes_global/cost_emissions_methanol_singapore.inc"
-    INCLUDE "../../includes_global/cost_emissions_FTdiesel_singapore.inc"
-#    INCLUDE "../../includes_global/cost_emissions_lng_singapore.inc"
+    INCLUDE "../../includes_global/cost_emissions_ammonia-singapore_rotterdam.inc"
+    INCLUDE "../../includes_global/cost_emissions_liquid_hydrogen-singapore_rotterdam.inc"
+    INCLUDE "../../includes_global/cost_emissions_methanol-singapore_rotterdam.inc"
+    INCLUDE "../../includes_global/cost_emissions_FTdiesel-singapore_rotterdam.inc"
+    INCLUDE "../../includes_global/cost_emissions_lng-singapore_rotterdam.inc"
 
-    INCLUDE "../../includes_global/cost_emissions_ammonia_rotterdam.inc"
-#    INCLUDE "../../includes_global/cost_emissions_compressed_hydrogen_rotterdam.inc"
-    INCLUDE "../../includes_global/cost_emissions_liquid_hydrogen_rotterdam.inc"
-    INCLUDE "../../includes_global/cost_emissions_methanol_rotterdam.inc"
-    INCLUDE "../../includes_global/cost_emissions_FTdiesel_rotterdam.inc"
-#    INCLUDE "../../includes_global/cost_emissions_lng_rotterdam.inc"
     
     # center default emissions
     IMPORT CenterDefaultEmissions
