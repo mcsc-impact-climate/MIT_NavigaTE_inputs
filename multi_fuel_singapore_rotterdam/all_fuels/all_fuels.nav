@@ -16,6 +16,7 @@ SIMULATION NAV {
     INCLUDE "../../includes_global/methanol.inc"
     INCLUDE "../../includes_global/FTdiesel.inc"
     INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
+#    INCLUDE "../../includes_global/lng.inc"
     
     # Route
     INCLUDE "../../includes_global/route_singapore_rotterdam.inc"
@@ -29,12 +30,14 @@ SIMULATION NAV {
     INCLUDE "../../includes_global/cost_emissions_liquid_hydrogen_singapore.inc"
     INCLUDE "../../includes_global/cost_emissions_methanol_singapore.inc"
     INCLUDE "../../includes_global/cost_emissions_FTdiesel_singapore.inc"
+#    INCLUDE "../../includes_global/cost_emissions_lng_singapore.inc"
 
     INCLUDE "../../includes_global/cost_emissions_ammonia_rotterdam.inc"
 #    INCLUDE "../../includes_global/cost_emissions_compressed_hydrogen_rotterdam.inc"
     INCLUDE "../../includes_global/cost_emissions_liquid_hydrogen_rotterdam.inc"
     INCLUDE "../../includes_global/cost_emissions_methanol_rotterdam.inc"
     INCLUDE "../../includes_global/cost_emissions_FTdiesel_rotterdam.inc"
+#    INCLUDE "../../includes_global/cost_emissions_lng_rotterdam.inc"
     
     # center default emissions
     IMPORT CenterDefaultEmissions
