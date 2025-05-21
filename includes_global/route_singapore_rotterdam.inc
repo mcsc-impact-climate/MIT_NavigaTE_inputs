@@ -3,90 +3,72 @@ Route "singapore_rotterdam_bulk_carrier_handy" {
     RouteType=ROUND_TRIP
     
     Ports=[Port("port_singapore"), Port("port_rotterdam")]
-    Distances=[8419, 8419]              # Would be good to get distribution
-    Speeds=[11.35, 11.35]                     # This is an estimate based on the vessel class. Would be good to get actual operational data for this route
-    CapacityUtilizations=[0.50, 0.50]          # This is an estimate, would be good to get actual operational data for the route
-    PortDurations=[0.7465277777777780, 0.7465277777777780]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is currently copied from Singpore, but should be updated with Rotterdam-specific data.
+    Distances=[11439.25, 11439.25]              # Based on voyage data from https://www.marinetraffic.com for cargo vessels traveling Singapore <--> Rotterdam between May 14-20, most vessels take the Cape of Good Hope route (~11,700) nm, but a minority take the Suez Canal route (~8,400 nm). The resulting average is 11439.25 +/- 1058.44.
+    Speeds=[8.1999998, 8.1999998]                     # This is estimated based on operational data from https://www.marinetraffic.com between May 14-20 for vessels of this class and size that departed from Singapore to Rotterdam between 2023-01-01 and 2025-05-07, based on their IMO numbers.
+    CapacityUtilizations=[0.50, 0.50]          # This is an estimate from NavigaTE defaults for this vessel class and size., would be good to get actual operational data for the route
+    PortDurations=[0.7465277777777780, 1.92]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is obtained by averaging the Time in Port under "Intra-port efficiency" in https://www.portofrotterdam.com/en/logistics/port-performance
 }
 
 Route "singapore_rotterdam_bulk_carrier_panamax" {
     RouteType=ROUND_TRIP
     
     Ports=[Port("port_singapore"), Port("port_rotterdam")]
-    Distances=[8419, 8419]              # Would be good to get distribution
-    Speeds=[12.55, 12.55]                     # This is an estimate based on the vessel class. Would be good to get actual operational data for this route
-    CapacityUtilizations=[0.50, 0.50]          # This is an estimate, would be good to get actual operational data for the route
-    PortDurations=[0.7262731481481480, 0.7262731481481480]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is currently copied from Singpore, but should be updated with Rotterdam-specific data.
+    Distances=[11439.25, 11439.25]              # Based on voyage data from https://www.marinetraffic.com for cargo vessels traveling Singapore <--> Rotterdam between May 14-20, most vessels take the Cape of Good Hope route (~11,700) nm, but a minority take the Suez Canal route (~8,400 nm). The resulting average is 11439.25 +/- 1058.44.
+    Speeds=[11.033333333333300, 11.033333333333300]                    # This is estimated based on operational data from https://www.marinetraffic.com between May 14-20 for vessels of this class and size that departed from Singapore to Rotterdam between 2023-01-01 and 2025-05-07, based on their IMO numbers.
+    CapacityUtilizations=[0.50, 0.50]          # This is an estimate from NavigaTE defaults for this vessel class and size. Would be good to get actual operational data for the route
+    PortDurations=[0.7262731481481480, 1.92]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is obtained by averaging the Time in Port under "Intra-port efficiency" in https://www.portofrotterdam.com/en/logistics/port-performance
 }
 
 Route "singapore_rotterdam_bulk_carrier_capesize" {
     RouteType=ROUND_TRIP
     
     Ports=[Port("port_singapore"), Port("port_rotterdam")]
-    Distances=[8419, 8419]              # Would be good to get distribution
-    Speeds=[12.40, 12.40]                     # This is an estimate based on the vessel class. Would be good to get actual operational data for this route
-    CapacityUtilizations=[0.50, 0.50]          # This is an estimate based on the vessel class. Would be good to get actual operational data for the route
-    PortDurations=[1.8969907407407400, 1.8969907407407400]          # Singapore port duration is based on the Singapore port data. Rotterdam port duration is currently copied from Singpore, but should be updated with Rotterdam-specific data.
+    Distances=[11439.25, 11439.25]              # Based on voyage data from https://www.marinetraffic.com for cargo vessels traveling Singapore <--> Rotterdam between May 14-20, most vessels take the Cape of Good Hope route (~11,700) nm, but a minority take the Suez Canal route (~8,400 nm). The resulting average is 11439.25 +/- 1058.44.
+    Speeds=[8.033333466666670, 8.033333466666670]                     # This is estimated based on operational data from https://www.marinetraffic.com between May 14-20 for vessels of this class and size that departed from Singapore to Rotterdam between 2023-01-01 and 2025-05-07, based on their IMO numbers.
+    CapacityUtilizations=[0.50, 0.50]          # This is an estimate from NavigaTE defaults for this vessel class and size. Would be good to get actual operational data for the route
+    PortDurations=[1.8969907407407400, 1.92]          # Singapore port duration is based on the Singapore port data. Rotterdam port duration is obtained by averaging the Time in Port under "Intra-port efficiency" in https://www.portofrotterdam.com/en/logistics/port-performance
 }
 
 ############################# Container ships ###################################
-Route "singapore_rotterdam_container_15000_teu" {
-    RouteType=ROUND_TRIP
-    
-    Ports=[Port("port_singapore"), Port("port_rotterdam")]
-    Distances=[8419, 8419]              # Would be good to get distribution
-    Speeds=[18.15, 18.15]                     # This is an estimate based on the vessel class. Would be good to get actual operational data for this route
-    CapacityUtilizations=[0.65, 0.65]          # This is an estimate, would be good to get actual operational data for the route
-    PortDurations=[0.7262731481481480, 0.7262731481481480]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is currently copied from Singpore, but should be updated with Rotterdam-specific data.
-}
 
 Route "singapore_rotterdam_container_8000_teu" {
     RouteType=ROUND_TRIP
     
     Ports=[Port("port_singapore"), Port("port_rotterdam")]
-    Distances=[8419, 8419]              # Would be good to get distribution
-    Speeds=[17.70, 17.70]                     # This is an estimate based on the vessel class. Would be good to get actual operational data for this route
-    CapacityUtilizations=[0.65, 0.65]          # This is an estimate, would be good to get actual operational data for the route
-    PortDurations=[0.7262731481481480, 0.7262731481481480]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is currently copied from Singpore, but should be updated with Rotterdam-specific data.
+    Distances=[11439.25, 11439.25]              # Based on voyage data from https://www.marinetraffic.com for cargo vessels traveling Singapore <--> Rotterdam between May 14-20, most vessels take the Cape of Good Hope route (~11,700) nm, but a minority take the Suez Canal route (~8,400 nm). The resulting average is 11439.25 +/- 1058.44.
+    Speeds=[14.961194035820900, 14.961194035820900]                     # This is estimated based on operational data from https://www.marinetraffic.com between May 14-20 for vessels of this class and size that departed from Singapore to Rotterdam between 2023-01-01 and 2025-05-07, based on their IMO numbers.
+    CapacityUtilizations=[0.65, 0.65]          # This is an estimate from NavigaTE defaults for this vessel class and size. wWuld be good to get actual operational data for the route
+    PortDurations=[1.2992848258706500, 1.92]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is obtained by averaging the Time in Port under "Intra-port efficiency" in https://www.portofrotterdam.com/en/logistics/port-performance
 }
 
 Route "singapore_rotterdam_container_3500_teu" {
     RouteType=ROUND_TRIP
     
     Ports=[Port("port_singapore"), Port("port_rotterdam")]
-    Distances=[8419, 8419]              # Would be good to get distribution
-    Speeds=[16.05, 16.05]                     # This is an estimate based on the vessel class. Would be good to get actual operational data for this route
-    CapacityUtilizations=[0.65, 0.65]          # This is an estimate based on the vessel class. Would be good to get actual operational data for the route
-    PortDurations=[1.8969907407407400, 1.8969907407407400]          # Singapore port duration is based on the Singapore port data. Rotterdam port duration is currently copied from Singpore, but should be updated with Rotterdam-specific data.
+    Distances=[11439.25, 11439.25]              # Based on voyage data from https://www.marinetraffic.com for cargo vessels traveling Singapore <--> Rotterdam between May 14-20, most vessels take the Cape of Good Hope route (~11,700) nm, but a minority take the Suez Canal route (~8,400 nm). The resulting average is 11439.25 +/- 1058.44.
+    Speeds=[13.25172412413790, 13.25172412413790]                     # This is estimated based on operational data from https://www.marinetraffic.com between May 14-20 for vessels of this class and size that departed from Singapore to Rotterdam between 2023-01-01 and 2025-05-07, based on their IMO numbers.
+    CapacityUtilizations=[0.65, 0.65]          # This is an estimate from NavigaTE defaults for this vessel class and size. Would be good to get actual operational data for the route
+    PortDurations=[1.6857040229885100, 1.92]          # Singapore port duration is based on the Singapore port data. Rotterdam port duration is obtained by averaging the Time in Port under "Intra-port efficiency" in https://www.portofrotterdam.com/en/logistics/port-performance
 }
 
 ############################# Tankers ###################################
-Route "singapore_rotterdam_tanker_300k_dwt" {
-    RouteType=ROUND_TRIP
-    
-    Ports=[Port("port_singapore"), Port("port_rotterdam")]
-    Distances=[8419, 8419]              # Would be good to get distribution
-    Speeds=[13.48, 13.48]                     # This is an estimate based on the vessel class. Would be good to get actual operational data for this route
-    CapacityUtilizations=[0.60, 0.60]          # This is an estimate, would be good to get actual operational data for the route
-    PortDurations=[0.7262731481481480, 0.7262731481481480]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is currently copied from Singpore, but should be updated with Rotterdam-specific data.
-}
 
 Route "singapore_rotterdam_tanker_100k_dwt" {
     RouteType=ROUND_TRIP
     
     Ports=[Port("port_singapore"), Port("port_rotterdam")]
-    Distances=[8419, 8419]              # Would be good to get distribution
-    Speeds=[13.10, 13.10]                     # This is an estimate based on the vessel class. Would be good to get actual operational data for this route
-    CapacityUtilizations=[0.60, 0.60]          # This is an estimate, would be good to get actual operational data for the route
-    PortDurations=[0.7262731481481480, 0.7262731481481480]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is currently copied from Singpore, but should be updated with Rotterdam-specific data.
+    Distances=[11439.25, 11439.25]              # Based on voyage data from https://www.marinetraffic.com for cargo vessels traveling Singapore <--> Rotterdam between May 14-20, most vessels take the Cape of Good Hope route (~11,700) nm, but a minority take the Suez Canal route (~8,400 nm). The resulting average is 11439.25 +/- 1058.44.
+    Speeds=[9.986666633333330, 9.986666633333330]                     # This is estimated based on operational data from https://www.marinetraffic.com between May 14-20 for vessels of this class and size that departed from Singapore to Rotterdam between 2023-01-01 and 2025-05-07, based on their IMO numbers.
+    CapacityUtilizations=[0.60, 0.60]          # This is an estimate from NavigaTE defaults for this vessel class and size. Would be good to get actual operational data for the route
+    PortDurations=[0.9300925925925930, 1.92]        # Singapore port duration is based on the Singapore port data. Rotterdam port duration is obtained by averaging the Time in Port under "Intra-port efficiency" in https://www.portofrotterdam.com/en/logistics/port-performance
 }
 
 Route "singapore_rotterdam_tanker_35k_dwt" {
     RouteType=ROUND_TRIP
     
     Ports=[Port("port_singapore"), Port("port_rotterdam")]
-    Distances=[8419, 8419]              # Would be good to get distribution
-    Speeds=[10.00, 10.00]                     # This is an estimate based on the vessel class. Would be good to get actual operational data for this route
-    CapacityUtilizations=[0.60, 0.60]          # This is an estimate based on the vessel class. Would be good to get actual operational data for the route
-    PortDurations=[1.8969907407407400, 1.8969907407407400]          # Singapore port duration is based on the Singapore port data. Rotterdam port duration is currently copied from Singpore, but should be updated with Rotterdam-specific data.
+    Distances=[11439.25, 11439.25]              # Based on voyage data from https://www.marinetraffic.com for cargo vessels traveling Singapore <--> Rotterdam between May 14-20, most vessels take the Cape of Good Hope route (~11,700) nm, but a minority take the Suez Canal route (~8,400 nm). The resulting average is 11439.25 +/- 1058.44.
+    Speeds=[10.172413751724100, 10.172413751724100]                     # This is estimated based on operational data from https://www.marinetraffic.com between May 14-20 for vessels of this class and size that departed from Singapore to Rotterdam between 2023-01-01 and 2025-05-07, based on their IMO numbers.
+    CapacityUtilizations=[0.60, 0.60]          # This is an estimate from NavigaTE defaults for this vessel class and size. Would be good to get actual operational data for the route
+    PortDurations=[1.6909722222222200, 1.92]          # Singapore port duration is based on the Singapore port data. Rotterdam port duration is obtained by averaging the Time in Port under "Intra-port efficiency" in https://www.portofrotterdam.com/en/logistics/port-performance
 }
