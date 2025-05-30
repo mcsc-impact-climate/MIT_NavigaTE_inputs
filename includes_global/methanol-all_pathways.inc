@@ -5,29 +5,11 @@ Fuel "methanol-ATRCCS_H_BEC_C_solar_E" {
 }
 Fuel "methanol-ATRCCS_H_BEC_C_wind_E" {
 }
-Fuel "methanol-ATRCCS_H_C_grid_E" {
-}
-Fuel "methanol-ATRCCS_H_C_solar_E" {
-}
-Fuel "methanol-ATRCCS_H_C_wind_E" {
-}
 Fuel "methanol-ATRCCS_H_DAC_C_grid_E" {
 }
 Fuel "methanol-ATRCCS_H_DAC_C_solar_E" {
 }
 Fuel "methanol-ATRCCS_H_DAC_C_wind_E" {
-}
-Fuel "methanol-ATRCCS_H_SMRCCS_C_grid_E" {
-}
-Fuel "methanol-ATRCCS_H_SMRCCS_C_solar_E" {
-}
-Fuel "methanol-ATRCCS_H_SMRCCS_C_wind_E" {
-}
-Fuel "methanol-BG_H_ATRCCS_C_grid_E" {
-}
-Fuel "methanol-BG_H_ATRCCS_C_solar_E" {
-}
-Fuel "methanol-BG_H_ATRCCS_C_wind_E" {
 }
 Fuel "methanol-BG_H_BEC_C_grid_E" {
 }
@@ -47,18 +29,6 @@ Fuel "methanol-BG_H_DAC_C_solar_E" {
 }
 Fuel "methanol-BG_H_DAC_C_wind_E" {
 }
-Fuel "methanol-BG_H_SMRCCS_C_grid_E" {
-}
-Fuel "methanol-BG_H_SMRCCS_C_solar_E" {
-}
-Fuel "methanol-BG_H_SMRCCS_C_wind_E" {
-}
-Fuel "methanol-LTE_H_ATRCCS_C_grid_E" {
-}
-Fuel "methanol-LTE_H_ATRCCS_C_solar_E" {
-}
-Fuel "methanol-LTE_H_ATRCCS_C_wind_E" {
-}
 Fuel "methanol-LTE_H_BEC_C_grid_E" {
 }
 Fuel "methanol-LTE_H_BEC_C_solar_E" {
@@ -71,29 +41,11 @@ Fuel "methanol-LTE_H_DAC_C_solar_E" {
 }
 Fuel "methanol-LTE_H_DAC_C_wind_E" {
 }
-Fuel "methanol-LTE_H_SMRCCS_C_grid_E" {
-}
-Fuel "methanol-LTE_H_SMRCCS_C_solar_E" {
-}
-Fuel "methanol-LTE_H_SMRCCS_C_wind_E" {
-}
-Fuel "methanol-SMRCCS_H_ATRCCS_C_grid_E" {
-}
-Fuel "methanol-SMRCCS_H_ATRCCS_C_solar_E" {
-}
-Fuel "methanol-SMRCCS_H_ATRCCS_C_wind_E" {
-}
 Fuel "methanol-SMRCCS_H_BEC_C_grid_E" {
 }
 Fuel "methanol-SMRCCS_H_BEC_C_solar_E" {
 }
 Fuel "methanol-SMRCCS_H_BEC_C_wind_E" {
-}
-Fuel "methanol-SMRCCS_H_C_grid_E" {
-}
-Fuel "methanol-SMRCCS_H_C_solar_E" {
-}
-Fuel "methanol-SMRCCS_H_C_wind_E" {
 }
 Fuel "methanol-SMRCCS_H_DAC_C_grid_E" {
 }
