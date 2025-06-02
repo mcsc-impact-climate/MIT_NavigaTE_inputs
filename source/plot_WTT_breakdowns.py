@@ -342,10 +342,10 @@ class FuelWTG:
             stage_data_df.rename(columns={"Emissions [kg CO2e / kg fuel]": f"{stage}: Emissions"}, inplace=True)
             
             # Account values from per tonne of H2 to per tonne of ammonia in the case of hydrogen production for ammonia
-            if stage == "Hydrogen Production" and self.fuel == "ammonia":
-                stage_data_df["Hydrogen Production: CapEx"] = stage_data_df["Hydrogen Production: CapEx"] * H2_PER_NH3
-                stage_data_df["Hydrogen Production: OpEx"] = stage_data_df["Hydrogen Production: OpEx"] * H2_PER_NH3
-                stage_data_df["Hydrogen Production: Emissions"] = stage_data_df["Hydrogen Production: Emissions"] * H2_PER_NH3
+            if stage == "H Production" and self.fuel == "ammonia":
+                stage_data_df["H Production: CapEx"] = stage_data_df["H Production: CapEx"] * H2_PER_NH3
+                stage_data_df["H Production: OpEx"] = stage_data_df["H Production: OpEx"] * H2_PER_NH3
+                stage_data_df["H Production: Emissions"] = stage_data_df["H Production: Emissions"] * H2_PER_NH3
         
             return stage_data_df
         
