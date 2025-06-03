@@ -1,39 +1,39 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
-ng,n/a,n/a,n/a,fossil,South Africa,1,2024,998.7599999999999,339.1705845752897,1337.9305845752897,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Taiwan,1,2024,693.7199999999999,311.78875593950875,1005.5087559395087,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Switzerland,1,2024,906.0999999999999,324.531555939509,1230.6315559395089,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Singapore,1,2024,678.14,302.94464249798114,981.0846424979811,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Hungary,1,2024,757.6800000000001,269.0624739094525,1026.7424739094527,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Philippines,1,2024,569.9,253.1113275591914,823.0113275591914,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Netherlands,1,2024,924.9599999999999,274.6388349326674,1199.5988349326674,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Norway,1,2024,1086.4999999999998,284.39659167952016,1370.89659167952,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Oman,1,2024,783.0999999999999,266.05098539467286,1049.1509853946727,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Italy,1,2024,762.5999999999999,257.05569885824576,1019.6556988582456,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Austria,1,2024,852.8,253.2962866528212,1106.0962866528212,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Finland,1,2024,944.6399999999999,246.52286625351795,1191.162866253518,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Portugal,1,2024,746.1999999999999,229.85223943488208,976.052239434882,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Germany,1,2024,854.4399999999999,216.46092431069565,1070.9009243106957,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Greece,1,2024,754.4,210.2031488739202,964.6031488739202,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,France,1,2024,842.9599999999999,214.10699233012954,1057.0669923301296,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Brazil,1,2024,836.4,204.2769222069143,1040.6769222069142,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,United Kingdom,1,2024,833.12,188.71294100119118,1021.8329410011912,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Spain,1,2024,717.4999999999999,174.139957648342,891.6399576483419,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Sweden,1,2024,993.8399999999999,190.82444431925504,1184.664444319255,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Czech Republic,1,2024,734.7199999999999,173.71135776909475,908.4313577690947,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Japan,1,2024,881.5,174.5822175047751,1056.0822175047751,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Belgium,1,2024,939.7199999999999,178.27632898584,1117.99632898584,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Poland,1,2024,766.7,163.1321124217433,929.8321124217433,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,India,1,2024,519.88,137.34476195090562,657.2247619509056,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Indonesia,1,2024,522.34,137.50446505217462,659.8444650521747,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,South Korea,1,2024,942.9999999999999,155.0695517752647,1098.0695517752647,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,China,1,2024,646.16,121.78425296824769,767.9442529682476,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,United Arab Emirates,1,2024,783.0999999999999,123.94770056292315,907.0477005629231,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,United States,1,2024,820.0,112.36645751358243,932.3664575135824,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Turkey,1,2024,596.9599999999999,95.687682180416,692.6476821804159,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Australia,1,2024,802.78,105.21736898165923,907.9973689816592,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Malaysia,1,2024,717.4999999999999,90.53217507128858,808.0321750712885,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Canada,1,2024,729.8,83.78447017973339,813.5844701797333,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Mexico,1,2024,664.2,79.65239993917605,743.852399939176,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Thailand,1,2024,534.64,70.31896490073875,604.9589649007387,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Russia,1,2024,583.8399999999999,50.12034252336123,633.9603425233612,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
-ng,n/a,n/a,n/a,fossil,Saudi Arabia,1,2024,783.0999999999999,62.209076637319896,845.3090766373198,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,South Africa,1,2024,998.7599999999999,339.56713085721367,1338.3271308572134,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Taiwan,1,2024,693.7199999999999,312.1853022214332,1005.9053022214331,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Switzerland,1,2024,906.0999999999999,324.928102221433,1231.0281022214328,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Singapore,1,2024,678.14,303.3411887799051,981.4811887799051,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Hungary,1,2024,757.6800000000001,269.45902019137645,1027.1390201913764,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Philippines,1,2024,569.9,253.50787384111584,823.4078738411158,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Netherlands,1,2024,924.9599999999999,275.03538121459184,1199.9953812145918,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Norway,1,2024,1086.4999999999998,284.79313796144413,1371.2931379614438,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Oman,1,2024,783.0999999999999,266.4475316765973,1049.5475316765971,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Italy,1,2024,762.5999999999999,257.4522451401702,1020.05224514017,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Austria,1,2024,852.8,253.6928329347452,1106.4928329347451,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Finland,1,2024,944.6399999999999,246.91941253544235,1191.5594125354423,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Portugal,1,2024,746.1999999999999,230.2487857168065,976.4487857168065,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Germany,1,2024,854.4399999999999,216.85747059261962,1071.2974705926194,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Greece,1,2024,754.4,210.59969515584442,964.9996951558444,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,France,1,2024,842.9599999999999,214.50353861205375,1057.4635386120538,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Brazil,1,2024,836.4,204.6734684888385,1041.0734684888384,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,United Kingdom,1,2024,833.12,189.10948728311516,1022.2294872831152,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Spain,1,2024,717.4999999999999,174.53650393026598,892.0365039302659,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Sweden,1,2024,993.8399999999999,191.22099060117927,1185.0609906011791,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Czech Republic,1,2024,734.7199999999999,174.10790405101872,908.8279040510187,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Japan,1,2024,881.5,174.97876378669906,1056.4787637866991,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Belgium,1,2024,939.7199999999999,178.672875267764,1118.3928752677639,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Poland,1,2024,766.7,163.5286587036675,930.2286587036675,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,India,1,2024,519.88,137.7413082328296,657.6213082328296,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Indonesia,1,2024,522.34,137.9010113340986,660.2410113340986,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,South Korea,1,2024,942.9999999999999,155.4660980571887,1098.4660980571887,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,China,1,2024,646.16,122.18079925017177,768.3407992501717,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,United Arab Emirates,1,2024,783.0999999999999,124.34424684484723,907.4442468448472,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,United States,1,2024,820.0,112.76300379550652,932.7630037955065,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Turkey,1,2024,596.9599999999999,96.0842284623401,693.04422846234,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Australia,1,2024,802.78,105.61391526358332,908.3939152635833,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Malaysia,1,2024,717.4999999999999,90.92872135321261,808.4287213532125,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Canada,1,2024,729.8,84.18101646165744,813.9810164616574,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Mexico,1,2024,664.2,80.04894622110015,744.2489462211001,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Thailand,1,2024,534.64,70.71551118266284,605.3555111826628,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Russia,1,2024,583.8399999999999,50.51688880528532,634.3568888052853,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
+ng,n/a,n/a,n/a,fossil,Saudi Arabia,1,2024,783.0999999999999,62.60562291924401,845.705622919244,0.34918755896129405,conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure
