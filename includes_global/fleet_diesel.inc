@@ -1,6 +1,6 @@
 # Definition of the diesel bulk fleet
 Fleet "diesel_fleet_bulk" {
-    Vessels = [Vessel("bulk_carrier_capesize_ice_diesel"), Vessel("bulk_carrier_handy_ice_diesel"), Vessel("bulk_carrier_panamax_ice_diesel")]
+    Vessels = [Vessel("bulk_carrier_capesize_ice_FTdiesel"), Vessel("bulk_carrier_handy_ice_FTdiesel"), Vessel("bulk_carrier_panamax_ice_FTdiesel")]
     FuelUptake = Uptake("uptake")
     TechnologyUptake = Uptake("uptake")
     InitialVessels = 12583      
@@ -10,7 +10,7 @@ Fleet "diesel_fleet_bulk" {
 
 # Definition of the diesel container fleet
 Fleet "diesel_fleet_container" {
-    Vessels = [Vessel("container_15000_teu_ice_diesel"), Vessel("container_3500_teu_ice_diesel"), Vessel("container_8000_teu_ice_diesel")]
+    Vessels = [Vessel("container_15000_teu_ice_FTdiesel"), Vessel("container_3500_teu_ice_FTdiesel"), Vessel("container_8000_teu_ice_FTdiesel")]
     FuelUptake = Uptake("uptake")
     TechnologyUptake = Uptake("uptake")
     InitialVessels = 5565      
@@ -20,7 +20,7 @@ Fleet "diesel_fleet_container" {
 
 # Definition of the diesel container fleet
 Fleet "diesel_fleet_tanker" {
-    Vessels = [Vessel("tanker_100k_dwt_ice_diesel"), Vessel("tanker_300k_dwt_ice_diesel"), Vessel("tanker_35k_dwt_ice_diesel")]
+    Vessels = [Vessel("tanker_100k_dwt_ice_FTdiesel"), Vessel("tanker_300k_dwt_ice_FTdiesel"), Vessel("tanker_35k_dwt_ice_FTdiesel")]
     FuelUptake = Uptake("uptake")
     TechnologyUptake = Uptake("uptake")
     InitialVessels = 5565      
@@ -30,7 +30,7 @@ Fleet "diesel_fleet_tanker" {
 
 # Definition of the diesel gas carrier fleet
 Fleet "diesel_fleet_gas" {
-    Vessels = [Vessel("gas_carrier_100k_cbm_ice_diesel")]
+    Vessels = [Vessel("gas_carrier_100k_cbm_ice_FTdiesel")]
     FuelUptake = Uptake("uptake")
     TechnologyUptake = Uptake("uptake")
     InitialVessels = 2156
@@ -41,39 +41,4 @@ Fleet "diesel_fleet_gas" {
 # Define uptake node
 Uptake "uptake" {
     Objective=MINIMIZE
-}
-
-# Need to enforce alternative fuel use in all vessels
-#Import Vessel "bulk_carrier_capesize_ice_diesel"
-Vessel "bulk_carrier_capesize_ice_diesel" {
-    EnforceMainFuelShare = TRUE
-}
-#Import Vessel "bulk_carrier_handy_ice_diesel"
-Vessel "bulk_carrier_handy_ice_diesel" {
-    EnforceMainFuelShare = TRUE
-}
-#Import Vessel "bulk_carrier_panamax_ice_diesel"
-Vessel "bulk_carrier_panamax_ice_diesel" {
-    EnforceMainFuelShare = TRUE
-}
-Vessel "container_15000_teu_ice_diesel" {
-    EnforceMainFuelShare = TRUE
-}
-Vessel "container_3500_teu_ice_diesel" {
-    EnforceMainFuelShare = TRUE
-}
-Vessel "container_8000_teu_ice_diesel" {
-    EnforceMainFuelShare = TRUE
-}
-Vessel "tanker_100k_dwt_ice_diesel" {
-    EnforceMainFuelShare = TRUE
-}
-Vessel "tanker_300k_dwt_ice_diesel" {
-    EnforceMainFuelShare = TRUE
-}
-Vessel "tanker_35k_dwt_ice_diesel" {
-    EnforceMainFuelShare = TRUE
-}
-Vessel "gas_carrier_100k_cbm_ice_diesel" {
-    EnforceMainFuelShare = TRUE
 }
