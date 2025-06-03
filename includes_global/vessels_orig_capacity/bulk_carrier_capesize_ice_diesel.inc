@@ -15,7 +15,7 @@ Vessel "bulk_carrier_capesize_ice_diesel" {
     NominalCapacity = 200000
 
     Lifetime=25
-    Finance=Finance("vessel_finance")
+    CostOfCapital = Variable("cost_of_capital_vessel")
     CAPEX = 50e6
     OPEX = 2.4e6
 }

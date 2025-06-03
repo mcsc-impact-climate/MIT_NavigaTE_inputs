@@ -14,7 +14,7 @@ Vessel "container_3500_teu_ice_hydrogen" {
     NominalCapacity = 3500
 
     Lifetime=25
-    Finance=Finance("vessel_finance")
+    CostOfCapital = Variable("cost_of_capital_vessel")
     CAPEX = 40e6
     OPEX = 1.8e6
     
