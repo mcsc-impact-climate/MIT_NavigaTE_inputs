@@ -106,3 +106,30 @@ Fleet "tanker_35k_dwt" {
     InitialVessels = 18
 }
 
+
+Fleet "*" {
+    InterFuelUptake = Uptake("inter_fuel_vessel")
+    IntraFuelUptake = Uptake("intra_fuel_vessel")
+    FuelConversionUptake = Uptake("fuel_conversion_uptake")
+}
+
+Uptake "intra_fuel_vessel" {
+    Method = DISCRETE
+    Beta = 1.
+    
+    CoefficientOfVariation = 0.15
+}
+
+Uptake "inter_fuel_vessel" {
+    Method = DISCRETE
+    Beta = 1.
+    
+    CoefficientOfVariation = 0.15
+}
+
+Uptake "fuel_conversion_uptake" {
+    Method = DISCRETE
+    Beta = 1.
+    
+    CoefficientOfVariation = 0.15
+}
