@@ -75,10 +75,6 @@ def create_all_pathways_includes(all_costs_dir: str, includes_dir: str) -> None:
             f_out.write(wildcard_block)
 
         print(f"Created {output_path}")
-        
-import os
-import re
-from collections import defaultdict
 
 def get_fuel_processes(all_costs_dir: str) -> dict:
     """
@@ -198,6 +194,8 @@ def write_bunker_logistics_file(fuel_processes: dict, includes_dir: str) -> None
         f_out.write("BunkerLogistics {\n")
         f_out.write("    LiquidMarketFuels = [\n")
         f_out.write('\n'.join(fuel_lines))
+        f_out.write(",\n")
+        f_out.write("        Fuel(\"low_sulfur_fuel_oil\")")
         f_out.write("\n    ]\n")
         f_out.write("}\n")
 
