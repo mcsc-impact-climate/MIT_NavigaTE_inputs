@@ -5,18 +5,30 @@ Report "excel_report" {
     add_vessel_property("*", TotalEquivalentWTT)        # tonnes CO2e/year
     add_vessel_property("*", TotalEquivalentTTW)        # tonnes CO2e/year
     add_vessel_property("*", TotalEquivalentWTW)        # tonnes CO2e/year
+    add_vessel_property("*", IntensityTotalEquivalentWTT)        # kg CO2e / GJ fuel
+    add_vessel_property("*", IntensityTotalEquivalentTTW)        # kg CO2e / GJ fuel
+    add_vessel_property("*", IntensityTotalEquivalentWTW)        # kg CO2e / GJ fuel
     add_vessel_property("*", Miles)                     # miles/year
     add_vessel_property("*", CargoMiles)                # tonne/miles per year
     add_vessel_property("*", SpendEnergy, BOTH)         # Energy demand / year (GJ)
         
     add_vessel_property("*", TotalCost)
+    add_vessel_property("*", AssetCost)
     add_vessel_property("*", CAPEX)
     add_vessel_property("*", OPEX)
-    
+    add_vessel_property("*", BaseCAPEX)
+    add_vessel_property("*", BaseOPEX)
+    add_vessel_property("*", TankCAPEX)
+    add_vessel_property("*", TankOPEX)
+    add_vessel_property("*", PowerCAPEX)
+    add_vessel_property("*", PowerOPEX)
     add_vessel_property("*", FuelOPEX)
+    add_vessel_property("*", RegulationOPEX)
     add_vessel_property("*", InvestmentMetric)
     add_vessel_property("*", InvestmentMetricExpected)
     add_vessel_property("*", ConsumedEnergy)            # Dictionary for each fuel
+    add_vessel_property("*", ConsumedVolume)            # Dictionary for each fuel
+    add_vessel_property("*", PilotFuelShare)
     
     # Fleet properties
     add_fleet_property("*", ExistingVessels)
@@ -26,6 +38,9 @@ Report "excel_report" {
     add_fleet_property("*", TotalEquivalentWTT)
     add_fleet_property("*", TotalEquivalentTTW)
     add_fleet_property("*", TotalEquivalentWTW)
+    add_fleet_property("*", IntensityTotalEquivalentWTT)
+    add_fleet_property("*", IntensityTotalEquivalentTTW)
+    add_fleet_property("*", IntensityTotalEquivalentWTW)
     #add_fleet_property("*", Miles)
     #add_fleet_property("*", SpendEnergy, BOTH)         # DMM: Absolute number in GJ
     add_fleet_property("*", ConsumedEnergy)
@@ -34,6 +49,9 @@ Report "excel_report" {
     add_property(TotalEquivalentWTT)
     add_property(TotalEquivalentTTW)
     add_property(TotalEquivalentWTW)
+    add_property(IntensityTotalEquivalentWTT)
+    add_property(IntensityTotalEquivalentTTW)
+    add_property(IntensityTotalEquivalentWTW)
     add_property(ConsumedEnergy)
     add_property(FuelExpenses)
     add_property(RegulationExpenses)
@@ -76,4 +94,8 @@ Report "excel_report" {
     add_regulation_property("*", RemedialExpenses)
         
     add_regulation_property("*", VesselThreshold)
+    
+    add_port_property("*", BunkerMass)
+    add_port_property("*", BunkerEnergy)
+    add_port_property("*", BunkerPrice)
 }
