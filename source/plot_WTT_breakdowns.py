@@ -4,7 +4,7 @@ Author: danikam
 Purpose: Plots WTG cost and emission breakdowns for each fuel
 """
 
-from common_tools import get_top_dir, get_pathway_type, get_pathway_type_color, get_pathway_type_label, get_pathway_label, get_fuel_label, create_directory_if_not_exists
+from common_tools import get_top_dir, get_pathway_type, get_pathway_type_color, get_pathway_type_label, get_pathway_label, get_fuel_label, create_directory_if_not_exists, get_fuel_LHV
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
@@ -16,6 +16,10 @@ H2_PER_NH3 = 3.02352/17.03022  # kg H2 required to produce 1 kg of NH3
 
 matplotlib.rc("xtick", labelsize=18)
 matplotlib.rc("ytick", labelsize=18)
+
+lsfo_wtg_emissions = 0.56        # kg CO2e / kg fuel
+lsfo_wtg_cost_2025 = 634.942     # USD / tonne
+lsfo_wtg_cost_2030 = 553.707     # USD / tonne
 
 # Python dictionary containing paths to files to read in for production and processing data for each fuel
 # Note: File paths are provided relative to the top level of the git repo
@@ -346,10 +350,10 @@ class FuelWTG:
             stage_data_df.rename(columns={"Emissions [kg CO2e / kg fuel]": f"{stage}: Emissions"}, inplace=True)
             
             # Account values from per tonne of H2 to per tonne of ammonia in the case of hydrogen production for ammonia
-            if stage == "Hydrogen Production" and self.fuel == "ammonia":
-                stage_data_df["Hydrogen Production: CapEx"] = stage_data_df["Hydrogen Production: CapEx"] * H2_PER_NH3
-                stage_data_df["Hydrogen Production: OpEx"] = stage_data_df["Hydrogen Production: OpEx"] * H2_PER_NH3
-                stage_data_df["Hydrogen Production: Emissions"] = stage_data_df["Hydrogen Production: Emissions"] * H2_PER_NH3
+            if stage == "H Production" and self.fuel == "ammonia":
+                stage_data_df["H Production: CapEx"] = stage_data_df["H Production: CapEx"] * H2_PER_NH3
+                stage_data_df["H Production: OpEx"] = stage_data_df["H Production: OpEx"] * H2_PER_NH3
+                stage_data_df["H Production: Emissions"] = stage_data_df["H Production: Emissions"] * H2_PER_NH3
         
             return stage_data_df
         
@@ -592,10 +596,10 @@ class FuelWTG:
         plt.savefig(filepath_save_pdf)
         plt.close()
         
-    def plot_country_bars(self, quantity="cost", countries=[]):
+    def plot_country_bars(self, quantity="cost", countries=[], per_GJ=False):
         """
         Makes a horizontal bar plot showing WTG cost or emissions for each pathway,
-        with side-by-side bars for each selected country.
+        with side-by-side bars for each selected country. Values can be normalized per GJ or per kg.
 
         Parameters
         ----------
@@ -605,14 +609,23 @@ class FuelWTG:
         countries : list of str
             List of country names to show as individual bars per pathway
 
+        per_GJ : bool, optional (default=False)
+            If True, normalize values by fuel LHV to show per GJ fuel. Otherwise, show per kg.
+
         Returns
         -------
         None
         """
+
         if quantity not in {"cost", "emissions"}:
             raise ValueError("Quantity must be either 'cost' or 'emissions'")
         if not countries:
             raise ValueError("Must provide at least one country")
+
+        if per_GJ:
+            LHV_GJ_per_tonne = get_fuel_LHV(self.fuel)
+        else:
+            LHV_GJ_per_tonne = 1.0
 
         # Sort pathways by color and label
         pathways_by_color = defaultdict(list)
@@ -628,19 +641,15 @@ class FuelWTG:
 
         num_pathways = len(sorted_pathways)
         num_countries = len(countries)
-        fig_height = max(6, num_pathways * 0.9)
+        fig_height = max(6, (num_pathways + 1) * 0.9)
 
         fig, ax = plt.subplots(figsize=(20, fig_height))
-
-        # y-axis spacing: one group per pathway
-        y_positions = np.arange(num_pathways)
         bar_width = 0.8 / num_countries
-
-        # Color for each country
         cmap = plt.get_cmap("tab10")
         country_colors = {country: cmap(i) for i, country in enumerate(countries)}
 
-        # Plot bars
+        # Plot country bars for each pathway (y = 0 to num_pathways-1)
+        y_positions = np.arange(num_pathways)
         for i_pathway, pathway_name in enumerate(sorted_pathways):
             pathway_wtt = PathwayWTG(self.fuel, pathway_name, self.cost_emissions_df)
             data_df = pathway_wtt.get_all_summed_results(quantity)
@@ -648,44 +657,110 @@ class FuelWTG:
             for j, country in enumerate(countries):
                 match = data_df[data_df["Region"] == country]
                 if not match.empty:
-                    value = match.iloc[0][quantity]
+                    value_per_kg = match.iloc[0][quantity]
+                    value_converted = value_per_kg / LHV_GJ_per_tonne
                 else:
-                    value = 0
+                    value_converted = 0
 
                 ax.barh(
                     y=i_pathway + j * bar_width - (bar_width * (num_countries - 1) / 2),
-                    width=value,
+                    width=value_converted,
                     height=bar_width * 0.9,
                     color=country_colors[country],
                     edgecolor="black",
                     label=country if i_pathway == 0 else None,
                 )
 
-        # Y-tick labels
-        ax.set_yticks(y_positions)
-        ax.set_yticklabels([get_pathway_label(p) for p in sorted_pathways], fontsize=18)
+        # LSFO Reference bar at the top (after all pathways)
+        lsfo_y = num_pathways
+        lsfo_label = "LSFO"
+        lsfo_color = "gray"
+        lsfo_LHV_GJ_per_tonne = get_fuel_LHV("lsfo")
 
-        for idx, pathway_name in enumerate(sorted_pathways):
-            pathway_type = get_pathway_type(pathway_name)
-            ax.get_yticklabels()[idx].set_color(get_pathway_type_color(pathway_type))
-            ax.get_yticklabels()[idx].set_fontweight("bold")
+        if quantity == "emissions":
+            lsfo_value = 0.56
+            if per_GJ:
+                lsfo_value /= lsfo_LHV_GJ_per_tonne
+            ax.barh(
+                y=lsfo_y,
+                width=lsfo_value,
+                height=bar_width * 0.9,
+                color=lsfo_color,
+                edgecolor="black",
+                label="LSFO"
+            )
+            ax.axvline(x=lsfo_value, color='black', ls='--')
+
+        elif quantity == "cost":
+            lsfo_vals = [634.942, 553.707]
+            avg_cost = sum(lsfo_vals) / 2
+            error = abs(lsfo_vals[0] - lsfo_vals[1]) / 2
+            if per_GJ:
+                avg_cost /= lsfo_LHV_GJ_per_tonne
+                error /= lsfo_LHV_GJ_per_tonne
+            ax.barh(
+                y=lsfo_y,
+                width=avg_cost,
+                height=bar_width * 0.9,
+                color=lsfo_color,
+                edgecolor="black",
+                label="LSFO"
+            )
+            ax.errorbar(
+                x=avg_cost,
+                y=lsfo_y,
+                xerr=error,
+                fmt='none',
+                ecolor='black',
+                capsize=5,
+                linewidth=1.5
+            )
+            ax.axvline(x=avg_cost, color='black', ls='--')
+
+        # Set y-ticks and labels
+        full_y_positions = np.append(y_positions, lsfo_y)
+        full_labels = [get_pathway_label(p) for p in sorted_pathways] + [lsfo_label]
+        ax.set_yticks(full_y_positions)
+        ax.set_yticklabels(full_labels, fontsize=22)
+
+        # Correctly map tick labels to y-positions and apply styles
+        tick_labels = ax.get_yticklabels()
+        tick_positions = ax.get_yticks()
+        y_to_label = dict(zip(tick_positions, tick_labels))
+
+        # Style LSFO
+        y_to_label[lsfo_y].set_color(lsfo_color)
+        y_to_label[lsfo_y].set_fontweight("bold")
+
+        # Style pathways
+        for i, p in enumerate(sorted_pathways):
+            y_val = y_positions[i]
+            label = y_to_label[y_val]
+            label.set_color(get_pathway_type_color(get_pathway_type(p)))
+            label.set_fontweight("bold")
 
         ax.axvline(0, color="black", linewidth=1)
-        ax.set_xlabel("USD/tonne" if quantity == "cost" else "kg CO2e / kg fuel", fontsize=22)
-        ax.set_title(f"{self.fuel_label} – WTG {quantity.title()} by Country", fontsize=26)
 
+        units = {
+            ("cost", False): "USD / tonne fuel",
+            ("cost", True): "USD / GJ fuel",
+            ("emissions", False): "kg CO2e / kg fuel",
+            ("emissions", True): "kg CO2e / GJ fuel"
+        }[(quantity, per_GJ)]
+
+        ax.set_xlabel(f"{quantity.title()} ({units})", fontsize=24)
+        ax.set_title(f"{self.fuel_label}", fontsize=26)
         ax.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
 
-        # Legend
         handles = [Patch(color=country_colors[c], label=c) for c in countries]
-        ax.legend(handles=handles, fontsize=16, title="Country", title_fontsize=18, bbox_to_anchor=(1.01, 0.5), loc="center left")
+        ax.legend(handles=handles, fontsize=20, title="Country", title_fontsize=24, bbox_to_anchor=(1.01, 0.5), loc="center left")
 
         plt.tight_layout()
         plt.subplots_adjust(left=0.27, right=0.8)
 
-        # Save
         countries_str = "_".join(c.replace(" ", "") for c in countries)
-        filename = f"{self.fuel}-{quantity}-WTG_country_bars-{countries_str}"
+        suffix = "perGJ" if per_GJ else "perkg"
+        filename = f"{self.fuel}-{quantity}-WTG_country_bars-{suffix}-{countries_str}"
         top_dir = get_top_dir()
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         plt.savefig(f"{top_dir}/plots/{self.fuel}/{filename}.png", dpi=200)
@@ -701,8 +776,8 @@ def main():
         fuel_wtt = FuelWTG(fuel)
 #        fuel_wtt.make_stacked_hist("emissions")
 #        fuel_wtt.make_stacked_hist("cost")
-        fuel_wtt.plot_country_bars("emissions", ["Singapore", "Netherlands"])
-        fuel_wtt.plot_country_bars("cost", ["Singapore", "Netherlands"])
+        fuel_wtt.plot_country_bars("emissions", ["Singapore", "Netherlands"], per_GJ=True)
+        fuel_wtt.plot_country_bars("cost", ["Singapore", "Netherlands"], per_GJ=True)
 
 #    for MMMCZCS_fuel in fuel_pathways.keys():
 #        for continent in continent_regions.keys():
