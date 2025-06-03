@@ -8,7 +8,14 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 import pandas as pd
-from common_tools import get_top_dir, get_pathway_type, get_pathway_type_label, get_pathway_label, read_pathway_labels, read_fuel_labels, get_fuel_label, create_directory_if_not_exists
+from common_tools import get_top_dir, get_pathway_type, get_pathway_type_label, get_pathway_label, read_pathway_labels, read_fuel_labels, get_fuel_label, create_directory_if_not_exists, get_fuel_density, get_fuel_LHV
+from matplotlib import colormaps
+import matplotlib.colors as mcolors
+import matplotlib.patches as mpatches
+from matplotlib.lines import Line2D
+
+MJ_PER_GJ = 1000
+L_PER_CBM = 1000
 
 vessels = {
     "bulk_carrier": [
@@ -67,16 +74,174 @@ fuel_colors = {
     "hydrogen": "tab:orange",
     "methanol": "tab:green",
     "diesel": "tab:red",
-    "oil": "tab:grey"
+    "oil": "black",
+    "lsfo": "black",
+    "lng": "tab:grey",
+    "methane": "tab:grey"
 }
 
 fuel_names = {
-    "ammonia": "ammonia",
-    "hydrogen": "liquid hydrogen",
-    "methanol": "methanol",
+    "ammonia": "Ammonia",
+    "hydrogen": "Liquid Hydrogen",
+    "methanol": "Methanol",
     "diesel": "FT diesel",
-    "oil": "LSFO"
+    "oil": "LSFO",
+    "lsfo": "LSFO",
+    "lng": "LNG",
+    "methane": "LNG"
 }
+
+vessel_names = {
+    "ammonia": "Ammonia (dual fuel)",
+    "hydrogen": "Liquid Hydrogen (dual fuel)",
+    "methanol": "Methanol (dual fuel)",
+    "diesel": "FT Diesel (single fuel)",
+    "oil": "LSFO (single fuel)",
+    "lsfo": "LSFO (single fuel)",
+    "lng": "Methane (dual fuel)",
+    "methane": "Methane (dual fuel)"
+}
+
+# Pilot tank size, in m^3
+pilot_tank_size = {
+    "bulk_carrier_capesize_ice": 500,
+    "bulk_carrier_handy_ice": 500,
+    "bulk_carrier_panamax_ice": 500,
+    "container_15000_teu_ice": 4000,
+    "container_8000_teu_ice": 2000,
+    "container_3500_teu_ice": 1000,
+    "tanker_300k_dwt_ice": 1500,
+    "tanker_100k_dwt_ice": 500,
+    "tanker_35k_dwt_ice": 500,
+    "gas_carrier_100k_cbm_ice": 500,
+}
+
+# Main tank size, in m^3
+main_tank_size = {
+    "bulk_carrier_capesize_ice": {
+        "FTdiesel": 5684.583972303545,
+        "ammonia": 18973.891090267312,
+        "compressed_hydrogen": 43976.66597639173,
+        "liquid_hydrogen": 56153.49243464692,
+        "methane": 9128.920736770815,
+        "methanol": 11947.830613884187,
+        "oil": 5000
+    },
+    "bulk_carrier_handy_ice": {
+        "FTdiesel": 2273.833588921418,
+        "ammonia": 7882.312541184076,
+        "compressed_hydrogen": 17590.666390556693,
+        "liquid_hydrogen": 42270.46393779287,
+        "methane": 3651.568294708326,
+        "methanol": 4779.132245553675,
+        "oil": 2000
+    },
+    "bulk_carrier_panamax_ice": {
+        "FTdiesel": 3410.750383382127,
+        "ammonia": 11556.54702741369,
+        "compressed_hydrogen": 26385.999585835038,
+        "liquid_hydrogen": 43297.0418860603,
+        "methane": 5477.352442062489,
+        "methanol": 7168.6983683305125,
+        "oil": 3000
+    },
+    "container_15000_teu_ice": {
+        "FTdiesel": 17053.751916910634,
+        "ammonia": 57114.727115582325,
+        "compressed_hydrogen": 131929.99792917518,
+        "liquid_hydrogen": 178263.8500688858,
+        "methane": 27386.762210312445,
+        "methanol": 35843.49184165256,
+        "oil": 15000
+    },
+    "container_8000_teu_ice": {
+        "FTdiesel": 10232.251150146381,
+        "ammonia": 33731.81333001275,
+        "compressed_hydrogen": 79157.9987575051,
+        "liquid_hydrogen": 82151.81175572213,
+        "methane": 16432.057326187467,
+        "methanol": 21506.09510499154,
+        "oil": 9000
+    },
+    "container_3500_teu_ice": {
+        "FTdiesel": 3979.2087806124814,
+        "ammonia": 13266.567150254394,
+        "compressed_hydrogen": 30783.66618347421,
+        "liquid_hydrogen": 38564.75650376062,
+        "methane": 6390.2445157395705,
+        "methanol": 8363.481429718931,
+        "oil": 3500
+    },
+    "tanker_300k_dwt_ice": {
+        "FTdiesel": 9095.334355685673,
+        "ammonia": 30253.03068860837,
+        "compressed_hydrogen": 70362.66556222677,
+        "liquid_hydrogen": 84783.73438892575,
+        "methane": 14606.273178833304,
+        "methanol": 19116.5289822147,
+        "oil": 8000
+    },
+    "tanker_100k_dwt_ice": {
+        "FTdiesel": 3410.750383382127,
+        "ammonia": 11343.629501526633,
+        "compressed_hydrogen": 26385.999585835038,
+        "liquid_hydrogen": 31735.100709740116,
+        "methane": 5477.352442062489,
+        "methanol": 7168.6983683305125,
+        "oil": 3000
+    },
+    "tanker_35k_dwt_ice": {
+        "FTdiesel": 2273.833588921418,
+        "ammonia": 8252.209962099118,
+        "compressed_hydrogen": 17590.666390556693,
+        "liquid_hydrogen": 90941.7627052409,
+        "methane": 3651.568294708326,
+        "methanol": 4779.132245553675,
+        "oil": 2000
+    },
+    "gas_carrier_100k_cbm_ice": {
+        "FTdiesel": 2273.833588921418,
+        "ammonia": 7370.6474231196735,
+        "compressed_hydrogen": 17590.666390556693,
+        "liquid_hydrogen": 13774.989426326705,
+        "methane": 3651.568294708326,
+        "methanol": 4779.132245553675,
+        "oil": 2000
+    }
+}
+
+
+def get_pathway_color_map(pathway_name, num_shades):
+    """
+    Use reversed colormaps and match the base fuel by substring.
+    Ensures dark, distinguishable shades and supports partial matching.
+    """
+    colormap_keys = {
+        "ammonia": "Blues_r",
+        "hydrogen": "Oranges_r",
+        "methanol": "Greens_r",
+        "diesel": "Reds_r",
+        "oil": "Greys_r",    # includes lsfo
+        "lsfo": "Greys_r",
+        "lng": "Purples_r"
+    }
+
+    pathway_lower = pathway_name.lower()
+    base_fuel = "unknown"
+    for key in colormap_keys:
+        if key in pathway_lower:
+            base_fuel = key
+            break
+
+    cmap_name = colormap_keys.get(base_fuel, "Greys_r")
+    cmap = matplotlib.colormaps[cmap_name]
+
+    if num_shades == 1:
+        levels = [0.0]  # darkest
+    else:
+        levels = np.linspace(0.0, 0.3, num_shades)  # dark 30% of colormap
+
+    return [mcolors.to_hex(cmap(i)) for i in levels]
 
 
 # Read in results for the fleet sheet
@@ -339,7 +504,7 @@ def read_results_regulation(filename):
             # Ensure 'Date' and 'Time (days)' are included
             vessel_df = regulation_df.iloc[:, [0, 1] + vessel_col_indices].copy()
 
-            vessel_df = vessel_df.iloc[4:].reset_index(drop=True)
+            vessel_df = vessel_df.iloc[5:].reset_index(drop=True)
             vessel_info[vessel] = vessel_df
 
         # Store results in dictionary
@@ -461,86 +626,98 @@ def sort_color_label_columns(columns):
     return sorted_cols, colors, labels
     
 def plot_global_stacked_fuel_info(global_results_dict, column_name, ylabel=None, save_label=None):
+    import matplotlib.colors as mcolors
+    import matplotlib.cm as cm
+
+    def normalize_base_fuel(name):
+        name = name.lower()
+        if "low_sulfur_fuel_oil" in name or "lsfo" in name:
+            return "oil"
+        if "lng-fossil" in name:
+            return "lng"
+        return name.split("-")[0]
 
     # Access the 'fuel info' dictionary
     fuel_info = global_results_dict['fuel info']
     
-    # Initialize an empty DataFrame to collect data for stacking
+    # Group valid columns by base fuel
+    fuel_column_groups = {}
+    for fuel_name, df in fuel_info.items():
+        if column_name not in df.columns:
+            continue
+        if df[column_name].abs().max() < 1e-3:
+            continue  # Skip near-zero data
+
+        df['Date'] = pd.to_datetime(df['Date'])
+        base_fuel = normalize_base_fuel(fuel_name)
+
+        if base_fuel not in fuel_column_groups:
+            fuel_column_groups[base_fuel] = []
+
+        df_subset = df[["Date", column_name]].rename(columns={column_name: fuel_name})
+        fuel_column_groups[base_fuel].append((fuel_name, df_subset))
+
+    # Merge all relevant columns
     stacked_data = pd.DataFrame()
-
-    # Loop through each fuel and extract the column if it exists
-    for fuel, df in fuel_info.items():
-        if column_name in df.columns:
-            df['Date'] = pd.to_datetime(df['Date'])
-
-            # Determine label from fuel_names (fallback: original fuel name)
-            label = None
-            for fuel_key in fuel_names.keys():
-                if fuel_key in fuel.lower():
-                    label = fuel_names[fuel_key]
-                    break
-            if label is None:
-                label = fuel
-
+    for group in fuel_column_groups.values():
+        for col_name, df in group:
             if stacked_data.empty:
-                stacked_data['Date'] = df['Date']
-                stacked_data[label] = df[column_name]
-            else:
-                stacked_data = pd.merge(
-                    stacked_data,
-                    df[['Date', column_name]].rename(columns={column_name: label}),
-                    on='Date',
-                    how='outer'
-                )
+                stacked_data["Date"] = df["Date"]
+            stacked_data = pd.merge(stacked_data, df, on="Date", how="outer")
 
-    # Ensure all columns except Date are numeric
-    stacked_data = stacked_data.sort_values('Date')
+    numeric_cols = stacked_data.select_dtypes(include=[np.number]).columns
+    stacked_data[numeric_cols] = stacked_data[numeric_cols].fillna(0)
+    stacked_data = stacked_data.infer_objects(copy=False)
+    stacked_data = stacked_data.sort_values("Date")
+    stacked_data.set_index("Date", inplace=True)
 
-    for col in stacked_data.columns:
-        if col != 'Date':
-            stacked_data[col] = pd.to_numeric(stacked_data[col], errors='coerce')
+    # Assign sorted columns, colors, and labels
+    sorted_cols = []
+    color_list = []
+    label_list = []
 
-    # Fill NaN values with 0
-    stacked_data = stacked_data.fillna(0)
+    for base_fuel, group in fuel_column_groups.items():
+        pathway_names = [name for name, _ in group]
+        shades = get_pathway_color_map(base_fuel, len(pathway_names))
+        for col, color in zip(pathway_names, shades):
+            sorted_cols.append(col)
+            color_list.append(color)
+            label_list.append(f"{base_fuel} - {col.split('-', 1)[-1]}")
 
-    stacked_data.set_index('Date', inplace=True)
-
-    # Sort columns and assign colors and labels
-    sorted_cols, color_list, label_list = sort_color_label_columns(stacked_data.columns)
-
-    # Plotting the stacked area chart
+    # Plotting
     plt.figure(figsize=(14, 6))
     plt.stackplot(
         stacked_data.index,
         [stacked_data[col] for col in sorted_cols],
         labels=label_list,
         colors=color_list,
-        alpha=0.8
+        alpha=0.85
     )
 
-    # Labeling
     plt.xlabel('Date', fontsize=22)
     plt.ylabel(ylabel if ylabel else column_name, fontsize=22)
     plt.xticks(fontsize=18)
     plt.yticks(fontsize=18)
-    plt.legend(title='Fuel', fontsize=20, title_fontsize=22, loc='upper left', bbox_to_anchor=(1, 1))
+    plt.legend(title='Fuel Pathway', fontsize=16, title_fontsize=18, loc='upper left', bbox_to_anchor=(1, 1))
 
     plt.grid(True)
     plt.tight_layout(rect=[0, 0, 0.85, 1])
 
-    # Save the plot
+    # Save
     if save_label is not None and not save_label.startswith("_"):
         save_label = "_" + save_label
-        
+
     save_path_png = f"plots/multifuel/global_stacked_{column_name}{save_label}.png"
     save_path_pdf = f"plots/multifuel/global_stacked_{column_name}{save_label}.pdf"
-        
+    
     print(f"Saving to {save_path_png}")
     plt.savefig(save_path_png, dpi=300, bbox_inches="tight")
-    
+
     print(f"Saving to {save_path_pdf}")
     plt.savefig(save_path_pdf, bbox_inches="tight")
     plt.close()
+
+
     
 
 def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_carrier", "container", "tanker", "gas_carrier"], level="size", ylabel=None, save_label=None):
@@ -559,7 +736,7 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
         Determines the stacking level: "size" (per vessel size), "class" (per vessel class), or "fleet" (full fleet).
     """
 
-    def sort_color_label_columns(columns):
+    def sort_fleet_label_columns(columns):
         """
         Returns:
             sorted_cols: list of original column names sorted according to fuel_colors
@@ -571,12 +748,12 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
         labels = []
         remaining_cols = list(columns)
 
-        for fuel_key in fuel_colors.keys():
+        for fuel_key in vessel_names.keys():
             matching_cols = [col for col in remaining_cols if fuel_key in col.lower()]
             for col in matching_cols:
                 sorted_cols.append(col)
                 colors.append(fuel_colors[fuel_key])
-                labels.append(fuel_names[fuel_key])
+                labels.append(vessel_names[fuel_key])
                 remaining_cols.remove(col)
 
         # Any remaining fuels that weren't explicitly matched
@@ -616,7 +793,7 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
             if stacked_data is not None:
                 stacked_data = stacked_data.fillna(0)
 
-                sorted_cols, color_list, label_list = sort_color_label_columns(stacked_data.columns)
+                sorted_cols, color_list, label_list = sort_fleet_label_columns(stacked_data.columns)
 
                 if level == "size":
                     fig, ax = plt.subplots(figsize=(12, 6))
@@ -634,7 +811,7 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
                     ax.tick_params(axis='both', labelsize=18)
                     ax.grid(True)
 
-                    ax.legend(title='Fuel', fontsize=14, title_fontsize=16, loc='upper left', bbox_to_anchor=(1, 1))
+                    ax.legend(title='Powertrain', fontsize=14, title_fontsize=16, loc='upper left', bbox_to_anchor=(1, 1))
                     plt.tight_layout(rect=[0, 0, 0.85, 1])
 
                     if save_label is not None and not save_label.startswith("_"):
@@ -657,7 +834,7 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
 
         if level == "class" and class_stacked_data is not None:
             class_stacked_data = class_stacked_data.fillna(0)
-            sorted_cols, color_list, label_list = sort_color_label_columns(class_stacked_data.columns)
+            sorted_cols, color_list, label_list = sort_fleet_label_columns(class_stacked_data.columns)
 
             fig, ax = plt.subplots(figsize=(12, 6))
             ax.stackplot(
@@ -674,7 +851,7 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
             ax.tick_params(axis='both', labelsize=18)
             ax.grid(True)
 
-            ax.legend(title='Fuel', fontsize=14, title_fontsize=16, loc='upper left', bbox_to_anchor=(1, 1))
+            ax.legend(title='Powertrain', fontsize=14, title_fontsize=16, loc='upper left', bbox_to_anchor=(1, 1))
             plt.tight_layout(rect=[0, 0, 0.85, 1])
 
             if save_label is not None and not save_label.startswith("_"):
@@ -697,7 +874,7 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
 
     if level == "fleet" and fleet_stacked_data is not None:
         fleet_stacked_data = fleet_stacked_data.fillna(0)
-        sorted_cols, color_list, label_list = sort_color_label_columns(fleet_stacked_data.columns)
+        sorted_cols, color_list, label_list = sort_fleet_label_columns(fleet_stacked_data.columns)
 
         fig, ax = plt.subplots(figsize=(12, 6))
         ax.stackplot(
@@ -714,7 +891,7 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
         ax.tick_params(axis='both', labelsize=18)
         ax.grid(True)
 
-        ax.legend(title='Fuel', fontsize=14, title_fontsize=16, loc='upper left', bbox_to_anchor=(1, 1))
+        ax.legend(title='Powertrain', fontsize=14, title_fontsize=16, loc='upper left', bbox_to_anchor=(1, 1))
         plt.tight_layout(rect=[0, 0, 0.85, 1])
 
         if save_label is not None and not save_label.startswith("_"):
@@ -868,21 +1045,21 @@ def plot_vessel_fuel_metric(vessel_results_dict, column_name, xlabel=None, save_
     fig, ax = plt.subplots(figsize=(12, 8))
 
     # --- Collect vessels and corresponding metrics ---
-    vessel_names = list(vessel_results_dict.keys())
-    vessel_names.sort()  # Optional: sort for consistent plotting order
+    vessel_names_list = list(vessel_results_dict.keys())
+    vessel_names_list.sort()  # Optional: sort for consistent plotting order
 
     # Create a mapping from fuels to consistent colors
     colors_for_fuels = fuel_colors
-    labels_for_fuels = fuel_names
+    labels_for_fuels = vessel_names
 
     # For each vessel, plot a horizontal line and scatter points for each fuel
     y_ticks = []
     y_tick_labels = []
     y_pos = 0
 
-    for vessel in vessel_names:
+    for vessel in vessel_names_list:
         fuel_dict = vessel_results_dict[vessel]
-
+        
         # Prepare y-axis label for vessel (with nicer formatting if available)
         vessel_label = vessel_size_title_with_class.get(vessel, vessel)
         y_ticks.append(y_pos)
@@ -894,6 +1071,7 @@ def plot_vessel_fuel_metric(vessel_results_dict, column_name, xlabel=None, save_
             # Extract the column value (use the last available data point)
             if column_name in df.columns:
                 value = df[column_name].mean()  # Average
+                print(value)
             else:
                 print(f"Column '{column_name}' not found for {vessel} {fuel}")
                 continue
@@ -930,17 +1108,23 @@ def plot_vessel_fuel_metric(vessel_results_dict, column_name, xlabel=None, save_
     ax.tick_params(axis='x', labelsize=18)
     ax.grid(True, axis='y', linestyle='--', alpha=0.7)
 
-    # --- Build a custom legend with unique fuel names ---
+    # --- Build a custom legend with unique label-color combinations ---
+    seen = set()
     handles = []
     labels = []
+
     for fuel_key, color in colors_for_fuels.items():
-        handles.append(plt.Line2D([0], [0], marker='o', color='w',
-                                  markerfacecolor=color, markersize=15, markeredgecolor='k'))
-        labels.append(labels_for_fuels[fuel_key])
+        label = labels_for_fuels[fuel_key]
+        if (label, color) not in seen:
+            seen.add((label, color))
+            handles.append(plt.Line2D([0], [0], marker='o', color='w',
+                                      markerfacecolor=color, markersize=15, markeredgecolor='k'))
+            labels.append(label)
+
 
     # Place legend **outside** plot area to the right
     legend = ax.legend(handles, labels,
-                       title='Main Fuel',
+                       title='Powertrain',
                        fontsize=16,
                        title_fontsize=18,
                        loc='center left',
@@ -974,109 +1158,339 @@ def plot_vessel_fuel_metric(vessel_results_dict, column_name, xlabel=None, save_
     plt.savefig(save_path_pdf, bbox_inches="tight")
 
     plt.close()
+
+
+def compare_tank_ranges(vessel_results_dict, save_label=None):
+
+    singapore_rotterdam_nm = 11439.25
+    lsfo_density = get_fuel_density("lsfo")
+    lsfo_LHV = get_fuel_LHV("lsfo")
+
+    vessel_names_list = list(vessel_results_dict.keys())
+    vessel_names_list.sort()
+
+    colors_for_fuels = fuel_colors
+    labels_for_fuels = vessel_names
+
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 10), gridspec_kw={'height_ratios': [3, 1]}, sharex=True)
+
+    vessel_labels = []
+    x_positions = []
+
+    for i, vessel in enumerate(vessel_names_list):
+        x_positions.append(i)
+        vessel_label = vessel_size_title_with_class.get(vessel, vessel)
+        vessel_labels.append(vessel_label)
+
+        fuel_dict = vessel_results_dict[vessel]
+
+        # --- LSFO main tank range (unfilled bar) ---
+        df_lsfo = fuel_dict.get("oil")
+        if df_lsfo is not None:
+            consumed_energy_cols = df_lsfo.filter(like="ConsumedEnergy")
+            fuel_energy_sum = consumed_energy_cols.sum(axis=1).mean()
+            nautical_miles = df_lsfo["Miles"].mean()
+            fuel_gj_per_mile = fuel_energy_sum / nautical_miles
+            main_gj = main_tank_size[vessel]["oil"] * lsfo_density * L_PER_CBM * lsfo_LHV / MJ_PER_GJ
+            main_range = main_gj / fuel_gj_per_mile
+            ax1.bar(i, main_range, width=0.6, edgecolor='k', facecolor='none', linewidth=2)
+
+        # --- Loop over fuels for pilot markers in both panels ---
+        for fuel, df in fuel_dict.items():
+            fuel_lookup = {"oil": "lsfo", "methane": "lng", "diesel": "FTdiesel"}.get(fuel, fuel)
+            fuel_density = get_fuel_density(fuel_lookup)
+            fuel_LHV = get_fuel_LHV(fuel_lookup)
+
+            if isinstance(df, pd.DataFrame):
+                consumed_energy_cols = df.filter(like="ConsumedEnergy")
+                fuel_energy_sum = consumed_energy_cols.sum(axis=1).mean()
+                nautical_miles = df["Miles"].mean()
+                fuel_gj_per_mile = fuel_energy_sum / nautical_miles
+            else:
+                continue
+
+            pilot_gj = pilot_tank_size[vessel] * lsfo_density * L_PER_CBM * lsfo_LHV / MJ_PER_GJ
+            if fuel == "oil" or fuel == "FTdiesel":
+                pilot_gj = 0
+            pilot_range = pilot_gj / fuel_gj_per_mile
+            pilot_ratio = pilot_range / singapore_rotterdam_nm
+            pilot_fuel_share = df["PilotFuelShare"].mean()
+
+            color = next((colors_for_fuels[k] for k in colors_for_fuels if k in fuel.lower()), 'gray')
+
+            # Identify color and label based on fuel key
+            color = None
+            label = None
+            for fuel_key in colors_for_fuels:
+                if fuel_key in fuel.lower():
+                    color = colors_for_fuels[fuel_key]
+                    label = labels_for_fuels[fuel_key]  # Use descriptive label
+                    break
+            if color is None:
+                color = 'gray'
+                label = fuel
+
+            # Plot pilot range marker
+            ax1.scatter(i, pilot_range, color=color, edgecolors='k', s=150)
+
+            # Bottom panel: pilot range as ratio
+            if pilot_ratio > 0:
+                ax2.scatter(i, pilot_ratio, color=color, edgecolors='k', s=100, label=fuel)
+                ax2.plot(
+                    [i - 0.2, i + 0.2],             # X-span for horizontal line
+                    [pilot_fuel_share, pilot_fuel_share],    # Constant Y value
+                    color=color,
+                    linewidth=2,
+                    solid_capstyle='round',
+                    label=fuel
+                )
+
+    # --- Finalize top panel ---
+    ax1.axhline(singapore_rotterdam_nm, linestyle='--', color='k', linewidth=2, label='Singapore–Rotterdam Distance')
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    unique_top = dict(zip(labels1, handles1))
     
+    # --- Build Powertrain legend (outside top panel) ---
+    seen = set()
+    handles = []
+    labels = []
+
+    for fuel_key, color in colors_for_fuels.items():
+        label = labels_for_fuels.get(fuel_key, fuel_key)
+        if (label, color) not in seen:
+            seen.add((label, color))
+            handles.append(Line2D([0], [0], marker='o', color='w',
+                                  markerfacecolor=color, markeredgecolor='k', markersize=15))
+            labels.append(label)
+
+    # --- Create Powertrain legend ---
+    powertrain_legend = ax1.legend(
+        handles, labels,
+        title='Powertrain',
+        fontsize=14,
+        title_fontsize=16,
+        loc='center left',
+        bbox_to_anchor=(1.02, 0.5),
+        borderaxespad=0
+    )
+
+    # Add it explicitly to retain it
+    ax1.add_artist(powertrain_legend)
+
+    # --- Create symbol legend for marker types ---
+    circle_marker = Line2D(
+        [0], [0], marker='o', color='w',
+        markeredgecolor='k', markerfacecolor='none',
+        markersize=12, linewidth=0
+    )
+    bar_marker = Line2D(
+        [0], [0], linestyle='-', color='k', linewidth=2
+    )
+
+    symbol_handles = [circle_marker, bar_marker]
+    symbol_labels = ['Pilot Fuel Tank', 'Main Fuel Tank']
+
+    symbol_legend = ax1.legend(
+        symbol_handles, symbol_labels,
+        loc='upper left',
+        bbox_to_anchor=(1.02, 0.05),  # Positioned below the first
+        borderaxespad=0,
+        fontsize=14
+    )
+
+    # Add the second legend
+    ax1.add_artist(symbol_legend)
+
+
+    ax1.set_ylabel("Range on Single Tank (nautical miles)", fontsize=16)
+    #ax1.set_title("Main and Pilot Tank Ranges per Vessel Class", fontsize=18)
+    ax1.grid(True, linestyle='--', alpha=0.5)
+
+    # --- Finalize bottom panel ---
+    ax2.set_ylabel("Pilot Tank Range / S-R Distance", fontsize=14)
+    ax2.set_xticks(x_positions)
+    ax2.set_xticklabels(vessel_labels, rotation=45, ha='right', fontsize=12)
+    ax2.tick_params(axis='y', labelsize=12)
+    #ax2.set_title("Pilot Tank Range as Fraction of Singapore–Rotterdam", fontsize=16)
+    ax2.grid(True, linestyle='--', alpha=0.5)
+    
+    custom_line = Line2D([0], [0], color='black', linewidth=2, solid_capstyle='round')
+    legend2 = ax2.legend(
+        [custom_line],
+        ["Best-fit Pilot\nFuel Fraction"],
+        loc='center left',
+        bbox_to_anchor=(1.02, 0.5),
+        borderaxespad=0,
+        fontsize=16,
+        title_fontsize=14
+    )
+    
+    ax1.tick_params(axis='x', labelsize=14)
+    ax1.tick_params(axis='y', labelsize=14)
+    ax2.tick_params(axis='x', labelsize=14)
+    ax2.tick_params(axis='y', labelsize=14)
+
+    plt.tight_layout()
+    plt.subplots_adjust(right=0.7)
+    
+    save_path_png = f"plots/multifuel/tank_range_comparison_{save_label}.png"
+    save_path_pdf = f"plots/multifuel/tank_range_comparison_{save_label}.pdf"
+
+    print(f"Saving to {save_path_png}")
+    plt.savefig(save_path_png, dpi=300, bbox_inches="tight")
+
+    print(f"Saving to {save_path_pdf}")
+    plt.savefig(save_path_pdf, bbox_inches="tight")
+    plt.savefig(save_path_png, dpi=300)
+    plt.savefig(save_path_pdf)
+    plt.close()
+
+
 def plot_vessel_fuel_stacked_histograms(vessel_results_dict, column_names, column_labels, xlabel=None, stack_label=None, save_label=None):
     """
     For each vessel, plots a horizontal stacked histogram (bar chart) for the provided list of column names.
     Each fuel has one bar, stacked by the specified column values.
-
-    Parameters
-    ----------
-    vessel_results_dict : dict
-        Dictionary of vessel results, structured as:
-        { base_vessel_ice : { fuel: DataFrame( columns... ) } }
-    column_names : list of str
-        List of column names to include in the stacked histogram.
-    xlabel : str, optional
-        Label for the x-axis (default is 'Value').
-    stack_label : str, optional
-        Label to append to filenames for identifying the stack plot content.
-    save_label : str, optional
-        Label to append to filenames for saving the plots.
     """
 
-    # --- Create a consistent color map for the stack layers ---
-    cmap = matplotlib.colormaps.get_cmap('tab20')  # Matplotlib 3.7+ compliant
-    column_colors = cmap(np.linspace(0, 1, len(column_names)))
-    column_color_map = {col: column_colors[i] for i, col in enumerate(column_names)}
+    # Manually define base colors
+    base_colors = {
+        "Base": "blue",
+        "Tank": "orange",
+        "Power": "green",
+        "Fuel": "purple",
+        "Regulation": "red"
+    }
+
+    # Map each column name to its display base label and base color
+    column_display_base = {}
+    column_color_map = {}
+
+    for col, label in zip(column_names, column_labels):
+        base_label = label.replace("CAPEX", "").replace("OPEX", "").strip()
+        column_display_base[col] = base_label
+
+        # Infer base key for color (assume col starts with Base, Tank, Power, etc.)
+        inferred_base = next((prefix for prefix in base_colors if col.startswith(prefix)), None)
+        column_color_map[col] = base_colors[inferred_base] if inferred_base else "#888888"
 
     for vessel, fuel_dict in vessel_results_dict.items():
         vessel_label = vessel_size_title_with_class.get(vessel, vessel)
 
-        # Prepare data for this vessel
         fuels = []
         data_per_fuel = []
+        total_values = {}
 
-        # --- Process each fuel for this vessel ---
         for fuel, df in fuel_dict.items():
-            # Get human-readable fuel label by matching substrings from fuel_names
-            readable_fuel_label = None
-            for fuel_key, fuel_display in fuel_names.items():
-                if fuel_key.lower() in fuel.lower():
-                    readable_fuel_label = fuel_display
-                    break
-
-            # Fallback if no match found
-            if readable_fuel_label is None:
-                readable_fuel_label = fuel
-
-            fuels.append(readable_fuel_label)
+            readable_fuel_label = next((fuel_display for fuel_key, fuel_display in fuel_names.items() if fuel_key.lower() in fuel.lower()), fuel)
             stacked_values = []
-
             for col in column_names:
                 if col not in df.columns:
                     print(f"Column '{col}' not found for {vessel} {fuel}. Skipping...")
                     stacked_values.append(0)
-                    continue
-
-                # Get the mean value for the column
-                value = df[col].mean()
-                stacked_values.append(value)
-
+                else:
+                    value = df.iloc[1:][col].mean() / df.iloc[1:]["CargoMiles"].mean()
+                    stacked_values.append(value)
+            total = sum(stacked_values)
+            fuels.append(readable_fuel_label)
             data_per_fuel.append(stacked_values)
+            total_values[readable_fuel_label] = total
 
-        # Convert data into a DataFrame for plotting
-        plot_df = pd.DataFrame(data_per_fuel, columns=column_names, index=fuels)
+        # Detect outlier
+        sorted_totals = sorted(total_values.items(), key=lambda x: x[1], reverse=True)
+        outlier_label, outlier_value = None, None
+        if len(sorted_totals) > 1 and sorted_totals[0][1] > 10 * sorted_totals[1][1]:
+            outlier_label, outlier_value = sorted_totals[0]
 
-        # --- Plotting ---
+        full_df = pd.DataFrame(data_per_fuel, columns=column_names, index=fuels)
+        plot_df = full_df.drop(index=outlier_label) if outlier_label else full_df
+
         fig, ax = plt.subplots(figsize=(12, 8))
 
-        # Create horizontal stacked bars
-        left = np.zeros(len(plot_df))
-        i=0
-        for col in column_names:
-            ax.barh(plot_df.index,
-                    plot_df[col],
-                    left=left,
-                    label=column_labels[i],
-                    color=column_color_map[col])
-            left += plot_df[col]
-            i+=1
+        y_labels = []
+        y_positions = []
+        current_y = 0
+        shown_labels = set()
 
-        # Customize axes
+        for fuel in full_df.index:
+            if fuel == outlier_label:
+                y_labels.append(fuel)
+                y_positions.append(current_y)
+                current_y += 1
+                continue
+
+            bar_values = plot_df.loc[fuel]
+            left = 0
+            for col in column_names:
+                width = bar_values[col]
+                base_label = column_display_base[col]
+                is_capex = "CAPEX" in col
+                hatch = None if is_capex else 'xx'
+
+                # Show base label once only
+                label = base_label if (base_label not in shown_labels and current_y == 0) else None
+                if label:
+                    shown_labels.add(base_label)
+
+                ax.barh(y=current_y,
+                        width=width,
+                        left=left,
+                        height=0.8,
+                        color=column_color_map[col],
+                        hatch=hatch,
+                        edgecolor='black',
+                        label=label)
+                left += width
+
+            y_labels.append(fuel)
+            y_positions.append(current_y)
+            current_y += 1
+
+        # Outlier label
+        if outlier_label:
+            outlier_y = y_labels.index(outlier_label)
+            x_hint = plot_df.sum(axis=1).max() * 0.05
+            ax.text(x=x_hint, y=outlier_y,
+                    s=f"{outlier_value:.2f} (outside plot range)",
+                    va='center', color='red', fontsize=16)
+
+        # Axes
+        ax.set_yticks(y_positions)
+        ax.set_yticklabels(y_labels)
+        ax.invert_yaxis()
+
+        xlabel_text = "Mean " + (xlabel if xlabel else "Value") + " Per Tonne Mile"
         ax.set_title(vessel_label, fontsize=26)
-        ax.set_xlabel("Mean " + xlabel if xlabel else 'Value', fontsize=24)
+        ax.set_xlabel(xlabel_text, fontsize=24)
         ax.set_ylabel('Main Fuel', fontsize=24)
         ax.tick_params(axis='x', labelsize=20)
         ax.tick_params(axis='y', labelsize=20)
         ax.grid(True, axis='x', linestyle='--', alpha=0.7)
 
-        # Build and place legend outside the plot area
-        ax.legend(fontsize=18, loc='center left', bbox_to_anchor=(1.02, 0.5))
-        plt.subplots_adjust(right=0.75)
+        x_max = plot_df.sum(axis=1).max() if not plot_df.empty else 1
+        ax.set_xlim([0, x_max * 1.2])
 
-        # Save plot
-        if save_label is not None and not save_label.startswith("_"):
-            this_save_label = "_" + save_label
-        else:
-            this_save_label = ""
+        # Custom legends with minimal gap
+        handles, labels = ax.get_legend_handles_labels()
 
-        safe_vessel_name = vessel.replace("/", "_")  # Make filename safe
-        if stack_label:
-            this_stack_label = stack_label
-        else:
-            this_stack_label = ""
+        component_legend = fig.legend(handles, labels,
+                                      loc='center left', bbox_to_anchor=(1.005, 0.8),
+                                      title="Cost Component", fontsize=18, title_fontsize=20)
 
+        capex_patch = mpatches.Patch(facecolor='white', edgecolor='black', label='CAPEX (solid)')
+        opex_patch = mpatches.Patch(facecolor='white', edgecolor='black', hatch='xx', label='OPEX (hatched)')
+
+        style_legend = fig.legend(handles=[capex_patch, opex_patch],
+                                  loc='center left', bbox_to_anchor=(1.005, 0.2),
+                                  title="Cost Type", fontsize=18, title_fontsize=20)
+
+        # Tighter right margin to reduce whitespace between plot and legend
+        #plt.subplots_adjust(right=0.95)
+        plt.tight_layout()
+
+        # Save
+        safe_vessel_name = vessel.replace("/", "_")
+        this_save_label = f"_{save_label}" if save_label and not save_label.startswith("_") else (save_label or "")
+        this_stack_label = stack_label if stack_label else ""
         save_path_png = f"plots/multifuel/stacked_{safe_vessel_name}_{this_stack_label}{this_save_label}.png"
         save_path_pdf = f"plots/multifuel/stacked_{safe_vessel_name}_{this_stack_label}{this_save_label}.pdf"
 
@@ -1084,7 +1498,6 @@ def plot_vessel_fuel_stacked_histograms(vessel_results_dict, column_names, colum
         plt.savefig(save_path_png, dpi=300, bbox_inches="tight")
         plt.savefig(save_path_pdf, bbox_inches="tight")
         plt.close()
-
 
 
 def make_all_plots(results_file, results_label=None, regulations=None):
@@ -1100,73 +1513,84 @@ def make_all_plots(results_file, results_label=None, regulations=None):
     """
 
     ################################## Global results ##################################
-#    global_results_dict = read_results_global(results_file)
-    
-#    # Fleet info
-#    plot_fleet_info_column(global_results_dict, "TotalEquivalentWTW", info_type="global", ylabel="WTW Emissions (tonnes CO2e)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "RegulationExpenses", info_type="global", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "VesselExpenses", info_type="global", ylabel="Vessel Expenses (USD)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "Expenses", info_type="global", ylabel="Total Expenses (USD)", save_label=results_label)
+    global_results_dict = read_results_global(results_file)
+    #print(global_results_dict)
 
-#    # Global info
-#    plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
-#    plot_global_stacked_fuel_info(global_results_dict, "FuelRelatedExpenses", save_label=results_label)
+    # Fleet info
+    plot_fleet_info_column(global_results_dict, "TotalEquivalentWTW", info_type="global", ylabel="WTW Emissions (tonnes CO2e)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "IntensityTotalEquivalentWTW", info_type="global", ylabel="WTW Intensity (kg CO$_2$e / GJ fuel)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "RegulationExpenses", info_type="global", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "VesselExpenses", info_type="global", ylabel="Vessel Expenses (USD)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "Expenses", info_type="global", ylabel="Total Expenses (USD)", save_label=results_label)
+
+    # Global info
+    plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
+    plot_global_stacked_fuel_info(global_results_dict, "FuelRelatedExpenses", save_label=results_label)
+
     ####################################################################################
-#
-#    ################################ Regulation results ################################
-#    regulation_results_dict = read_results_regulation(results_file)
-#    for regulation in regulations:
-#        if regulation in regulation_results_dict:
-#            plot_fleet_info_column(regulation_results_dict["net_zero_regulation"], "FlexibilityCost", info_type = "regulation", save_label=results_label)
-#            plot_regulation_vessel_info(regulation_results_dict, "VesselThreshold", ylabel="Max kg CO2e WTW / GJ fuel", save_label=results_label)
-#        else:
-#            print(f"Regulation {regulation} is not in the simulation output. No plots produced.")
-#    ####################################################################################
-#
-#    ################################## Fleet results ###################################
+
+    ################################ Regulation results ################################
+    regulation_results_dict = read_results_regulation(results_file)
+    if regulations is not None:
+        for regulation in regulations:
+            if regulation in regulation_results_dict:
+                plot_fleet_info_column(regulation_results_dict[regulation], "FlexibilityCost", info_type = "regulation", save_label=results_label)
+                plot_regulation_vessel_info(regulation_results_dict, "VesselThreshold", ylabel="Max kg CO2e WTW / GJ fuel", save_label=results_label, regulation_name=regulation)
+            else:
+                print(f"Regulation {regulation} is not in the simulation output. No plots produced.")
+    ####################################################################################
+
+    ################################ Fleet results ###################################
     fleet_results_dict = read_results_fleet(results_file)
 
     # Plot fleet info for each vessel class and size
-#    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="size", ylabel="Existing Vessels", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="size", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="size", ylabel = "Scrapped Vessels", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="size", ylabel="Existing Vessels", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="size", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="size", ylabel = "Scrapped Vessels", save_label=results_label)
 
     # Plot fleet info for each vessel class (aggregated over sizes)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="class", ylabel="Existing Vessels", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="class", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="class", ylabel="Scrapped Vessels", save_label=results_label)
-#
-#    # Plot fleet info for the full fleet (aggregated over all classes and sizes)
+    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="class", ylabel="Existing Vessels", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="class", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="class", ylabel="Scrapped Vessels", save_label=results_label)
+
+    # Plot fleet info for the full fleet (aggregated over all classes and sizes)
     plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="fleet", ylabel="Existing Vessels", save_label=results_label)
     plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="fleet", save_label=results_label)
     plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="fleet", ylabel="Scrapped Vessels", save_label=results_label)
-    
+
     # Plot vessel metrics by fuel
     vessel_results_dict = read_results_vessel(results_file)
     plot_vessel_fuel_metric(vessel_results_dict, "InvestmentMetricExpected", xlabel="Vessel Investment Metric", save_label=results_label, relative_to_lsfo=True)
     plot_vessel_fuel_metric(vessel_results_dict, "CargoMiles", xlabel="Annual Vessel Cargo Miles", save_label=results_label, relative_to_lsfo=True)
     plot_vessel_fuel_metric(vessel_results_dict, "TotalCost", xlabel="Annual Vessel Cost (USD)", save_label=results_label, relative_to_lsfo=True)
-#    plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["TotalBaseCost", "TotalPowerSystemCost", "TotalFuelOPEX", "TotalTankCost"], ["Base Vessel", "Power System", "Fuel Purchase", "Tanks"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
-    
+    plot_vessel_fuel_metric(vessel_results_dict, "PilotFuelShare", xlabel="Pilot Fuel Fraction", save_label=results_label, relative_to_lsfo=False)
+    compare_tank_ranges(vessel_results_dict, save_label=results_label)
+    if regulations is None:
+        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
+    else:
+        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX", "RegulationOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost", "Regulatory Penalties"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
+
     ####################################################################################
-            
+
 def main():
 
-#    results_file_base = "multi_fuel_full_fleet/all_fuels_base/plots/all_fuels_base_excel_report.xlsx"
-#    make_all_plots(results_file_base, results_label="base")
-#
+    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways/plots/all_fuels_excel_report.xlsx"
+    make_all_plots(results_file_base, results_label="singapore_rotterdam")
+
+    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg/plots/all_fuels_excel_report.xlsx"
+    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
+
 #    results_file_base = "multi_fuel_full_fleet/all_fuels_base/plots/all_fuels_base_no_cm_excel_report.xlsx"
 #    make_all_plots(results_file_base, results_label="base_no_cm")
 #
-    results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap_orig_tank/plots/all_fuels_mod_cap_orig_tank_excel_report.xlsx"
-    make_all_plots(results_file_mod_cap, results_label="mod_cap_orig_tank")
+#    results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap_orig_tank/plots/all_fuels_mod_cap_orig_tank_excel_report.xlsx"
+#    make_all_plots(results_file_mod_cap, results_label="mod_cap_orig_tank")
 
 #    results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap_orig_tank/plots/all_fuels_mod_cap_orig_tank_no_cm_excel_report.xlsx"
 #    make_all_plots(results_file_mod_cap, results_label="mod_cap_orig_tank_no_cm")
 
 #    results_file_mod_cap = "multi_fuel_full_fleet/all_fuels_mod_cap/plots/all_fuels_mod_cap_excel_report.xlsx"
 #    make_all_plots(results_file_mod_cap, results_label="mod_cap")
-    
     
     ###################################################################################################
 
