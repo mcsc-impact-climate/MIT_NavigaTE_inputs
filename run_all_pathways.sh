@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Date: June 3, 2024. Updated Oct 2 2024 to reflect updated include file structure and parallelize execution
+# Updated May 29, 2025 to support optional country filtering
 # Purpose: Run NavigaTE with single pathway and all bulk, container and tanker vessels for all modelled fuel production pathways
 # Author: danikam
 
@@ -24,9 +25,8 @@ rm ${SCRIPT_DIR}/all_outputs_full_fleet/*.xlsx
 rm ${SCRIPT_DIR}/Logs/*.log
 
 echo 'Processing lsfo pathway'
-# Copy the given black pathway into the top level of includes_global and run
 navigate --suppress-plots ${SCRIPT_DIR}/single_pathway_full_fleet/lsfo/lsfo.nav
-cp ${SCRIPT_DIR}/single_pathway_full_fleet/lsfo/plots/lsfo_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/lsfo-1_excel_report.xlsx
+mv ${SCRIPT_DIR}/all_outputs_full_fleet/lsfo_excel_report.xlsx ${SCRIPT_DIR}/all_outputs_full_fleet/lsfo-1_excel_report.xlsx
 
 # Function to process a pathway
 process_pathway() {
@@ -44,41 +44,49 @@ process_pathway() {
 }
 
 # Number of parallel processes
-N_PARALLEL=16  # Adjust this number as needed
+N_PARALLEL=16
 pids=()
 
-# Track progress
-total_files=$(ls -1 "${SOURCE_DIR}"/*.inc | wc -l)
+# Capture user-specified countries
+COUNTRIES=("$@")
+
+# Get list of files based on countries or all if none specified
+if [ ${#COUNTRIES[@]} -eq 0 ]; then
+    echo "No countries specified. Processing all .inc files..."
+    INC_FILES=("${SOURCE_DIR}"/*.inc)
+else
+    echo "Filtering for countries: ${COUNTRIES[*]}"
+    INC_FILES=()
+    for country in "${COUNTRIES[@]}"; do
+        for file in "${SOURCE_DIR}"/*"${country}"*.inc; do
+            [ -e "$file" ] && INC_FILES+=("$file")
+        done
+    done
+fi
+
+total_files=${#INC_FILES[@]}
 processed=0
 
-# Iterate over .inc files
-for inc_file in "${SOURCE_DIR}"/*.inc; do
-
+for inc_file in "${INC_FILES[@]}"; do
     filename=$(basename -- "$inc_file")
     fuel=$(echo $filename | cut -d'-' -f1)
     pathway_name=$(basename -- "$filename" .inc)
 
     process_pathway "$inc_file" "$fuel" "$pathway_name" &
 
-    # Capture the PID of the background process
     pids+=($!)
 
-    # If we have reached the maximum number of parallel jobs
     if [ "${#pids[@]}" -ge "$N_PARALLEL" ]; then
-        # Wait for each of the PIDs to finish
         for pid in "${pids[@]}"; do
             wait "$pid"
             processed=$((processed+1))
             percentage=$((processed*100/total_files))
             echo "Processed $processed out of $total_files ($percentage%)"
         done
-        # Reset the PID array after the batch is done
         pids=()
     fi
-
 done
 
-# Wait for any remaining background processes to complete
 for pid in "${pids[@]}"; do
     wait "$pid"
     processed=$((processed+1))
@@ -86,5 +94,5 @@ for pid in "${pids[@]}"; do
     echo "Processed $processed out of $total_files ($percentage%)"
 done
 
-# Convert the output xlsx files to csv for faster post-processing
+# Convert Excel outputs to CSV
 python "${SCRIPT_DIR}/source/convert_excel_files_to_csv.py" --input_dir "${SCRIPT_DIR}/all_outputs_full_fleet" --output_dir "${SCRIPT_DIR}/all_outputs_full_fleet_csv"
