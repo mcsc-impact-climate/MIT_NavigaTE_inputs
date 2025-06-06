@@ -20,3 +20,4 @@ processed_results*
 *.ilp
 *.log
 all_results_df*.csv
+data/FAF5.6.1
