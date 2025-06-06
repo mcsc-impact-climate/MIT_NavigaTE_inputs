@@ -1071,7 +1071,6 @@ def plot_vessel_fuel_metric(vessel_results_dict, column_name, xlabel=None, save_
             # Extract the column value (use the last available data point)
             if column_name in df.columns:
                 value = df[column_name].mean()  # Average
-                print(value)
             else:
                 print(f"Column '{column_name}' not found for {vessel} {fuel}")
                 continue
@@ -1159,16 +1158,12 @@ def plot_vessel_fuel_metric(vessel_results_dict, column_name, xlabel=None, save_
 
     plt.close()
 
-
 def compare_tank_ranges(vessel_results_dict, save_label=None):
-
-    singapore_rotterdam_nm = 11439.25
+    singapore_rotterdam_nm = 8419
     lsfo_density = get_fuel_density("lsfo")
     lsfo_LHV = get_fuel_LHV("lsfo")
 
-    vessel_names_list = list(vessel_results_dict.keys())
-    vessel_names_list.sort()
-
+    vessel_names_list = sorted(vessel_results_dict.keys())
     colors_for_fuels = fuel_colors
     labels_for_fuels = vessel_names
 
@@ -1216,41 +1211,23 @@ def compare_tank_ranges(vessel_results_dict, save_label=None):
             pilot_ratio = pilot_range / singapore_rotterdam_nm
             pilot_fuel_share = df["PilotFuelShare"].mean()
 
-            color = next((colors_for_fuels[k] for k in colors_for_fuels if k in fuel.lower()), 'gray')
-
-            # Identify color and label based on fuel key
-            color = None
-            label = None
+            # Identify color and label
+            color, label = 'gray', fuel
             for fuel_key in colors_for_fuels:
                 if fuel_key in fuel.lower():
                     color = colors_for_fuels[fuel_key]
-                    label = labels_for_fuels[fuel_key]  # Use descriptive label
+                    label = labels_for_fuels.get(fuel_key, fuel_key)
                     break
-            if color is None:
-                color = 'gray'
-                label = fuel
 
-            # Plot pilot range marker
             ax1.scatter(i, pilot_range, color=color, edgecolors='k', s=150)
-
-            # Bottom panel: pilot range as ratio
             if pilot_ratio > 0:
                 ax2.scatter(i, pilot_ratio, color=color, edgecolors='k', s=100, label=fuel)
-                ax2.plot(
-                    [i - 0.2, i + 0.2],             # X-span for horizontal line
-                    [pilot_fuel_share, pilot_fuel_share],    # Constant Y value
-                    color=color,
-                    linewidth=2,
-                    solid_capstyle='round',
-                    label=fuel
-                )
+                ax2.plot([i - 0.2, i + 0.2], [pilot_fuel_share, pilot_fuel_share], color=color, linewidth=2, solid_capstyle='round', label=fuel)
 
-    # --- Finalize top panel ---
-    ax1.axhline(singapore_rotterdam_nm, linestyle='--', color='k', linewidth=2, label='Singapore–Rotterdam Distance')
-    handles1, labels1 = ax1.get_legend_handles_labels()
-    unique_top = dict(zip(labels1, handles1))
-    
-    # --- Build Powertrain legend (outside top panel) ---
+    # --- Singapore–Rotterdam reference line ---
+    sr_line = ax1.axhline(singapore_rotterdam_nm, linestyle='--', color='k', linewidth=2)
+
+    # --- Build Powertrain legend ---
     seen = set()
     handles = []
     labels = []
@@ -1259,61 +1236,46 @@ def compare_tank_ranges(vessel_results_dict, save_label=None):
         label = labels_for_fuels.get(fuel_key, fuel_key)
         if (label, color) not in seen:
             seen.add((label, color))
-            handles.append(Line2D([0], [0], marker='o', color='w',
-                                  markerfacecolor=color, markeredgecolor='k', markersize=15))
+            handles.append(Line2D([0], [0], marker='o', color='w', markerfacecolor=color, markeredgecolor='k', markersize=15))
             labels.append(label)
 
-    # --- Create Powertrain legend ---
+    # Add Singapore–Rotterdam distance line to powertrain legend
+    handles.append(Line2D([0], [0], linestyle='--', color='k', linewidth=2))
+    labels.append('Singapore–Rotterdam Distance')
+
     powertrain_legend = ax1.legend(
         handles, labels,
         title='Powertrain',
         fontsize=14,
         title_fontsize=16,
         loc='center left',
-        bbox_to_anchor=(1.02, 0.5),
+        bbox_to_anchor=(1.02, 0.7),
         borderaxespad=0
     )
-
-    # Add it explicitly to retain it
     ax1.add_artist(powertrain_legend)
 
-    # --- Create symbol legend for marker types ---
-    circle_marker = Line2D(
-        [0], [0], marker='o', color='w',
-        markeredgecolor='k', markerfacecolor='none',
-        markersize=12, linewidth=0
-    )
-    bar_marker = Line2D(
-        [0], [0], linestyle='-', color='k', linewidth=2
-    )
-
-    symbol_handles = [circle_marker, bar_marker]
-    symbol_labels = ['Pilot Fuel Tank', 'Main Fuel Tank']
-
+    # --- Symbol legend (Pilot and Main tank) ---
+    circle_marker = Line2D([0], [0], marker='o', color='w', markeredgecolor='k', markerfacecolor='none', markersize=12, linewidth=0)
+    bar_marker = Line2D([0], [0], linestyle='-', color='k', linewidth=2)
     symbol_legend = ax1.legend(
-        symbol_handles, symbol_labels,
+        [circle_marker, bar_marker],
+        ['Pilot Fuel Tank', 'Main Fuel Tank'],
         loc='upper left',
-        bbox_to_anchor=(1.02, 0.05),  # Positioned below the first
+        bbox_to_anchor=(1.02, 0.3),
         borderaxespad=0,
-        fontsize=14
+        fontsize=16
     )
-
-    # Add the second legend
     ax1.add_artist(symbol_legend)
 
-
+    # --- Axis formatting ---
     ax1.set_ylabel("Range on Single Tank (nautical miles)", fontsize=16)
-    #ax1.set_title("Main and Pilot Tank Ranges per Vessel Class", fontsize=18)
     ax1.grid(True, linestyle='--', alpha=0.5)
-
-    # --- Finalize bottom panel ---
     ax2.set_ylabel("Pilot Tank Range / S-R Distance", fontsize=14)
     ax2.set_xticks(x_positions)
     ax2.set_xticklabels(vessel_labels, rotation=45, ha='right', fontsize=12)
-    ax2.tick_params(axis='y', labelsize=12)
-    #ax2.set_title("Pilot Tank Range as Fraction of Singapore–Rotterdam", fontsize=16)
     ax2.grid(True, linestyle='--', alpha=0.5)
-    
+
+    # --- Bottom panel: Best-fit pilot fraction ---
     custom_line = Line2D([0], [0], color='black', linewidth=2, solid_capstyle='round')
     legend2 = ax2.legend(
         [custom_line],
@@ -1321,29 +1283,26 @@ def compare_tank_ranges(vessel_results_dict, save_label=None):
         loc='center left',
         bbox_to_anchor=(1.02, 0.5),
         borderaxespad=0,
-        fontsize=16,
-        title_fontsize=14
+        fontsize=16
     )
-    
+
+    # --- Final plot adjustments ---
     ax1.tick_params(axis='x', labelsize=14)
     ax1.tick_params(axis='y', labelsize=14)
     ax2.tick_params(axis='x', labelsize=14)
     ax2.tick_params(axis='y', labelsize=14)
-
     plt.tight_layout()
-    plt.subplots_adjust(right=0.7)
-    
+    plt.subplots_adjust(right=0.73)
+
     save_path_png = f"plots/multifuel/tank_range_comparison_{save_label}.png"
     save_path_pdf = f"plots/multifuel/tank_range_comparison_{save_label}.pdf"
 
     print(f"Saving to {save_path_png}")
-    plt.savefig(save_path_png, dpi=300, bbox_inches="tight")
-
-    print(f"Saving to {save_path_pdf}")
-    plt.savefig(save_path_pdf, bbox_inches="tight")
     plt.savefig(save_path_png, dpi=300)
+    print(f"Saving to {save_path_pdf}")
     plt.savefig(save_path_pdf)
     plt.close()
+
 
 
 def plot_vessel_fuel_stacked_histograms(vessel_results_dict, column_names, column_labels, xlabel=None, stack_label=None, save_label=None):
@@ -1514,14 +1473,15 @@ def make_all_plots(results_file, results_label=None, regulations=None):
 
     ################################## Global results ##################################
     global_results_dict = read_results_global(results_file)
-    #print(global_results_dict)
 
     # Fleet info
     plot_fleet_info_column(global_results_dict, "TotalEquivalentWTW", info_type="global", ylabel="WTW Emissions (tonnes CO2e)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "CumulativeTotalEquivalentWTW", info_type="global", ylabel="Cumulative WTW (tonnes CO2e)", save_label=results_label)
     plot_fleet_info_column(global_results_dict, "IntensityTotalEquivalentWTW", info_type="global", ylabel="WTW Intensity (kg CO$_2$e / GJ fuel)", save_label=results_label)
     plot_fleet_info_column(global_results_dict, "RegulationExpenses", info_type="global", save_label=results_label)
     plot_fleet_info_column(global_results_dict, "VesselExpenses", info_type="global", ylabel="Vessel Expenses (USD)", save_label=results_label)
     plot_fleet_info_column(global_results_dict, "Expenses", info_type="global", ylabel="Total Expenses (USD)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "CumulativeExpenses", info_type="global", ylabel="Cumulative Expenses (USD)", save_label=results_label)
 
     # Global info
     plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
