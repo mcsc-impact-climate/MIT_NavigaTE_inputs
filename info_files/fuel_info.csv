@@ -1,9 +1,9 @@
-Fuel,Label,Lower Heating Value (MJ / kg),LHV source,Mass density (kg/L),Mass density source,Boil-off Rate (%/day),Boil-off Rate source,Description
-ammonia,Ammonia,18.8,GREET1_2024,0.6028,GREET1_2024,0.03,"https://www.sciencedirect.com/science/article/abs/pii/S0360319920315858, https://www.proquest.com/docview/1323774328?%20Theses&fromopenview=true&pq-origsite=gscholar&sourcetype=Dissertations%20&parentSessionId=Lc4rClj9PHa5ZZLAj2lxA1Y9AtHNfuWdOYWUNvaVRU8%3D",
-methanol,Methanol,20.1,GREET1_2024,0.794,GREET1_2024,0,"https://www.sciencedirect.com/science/article/abs/pii/S0360319920315858 indicates 0.005, will need to confirm.",
-FTdiesel,F-T Diesel,43.2,GREET1_2024,0.797,GREET1_2024,0,,Fischer-Tropsch diesel
-lsfo,LSFO,39.5,GREET1_2024,0.991,GREET1_2024,0,,Low-sulfur fuel oil
-low_sulfur_fuel_oil,LSFO,39.5,GREET1_2024,0.991,GREET1_2024,,,
-compressed_hydrogen,Compressed Hydrogen,120.0,GREET1_2024,0.03873,https://cmb.tech/hydrogen-tools,0,,Hydrogen compressed to 700 bar (assume at 20C)
-liquid_hydrogen,Liquid Hydrogen,120.0,GREET1_2024,0.0708,GREET1_2024,0.5,"https://www.sciencedirect.com/science/article/abs/pii/S0360319997000323, https://www.mdpi.com/1996-1073/15/6/2046",Liquid hydrogen (assume cryogenic)
-lng,LNG,48.6,GREET1_2024,0.428,GREET1_2024,0,,
+Fuel,Label,Lower Heating Value (MJ / kg),LHV source,Mass density (kg/L),Mass density source,Boil-off Rate (%/day),Boil-off Rate source,TTW CO2 (g/MJ),TTW CO2 source,TTW N2O (g/MJ),TTW NOx source,TTW Black Carbon (g/MJ),TTW Black Carbon source,TTW CH4 (g/MJ),TTW CH4 source,Description
+ammonia,Ammonia,18.8,GREET1_2024,0.6028,GREET1_2024,0.03,"https://www.sciencedirect.com/science/article/abs/pii/S0360319920315858, https://www.proquest.com/docview/1323774328?%20Theses&fromopenview=true&pq-origsite=gscholar&sourcetype=Dissertations%20&parentSessionId=Lc4rClj9PHa5ZZLAj2lxA1Y9AtHNfuWdOYWUNvaVRU8%3D",0,GREET 2024 Marine WTH,0.00003,GREET 2024 Marine WTH,0.00243,GREET 2024 Marine WTH,0,GREET 2024 Marine WTH,
+methanol,Methanol,20.1,GREET1_2024,0.794,GREET1_2024,0,"https://www.sciencedirect.com/science/article/abs/pii/S0360319920315858 indicates 0.005, will need to confirm.",69.27770,GREET 2024 Marine WTH,0.00388,GREET 2024 Marine WTH,0.00243,GREET 2024 Marine WTH,0.00114,GREET 2024 Marine WTH,
+FTdiesel,F-T Diesel,43.2,GREET1_2024,0.797,GREET1_2024,0,,72,GREET 2024 Marine WTH,0.00388,GREET 2024 Marine WTH,0.00243,GREET 2024 Marine WTH,0.00114,GREET 2024 Marine WTH,Fischer-Tropsch diesel
+lsfo,LSFO,39.5,GREET1_2024,0.991,GREET1_2024,0,,80,GREET 2024 Marine WTH,0.00401,GREET 2024 Marine WTH,0.00992,GREET 2024 Marine WTH,0.00118,GREET 2024 Marine WTH,Low-sulfur fuel oil
+low_sulfur_fuel_oil,LSFO,39.5,GREET1_2024,0.991,GREET1_2024,,,80,GREET 2024 Marine WTH,0.00401,GREET 2024 Marine WTH,0.00992,GREET 2024 Marine WTH,0.00118,GREET 2024 Marine WTH,
+compressed_hydrogen,Compressed Hydrogen,120.0,GREET1_2024,0.03873,https://cmb.tech/hydrogen-tools,0,,0,GREET 2024 Marine WTH,0,GREET 2024 Marine WTH,0.00243,GREET 2024 Marine WTH (borrowed from ammonia and methanol),0,GREET 2024 Marine WTH,Hydrogen compressed to 700 bar (assume at 20C)
+liquid_hydrogen,Liquid Hydrogen,120.0,GREET1_2024,0.0708,GREET1_2024,0.5,"https://www.sciencedirect.com/science/article/abs/pii/S0360319997000323, https://www.mdpi.com/1996-1073/15/6/2046",0,GREET 2024 Marine WTH,0,GREET 2024 Marine WTH,0.00243,GREET 2024 Marine WTH (borrowed from ammonia and methanol),0,GREET 2024 Marine WTH,Liquid hydrogen (assume cryogenic)
+lng,LNG,48.6,GREET1_2024,0.428,GREET1_2024,0,,54,GREET 2024 Marine WTH,0.00190,GREET 2024 Marine WTH,0.00054,GREET 2024 Marine WTH,0.62500,GREET 2024 Marine WTH,
