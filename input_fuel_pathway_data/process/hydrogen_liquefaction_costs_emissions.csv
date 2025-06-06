@@ -1,115 +1,115 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
-liquid_hydrogen,n/a,n/a,grid,grid,South Africa,1,2024,729.5576399999998,723.7734584000002,1453.3310984,5.6640000000000015,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Taiwan,1,2024,506.73707999999993,1462.4042248000003,1969.1413048000002,0.28,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,South Africa,1,2024,560.0463,713.6027780000003,1273.6490780000004,5.6640000000000015,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Taiwan,1,2024,551.0616,1465.0636959999997,2016.1252959999997,0.28,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Switzerland,1,2024,661.8729000000001,2183.712373999999,2845.585273999999,0.28,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Singapore,1,2024,495.35645999999997,2605.721387599999,3101.077847599999,3.7680000000000007,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Hungary,1,2024,553.45752,1313.2074512000004,1866.6649712000003,1.6319999999999997,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Philippines,1,2024,416.29109999999986,1240.9774659999994,1657.2685659999993,4.887999999999998,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Netherlands,1,2024,675.6494399999999,1984.5389664000006,2660.1884064000005,2.144,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Norway,1,2024,793.6484999999998,1039.6189099999997,1833.2674099999995,0.24,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Singapore,1,2024,554.0564999999999,2609.2433899999996,3163.2998899999993,3.7680000000000007,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Hungary,1,2024,539.082,1312.344920000001,1851.4269200000008,1.6319999999999997,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Philippines,1,2024,536.0870999999999,1248.1652259999994,1784.2523259999994,4.887999999999998,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Netherlands,1,2024,613.9544999999997,1980.8372700000002,2594.79177,2.144,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Norway,1,2024,679.8423,1032.7905379999995,1712.6328379999995,0.24,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Oman,1,2024,572.0259000000001,1818.3215540000006,2390.3474540000007,4.519999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Italy,1,2024,557.0513999999998,3825.4230840000005,4382.474484,2.6479999999999997,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Italy,1,2024,575.0207999999998,3826.5012479999996,4401.522047999999,2.6479999999999997,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Austria,1,2024,622.9392000000001,2509.3763519999984,3132.3155519999987,0.8879999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Finland,1,2024,690.0249599999999,1073.4014975999999,1763.4264575999996,0.6319999999999997,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Finland,1,2024,646.8983999999999,1070.8139040000003,1717.7123040000001,0.6319999999999997,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Portugal,1,2024,545.0717999999999,1256.7043079999999,1801.7761079999998,1.3279999999999994,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Germany,1,2024,624.1371599999999,2213.448229599999,2837.585389599999,3.0479999999999983,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Germany,1,2024,616.9493999999999,2213.0169640000013,2829.9663640000012,3.0479999999999983,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Greece,1,2024,551.0616,1913.063696,2464.125296,2.6960000000000015,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,France,1,2024,615.75144,1572.9450864000007,2188.696526400001,0.44799999999999995,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Brazil,1,2024,610.9596,972.6575759999996,1583.6171759999997,0.7839999999999998,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,United Kingdom,1,2024,608.5636800000001,1020.5138207999997,1629.0775007999998,1.904,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Spain,1,2024,524.1075,1199.4464500000008,1723.553950000001,1.3919999999999995,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Sweden,1,2024,725.9637600000001,691.5578256000003,1417.5215856000004,0.32799999999999985,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Czech Republic,1,2024,536.68608,1280.2011647999993,1816.8872447999993,4.272000000000002,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Japan,1,2024,643.9035,1542.6342099999993,2186.537709999999,3.879999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Belgium,1,2024,686.43108,1273.1858648000002,1959.6169448,1.104,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Poland,1,2024,560.0463,4465.602777999998,5025.649077999998,5.295999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,India,1,2024,379.7533199999999,1046.7851992000003,1426.5385192000003,5.704000000000001,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Indonesia,1,2024,381.55026000000004,574.8930155999998,956.4432755999999,5.704000000000001,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,South Korea,1,2024,688.827,961.3296199999999,1650.1566199999997,3.4480000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,China,1,2024,471.99624,740.3197743999997,1212.3160143999996,4.656000000000002,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,France,1,2024,604.9698,1572.2981879999995,2177.2679879999996,0.44799999999999995,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Brazil,1,2024,551.0616,969.063696,1520.1252960000002,0.7839999999999998,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,United Kingdom,1,2024,637.9137,1022.274822,1660.188522,1.904,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Spain,1,2024,557.0513999999998,1201.423084,1758.4744839999998,1.3919999999999995,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Sweden,1,2024,658.8779999999998,687.5326800000004,1346.4106800000002,0.32799999999999985,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Czech Republic,1,2024,545.0717999999999,1280.7043080000008,1825.7761080000007,4.272000000000002,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Japan,1,2024,646.8983999999999,1542.8139040000008,2189.7123040000006,3.879999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Belgium,1,2024,613.9544999999997,1268.8372700000007,1882.7917700000003,1.104,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Poland,1,2024,554.0564999999999,4465.243390000001,5019.299890000001,5.295999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,India,1,2024,530.0973,1055.8058379999995,1585.9031379999997,5.704000000000001,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Indonesia,1,2024,482.1788999999999,580.9307340000003,1063.1096340000001,5.704000000000001,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,South Korea,1,2024,563.0411999999999,953.7824720000003,1516.8236720000002,3.4480000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,China,1,2024,548.0666999999999,744.884002,1292.9507019999999,4.656000000000002,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,United Arab Emirates,1,2024,572.0259000000001,914.3215539999998,1486.3474539999997,3.719999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,United States,1,2024,598.9799999999999,1131.9387999999994,1730.9187999999995,2.9520000000000017,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Turkey,1,2024,436.05743999999993,1074.1634464,1510.2208864,3.719999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Australia,1,2024,586.4014199999999,1483.1840851999996,2069.5855051999997,4.3919999999999995,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Turkey,1,2024,548.0666999999999,1080.8840020000002,1628.950702,3.719999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Australia,1,2024,613.9544999999997,1484.83727,2098.79177,4.3919999999999995,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Malaysia,1,2024,524.1075,1079.44645,1603.55395,0.8399999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Canada,1,2024,533.0922000000002,943.9855320000001,1477.0777320000002,1.3599999999999994,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Mexico,1,2024,485.17379999999997,1597.1104280000006,2082.2842280000004,4.056000000000001,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Thailand,1,2024,390.53496,943.4320975999997,1333.9670575999996,4.399999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,grid,grid,Russia,1,2024,426.4737599999999,785.5884256000003,1212.0621856000002,3.5279999999999987,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Canada,1,2024,610.9596,948.6575760000004,1559.6171760000004,1.3599999999999994,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Mexico,1,2024,527.1023999999999,1599.626144,2126.728544,4.056000000000001,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Thailand,1,2024,533.0922000000002,951.9855320000001,1485.0777320000002,4.399999999999999,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,grid,grid,Russia,1,2024,566.0361,793.962166,1359.998266,3.5279999999999987,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
 liquid_hydrogen,n/a,n/a,grid,grid,Saudi Arabia,1,2024,572.0259000000001,578.3215540000004,1150.3474540000007,3.5279999999999987,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,South Africa,1,2024,729.5576399999998,660.6700023999998,1390.2276423999997,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Taiwan,1,2024,506.73707999999993,324.0073928,830.7444727999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Switzerland,1,2024,661.8729000000001,555.9921020000003,1217.8650020000005,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Singapore,1,2024,495.35645999999997,516.6407955999998,1011.9972555999998,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Hungary,1,2024,553.45752,856.2240752000001,1409.6815952000002,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Philippines,1,2024,416.29109999999986,498.3713380000001,914.662438,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Netherlands,1,2024,675.6494399999999,529.6026704000001,1205.2521104,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Norway,1,2024,793.6484999999998,811.3170380000004,1604.9655380000002,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Oman,1,2024,572.0259000000001,393.90296199999983,965.928862,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Italy,1,2024,557.0513999999998,479.6009319999999,1036.6523319999997,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Austria,1,2024,622.9392000000001,553.6560800000001,1176.5952800000002,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Finland,1,2024,690.0249599999999,805.0996256000005,1495.1245856000005,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Portugal,1,2024,545.0717999999999,412.0791879999999,957.1509879999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Germany,1,2024,624.1371599999999,553.7279576000001,1177.8651175999998,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Greece,1,2024,551.0616,412.438576,963.500176,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,France,1,2024,615.75144,449.3090864,1065.0605264,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Brazil,1,2024,610.9596,524.8965519999999,1135.8561519999998,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,United Kingdom,1,2024,608.5636800000001,606.4008687999998,1214.9645487999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Spain,1,2024,524.1075,348.1420019999999,872.2495019999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Sweden,1,2024,725.9637600000001,807.2559536000003,1533.2197136000004,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Czech Republic,1,2024,536.68608,548.4808927999998,1085.1669727999997,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Japan,1,2024,643.9035,884.8051379999999,1528.708638,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Belgium,1,2024,686.43108,903.8947447999997,1590.3258247999997,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Poland,1,2024,560.0463,949.8755860000001,1509.921886,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,India,1,2024,379.7533199999999,419.4793672000001,799.2326872000001,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Indonesia,1,2024,381.55026000000004,595.7490875999998,977.2993475999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,South Korea,1,2024,688.827,598.0210199999996,1286.8480199999995,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,China,1,2024,471.99624,321.92294240000007,793.9191824000001,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,United Arab Emirates,1,2024,572.0259000000001,245.451922,817.4778220000001,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,United States,1,2024,598.9799999999999,506.8584880000002,1105.838488,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Turkey,1,2024,436.05743999999993,708.2135023999996,1144.2709423999995,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Australia,1,2024,586.4014199999999,313.1174212000001,899.5188412,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Malaysia,1,2024,524.1075,537.5820259999999,1061.689526,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Canada,1,2024,533.0922000000002,798.9825719999999,1332.074772,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Mexico,1,2024,485.17379999999997,563.5341720000002,1048.7079720000002,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Thailand,1,2024,390.53496,438.18780960000004,828.7227696,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Russia,1,2024,426.4737599999999,792.5854656000002,1219.0592256000002,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,solar,solar,Saudi Arabia,1,2024,572.0259000000001,393.90296199999983,965.928862,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,South Africa,1,2024,729.5576399999998,453.6632744000002,1183.2209143999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Taiwan,1,2024,506.73707999999993,244.8335048000001,751.5705848,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Switzerland,1,2024,661.8729000000001,479.2923980000001,1141.1652980000001,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Singapore,1,2024,495.35645999999997,717.5445396000005,1212.9009996000004,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Hungary,1,2024,553.45752,410.1081471999999,963.5656672,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Philippines,1,2024,416.29109999999986,502.4949780000001,918.786078,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Netherlands,1,2024,675.6494399999999,383.62581439999974,1059.2752543999995,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Norway,1,2024,793.6484999999998,376.68538200000023,1170.333882,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Oman,1,2024,572.0259000000001,465.65429800000004,1037.680198,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Italy,1,2024,557.0513999999998,448.261268,1005.3126679999998,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Austria,1,2024,622.9392000000001,414.2770480000002,1037.2162480000004,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Finland,1,2024,690.0249599999999,392.7356255999999,1082.7605855999998,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Portugal,1,2024,545.0717999999999,459.0886840000001,1004.160484,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Germany,1,2024,624.1371599999999,477.0282535999999,1101.1654135999997,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Greece,1,2024,551.0616,415.737488,966.799088,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,France,1,2024,615.75144,436.11343840000006,1051.8648784000002,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Brazil,1,2024,610.9596,238.71593599999997,849.675536,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,United Kingdom,1,2024,608.5636800000001,295.4784127999999,904.0420928,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Spain,1,2024,524.1075,325.874346,849.9818459999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Sweden,1,2024,725.9637600000001,403.1392336000001,1129.1029936000002,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Czech Republic,1,2024,536.68608,471.7811888000001,1008.4672688,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Japan,1,2024,643.9035,1067.8947540000001,1711.7982540000003,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Belgium,1,2024,686.43108,440.35421679999985,1126.7852967999997,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Poland,1,2024,560.0463,440.19368199999985,1000.2399819999998,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,India,1,2024,379.7533199999999,405.4589912000002,785.2123112000002,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Indonesia,1,2024,381.55026000000004,710.7161676000002,1092.2664276000003,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,South Korea,1,2024,688.827,597.196292,1286.0232919999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,China,1,2024,471.99624,242.74905439999995,714.7452943999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,United Arab Emirates,1,2024,572.0259000000001,465.65429800000004,1037.680198,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,United States,1,2024,598.9799999999999,352.6343519999999,951.6143519999998,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Turkey,1,2024,436.05743999999993,663.6781903999997,1099.7356303999995,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Australia,1,2024,586.4014199999999,383.2193012,969.6207211999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Malaysia,1,2024,524.1075,719.2696019999997,1243.3771019999997,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Canada,1,2024,533.0922000000002,332.1865239999999,865.278724,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Mexico,1,2024,485.17379999999997,417.5573159999999,902.7311159999999,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Thailand,1,2024,390.53496,621.7722655999997,1012.3072255999998,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Russia,1,2024,426.4737599999999,897.3259216000002,1323.7996816000002,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
-liquid_hydrogen,n/a,n/a,wind,wind,Saudi Arabia,1,2024,572.0259000000001,465.65429800000004,1037.680198,0.07999999999999996,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,South Africa,1,2024,560.0463,632.0027780000004,1192.0490780000005,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Taiwan,1,2024,551.0616,317.86369600000006,868.9252960000001,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Switzerland,1,2024,661.8729000000001,540.5123739999999,1202.385274,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Singapore,1,2024,554.0564999999999,505.56338999999986,1059.6198899999997,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Hungary,1,2024,539.082,720.7449200000004,1259.8269200000004,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Philippines,1,2024,536.0870999999999,491.3652260000001,1027.452326,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Netherlands,1,2024,613.9544999999997,511.2372700000001,1125.19177,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Norway,1,2024,679.8423,781.5905379999997,1461.4328379999997,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Oman,1,2024,572.0259000000001,387.92155400000007,959.9474540000001,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Italy,1,2024,575.0207999999998,467.30124800000004,1042.3220479999998,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Austria,1,2024,622.9392000000001,538.1763520000003,1161.1155520000004,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Finland,1,2024,646.8983999999999,779.6139039999996,1426.5123039999994,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Portugal,1,2024,545.0717999999999,400.7043079999999,945.7761079999998,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Germany,1,2024,616.9493999999999,537.8169640000001,1154.766364,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Greece,1,2024,551.0616,401.06369600000005,952.125296,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,France,1,2024,604.9698,436.29818799999987,1041.2679879999998,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Brazil,1,2024,551.0616,506.66369599999996,1057.725296,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,United Kingdom,1,2024,637.9137,591.0748219999999,1228.9885219999999,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Spain,1,2024,557.0513999999998,340.6230840000002,897.674484,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Sweden,1,2024,658.8779999999998,780.3326799999999,1439.2106799999997,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Czech Republic,1,2024,545.0717999999999,533.5043079999999,1078.5761079999997,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Japan,1,2024,646.8983999999999,859.6139039999997,1506.5123039999996,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Belgium,1,2024,613.9544999999997,758.4372699999999,1372.3917699999997,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Poland,1,2024,554.0564999999999,922.0433899999998,1476.0998899999997,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,India,1,2024,530.0973,416.6058380000002,946.7031380000002,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Indonesia,1,2024,482.1788999999999,584.6107339999995,1066.7896339999993,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,South Korea,1,2024,563.0411999999999,573.782472,1136.823672,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,China,1,2024,548.0666999999999,317.684002,865.7507019999998,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,United Arab Emirates,1,2024,572.0259000000001,239.121554,811.1474540000002,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,United States,1,2024,598.9799999999999,492.73880000000014,1091.7188,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Turkey,1,2024,548.0666999999999,694.4840020000003,1242.550702,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Australia,1,2024,613.9544999999997,306.43727,920.3917699999997,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Malaysia,1,2024,524.1075,522.4064500000001,1046.51395,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Canada,1,2024,610.9596,780.6575760000003,1391.6171760000002,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Mexico,1,2024,527.1023999999999,550.0261439999998,1077.1285439999997,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Thailand,1,2024,533.0922000000002,434.3055320000002,967.3977320000004,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Russia,1,2024,566.0361,777.962166,1343.998266,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,solar,solar,Saudi Arabia,1,2024,572.0259000000001,383.1215540000001,955.1474540000002,0.29600000000000004,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,South Africa,1,2024,560.0463,431.20277799999985,991.2490779999998,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Taiwan,1,2024,551.0616,241.06369599999988,792.1252959999999,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Switzerland,1,2024,661.8729000000001,466.11237400000016,1127.9852740000001,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Singapore,1,2024,554.0564999999999,700.4433900000002,1254.49989,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Hungary,1,2024,539.082,397.94492,937.02692,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Philippines,1,2024,536.0870999999999,495.3652260000001,1031.452326,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Netherlands,1,2024,613.9544999999997,369.6372700000001,983.5917699999998,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Norway,1,2024,679.8423,359.9905379999999,1039.8328379999998,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Oman,1,2024,572.0259000000001,452.721554,1024.747454,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Italy,1,2024,575.0207999999998,436.90124799999984,1011.9220479999997,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Austria,1,2024,622.9392000000001,402.976352,1025.9155520000002,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Finland,1,2024,646.8983999999999,379.61390400000016,1026.512304,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Portugal,1,2024,545.0717999999999,446.3043080000002,991.3761080000002,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Germany,1,2024,616.9493999999999,463.4169639999999,1080.3663639999997,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Greece,1,2024,551.0616,404.2636960000001,955.3252960000001,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,France,1,2024,604.9698,423.4981879999999,1028.4679879999999,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Brazil,1,2024,551.0616,229.0636960000001,780.1252960000002,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,United Kingdom,1,2024,637.9137,289.47482199999985,927.3885219999997,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Spain,1,2024,557.0513999999998,319.0230840000001,876.074484,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Sweden,1,2024,658.8779999999998,388.33268,1047.2106799999997,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Czech Republic,1,2024,545.0717999999999,459.1043080000001,1004.1761080000001,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Japan,1,2024,646.8983999999999,1037.2139039999997,1684.1123039999998,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Belgium,1,2024,613.9544999999997,424.0372699999999,1037.9917699999996,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Poland,1,2024,554.0564999999999,427.64339000000007,981.69989,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,India,1,2024,530.0973,403.00583799999987,933.103138,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Indonesia,1,2024,482.1788999999999,696.1307339999996,1178.3096339999995,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,South Korea,1,2024,563.0411999999999,572.9824719999997,1136.0236719999996,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,China,1,2024,548.0666999999999,240.88400200000004,788.9507019999999,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,United Arab Emirates,1,2024,572.0259000000001,452.721554,1024.747454,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,United States,1,2024,598.9799999999999,343.1388000000002,942.1188000000001,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Turkey,1,2024,548.0666999999999,651.2840020000001,1199.350702,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Australia,1,2024,613.9544999999997,374.43727000000007,988.3917699999997,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Malaysia,1,2024,524.1075,698.6464500000001,1222.75395,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Canada,1,2024,610.9596,327.857576,938.817176,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Mexico,1,2024,527.1023999999999,408.4261439999999,935.5285439999998,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Thailand,1,2024,533.0922000000002,612.3855320000002,1145.4777320000003,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Russia,1,2024,566.0361,879.5621660000004,1445.5982660000004,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure
+liquid_hydrogen,n/a,n/a,wind,wind,Saudi Arabia,1,2024,572.0259000000001,452.721554,1024.747454,0.07840000000000003,Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure

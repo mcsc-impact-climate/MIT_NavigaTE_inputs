@@ -18,7 +18,7 @@ mkdir -p "${SCRIPT_DIR}/all_outputs_full_fleet"
 rm ${SCRIPT_DIR}/single_pathway_full_fleet/*/navs/*.nav
 
 # Create the input .inc files
-python ${SCRIPT_DIR}/source/make_cost_emissions_files.py
+python3 ${SCRIPT_DIR}/source/make_cost_emissions_files.py
 
 # Clear out any existing excel and log files
 rm ${SCRIPT_DIR}/all_outputs_full_fleet/*.xlsx

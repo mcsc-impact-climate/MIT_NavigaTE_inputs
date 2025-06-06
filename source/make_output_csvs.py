@@ -1182,7 +1182,14 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file = None):
         "LCB": "Lignocellulosic Biomass Demand [kg / kg fuel]",
     }
     try:
-        resource_demand_rate = info_df[resource_column_names[resource]][info_df["Fuel Pathway"] == pathway].iloc[0]
+        filtered_df = info_df[info_df["Fuel Pathway"] == pathway]
+        if filtered_df.empty:
+        # no info for nuke pathways -- returning 0 in this case for now
+            return 0.0
+        else:
+            resource_demand_rate = filtered_df[resource_column_names[resource]].iloc[0]
+    
+#        resource_demand_rate = info_df[resource_column_names[resource]][info_df["Fuel Pathway"] == pathway].iloc[0]
     except KeyError as e:
         raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type.")
 
@@ -1197,6 +1204,7 @@ def add_resource_demands(all_results_df):
     # Precompute resource demand rates for each unique (fuel, pathway, resource). Note: this will need to be updated if resource demand rates become region-specific.
     unique_combinations = all_results_df[['Fuel', 'Pathway']].drop_duplicates()
     resource_demand_rates = {}
+    
     
     for _, row in unique_combinations.iterrows():
         fuel, pathway = row['Fuel'], row['Pathway']

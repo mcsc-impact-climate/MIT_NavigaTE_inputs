@@ -698,7 +698,10 @@ def main():
         # First, handle fossil production pathway
             
         for row_index, row in input_df.iterrows():
-            region,instal_factor,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,solar_price,src,solar_emissions_intensity,src,wind_price,src,wind_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
+            region,instal_factor_low,instal_factor_high,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,solar_price,src,solar_emissions_intensity,src,wind_price,src,wind_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
+            
+            # Calculate the average installation factor
+            instal_factor = (instal_factor_low + instal_factor_high) / 2
             
             if fuel == "ng":
                 CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price,elect_price,elect_emissions_intensity)
@@ -742,7 +745,10 @@ def main():
             output_resource_data.append(calculated_resource_row)
 
             for row_index, row in input_df.iterrows():
-                region,instal_factor,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,solar_price,src,solar_emissions_intensity,src,wind_price,src,wind_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
+                region,instal_factor_low,instal_factor_high,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,solar_price,src,solar_emissions_intensity,src,wind_price,src,wind_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
+
+                # Calculate the average installation factor
+                instal_factor = (instal_factor_low + instal_factor_high) / 2
                 H_pathway = H_pathways[pathway_index]
                 C_pathway = C_pathways[pathway_index]
                 E_pathway = E_pathways[pathway_index]
@@ -838,7 +844,9 @@ def main():
         for process_pathway in process_pathways:
             pathway_index = process_pathways.index(process_pathway)
             for row_index, row in input_df.iterrows():
-                region,instal_factor,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,solar_price,src,solar_emissions_intensity,src,wind_price,src,wind_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
+                region,instal_factor_low,instal_factor_high,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,solar_price,src,solar_emissions_intensity,src,wind_price,src,wind_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
+                # Take the average of the upper and lower installation cost factor
+                instal_factor = (instal_factor_low + instal_factor_high) / 2
                 H_pathway = "n/a"
                 C_pathway = "n/a"
                 E_pathway = E_pathways[pathway_index]
