@@ -19,3 +19,4 @@ processed_results*
 *.lp
 *.ilp
 *.log
+all_results_df*.csv
