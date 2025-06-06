@@ -49,6 +49,7 @@ Report "excel_report" {
     add_property(TotalEquivalentWTT)
     add_property(TotalEquivalentTTW)
     add_property(TotalEquivalentWTW)
+    add_property(CumulativeTotalEquivalentWTW)
     add_property(IntensityTotalEquivalentWTT)
     add_property(IntensityTotalEquivalentTTW)
     add_property(IntensityTotalEquivalentWTW)
@@ -60,6 +61,7 @@ Report "excel_report" {
     add_property(FuelConversionExpenses)
     add_property(VesselRelatedExpenses)
     add_property(Expenses)
+    add_property(CumulativeExpenses)
     
     #add_property(StaticSupplyMass)
     #add_property(StaticSupplyEnergy)
