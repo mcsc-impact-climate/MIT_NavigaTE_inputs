@@ -6,17 +6,9 @@ Purpose: Prepare .csv files contained in input_fuel_pathway_data using consisten
 import pandas as pd
 import os
 from common_tools import get_top_dir, ensure_directory_exists
+from load_inputs import load_molecular_info, load_technology_info, load_global_parameters
 
 top_dir = get_top_dir()
-
-# Inputs for natural gas (NG) production
-NG_info = pd.read_csv(f"{top_dir}/input_fuel_pathway_data/lng_inputs_GREET_processed.csv", index_col="Stage")
-NG_water_demand = NG_info.loc["Production", "Water Consumption (m^3/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
-NG_NG_demand_GJ = NG_info.loc["Production", "NG Consumption (GJ/kg)"] # [GJ NG consumed / kg NG produced]. Source: GREET 2024
-NG_elect_demand = NG_info.loc["Production", "Electricity Consumption (kWh/kg)"] # [GJ NG consumed / kg NG produced]. Source: GREET 2024
-NG_NG_demand_kg = NG_info.loc["Production", "NG Consumption (kg/kg)"] # [kg NG consumed / kg NG produced]. Source: GREET 2024
-NG_CO2_emissions = NG_info.loc["Production", "CO2 Emissions (kg/kg)"] # [kg CO2 / kg NG]. Source: GREET 2024
-NG_CH4_leakage = NG_info.loc["Production", "CH4 Emissions (kg/kg)"] # [kg CH4 / kg NG]. Source: GREET 2024
 
 def calculate_BEC_upstream_emission_rate(filename = f"{top_dir}/input_fuel_pathway_data/BEC_upstream_emissions_GREET.csv"):
     """
@@ -77,10 +69,6 @@ def calculate_DAC_upstream_resources_emissions(material_reqs_filename=f"{top_dir
     embedded_NG = material_reqs_info["NG consumption (GJ/kg-CO2)"].sum()
     embedded_emissions = material_reqs_info["GHG emissions (kg CO2e/kg-CO2)"].sum()
     
-    print("Embedded water: ", embedded_water)
-    print("Embedded NG: ", embedded_NG)
-    print("Embedded emissions: ", embedded_emissions)
-    
     upstream_water = embedded_water
     upstream_NG = upstream_NG + embedded_NG
     upstream_emissions = embedded_emissions
@@ -90,113 +78,95 @@ def calculate_DAC_upstream_resources_emissions(material_reqs_filename=f"{top_dir
 
 calculate_DAC_upstream_resources_emissions()
 
-# Function to calculate CapEx, OpEx, LCOF, and production GHG emissions for STP hydrogen
-workhours_per_year = 52*40 # number of work-hours per year
-NG_HHV = 0.05521 # GJ/kg NG, From GREET 2024
-NG_GWP = 28 # GWP100 of methane (surrogate for NG) using IPCC-AR5 as in MEPC.391(81)
-gen_admin_rate = 0.2 # 20% G&A rate
-op_maint_rate = 0.04 # O&M rate
-tax_rate = 0.02 # 2% tax rate
-BEC_CO2_price = 0.02 # [2024$/kg CO2] price of biogenic CO2, based on range of $15-30/tonne CO2 from https://iea.blob.core.windows.net/assets/181b48b4-323f-454d-96fb-0bb1889d96a9/CCUS_in_clean_energy_transitions.pdf. # This input should probably be regionalized or made dependent on LCB price
-BEC_CO2_upstream_emissions = calculate_BEC_upstream_emission_rate() # [kg CO2e/kg CO2] upstream emissions from bioenergy plant with CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..) #NOTE: just a placeholder value for now
+########################################## Read in NG production inputs ############################################
+NG_info = pd.read_csv(f"{top_dir}/input_fuel_pathway_data/lng_inputs_GREET_processed.csv", index_col="Stage")
+NG_water_demand = NG_info.loc["Production", "Water Consumption (m^3/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
+NG_NG_demand_GJ = NG_info.loc["Production", "NG Consumption (GJ/kg)"] # [GJ NG consumed / kg NG produced]. Source: GREET 2024
+NG_elect_demand = NG_info.loc["Production", "Electricity Consumption (kWh/kg)"] # [GJ NG consumed / kg NG produced]. Source: GREET 2024
+NG_NG_demand_kg = NG_info.loc["Production", "NG Consumption (kg/kg)"] # [kg NG consumed / kg NG produced]. Source: GREET 2024
+NG_CO2_emissions = NG_info.loc["Production", "CO2 Emissions (kg/kg)"] # [kg CO2 / kg NG]. Source: GREET 2024
+NG_CH4_leakage = NG_info.loc["Production", "CH4 Emissions (kg/kg)"] # [kg CH4 / kg NG]. Source: GREET 2024
+####################################################################################################################
 
-DAC_CO2_price = 0.2 # [2024$/kg CO2] price of captured CO2 (e.g. ~$40/tonne from biomass BEC, ~$90/tonne from biogas BEC, ~$200+/tonne from DAC) #NOTE: just a placeholder value for now. Falls roughly between the $125/tonne and $325/tonne estimated by IEA for a large-scale plant built today: https://www.iea.org/reports/direct-air-capture-2022/executive-summary.
+############################################# Read in global parameters ############################################
+global_parameters = load_global_parameters()
+workhours_per_year = global_parameters["workhours_per_year"]["value"]
+gen_admin_rate = global_parameters["gen_admin_rate"]["value"]
+op_maint_rate = global_parameters["op_maint_rate"]["value"]
+tax_rate = global_parameters["tax_rate"]["value"]
+
+NG_HHV = global_parameters["NG_HHV"]["value"]
+NG_GWP = global_parameters["NG_GWP"]["value"]
+
+BEC_CO2_price = global_parameters["BEC_CO2_price"]["value"]
+BEC_CO2_upstream_emissions = calculate_BEC_upstream_emission_rate() # [kg CO2e/kg CO2] upstream emissions from bioenergy plant with CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..)
+
+DAC_CO2_price = global_parameters["DAC_CO2_price"]["value"]
 DAC_upstream_emissions, DAC_upstream_elect, DAC_upstream_NG, DAC_upstream_water = calculate_DAC_upstream_resources_emissions()
 DAC_CO2_upstream_emissions = DAC_upstream_emissions # [kg CO2e/kg CO2] upstream emissions from direct-air CO2 capture, from GREET 2024, accounting for both operational and embedded emissions
 DAC_CO2_upstream_NG = DAC_upstream_NG   # From GREET 2024, accounting for both operational and embedded emissions
 DAC_CO2_upstream_water = DAC_upstream_water     # From GREET 2024, accounting for both operational and embedded emissions
 DAC_CO2_upstream_elect = DAC_upstream_elect     # From GREET 2024, accounting for operational electricity consumption
-MW_CO2 = 44.01 # [g/mol] avg molecular weight of carbon dioxide 
-MW_MeOH = 32.04 # [g/mol] avg molecular weight of methanol
-MW_NH3 = 17.03 # [g/mol] avg molecular weight of ammonia
-MW_H2 = 2.016 # [g/mol] avg molecular weight of hydrogen
-MW_FTdiesel = 167.3 # [g/mol] avg molecular weight of FT diesel
-nC_FTdiesel = 12 # [-] avg number of carbon atoms per molecular of FT diesel
+####################################################################################################################
 
-# Inputs for STP H2 production from low-temperature water electrolysis
-H2_LTE_elect_demand = 51.03004082 # [kWh elect/kg H2] from Aspen Plus
-H2_LTE_LCB_demand = 0 # [kg/kg H2]
-H2_LTE_NG_demand = 0 # [GJ NG/kg H2] zero for LTE
-H2_LTE_water_demand = 0.01430886 # [m^3 H2O/kg H2] from Aspen Plus
-H2_LTE_base_CapEx = 0.56079 # [2024$/kg H2] from H2A
-H2_LTE_full_time_employed = 10 # [full-time employees] from H2A
-H2_LTE_yearly_output = 20003825 # [kg H2/year] from Aspen Plus
-H2_LTE_onsite_emissions = 0 # [kg CO2e/kg H2] zero for LTE
+############################################## Read in molecular info ##############################################
+molecular_info = load_molecular_info()
+MW_CO2 = molecular_info["MW_CO2"]["value"]
+MW_MeOH = molecular_info["MW_MeOH"]["value"]
+MW_H2 = molecular_info["MW_H2"]["value"]
+MW_FTdiesel = molecular_info["MW_FTdiesel"]["value"]
+nC_FTdiesel = molecular_info["nC_FTdiesel"]["value"]
+####################################################################################################################
 
-# IS THIS DATA FROM ONE ATR PLANT OR AVERAGES?
-# Inputs for STP H2 production from autothermal reforming with 99% CO2 capture rate from Zang et al 2024 (ATR-CC-R-OC case)
-ATRCCS_prod = 20125 # [kg H2/hr] Table 6, column 5: hourly H2 production
-ATRCCS_elec = 58000 # [kW elec] Table 6, column 5: electricity consumption
-ATRCCS_NG = 3376 # [GJ NG/hr] Table 6, column 5: hourly NG consumption
-ATRCCS_water = 96.831 # [m^3/hr] Table S5: water flow 19
-ATRCCS_emissions = 221 # [kg CO2e/hr] Table 6, column 5: hourly CO2e emissions
-ATRCCS_TPC = 1.2253*1150 # [2024$/(kg H2/day)] total plant cost from Fig 4 case 5 TPC (inflation adjusted from 2019 USD to 2024 USD using https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401)
-ATRCCS_CRF = 0.1018522 # [-] capital recovery factor from H2A based on data from Table 5
-H2_ATRCCS_elect_demand = ATRCCS_elec/ATRCCS_prod # [kWh elect/kg H2] from Zang et al 2024
-H2_ATRCCS_LCB_demand = 0 # [kg/kg H2]
-H2_ATRCCS_NG_demand = ATRCCS_NG/ATRCCS_prod # [GJ NG/kg H2] from Zang et al 2024
-H2_ATRCCS_NG_demand = H2_ATRCCS_NG_demand * (1+NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
-H2_ATRCCS_water_demand = ATRCCS_water/ATRCCS_prod # [m^3 H2O/kg H2] from Zang et al 2024
-H2_ATRCCS_base_CapEx = ATRCCS_TPC/365*ATRCCS_CRF # [2024$/kg] amortized TPC from Zang et al 2024
-H2_ATRCCS_full_time_employed = 22 # [full-time employees] from H2A
+############################## Read in technology info and calculate derived parameters ############################
+tech_info = load_technology_info()
+
+# Inputs for STP H2 production from ATR with 99% CO2 capture rate from Zang et al 2024 (ATR-CC-R-OC case) #
+ATRCCS_prod = tech_info["H2_ATRCCS"]["hourly_prod"]["value"]
+H2_ATRCCS_elect_demand = tech_info["H2_ATRCCS"]["elec_cons"]["value"]/ATRCCS_prod # [kWh elect/kg H2] from Zang et al 2024
+H2_ATRCCS_NG_demand = tech_info["H2_ATRCCS"]["NG_cons"]["value"] / ATRCCS_prod # [GJ NG/kg H2] from Zang et al 2024
+H2_ATRCCS_NG_demand = H2_ATRCCS_NG_demand * (1 + NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
+H2_ATRCCS_water_demand = tech_info["H2_ATRCCS"]["water_cons"]["value"] / ATRCCS_prod # [m^3 H2O/kg H2] from Zang et al 2024
+ATRCCS_TPC = global_parameters["2019_to_2024_USD"]["value"] * tech_info["H2_ATRCCS"]["TPC_2019"]["value"]
+H2_ATRCCS_base_CapEx = ATRCCS_TPC / 365 * tech_info["H2_ATRCCS"]["CRF"]["value"] # From Zang et al 2024 and H2A
+H2_ATRCCS_onsite_emissions = tech_info["H2_ATRCCS"]["emissions"]["value"] / ATRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
 H2_ATRCCS_yearly_output = 365*24*ATRCCS_prod # [kg H2/year] from Zang et al 2024
-H2_ATRCCS_onsite_emissions = ATRCCS_emissions/ATRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
+###########################################################################################################
 
-# IS THIS DATA FROM ONE SMR PLANT OR AVERAGES?
-# Inputs for STP H2 production from steam methane reforming with 96% CO2 capture rate from Zang et al 2024 (SMR-CCS case)
-SMRCCS_prod = 20125 # [kg H2/hr] Table 6, column 2: hourly H2 production
-SMRCCS_elec = 41000 # [kW elec] Table 6, column 2: electricity consumption
-SMRCCS_NG = 3947 # [GJ NG/hr] Table 6, column 2: hourly NG consumption
-SMRCCS_water = 308.347 + 177.085 # [m^3/hr] Table S2: water flows 8+17
-SMRCCS_emissions = 7656 # [kg CO2e/hr] Table 6, column 2: hourly CO2e emissions
-SMRCCS_TPC = 1.2253*1419 # [2024$/(kg H2/day)] total plant cost from Fig 4 case 2 TPC (inflation adjusted from 2019 USD to 2024 USD using https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401)
-SMRCCS_CRF = 0.1018522 # [-] capital recovery factor from H2A based on data from Table 5
-H2_SMRCCS_elect_demand = SMRCCS_elec/SMRCCS_prod # [kWh elect/kg H2] from Zang et al 2024
-H2_SMRCCS_LCB_demand = 0 # [kg/kg H2]
-H2_SMRCCS_NG_demand = SMRCCS_NG/SMRCCS_prod # [GJ NG/kg H2] from Zang et al 2024
-H2_SMRCCS_NG_demand = H2_SMRCCS_NG_demand * (1+NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
-H2_SMRCCS_water_demand = SMRCCS_water/SMRCCS_prod # [m^3 H2O/kg H2] from Zang et al 2024
-H2_SMRCCS_base_CapEx = SMRCCS_TPC/365*SMRCCS_CRF # [2024$/kg] amortized TPC from Zang et al 2024
-H2_SMRCCS_full_time_employed = 22 # [full-time employees] from H2A
-H2_SMRCCS_yearly_output = 365*24*SMRCCS_prod # [kg H2/year] from Zang et al 2024
-H2_SMRCCS_onsite_emissions = SMRCCS_emissions/SMRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
+### Inputs for STP H2 production from SMR with 96% CO2 capture rate from Zang et al 2024 (SMR-CCS case) ###
+SMRCCS_prod = tech_info["H2_SMRCCS"]["hourly_prod"]["value"]
+H2_SMRCCS_elect_demand = tech_info["H2_SMRCCS"]["elec_cons"]["value"] / SMRCCS_prod # [kWh elect/kg H2] from Zang et al 2024
+H2_SMRCCS_NG_demand = tech_info["H2_SMRCCS"]["NG_cons"]["value"] / SMRCCS_prod # [GJ NG/kg H2] from Zang et al 2024
+H2_SMRCCS_NG_demand = H2_SMRCCS_NG_demand * (1 + NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
+H2_SMRCCS_water_demand = tech_info["H2_SMRCCS"]["water_cons"]["value"] / SMRCCS_prod # [m^3 water/kg H2] from Zang et al 2024
+H2_SMRCCS_onsite_emissions = tech_info["H2_SMRCCS"]["emissions"]["value"] / SMRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
+SMRCCS_TPC = global_parameters["2019_to_2024_USD"]["value"] * tech_info["H2_SMRCCS"]["TPC_2019"]["value"]
+H2_SMRCCS_base_CapEx = SMRCCS_TPC / 365 * tech_info["H2_SMRCCS"]["CRF"]["value"] # [2024$/kg] amortized TPC from Zang et al 2024
+H2_SMRCCS_yearly_output = 365 * 24 * SMRCCS_prod # [kg H2/year] from Zang et al 2024
+###########################################################################################################
 
-# IS THIS DATA FROM ONE SMR PLANT OR AVERAGES?
-# Inputs for STP H2 production from steam methane reforming without CO2 capture from Zang et al 2024 (SMR case)
-SMR_prod = 20126 # [kg H2/hr] Table 6, column 1: hourly H2 production
-SMR_elec = 13000 # [kW elec] Table 6, column 1: electricity consumption
-SMR_NG = 3712 - 514/0.8 # [GJ NG/hr] (NG consumption including steam displacement at 80% boiler efficiency) Table 6, column 1: hourly NG consumption - Table 6, column 1: by product steam [GJ/hr] / 80%
-SMR_water = 336.728 # [m^3/hr] Table S1: water flow 13
-SMR_emissions = 188221 # [kg CO2e/hr] Table 6, column 1: hourly CO2e emissions
-SMR_TPC = 1.2253*564 # [2024$/(kg H2/day)] total plant cost from Fig 4 case 1 TPC (inflation adjusted from 2019 USD to 2024 USD using https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401)
-SMR_CRF = 0.1018522 # [-] capital recovery factor from H2A based on data from Table 5
-H2_SMR_elect_demand = SMR_elec/SMR_prod # [kWh elect/kg H2] from Zang et al 2024
-H2_SMR_LCB_demand = 0 # [kg/kg H2]
-H2_SMR_NG_demand = SMR_NG/SMR_prod # [GJ NG/kg H2] from Zang et al 2024
-H2_SMR_NG_demand = H2_SMR_NG_demand * (1+NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
-H2_SMR_water_demand = SMR_water/SMR_prod # [m^3 H2O/kg H2] from Zang et al 2024
-H2_SMR_base_CapEx = SMR_TPC/365*SMR_CRF # [2024$/kg] amortized TPC from Zang et al 2024
-H2_SMR_full_time_employed = 22 # [full-time employees] from H2A
-H2_SMR_yearly_output = 365*24*SMR_prod # [kg H2/year] from Zang et al 2024
-H2_SMR_onsite_emissions = SMR_emissions/SMR_prod # [kg CO2e output/kg H2] from Zang et al 2024
+######## Inputs for STP H2 production from SMR without CO2 capture from Zang et al 2024 (SMR case) ########
+SMR_prod = tech_info["H2_SMR"]["hourly_prod"]["value"]
+H2_SMR_elect_demand = tech_info["H2_SMR"]["elec_cons"]["value"] / SMR_prod # [kWh elect/kg H2] from Zang et al 2024
+SMR_NG = tech_info["H2_SMR"]["NG_cons"]["value"] - tech_info["H2_SMR"]["steam_byproduct"]["value"] / tech_info["H2_SMR"]["boiler_eff"]["value"]    # [GJ NG/hr]: NG consumption including steam displacement at 80% boiler efficiency
+H2_SMR_NG_demand = SMR_NG / SMR_prod # [GJ NG/kg H2] from Zang et al 2024
+H2_SMR_NG_demand = H2_SMR_NG_demand * (1 + NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
+H2_SMR_water_demand = tech_info["H2_SMR"]["water_cons"]["value"] / SMR_prod # [m^3 water/kg H2] from Zang et al 2024
+H2_SMR_onsite_emissions = tech_info["H2_SMR"]["emissions"]["value"] / SMR_prod # [kg CO2e output/kg H2] from Zang et al 2024
+SMR_TPC = global_parameters["2019_to_2024_USD"]["value"] * tech_info["H2_SMR"]["TPC_2019"]["value"]
+H2_SMR_base_CapEx = SMR_TPC / 365 * tech_info["H2_SMR"]["CRF"]["value"] # [2024$/kg] amortized TPC from Zang et al 2024
+H2_SMR_yearly_output = 365 * 24 * SMR_prod # [kg H2/year] from Zang et al 2024
+###########################################################################################################
 
-# Inputs for STP H2 production from lignocellulosic biomass (LCB) gasification (BG) without CO2 capture
-H2_BG_elect_demand = 0.98 # [kWh elect/kg H2] from H2A
-H2_BG_LCB_demand = 13.49 # [kg/kg H2] from H2A
-H2_BG_NG_demand = 0.0062245 # [GJ NG/kg H2] from H2A
-H2_BG_NG_demand = H2_BG_NG_demand * (1+NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
-H2_BG_water_demand = 0.005 # [m^3 H2O/kg H2] from H2A
-H2_BG_base_CapEx = 1.3137*0.32 # [2024$/kg] from H2A
-H2_BG_full_time_employed = 54 # [full-time employees] from H2A
-H2_BG_yearly_output = 50995026 # [kg H2/year] from H2A
-H2_BG_emissions = 1.913592126 # [kg CO2e/bone-dry kg] process emissions from gasification of lignocellulosic biomass (LCB) 
-H2_BG_onsite_emissions = 26.16 - H2_BG_emissions*H2_BG_LCB_demand # [kg CO2e/kgH2] from H2A #NOTE: includes biogenic credit
+## Inputs for STP H2 production from lignocellulosic biomass (LCB) gasification (BG) without CO2 capture ##
+H2_BG_NG_demand = tech_info["H2_BG"]["NG_demand"]["value"]
+H2_BG_NG_demand = H2_BG_NG_demand * (1 + NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
+H2_BG_base_CapEx = global_parameters["2015_to_2024_USD"]["value"] * tech_info["H2_BG"]["base_CapEx_2015"]["value"]  # Base CapEx, converted from 2015 USD to 2024 USD
+H2_BG_emissions = 1.913592126 # [kg CO2e/bone-dry kg] process emissions from gasification of lignocellulosic biomass (LCB)
+H2_BG_onsite_emissions = tech_info["H2_BG"]["onsite_emissions"]["value"] - tech_info["H2_BG"]["LCB_gasification_emissions"]["value"] * tech_info["H2_BG"]["LCB_demand"]["value"] # [kg CO2e / kg H2] from H2A #NOTE: includes biogenic credit
+###########################################################################################################
 
-# Inputs for production of liquid H2 at 20 K
-H2_liq_base_CapEx = 0.59898 # [2024$/kg]
-H2_liq_elect_demand = 8.0 # [kWh elect/kg H2]
-
-# Inputs for NG liquefaction
+####################################### Inputs for NG liquefaction ########################################
 NG_liq_base_CapEx = 0.82 # [2024$/kg NG]. Obtained from Table 3 (USA Lower 48) in https://www.jstor.org/stable/resrep31040.11?seq=7 and converted from 2018$ to 2024$ using https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401
 NG_liq_NG_demand_GJ = NG_info.loc["Liquefaction", "NG Consumption (GJ/kg)"] # [GJ NG consumed / kg liquefied NG]. Source: GREET 2024
 NG_liq_NG_demand_kg = NG_info.loc["Liquefaction", "NG Consumption (kg/kg)"] # [kg NG consumed / kg liquefied NG]. Source: GREET 2024
@@ -204,92 +174,66 @@ NG_liq_water_demand = NG_info.loc["Liquefaction", "Water Consumption (m^3/kg)"] 
 NG_liq_elect_demand = NG_info.loc["Liquefaction", "Electricity Consumption (kWh/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
 NG_liq_CO2_emissions = NG_info.loc["Liquefaction", "CO2 Emissions (kg/kg)"] # [kg CO2 / kg NG]. Source: GREET 2024
 NG_liq_CH4_leakage = NG_info.loc["Liquefaction", "CH4 Emissions (kg/kg)"] # [kg CH4 / kg NG]. Source: GREET 2024
+###########################################################################################################
 
-# Inputs for production of gaseous H2 at 700 bar and 300 K
-H2_comp_base_CapEx = 0.17114 # [2024$/kg]
-H2_comp_elect_demand = 3.0 # [kWh elect/kg H2]
-
-# Inputs for liquid NH3 production from arbitrary H2 feedstock
-NH3_elect_demand = 10.05314189 # [kWh elect/kg NH3] for LTE ammonia process from Aspen Plus
-NH3_H2_demand = 3/2*MW_H2/MW_NH3 # [kg H2/kg NH3] stoichiometry
-NH3_elect_demand -= H2_LTE_elect_demand*NH3_H2_demand # subtract electrical demand from LTE H2 process
-NH3_NG_demand = 0 # [GJ NG/kg H2] from Aspen Plus
-NH3_water_demand = 0.00261861625758975 # [m^3 H2O/kg NH3] for LTE ammonia process from Aspen Plus
-NH3_water_demand -= H2_LTE_water_demand*NH3_H2_demand # subtract water demand from LTE H2 process
-NH3_base_CapEx = 0.193395 # [2024$/kg] from H2A
-NH3_base_CapEx -= H2_LTE_base_CapEx*NH3_H2_demand # subtract base CapEx from LTE H2 process
+################### Inputs for liquid NH3 production from arbitrary H2 feedstock ##########################
+NH3_H2_demand = 3/2 * molecular_info["MW_H2"]["value"] / molecular_info["MW_NH3"]["value"] # [kg H2/kg NH3] stoichiometry
+NH3_elect_demand = tech_info["NH3"]["elect_demand"]["value"] - tech_info["H2_LTE"]["elect_demand"]["value"]*NH3_H2_demand # subtract electrical demand from LTE H2 process
+NH3_water_demand = tech_info["NH3"]["water_demand_LTE"]["value"] - tech_info["H2_LTE"]["water_demand"]["value"]*NH3_H2_demand # subtract water demand from LTE H2 process
+NH3_base_CapEx = tech_info["NH3"]["base_CapEx_LTE"]["value"] - tech_info["H2_LTE"]["base_CapEx"]["value"]*NH3_H2_demand # subtract base CapEx from LTE H2 process
 NH3_full_time_employed = 10 # [full-time employees] from H2A
-NH3_full_time_employed -= H2_LTE_full_time_employed # subtract employees from LTE H2 process
-NH3_yearly_output = 109306554 # [kg NH3/year] from Aspen Plus
-NH3_onsite_emissions = 0 # [kg CO2e/kg NH3] zero for Haber-Bosch
+NH3_full_time_employed = tech_info["NH3"]["employees_LTE"]["value"] - tech_info["H2_LTE"]["employees"]["value"] # subtract employees from LTE H2 process
+###########################################################################################################
 
-# Inputs for MeOH production from arbitrary H and C feedstocks
-MeOH_elect_demand = 0.564623278 # [kWh elect/kg MeOH] for MeOH synthesis process from Aspen Plus
-MeOH_H2_demand = 0.204464607 # [kg H2/kg MeOH] for MeOH synthesis process from Aspen Plus
-MeOH_CO2_demand = 1.662087119 # [kg CO2/kg MeOH] for MeOH synthesis process from Aspen Plus
-MeOH_NG_demand = 0 # [GJ NG/kg H2] from Aspen Plus
-MeOH_water_demand = 0.000318771 # [m^3 H2O/kg MeOH] for MeOH synthesis process from Aspen Plus
-MeOH_base_CapEx = 0.103556 # [2024$/kg] from H2A
-MeOH_full_time_employed = 68 # [full-time employees] from H2A
-MeOH_yearly_output = 194924166 # [kg MeOH/year] from Aspen Plus
-MeOH_onsite_emissions = 0.3153886337 # [kg CO2e/kg MeOH] synthesis process emissions in Aspen Plus
+###########################################################################################################
 
-# Inputs for Fischer-Tropsch diesel production from arbitrary H and C feedstocks
-FTdiesel_elect_demand = 0.246 # [kWh elect/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
-FTdiesel_H2_demand = 0.635 # [kg H2/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
-FTdiesel_CO2_demand = 6.80 # [kg CO2/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
-FTdiesel_NG_demand = 0 # [GJ NG/kg H2] from Aspen Plus
-FTdiesel_water_demand = 0.00166 # [m^3 H2O/kg FTdiesel] for FTdiesel synthesis process from Aspen Plus
-FTdiesel_base_CapEx = 0.322 # [2024$/kg] from H2A
-FTdiesel_full_time_employed = 80 # [full-time employees] from H2A
-FTdiesel_yearly_output = 128202750 # [kg FTdiesel/year] from Aspen Plus
-FTdiesel_onsite_emissions = 0.3153886337 # [kg CO2e/kg FTdiesel] synthesis process emissions in Aspen Plus
+####################################################################################################################
 
 def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
     if H_pathway == "LTE":
-        elect_demand = H2_LTE_elect_demand
-        LCB_demand = H2_LTE_LCB_demand
-        NG_demand = H2_LTE_NG_demand
-        water_demand = H2_LTE_water_demand
-        base_CapEx = H2_LTE_base_CapEx
-        full_time_employed = H2_LTE_full_time_employed
-        yearly_output = H2_LTE_yearly_output
-        onsite_emissions = H2_LTE_onsite_emissions
+        elect_demand = tech_info["H2_LTE"]["elect_demand"]["value"]
+        LCB_demand = tech_info["H2_LTE"]["LCB_demand"]["value"]
+        NG_demand = tech_info["H2_LTE"]["NG_demand"]["value"]
+        water_demand = tech_info["H2_LTE"]["water_demand"]["value"]
+        base_CapEx = tech_info["H2_LTE"]["base_CapEx"]["value"]
+        full_time_employed = tech_info["H2_LTE"]["employees"]["value"]
+        yearly_output = tech_info["H2_LTE"]["yearly_output"]["value"]
+        onsite_emissions = tech_info["H2_LTE"]["onsite_emissions"]["value"]
     elif H_pathway == "ATRCCS":
         elect_demand = H2_ATRCCS_elect_demand
-        LCB_demand = H2_ATRCCS_LCB_demand
+        LCB_demand = tech_info["H2_ATRCCS"]["LCB_demand"]["value"]
         NG_demand = H2_ATRCCS_NG_demand
         water_demand = H2_ATRCCS_water_demand
         base_CapEx = H2_ATRCCS_base_CapEx
-        full_time_employed = H2_ATRCCS_full_time_employed
+        full_time_employed = tech_info["H2_ATRCCS"]["employees"]["value"]
         yearly_output = H2_ATRCCS_yearly_output
         onsite_emissions = H2_ATRCCS_onsite_emissions
     elif H_pathway == "SMRCCS":
         elect_demand = H2_SMRCCS_elect_demand
-        LCB_demand = H2_SMRCCS_LCB_demand
+        LCB_demand = tech_info["H2_SMRCCS"]["LCB_demand"]["value"]
         NG_demand = H2_SMRCCS_NG_demand
         water_demand = H2_SMRCCS_water_demand
         base_CapEx = H2_SMRCCS_base_CapEx
-        full_time_employed = H2_SMRCCS_full_time_employed
+        full_time_employed = tech_info["H2_SMRCCS"]["employees"]["value"]
         yearly_output = H2_SMRCCS_yearly_output
         onsite_emissions = H2_SMRCCS_onsite_emissions
     elif H_pathway == "SMR":
         elect_demand = H2_SMR_elect_demand
-        LCB_demand = H2_SMR_LCB_demand
+        LCB_demand = tech_info["H2_SMR"]["LCB_demand"]["value"]
         NG_demand = H2_SMR_NG_demand
         water_demand = H2_SMR_water_demand
         base_CapEx = H2_SMR_base_CapEx
-        full_time_employed = H2_SMR_full_time_employed
+        full_time_employed = tech_info["H2_SMR"]["employees"]["value"]
         yearly_output = H2_SMR_yearly_output
         onsite_emissions = H2_SMR_onsite_emissions
     elif H_pathway == "BG":
-        elect_demand = H2_BG_elect_demand
-        LCB_demand = H2_BG_LCB_demand
+        elect_demand = tech_info["H2_BG"]["elec_demand"]["value"]
+        LCB_demand = tech_info["H2_BG"]["LCB_demand"]["value"]
         NG_demand = H2_BG_NG_demand
-        water_demand = H2_BG_water_demand
+        water_demand = tech_info["H2_BG"]["water_demand"]["value"]
         base_CapEx = H2_BG_base_CapEx
-        full_time_employed = H2_BG_full_time_employed
-        yearly_output = H2_BG_yearly_output
+        full_time_employed = tech_info["H2_BG"]["employees"]["value"]
+        yearly_output = tech_info["H2_BG"]["yearly_output"]["value"]
         onsite_emissions = H2_BG_onsite_emissions
     # calculate production values
     CapEx = base_CapEx*instal_factor
@@ -304,8 +248,8 @@ def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,wa
     return CapEx, OpEx, emissions
 
 def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    base_CapEx = H2_liq_base_CapEx
-    elect_demand = H2_liq_elect_demand
+    base_CapEx = tech_info["H2_liquefaction"]["base_CapEx"]["value"]
+    elect_demand = tech_info["H2_liquefaction"]["elec_demand"]["value"]
     # calculate liquefaction values
     CapEx = base_CapEx*instal_factor
     OpEx = (op_maint_rate + tax_rate)*CapEx + elect_demand*elect_price
@@ -349,8 +293,8 @@ def calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_
     return CapEx, OpEx, emissions
 
 def calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    base_CapEx = H2_comp_base_CapEx
-    elect_demand = H2_comp_elect_demand
+    base_CapEx = tech_info["H2_compression"]["base_CapEx"]["value"]
+    elect_demand = tech_info["H2_compression"]["elec_demand"]["value"]
     # calculate compression values
     CapEx = base_CapEx*instal_factor
     OpEx = (op_maint_rate + tax_rate)*CapEx + elect_demand*elect_price
@@ -366,12 +310,12 @@ def calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_fa
 def calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
     elect_demand = NH3_elect_demand
     H2_demand = NH3_H2_demand
-    NG_demand = NH3_NG_demand
+    NG_demand = tech_info["NH3"]["NG_demand"]["value"]
     water_demand = NH3_water_demand
     base_CapEx = NH3_base_CapEx
     full_time_employed = NH3_full_time_employed
-    yearly_output = NH3_yearly_output
-    onsite_emissions = NH3_onsite_emissions
+    yearly_output = tech_info["NH3"]["yearly_output"]["value"]
+    onsite_emissions = tech_info["NH3"]["onsite_emissions"]["value"]
     # calculate production values
     CapEx = base_CapEx*instal_factor
     Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) + (op_maint_rate + tax_rate)*CapEx
@@ -390,15 +334,15 @@ def calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_p
 
 
 def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    elect_demand = MeOH_elect_demand
-    H2_demand = MeOH_H2_demand
-    CO2_demand = MeOH_CO2_demand
-    NG_demand = MeOH_NG_demand
-    water_demand = MeOH_water_demand
-    base_CapEx = MeOH_base_CapEx
-    full_time_employed = MeOH_full_time_employed
-    yearly_output = MeOH_yearly_output
-    onsite_emissions = MeOH_onsite_emissions
+    elect_demand = tech_info["MeOH"]["elect_demand"]["value"]
+    H2_demand = tech_info["MeOH"]["H2_demand"]["value"]
+    CO2_demand = tech_info["MeOH"]["CO2_demand"]["value"]
+    NG_demand = tech_info["MeOH"]["NG_demand"]["value"]
+    water_demand = tech_info["MeOH"]["water_demand"]["value"]
+    base_CapEx = tech_info["MeOH"]["base_CapEx"]["value"]
+    full_time_employed = tech_info["MeOH"]["employees"]["value"]
+    yearly_output = tech_info["MeOH"]["yearly_output"]["value"]
+    onsite_emissions = tech_info["MeOH"]["onsite_emissions"]["value"]
     # calculate production values
     CapEx = base_CapEx*instal_factor
     Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) + (op_maint_rate + tax_rate)*CapEx
@@ -442,15 +386,15 @@ def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_fac
     return CapEx, OpEx, emissions
 
 def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    elect_demand = FTdiesel_elect_demand
-    H2_demand = FTdiesel_H2_demand
-    CO2_demand = FTdiesel_CO2_demand
-    NG_demand = FTdiesel_NG_demand
-    water_demand = FTdiesel_water_demand
-    base_CapEx = FTdiesel_base_CapEx
-    full_time_employed = FTdiesel_full_time_employed
-    yearly_output = FTdiesel_yearly_output
-    onsite_emissions = FTdiesel_onsite_emissions
+    elect_demand = tech_info["FTdiesel"]["elect_demand"]["value"]
+    H2_demand = tech_info["FTdiesel"]["H2_demand"]["value"]
+    CO2_demand = tech_info["FTdiesel"]["CO2_demand"]["value"]
+    NG_demand = tech_info["FTdiesel"]["NG_demand"]["value"]
+    water_demand = tech_info["FTdiesel"]["water_demand"]["value"]
+    base_CapEx = tech_info["FTdiesel"]["base_CapEx"]["value"]
+    full_time_employed = tech_info["FTdiesel"]["employees"]["value"]
+    yearly_output = tech_info["FTdiesel"]["yearly_output"]["value"]
+    onsite_emissions = tech_info["FTdiesel"]["onsite_emissions"]["value"]
     # calculate production values
     CapEx = base_CapEx*instal_factor
     Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) + (op_maint_rate + tax_rate)*CapEx
@@ -497,34 +441,34 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
 # Added by GE for 10/18 
 def calculate_resource_demands_STP_hydrogen(H_pathway):
     if H_pathway == "LTE":
-        elect_demand = H2_LTE_elect_demand
-        LCB_demand = H2_LTE_LCB_demand
-        NG_demand = H2_LTE_NG_demand
-        water_demand = H2_LTE_water_demand
+        elect_demand = tech_info["H2_LTE"]["elect_demand"]["value"]
+        LCB_demand = tech_info["H2_LTE"]["LCB_demand"]["value"]
+        NG_demand = tech_info["H2_LTE"]["NG_demand"]["value"]
+        water_demand = tech_info["H2_LTE"]["water_demand"]["value"]
         CO2_demand = 0
     elif H_pathway == "ATRCCS":
         elect_demand = H2_ATRCCS_elect_demand
-        LCB_demand = H2_ATRCCS_LCB_demand
+        LCB_demand = tech_info["H2_ATRCCS"]["LCB_demand"]["value"]
         NG_demand = H2_ATRCCS_NG_demand
         water_demand = H2_ATRCCS_water_demand
         CO2_demand = 0
     elif H_pathway == "SMRCCS":
         elect_demand = H2_SMRCCS_elect_demand
-        LCB_demand = H2_SMRCCS_LCB_demand
+        LCB_demand = tech_info["H2_SMRCCS"]["LCB_demand"]["value"]
         NG_demand = H2_SMRCCS_NG_demand
         water_demand = H2_SMRCCS_water_demand
         CO2_demand = 0
     elif H_pathway == "SMR":
         elect_demand = H2_SMR_elect_demand
-        LCB_demand = H2_SMR_LCB_demand
+        LCB_demand = tech_info["H2_SMR"]["LCB_demand"]["value"]
         NG_demand = H2_SMR_NG_demand
         water_demand = H2_SMR_water_demand
         CO2_demand = 0
     elif H_pathway == "BG":
-        elect_demand = H2_BG_elect_demand
-        LCB_demand = H2_BG_LCB_demand
+        elect_demand = tech_info["H2_BG"]["elec_demand"]["value"]
+        LCB_demand = tech_info["H2_BG"]["LCB_demand"]["value"]
         NG_demand = H2_BG_NG_demand
-        water_demand = H2_BG_water_demand
+        water_demand = tech_info["H2_BG"]["water_demand"]["value"]
         CO2_demand = 0
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
@@ -532,14 +476,14 @@ def calculate_resource_demands_STP_hydrogen(H_pathway):
 
 def calculate_resource_demands_liquid_hydrogen(H_pathway):
     elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
-    elect_demand += H2_liq_elect_demand
+    elect_demand += tech_info["H2_liquefaction"]["elec_demand"]["value"]
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 
 def calculate_resource_demands_compressed_hydrogen(H_pathway):
     elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
-    elect_demand += H2_comp_elect_demand
+    elect_demand += tech_info["H2_compression"]["elec_demand"]["value"]
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
     
@@ -565,7 +509,7 @@ def calculate_resource_demands_ammonia(H_pathway):
     LCB_demand = 0
     H2_demand = NH3_H2_demand
     CO2_demand = 0
-    NG_demand = NH3_NG_demand
+    NG_demand = tech_info["NH3"]["NG_demand"]["value"]
     water_demand = NH3_water_demand
 
     # add H2 resource demands
@@ -580,18 +524,17 @@ def calculate_resource_demands_ammonia(H_pathway):
 
 
 def calculate_resource_demands_methanol(H_pathway, C_pathway):
-    elect_demand = MeOH_elect_demand
-    LCB_demand = 0
-    H2_demand = MeOH_H2_demand
-    CO2_demand = MeOH_CO2_demand
-    NG_demand = MeOH_NG_demand
-    water_demand = MeOH_water_demand
-    elect_demand = 0
+    elect_demand = tech_info["MeOH"]["elect_demand"]["value"]
+    LCB_demand = tech_info["MeOH"]["LCB_demand"]["value"]
+    H2_demand = tech_info["MeOH"]["H2_demand"]["value"]
+    CO2_demand = tech_info["MeOH"]["CO2_demand"]["value"]
+    NG_demand = tech_info["MeOH"]["NG_demand"]["value"]
+    water_demand = tech_info["MeOH"]["water_demand"]["value"]
     
     if C_pathway=="DAC":
         NG_demand = NG_demand + DAC_CO2_upstream_NG * CO2_demand
         water_demand = water_demand + DAC_CO2_upstream_water * CO2_demand
-        elect_demand = DAC_CO2_upstream_elect * CO2_demand
+        elect_demand = elect_demand + DAC_CO2_upstream_elect * CO2_demand
 
     # add H2 resource demands
     H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
@@ -604,18 +547,17 @@ def calculate_resource_demands_methanol(H_pathway, C_pathway):
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 def calculate_resource_demands_FTdiesel(H_pathway, C_pathway):
-    elect_demand = FTdiesel_elect_demand
-    LCB_demand = 0
-    H2_demand = FTdiesel_H2_demand
-    CO2_demand = FTdiesel_CO2_demand
-    NG_demand = FTdiesel_NG_demand
-    water_demand = FTdiesel_water_demand
-    elect_demand = 0
+    elect_demand = tech_info["FTdiesel"]["elect_demand"]["value"]
+    LCB_demand = tech_info["FTdiesel"]["LCB_demand"]["value"]
+    H2_demand = tech_info["FTdiesel"]["H2_demand"]["value"]
+    CO2_demand = tech_info["FTdiesel"]["CO2_demand"]["value"]
+    NG_demand = tech_info["FTdiesel"]["NG_demand"]["value"]
+    water_demand = tech_info["FTdiesel"]["water_demand"]["value"]
     
     if C_pathway=="DAC":
         NG_demand = NG_demand + DAC_CO2_upstream_NG * CO2_demand
         water_demand = water_demand + DAC_CO2_upstream_water * CO2_demand
-        elect_demand = DAC_CO2_upstream_elect * CO2_demand
+        elect_demand = elect_demand + DAC_CO2_upstream_elect * CO2_demand
 
     # add H2 resource demands
     H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)

@@ -1,0 +1,633 @@
+{
+  "H2_LTE": {
+    "elect_demand": {
+      "value": 51.03004082,
+      "units": "kWh/kg H2",
+      "source": "Aspen Plus",
+      "extra_notes": "Electricity demand for low-temperature electrolysis hydrogen production.",
+      "source_url": null
+    },
+    "water_demand": {
+      "value": 0.01430886,
+      "units": "m^3/kg H2",
+      "source": "Aspen Plus",
+      "extra_notes": "Water consumption during LTE H2 production.",
+      "source_url": null
+    },
+    "LCB_demand": {
+      "value": 0,
+      "units": "kg / kg H2",
+      "source": "No LCB consumption for LTE",
+      "extra_notes": "Lignocellulosic biomass consumption during LTE H2 production.",
+      "source_url": null
+    },
+    "NG_demand": {
+      "value": 0,
+      "units": "GJ NG / kg H2",
+      "source": "Zero NG consumption for LTE",
+      "extra_notes": "Natural gas consumption during LTE H2 production.",
+      "source_url": null
+    },
+    "base_CapEx": {
+      "value": 0.56079,
+      "units": "2024$/kg H2",
+      "source": "H2A",
+      "extra_notes": "Base capital expenditure from H2A assumptions.",
+      "source_url": null
+    },
+    "employees": {
+      "value": 10,
+      "units": "full-time equivalents",
+      "source": "H2A",
+      "extra_notes": "Full-time employees required for plant operation.",
+      "source_url": null
+    },
+    "yearly_output": {
+      "value": 20003825,
+      "units": "kg H2/year",
+      "source": "Aspen Plus",
+      "extra_notes": "Annual hydrogen output for the LTE process.",
+      "source_url": null
+    },
+    "onsite_emissions": {
+      "value": 0,
+      "units": "kg CO2e/kg H2",
+      "source": "Derived from process characteristics",
+      "extra_notes": "No direct GHG emissions from LTE hydrogen production.",
+      "source_url": null
+    }
+  },
+  "H2_liq": {
+    "base_CapEx": {
+      "value": 0.59898,
+      "units": "2024$/kg H2",
+      "source": "H2A and Aspen Plus",
+      "extra_notes": "Base CapEx for hydrogen liquefaction at 20 K.",
+      "source_url": null
+    },
+    "elect_demand": {
+      "value": 8.0,
+      "units": "kWh/kg H2",
+      "source": "Aspen Plus",
+      "extra_notes": "Electricity required for liquefaction of hydrogen.",
+      "source_url": null
+    }
+  },
+  "H2_comp": {
+    "base_CapEx": {
+      "value": 0.17114,
+      "units": "2024$/kg H2",
+      "source": "H2A",
+      "extra_notes": "Capital expenditure for compression to 700 bar.",
+      "source_url": null
+    },
+    "elect_demand": {
+      "value": 3.0,
+      "units": "kWh/kg H2",
+      "source": "Aspen Plus",
+      "extra_notes": "Electricity demand for compressing hydrogen to 700 bar.",
+      "source_url": null
+    }
+  },
+  "NH3": {
+    "elect_demand": {
+      "value": 10.05314189,
+      "units": "kWh/kg NH3",
+      "source": "Aspen Plus",
+      "extra_notes": "Electricity demand for Haber-Bosch synthesis, excluding upstream H2.",
+      "source_url": null
+    },
+    "H2_demand": {
+      "value": 0.355599884,
+      "units": "kg H2/kg NH3",
+      "source": "Stoichiometry",
+      "extra_notes": "Stoichiometric H2 requirement derived from NH3 formula.",
+      "source_url": null
+    },
+    "water_demand_LTE": {
+      "value": 0.00261861625758975,
+      "units": "m^3/kg NH3",
+      "source": "Aspen Plus",
+      "extra_notes": "Net water consumption for NH3 synthesis using H2 from LTE.",
+      "source_url": null
+    },
+    "NG_demand": {
+      "value": 0,
+      "units": "GJ NG/kg H2",
+      "source": "Aspen Plus",
+      "extra_notes": "No NG demand for ammonia production via Haber Bosch",
+      "source_url": null
+    },
+    "base_CapEx_LTE": {
+      "value": 0.193395,
+      "units": "2024$/kg NH3",
+      "source": "H2A",
+      "extra_notes": "Capital expenditure of NH3 production plant, with H2 from LTE.",
+      "source_url": null
+    },
+    "employees_LTE": {
+      "value": 10,
+      "units": "full-time equivalents",
+      "source": "H2A",
+      "extra_notes": "Net employees for NH3 production plant, with H2 from LTE.",
+      "source_url": null
+    },
+    "yearly_output": {
+      "value": 109306554,
+      "units": "kg NH3/year",
+      "source": "Aspen Plus",
+      "extra_notes": "Annual output of ammonia plant from Aspen simulation.",
+      "source_url": null
+    },
+    "onsite_emissions": {
+      "value": 0,
+      "units": "kg CO2e/kg NH3",
+      "source": "Aspen Plus",
+      "extra_notes": "No direct CO2 emissions in Haber-Bosch process.",
+      "source_url": null
+    }
+  },
+  "MeOH": {
+    "elect_demand": {
+      "value": 0.564623278,
+      "units": "kWh/kg MeOH",
+      "source": "Aspen Plus",
+      "extra_notes": "Electricity demand for methanol synthesis from CO2 and H2.",
+      "source_url": null
+    },
+    "H2_demand": {
+      "value": 0.204464607,
+      "units": "kg H2/kg MeOH",
+      "source": "Aspen Plus",
+      "extra_notes": "Hydrogen demand from process simulation.",
+      "source_url": null
+    },
+    "CO2_demand": {
+      "value": 1.662087119,
+      "units": "kg CO2/kg MeOH",
+      "source": "Aspen Plus",
+      "extra_notes": "Carbon dioxide required per kg of methanol.",
+      "source_url": null
+    },
+    "NG_demand": {
+      "value": 0,
+      "units": "GJ/kg MeOH",
+      "source": "Aspen Plus",
+      "extra_notes": "No NG demand assumed in Aspen-based MeOH synthesis.",
+      "source_url": null
+    },
+    "LCB_demand": {
+      "value": 0,
+      "units": "kg / kg MeOH",
+      "source": "Aspen Plus",
+      "extra_notes": "No LCB demand assumed in Aspen-based MeOH synthesis.",
+      "source_url": null
+    },
+    "water_demand": {
+      "value": 0.000318771,
+      "units": "m^3/kg MeOH",
+      "source": "Aspen Plus",
+      "extra_notes": "Water use from methanol synthesis process.",
+      "source_url": null
+    },
+    "base_CapEx": {
+      "value": 0.103556,
+      "units": "2024$/kg MeOH",
+      "source": "H2A",
+      "extra_notes": "Base CapEx estimated from H2A and Aspen Plus.",
+      "source_url": null
+    },
+    "employees": {
+      "value": 68,
+      "units": "full-time equivalents",
+      "source": "H2A",
+      "extra_notes": "Estimated number of workers at MeOH production facility.",
+      "source_url": null
+    },
+    "yearly_output": {
+      "value": 194924166,
+      "units": "kg MeOH/year",
+      "source": "Aspen Plus",
+      "extra_notes": "Annual production volume from Aspen Plus model.",
+      "source_url": null
+    },
+    "onsite_emissions": {
+      "value": 0.3153886337,
+      "units": "kg CO2e/kg MeOH",
+      "source": "Aspen Plus",
+      "extra_notes": "Direct emissions from methanol synthesis.",
+      "source_url": null
+    }
+  },
+  "FTdiesel": {
+    "elect_demand": {
+      "value": 0.246,
+      "units": "kWh/kg FTdiesel",
+      "source": "Aspen Plus",
+      "extra_notes": "Electricity required for Fischer-Tropsch diesel synthesis.",
+      "source_url": null
+    },
+    "H2_demand": {
+      "value": 0.635,
+      "units": "kg H2/kg FTdiesel",
+      "source": "Aspen Plus",
+      "extra_notes": "Hydrogen input per kg of FT diesel.",
+      "source_url": null
+    },
+    "CO2_demand": {
+      "value": 6.8,
+      "units": "kg CO2/kg FTdiesel",
+      "source": "Aspen Plus",
+      "extra_notes": "Carbon dioxide required for FT diesel synthesis.",
+      "source_url": null
+    },
+    "NG_demand": {
+      "value": 0,
+      "units": "GJ/kg FTdiesel",
+      "source": "Aspen Plus",
+      "extra_notes": "No natural gas required directly in synthesis.",
+      "source_url": null
+    },
+    "LCB_demand": {
+      "value": 0,
+      "units": "kg / kg FTdiesel",
+      "source": "Aspen Plus",
+      "extra_notes": "No LCB required directly in synthesis.",
+      "source_url": null
+    },
+    "water_demand": {
+      "value": 0.00166,
+      "units": "m^3/kg FTdiesel",
+      "source": "Aspen Plus",
+      "extra_notes": "Water use in FT diesel process.",
+      "source_url": null
+    },
+    "base_CapEx": {
+      "value": 0.322,
+      "units": "2024$/kg FTdiesel",
+      "source": "H2A",
+      "extra_notes": "Capital cost based on H2A assumptions and Aspen Plus validation.",
+      "source_url": null
+    },
+    "employees": {
+      "value": 80,
+      "units": "full-time equivalents",
+      "source": "H2A",
+      "extra_notes": "Staff required at FT diesel facility.",
+      "source_url": null
+    },
+    "yearly_output": {
+      "value": 128202750,
+      "units": "kg FTdiesel/year",
+      "source": "Aspen Plus",
+      "extra_notes": "Annual FT diesel production rate from simulation.",
+      "source_url": null
+    },
+    "onsite_emissions": {
+      "value": 0.3153886337,
+      "units": "kg CO2e/kg FTdiesel",
+      "source": "Aspen Plus",
+      "extra_notes": "Direct emissions from FT synthesis process.",
+      "source_url": null
+    }
+  },
+  "NG_liq": {
+    "base_CapEx": {
+      "value": 0.82,
+      "units": "2024$/kg NG",
+      "source": "Converted from 2018$ via BLS CPI inflation tool",
+      "extra_notes": "CapEx for NG liquefaction based on U.S. Gulf Coast plants.",
+      "source_url": "https://www.jstor.org/stable/resrep31040.11?seq=7"
+    }
+  },
+  "H2_ATRCCS": {
+    "elec_cons": {
+      "value": 58000,
+      "units": "kW elec",
+      "source": "Zang et al 2024",
+      "extra_notes": "Electricity consumption from Table 6, column 5.",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "NG_cons": {
+      "value": 3376,
+      "units": "GJ NG/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "Hourly NG consumption from Table 6, column 5",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "water_cons": {
+      "value": 96.831,
+      "units": "m^3/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "Water flow from Table S5 (flow 19).",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "LCB_demand": {
+      "value": 0,
+      "units": "kg / kg H2",
+      "source": "No LCB consumption for ATRCCS"
+    },
+    "CRF": {
+      "value": 0.1018522,
+      "units": null,
+      "source": "Zang et al 2024",
+      "extra_notes": "Capital recovery factor from H2A based on data from Table 5",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "employees": {
+      "value": 22,
+      "units": "full-time equivalents",
+      "source": "H2A",
+      "extra_notes": "Operational staffing estimate.",
+      "source_url": null
+    },
+    "yearly_output": {
+      "value": 176295000,
+      "units": "kg H2/year",
+      "source": "Zang et al 2024",
+      "extra_notes": "Annual output based on hourly production.",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "emissions": {
+      "value": 221,
+      "units": "kg CO2e / hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "Onsite emissions from Table 6, column 5.",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "TPC_2019": {
+      "value": 1150,
+      "units": "2019$/(kg H2/day)",
+      "source": "Zang et al 2024",
+      "extra_notes": "total plant cost from Fig 4 case 5 TPC",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "hourly_prod": {
+      "value": 20125,
+      "units": "kg H2/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "hourly H2 production from Table 6, column 5",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    }
+  },
+  "H2_SMRCCS": {
+    "elec_cons": {
+      "value": 41000,
+      "units": "kW elec",
+      "source": "Zang et al 2024",
+      "extra_notes": "Electricity demand from Table 6, column 2.",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "NG_cons": {
+      "value": 3947,
+      "units": "GJ NG / hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "Table 6, column 2: hourly NG consumption",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "water_cons": {
+      "value": 485.432,
+      "units": "m^3/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "Water use from Table S2 (flows 8 (308.347 m^3/hr) + 17 (177.085 m^3/hr)).",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "LCB_demand": {
+      "value": 0,
+      "units": "kg / kg H2",
+      "source": "No LCB consumption for SMRCCS"
+    },
+    "TPC_2019": {
+      "value": 1419,
+      "units": "2019$/(kg H2/day)",
+      "source": "Zang et al 2024;",
+      "extra_notes": "Total plant cost from Fig 4 case 2 TPC",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "CRF": {
+      "value": 0.1018522,
+      "units": null,
+      "source": "Zang et al 2024",
+      "extra_notes": "Capital recovery factor from H2A based on data from Table 5",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "employees": {
+      "value": 22,
+      "units": "full-time equivalents",
+      "source": "H2A",
+      "extra_notes": "Operational staffing for SMR+CCS facility.",
+      "source_url": null
+    },
+    "yearly_output": {
+      "value": 176295000,
+      "units": "kg H2/year",
+      "source": "Zang et al 2024",
+      "extra_notes": "Annual output from SMR+CCS plant.",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "emissions": {
+      "value": 7656,
+      "units": "kg CO2e/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "GHG emissions with 96% CO2 capture rate, from Table 6, column 2: hourly CO2e emissions",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "hourly_prod": {
+      "value": 20125,
+      "units": "kg H2/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "hourly H2 production from Table 6, column 5",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    }
+  },
+  "H2_SMR": {
+    "elec_cons": {
+      "value": 13000,
+      "units": "kW elec",
+      "source": "Zang et al 2024",
+      "extra_notes": "Electricity demand from Table 6, column 1.",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "NG_cons": {
+      "value": 3712,
+      "units": "GJ NG / hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "Table 6, column 1: hourly NG consumption",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "steam_byproduct": {
+      "value": 514,
+      "units": "GJ / hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "Table 6, column 1: By-product steam",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "boiler_eff": {
+      "value": 0.8,
+      "units": null,
+      "source": "Assumption",
+      "extra_notes": "Assumed 80% boiler efficiency"
+    },
+    "water_cons": {
+      "value": 336.728,
+      "units": "m^3/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "Water use from Table S2 (flows 8 (308.347 m^3/hr) + 17 (177.085 m^3/hr)).",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "LCB_demand": {
+      "value": 0,
+      "units": "kg / kg H2",
+      "source": "No LCB consumption for SMR"
+    },
+    "TPC_2019": {
+      "value": 564,
+      "units": "2019$/(kg H2/day)",
+      "source": "Zang et al 2024;",
+      "extra_notes": "Total plant cost from Fig 4 case 1 TPC",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "CRF": {
+      "value": 0.1018522,
+      "units": null,
+      "source": "Zang et al 2024",
+      "extra_notes": "Capital recovery factor from H2A based on data from Table 5",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "employees": {
+      "value": 22,
+      "units": "full-time equivalents",
+      "source": "H2A",
+      "extra_notes": "Operational staffing for SMR facility.",
+      "source_url": null
+    },
+    "yearly_output": {
+      "value": 176295000,
+      "units": "kg H2/year",
+      "source": "Zang et al 2024",
+      "extra_notes": "Annual output from SMR+CCS plant.",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "emissions": {
+      "value": 188221,
+      "units": "kg CO2e/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "GHG emissions with 96% CO2 capture rate, from Table 6, column 1: hourly CO2e emissions",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "hourly_prod": {
+      "value": 20126,
+      "units": "kg H2/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "hourly H2 production from Table 6, column 1",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    }
+  },
+  "H2_BG": {
+    "elec_demand": {
+      "value": 0.98,
+      "units": "kWh elect/kg H2",
+      "source": "H2A",
+      "extra_notes": "Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
+    },
+    "NG_demand": {
+      "value": 0.0062245,
+      "units": "GJ NG / kg H2",
+      "source": "H2A",
+      "extra_notes": "Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
+    },
+    "steam_byproduct": {
+      "value": 514,
+      "units": "GJ / hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "Table 6, column 1: By-product steam",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "boiler_eff": {
+      "value": 0.8,
+      "units": null,
+      "source": "Assumption",
+      "extra_notes": "Assumed 80% boiler efficiency"
+    },
+    "water_demand": {
+      "value": 0.005,
+      "units": "m^3 water / kg H2",
+      "source": "H2A",
+      "extra_notes": "Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
+    },
+    "LCB_demand": {
+      "value": 13.49,
+      "units": "kg / kg H2",
+      "source": "H2A",
+      "extra_notes": "Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
+    },
+    "base_CapEx_2015": {
+      "value": 0.32,
+      "units": "2015$/kg",
+      "source": "H2A",
+      "extra_notes": "Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
+    },
+    "CRF": {
+      "value": 0.1018522,
+      "units": null,
+      "source": "Zang et al 2024",
+      "extra_notes": "Capital recovery factor from H2A based on data from Table 5",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    },
+    "employees": {
+      "value": 54,
+      "units": "full-time equivalents",
+      "source": "H2A",
+      "extra_notes": "Oparational staffing requirement for BG facility. Based on: Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
+    },
+    "yearly_output": {
+      "value": 50995026,
+      "units": "kg H2/year",
+      "source": "H2A",
+      "extra_notes": "Annual output from BG plant. Based on: Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
+    },
+    "LCB_gasification_emissions": {
+      "value": 1.913592126,
+      "units": "kg CO2e/bone-dry kg",
+      "source": "H2A",
+      "extra_notes": "Process emissions from gasification of lignocellulosic biomass (LCB). Based on: Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
+    },
+    "onsite_emissions": {
+      "value": 26.16,
+      "units": "kg CO2e / kg H2",
+      "source": "H2A",
+      "extra_notes": "Onsite emissions of the biogasification facility (excludes LCB biogenic credit). Based on: Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
+    },
+    "hourly_prod": {
+      "value": 20126,
+      "units": "kg H2/hr",
+      "source": "Zang et al 2024",
+      "extra_notes": "hourly H2 production from Table 6, column 1",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
+    }
+  },
+  "H2_liquefaction": {
+    "base_CapEx": {
+      "value": 0.59898,
+      "units": "2024$ / kg H2",
+      "source": "HDSAM"
+    },
+    "elec_demand": {
+      "value": 8.0,
+      "units": "kWh elect / kg H2",
+      "source": "HDSAM"
+    }
+  },
+  "H2_compression": {
+    "base_CapEx": {
+      "value": 0.17114,
+      "units": "2024$ / kg H2",
+      "source": "HDSAM"
+    },
+    "elec_demand": {
+      "value": 3.0,
+      "units": "kWh elect / kg H2",
+      "source": "HDSAM"
+    }
+  }
+}
