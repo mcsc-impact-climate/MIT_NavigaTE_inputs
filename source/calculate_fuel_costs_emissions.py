@@ -177,7 +177,7 @@ NG_liq_CH4_leakage = NG_info.loc["Liquefaction", "CH4 Emissions (kg/kg)"] # [kg 
 ###########################################################################################################
 
 ################### Inputs for liquid NH3 production from arbitrary H2 feedstock ##########################
-NH3_H2_demand = 3/2 * molecular_info["MW_H2"]["value"] / molecular_info["MW_NH3"]["value"] # [kg H2/kg NH3] stoichiometry
+NH3_H2_demand = 3/2 * MW_H2 / MW_NH3 # [kg H2/kg NH3] stoichiometry
 NH3_elect_demand = tech_info["NH3"]["elect_demand"]["value"] - tech_info["H2_LTE"]["elect_demand"]["value"]*NH3_H2_demand # subtract electrical demand from LTE H2 process
 NH3_water_demand = tech_info["NH3"]["water_demand_LTE"]["value"] - tech_info["H2_LTE"]["water_demand"]["value"]*NH3_H2_demand # subtract water demand from LTE H2 process
 NH3_base_CapEx = tech_info["NH3"]["base_CapEx_LTE"]["value"] - tech_info["H2_LTE"]["base_CapEx"]["value"]*NH3_H2_demand # subtract base CapEx from LTE H2 process
