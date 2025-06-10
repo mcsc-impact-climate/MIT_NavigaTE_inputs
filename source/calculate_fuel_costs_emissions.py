@@ -734,38 +734,60 @@ def calculate_production_costs_emissions_compressed_hydrogen(
 
     return capex_comp + capex_h2, opex_comp + opex_h2, emiss_comp + emiss_h2
 
+# ────────────────────────────────────────────────────────────────────
+# Liquid NH₃ (cryogenic, 1 bar) – flexible H₂ feed
+# ────────────────────────────────────────────────────────────────────
 def calculate_production_costs_emissions_ammonia(
-    H_pathway, instal, water_price, NG_price,
-    LCB_price, LCB_up_emiss,
-    elect_price, elect_int, labor_rate,
+    H_pathway: str,
+    instal: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_up_emiss: float,
+    elect_price: float,
+    elect_int: float,
+    labor_rate: float,
 ):
-    # ---------- core block (unchanged) -----------------
-    elect = NH3_elect_demand
-    water = NH3_water_demand
-    ng    = tech_info["NH3"]["NG_demand"]["value"]
+    # --- core Haber-Bosch block (no feeds) ----------------------------
+    elect  = NH3_elect_demand                     # kWh / kg NH₃
+    water  = NH3_water_demand                     # m³ / kg NH₃
+    ng     = tech_info["NH3"]["NG_demand"]["value"]   # GJ / kg NH₃
+
+    employees     = NH3_full_time_employed
+    yearly_output = tech_info["NH3"]["yearly_output"]["value"]
+
     cap_core = NH3_base_CapEx * instal
     op_core  = (
-        (op_maint_rate + tax_rate) * cap_core
+        _fixed_opex(cap_core, employees, yearly_output, labor_rate)
         + elect * elect_price
         + water * water_price
         + ng    * NG_price
     )
     em_core  = elect * elect_int + ng / NG_HHV * NG_GWP * NG_CH4_leakage
+    # (No onsite-process CO₂ for NH₃, so nothing else to add)
 
-    # ---------- add H₂ feedstock -----------------------
-    prices = {
-        "water": water_price, "ng": NG_price,
-        "lcb": LCB_price,     "elec": elect_price,
+    # --- H₂ feed (generic engine) ------------------------------------
+    H2_demand = NH3_H2_demand                     # kg H₂ per kg NH₃
+
+    price_ctx = {
+        "water": water_price,
+        "ng":    NG_price,
+        "lcb":   LCB_price,
+        "elec":  elect_price,
         "labor": labor_rate,
     }
-    cap_h2, op_h2, em_h2 = _feed_h2(
-        H_pathway, instal, prices, elect_int, LCB_up_emiss
-    )
-    cap_total = cap_core + cap_h2 * NH3_H2_demand
-    op_total  = op_core  + op_h2  * NH3_H2_demand
-    em_total  = em_core  + em_h2  * NH3_H2_demand
 
-    return cap_total, op_total, em_total
+    cap_h2, op_h2, em_h2 = _feed_h2(
+        H_pathway, instal, price_ctx, elect_int, LCB_up_emiss
+    )
+
+    # --- totals per kg NH₃ -------------------------------------------
+    CapEx = cap_core + cap_h2 * H2_demand
+    OpEx  = op_core  + op_h2  * H2_demand
+    Emiss = em_core  + em_h2  * H2_demand
+
+    return CapEx, OpEx, Emiss
+
 
 
 def _fixed_opex(capex: float, employees: int, yearly_output: float,
