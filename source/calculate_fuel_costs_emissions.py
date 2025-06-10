@@ -543,21 +543,46 @@ def calculate_production_costs_emissions_STP_hydrogen(
         lcb_upstream_emiss=LCB_upstream_emissions,
     )
     return capex, opex, emiss
+    
+# ────────────────────────────────────────────────────────────────────
+# Liquid cryogenic H₂ at 1 bar
+# ────────────────────────────────────────────────────────────────────
+def calculate_production_costs_emissions_liquid_hydrogen(
+    H_pathway: str,
+    instal_factor: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_upstream_emissions: float,
+    elect_price: float,
+    elect_emissions_intensity: float,
+    hourly_labor_rate: float,
+):
+    # --- incremental liquefaction block --------------------------------
+    base_capex_liq   = tech_info["H2_liquefaction"]["base_CapEx"]["value"]
+    elect_liq        = tech_info["H2_liquefaction"]["elec_demand"]["value"]
 
-def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    base_CapEx = tech_info["H2_liquefaction"]["base_CapEx"]["value"]
-    elect_demand = tech_info["H2_liquefaction"]["elec_demand"]["value"]
-    # calculate liquefaction values
-    CapEx = base_CapEx*instal_factor
-    OpEx = (op_maint_rate + tax_rate)*CapEx + elect_demand*elect_price
-    emissions = elect_demand*elect_emissions_intensity
-    # add H2 feedstock cost and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-    CapEx += H2_CapEx
-    OpEx += H2_OpEx
-    emissions += H2_emissions
+    capex_liq  = base_capex_liq * instal_factor
+    opex_liq   = (op_maint_rate + tax_rate) * capex_liq + elect_liq * elect_price
+    emiss_liq  = elect_liq * elect_emissions_intensity
 
-    return CapEx, OpEx, emissions
+    # --- underlying STP hydrogen via generic engine --------------------
+    prices = {
+        "water": water_price,
+        "ng":    NG_price,
+        "lcb":   LCB_price,
+        "elec":  elect_price,
+        "labor": hourly_labor_rate,
+    }
+    capex_h2, opex_h2, emiss_h2 = generic_production(
+        H_pathway,
+        instal_factor,
+        prices,
+        elect_emissions_intensity,
+        lcb_upstream_emiss=LCB_upstream_emissions,
+    )
+
+    return capex_liq + capex_h2, opex_liq + opex_h2, emiss_liq + emiss_h2
 
 def calculate_production_costs_emissions_NG(water_price,NG_price,elect_price,elect_emissions_intensity):
     NG_demand = NG_NG_demand_GJ     # Natural gas consumed in the recovery and processing stages, in GJ NG consumed / kg NG produced
@@ -589,20 +614,45 @@ def calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_
 
     return CapEx, OpEx, emissions
 
-def calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    base_CapEx = tech_info["H2_compression"]["base_CapEx"]["value"]
-    elect_demand = tech_info["H2_compression"]["elec_demand"]["value"]
-    # calculate compression values
-    CapEx = base_CapEx*instal_factor
-    OpEx = (op_maint_rate + tax_rate)*CapEx + elect_demand*elect_price
-    emissions = elect_demand*elect_emissions_intensity
-    # add H2 feedstock cost and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-    CapEx += H2_CapEx
-    OpEx += H2_OpEx
-    emissions += H2_emissions
+# ────────────────────────────────────────────────────────────────────
+# Compressed gaseous H₂ at 700 bar
+# ────────────────────────────────────────────────────────────────────
+def calculate_production_costs_emissions_compressed_hydrogen(
+    H_pathway: str,
+    instal_factor: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_upstream_emissions: float,
+    elect_price: float,
+    elect_emissions_intensity: float,
+    hourly_labor_rate: float,
+):
+    # --- incremental compression block ---------------------------------
+    base_capex_comp = tech_info["H2_compression"]["base_CapEx"]["value"]
+    elect_comp      = tech_info["H2_compression"]["elec_demand"]["value"]
 
-    return CapEx, OpEx, emissions
+    capex_comp = base_capex_comp * instal_factor
+    opex_comp  = (op_maint_rate + tax_rate) * capex_comp + elect_comp * elect_price
+    emiss_comp = elect_comp * elect_emissions_intensity
+
+    # --- underlying STP hydrogen via generic engine --------------------
+    prices = {
+        "water": water_price,
+        "ng":    NG_price,
+        "lcb":   LCB_price,
+        "elec":  elect_price,
+        "labor": hourly_labor_rate,
+    }
+    capex_h2, opex_h2, emiss_h2 = generic_production(
+        H_pathway,
+        instal_factor,
+        prices,
+        elect_emissions_intensity,
+        lcb_upstream_emiss=LCB_upstream_emissions,
+    )
+
+    return capex_comp + capex_h2, opex_comp + opex_h2, emiss_comp + emiss_h2
 
 def calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
     elect_demand = NH3_elect_demand
