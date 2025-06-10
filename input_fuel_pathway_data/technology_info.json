@@ -292,11 +292,11 @@
     }
   },
   "NG_liq": {
-    "base_CapEx": {
-      "value": 0.82,
+    "base_CapEx_2018": {
+      "value": 0.660,
       "units": "2024$/kg NG",
-      "source": "Converted from 2018$ via BLS CPI inflation tool",
-      "extra_notes": "CapEx for NG liquefaction based on U.S. Gulf Coast plants.",
+      "source": "Outlook for Competitive LNG Supply, Mar. 1, 2019, pp. 8-15",
+      "extra_notes": "CapEx for NG liquefaction based on U.S.A Lower 48 indicative plant cost (Table 3, 'USA Lower 48' column).",
       "source_url": "https://www.jstor.org/stable/resrep31040.11?seq=7"
     }
   },

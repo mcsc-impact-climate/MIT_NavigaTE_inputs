@@ -40,25 +40,29 @@ def build_context() -> Dict[str, Dict]:
     D = ctx["derived"]
 
     # ------------------------------------------------------------------
-    # Natural-gas recovery / processing numbers from GREET 2024
+    # Natural-gas recovery and liquefaction from GREET 2024
     # ------------------------------------------------------------------
     ng_info = pd.read_csv(
         os.path.join(ctx["top_dir"], "input_fuel_pathway_data", "lng_inputs_GREET_processed.csv"),
         index_col="Stage",
     )
 
-    # [kg NG consumed / kg NG produced]  – Source: GREET 2024
     D["NG_NG_demand_kg"] = ng_info.loc["Production", "NG Consumption (kg/kg)"]
-
-    # Additional NG data you might need later (kept for completeness)
-    D["NG_NG_demand_GJ"] = ng_info.loc["Production", "NG Consumption (GJ/kg)"]      # [GJ/kg]
-    D["NG_water_demand"] = ng_info.loc["Production", "Water Consumption (m^3/kg)"]  # [m³/kg]
+    D["NG_NG_demand_GJ"] = ng_info.loc["Production", "NG Consumption (GJ/kg)"]
+    D["NG_water_demand"] = ng_info.loc["Production", "Water Consumption (m^3/kg)"]
     D["NG_elec_demand"]  = ng_info.loc["Production", "Electricity Consumption (kWh/kg)"]
     D["NG_CO2_emissions"] = ng_info.loc["Production", "CO2 Emissions (kg/kg)"]
     D["NG_CH4_leakage"]   = ng_info.loc["Production", "CH4 Emissions (kg/kg)"]
 
+    D["NG_liq_NG_demand_kg"] = ng_info.loc["Liquefaction", "NG Consumption (kg/kg)"]
+    D["NG_liq_NG_demand_GJ"] = ng_info.loc["Liquefaction", "NG Consumption (GJ/kg)"]
+    D["NG_liq_water_demand"] = ng_info.loc["Liquefaction", "Water Consumption (m^3/kg)"]
+    D["NG_liq_elect_demand"]  = ng_info.loc["Liquefaction", "Electricity Consumption (kWh/kg)"]
+    D["NG_liq_CO2_emissions"] = ng_info.loc["Liquefaction", "CO2 Emissions (kg/kg)"]
+    D["NG_liq_CH4_leakage"]   = ng_info.loc["Liquefaction", "CH4 Emissions (kg/kg)"]
+
     # ------------------------------------------------------------------
-    # DERIVED VALUES for hydrogen pathways (keep ALL original comments)
+    # DERIVED VALUES for hydrogen pathways
     # ------------------------------------------------------------------
 
     # ── STP H₂ via SMR (no capture) ────────────────────────────────────
@@ -252,7 +256,7 @@ PATHWAYS: Dict[str, Pathway] = {
         lcb_demand=lambda c: 0.0,
         ng_demand=lambda c: c["derived"]["NG_liq_NG_demand_GJ"],
         water_demand=lambda c: c["derived"]["NG_liq_water_demand"],
-        base_capex=lambda c: c["derived"]["NG_liq_base_CapEx"],
+        base_capex=lambda c: c["glob"]["NG_liq"]["base_CapEx"]["value"],
         employees=lambda c: 0,            # assume incremental block has no labour
         yearly_output=lambda c: 1.0,
         onsite_emiss=lambda c: (
@@ -615,24 +619,34 @@ def calculate_production_costs_emissions_NG(
         elec_intensity=elect_intensity,
     )
     
-def calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity):
-    base_CapEx = NG_liq_base_CapEx
-    NG_demand = NG_liq_NG_demand_GJ    # Natural gas consumed to power the liquefaction process, in GJ/kg
-    water_demand = NG_liq_water_demand  # Water consumed during the liquefaction process, in m^3/kg
-    elect_demand = NG_liq_elect_demand  # Electricity consumed during the liquefaction process, in kWh/kg
+def calculate_production_costs_emissions_liquid_NG(
+    instal_factor,
+    water_price,
+    NG_price,
+    elect_price,
+    elect_intensity,
+):
+    """Incremental liquefaction block + generic NG feedstock."""
+    # incremental liquefaction
+    capex_liq  = tech_info["NG_liq"]["base_CapEx_2018"]["value"] * global_parameters["2018_to_2024_USD"]["value"] * instal_factor
+    opex_liq   = (
+        (op_maint_rate + tax_rate) * capex_liq
+        + CTX["derived"]["NG_liq_NG_demand_GJ"] * NG_price
+        + CTX["derived"]["NG_liq_water_demand"] * water_price
+        + CTX["derived"]["NG_liq_elect_demand"] * elect_price
+    )
+    emiss_liq  = (
+        CTX["derived"]["NG_liq_CO2_emissions"]
+        + CTX["derived"]["NG_liq_CH4_leakage"] * CTX["glob"]["NG_GWP"]["value"]
+        + CTX["derived"]["NG_liq_elect_demand"] * elect_intensity
+    )
 
-    # calculate liquefaction values
-    CapEx = base_CapEx*instal_factor
-    OpEx = (op_maint_rate + tax_rate)*CapEx + NG_demand*NG_price + water_demand*water_price + elect_demand*elect_price
-    emissions = NG_liq_CO2_emissions + NG_liq_CH4_leakage * NG_GWP + elect_demand * elect_emissions_intensity  # kg CO2e / kg NG
+    # upstream NG via generic engine
+    capex_ng, opex_ng, emiss_ng = calculate_production_costs_emissions_NG(
+        water_price, NG_price, elect_price, elect_intensity
+    )
 
-    # add H2 feedstock cost and emissions
-    NG_CapEx, NG_OpEx, NG_emissions = calculate_production_costs_emissions_NG(water_price,NG_price,elect_price,elect_emissions_intensity)
-    CapEx += NG_CapEx
-    OpEx += NG_OpEx
-    emissions += NG_emissions
-
-    return CapEx, OpEx, emissions
+    return capex_liq + capex_ng, opex_liq + opex_ng, emiss_liq + emiss_ng
 
 # ────────────────────────────────────────────────────────────────────
 # Compressed gaseous H₂ at 700 bar
