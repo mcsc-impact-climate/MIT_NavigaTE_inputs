@@ -230,6 +230,36 @@ PATHWAYS: Dict[str, Pathway] = {
         yearly_output=lambda c: c["derived"]["H2_BG_yearly_output"],
         onsite_emiss=lambda c: c["derived"]["H2_BG_onsite_emissions"],
     ),
+    # ------------------------------------------------------------------
+    # Natural gas at pipeline conditions (STP)
+    # ------------------------------------------------------------------
+    "NG": Pathway(
+        elect_demand=lambda c: c["derived"]["NG_elec_demand"],
+        lcb_demand=lambda c: 0.0,
+        ng_demand=lambda c: c["glob"]["NG_HHV"]["value"] + c["derived"]["NG_NG_demand_GJ"],             # Additionally account for the NG consumed in producing the NG
+        water_demand=lambda c: c["derived"]["NG_water_demand"],
+        base_capex=lambda c: 0.0,                # CapEx = 0 for commodity NG
+        employees=lambda c: 0,
+        yearly_output=lambda c: 1.0,             # dummy (unused when employees=0)
+        onsite_emiss=lambda c: 0.0,              # accounted upstream
+    ),
+
+    # ------------------------------------------------------------------
+    # Liquefied NG at 1 bar, 111 K – incremental over “NG”
+    # ------------------------------------------------------------------
+    "LNG": Pathway(
+        elect_demand=lambda c: c["derived"]["NG_liq_elect_demand"],
+        lcb_demand=lambda c: 0.0,
+        ng_demand=lambda c: c["derived"]["NG_liq_NG_demand_GJ"],
+        water_demand=lambda c: c["derived"]["NG_liq_water_demand"],
+        base_capex=lambda c: c["derived"]["NG_liq_base_CapEx"],
+        employees=lambda c: 0,            # assume incremental block has no labour
+        yearly_output=lambda c: 1.0,
+        onsite_emiss=lambda c: (
+            c["derived"]["NG_liq_CO2_emissions"]
+            + c["derived"]["NG_liq_CH4_leakage"] * c["glob"]["NG_GWP"]["value"]
+        ),
+    )
 }
 
 # --------------------------------------------------------------------------------------
@@ -307,23 +337,7 @@ def generic_production(
     )
 
     return capex, fixed_opex + variable_opex, emiss
-    
 
-    
-
-#def resource_demands(path: str, include_elect: bool = True) -> Tuple[float, float, float, float, float]:
-#    """Return (elect, lcb, ng, water, co2) demands per kg fuel."""
-#
-#    elect = _p(path, "elect_demand") if include_elect else 0
-#    return (
-#        elect,
-#        _p(path, "lcb_demand"),
-#        _p(path, "ng_demand"),
-#        _p(path, "water_demand"),
-#        0.0,  # CO₂ demand handled in extra rules for the few fuels that need it
-#    )
-#
-#
 ## --------------------------------------------------------------------------------------
 ## 4.  EXTRA RULES FOR SPECIAL FUELS
 ## --------------------------------------------------------------------------------------
@@ -584,17 +598,23 @@ def calculate_production_costs_emissions_liquid_hydrogen(
 
     return capex_liq + capex_h2, opex_liq + opex_h2, emiss_liq + emiss_h2
 
-def calculate_production_costs_emissions_NG(water_price,NG_price,elect_price,elect_emissions_intensity):
-    NG_demand = NG_NG_demand_GJ     # Natural gas consumed in the recovery and processing stages, in GJ NG consumed / kg NG produced
-    water_demand = NG_water_demand  # Water consumed in the recovery and processing stages, in m^3 water consumed / kg NG produced
-    elect_demand = NG_elect_demand  # Electricity consumed in the recovery and processing stages, in kWh electricity consumed / kg NG produced
-    # Assign the price of NG to the OpEx
-    CapEx = 0
-    OpEx = NG_price * (NG_HHV + NG_NG_demand_GJ) + water_price * water_demand + elect_price * elect_demand   # Account for both the NG produced and the NG consumed in the recovery and processing stages
-    emissions = NG_CO2_emissions + NG_CH4_leakage * NG_GWP + elect_demand * elect_emissions_intensity
-
-    return CapEx, OpEx, emissions
-
+def calculate_production_costs_emissions_NG(
+    water_price, NG_price, elect_price, elect_intensity
+):
+    prices = {
+        "water": water_price,
+        "ng":    NG_price,
+        "lcb":   0.0,
+        "elec":  elect_price,
+        "labor": 0.0,
+    }
+    return generic_production(
+        "NG",          # canonical table key
+        install_factor=1.0,
+        prices=prices,
+        elec_intensity=elect_intensity,
+    )
+    
 def calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity):
     base_CapEx = NG_liq_base_CapEx
     NG_demand = NG_liq_NG_demand_GJ    # Natural gas consumed to power the liquefaction process, in GJ/kg
