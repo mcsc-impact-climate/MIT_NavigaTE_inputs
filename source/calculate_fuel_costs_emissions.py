@@ -85,6 +85,62 @@ def _p(path: str, field: str):
     """
     val = PATHWAYS[path].__dict__[field]
     return val(CTX) if callable(val) else val
+    
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+def generic_production(
+    path: str,
+    install_factor: float,
+    prices: dict,
+    elec_intensity: float,
+    *,
+    lcb_upstream_emiss: float = 0.0,   # keep args you’ll need later
+) -> tuple[float, float, float]:
+    """
+    Pathway-agnostic production cost & emissions calculator.
+    Returns (CapEx, OpEx, emissions) per *kg fuel*.
+
+    Only uses the four basic demands stored in PATHWAYS:
+    electricity, NG, water, LCB.
+    """
+    elect  = _p(path, "elect_demand")
+    ng     = _p(path, "ng_demand")
+    water  = _p(path, "water_demand")
+    lcb    = _p(path, "lcb_demand")
+
+    # -------- CapEx ----------------------------------------------------
+    capex = _p(path, "base_capex") * install_factor
+
+    # -------- OpEx -----------------------------------------------------
+    fixed_opex = (
+        CTX["glob"]["workhours_per_year"]["value"]
+        * prices["labor"]
+        * _p(path, "employees")
+        / _p(path, "yearly_output")
+        * (1 + CTX["glob"]["gen_admin_rate"]["value"])
+        + (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]) * capex
+    )
+
+    variable_opex = (
+        elect  * prices["elec"]
+        + ng   * prices["ng"]
+        + water * prices["water"]
+        + lcb   * prices["lcb"]
+    )
+
+    # -------- Emissions -------------------------------------------------
+    emiss = (
+        elect * elec_intensity
+        + ng / CTX["glob"]["NG_HHV"]["value"]
+        * CTX["glob"]["NG_GWP"]["value"]
+        * CTX["glob"]["NG_CH4_leakage"]["value"]
+        + _p(path, "onsite_emiss")
+        + lcb * lcb_upstream_emiss
+    )
+
+    return capex, fixed_opex + variable_opex, emiss
+
 
 
 def calculate_BEC_upstream_emission_rate(filename = f"{top_dir}/input_fuel_pathway_data/BEC_upstream_emissions_GREET.csv"):
@@ -267,63 +323,89 @@ NH3_full_time_employed = tech_info["NH3"]["employees_LTE"]["value"] - tech_info[
 
 ####################################################################################################################
 
-def calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    if H_pathway == "LTE":
-        elect_demand = tech_info["H2_LTE"]["elect_demand"]["value"]
-        LCB_demand = tech_info["H2_LTE"]["LCB_demand"]["value"]
-        NG_demand = tech_info["H2_LTE"]["NG_demand"]["value"]
-        water_demand = tech_info["H2_LTE"]["water_demand"]["value"]
-        base_CapEx = tech_info["H2_LTE"]["base_CapEx"]["value"]
-        full_time_employed = tech_info["H2_LTE"]["employees"]["value"]
-        yearly_output = tech_info["H2_LTE"]["yearly_output"]["value"]
-        onsite_emissions = tech_info["H2_LTE"]["onsite_emissions"]["value"]
-    elif H_pathway == "ATRCCS":
-        elect_demand = H2_ATRCCS_elect_demand
-        LCB_demand = tech_info["H2_ATRCCS"]["LCB_demand"]["value"]
-        NG_demand = H2_ATRCCS_NG_demand
-        water_demand = H2_ATRCCS_water_demand
-        base_CapEx = H2_ATRCCS_base_CapEx
-        full_time_employed = tech_info["H2_ATRCCS"]["employees"]["value"]
-        yearly_output = H2_ATRCCS_yearly_output
-        onsite_emissions = H2_ATRCCS_onsite_emissions
-    elif H_pathway == "SMRCCS":
-        elect_demand = H2_SMRCCS_elect_demand
-        LCB_demand = tech_info["H2_SMRCCS"]["LCB_demand"]["value"]
-        NG_demand = H2_SMRCCS_NG_demand
-        water_demand = H2_SMRCCS_water_demand
-        base_CapEx = H2_SMRCCS_base_CapEx
-        full_time_employed = tech_info["H2_SMRCCS"]["employees"]["value"]
-        yearly_output = H2_SMRCCS_yearly_output
-        onsite_emissions = H2_SMRCCS_onsite_emissions
-    elif H_pathway == "SMR":
-        elect_demand = H2_SMR_elect_demand
-        LCB_demand = tech_info["H2_SMR"]["LCB_demand"]["value"]
-        NG_demand = H2_SMR_NG_demand
-        water_demand = H2_SMR_water_demand
-        base_CapEx = H2_SMR_base_CapEx
-        full_time_employed = tech_info["H2_SMR"]["employees"]["value"]
-        yearly_output = H2_SMR_yearly_output
-        onsite_emissions = H2_SMR_onsite_emissions
-    elif H_pathway == "BG":
-        elect_demand = tech_info["H2_BG"]["elec_demand"]["value"]
-        LCB_demand = tech_info["H2_BG"]["LCB_demand"]["value"]
-        NG_demand = H2_BG_NG_demand
-        water_demand = tech_info["H2_BG"]["water_demand"]["value"]
-        base_CapEx = H2_BG_base_CapEx
-        full_time_employed = tech_info["H2_BG"]["employees"]["value"]
-        yearly_output = tech_info["H2_BG"]["yearly_output"]["value"]
-        onsite_emissions = H2_BG_onsite_emissions
-    # calculate production values
-    CapEx = base_CapEx*instal_factor
-    Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) + (op_maint_rate + tax_rate)*CapEx
-    Electricity_OpEx = elect_demand*elect_price
-    NG_OpEx = NG_demand*NG_price
-    Water_OpEx = water_demand*water_price
-    LCB_OpEx = LCB_demand*LCB_price
-    OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx + LCB_OpEx
-    emissions = elect_demand*elect_emissions_intensity + NG_demand/NG_HHV*NG_GWP*NG_CH4_leakage + LCB_demand*LCB_upstream_emissions + onsite_emissions # note fugitive emissions given as fraction
-    
-    return CapEx, OpEx, emissions
+def calculate_production_costs_emissions_STP_hydrogen(
+    H_pathway,
+    instal_factor,
+    water_price,
+    NG_price,
+    LCB_price,
+    LCB_upstream_emissions,
+    elect_price,
+    elect_emissions_intensity,
+    hourly_labor_rate,
+):
+    try:
+        prices = dict(
+            water=water_price,
+            ng=NG_price,
+            lcb=LCB_price,
+            elec=elect_price,
+            labor=hourly_labor_rate,
+        )
+        return generic_production(
+            H_pathway,
+            instal_factor,
+            prices,
+            elect_emissions_intensity,
+            lcb_upstream_emiss=LCB_upstream_emissions,
+        )
+    except KeyError:
+        if H_pathway == "LTE":
+            elect_demand = tech_info["H2_LTE"]["elect_demand"]["value"]
+            LCB_demand = tech_info["H2_LTE"]["LCB_demand"]["value"]
+            NG_demand = tech_info["H2_LTE"]["NG_demand"]["value"]
+            water_demand = tech_info["H2_LTE"]["water_demand"]["value"]
+            base_CapEx = tech_info["H2_LTE"]["base_CapEx"]["value"]
+            full_time_employed = tech_info["H2_LTE"]["employees"]["value"]
+            yearly_output = tech_info["H2_LTE"]["yearly_output"]["value"]
+            onsite_emissions = tech_info["H2_LTE"]["onsite_emissions"]["value"]
+        elif H_pathway == "ATRCCS":
+            elect_demand = H2_ATRCCS_elect_demand
+            LCB_demand = tech_info["H2_ATRCCS"]["LCB_demand"]["value"]
+            NG_demand = H2_ATRCCS_NG_demand
+            water_demand = H2_ATRCCS_water_demand
+            base_CapEx = H2_ATRCCS_base_CapEx
+            full_time_employed = tech_info["H2_ATRCCS"]["employees"]["value"]
+            yearly_output = H2_ATRCCS_yearly_output
+            onsite_emissions = H2_ATRCCS_onsite_emissions
+        elif H_pathway == "SMRCCS":
+            elect_demand = H2_SMRCCS_elect_demand
+            LCB_demand = tech_info["H2_SMRCCS"]["LCB_demand"]["value"]
+            NG_demand = H2_SMRCCS_NG_demand
+            water_demand = H2_SMRCCS_water_demand
+            base_CapEx = H2_SMRCCS_base_CapEx
+            full_time_employed = tech_info["H2_SMRCCS"]["employees"]["value"]
+            yearly_output = H2_SMRCCS_yearly_output
+            onsite_emissions = H2_SMRCCS_onsite_emissions
+        elif H_pathway == "SMR":
+            elect_demand = H2_SMR_elect_demand
+            LCB_demand = tech_info["H2_SMR"]["LCB_demand"]["value"]
+            NG_demand = H2_SMR_NG_demand
+            water_demand = H2_SMR_water_demand
+            base_CapEx = H2_SMR_base_CapEx
+            full_time_employed = tech_info["H2_SMR"]["employees"]["value"]
+            yearly_output = H2_SMR_yearly_output
+            onsite_emissions = H2_SMR_onsite_emissions
+        elif H_pathway == "BG":
+            elect_demand = tech_info["H2_BG"]["elec_demand"]["value"]
+            LCB_demand = tech_info["H2_BG"]["LCB_demand"]["value"]
+            NG_demand = H2_BG_NG_demand
+            water_demand = tech_info["H2_BG"]["water_demand"]["value"]
+            base_CapEx = H2_BG_base_CapEx
+            full_time_employed = tech_info["H2_BG"]["employees"]["value"]
+            yearly_output = tech_info["H2_BG"]["yearly_output"]["value"]
+            onsite_emissions = H2_BG_onsite_emissions
+        # calculate production values
+        CapEx = base_CapEx*instal_factor
+        Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) + (op_maint_rate + tax_rate)*CapEx
+        Electricity_OpEx = elect_demand*elect_price
+        NG_OpEx = NG_demand*NG_price
+        Water_OpEx = water_demand*water_price
+        LCB_OpEx = LCB_demand*LCB_price
+        OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx + LCB_OpEx
+        emissions = elect_demand*elect_emissions_intensity + NG_demand/NG_HHV*NG_GWP*NG_CH4_leakage + LCB_demand*LCB_upstream_emissions + onsite_emissions # note fugitive emissions given as fraction
+        
+        return CapEx, OpEx, emissions
 
 def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
     base_CapEx = tech_info["H2_liquefaction"]["base_CapEx"]["value"]
@@ -518,38 +600,45 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
 
 # Added by GE for 10/18 
 def calculate_resource_demands_STP_hydrogen(H_pathway):
-    if H_pathway == "LTE":
-        elect_demand = tech_info["H2_LTE"]["elect_demand"]["value"]
-        LCB_demand = tech_info["H2_LTE"]["LCB_demand"]["value"]
-        NG_demand = tech_info["H2_LTE"]["NG_demand"]["value"]
-        water_demand = tech_info["H2_LTE"]["water_demand"]["value"]
-        CO2_demand = 0
-    elif H_pathway == "ATRCCS":
-        elect_demand = H2_ATRCCS_elect_demand
-        LCB_demand = tech_info["H2_ATRCCS"]["LCB_demand"]["value"]
-        NG_demand = H2_ATRCCS_NG_demand
-        water_demand = H2_ATRCCS_water_demand
-        CO2_demand = 0
-    elif H_pathway == "SMRCCS":
-        elect_demand = H2_SMRCCS_elect_demand
-        LCB_demand = tech_info["H2_SMRCCS"]["LCB_demand"]["value"]
-        NG_demand = H2_SMRCCS_NG_demand
-        water_demand = H2_SMRCCS_water_demand
-        CO2_demand = 0
-    elif H_pathway == "SMR":
-        elect_demand = H2_SMR_elect_demand
-        LCB_demand = tech_info["H2_SMR"]["LCB_demand"]["value"]
-        NG_demand = H2_SMR_NG_demand
-        water_demand = H2_SMR_water_demand
-        CO2_demand = 0
-    elif H_pathway == "BG":
-        elect_demand = tech_info["H2_BG"]["elec_demand"]["value"]
-        LCB_demand = tech_info["H2_BG"]["LCB_demand"]["value"]
-        NG_demand = H2_BG_NG_demand
-        water_demand = tech_info["H2_BG"]["water_demand"]["value"]
-        CO2_demand = 0
+    try:
+        elect  = _p(H_pathway, "elect_demand")
+        lcb    = _p(H_pathway, "lcb_demand")
+        ng     = _p(H_pathway, "ng_demand")
+        water  = _p(H_pathway, "water_demand")
+        return elect, lcb, ng, water, 0.0
+    except KeyError:
+        if H_pathway == "LTE":
+            elect_demand = tech_info["H2_LTE"]["elect_demand"]["value"]
+            LCB_demand = tech_info["H2_LTE"]["LCB_demand"]["value"]
+            NG_demand = tech_info["H2_LTE"]["NG_demand"]["value"]
+            water_demand = tech_info["H2_LTE"]["water_demand"]["value"]
+            CO2_demand = 0
+        elif H_pathway == "ATRCCS":
+            elect_demand = H2_ATRCCS_elect_demand
+            LCB_demand = tech_info["H2_ATRCCS"]["LCB_demand"]["value"]
+            NG_demand = H2_ATRCCS_NG_demand
+            water_demand = H2_ATRCCS_water_demand
+            CO2_demand = 0
+        elif H_pathway == "SMRCCS":
+            elect_demand = H2_SMRCCS_elect_demand
+            LCB_demand = tech_info["H2_SMRCCS"]["LCB_demand"]["value"]
+            NG_demand = H2_SMRCCS_NG_demand
+            water_demand = H2_SMRCCS_water_demand
+            CO2_demand = 0
+        elif H_pathway == "SMR":
+            elect_demand = H2_SMR_elect_demand
+            LCB_demand = tech_info["H2_SMR"]["LCB_demand"]["value"]
+            NG_demand = H2_SMR_NG_demand
+            water_demand = H2_SMR_water_demand
+            CO2_demand = 0
+        elif H_pathway == "BG":
+            elect_demand = tech_info["H2_BG"]["elec_demand"]["value"]
+            LCB_demand = tech_info["H2_BG"]["LCB_demand"]["value"]
+            NG_demand = H2_BG_NG_demand
+            water_demand = tech_info["H2_BG"]["water_demand"]["value"]
+            CO2_demand = 0
 
-    return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
+        return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 
 def calculate_resource_demands_liquid_hydrogen(H_pathway):
