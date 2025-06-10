@@ -5,10 +5,34 @@ Purpose: Prepare .csv files contained in input_fuel_pathway_data using consisten
 
 import pandas as pd
 import os
-from common_tools import get_top_dir, ensure_directory_exists
-from load_inputs import load_molecular_info, load_technology_info, load_global_parameters
 
-top_dir = get_top_dir()
+# ---------------------------------------------------------------------------
+# One-time loaders wrapped in a helper – *nothing else calls these yet*
+# ---------------------------------------------------------------------------
+from common_tools import get_top_dir, ensure_directory_exists
+from load_inputs import (
+    load_global_parameters,
+    load_molecular_info,
+    load_technology_info,
+)
+
+def build_context():
+    """
+    Load all big input dictionaries exactly once and return them in a
+    read-only mapping.  Later steps will pass this `ctx` to the calculators
+    instead of calling the loaders repeatedly.
+    """
+    ctx = {
+        "top_dir": get_top_dir(),
+        "global_parameters": load_global_parameters(),
+        "molecular_info": load_molecular_info(),
+        "tech_info": load_technology_info(),
+    }
+    return ctx
+
+CTX = build_context()          #  ← Used later; harmless for now
+top_dir = CTX["top_dir"]       #  ← your old `top_dir` variable still works
+
 
 def calculate_BEC_upstream_emission_rate(filename = f"{top_dir}/input_fuel_pathway_data/BEC_upstream_emissions_GREET.csv"):
     """
@@ -114,6 +138,7 @@ molecular_info = load_molecular_info()
 MW_CO2 = molecular_info["MW_CO2"]["value"]
 MW_MeOH = molecular_info["MW_MeOH"]["value"]
 MW_H2 = molecular_info["MW_H2"]["value"]
+MW_NH3 = molecular_info["MW_NH3"]["value"]
 MW_FTdiesel = molecular_info["MW_FTdiesel"]["value"]
 nC_FTdiesel = molecular_info["nC_FTdiesel"]["value"]
 ####################################################################################################################
