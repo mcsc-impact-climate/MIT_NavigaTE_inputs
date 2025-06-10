@@ -342,22 +342,68 @@ def generic_production(
 
     return capex, fixed_opex + variable_opex, emiss
 
-## --------------------------------------------------------------------------------------
-## 4.  EXTRA RULES FOR SPECIAL FUELS
-## --------------------------------------------------------------------------------------
-#
-#def _methanol_extra(prices: Dict[str, float], elec_int: float):  # placeholder
-#    return 0, 0, 0
-#
-#
-#def _ftdiesel_extra(prices: Dict[str, float], elec_int: float):  # placeholder
-#    return 0, 0, 0
-#
-#
-#EXTRA_RULES = {
-#    "MeOH": _methanol_extra,
-#    "FTdiesel": _ftdiesel_extra,
-#}
+# ---------------------------------------------------------------------------
+# Feed-stock helpers: generic H₂ and CO₂ (BEC / DAC / fossil) in one place
+# ---------------------------------------------------------------------------
+def _feed_h2(
+    h_path: str,
+    instal: float,
+    prices: dict,
+    elec_int: float,
+    lcb_up_emiss: float,
+) -> tuple[float, float, float]:
+    """CapEx, OpEx, Emiss for 1 kg of *STP hydrogen* from pathway *h_path*."""
+    return generic_production(
+        h_path, instal, prices, elec_int, lcb_upstream_emiss=lcb_up_emiss
+    )
+
+
+# ----------------------------------------------------------------------
+# Helper: cost / emissions for 1 kg of captured-CO₂ feedstock
+# ----------------------------------------------------------------------
+def _feed_co2(
+    C_pathway: str,
+    credit_per_kg_fuel: float,   # e.g. MW_CO2 / MW_MeOH   or  nC*MW_CO2 / MW_FTdiesel
+    prices: dict,
+    elect_int: float,
+    CO2_demand: float,
+):
+    """Return (capex, opex, emissions) *per kg CO₂* for any fuel.
+
+    `credit_per_kg_fuel` is the (negative) credit to apply for 1 kg of fuel
+    when carbon stays sequestered in the product rather than emitted.
+    """
+    if C_pathway == "BEC":
+        cap = 0.0
+        op  = BEC_CO2_price
+        em  = BEC_CO2_upstream_emissions * CO2_demand - credit_per_kg_fuel
+    elif C_pathway == "DAC":
+        cap = 0.0
+        op  = DAC_CO2_price
+        em  = (
+            DAC_CO2_upstream_emissions * CO2_demand
+            + DAC_CO2_upstream_NG * CO2_demand / NG_HHV * NG_GWP * NG_CH4_leakage
+            + DAC_CO2_upstream_elect * elect_int * CO2_demand
+            - credit_per_kg_fuel
+        )
+    elif C_pathway in ("SMRCCS", "ATRCCS"):
+        cap = 0.0
+        op  = 0.0
+        em  = CO2_demand - credit_per_kg_fuel      # captured fossil CO₂, not 100 % conv.
+    elif C_pathway == "SMR":
+        cap = 0.0
+        op  = 0.0
+        em  = - credit_per_kg_fuel                 # fossil CO₂ retained in fuel (credit)
+    elif C_pathway == "BG":
+        cap = 0.0
+        op  = 0.0
+        em  = 0.0                                  # biogenic credit already counted
+    else:
+        raise ValueError(f"Unknown CO₂ pathway: {C_pathway}")
+
+    return cap, op, em
+
+
 
 def calculate_BEC_upstream_emission_rate(filename = f"{top_dir}/input_fuel_pathway_data/BEC_upstream_emissions_GREET.csv"):
     """
@@ -688,135 +734,171 @@ def calculate_production_costs_emissions_compressed_hydrogen(
 
     return capex_comp + capex_h2, opex_comp + opex_h2, emiss_comp + emiss_h2
 
-def calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    elect_demand = NH3_elect_demand
-    H2_demand = NH3_H2_demand
-    NG_demand = tech_info["NH3"]["NG_demand"]["value"]
-    water_demand = NH3_water_demand
-    base_CapEx = NH3_base_CapEx
-    full_time_employed = NH3_full_time_employed
-    yearly_output = tech_info["NH3"]["yearly_output"]["value"]
-    onsite_emissions = tech_info["NH3"]["onsite_emissions"]["value"]
-    # calculate production values
-    CapEx = base_CapEx*instal_factor
-    Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) + (op_maint_rate + tax_rate)*CapEx
-    Electricity_OpEx = elect_demand*elect_price
-    NG_OpEx = NG_demand*NG_price
-    Water_OpEx = water_demand*water_price
-    OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx
-    emissions = elect_demand*elect_emissions_intensity + NG_demand/NG_HHV*NG_GWP*NG_CH4_leakage + onsite_emissions # note fugitive emissions given as fraction
-    # add H2 feedstock cost and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-    CapEx += H2_CapEx*H2_demand
-    OpEx += H2_OpEx*H2_demand
-    emissions += H2_emissions*H2_demand
+def calculate_production_costs_emissions_ammonia(
+    H_pathway, instal, water_price, NG_price,
+    LCB_price, LCB_up_emiss,
+    elect_price, elect_int, labor_rate,
+):
+    # ---------- core block (unchanged) -----------------
+    elect = NH3_elect_demand
+    water = NH3_water_demand
+    ng    = tech_info["NH3"]["NG_demand"]["value"]
+    cap_core = NH3_base_CapEx * instal
+    op_core  = (
+        (op_maint_rate + tax_rate) * cap_core
+        + elect * elect_price
+        + water * water_price
+        + ng    * NG_price
+    )
+    em_core  = elect * elect_int + ng / NG_HHV * NG_GWP * NG_CH4_leakage
 
-    return CapEx, OpEx, emissions
+    # ---------- add H₂ feedstock -----------------------
+    prices = {
+        "water": water_price, "ng": NG_price,
+        "lcb": LCB_price,     "elec": elect_price,
+        "labor": labor_rate,
+    }
+    cap_h2, op_h2, em_h2 = _feed_h2(
+        H_pathway, instal, prices, elect_int, LCB_up_emiss
+    )
+    cap_total = cap_core + cap_h2 * NH3_H2_demand
+    op_total  = op_core  + op_h2  * NH3_H2_demand
+    em_total  = em_core  + em_h2  * NH3_H2_demand
+
+    return cap_total, op_total, em_total
 
 
-def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    elect_demand = tech_info["MeOH"]["elect_demand"]["value"]
-    H2_demand = tech_info["MeOH"]["H2_demand"]["value"]
-    CO2_demand = tech_info["MeOH"]["CO2_demand"]["value"]
-    NG_demand = tech_info["MeOH"]["NG_demand"]["value"]
-    water_demand = tech_info["MeOH"]["water_demand"]["value"]
-    base_CapEx = tech_info["MeOH"]["base_CapEx"]["value"]
-    full_time_employed = tech_info["MeOH"]["employees"]["value"]
+def _fixed_opex(capex: float, employees: int, yearly_output: float,
+                labor_rate: float) -> float:
+    """Legacy fixed-OpEx block (labour + gen-admin + O&M + tax)."""
+    labour = (
+        workhours_per_year * labor_rate * employees / yearly_output
+        * (1 + gen_admin_rate)
+    )
+    return labour + (op_maint_rate + tax_rate) * capex
+
+
+def calculate_production_costs_emissions_methanol(
+    H_pathway: str,
+    C_pathway: str,
+    instal: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_up_emiss: float,
+    elect_price: float,
+    elect_int: float,
+    labor_rate: float,
+):
+    # ── “core” MeOH synthesis block (no feeds) ────────────────────────
+    elect  = tech_info["MeOH"]["elect_demand"]["value"]
+    water  = tech_info["MeOH"]["water_demand"]["value"]
+    ng     = tech_info["MeOH"]["NG_demand"]["value"]
+    employees     = tech_info["MeOH"]["employees"]["value"]
     yearly_output = tech_info["MeOH"]["yearly_output"]["value"]
-    onsite_emissions = tech_info["MeOH"]["onsite_emissions"]["value"]
-    # calculate production values
-    CapEx = base_CapEx*instal_factor
-    Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) + (op_maint_rate + tax_rate)*CapEx
-    Electricity_OpEx = elect_demand*elect_price
-    NG_OpEx = NG_demand*NG_price
-    Water_OpEx = water_demand*water_price
-    OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx
-    emissions = elect_demand*elect_emissions_intensity + NG_demand/NG_HHV*NG_GWP*NG_CH4_leakage # note fugitive emissions given as fraction
-    if ((C_pathway != "BEC") & (C_pathway != "DAC")): # ignore onsite emissions if "captured" CO2 (BEC or DAC)
-        emissions += onsite_emissions
-    # add H2 feedstock costs and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-    CapEx += H2_CapEx*H2_demand
-    OpEx += H2_OpEx*H2_demand
-    emissions += H2_emissions*H2_demand
-    # add CO2 feedstock costs and emissions
-    if C_pathway == "BEC":
-        CO2_CapEx = 0 # No CapEx because we assume BEC CO2 is purchased externally at a fixed price
-        CO2_OpEx = BEC_CO2_price
-        CO2_emissions = BEC_CO2_upstream_emissions*CO2_demand - MW_CO2/MW_MeOH # biogenic CO2 credit
-    elif C_pathway == "DAC":
-        CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price
-        CO2_OpEx = DAC_CO2_price
-        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand + DAC_CO2_upstream_NG/NG_HHV*NG_GWP*NG_CH4_leakage*CO2_demand + DAC_CO2_upstream_elect*elect_emissions_intensity*CO2_demand - MW_CO2/MW_MeOH # captured CO2 credit
-    elif (C_pathway == "SMRCCS") | (C_pathway == "ATRCCS"):
-        CO2_CapEx = 0 # CO2 is "free" after already paying for upstream CCS
-        CO2_OpEx = 0 # CO2 is "free" after already paying for upstream CCS
-        CO2_emissions = CO2_demand - MW_CO2/MW_MeOH # we are working with already-captured fossil CO2, but not at 100% conversion.
-    elif C_pathway == "SMR":
-        CO2_CapEx = 0 # assumes integrated plant with syngas conversion
-        CO2_OpEx = 0 # assumes integrated plant with syngas conversion
-        CO2_emissions = -MW_CO2/MW_MeOH # fossil CO2 that would have been emitted by SMR is instead (temporarily) embodied in fuel
-    elif C_pathway == "BG":
-        CO2_CapEx = 0 # assumes integrated plant with conversion of gasified biomass
-        CO2_OpEx = 0 # assumes integrated plant with conversion of gasified biomass
-        CO2_emissions = 0 # biogenic CO2 credit is already applied
-    CapEx += CO2_CapEx*CO2_demand
-    OpEx += CO2_OpEx*CO2_demand
-    emissions += CO2_emissions
 
-    return CapEx, OpEx, emissions
+    cap_core = tech_info["MeOH"]["base_CapEx"]["value"] * instal
+    op_core  = (
+        _fixed_opex(cap_core, employees, yearly_output, labor_rate)
+        + elect * elect_price
+        + water * water_price
+        + ng    * NG_price
+    )
+    em_core  = elect * elect_int + ng / NG_HHV * NG_GWP * NG_CH4_leakage
+    if C_pathway not in ("BEC", "DAC"):          # keep legacy rule
+        em_core += tech_info["MeOH"]["onsite_emissions"]["value"]
 
-def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
-    elect_demand = tech_info["FTdiesel"]["elect_demand"]["value"]
-    H2_demand = tech_info["FTdiesel"]["H2_demand"]["value"]
-    CO2_demand = tech_info["FTdiesel"]["CO2_demand"]["value"]
-    NG_demand = tech_info["FTdiesel"]["NG_demand"]["value"]
-    water_demand = tech_info["FTdiesel"]["water_demand"]["value"]
-    base_CapEx = tech_info["FTdiesel"]["base_CapEx"]["value"]
-    full_time_employed = tech_info["FTdiesel"]["employees"]["value"]
+    # ── H₂ and CO₂ feed handling via helpers ──────────────────────────
+    H2_demand  = tech_info["MeOH"]["H2_demand"]["value"]
+    CO2_demand = tech_info["MeOH"]["CO2_demand"]["value"]
+
+    price_ctx = {
+        "water": water_price,
+        "ng":    NG_price,
+        "lcb":   LCB_price,
+        "elec":  elect_price,
+        "labor": labor_rate,
+    }
+
+    cap_h2, op_h2, em_h2   = _feed_h2(
+        H_pathway, instal, price_ctx, elect_int, LCB_up_emiss
+    )
+    
+    credit_methanol = MW_CO2 / MW_MeOH
+    cap_co2, op_co2, em_co2 = _feed_co2(
+        C_pathway, credit_methanol, price_ctx, elect_int, CO2_demand
+    )
+
+    # ── totals (per kg MeOH) ──────────────────────────────────────────
+    CapEx = cap_core + cap_h2 * H2_demand + cap_co2 * CO2_demand
+    OpEx  = op_core  + op_h2  * H2_demand + op_co2  * CO2_demand
+    Emiss = em_core  + em_h2  * H2_demand + em_co2
+
+    return CapEx, OpEx, Emiss
+
+
+# -----------------------------------------------------------------------
+# Fischer–Tropsch diesel  (CxHyOz)  –  flexible H₂ & CO₂ feeds
+# -----------------------------------------------------------------------
+def calculate_production_costs_emissions_FTdiesel(
+    H_pathway: str,
+    C_pathway: str,
+    instal: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_up_emiss: float,
+    elect_price: float,
+    elect_int: float,
+    labor_rate: float,
+):
+    # ── “core” FT block (no feeds) ────────────────────────────────────
+    elect  = tech_info["FTdiesel"]["elect_demand"]["value"]
+    water  = tech_info["FTdiesel"]["water_demand"]["value"]
+    ng     = tech_info["FTdiesel"]["NG_demand"]["value"]
+    employees     = tech_info["FTdiesel"]["employees"]["value"]
     yearly_output = tech_info["FTdiesel"]["yearly_output"]["value"]
-    onsite_emissions = tech_info["FTdiesel"]["onsite_emissions"]["value"]
-    # calculate production values
-    CapEx = base_CapEx*instal_factor
-    Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) + (op_maint_rate + tax_rate)*CapEx
-    Electricity_OpEx = elect_demand*elect_price
-    NG_OpEx = NG_demand*NG_price
-    Water_OpEx = water_demand*water_price
-    OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx
-    emissions = elect_demand*elect_emissions_intensity + NG_demand/NG_HHV*NG_GWP*NG_CH4_leakage # note fugitive emissions given as fraction
-    if ((C_pathway != "BEC") & (C_pathway != "DAC")): # ignore onsite emissions if "captured" CO2 (BEC or DAC)
-        emissions += onsite_emissions
-    # add H2 feedstock costs and emissions
-    H2_CapEx, H2_OpEx, H2_emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-    CapEx += H2_CapEx*H2_demand
-    OpEx += H2_OpEx*H2_demand
-    emissions += H2_emissions*H2_demand
-    # add CO2 feedstock costs and emissions
-    if C_pathway == "BEC":
-        CO2_CapEx = 0 # No CapEx because we assume BEC CO2 is purchased externally at a fixed price
-        CO2_OpEx = BEC_CO2_price
-        CO2_emissions = BEC_CO2_upstream_emissions*CO2_demand - nC_FTdiesel*MW_CO2/MW_FTdiesel # biogenic CO2 credit
-    elif C_pathway == "DAC":
-        CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price
-        CO2_OpEx = DAC_CO2_price
-        CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand + DAC_CO2_upstream_NG/NG_HHV*NG_GWP*NG_CH4_leakage*CO2_demand + DAC_CO2_upstream_elect*elect_emissions_intensity*CO2_demand - nC_FTdiesel*MW_CO2/MW_FTdiesel # captured CO2 credit
-    elif (C_pathway == "SMRCCS") | (C_pathway == "ATRCCS"):
-        CO2_CapEx = 0 # CO2 is "free" after already paying for upstream CCS
-        CO2_OpEx = 0 # CO2 is "free" after already paying for upstream CCS
-        CO2_emissions = CO2_demand - nC_FTdiesel*MW_CO2/MW_FTdiesel # we are working with already-captured fossil CO2, but not with 100% conversion.
-    elif C_pathway == "SMR":
-        CO2_CapEx = 0 # assumes integrated plant with syngas conversion
-        CO2_OpEx = 0 # assumes integrated plant with syngas conversion
-        CO2_emissions = -nC_FTdiesel*MW_CO2/MW_FTdiesel # fossil CO2 that would have been emitted by SMR is instead embodied in fuel
-    elif C_pathway == "BG":
-        CO2_CapEx = 0 # assumes integrated plant with conversion of gasified biomass
-        CO2_OpEx = 0 # assumes integrated plant with conversion of gasified biomass
-        CO2_emissions = 0 # biogenic CO2 credit is already applied
-    CapEx += CO2_CapEx*CO2_demand
-    OpEx += CO2_OpEx*CO2_demand
-    emissions += CO2_emissions
 
-    return CapEx, OpEx, emissions
+    cap_core = tech_info["FTdiesel"]["base_CapEx"]["value"] * instal
+    op_core  = (
+        _fixed_opex(cap_core, employees, yearly_output, labor_rate)
+        + elect * elect_price
+        + water * water_price
+        + ng    * NG_price
+    )
+    em_core  = elect * elect_int + ng / NG_HHV * NG_GWP * NG_CH4_leakage
+    if C_pathway not in ("BEC", "DAC"):
+        em_core += tech_info["FTdiesel"]["onsite_emissions"]["value"]
+
+    # ── H₂ and CO₂ feeds ──────────────────────────────────────────────
+    H2_demand  = tech_info["FTdiesel"]["H2_demand"]["value"]
+    CO2_demand = tech_info["FTdiesel"]["CO2_demand"]["value"]
+
+    price_ctx = {
+        "water": water_price,
+        "ng":    NG_price,
+        "lcb":   LCB_price,
+        "elec":  elect_price,
+        "labor": labor_rate,
+    }
+
+    cap_h2, op_h2, em_h2 = _feed_h2(
+        H_pathway, instal, price_ctx, elect_int, LCB_up_emiss
+    )
+
+    # fuel-specific credit factor:  nC * MW_CO2  /  MW_FTdiesel
+    credit_ft = nC_FTdiesel * MW_CO2 / MW_FTdiesel
+    cap_co2, op_co2, em_co2 = _feed_co2(
+        C_pathway, credit_ft, price_ctx, elect_int, CO2_demand
+    )
+
+    # ── totals (per kg FT-diesel) ─────────────────────────────────────
+    CapEx = cap_core + cap_h2 * H2_demand + cap_co2 * CO2_demand
+    OpEx  = op_core  + op_h2  * H2_demand + op_co2  * CO2_demand
+    Emiss = em_core  + em_h2  * H2_demand + em_co2
+
+    return CapEx, OpEx, Emiss
+
 
 def calculate_resource_demands_STP_hydrogen(H_pathway: str):
     """Return electricity, LCB, NG, water, CO₂ per kg H₂ for *H_pathway*."""
