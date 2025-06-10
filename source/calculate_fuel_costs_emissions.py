@@ -33,6 +33,59 @@ def build_context():
 CTX = build_context()          #  ← Used later; harmless for now
 top_dir = CTX["top_dir"]       #  ← your old `top_dir` variable still works
 
+# ---------------------------------------------------------------------------
+# STEP-2:  static parameter table (tiny version – only H2_SMR for now)
+# ---------------------------------------------------------------------------
+from dataclasses import dataclass
+from typing import Callable, Dict
+
+@dataclass(frozen=True)
+class Pathway:
+    """
+    Read-only record of static parameters for ONE production pathway.
+
+    Each field may be:
+      * a literal (float / int), or
+      * a small `lambda ctx:` that grabs numbers from the global CTX.
+    """
+    elect_demand: Callable[[dict], float] | float
+    lcb_demand: Callable[[dict], float] | float
+    ng_demand: Callable[[dict], float] | float
+    water_demand: Callable[[dict], float] | float
+    base_capex: Callable[[dict], float] | float
+    employees: Callable[[dict], int] | int
+    yearly_output: Callable[[dict], float] | float
+    onsite_emiss: Callable[[dict], float] | float
+
+# ----- minimal table with ONE entry ------------------------------------
+PATHWAYS: Dict[str, Pathway] = {
+    "H2_SMR": Pathway(
+        elect_demand=lambda c: c["tech"]["H2_SMR"]["elec_cons"]["value"]
+        / c["tech"]["H2_SMR"]["hourly_prod"]["value"],
+        lcb_demand=lambda c: c["tech"]["H2_SMR"]["LCB_demand"]["value"],
+        ng_demand=lambda c: c["tech"]["H2_SMR"]["NG_cons"]["value"]
+        / c["tech"]["H2_SMR"]["hourly_prod"]["value"],
+        water_demand=lambda c: c["tech"]["H2_SMR"]["water_cons"]["value"]
+        / c["tech"]["H2_SMR"]["hourly_prod"]["value"],
+        base_capex=lambda c: c["derived"]["H2_SMR_base_CapEx"],
+        employees=lambda c: c["tech"]["H2_SMR"]["employees"]["value"],
+        yearly_output=lambda c: c["derived"]["H2_SMR_yearly_output"],
+        onsite_emiss=lambda c: c["derived"]["H2_SMR_onsite_emissions"],
+    ),
+}
+
+# ---------------------------------------------------------------------------
+def _p(path: str, field: str):
+    """
+    Helper for later steps – evaluate *field* for *pathway*.
+
+    It understands that the stored value might be:
+      * a literal    → return it
+      * a lambda ctx → call it with the global CTX
+    """
+    val = PATHWAYS[path].__dict__[field]
+    return val(CTX) if callable(val) else val
+
 
 def calculate_BEC_upstream_emission_rate(filename = f"{top_dir}/input_fuel_pathway_data/BEC_upstream_emissions_GREET.csv"):
     """
