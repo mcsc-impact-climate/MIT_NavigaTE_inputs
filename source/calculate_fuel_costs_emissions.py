@@ -16,18 +16,125 @@ from load_inputs import (
     load_technology_info,
 )
 
-def build_context():
+# --------------------------------------------------------------------------------------
+# 0.  LOAD ONE-TIME INPUTS  +  DERIVE REUSABLE NUMBERS (with full comments)
+# --------------------------------------------------------------------------------------
+from typing import Dict
+
+def build_context() -> Dict[str, Dict]:
     """
-    Load all big input dictionaries exactly once and return them in a
-    read-only mapping.  Later steps will pass this `ctx` to the calculators
-    instead of calling the loaders repeatedly.
+    Loads top-level inputs once and pre-computes all pathway-specific
+    quantities (with full explanatory comments).
     """
     ctx = {
         "top_dir": get_top_dir(),
-        "global_parameters": load_global_parameters(),
+        "glob": load_global_parameters(),
         "molecular_info": load_molecular_info(),
-        "tech_info": load_technology_info(),
+        "tech": load_technology_info(),
+        "derived": {},
     }
+
+    # Short aliases ----------------------------------------------------
+    G = ctx["glob"]
+    T = ctx["tech"]
+    D = ctx["derived"]
+
+    # ------------------------------------------------------------------
+    # Natural-gas recovery / processing numbers from GREET 2024
+    # ------------------------------------------------------------------
+    ng_info = pd.read_csv(
+        os.path.join(ctx["top_dir"], "input_fuel_pathway_data", "lng_inputs_GREET_processed.csv"),
+        index_col="Stage",
+    )
+
+    # [kg NG consumed / kg NG produced]  – Source: GREET 2024
+    D["NG_NG_demand_kg"] = ng_info.loc["Production", "NG Consumption (kg/kg)"]
+
+    # Additional NG data you might need later (kept for completeness)
+    D["NG_NG_demand_GJ"] = ng_info.loc["Production", "NG Consumption (GJ/kg)"]      # [GJ/kg]
+    D["NG_water_demand"] = ng_info.loc["Production", "Water Consumption (m^3/kg)"]  # [m³/kg]
+    D["NG_elec_demand"]  = ng_info.loc["Production", "Electricity Consumption (kWh/kg)"]
+    D["NG_CO2_emissions"] = ng_info.loc["Production", "CO2 Emissions (kg/kg)"]
+    D["NG_CH4_leakage"]   = ng_info.loc["Production", "CH4 Emissions (kg/kg)"]
+
+    # ------------------------------------------------------------------
+    # DERIVED VALUES for hydrogen pathways (keep ALL original comments)
+    # ------------------------------------------------------------------
+
+    # ── STP H₂ via SMR (no capture) ────────────────────────────────────
+    # Inputs from Zang et al 2024 (SMR case)
+    smr_prod = T["H2_SMR"]["hourly_prod"]["value"]                      # [kg H₂/h]
+    D["H2_SMR_elec_demand"] = T["H2_SMR"]["elec_cons"]["value"] / smr_prod  # [kWh elect/kg H₂]
+    SMR_NG = T["H2_SMR"]["NG_cons"]["value"] - T["H2_SMR"]["steam_byproduct"]["value"] / T["H2_SMR"]["boiler_eff"]["value"]   # [GJ NG/hr]: NG consumption including steam displacement at 80% boiler efficiency
+    D["H2_SMR_NG_demand"] = (                                              # [GJ NG/kg H₂]
+        SMR_NG / smr_prod
+        * (1 + D["NG_NG_demand_kg"])         # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
+    )
+    D["H2_SMR_water_demand"] = T["H2_SMR"]["water_cons"]["value"] / smr_prod  # [m³ H₂O/kg H₂]
+    # Base CapEx, converted from 2019 USD to 2024 USD then amortised (From Zang et al 2024 and H2A)
+    D["H2_SMR_base_CapEx"] = (
+        G["2019_to_2024_USD"]["value"] * T["H2_SMR"]["TPC_2019"]["value"]
+        / 365 * T["H2_SMR"]["CRF"]["value"]
+    )
+    D["H2_SMR_onsite_emissions"] = T["H2_SMR"]["emissions"]["value"] / smr_prod   # [kg CO2e/kg H₂]
+    D["H2_SMR_yearly_output"] = smr_prod * 24 * 365                               # [kg H₂/year]
+
+    # ── STP H₂ via ATR-CC-S (99 % capture; ATR-CC-R-OC case) ───────────
+    atr_prod = T["H2_ATRCCS"]["hourly_prod"]["value"]
+    D["H2_ATRCCS_elec_demand"] = T["H2_ATRCCS"]["elec_cons"]["value"] / atr_prod  # [kWh elect/kg H₂]
+    D["H2_ATRCCS_NG_demand"] = (                                                 # [GJ NG/kg H₂]
+        T["H2_ATRCCS"]["NG_cons"]["value"] / atr_prod
+        * (1 + D["NG_NG_demand_kg"])        # GREET 2024 uplift
+    )
+    D["H2_ATRCCS_water_demand"] = T["H2_ATRCCS"]["water_cons"]["value"] / atr_prod  # [m³ H₂O/kg H₂]
+    # Amortised TPC – From Zang et al 2024 and H2A
+    D["H2_ATRCCS_base_CapEx"] = (
+        G["2019_to_2024_USD"]["value"] * T["H2_ATRCCS"]["TPC_2019"]["value"]
+        / 365 * T["H2_ATRCCS"]["CRF"]["value"]
+    )
+    D["H2_ATRCCS_onsite_emissions"] = T["H2_ATRCCS"]["emissions"]["value"] / atr_prod  # [kg CO2e/kg H₂]
+    D["H2_ATRCCS_yearly_output"] = atr_prod * 24 * 365                                  # [kg H₂/year]
+
+    # ── STP H₂ via SMR-CCS (96 % capture) ─────────────────────────────
+    smrccs_prod = T["H2_SMRCCS"]["hourly_prod"]["value"]
+    D["H2_SMRCCS_elec_demand"] = T["H2_SMRCCS"]["elec_cons"]["value"] / smrccs_prod
+    D["H2_SMRCCS_NG_demand"] = (
+        T["H2_SMRCCS"]["NG_cons"]["value"] / smrccs_prod
+        * (1 + D["NG_NG_demand_kg"])
+    )
+    D["H2_SMRCCS_water_demand"] = T["H2_SMRCCS"]["water_cons"]["value"] / smrccs_prod
+    D["H2_SMRCCS_base_CapEx"] = (
+        G["2019_to_2024_USD"]["value"] * T["H2_SMRCCS"]["TPC_2019"]["value"]
+        / 365 * T["H2_SMRCCS"]["CRF"]["value"]
+    )
+    D["H2_SMRCCS_onsite_emissions"] = T["H2_SMRCCS"]["emissions"]["value"] / smrccs_prod
+    D["H2_SMRCCS_yearly_output"] = smrccs_prod * 24 * 365
+
+    # ── Low-Temperature Electrolysis (LTE) ─────────────────────────────
+    D["H2_LTE_elec_demand"] = T["H2_LTE"]["elect_demand"]["value"]           # [kWh/kg H₂] from H2A
+    D["H2_LTE_NG_demand"] = T["H2_LTE"]["NG_demand"]["value"]               # [GJ/kg H₂] aux boiler
+    D["H2_LTE_water_demand"] = T["H2_LTE"]["water_demand"]["value"]         # [m³/kg H₂]
+    D["H2_LTE_base_CapEx"] = T["H2_LTE"]["base_CapEx"]["value"]             # [2024 $ / kg H₂ y⁻¹]
+    D["H2_LTE_onsite_emissions"] = T["H2_LTE"]["onsite_emissions"]["value"] # [kg CO2e/kg H₂]
+    D["H2_LTE_yearly_output"] = T["H2_LTE"]["yearly_output"]["value"]       # [kg H₂/year]
+
+    # ── Biomass Gasification (BG) – lignocellulosic ────────────────────
+    D["H2_BG_elec_demand"] = T["H2_BG"]["elec_demand"]["value"]
+    D["H2_BG_NG_demand"] = (
+        T["H2_BG"]["NG_demand"]["value"]
+        * (1 + D["NG_NG_demand_kg"])  # GREET 2024 uplift
+    )
+    D["H2_BG_water_demand"] = T["H2_BG"]["water_demand"]["value"]
+    D["H2_BG_base_CapEx"] = (
+        G["2015_to_2024_USD"]["value"] * T["H2_BG"]["base_CapEx_2015"]["value"]
+    )  # Base CapEx, converted from 2015 USD to 2024 USD
+    D["H2_BG_onsite_emissions"] = (
+        T["H2_BG"]["onsite_emissions"]["value"]
+        - T["H2_BG"]["LCB_gasification_emissions"]["value"]
+        * T["H2_BG"]["LCB_demand"]["value"]
+    )  # Includes biogenic credit
+    D["H2_BG_yearly_output"] = T["H2_BG"]["yearly_output"]["value"]
+
     return ctx
 
 CTX = build_context()          #  ← Used later; harmless for now
@@ -57,21 +164,81 @@ class Pathway:
     yearly_output: Callable[[dict], float] | float
     onsite_emiss: Callable[[dict], float] | float
 
-# ----- minimal table with ONE entry ------------------------------------
 PATHWAYS: Dict[str, Pathway] = {
-    "H2_SMR": Pathway(
-        elect_demand=lambda c: c["tech"]["H2_SMR"]["elec_cons"]["value"]
-        / c["tech"]["H2_SMR"]["hourly_prod"]["value"],
+    # ------------------------------------------------------------------
+    # Steam‑methane reforming (no capture)
+    # ------------------------------------------------------------------
+    "SMR": Pathway(
+        elect_demand=lambda c: c["derived"]["H2_SMR_elec_demand"],
         lcb_demand=lambda c: c["tech"]["H2_SMR"]["LCB_demand"]["value"],
-        ng_demand=lambda c: c["tech"]["H2_SMR"]["NG_cons"]["value"]
-        / c["tech"]["H2_SMR"]["hourly_prod"]["value"],
-        water_demand=lambda c: c["tech"]["H2_SMR"]["water_cons"]["value"]
-        / c["tech"]["H2_SMR"]["hourly_prod"]["value"],
+        ng_demand=lambda c: c["derived"]["H2_SMR_NG_demand"],
+        water_demand=lambda c: c["derived"]["H2_SMR_water_demand"],
         base_capex=lambda c: c["derived"]["H2_SMR_base_CapEx"],
         employees=lambda c: c["tech"]["H2_SMR"]["employees"]["value"],
         yearly_output=lambda c: c["derived"]["H2_SMR_yearly_output"],
         onsite_emiss=lambda c: c["derived"]["H2_SMR_onsite_emissions"],
     ),
+    # ------------------------------------------------------------------
+    # Autothermal reforming + CCS (99 % capture)  – Zang et al 2024 ATR‑CC‑R‑OC
+    # ------------------------------------------------------------------
+    "ATRCCS": Pathway(
+        elect_demand=lambda c: c["derived"]["H2_ATRCCS_elec_demand"],
+        lcb_demand=lambda c: 0.0,  # ATR‑CCS uses no biomass feed
+        ng_demand=lambda c: c["derived"]["H2_ATRCCS_NG_demand"],
+        water_demand=lambda c: c["derived"]["H2_ATRCCS_water_demand"],
+        base_capex=lambda c: c["derived"]["H2_ATRCCS_base_CapEx"],
+        employees=lambda c: c["tech"]["H2_ATRCCS"]["employees"]["value"],
+        yearly_output=lambda c: c["derived"]["H2_ATRCCS_yearly_output"],
+        onsite_emiss=lambda c: c["derived"]["H2_ATRCCS_onsite_emissions"],
+    ),
+    # ------------------------------------------------------------------
+    # Steam‑methane reforming + CCS (96 % capture) – Zang et al 2024 SMR‑CCS
+    # ------------------------------------------------------------------
+    "SMRCCS": Pathway(
+        elect_demand=lambda c: c["derived"]["H2_SMRCCS_elec_demand"],
+        lcb_demand=lambda c: 0.0,
+        ng_demand=lambda c: c["derived"]["H2_SMRCCS_NG_demand"],
+        water_demand=lambda c: c["derived"]["H2_SMRCCS_water_demand"],
+        base_capex=lambda c: c["derived"]["H2_SMRCCS_base_CapEx"],
+        employees=lambda c: c["tech"]["H2_SMRCCS"]["employees"]["value"],
+        yearly_output=lambda c: c["derived"]["H2_SMRCCS_yearly_output"],
+        onsite_emiss=lambda c: c["derived"]["H2_SMRCCS_onsite_emissions"],
+    ),
+    # ------------------------------------------------------------------
+    # Low‑temperature electrolysis (alkaline / PEM) – H2A baseline
+    # ------------------------------------------------------------------
+    "LTE": Pathway(
+        elect_demand=lambda c: c["derived"]["H2_LTE_elec_demand"],
+        lcb_demand=lambda c: c["tech"]["H2_LTE"]["LCB_demand"]["value"],
+        ng_demand=lambda c: c["derived"]["H2_LTE_NG_demand"],
+        water_demand=lambda c: c["derived"]["H2_LTE_water_demand"],
+        base_capex=lambda c: c["derived"]["H2_LTE_base_CapEx"],
+        employees=lambda c: c["tech"]["H2_LTE"]["employees"]["value"],
+        yearly_output=lambda c: c["derived"]["H2_LTE_yearly_output"],
+        onsite_emiss=lambda c: c["derived"]["H2_LTE_onsite_emissions"],
+    ),
+    # ------------------------------------------------------------------
+    # Biomass gasification (lignocellulosic) – H2A gasifier case
+    # ------------------------------------------------------------------
+    "BG": Pathway(
+        elect_demand=lambda c: c["derived"]["H2_BG_elec_demand"],
+        lcb_demand=lambda c: c["tech"]["H2_BG"]["LCB_demand"]["value"],
+        ng_demand=lambda c: c["derived"]["H2_BG_NG_demand"],
+        water_demand=lambda c: c["derived"]["H2_BG_water_demand"],
+        base_capex=lambda c: c["derived"]["H2_BG_base_CapEx"],
+        employees=lambda c: c["tech"]["H2_BG"]["employees"]["value"],
+        yearly_output=lambda c: c["derived"]["H2_BG_yearly_output"],
+        onsite_emiss=lambda c: c["derived"]["H2_BG_onsite_emissions"],
+    ),
+}
+
+# --------------------------------------------------------------------------------------
+# 2.  UNIT CONVERSIONS (centrelised)
+# --------------------------------------------------------------------------------------
+CONV = {
+    "KG_PER_TONNE": 1_000,
+    "MJ_PER_KWH": 3.6,
+    "MJ_PER_GJ": 1_000,
 }
 
 # ---------------------------------------------------------------------------
@@ -132,41 +299,72 @@ def generic_production(
     # -------- Emissions -------------------------------------------------
     emiss = (
         elect * elec_intensity
-        + ng / CTX["glob"]["NG_HHV"]["value"]
-        * CTX["glob"]["NG_GWP"]["value"]
-        * CTX["glob"]["NG_CH4_leakage"]["value"]
+        # fugitive CH4 and upstream CO2-e
+        + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["glob"]["NG_GWP"]["value"] * CTX["derived"]["NG_CH4_leakage"]
+        + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["derived"]["NG_CO2_emissions"]
         + _p(path, "onsite_emiss")
         + lcb * lcb_upstream_emiss
     )
 
     return capex, fixed_opex + variable_opex, emiss
+    
 
+    
 
+#def resource_demands(path: str, include_elect: bool = True) -> Tuple[float, float, float, float, float]:
+#    """Return (elect, lcb, ng, water, co2) demands per kg fuel."""
+#
+#    elect = _p(path, "elect_demand") if include_elect else 0
+#    return (
+#        elect,
+#        _p(path, "lcb_demand"),
+#        _p(path, "ng_demand"),
+#        _p(path, "water_demand"),
+#        0.0,  # CO₂ demand handled in extra rules for the few fuels that need it
+#    )
+#
+#
+## --------------------------------------------------------------------------------------
+## 4.  EXTRA RULES FOR SPECIAL FUELS
+## --------------------------------------------------------------------------------------
+#
+#def _methanol_extra(prices: Dict[str, float], elec_int: float):  # placeholder
+#    return 0, 0, 0
+#
+#
+#def _ftdiesel_extra(prices: Dict[str, float], elec_int: float):  # placeholder
+#    return 0, 0, 0
+#
+#
+#EXTRA_RULES = {
+#    "MeOH": _methanol_extra,
+#    "FTdiesel": _ftdiesel_extra,
+#}
 
 def calculate_BEC_upstream_emission_rate(filename = f"{top_dir}/input_fuel_pathway_data/BEC_upstream_emissions_GREET.csv"):
     """
     Calculates the upstream emissions for CO2 captured from a bioenergy plant (in kg CO2e / kg CO2), by averaging over GREET estimates for different US states
     """
-    
+
     # Read in the BEC emissions data from GREET
     BEC_emissions_data = pd.read_csv(filename)
-    
+
     # Calculate the upstream emission rate for each state
     BEC_emissions_data["Upstream emissions (kg CO2e / kg CO2"] = (BEC_emissions_data["Feedstock emissions (g CO2e/mmBtu)"] + BEC_emissions_data["Fuel emissions (g CO2e/mmBtu)"]) / BEC_emissions_data["CO2 from CCS"]
-    
+
     # Calculate the average upstream emissions rate over all states
     average_upstream_emissions_rate = BEC_emissions_data["Upstream emissions (kg CO2e / kg CO2"].mean()
-    
+
     return average_upstream_emissions_rate
-    
+
 def calculate_DAC_upstream_resources_emissions(material_reqs_filename=f"{top_dir}/input_fuel_pathway_data/DAC_material_reqs.csv", upstream_elec_NG_filename=f"{top_dir}/input_fuel_pathway_data/DAC_upstream_electricity_NG.csv"):
-    
+
     ############### Calculate emissions and resource demands associated with CO2 capture and compression ###############
     upstream_elec_NG_info = pd.read_csv(upstream_elec_NG_filename)
-    
+
     # Collect upstream electricity demand (capture + compression)
     upstream_elec = upstream_elec_NG_info["Electricity for CO2 capture (MJ/MT-CO2)"][0] + upstream_elec_NG_info["Electricity for CO2 compression at the CO2 source (MJ/MT-CO2)"][0]
-    
+
     # Convert from MJ / MT CO2 to kWh / kg CO2
     KG_PER_TONNE = 1000
     KG_PER_TON = 907.185
@@ -175,33 +373,33 @@ def calculate_DAC_upstream_resources_emissions(material_reqs_filename=f"{top_dir
 
     # Collect upstream NG consumption associated with CO2 capture
     upstream_NG = upstream_elec_NG_info["Natural gas for CO2 capture (MJ/MT-CO2)"][0]
-    
+
     # Convert from MJ / MT CO2 to GJ / kg CO2
     MJ_PER_GJ = 1000
     upstream_NG = upstream_NG / (MJ_PER_GJ * KG_PER_TONNE)
     ####################################################################################################################
-    
+
     ################## Calculate emissions and resource demands embedded in the carbon capture plant ###################
     material_reqs_info = pd.read_csv(material_reqs_filename)
-    
+
     # Convert water consumption from gals / ton to m^3 / kg CO2 for each material
     GAL_PER_CBM = 264.172
     material_reqs_info["Water consumption (m^3/kg-CO2)"] = (material_reqs_info["Water consumption (gals/ton)"] / (GAL_PER_CBM * KG_PER_TON)) * (material_reqs_info["kg / ton CO2"] / KG_PER_TON)
-    
+
     # Convert NG consumption from mmBtu/ton to GJ / kg CO2 for each material
     BTU_PER_MJ = 947.817
     BTU_PER_MMBTU = 1e6
     material_reqs_info["NG consumption (GJ/kg-CO2)"] = (material_reqs_info["NG consumption (mmBtu/ton)"] * (BTU_PER_MMBTU) / (BTU_PER_MJ * MJ_PER_GJ * KG_PER_TON)) * (material_reqs_info["kg / ton CO2"] / KG_PER_TON)
-    
+
     # Convert GHG emissions from g CO2e/ton to kg CO2e/kg CO2 for each material
     G_PER_KG = 1000
     material_reqs_info["GHG emissions (kg CO2e/kg-CO2)"] = (material_reqs_info["GHG emissions (g CO2e/ton)"] / (G_PER_KG * KG_PER_TON)) * (material_reqs_info["kg / ton CO2"] / KG_PER_TON)
-    
+
     # Sum over all materials to get embedded water, NG, and GHG emissions
     embedded_water = material_reqs_info["Water consumption (m^3/kg-CO2)"].sum()
     embedded_NG = material_reqs_info["NG consumption (GJ/kg-CO2)"].sum()
     embedded_emissions = material_reqs_info["GHG emissions (kg CO2e/kg-CO2)"].sum()
-    
+
     upstream_water = embedded_water
     upstream_NG = upstream_NG + embedded_NG
     upstream_emissions = embedded_emissions
@@ -318,94 +516,33 @@ NH3_base_CapEx = tech_info["NH3"]["base_CapEx_LTE"]["value"] - tech_info["H2_LTE
 NH3_full_time_employed = 10 # [full-time employees] from H2A
 NH3_full_time_employed = tech_info["NH3"]["employees_LTE"]["value"] - tech_info["H2_LTE"]["employees"]["value"] # subtract employees from LTE H2 process
 ###########################################################################################################
-
-###########################################################################################################
-
-####################################################################################################################
-
+    
 def calculate_production_costs_emissions_STP_hydrogen(
-    H_pathway,
-    instal_factor,
-    water_price,
-    NG_price,
-    LCB_price,
-    LCB_upstream_emissions,
-    elect_price,
-    elect_emissions_intensity,
-    hourly_labor_rate,
+    H_pathway: str,
+    instal_factor: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_upstream_emissions: float,
+    elect_price: float,
+    elect_emissions_intensity: float,
+    hourly_labor_rate: float,
 ):
-    try:
-        prices = dict(
-            water=water_price,
-            ng=NG_price,
-            lcb=LCB_price,
-            elec=elect_price,
-            labor=hourly_labor_rate,
-        )
-        return generic_production(
-            H_pathway,
-            instal_factor,
-            prices,
-            elect_emissions_intensity,
-            lcb_upstream_emiss=LCB_upstream_emissions,
-        )
-    except KeyError:
-        if H_pathway == "LTE":
-            elect_demand = tech_info["H2_LTE"]["elect_demand"]["value"]
-            LCB_demand = tech_info["H2_LTE"]["LCB_demand"]["value"]
-            NG_demand = tech_info["H2_LTE"]["NG_demand"]["value"]
-            water_demand = tech_info["H2_LTE"]["water_demand"]["value"]
-            base_CapEx = tech_info["H2_LTE"]["base_CapEx"]["value"]
-            full_time_employed = tech_info["H2_LTE"]["employees"]["value"]
-            yearly_output = tech_info["H2_LTE"]["yearly_output"]["value"]
-            onsite_emissions = tech_info["H2_LTE"]["onsite_emissions"]["value"]
-        elif H_pathway == "ATRCCS":
-            elect_demand = H2_ATRCCS_elect_demand
-            LCB_demand = tech_info["H2_ATRCCS"]["LCB_demand"]["value"]
-            NG_demand = H2_ATRCCS_NG_demand
-            water_demand = H2_ATRCCS_water_demand
-            base_CapEx = H2_ATRCCS_base_CapEx
-            full_time_employed = tech_info["H2_ATRCCS"]["employees"]["value"]
-            yearly_output = H2_ATRCCS_yearly_output
-            onsite_emissions = H2_ATRCCS_onsite_emissions
-        elif H_pathway == "SMRCCS":
-            elect_demand = H2_SMRCCS_elect_demand
-            LCB_demand = tech_info["H2_SMRCCS"]["LCB_demand"]["value"]
-            NG_demand = H2_SMRCCS_NG_demand
-            water_demand = H2_SMRCCS_water_demand
-            base_CapEx = H2_SMRCCS_base_CapEx
-            full_time_employed = tech_info["H2_SMRCCS"]["employees"]["value"]
-            yearly_output = H2_SMRCCS_yearly_output
-            onsite_emissions = H2_SMRCCS_onsite_emissions
-        elif H_pathway == "SMR":
-            elect_demand = H2_SMR_elect_demand
-            LCB_demand = tech_info["H2_SMR"]["LCB_demand"]["value"]
-            NG_demand = H2_SMR_NG_demand
-            water_demand = H2_SMR_water_demand
-            base_CapEx = H2_SMR_base_CapEx
-            full_time_employed = tech_info["H2_SMR"]["employees"]["value"]
-            yearly_output = H2_SMR_yearly_output
-            onsite_emissions = H2_SMR_onsite_emissions
-        elif H_pathway == "BG":
-            elect_demand = tech_info["H2_BG"]["elec_demand"]["value"]
-            LCB_demand = tech_info["H2_BG"]["LCB_demand"]["value"]
-            NG_demand = H2_BG_NG_demand
-            water_demand = tech_info["H2_BG"]["water_demand"]["value"]
-            base_CapEx = H2_BG_base_CapEx
-            full_time_employed = tech_info["H2_BG"]["employees"]["value"]
-            yearly_output = tech_info["H2_BG"]["yearly_output"]["value"]
-            onsite_emissions = H2_BG_onsite_emissions
-        # calculate production values
-        CapEx = base_CapEx*instal_factor
-        Fixed_OpEx = workhours_per_year*hourly_labor_rate*full_time_employed/yearly_output*(1.0 + gen_admin_rate) + (op_maint_rate + tax_rate)*CapEx
-        Electricity_OpEx = elect_demand*elect_price
-        NG_OpEx = NG_demand*NG_price
-        Water_OpEx = water_demand*water_price
-        LCB_OpEx = LCB_demand*LCB_price
-        OpEx = Fixed_OpEx + Electricity_OpEx + NG_OpEx + Water_OpEx + LCB_OpEx
-        emissions = elect_demand*elect_emissions_intensity + NG_demand/NG_HHV*NG_GWP*NG_CH4_leakage + LCB_demand*LCB_upstream_emissions + onsite_emissions # note fugitive emissions given as fraction
-        
-        return CapEx, OpEx, emissions
+    prices = {
+        "water": water_price,
+        "ng": NG_price,
+        "lcb": LCB_price,
+        "elec": elect_price,
+        "labor": hourly_labor_rate,
+    }
+    capex, opex, emiss = generic_production(
+        H_pathway,
+        instal_factor,
+        prices,
+        elect_emissions_intensity,
+        lcb_upstream_emiss=LCB_upstream_emissions,
+    )
+    return capex, opex, emiss
 
 def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate):
     base_CapEx = tech_info["H2_liquefaction"]["base_CapEx"]["value"]
@@ -421,7 +558,7 @@ def calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor
     emissions += H2_emissions
 
     return CapEx, OpEx, emissions
-    
+
 def calculate_production_costs_emissions_NG(water_price,NG_price,elect_price,elect_emissions_intensity):
     NG_demand = NG_NG_demand_GJ     # Natural gas consumed in the recovery and processing stages, in GJ NG consumed / kg NG produced
     water_demand = NG_water_demand  # Water consumed in the recovery and processing stages, in m^3 water consumed / kg NG produced
@@ -430,20 +567,20 @@ def calculate_production_costs_emissions_NG(water_price,NG_price,elect_price,ele
     CapEx = 0
     OpEx = NG_price * (NG_HHV + NG_NG_demand_GJ) + water_price * water_demand + elect_price * elect_demand   # Account for both the NG produced and the NG consumed in the recovery and processing stages
     emissions = NG_CO2_emissions + NG_CH4_leakage * NG_GWP + elect_demand * elect_emissions_intensity
-    
+
     return CapEx, OpEx, emissions
-    
+
 def calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity):
     base_CapEx = NG_liq_base_CapEx
     NG_demand = NG_liq_NG_demand_GJ    # Natural gas consumed to power the liquefaction process, in GJ/kg
     water_demand = NG_liq_water_demand  # Water consumed during the liquefaction process, in m^3/kg
     elect_demand = NG_liq_elect_demand  # Electricity consumed during the liquefaction process, in kWh/kg
-    
+
     # calculate liquefaction values
     CapEx = base_CapEx*instal_factor
     OpEx = (op_maint_rate + tax_rate)*CapEx + NG_demand*NG_price + water_demand*water_price + elect_demand*elect_price
     emissions = NG_liq_CO2_emissions + NG_liq_CH4_leakage * NG_GWP + elect_demand * elect_emissions_intensity  # kg CO2e / kg NG
-    
+
     # add H2 feedstock cost and emissions
     NG_CapEx, NG_OpEx, NG_emissions = calculate_production_costs_emissions_NG(water_price,NG_price,elect_price,elect_emissions_intensity)
     CapEx += NG_CapEx
@@ -520,11 +657,11 @@ def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_fac
     emissions += H2_emissions*H2_demand
     # add CO2 feedstock costs and emissions
     if C_pathway == "BEC":
-        CO2_CapEx = 0 # No CapEx because we assume BEC CO2 is purchased externally at a fixed price 
+        CO2_CapEx = 0 # No CapEx because we assume BEC CO2 is purchased externally at a fixed price
         CO2_OpEx = BEC_CO2_price
         CO2_emissions = BEC_CO2_upstream_emissions*CO2_demand - MW_CO2/MW_MeOH # biogenic CO2 credit
     elif C_pathway == "DAC":
-        CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price 
+        CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price
         CO2_OpEx = DAC_CO2_price
         CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand + DAC_CO2_upstream_NG/NG_HHV*NG_GWP*NG_CH4_leakage*CO2_demand + DAC_CO2_upstream_elect*elect_emissions_intensity*CO2_demand - MW_CO2/MW_MeOH # captured CO2 credit
     elif (C_pathway == "SMRCCS") | (C_pathway == "ATRCCS"):
@@ -534,14 +671,14 @@ def calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_fac
     elif C_pathway == "SMR":
         CO2_CapEx = 0 # assumes integrated plant with syngas conversion
         CO2_OpEx = 0 # assumes integrated plant with syngas conversion
-        CO2_emissions = -MW_CO2/MW_MeOH # fossil CO2 that would have been emitted by SMR is instead (temporarily) embodied in fuel 
+        CO2_emissions = -MW_CO2/MW_MeOH # fossil CO2 that would have been emitted by SMR is instead (temporarily) embodied in fuel
     elif C_pathway == "BG":
         CO2_CapEx = 0 # assumes integrated plant with conversion of gasified biomass
         CO2_OpEx = 0 # assumes integrated plant with conversion of gasified biomass
         CO2_emissions = 0 # biogenic CO2 credit is already applied
     CapEx += CO2_CapEx*CO2_demand
     OpEx += CO2_OpEx*CO2_demand
-    emissions += CO2_emissions 
+    emissions += CO2_emissions
 
     return CapEx, OpEx, emissions
 
@@ -572,11 +709,11 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
     emissions += H2_emissions*H2_demand
     # add CO2 feedstock costs and emissions
     if C_pathway == "BEC":
-        CO2_CapEx = 0 # No CapEx because we assume BEC CO2 is purchased externally at a fixed price 
+        CO2_CapEx = 0 # No CapEx because we assume BEC CO2 is purchased externally at a fixed price
         CO2_OpEx = BEC_CO2_price
         CO2_emissions = BEC_CO2_upstream_emissions*CO2_demand - nC_FTdiesel*MW_CO2/MW_FTdiesel # biogenic CO2 credit
     elif C_pathway == "DAC":
-        CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price 
+        CO2_CapEx = 0 # No CapEx because we assume DAC CO2 is purchased externally at a fixed price
         CO2_OpEx = DAC_CO2_price
         CO2_emissions = DAC_CO2_upstream_emissions*CO2_demand + DAC_CO2_upstream_NG/NG_HHV*NG_GWP*NG_CH4_leakage*CO2_demand + DAC_CO2_upstream_elect*elect_emissions_intensity*CO2_demand - nC_FTdiesel*MW_CO2/MW_FTdiesel # captured CO2 credit
     elif (C_pathway == "SMRCCS") | (C_pathway == "ATRCCS"):
@@ -586,60 +723,24 @@ def calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_fac
     elif C_pathway == "SMR":
         CO2_CapEx = 0 # assumes integrated plant with syngas conversion
         CO2_OpEx = 0 # assumes integrated plant with syngas conversion
-        CO2_emissions = -nC_FTdiesel*MW_CO2/MW_FTdiesel # fossil CO2 that would have been emitted by SMR is instead embodied in fuel 
+        CO2_emissions = -nC_FTdiesel*MW_CO2/MW_FTdiesel # fossil CO2 that would have been emitted by SMR is instead embodied in fuel
     elif C_pathway == "BG":
         CO2_CapEx = 0 # assumes integrated plant with conversion of gasified biomass
         CO2_OpEx = 0 # assumes integrated plant with conversion of gasified biomass
         CO2_emissions = 0 # biogenic CO2 credit is already applied
     CapEx += CO2_CapEx*CO2_demand
     OpEx += CO2_OpEx*CO2_demand
-    emissions += CO2_emissions 
+    emissions += CO2_emissions
 
     return CapEx, OpEx, emissions
 
-
-# Added by GE for 10/18 
-def calculate_resource_demands_STP_hydrogen(H_pathway):
-    try:
-        elect  = _p(H_pathway, "elect_demand")
-        lcb    = _p(H_pathway, "lcb_demand")
-        ng     = _p(H_pathway, "ng_demand")
-        water  = _p(H_pathway, "water_demand")
-        return elect, lcb, ng, water, 0.0
-    except KeyError:
-        if H_pathway == "LTE":
-            elect_demand = tech_info["H2_LTE"]["elect_demand"]["value"]
-            LCB_demand = tech_info["H2_LTE"]["LCB_demand"]["value"]
-            NG_demand = tech_info["H2_LTE"]["NG_demand"]["value"]
-            water_demand = tech_info["H2_LTE"]["water_demand"]["value"]
-            CO2_demand = 0
-        elif H_pathway == "ATRCCS":
-            elect_demand = H2_ATRCCS_elect_demand
-            LCB_demand = tech_info["H2_ATRCCS"]["LCB_demand"]["value"]
-            NG_demand = H2_ATRCCS_NG_demand
-            water_demand = H2_ATRCCS_water_demand
-            CO2_demand = 0
-        elif H_pathway == "SMRCCS":
-            elect_demand = H2_SMRCCS_elect_demand
-            LCB_demand = tech_info["H2_SMRCCS"]["LCB_demand"]["value"]
-            NG_demand = H2_SMRCCS_NG_demand
-            water_demand = H2_SMRCCS_water_demand
-            CO2_demand = 0
-        elif H_pathway == "SMR":
-            elect_demand = H2_SMR_elect_demand
-            LCB_demand = tech_info["H2_SMR"]["LCB_demand"]["value"]
-            NG_demand = H2_SMR_NG_demand
-            water_demand = H2_SMR_water_demand
-            CO2_demand = 0
-        elif H_pathway == "BG":
-            elect_demand = tech_info["H2_BG"]["elec_demand"]["value"]
-            LCB_demand = tech_info["H2_BG"]["LCB_demand"]["value"]
-            NG_demand = H2_BG_NG_demand
-            water_demand = tech_info["H2_BG"]["water_demand"]["value"]
-            CO2_demand = 0
-
-        return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
-
+def calculate_resource_demands_STP_hydrogen(H_pathway: str):
+    """Return electricity, LCB, NG, water, CO₂ per kg H₂ for *H_pathway*."""
+    elect = _p(H_pathway, "elect_demand")
+    lcb = _p(H_pathway, "lcb_demand")
+    ng = _p(H_pathway, "ng_demand")
+    water = _p(H_pathway, "water_demand")
+    return elect, lcb, ng, water, 0.0  # STP hydrogen never consumes external CO₂
 
 def calculate_resource_demands_liquid_hydrogen(H_pathway):
     elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
@@ -653,22 +754,22 @@ def calculate_resource_demands_compressed_hydrogen(H_pathway):
     elect_demand += tech_info["H2_compression"]["elec_demand"]["value"]
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
-    
+
 def calculate_resource_demands_NG():
     water_demand = NG_water_demand      # m^3 water / kg NG
     NG_demand = NG_HHV + NG_NG_demand_GJ     # GJ NG / kg NG
     elect_demand = NG_elect_demand
     LCB_demand = 0
     CO2_demand = 0
-    
+
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
-    
+
 def calculate_resource_demands_liquid_NG():
     elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_NG()
     NG_demand += NG_liq_NG_demand_GJ
     water_demand += NG_liq_water_demand
     elect_demand += NG_liq_elect_demand
-        
+
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 def calculate_resource_demands_ammonia(H_pathway):
@@ -697,7 +798,7 @@ def calculate_resource_demands_methanol(H_pathway, C_pathway):
     CO2_demand = tech_info["MeOH"]["CO2_demand"]["value"]
     NG_demand = tech_info["MeOH"]["NG_demand"]["value"]
     water_demand = tech_info["MeOH"]["water_demand"]["value"]
-    
+
     if C_pathway=="DAC":
         NG_demand = NG_demand + DAC_CO2_upstream_NG * CO2_demand
         water_demand = water_demand + DAC_CO2_upstream_water * CO2_demand
@@ -720,7 +821,7 @@ def calculate_resource_demands_FTdiesel(H_pathway, C_pathway):
     CO2_demand = tech_info["FTdiesel"]["CO2_demand"]["value"]
     NG_demand = tech_info["FTdiesel"]["NG_demand"]["value"]
     water_demand = tech_info["FTdiesel"]["water_demand"]["value"]
-    
+
     if C_pathway=="DAC":
         NG_demand = NG_demand + DAC_CO2_upstream_NG * CO2_demand
         water_demand = water_demand + DAC_CO2_upstream_water * CO2_demand
@@ -796,29 +897,29 @@ def main():
                 C_pathways += [C_pathway_noelec for C_pathway_noelec in C_pathways_noelec]
                 E_pathways += [Esource for fuel_pathway_noelec in fuel_pathways_noelec]
                 fuel_pathways += [fuel_pathway_noelec + "_" + Esource + "_E" for fuel_pathway_noelec in fuel_pathways_noelec]
-        
+
         # List to hold all rows for the output CSV
         output_data = []
         # GE - list to hold all resource rows for the ouput csv
         output_resource_data = []
 
         # Iterate through each row in the input data and perform calculations
-        
+
         # First, handle fossil production pathway
-            
+
         for row_index, row in input_df.iterrows():
             region,instal_factor_low,instal_factor_high,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,solar_price,src,solar_emissions_intensity,src,wind_price,src,wind_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
-            
+
             # Calculate the average installation factor
             instal_factor = (instal_factor_low + instal_factor_high) / 2
-            
+
             if fuel == "ng":
                 CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price,elect_price,elect_emissions_intensity)
                 comment = "natural gas at standard temperature and pressure"
             elif fuel == "lng":
                 CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity)
                 comment = "liquid natural gas at atmospheric pressure"
-        
+
         # Next, iterate through the non-fossil production pathways
         for fuel_pathway in fuel_pathways:
             pathway_index = fuel_pathways.index(fuel_pathway)
@@ -937,7 +1038,7 @@ def main():
 
     # Gate to Pump Processes
     processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion", "ng_liquefaction"]
-    
+
     for process in processes:
         if process == "ng_liquefaction":
             process_pathways = ["fossil"]
@@ -945,7 +1046,7 @@ def main():
         else:
             process_pathways = Esources
             E_pathways = Esources
-            
+
         # List to hold all rows for the output CSV
         output_data = []
 
