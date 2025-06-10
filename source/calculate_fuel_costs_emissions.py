@@ -341,6 +341,49 @@ def generic_production(
     )
 
     return capex, fixed_opex + variable_opex, emiss
+    
+# ---------------------------------------------------------------------------
+# Generic resource-demands extractor  (electricity, LCB, NG, water, CO₂)
+# ---------------------------------------------------------------------------
+def generic_demands(
+    path: str,
+    *,
+    include_elect: bool = True,
+    lcb_factor: float = 1.0,
+) -> tuple[float, float, float, float, float]:
+    """
+    Return (elect, lcb, ng, water, co₂) *per kg fuel* for any table pathway.
+
+    Parameters
+    ----------
+    path            Canonical key in `PATHWAYS`
+    include_elect   Skip electricity for downstream blocks that reuse it
+    lcb_factor      Useful if you later need to scale LCB for moisture, etc.
+    """
+    elect  = _p(path, "elect_demand")  if include_elect else 0.0
+    lcb    = _p(path, "lcb_demand")    * lcb_factor
+    ng     = _p(path, "ng_demand")
+    water  = _p(path, "water_demand")
+    # all STP fuels in this repo consume no external CO₂
+    return elect, lcb, ng, water, 0.0
+
+# ─────────────────────────────────────────────────────────────
+# Incremental H₂ liquefaction  (adds only extra electricity)
+# ─────────────────────────────────────────────────────────────
+def demands_liquid_h2(H_pathway: str):
+    elect, lcb, ng, water, co2 = generic_demands(H_pathway)
+    elect += tech_info["H2_liquefaction"]["elec_demand"]["value"]
+    return elect, lcb, ng, water, co2
+
+
+# ─────────────────────────────────────────────────────────────
+# Incremental H₂ compression  (adds only extra electricity)
+# ─────────────────────────────────────────────────────────────
+def demands_compressed_h2(H_pathway: str):
+    elect, lcb, ng, water, co2 = generic_demands(H_pathway)
+    elect += tech_info["H2_compression"]["elec_demand"]["value"]
+    return elect, lcb, ng, water, co2
+
 
 # ---------------------------------------------------------------------------
 # Feed-stock helpers: generic H₂ and CO₂ (BEC / DAC / fossil) in one place
@@ -1115,19 +1158,22 @@ def main():
             C_pathway = C_pathways[pathway_index]
 
             if fuel == "hydrogen":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_STP_hydrogen(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = generic_demands(H_pathway)
                 comment = "hydrogen at standard temperature and pressure"
             elif fuel == "liquid_hydrogen":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_liquid_hydrogen(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = demands_liquid_h2(H_pathway)
                 comment = "Liquid cryogenic hydrogen at atmospheric pressure"
             elif fuel == "compressed_hydrogen":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_compressed_hydrogen(H_pathway)
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = demands_compressed_h2(H_pathway)
                 comment = "compressed gaseous hydrogen at 700 bar"
             elif fuel == "ng":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_NG()
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = generic_demands("NG")
                 comment = "natural gas at standard temperature and pressure"
             elif fuel == "lng":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_liquid_NG()
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = generic_demands("NG")  # base feed
+                elect_demand += CTX["derived"]["NG_liq_elect_demand"]
+                NG_demand    += CTX["derived"]["NG_liq_NG_demand_GJ"]
+                water_demand += CTX["derived"]["NG_liq_water_demand"]
                 comment = "liquid natural gas at atmospheric pressure"
             elif fuel == "ammonia":
                 elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_ammonia(H_pathway)

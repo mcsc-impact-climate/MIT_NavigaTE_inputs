@@ -1,2 +1,2 @@
 Fuel,Hydrogen Source,Carbon Source,Fuel Pathway,Electricity Demand [kWh / kg fuel],Lignocellulosic Biomass Demand [kg / kg fuel],NG Demand [GJ / kg fuel],Water Demand [m^3 / kg fuel],CO2 Demand [kg CO2 / kg fuel]
-ng,n/a,n/a,fossil,0.0125142666666666,0,0.059538574420000004,0.0004090491672737,0
+ng,n/a,n/a,fossil,0.0125142666666666,0.0,0.059538574420000004,0.0004090491672737,0.0
