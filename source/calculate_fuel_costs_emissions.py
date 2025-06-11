@@ -50,7 +50,7 @@ def build_context() -> Dict[str, Dict]:
     D["NG_NG_demand_kg"] = ng_info.loc["Production", "NG Consumption (kg/kg)"]
     D["NG_NG_demand_GJ"] = ng_info.loc["Production", "NG Consumption (GJ/kg)"]
     D["NG_water_demand"] = ng_info.loc["Production", "Water Consumption (m^3/kg)"]
-    D["NG_elec_demand"]  = ng_info.loc["Production", "Electricity Consumption (kWh/kg)"]
+    D["NG_elect_demand"]  = ng_info.loc["Production", "Electricity Consumption (kWh/kg)"]
     D["NG_CO2_emissions"] = ng_info.loc["Production", "CO2 Emissions (kg/kg)"]
     D["NG_CH4_leakage"]   = ng_info.loc["Production", "CH4 Emissions (kg/kg)"]
 
@@ -238,7 +238,7 @@ PATHWAYS: Dict[str, Pathway] = {
     # Natural gas at pipeline conditions (STP)
     # ------------------------------------------------------------------
     "NG": Pathway(
-        elect_demand=lambda c: c["derived"]["NG_elec_demand"],
+        elect_demand=lambda c: c["derived"]["NG_elect_demand"],
         lcb_demand=lambda c: 0.0,
         ng_demand=lambda c: c["glob"]["NG_HHV"]["value"] + c["derived"]["NG_NG_demand_GJ"],             # Additionally account for the NG consumed in producing the NG
         water_demand=lambda c: c["derived"]["NG_water_demand"],
@@ -425,7 +425,7 @@ def _feed_co2(
         op  = DAC_CO2_price
         em  = (
             DAC_CO2_upstream_emissions * CO2_demand
-            + DAC_CO2_upstream_NG * CO2_demand / NG_HHV * NG_GWP * NG_CH4_leakage
+            + DAC_CO2_upstream_NG * CO2_demand / CTX["glob"]["NG_HHV"]["value"] * CTX["glob"]["NG_GWP"]["value"] * CTX["derived"]["NG_CH4_leakage"]
             + DAC_CO2_upstream_elect * elect_int * CO2_demand
             - credit_per_kg_fuel
         )
@@ -445,8 +445,6 @@ def _feed_co2(
         raise ValueError(f"Unknown CO₂ pathway: {C_pathway}")
 
     return cap, op, em
-
-
 
 def calculate_BEC_upstream_emission_rate(filename = f"{top_dir}/input_fuel_pathway_data/BEC_upstream_emissions_GREET.csv"):
     """
@@ -516,25 +514,8 @@ def calculate_DAC_upstream_resources_emissions(material_reqs_filename=f"{top_dir
 
 calculate_DAC_upstream_resources_emissions()
 
-########################################## Read in NG production inputs ############################################
-NG_info = pd.read_csv(f"{top_dir}/input_fuel_pathway_data/lng_inputs_GREET_processed.csv", index_col="Stage")
-NG_water_demand = NG_info.loc["Production", "Water Consumption (m^3/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
-NG_NG_demand_GJ = NG_info.loc["Production", "NG Consumption (GJ/kg)"] # [GJ NG consumed / kg NG produced]. Source: GREET 2024
-NG_elect_demand = NG_info.loc["Production", "Electricity Consumption (kWh/kg)"] # [GJ NG consumed / kg NG produced]. Source: GREET 2024
-NG_NG_demand_kg = NG_info.loc["Production", "NG Consumption (kg/kg)"] # [kg NG consumed / kg NG produced]. Source: GREET 2024
-NG_CO2_emissions = NG_info.loc["Production", "CO2 Emissions (kg/kg)"] # [kg CO2 / kg NG]. Source: GREET 2024
-NG_CH4_leakage = NG_info.loc["Production", "CH4 Emissions (kg/kg)"] # [kg CH4 / kg NG]. Source: GREET 2024
-####################################################################################################################
-
 ############################################# Read in global parameters ############################################
 global_parameters = load_global_parameters()
-workhours_per_year = global_parameters["workhours_per_year"]["value"]
-gen_admin_rate = global_parameters["gen_admin_rate"]["value"]
-op_maint_rate = global_parameters["op_maint_rate"]["value"]
-tax_rate = global_parameters["tax_rate"]["value"]
-
-NG_HHV = global_parameters["NG_HHV"]["value"]
-NG_GWP = global_parameters["NG_GWP"]["value"]
 
 BEC_CO2_price = global_parameters["BEC_CO2_price"]["value"]
 BEC_CO2_upstream_emissions = calculate_BEC_upstream_emission_rate() # [kg CO2e/kg CO2] upstream emissions from bioenergy plant with CO2 capture (e.g. 0.02 from biomass BEC, 0.05 from biogas BEC..)
@@ -559,16 +540,6 @@ nC_FTdiesel = molecular_info["nC_FTdiesel"]["value"]
 
 ############################## Read in technology info and calculate derived parameters ############################
 tech_info = load_technology_info()
-
-####################################### Inputs for NG liquefaction ########################################
-NG_liq_base_CapEx = 0.82 # [2024$/kg NG]. Obtained from Table 3 (USA Lower 48) in https://www.jstor.org/stable/resrep31040.11?seq=7 and converted from 2018$ to 2024$ using https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401
-NG_liq_NG_demand_GJ = NG_info.loc["Liquefaction", "NG Consumption (GJ/kg)"] # [GJ NG consumed / kg liquefied NG]. Source: GREET 2024
-NG_liq_NG_demand_kg = NG_info.loc["Liquefaction", "NG Consumption (kg/kg)"] # [kg NG consumed / kg liquefied NG]. Source: GREET 2024
-NG_liq_water_demand = NG_info.loc["Liquefaction", "Water Consumption (m^3/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
-NG_liq_elect_demand = NG_info.loc["Liquefaction", "Electricity Consumption (kWh/kg)"] # [m^3 H2O / kg NG]. Source: GREET 2024
-NG_liq_CO2_emissions = NG_info.loc["Liquefaction", "CO2 Emissions (kg/kg)"] # [kg CO2 / kg NG]. Source: GREET 2024
-NG_liq_CH4_leakage = NG_info.loc["Liquefaction", "CH4 Emissions (kg/kg)"] # [kg CH4 / kg NG]. Source: GREET 2024
-###########################################################################################################
 
 ################### Inputs for liquid NH3 production from arbitrary H2 feedstock ##########################
 NH3_H2_demand = 3/2 * MW_H2 / MW_NH3 # [kg H2/kg NH3] stoichiometry
@@ -625,7 +596,7 @@ def calculate_production_costs_emissions_liquid_hydrogen(
     elect_liq        = tech_info["H2_liquefaction"]["elec_demand"]["value"]
 
     capex_liq  = base_capex_liq * instal_factor
-    opex_liq   = (op_maint_rate + tax_rate) * capex_liq + elect_liq * elect_price
+    opex_liq   = (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]) * capex_liq + elect_liq * elect_price
     emiss_liq  = elect_liq * elect_emissions_intensity
 
     # --- underlying STP hydrogen via generic engine --------------------
@@ -674,7 +645,7 @@ def calculate_production_costs_emissions_liquid_NG(
     # incremental liquefaction
     capex_liq  = tech_info["NG_liq"]["base_CapEx_2018"]["value"] * global_parameters["2018_to_2024_USD"]["value"] * instal_factor
     opex_liq   = (
-        (op_maint_rate + tax_rate) * capex_liq
+        (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]) * capex_liq
         + CTX["derived"]["NG_liq_NG_demand_GJ"] * NG_price
         + CTX["derived"]["NG_liq_water_demand"] * water_price
         + CTX["derived"]["NG_liq_elect_demand"] * elect_price
@@ -711,7 +682,7 @@ def calculate_production_costs_emissions_compressed_hydrogen(
     elect_comp      = tech_info["H2_compression"]["elec_demand"]["value"]
 
     capex_comp = base_capex_comp * instal_factor
-    opex_comp  = (op_maint_rate + tax_rate) * capex_comp + elect_comp * elect_price
+    opex_comp  = (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]) * capex_comp + elect_comp * elect_price
     emiss_comp = elect_comp * elect_emissions_intensity
 
     # --- underlying STP hydrogen via generic engine --------------------
@@ -761,7 +732,7 @@ def calculate_production_costs_emissions_ammonia(
         + water * water_price
         + ng    * NG_price
     )
-    em_core  = elect * elect_int + ng / NG_HHV * NG_GWP * NG_CH4_leakage
+    em_core  = elect * elect_int + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["glob"]["NG_GWP"]["value"] * CTX["derived"]["NG_CH4_leakage"]
     # (No onsite-process CO₂ for NH₃, so nothing else to add)
 
     # --- H₂ feed (generic engine) ------------------------------------
@@ -791,11 +762,11 @@ def calculate_production_costs_emissions_ammonia(
 def _fixed_opex(capex: float, employees: int, yearly_output: float,
                 labor_rate: float) -> float:
     """Legacy fixed-OpEx block (labour + gen-admin + O&M + tax)."""
-    labour = (
-        workhours_per_year * labor_rate * employees / yearly_output
-        * (1 + gen_admin_rate)
+    labor = (
+            CTX["glob"]["workhours_per_year"]["value"] * labor_rate * employees / yearly_output
+        * (1 + CTX["glob"]["gen_admin_rate"]["value"])
     )
-    return labour + (op_maint_rate + tax_rate) * capex
+    return labor + (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]) * capex
 
 
 def calculate_production_costs_emissions_methanol(
@@ -824,7 +795,7 @@ def calculate_production_costs_emissions_methanol(
         + water * water_price
         + ng    * NG_price
     )
-    em_core  = elect * elect_int + ng / NG_HHV * NG_GWP * NG_CH4_leakage
+    em_core  = elect * elect_int + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["glob"]["NG_GWP"]["value"] * CTX["derived"]["NG_CH4_leakage"]
     if C_pathway not in ("BEC", "DAC"):          # keep legacy rule
         em_core += tech_info["MeOH"]["onsite_emissions"]["value"]
 
@@ -886,7 +857,7 @@ def calculate_production_costs_emissions_FTdiesel(
         + water * water_price
         + ng    * NG_price
     )
-    em_core  = elect * elect_int + ng / NG_HHV * NG_GWP * NG_CH4_leakage
+    em_core  = elect * elect_int + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["glob"]["NG_GWP"]["value"] * CTX["derived"]["NG_CH4_leakage"]
     if C_pathway not in ("BEC", "DAC"):
         em_core += tech_info["FTdiesel"]["onsite_emissions"]["value"]
 
@@ -942,9 +913,9 @@ def calculate_resource_demands_compressed_hydrogen(H_pathway):
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
 def calculate_resource_demands_NG():
-    water_demand = NG_water_demand      # m^3 water / kg NG
-    NG_demand = NG_HHV + NG_NG_demand_GJ     # GJ NG / kg NG
-    elect_demand = NG_elect_demand
+    water_demand = CTX["derived"]["NG_water_demand"]      # m^3 water / kg NG
+    NG_demand = CTX["glob"]["NG_HHV"]["value"] + CTX["derived"]["NG_NG_demand_GJ"]     # GJ NG / kg NG
+    elect_demand = CTX["derived"]["NG_elect_demand"]
     LCB_demand = 0
     CO2_demand = 0
 
@@ -952,9 +923,9 @@ def calculate_resource_demands_NG():
 
 def calculate_resource_demands_liquid_NG():
     elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_NG()
-    NG_demand += NG_liq_NG_demand_GJ
-    water_demand += NG_liq_water_demand
-    elect_demand += NG_liq_elect_demand
+    NG_demand += CTX["derived"]["NG_liq_NG_demand_GJ"]
+    water_demand += CTX["derived"]["NG_liq_water_demand"]
+    elect_demand += CTX["derived"]["NG_liq_elect_demand"]
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
 
