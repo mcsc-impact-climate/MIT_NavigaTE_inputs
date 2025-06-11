@@ -1,0 +1,44 @@
+{
+  "MW_CO2": {
+    "value": 44.01,
+    "units": "g/mol",
+    "source": "CRC Handbook of Chemistry and Physics",
+    "extra_notes": "Standard atomic weight of carbon dioxide.",
+    "source_url": null
+  },
+  "MW_MeOH": {
+    "value": 32.04,
+    "units": "g/mol",
+    "source": "CRC Handbook of Chemistry and Physics",
+    "extra_notes": "Molecular weight of methanol (CH3OH).",
+    "source_url": null
+  },
+  "MW_NH3": {
+    "value": 17.03,
+    "units": "g/mol",
+    "source": "CRC Handbook of Chemistry and Physics",
+    "extra_notes": "Molecular weight of ammonia (NH3).",
+    "source_url": null
+  },
+  "MW_H2": {
+    "value": 2.016,
+    "units": "g/mol",
+    "source": "CRC Handbook of Chemistry and Physics",
+    "extra_notes": "Molecular weight of diatomic hydrogen (H2).",
+    "source_url": null
+  },
+  "MW_FTdiesel": {
+    "value": 167.3,
+    "units": "g/mol",
+    "source": "H2A and Aspen Plus models",
+    "extra_notes": "Representative average molecular weight for FT diesel products from synthesis models.",
+    "source_url": null
+  },
+  "nC_FTdiesel": {
+    "value": 12,
+    "units": "carbon atoms",
+    "source": "Representative hydrocarbon composition",
+    "extra_notes": "Approximated from FT diesel simulation outputs.",
+    "source_url": null
+  }
+}
