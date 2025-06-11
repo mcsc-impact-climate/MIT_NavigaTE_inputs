@@ -8,8 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 import pandas as pd
-from common_tools import get_top_dir, get_pathway_type, get_pathway_type_label, get_pathway_label, read_pathway_labels, read_fuel_labels, get_fuel_label, create_directory_if_not_exists, get_fuel_density, get_fuel_LHV
-from matplotlib import colormaps
+from common_tools import get_fuel_density, get_fuel_LHV
 import matplotlib.colors as mcolors
 import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
@@ -626,8 +625,6 @@ def sort_color_label_columns(columns):
     return sorted_cols, colors, labels
     
 def plot_global_stacked_fuel_info(global_results_dict, column_name, ylabel=None, save_label=None):
-    import matplotlib.colors as mcolors
-    import matplotlib.cm as cm
 
     def normalize_base_fuel(name):
         name = name.lower()
@@ -1122,7 +1119,7 @@ def plot_vessel_fuel_metric(vessel_results_dict, column_name, xlabel=None, save_
 
 
     # Place legend **outside** plot area to the right
-    legend = ax.legend(handles, labels,
+    ax.legend(handles, labels,
                        title='Powertrain',
                        fontsize=16,
                        title_fontsize=18,
@@ -1192,9 +1189,6 @@ def compare_tank_ranges(vessel_results_dict, save_label=None):
 
         # --- Loop over fuels for pilot markers in both panels ---
         for fuel, df in fuel_dict.items():
-            fuel_lookup = {"oil": "lsfo", "methane": "lng", "diesel": "FTdiesel"}.get(fuel, fuel)
-            fuel_density = get_fuel_density(fuel_lookup)
-            fuel_LHV = get_fuel_LHV(fuel_lookup)
 
             if isinstance(df, pd.DataFrame):
                 consumed_energy_cols = df.filter(like="ConsumedEnergy")
@@ -1225,7 +1219,7 @@ def compare_tank_ranges(vessel_results_dict, save_label=None):
                 ax2.plot([i - 0.2, i + 0.2], [pilot_fuel_share, pilot_fuel_share], color=color, linewidth=2, solid_capstyle='round', label=fuel)
 
     # --- Singapore–Rotterdam reference line ---
-    sr_line = ax1.axhline(singapore_rotterdam_nm, linestyle='--', color='k', linewidth=2)
+    ax1.axhline(singapore_rotterdam_nm, linestyle='--', color='k', linewidth=2)
 
     # --- Build Powertrain legend ---
     seen = set()
@@ -1277,7 +1271,7 @@ def compare_tank_ranges(vessel_results_dict, save_label=None):
 
     # --- Bottom panel: Best-fit pilot fraction ---
     custom_line = Line2D([0], [0], color='black', linewidth=2, solid_capstyle='round')
-    legend2 = ax2.legend(
+    ax2.legend(
         [custom_line],
         ["Best-fit Pilot\nFuel Fraction"],
         loc='center left',
@@ -1431,14 +1425,14 @@ def plot_vessel_fuel_stacked_histograms(vessel_results_dict, column_names, colum
         # Custom legends with minimal gap
         handles, labels = ax.get_legend_handles_labels()
 
-        component_legend = fig.legend(handles, labels,
+        fig.legend(handles, labels,
                                       loc='center left', bbox_to_anchor=(1.005, 0.8),
                                       title="Cost Component", fontsize=18, title_fontsize=20)
 
         capex_patch = mpatches.Patch(facecolor='white', edgecolor='black', label='CAPEX (solid)')
         opex_patch = mpatches.Patch(facecolor='white', edgecolor='black', hatch='xx', label='OPEX (hatched)')
 
-        style_legend = fig.legend(handles=[capex_patch, opex_patch],
+        fig.legend(handles=[capex_patch, opex_patch],
                                   loc='center left', bbox_to_anchor=(1.005, 0.2),
                                   title="Cost Type", fontsize=18, title_fontsize=20)
 

@@ -5,17 +5,34 @@ Purpose: Calculates TTW emission rates, in ton species / ton fuel based on g / M
 """
 
 from common_tools import read_fuel_labels
+
 G_PER_KG = 1000
 
 fuel_labels = read_fuel_labels()
 
-fuel_labels["TTW CO2 (kg CO2 / kg fuel)"] = fuel_labels["TTW CO2 (g/MJ)"] * fuel_labels["Lower Heating Value (MJ / kg)"] / G_PER_KG
+fuel_labels["TTW CO2 (kg CO2 / kg fuel)"] = (
+    fuel_labels["TTW CO2 (g/MJ)"]
+    * fuel_labels["Lower Heating Value (MJ / kg)"]
+    / G_PER_KG
+)
 
-fuel_labels["TTW N2O (kg N2O / kg fuel)"] = fuel_labels["TTW N2O (g/MJ)"] * fuel_labels["Lower Heating Value (MJ / kg)"] / G_PER_KG
+fuel_labels["TTW N2O (kg N2O / kg fuel)"] = (
+    fuel_labels["TTW N2O (g/MJ)"]
+    * fuel_labels["Lower Heating Value (MJ / kg)"]
+    / G_PER_KG
+)
 
-fuel_labels["TTW Black Carbon (kg BC / kg fuel)"] = fuel_labels["TTW Black Carbon (g/MJ)"] * fuel_labels["Lower Heating Value (MJ / kg)"] / G_PER_KG
+fuel_labels["TTW Black Carbon (kg BC / kg fuel)"] = (
+    fuel_labels["TTW Black Carbon (g/MJ)"]
+    * fuel_labels["Lower Heating Value (MJ / kg)"]
+    / G_PER_KG
+)
 
-fuel_labels["TTW CH4 (kg CH4 / kg fuel)"] = fuel_labels["TTW CH4 (g/MJ)"] * fuel_labels["Lower Heating Value (MJ / kg)"] / G_PER_KG
+fuel_labels["TTW CH4 (kg CH4 / kg fuel)"] = (
+    fuel_labels["TTW CH4 (g/MJ)"]
+    * fuel_labels["Lower Heating Value (MJ / kg)"]
+    / G_PER_KG
+)
 
 for fuel in fuel_labels.index:
     print(f"\n\n======= Fuel: {fuel} =======")

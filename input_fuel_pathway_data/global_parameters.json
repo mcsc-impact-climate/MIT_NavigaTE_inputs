@@ -1,0 +1,68 @@
+{
+  "workhours_per_year": {
+    "value": 2080,
+    "units": "hr/year",
+    "source": "52 weeks × 40 hours"
+  },
+  "NG_HHV": {
+    "value": 0.05521,
+    "units": "GJ/kg",
+    "source": "GREET 2024"
+  },
+  "NG_GWP": {
+    "value": 28,
+    "units": "GWP100",
+    "source": "IPCC AR5, MEPC.391(81)",
+    "extra_notes": "Using methane GWP as a surrogate for NG."
+  },
+  "gen_admin_rate": {
+    "value": 0.2,
+    "units": "fraction",
+    "source": "Assumed"
+  },
+  "op_maint_rate": {
+    "value": 0.04,
+    "units": "fraction",
+    "source": "Assumed"
+  },
+  "tax_rate": {
+    "value": 0.02,
+    "units": "fraction",
+    "source": "Assumed"
+  },
+  "BEC_CO2_price": {
+    "value": 0.02,
+    "units": "2024$/kg CO2",
+    "source": "IEA 2021 CCUS report",
+    "extra_notes": "Based on a range of $15–30/tonne CO2. This input should probably be regionalized or made dependent on LCB price.",
+    "source_url": "https://iea.blob.core.windows.net/assets/181b48b4-323f-454d-96fb-0bb1889d96a9/CCUS_in_clean_energy_transitions.pdf"
+  },
+  "DAC_CO2_price": {
+    "value": 0.2,
+    "units": "2024$/kg CO2",
+    "source": "IEA 2022 DAC report",
+    "extra_notes": "Placeholder value; falls roughly between the $125/tonne and $325/tonne estimated by IEA for a large-scale plant built today.",
+    "source_url": "https://www.iea.org/reports/direct-air-capture-2022/executive-summary"
+  },
+  "2019_to_2024_USD": {
+    "value": 1.2253,
+    "units": "None",
+    "source": "US Bureau of Labor Statistics",
+    "extra_notes": "Inflation adjustment from 2019 to 2024",
+    "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401"
+  },
+  "2015_to_2024_USD": {
+    "value": 1.3137,
+    "units": "None",
+    "source": "US Bureau of Labor Statistics",
+    "extra_notes": "Inflation adjustment from 2015 to 2024. DME: change to 1.3197.",
+    "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201501&year2=202401"
+  },
+  "2018_to_2024_USD": {
+    "value": 1.2443,
+    "units": "None",
+    "source": "US Bureau of Labor Statistics",
+    "extra_notes": "Inflation adjustment from 2018 to 2024. DME: change to 1.3197.",
+    "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201801&year2=202401"
+  }
+}

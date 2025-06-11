@@ -5,13 +5,23 @@ Purpose: Compare cost per mile and per m^3 of cargo after accounting for boil-of
 """
 
 import os
-import pandas as pd
-import matplotlib.pyplot as plt
-from common_tools import get_top_dir, create_directory_if_not_exists, generate_blue_shades, get_pathway_label, read_pathway_labels, read_fuel_labels, get_fuel_label
+
 import matplotlib.colors as mcolors
-from matplotlib.lines import Line2D
 import matplotlib.gridspec as gridspec
+import matplotlib.pyplot as plt
+import pandas as pd
+from common_tools import (
+    create_directory_if_not_exists,
+    generate_blue_shades,
+    get_fuel_label,
+    get_pathway_label,
+    get_top_dir,
+    read_fuel_labels,
+    read_pathway_labels,
+)
+from matplotlib.lines import Line2D
 from parse import parse
+
 
 def generate_orange_shades(num_shades):
     """
@@ -50,6 +60,7 @@ def generate_orange_shades(num_shades):
 
     return orange_shades
 
+
 def generate_purple_shades(num_shades):
     """
     Generates a list of purple shades ranging from light to dark.
@@ -86,6 +97,7 @@ def generate_purple_shades(num_shades):
         purple_shades = [light_purple]
 
     return purple_shades
+
 
 def generate_grey_shades(num_shades):
     """
@@ -151,10 +163,11 @@ LABELS = [
     "With boiloff, with tank size correction",
 ]
 
+
 def read_processed_data(results_dir, fuel, pathway, quantity):
     """
     Reads the processed CSV file for the given fuel, pathway, and quantity.
-    
+
     Parameters:
     ----------
     results_dir : str
@@ -172,14 +185,21 @@ def read_processed_data(results_dir, fuel, pathway, quantity):
         Processed data as a pandas DataFrame
     """
     file_path = f"{get_top_dir()}/{results_dir}/{fuel}-{pathway}-{quantity}.csv"
-    #print(file_path)
+    # print(file_path)
     processed_data = pd.read_csv(file_path, index_col=0)
     return processed_data
 
-def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifier="per_tonne_mile", include_stowage=False):
+
+def plot_histogram_for_vessel_types(
+    fuel,
+    pathway,
+    quantity="TotalCost",
+    modifier="per_tonne_mile",
+    include_stowage=False,
+):
     """
     Plots a histogram comparing TotalCost per tonne mile between all vessel types for a given fuel and pathway.
-    
+
     Parameters:
     ----------
     fuel : str
@@ -193,7 +213,7 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
     """
     fig = plt.figure(figsize=(12, 12))
     gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1], hspace=0.3)
-    
+
     # Main histogram plot
     ax_hist = fig.add_subplot(gs[0])
     ax_ratio = fig.add_subplot(gs[1], sharex=ax_hist)
@@ -202,51 +222,78 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
     x_positions = []
     width = 0.2
     index = 0
-    
+
     # Store ratios for the secondary axis
     ratios_no_boiloff = []
     ratios_with_boiloff = []
     ratios_tank_corrected = []
-    
-    stowage_str=""
+
+    stowage_str = ""
     if include_stowage:
-        stowage_str="_final"
+        stowage_str = "_final"
 
     for vessel_type in VESSEL_TYPES:
         x_labels.append(VESSEL_TYPE_TITLES[vessel_type])
         x_positions.append(index)
-        
+
         # Read data for TotalCAPEX, TotalFuelOPEX, and TotalExcludingFuelOPEX from the three cases
         no_boiloff_capex_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_NO_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalCAPEX-{modifier}_lsfo{stowage_str}",
         )
         no_boiloff_opex_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_NO_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}",
         )
         no_boiloff_excl_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_NO_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}",
         )
 
         with_boiloff_capex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalCAPEX-{modifier}_lsfo{stowage_str}",
         )
         with_boiloff_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}",
         )
         with_boiloff_excl_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}",
         )
 
         tank_corrected_capex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalCAPEX-{modifier}{stowage_str}",
         )
         tank_corrected_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalFuelOPEX-{modifier}{stowage_str}",
         )
         tank_corrected_excl_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalExcludingFuelOPEX-{modifier}{stowage_str}",
         )
-        
+
         lsfo_totalcost_df = read_processed_data(
             RESULTS_DIR_WITH_BOILOFF, "lsfo", "fossil", f"TotalCost-{modifier}"
         )
@@ -255,23 +302,29 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
         no_boiloff_values = {
             "TotalCAPEX": no_boiloff_capex_df.loc["Global Average", vessel_type],
             "TotalFuelOPEX": no_boiloff_opex_df.loc["Global Average", vessel_type],
-            "TotalExcludingFuelOPEX": no_boiloff_excl_df.loc["Global Average", vessel_type],
+            "TotalExcludingFuelOPEX": no_boiloff_excl_df.loc[
+                "Global Average", vessel_type
+            ],
         }
 
         with_boiloff_values = {
             "TotalCAPEX": with_boiloff_capex_df.loc["Global Average", vessel_type],
             "TotalFuelOPEX": with_boiloff_opex_df.loc["Global Average", vessel_type],
-            "TotalExcludingFuelOPEX": with_boiloff_excl_df.loc["Global Average", vessel_type],
+            "TotalExcludingFuelOPEX": with_boiloff_excl_df.loc[
+                "Global Average", vessel_type
+            ],
         }
 
         tank_corrected_values = {
             "TotalCAPEX": tank_corrected_capex_df.loc["Global Average", vessel_type],
             "TotalFuelOPEX": tank_corrected_opex_df.loc["Global Average", vessel_type],
-            "TotalExcludingFuelOPEX": tank_corrected_excl_df.loc["Global Average", vessel_type],
+            "TotalExcludingFuelOPEX": tank_corrected_excl_df.loc[
+                "Global Average", vessel_type
+            ],
         }
-        
+
         lsfo_totalcost_value = lsfo_totalcost_df.loc["Global Average", vessel_type]
-        
+
         # Aggregate costs for each case
         no_boiloff_total = (
             no_boiloff_capex_df.loc["Global Average", vessel_type]
@@ -284,13 +337,13 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
             + with_boiloff_opex_df.loc["Global Average", vessel_type]
             + with_boiloff_excl_df.loc["Global Average", vessel_type]
         )
-        
+
         tank_corrected_total = (
             tank_corrected_capex_df.loc["Global Average", vessel_type]
             + tank_corrected_opex_df.loc["Global Average", vessel_type]
             + tank_corrected_excl_df.loc["Global Average", vessel_type]
         )
-        
+
         # Compute ratios
         ratios_no_boiloff.append(no_boiloff_total / lsfo_totalcost_value)
         ratios_with_boiloff.append(with_boiloff_total / lsfo_totalcost_value)
@@ -314,11 +367,16 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
             index - width,
             no_boiloff_values["TotalExcludingFuelOPEX"],
             width,
-            bottom=no_boiloff_values["TotalCAPEX"]
-            + no_boiloff_values["TotalFuelOPEX"],
+            bottom=no_boiloff_values["TotalCAPEX"] + no_boiloff_values["TotalFuelOPEX"],
             color=COLORS["no_boiloff"][2],
         )
-        ax_hist.plot([index-width*2, index+width*2], [lsfo_totalcost_value, lsfo_totalcost_value], ls="--", color="red", linewidth=2)
+        ax_hist.plot(
+            [index - width * 2, index + width * 2],
+            [lsfo_totalcost_value, lsfo_totalcost_value],
+            ls="--",
+            color="red",
+            linewidth=2,
+        )
 
         ax_hist.bar(
             index,
@@ -377,10 +435,10 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
     else:
         ax_hist.set_ylabel("Total Cost (USD per m$^3$-mile)", fontsize=20)
     ymin, ymax = ax_hist.get_ylim()
-    ax_hist.set_ylim(ymin, ymax*1.5)
-    ax_hist.tick_params(axis='both', labelsize=18)
-    ax_ratio.tick_params(axis='both', labelsize=18)
-    
+    ax_hist.set_ylim(ymin, ymax * 1.5)
+    ax_hist.tick_params(axis="both", labelsize=18)
+    ax_ratio.tick_params(axis="both", labelsize=18)
+
     # Plot ratios as markers
     ax_ratio.plot(
         [x - width for x in x_positions],
@@ -403,7 +461,7 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
         color="purple",
         label="Tank Corrected / LSFO",
     )
-    
+
     # Customize secondary y-axis
     ax_ratio.set_ylabel("Ratio to LSFO Total Cost", fontsize=20)
     ax_ratio.tick_params(axis="y", labelsize=16)
@@ -423,7 +481,7 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
     legend_handles_3 = [
         Line2D([0], [0], color="red", linestyle="--", label="LSFO", linewidth=2)
     ]
-    
+
     ax_hist.add_artist(
         ax_hist.legend(
             handles=legend_handles_1,
@@ -433,7 +491,7 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
             title_fontsize=18,
         )
     )
-    
+
     ax_hist.add_artist(
         ax_hist.legend(
             handles=legend_handles_2,
@@ -443,17 +501,17 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
             title_fontsize=18,
         )
     )
-    
+
     ax_hist.add_artist(
         ax_hist.legend(
             handles=legend_handles_3,
             loc="upper center",
             fontsize=16,
             title_fontsize=18,
-            bbox_to_anchor=(0.36, 0.93)  # Replace x, y with desired coordinates
+            bbox_to_anchor=(0.36, 0.93),  # Replace x, y with desired coordinates
         )
     )
-    
+
     ax_ratio.axhline(1, ls="--", color="black")
 
     # Save and display the plot
@@ -465,11 +523,19 @@ def plot_histogram_for_vessel_types(fuel, pathway, quantity="TotalCost", modifie
     plt.close()
     print(f"Plot saved at {output_path_png}")
     print(f"Plot saved at {output_path_pdf}")
-    
-def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="TotalCost", modifier="per_tonne_mile", include_stowage=False):
+
+
+def plot_histogram_for_vessel_classes(
+    vessel_type,
+    fuel,
+    pathway,
+    quantity="TotalCost",
+    modifier="per_tonne_mile",
+    include_stowage=False,
+):
     """
     Plots a histogram comparing TotalCost per tonne mile between all vessel types for a given fuel and pathway.
-    
+
     Parameters:
     ----------
     vessel_type : str
@@ -488,9 +554,21 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
 
     # Define the classes for the given vessel type
     vessel_classes = {
-        "bulk_carrier_ice": ["bulk_carrier_capesize_ice", "bulk_carrier_handy_ice", "bulk_carrier_panamax_ice"],
-        "container_ice": ["container_15000_teu_ice", "container_8000_teu_ice", "container_3500_teu_ice"],
-        "tanker_ice": ["tanker_100k_dwt_ice", "tanker_300k_dwt_ice", "tanker_35k_dwt_ice"],
+        "bulk_carrier_ice": [
+            "bulk_carrier_capesize_ice",
+            "bulk_carrier_handy_ice",
+            "bulk_carrier_panamax_ice",
+        ],
+        "container_ice": [
+            "container_15000_teu_ice",
+            "container_8000_teu_ice",
+            "container_3500_teu_ice",
+        ],
+        "tanker_ice": [
+            "tanker_100k_dwt_ice",
+            "tanker_300k_dwt_ice",
+            "tanker_35k_dwt_ice",
+        ],
         "gas_carrier_ice": ["gas_carrier_100k_cbm_ice"],
     }
 
@@ -506,7 +584,7 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
         "tanker_35k_dwt_ice": "35k DWT",
         "gas_carrier_100k_cbm_ice": "100k m³",
     }
-    
+
     vessel_type_title = {
         "bulk_carrier_ice": "Bulk Carrier",
         "container_ice": "Container",
@@ -515,10 +593,10 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
     }
 
     classes = vessel_classes[vessel_type]
-    
+
     fig = plt.figure(figsize=(12, 12))
     gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1], hspace=0.3)
-    
+
     # Main histogram plot
     ax_hist = fig.add_subplot(gs[0])
     ax_ratio = fig.add_subplot(gs[1], sharex=ax_hist)
@@ -527,15 +605,15 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
     x_positions = []
     width = 0.2
     index = 0
-    
+
     # Store ratios for the secondary axis
     ratios_no_boiloff = []
     ratios_with_boiloff = []
     ratios_tank_corrected = []
-    
-    stowage_str=""
+
+    stowage_str = ""
     if include_stowage:
-        stowage_str="_final"
+        stowage_str = "_final"
 
     for vessel_class in classes:
         x_labels.append(vessel_class_titles[vessel_class])
@@ -543,35 +621,62 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
 
         # Read data for TotalCAPEX, TotalFuelOPEX, and TotalExcludingFuelOPEX from the three cases
         no_boiloff_capex_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_NO_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalCAPEX-{modifier}_lsfo{stowage_str}",
         )
         no_boiloff_opex_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_NO_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}",
         )
         no_boiloff_excl_df = read_processed_data(
-            RESULTS_DIR_NO_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_NO_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}",
         )
 
         with_boiloff_capex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalCAPEX-{modifier}_lsfo{stowage_str}",
         )
         with_boiloff_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalFuelOPEX-{modifier}_lsfo{stowage_str}",
         )
         with_boiloff_excl_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalExcludingFuelOPEX-{modifier}_lsfo{stowage_str}",
         )
 
         tank_corrected_capex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalCAPEX-{modifier}{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalCAPEX-{modifier}{stowage_str}",
         )
         tank_corrected_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalFuelOPEX-{modifier}{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalFuelOPEX-{modifier}{stowage_str}",
         )
         tank_corrected_excl_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF, fuel, pathway, f"TotalExcludingFuelOPEX-{modifier}{stowage_str}"
+            RESULTS_DIR_WITH_BOILOFF,
+            fuel,
+            pathway,
+            f"TotalExcludingFuelOPEX-{modifier}{stowage_str}",
         )
-                
+
         lsfo_totalcost_df = read_processed_data(
             RESULTS_DIR_WITH_BOILOFF, "lsfo", "fossil", f"TotalCost-{modifier}"
         )
@@ -580,23 +685,29 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
         no_boiloff_values = {
             "TotalCAPEX": no_boiloff_capex_df.loc["Global Average", vessel_class],
             "TotalFuelOPEX": no_boiloff_opex_df.loc["Global Average", vessel_class],
-            "TotalExcludingFuelOPEX": no_boiloff_excl_df.loc["Global Average", vessel_class],
+            "TotalExcludingFuelOPEX": no_boiloff_excl_df.loc[
+                "Global Average", vessel_class
+            ],
         }
 
         with_boiloff_values = {
             "TotalCAPEX": with_boiloff_capex_df.loc["Global Average", vessel_class],
             "TotalFuelOPEX": with_boiloff_opex_df.loc["Global Average", vessel_class],
-            "TotalExcludingFuelOPEX": with_boiloff_excl_df.loc["Global Average", vessel_class],
+            "TotalExcludingFuelOPEX": with_boiloff_excl_df.loc[
+                "Global Average", vessel_class
+            ],
         }
 
         tank_corrected_values = {
             "TotalCAPEX": tank_corrected_capex_df.loc["Global Average", vessel_class],
             "TotalFuelOPEX": tank_corrected_opex_df.loc["Global Average", vessel_class],
-            "TotalExcludingFuelOPEX": tank_corrected_excl_df.loc["Global Average", vessel_class],
+            "TotalExcludingFuelOPEX": tank_corrected_excl_df.loc[
+                "Global Average", vessel_class
+            ],
         }
-        
+
         lsfo_totalcost_value = lsfo_totalcost_df.loc["Global Average", vessel_class]
-        
+
         # Aggregate costs for each case
         no_boiloff_total = (
             no_boiloff_capex_df.loc["Global Average", vessel_class]
@@ -609,13 +720,13 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
             + with_boiloff_opex_df.loc["Global Average", vessel_class]
             + with_boiloff_excl_df.loc["Global Average", vessel_class]
         )
-        
+
         tank_corrected_total = (
             tank_corrected_capex_df.loc["Global Average", vessel_class]
             + tank_corrected_opex_df.loc["Global Average", vessel_class]
             + tank_corrected_excl_df.loc["Global Average", vessel_class]
         )
-        
+
         # Compute ratios
         ratios_no_boiloff.append(no_boiloff_total / lsfo_totalcost_value)
         ratios_with_boiloff.append(with_boiloff_total / lsfo_totalcost_value)
@@ -639,11 +750,16 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
             index - width,
             no_boiloff_values["TotalExcludingFuelOPEX"],
             width,
-            bottom=no_boiloff_values["TotalCAPEX"]
-            + no_boiloff_values["TotalFuelOPEX"],
+            bottom=no_boiloff_values["TotalCAPEX"] + no_boiloff_values["TotalFuelOPEX"],
             color=COLORS["no_boiloff"][2],
         )
-        ax_hist.plot([index-width*2, index+width*2], [lsfo_totalcost_value, lsfo_totalcost_value], ls="--", color="red", linewidth=2)
+        ax_hist.plot(
+            [index - width * 2, index + width * 2],
+            [lsfo_totalcost_value, lsfo_totalcost_value],
+            ls="--",
+            color="red",
+            linewidth=2,
+        )
 
         ax_hist.bar(
             index,
@@ -695,7 +811,9 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
     fuel_label = get_fuel_label(fuel)
     pathway_label = get_pathway_label(pathway)
     vessel_type_label = vessel_type_title[vessel_type]
-    ax_hist.set_title(f"{vessel_type_label} with {fuel_label}: {pathway_label}", fontsize=22)
+    ax_hist.set_title(
+        f"{vessel_type_label} with {fuel_label}: {pathway_label}", fontsize=22
+    )
     ax_hist.set_xticks(x_positions)
     ax_hist.set_xticklabels(x_labels, fontsize=18, rotation=0)
     if modifier == "per_tonne_mile":
@@ -703,10 +821,10 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
     else:
         ax_hist.set_ylabel("Total Cost (USD per m$^3$-mile)", fontsize=20)
     ymin, ymax = ax_hist.get_ylim()
-    ax_hist.set_ylim(ymin, ymax*1.5)
-    ax_hist.tick_params(axis='both', labelsize=18)
-    ax_ratio.tick_params(axis='both', labelsize=18)
-    
+    ax_hist.set_ylim(ymin, ymax * 1.5)
+    ax_hist.tick_params(axis="both", labelsize=18)
+    ax_ratio.tick_params(axis="both", labelsize=18)
+
     # Plot ratios as markers
     ax_ratio.plot(
         [x - width for x in x_positions],
@@ -729,7 +847,7 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
         color="purple",
         label="Tank Corrected / LSFO",
     )
-    
+
     # Customize secondary y-axis
     ax_ratio.set_ylabel("Ratio to LSFO Total Cost", fontsize=20)
     ax_ratio.tick_params(axis="y", labelsize=16)
@@ -749,7 +867,7 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
     legend_handles_3 = [
         Line2D([0], [0], color="red", linestyle="--", label="LSFO", linewidth=2)
     ]
-    
+
     ax_hist.add_artist(
         ax_hist.legend(
             handles=legend_handles_1,
@@ -759,7 +877,7 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
             title_fontsize=18,
         )
     )
-    
+
     ax_hist.add_artist(
         ax_hist.legend(
             handles=legend_handles_2,
@@ -769,17 +887,17 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
             title_fontsize=18,
         )
     )
-    
+
     ax_hist.add_artist(
         ax_hist.legend(
             handles=legend_handles_3,
             loc="upper center",
             fontsize=16,
             title_fontsize=18,
-            bbox_to_anchor=(0.36, 0.93)  # Replace x, y with desired coordinates
+            bbox_to_anchor=(0.36, 0.93),  # Replace x, y with desired coordinates
         )
     )
-    
+
     ax_ratio.axhline(1, ls="--", color="black")
 
     # Save and display the plot
@@ -791,7 +909,8 @@ def plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, quantity="Tota
     plt.close()
     print(f"Plot saved at {output_path_png}")
     print(f"Plot saved at {output_path_pdf}")
-    
+
+
 def get_filename_info(
     filepath,
     identifier,
@@ -832,7 +951,8 @@ def get_filename_info(
     identifier_value = result.named[identifier]
 
     return identifier_value
-    
+
+
 def find_files_starting_with_substring(directory, substring=""):
     """
     Finds all files within a specified directory (and its subdirectories) that start with a given substring in their filenames.
@@ -860,7 +980,8 @@ def find_files_starting_with_substring(directory, substring=""):
                 matching_files.append(os.path.join(root, file))
 
     return matching_files
-    
+
+
 def find_unique_identifiers(
     directory,
     identifier,
@@ -906,7 +1027,8 @@ def find_unique_identifiers(
             unique_identifier_values.append(identifier_value)
 
     return unique_identifier_values
-    
+
+
 def get_pathways(fuel, results_dir=RESULTS_DIR_NO_BOILOFF):
     """
     Collects the names of all pathways contained in processed csv files for the given fuel
@@ -915,7 +1037,7 @@ def get_pathways(fuel, results_dir=RESULTS_DIR_NO_BOILOFF):
     ----------
     fuel : str
         Name øf the fuel to collect pathways for
-        
+
     results_dir : str
         Path to the director to read filenames from and parse pathway names
 
@@ -924,31 +1046,51 @@ def get_pathways(fuel, results_dir=RESULTS_DIR_NO_BOILOFF):
     pathways : list of str
         List of unique pathways available for the given fuel
     """
-    pathways = find_unique_identifiers(
-        results_dir, "pathway", fuel
-    )
-    
+    pathways = find_unique_identifiers(results_dir, "pathway", fuel)
+
     return pathways
 
 
 # Example Usage
 if __name__ == "__main__":
-#    plot_histogram_for_vessel_types("liquid_hydrogen", "LTE_H_grid_E", modifier="per_tonne_mile")
-#    plot_histogram_for_vessel_types("liquid_hydrogen", "LTE_H_grid_E", modifier="per_cbm_mile")
-#    plot_histogram_for_vessel_classes("bulk_carrier_ice", "liquid_hydrogen", "LTE_H_grid_E", modifier="per_tonne_mile")
-    
-    for fuel in ["liquid_hydrogen", "ammonia"]:#, "ammonia"]:  # "compressed_hydrogen"
+    #    plot_histogram_for_vessel_types("liquid_hydrogen", "LTE_H_grid_E", modifier="per_tonne_mile")
+    #    plot_histogram_for_vessel_types("liquid_hydrogen", "LTE_H_grid_E", modifier="per_cbm_mile")
+    #    plot_histogram_for_vessel_classes("bulk_carrier_ice", "liquid_hydrogen", "LTE_H_grid_E", modifier="per_tonne_mile")
+
+    for fuel in [
+        "liquid_hydrogen",
+        "ammonia",
+    ]:  # , "ammonia"]:  # "compressed_hydrogen"
         pathways = get_pathways(fuel)
 
-        for pathway in ["BG_H_grid_E"]:#, "LTE_H_grid_E"]:#pathways:
+        for pathway in ["BG_H_grid_E"]:  # , "LTE_H_grid_E"]:#pathways:
             plot_histogram_for_vessel_types(fuel, pathway, modifier="per_tonne_mile")
             plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile")
-            plot_histogram_for_vessel_types(fuel, pathway, modifier="per_tonne_mile", include_stowage=True)
-            plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile", include_stowage=True)
-            
-            for vessel_type in VESSEL_TYPES:
-                plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_tonne_mile")
-                plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_cbm_mile")
-                plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_tonne_mile", include_stowage=True)
-                plot_histogram_for_vessel_classes(vessel_type, fuel, pathway, modifier="per_cbm_mile", include_stowage=True)
+            plot_histogram_for_vessel_types(
+                fuel, pathway, modifier="per_tonne_mile", include_stowage=True
+            )
+            plot_histogram_for_vessel_types(
+                fuel, pathway, modifier="per_cbm_mile", include_stowage=True
+            )
 
+            for vessel_type in VESSEL_TYPES:
+                plot_histogram_for_vessel_classes(
+                    vessel_type, fuel, pathway, modifier="per_tonne_mile"
+                )
+                plot_histogram_for_vessel_classes(
+                    vessel_type, fuel, pathway, modifier="per_cbm_mile"
+                )
+                plot_histogram_for_vessel_classes(
+                    vessel_type,
+                    fuel,
+                    pathway,
+                    modifier="per_tonne_mile",
+                    include_stowage=True,
+                )
+                plot_histogram_for_vessel_classes(
+                    vessel_type,
+                    fuel,
+                    pathway,
+                    modifier="per_cbm_mile",
+                    include_stowage=True,
+                )
