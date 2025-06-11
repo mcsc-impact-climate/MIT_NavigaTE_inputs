@@ -560,51 +560,6 @@ nC_FTdiesel = molecular_info["nC_FTdiesel"]["value"]
 ############################## Read in technology info and calculate derived parameters ############################
 tech_info = load_technology_info()
 
-# Inputs for STP H2 production from ATR with 99% CO2 capture rate from Zang et al 2024 (ATR-CC-R-OC case) #
-ATRCCS_prod = tech_info["H2_ATRCCS"]["hourly_prod"]["value"]
-H2_ATRCCS_elect_demand = tech_info["H2_ATRCCS"]["elec_cons"]["value"]/ATRCCS_prod # [kWh elect/kg H2] from Zang et al 2024
-H2_ATRCCS_NG_demand = tech_info["H2_ATRCCS"]["NG_cons"]["value"] / ATRCCS_prod # [GJ NG/kg H2] from Zang et al 2024
-H2_ATRCCS_NG_demand = H2_ATRCCS_NG_demand * (1 + NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
-H2_ATRCCS_water_demand = tech_info["H2_ATRCCS"]["water_cons"]["value"] / ATRCCS_prod # [m^3 H2O/kg H2] from Zang et al 2024
-ATRCCS_TPC = global_parameters["2019_to_2024_USD"]["value"] * tech_info["H2_ATRCCS"]["TPC_2019"]["value"]
-H2_ATRCCS_base_CapEx = ATRCCS_TPC / 365 * tech_info["H2_ATRCCS"]["CRF"]["value"] # From Zang et al 2024 and H2A
-H2_ATRCCS_onsite_emissions = tech_info["H2_ATRCCS"]["emissions"]["value"] / ATRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
-H2_ATRCCS_yearly_output = 365*24*ATRCCS_prod # [kg H2/year] from Zang et al 2024
-###########################################################################################################
-
-### Inputs for STP H2 production from SMR with 96% CO2 capture rate from Zang et al 2024 (SMR-CCS case) ###
-SMRCCS_prod = tech_info["H2_SMRCCS"]["hourly_prod"]["value"]
-H2_SMRCCS_elect_demand = tech_info["H2_SMRCCS"]["elec_cons"]["value"] / SMRCCS_prod # [kWh elect/kg H2] from Zang et al 2024
-H2_SMRCCS_NG_demand = tech_info["H2_SMRCCS"]["NG_cons"]["value"] / SMRCCS_prod # [GJ NG/kg H2] from Zang et al 2024
-H2_SMRCCS_NG_demand = H2_SMRCCS_NG_demand * (1 + NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
-H2_SMRCCS_water_demand = tech_info["H2_SMRCCS"]["water_cons"]["value"] / SMRCCS_prod # [m^3 water/kg H2] from Zang et al 2024
-H2_SMRCCS_onsite_emissions = tech_info["H2_SMRCCS"]["emissions"]["value"] / SMRCCS_prod # [kg CO2e output/kg H2] from Zang et al 2024
-SMRCCS_TPC = global_parameters["2019_to_2024_USD"]["value"] * tech_info["H2_SMRCCS"]["TPC_2019"]["value"]
-H2_SMRCCS_base_CapEx = SMRCCS_TPC / 365 * tech_info["H2_SMRCCS"]["CRF"]["value"] # [2024$/kg] amortized TPC from Zang et al 2024
-H2_SMRCCS_yearly_output = 365 * 24 * SMRCCS_prod # [kg H2/year] from Zang et al 2024
-###########################################################################################################
-
-######## Inputs for STP H2 production from SMR without CO2 capture from Zang et al 2024 (SMR case) ########
-SMR_prod = tech_info["H2_SMR"]["hourly_prod"]["value"]
-H2_SMR_elect_demand = tech_info["H2_SMR"]["elec_cons"]["value"] / SMR_prod # [kWh elect/kg H2] from Zang et al 2024
-SMR_NG = tech_info["H2_SMR"]["NG_cons"]["value"] - tech_info["H2_SMR"]["steam_byproduct"]["value"] / tech_info["H2_SMR"]["boiler_eff"]["value"]    # [GJ NG/hr]: NG consumption including steam displacement at 80% boiler efficiency
-H2_SMR_NG_demand = SMR_NG / SMR_prod # [GJ NG/kg H2] from Zang et al 2024
-H2_SMR_NG_demand = H2_SMR_NG_demand * (1 + NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
-H2_SMR_water_demand = tech_info["H2_SMR"]["water_cons"]["value"] / SMR_prod # [m^3 water/kg H2] from Zang et al 2024
-H2_SMR_onsite_emissions = tech_info["H2_SMR"]["emissions"]["value"] / SMR_prod # [kg CO2e output/kg H2] from Zang et al 2024
-SMR_TPC = global_parameters["2019_to_2024_USD"]["value"] * tech_info["H2_SMR"]["TPC_2019"]["value"]
-H2_SMR_base_CapEx = SMR_TPC / 365 * tech_info["H2_SMR"]["CRF"]["value"] # [2024$/kg] amortized TPC from Zang et al 2024
-H2_SMR_yearly_output = 365 * 24 * SMR_prod # [kg H2/year] from Zang et al 2024
-###########################################################################################################
-
-## Inputs for STP H2 production from lignocellulosic biomass (LCB) gasification (BG) without CO2 capture ##
-H2_BG_NG_demand = tech_info["H2_BG"]["NG_demand"]["value"]
-H2_BG_NG_demand = H2_BG_NG_demand * (1 + NG_NG_demand_kg)     # Also account for the additional NG consumed to process and recover the NG, from GREET 2024
-H2_BG_base_CapEx = global_parameters["2015_to_2024_USD"]["value"] * tech_info["H2_BG"]["base_CapEx_2015"]["value"]  # Base CapEx, converted from 2015 USD to 2024 USD
-H2_BG_emissions = 1.913592126 # [kg CO2e/bone-dry kg] process emissions from gasification of lignocellulosic biomass (LCB)
-H2_BG_onsite_emissions = tech_info["H2_BG"]["onsite_emissions"]["value"] - tech_info["H2_BG"]["LCB_gasification_emissions"]["value"] * tech_info["H2_BG"]["LCB_demand"]["value"] # [kg CO2e / kg H2] from H2A #NOTE: includes biogenic credit
-###########################################################################################################
-
 ####################################### Inputs for NG liquefaction ########################################
 NG_liq_base_CapEx = 0.82 # [2024$/kg NG]. Obtained from Table 3 (USA Lower 48) in https://www.jstor.org/stable/resrep31040.11?seq=7 and converted from 2018$ to 2024$ using https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201901&year2=202401
 NG_liq_NG_demand_GJ = NG_info.loc["Liquefaction", "NG Consumption (GJ/kg)"] # [GJ NG consumed / kg liquefied NG]. Source: GREET 2024
@@ -1068,56 +1023,40 @@ def calculate_resource_demands_FTdiesel(H_pathway, C_pathway):
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
     
-def get_electricity_inputs(E_pathway, row):
-    if E_pathway == "n/a":
-        return 0.0, 0.0  # Fossil pathways
-    elif E_pathway == "grid":
-        return row["Grid Electricity price [2024$/kWh]"], row["Grid Electricity Emissions [kgCO2e/kWh]"]
-    elif E_pathway == "solar":
-        return row["Solar Electricity Price [2024$/kWh]"], row["Solar Electricity Emissions [kgCO2e/kWh]"]
-    elif E_pathway == "wind":
-        return row["Wind Onshore Electricity Price [2024$/kWh]"], row["Wind Onshore Electricity Emissions [kgCO2e/kWh]"]
-    elif E_pathway == "nuke":
-        return row["Nuclear Electricity Price [2024$/kWh]"], row["Nuclear Electricity Emissions [kgCO2e/kWh]"]
-    else:
-        raise ValueError(f"Unknown electricity source: {E_pathway}")
-        
-def generate_fuel_pathways(fuel, fuel_content_map, Esources, Hsources, Csources):
-    if "fossil" in fuel_content_map[fuel]:
-        return ["fossil"], ["n/a"], ["n/a"], ["n/a"]
+# Dispatch table for resource demands
+resource_demand_fn = {
+    "hydrogen": calculate_resource_demands_STP_hydrogen,
+    "liquid_hydrogen": calculate_resource_demands_liquid_hydrogen,
+    "compressed_hydrogen": calculate_resource_demands_compressed_hydrogen,
+    "ammonia": calculate_resource_demands_ammonia,
+    "methanol": calculate_resource_demands_methanol,
+    "FTdiesel": calculate_resource_demands_FTdiesel,
+    "ng": calculate_resource_demands_NG,
+    "lng": calculate_resource_demands_liquid_NG,
+}
 
-    if "C" in fuel_content_map[fuel]:  # if fuel contains carbon
-        fuel_pathways_noelec = []
-        H_pathways_noelec = []
-        C_pathways_noelec = []
+# Dispatch table for production cost + emissions
+cost_emission_fn = {
+    "hydrogen": calculate_production_costs_emissions_STP_hydrogen,
+    "liquid_hydrogen": calculate_production_costs_emissions_liquid_hydrogen,
+    "compressed_hydrogen": calculate_production_costs_emissions_compressed_hydrogen,
+    "ammonia": calculate_production_costs_emissions_ammonia,
+    "methanol": calculate_production_costs_emissions_methanol,
+    "FTdiesel": calculate_production_costs_emissions_FTdiesel,
+    "ng": calculate_production_costs_emissions_NG,
+    "lng": calculate_production_costs_emissions_liquid_NG,
+}
 
-        for Csource in Csources:
-            for Hsource in Hsources:
-                if Hsource == Csource:
-                    H_pathways_noelec.append(Hsource)
-                    C_pathways_noelec.append(Csource)
-                    fuel_pathways_noelec.append(f"{Hsource}_H_C")
-                elif ((Hsource == "SMR") and (Csource in ["SMRCCS", "ATRCCS"])) \
-                    or ((Hsource != "SMR") and (Csource == "SMR")) \
-                    or ((Hsource != "BG") and (Csource == "BG")):
-                    continue
-                else:
-                    H_pathways_noelec.append(Hsource)
-                    C_pathways_noelec.append(Csource)
-                    fuel_pathways_noelec.append(f"{Hsource}_H_{Csource}_C")
-    else:  # no carbon
-        fuel_pathways_noelec = [f"{H}_H" for H in Hsources]
-        H_pathways_noelec = Hsources.copy()
-        C_pathways_noelec = ["n/a"] * len(Hsources)
-
-    fuel_pathways, H_pathways, C_pathways, E_pathways = [], [], [], []
-    for E in Esources:
-        fuel_pathways += [f"{fp}_E" if "_E" not in fp else fp for fp in fuel_pathways_noelec]
-        H_pathways += H_pathways_noelec
-        C_pathways += C_pathways_noelec
-        E_pathways += [E] * len(fuel_pathways_noelec)
-
-    return fuel_pathways, H_pathways, C_pathways, E_pathways
+fuel_comments = {
+    "hydrogen": "hydrogen at standard temperature and pressure",
+    "liquid_hydrogen": "Liquid cryogenic hydrogen at atmospheric pressure",
+    "compressed_hydrogen": "compressed gaseous hydrogen at 700 bar",
+    "ammonia": "Liquid cryogenic ammonia at atmospheric pressure",
+    "methanol": "liquid methanol at STP",
+    "FTdiesel": "liquid Fischer--Tropsch diesel fuel at STP",
+    "ng": "natural gas at standard temperature and pressure",
+    "lng": "liquid natural gas at atmospheric pressure",
+}
 
 
 def main():
@@ -1209,33 +1148,16 @@ def main():
                 water_demand += CTX["derived"]["NG_liq_water_demand"]
                 comment = "liquid natural gas at atmospheric pressure"
 
-            if fuel == "hydrogen":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = generic_demands(H_pathway)
-                comment = "hydrogen at standard temperature and pressure"
-            elif fuel == "liquid_hydrogen":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = demands_liquid_h2(H_pathway)
-                comment = "Liquid cryogenic hydrogen at atmospheric pressure"
-            elif fuel == "compressed_hydrogen":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = demands_compressed_h2(H_pathway)
-                comment = "compressed gaseous hydrogen at 700 bar"
-            elif fuel == "ng":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = generic_demands("NG")
-                comment = "natural gas at standard temperature and pressure"
-            elif fuel == "lng":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = generic_demands("NG")  # base feed
-                elect_demand += CTX["derived"]["NG_liq_elect_demand"]
-                NG_demand    += CTX["derived"]["NG_liq_NG_demand_GJ"]
-                water_demand += CTX["derived"]["NG_liq_water_demand"]
-                comment = "liquid natural gas at atmospheric pressure"
-            elif fuel == "ammonia":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_ammonia(H_pathway)
-                comment = "Liquid cryogenic ammonia at atmospheric pressure"
-            elif fuel == "methanol":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_methanol(H_pathway, C_pathway)
-                comment = "Liquid methanol at STP"
-            elif fuel == "FTdiesel":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = calculate_resource_demands_FTdiesel(H_pathway, C_pathway)
-                comment = "liquid Fischer--Tropsch diesel fuel at STP"
+            # Get resource demand function and call it
+            if fuel in resource_demand_fn:
+                if fuel in ["methanol", "FTdiesel"]:
+                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = resource_demand_fn[fuel](H_pathway, C_pathway)
+                elif fuel in ["ammonia"]:
+                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = resource_demand_fn[fuel](H_pathway)
+                elif fuel in ["ng", "lng"]:
+                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = resource_demand_fn[fuel]()
+                else:
+                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = resource_demand_fn[fuel](H_pathway)
 
             calculated_resource_row = [fuel, H_pathway, C_pathway, fuel_pathway, elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand]
             output_resource_data.append(calculated_resource_row)
@@ -1262,30 +1184,38 @@ def main():
                 elif E_pathway == "nuke":
                     elect_price = nuke_price
                     elect_emissions_intensity = nuke_emissions_intensity
-                if fuel == "hydrogen":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_STP_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    comment = "hydrogen at standard temperature and pressure"
-                elif fuel == "liquid_hydrogen":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    comment = "Liquid cryogenic hydrogen at atmospheric pressure"
-                elif fuel == "compressed_hydrogen":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_compressed_hydrogen(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    comment = "compressed gaseous hydrogen at 700 bar"
-                elif fuel == "ammonia":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_ammonia(H_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    comment = "Liquid cryogenic ammonia at atmospheric pressure"
-                elif fuel == "ng":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price, elect_price,elect_emissions_intensity)
-                    comment = "natural gas at standard temperature and pressure"
-                elif fuel == "lng":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity)
-                    comment = "liquid natural gas at atmospheric pressure"
-                elif fuel == "methanol":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_methanol(H_pathway,C_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    comment = "liquid methanol at STP"
-                elif fuel == "FTdiesel":
-                    CapEx, OpEx, emissions = calculate_production_costs_emissions_FTdiesel(H_pathway,C_pathway,instal_factor,water_price,NG_price,LCB_price,LCB_upstream_emissions,elect_price,elect_emissions_intensity,hourly_labor_rate)
-                    comment = "liquid Fischer--Tropsch diesel fuel at STP"
+                    
+                # Get the appropriate function for cost/emissions
+                if fuel in cost_emission_fn:
+                    if fuel in ["methanol", "FTdiesel"]:
+                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                            H_pathway, C_pathway, instal_factor,
+                            water_price, NG_price, LCB_price, LCB_upstream_emissions,
+                            elect_price, elect_emissions_intensity, hourly_labor_rate
+                        )
+                    elif fuel in ["ammonia"]:
+                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                            H_pathway, instal_factor,
+                            water_price, NG_price, LCB_price, LCB_upstream_emissions,
+                            elect_price, elect_emissions_intensity, hourly_labor_rate
+                        )
+                    elif fuel == "ng":
+                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                            water_price, NG_price, elect_price, elect_emissions_intensity
+                        )
+                    elif fuel == "lng":
+                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                            instal_factor, water_price, NG_price, elect_price, elect_emissions_intensity
+                        )
+                    else:
+                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                            H_pathway, instal_factor,
+                            water_price, NG_price, LCB_price, LCB_upstream_emissions,
+                            elect_price, elect_emissions_intensity, hourly_labor_rate
+                        )
+                    # Retrieve the descriptive comment string
+                    comment = fuel_comments.get(fuel, "")
+
                 CapEx *= 1000 # convert to $/tonne
                 OpEx *= 1000 # convert to $/tonne
                 LCOF = CapEx + OpEx # in $/tonne
