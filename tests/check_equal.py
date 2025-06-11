@@ -1,30 +1,69 @@
 import sys, pandas as pd, filecmp, glob, pathlib as p
 import pandas as pd
 from pandas.testing import assert_frame_equal
+import numpy as np
 
 # ----------------------------------------------------------------------
 # tolerant comparator --------------------------------------------------
 # ----------------------------------------------------------------------
-def equal_csv(left, right, *, atol=1e-9, rtol=0):
+def equal_csv(left, right, *, atol=1e-9, rtol=0, sort_cols=None, verbose=True):
     """
-    Return True when the two CSV files are identical *within* absolute
-    tolerance `atol` (default 1 × 10⁻9) and relative tolerance `rtol`.
-    Non-numeric columns must match exactly.
+    Compare two CSVs with numeric tolerance and report row-wise diffs if mismatched.
+    Rows are sorted by `sort_cols` (or all columns by default).
+    Returns True if equal, False if different.
     """
-    df_l = pd.read_csv(left).sort_index(axis=1)
-    df_r = pd.read_csv(right).sort_index(axis=1)
+    df_l = pd.read_csv(left)
+    df_r = pd.read_csv(right)
+
+    # Ensure same columns in same order
+    if set(df_l.columns) != set(df_r.columns):
+        print(f"❌ Columns mismatch: {left}")
+        return False
+    df_l = df_l[df_r.columns]  # reorder to match
+
+    # Sort rows
+    sort_cols = sort_cols or df_l.columns.tolist()
+    df_l_sorted = df_l.sort_values(by=sort_cols).reset_index(drop=True)
+    df_r_sorted = df_r.sort_values(by=sort_cols).reset_index(drop=True)
+
     try:
         assert_frame_equal(
-            df_l,
-            df_r,
-            check_dtype=False,    # ignore dtype differences like int64 ↔ float64
+            df_l_sorted,
+            df_r_sorted,
+            check_dtype=False,
             atol=atol,
             rtol=rtol,
             obj=f"CSV[{left}]",
         )
         return True
     except AssertionError:
+        if verbose:
+            print(f"⚠️  Differences in {left}")
+            # Show row-by-row diffs
+            diff_rows = []
+            for i, (row_l, row_r) in enumerate(zip(df_l_sorted.values, df_r_sorted.values)):
+                if not all(pd.isna(row_l[j]) and pd.isna(row_r[j]) or
+                           isinstance(row_l[j], str) and row_l[j] == row_r[j] or
+                           isinstance(row_l[j], (int, float)) and isinstance(row_r[j], (int, float)) and
+                           abs(row_l[j] - row_r[j]) <= atol + rtol * abs(row_r[j])
+                           for j in range(len(row_l))):
+                    diff_rows.append(i)
+
+            for i in diff_rows[:10]:  # Show first 10 row diffs only
+                print(f"  ❗ Row {i}:")
+                for col in df_l_sorted.columns:
+                    val_l = df_l_sorted.at[i, col]
+                    val_r = df_r_sorted.at[i, col]
+                    if isinstance(val_l, float) and isinstance(val_r, float):
+                        if not pd.isna(val_l) and not pd.isna(val_r) and not np.isclose(val_l, val_r, atol=atol, rtol=rtol):
+                            print(f"    {col}: {val_l:.6g} vs {val_r:.6g}")
+                    elif val_l != val_r:
+                        print(f"    {col}: {val_l} vs {val_r}")
+            if len(diff_rows) > 10:
+                print(f"    ... {len(diff_rows) - 10} more differing rows")
         return False
+
+
 
 def main(prod_dir="input_fuel_pathway_data/production", base_dir="baseline_production"):
     diff = False

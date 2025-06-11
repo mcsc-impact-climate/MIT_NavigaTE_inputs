@@ -1,4 +1,118 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Africa,1,2024,367.6456522867535,9323.539451341818,9691.185103628572,3.306457841340638,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Taiwan,1,2024,361.74759369391785,9319.73140921118,9681.479002905096,1.3668802015890855,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Switzerland,1,2024,434.49031633889047,9580.592866979814,10015.083183318704,1.3668802015890855,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Singapore,1,2024,363.71361322486314,9459.584425183915,9823.298038408779,2.6234267854400173,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Hungary,1,2024,353.88351557013704,7726.4091296769975,8080.292645247135,1.8539361022102034,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Philippines,1,2024,351.91749603919186,7547.761472472037,7899.678968511229,3.0269050463095826,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Netherlands,1,2024,403.03400384376715,7835.184950167199,8238.218954010967,2.038383307179148,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Norway,1,2024,446.2864335245617,7503.106629506184,7949.393063030745,1.3524702637008867,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Oman,1,2024,375.5097304105343,7765.549400518231,8141.059130928765,2.8943336177381536,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Italy,1,2024,377.4757499414795,8242.468526036162,8619.944275977641,2.219948524570452,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Austria,1,2024,408.93206243660285,7473.885423200868,7882.817485637471,1.5859112574897067,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Finland,1,2024,424.6602186841645,6556.473374101535,6981.1335927857,1.493687655005235,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Portugal,1,2024,357.81555463202744,6454.376697931183,6812.192252563211,1.7444205742598933,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Germany,1,2024,405.00002337471244,6167.42366989834,6572.423693273053,2.3640479034524398,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Greece,1,2024,361.7475936939179,6036.90012043748,6398.647714131398,2.237240450036291,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,France,1,2024,397.1359452509316,5879.116407872833,6276.252353123765,1.4274019407195206,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Brazil,1,2024,361.74759369391785,5340.446688594597,5702.194282288515,1.54844541898039,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United Kingdom,1,2024,418.76216009132884,4869.868457880534,5288.630617971863,1.9519236798499553,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Spain,1,2024,365.67963275580826,4683.066995841045,5048.746628596854,1.7674764748810112,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Sweden,1,2024,432.5242968079453,4511.282345336654,4943.806642144599,1.3841721270549243,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Czech Republic,1,2024,357.81555463202744,4659.274045454368,5017.089600086396,2.8049920028313218,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Japan,1,2024,424.6602186841645,4502.075223157886,4926.735441842051,2.6637746115269736,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Belgium,1,2024,403.03400384376715,4419.211151245255,4822.245155089022,1.6637249220859802,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Poland,1,2024,363.71361322486314,5397.993236579306,5761.706849804169,3.17388641276921,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,India,1,2024,347.98545697730145,3810.8581345887937,4158.843591566095,3.320867779228837,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Indonesia,1,2024,316.52914448217814,3639.4146365844285,3955.943781066607,3.320867779228837,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Korea,1,2024,369.61167181769866,3531.575194934366,3901.186866752065,2.508147282334427,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,China,1,2024,359.7815741629727,2955.0753917544253,3314.856965917398,2.9433274065580295,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United Arab Emirates,1,2024,375.5097304105343,2818.456799164735,3193.9665295752693,2.606134859974179,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United States,1,2024,393.20390618904116,2454.7315124379093,2847.93541862695,2.3294640525207626,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Turkey,1,2024,359.7815741629727,2313.2999242087326,2673.0814983717055,2.606134859974179,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Australia,1,2024,403.03400384376715,2383.189895048426,2786.223898892193,2.848221816495918,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Malaysia,1,2024,344.053417915411,1910.1409451027262,2254.194363018137,1.5686193320238684,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Canada,1,2024,401.067984312822,1631.18673414534,2032.2547184581622,1.755948524570452,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Mexico,1,2024,346.0194374463562,1845.800745103896,2191.820182550252,2.7271783382350483,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Thailand,1,2024,349.9514765082466,1564.115577203007,1914.0670537112537,2.8511038040735577,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Russia,1,2024,371.57769134864395,752.5128548452682,1124.0905461939121,2.5369671581108246,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Saudi Arabia,1,2024,375.5097304105343,686.3686504149196,1061.8783808254539,2.5369671581108246,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,South Africa,1,2024,393.0590400000001,1248.9685128885765,1642.0275528885766,2.3682751696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Taiwan,1,2024,386.75327999999996,1505.0474839668111,1891.800763966811,1.7087351696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Switzerland,1,2024,464.52432000000005,1596.9337463668112,2061.458066366811,1.7087351696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Singapore,1,2024,388.8552000000001,1512.5466113863924,1901.4018113863926,2.1360151696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Hungary,1,2024,378.34560000000005,1241.9415071573517,1620.2871071573518,1.8743551696150575,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Philippines,1,2024,376.24368000000004,1203.7290393087212,1579.9727193087213,2.2732151696150575,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Netherlands,1,2024,430.8936,1417.4004705401883,1848.2940705401884,1.9370751696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Norway,1,2024,477.13584000000003,1354.4945056519637,1831.6303456519636,1.7038351696150578,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Oman,1,2024,401.46672000000007,1330.8286281105268,1732.295348110527,2.2281351696150575,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Italy,1,2024,403.56864,1620.5580274151848,2024.1266674151848,1.9988151696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Austria,1,2024,437.19936,1477.7957293968786,1914.9950893968787,1.7832151696150578,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Finland,1,2024,454.01472000000007,1287.5165290410198,1741.53124904102,1.7518551696150575,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Portugal,1,2024,382.54944,1200.1892635079478,1582.7387035079478,1.8371151696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Germany,1,2024,432.99552,1414.2077888640185,1847.2033088640185,2.047815169615058,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Greece,1,2024,386.75328,1270.0710804583418,1656.8243604583417,2.004695169615058,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,France,1,2024,424.58784,1309.6521737783437,1734.2400137783438,1.7293151696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Brazil,1,2024,386.75327999999996,1113.2662791322055,1500.0195591322054,1.7704751696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,United Kingdom,1,2024,447.70896,1177.5025429011182,1625.2115029011181,1.9076751696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Spain,1,2024,390.95712,1173.713904091972,1564.671024091972,1.8449551696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Sweden,1,2024,462.42240000000004,1181.361342502727,1643.783742502727,1.7146151696150578,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Czech Republic,1,2024,382.54944,1140.7439402063967,1523.2933802063967,2.197755169615058,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Japan,1,2024,454.01472000000007,1212.3609430585907,1666.3756630585908,2.1497351696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Belgium,1,2024,430.8936,1257.5215513796268,1688.4151513796269,1.8096751696150575,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Poland,1,2024,388.8552000000001,1502.7447257685756,1891.5999257685758,2.3231951696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,India,1,2024,372.03984,1064.4445485303654,1436.4843885303653,2.373175169615058,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Indonesia,1,2024,338.40912000000003,1005.1067053303655,1343.5158253303655,2.373175169615058,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,South Korea,1,2024,395.16096,1095.6470561352603,1490.8080161352602,2.0968151696150574,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,China,1,2024,384.65136000000007,1073.9200290322783,1458.5713890322784,2.244795169615058,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,United Arab Emirates,1,2024,401.46672000000007,1076.2835957647164,1477.7503157647166,2.1301351696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,United States,1,2024,420.384,1138.959187316315,1559.343187316315,2.0360551696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Turkey,1,2024,384.65136000000007,1005.2673135964361,1389.9186735964363,2.1301351696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Australia,1,2024,430.8936,1174.861174142518,1605.7547741425178,2.212455169615058,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Malaysia,1,2024,367.83600000000007,997.973132166853,1365.809132166853,1.7773351696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Canada,1,2024,428.79168000000004,1057.8100118631007,1486.6016918631008,1.8410351696150578,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Mexico,1,2024,369.93792,1036.4940121099507,1406.4319321099508,2.1712951696150578,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Thailand,1,2024,374.14176000000003,975.1865662866243,1349.3283262866244,2.2134351696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Russia,1,2024,397.26288000000005,913.0902264933163,1310.3531064933163,2.1066151696150577,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,grid,BG_H_grid_E,Saudi Arabia,1,2024,401.46672000000007,944.4918616025333,1345.9585816025333,2.1066151696150577,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,524.33865,4407.553580078775,4931.892230078774,36.12926890056,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,515.9268000000001,9305.0166029958,9820.9434029958,1.7860514287000002,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Switzerland,1,2024,619.67295,13852.915004975803,14472.587954975803,1.7860514287000002,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Singapore,1,2024,518.7307500000001,16525.56493123985,17044.295681239848,24.03514922622,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Hungary,1,2024,504.711,8222.222629813781,8726.93362981378,10.41012832728,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Philippines,1,2024,501.90705,7797.038100676325,8298.945150676325,31.17935494102,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Netherlands,1,2024,574.80975,12524.473253464286,13099.283003464287,13.676050939760001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Norway,1,2024,636.49665,6486.099581440244,7122.596231440244,1.5309012246,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Oman,1,2024,535.55445,11463.206667475066,11998.761117475065,28.831973063299998,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Italy,1,2024,538.3584,24292.48939346067,24830.84779346067,16.89094351142,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Austria,1,2024,583.2216,15897.693839368481,16480.91543936848,5.664334531020001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Finland,1,2024,605.6532,6720.456482656936,7326.109682656936,4.03137322478,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Portugal,1,2024,510.31890000000004,7878.769186633843,8389.088086633843,8.47098677612,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Germany,1,2024,577.6137,14029.896562943155,14607.510262943155,19.44244555242,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Greece,1,2024,515.9268000000001,12063.255397708881,12579.18219770888,17.19712375634,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,France,1,2024,566.3979,9923.642616171148,10490.040516171148,2.85768228592,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Brazil,1,2024,515.9268000000001,6024.734962391393,6540.6617623913935,5.0009440003600005,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,United Kingdom,1,2024,597.24135,6377.707664197855,6974.949014197855,12.14514971516,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Spain,1,2024,521.5347,7548.7994574012855,8070.334157401286,8.87922710268,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Sweden,1,2024,616.8690000000001,4279.500365704471,4896.369365704471,2.09223167362,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Czech Republic,1,2024,510.31890000000004,8047.479148357396,8557.798048357396,27.250041797880005,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Japan,1,2024,605.6532,9686.274029793567,10291.927229793568,24.7495697977,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Belgium,1,2024,574.80975,8006.940926025971,8581.750676025971,7.042145633160001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Poland,1,2024,518.7307500000001,28337.228421791584,28855.959171791583,33.78188702284,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,India,1,2024,496.29915,6577.166435973783,7073.465585973783,36.38441910466,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Indonesia,1,2024,451.43595,3565.133121593783,4016.569071593783,36.38441910466,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Korea,1,2024,527.1426,5945.8527131382225,6472.995313138223,21.99394759342,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,China,1,2024,513.12285,4625.756769813322,5138.879619813321,29.69948375724,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,United Arab Emirates,1,2024,535.55445,5705.365884471381,6240.920334471381,23.728968981300003,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,United States,1,2024,560.79,7119.211042698131,7680.001042698131,18.83008506258,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Turkey,1,2024,513.12285,6732.053910111853,7245.176760111853,23.728968981300003,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Australia,1,2024,574.80975,9371.164011751669,9945.97376175167,28.015492410180006,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Malaysia,1,2024,490.69125,6731.317748447014,7222.008998447014,5.3581542861,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Canada,1,2024,572.0058,5930.653626713322,6502.659426713322,8.6751069394,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Mexico,1,2024,493.4952,10044.717118286035,10538.212318286034,25.87223069574,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Thailand,1,2024,499.10310000000004,5919.359958323645,6418.463058323645,28.066522451000004,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Russia,1,2024,529.94655,4894.171954467088,5424.118504467087,22.504248001620002,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,grid,LTE_H_grid_E,Saudi Arabia,1,2024,535.55445,3557.0371865181282,4092.5916365181283,22.504248001620002,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,grid,SMR_H_grid_E,South Africa,1,2024,180.30621555628608,8317.08124400154,8497.387459557825,10.950481544511597,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,grid,SMR_H_grid_E,Taiwan,1,2024,177.41360247249534,8148.886776817367,8326.300379289862,10.515770225819358,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,grid,SMR_H_grid_E,Switzerland,1,2024,213.08916383924714,8208.51513719121,8421.604301030458,10.515770225819358,hydrogen at standard temperature and pressure
@@ -75,120 +189,120 @@ hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Mexico,1,2024,426.95789716206906,1906.8
 hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Thailand,1,2024,431.8096914480017,1682.6234575215994,2114.433148969601,2.96821798935712,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Russia,1,2024,458.494560020631,762.468403363103,1220.962963383734,2.7461558775558776,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,grid,SMRCCS_H_grid_E,Saudi Arabia,1,2024,463.3463543065636,740.427140767936,1203.7734950744996,2.7461558775558776,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Africa,1,2024,367.6456522867535,9323.539451341818,9691.185103628572,3.306457841340638,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Taiwan,1,2024,361.74759369391785,9319.73140921118,9681.479002905096,1.3668802015890855,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Switzerland,1,2024,434.49031633889047,9580.592866979814,10015.083183318704,1.3668802015890855,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Singapore,1,2024,363.71361322486314,9459.584425183915,9823.298038408779,2.6234267854400173,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Hungary,1,2024,353.88351557013704,7726.4091296769975,8080.292645247135,1.8539361022102034,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Philippines,1,2024,351.91749603919186,7547.761472472037,7899.678968511229,3.0269050463095826,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Netherlands,1,2024,403.03400384376715,7835.184950167199,8238.218954010967,2.038383307179148,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Norway,1,2024,446.2864335245617,7503.106629506184,7949.393063030745,1.3524702637008867,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Oman,1,2024,375.5097304105343,7765.549400518231,8141.059130928765,2.8943336177381536,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Italy,1,2024,377.4757499414795,8242.468526036162,8619.944275977641,2.219948524570452,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Austria,1,2024,408.93206243660285,7473.885423200868,7882.817485637471,1.5859112574897067,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Finland,1,2024,424.6602186841645,6556.473374101535,6981.1335927857,1.493687655005235,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Portugal,1,2024,357.81555463202744,6454.376697931183,6812.192252563211,1.7444205742598933,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Germany,1,2024,405.00002337471244,6167.42366989834,6572.423693273053,2.3640479034524398,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Greece,1,2024,361.7475936939179,6036.90012043748,6398.647714131398,2.237240450036291,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,France,1,2024,397.1359452509316,5879.116407872833,6276.252353123765,1.4274019407195206,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Brazil,1,2024,361.74759369391785,5340.446688594597,5702.194282288515,1.54844541898039,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United Kingdom,1,2024,418.76216009132884,4869.868457880534,5288.630617971863,1.9519236798499553,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Spain,1,2024,365.67963275580826,4683.066995841045,5048.746628596854,1.7674764748810112,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Sweden,1,2024,432.5242968079453,4511.282345336654,4943.806642144599,1.3841721270549243,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Czech Republic,1,2024,357.81555463202744,4659.274045454368,5017.089600086396,2.8049920028313218,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Japan,1,2024,424.6602186841645,4502.075223157886,4926.735441842051,2.6637746115269736,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Belgium,1,2024,403.03400384376715,4419.211151245255,4822.245155089022,1.6637249220859802,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Poland,1,2024,363.71361322486314,5397.993236579306,5761.706849804169,3.17388641276921,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,India,1,2024,347.98545697730145,3810.8581345887937,4158.843591566095,3.320867779228837,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Indonesia,1,2024,316.52914448217814,3639.4146365844285,3955.943781066607,3.320867779228837,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,South Korea,1,2024,369.61167181769866,3531.575194934366,3901.186866752065,2.508147282334427,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,China,1,2024,359.7815741629727,2955.0753917544253,3314.856965917398,2.9433274065580295,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United Arab Emirates,1,2024,375.5097304105343,2818.456799164735,3193.9665295752693,2.606134859974179,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,United States,1,2024,393.20390618904116,2454.7315124379093,2847.93541862695,2.3294640525207626,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Turkey,1,2024,359.7815741629727,2313.2999242087326,2673.0814983717055,2.606134859974179,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Australia,1,2024,403.03400384376715,2383.189895048426,2786.223898892193,2.848221816495918,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Malaysia,1,2024,344.053417915411,1910.1409451027262,2254.194363018137,1.5686193320238684,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Canada,1,2024,401.067984312822,1631.18673414534,2032.2547184581622,1.755948524570452,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Mexico,1,2024,346.0194374463562,1845.800745103896,2191.820182550252,2.7271783382350483,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Thailand,1,2024,349.9514765082466,1564.115577203007,1914.0670537112537,2.8511038040735577,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Russia,1,2024,371.57769134864395,752.5128548452682,1124.0905461939121,2.5369671581108246,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,grid,ATRCCS_H_grid_E,Saudi Arabia,1,2024,375.5097304105343,686.3686504149196,1061.8783808254539,2.5369671581108246,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Africa,1,2024,524.33865,4407.553580078775,4931.892230078774,36.12926890056,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Taiwan,1,2024,515.9268000000001,9305.0166029958,9820.9434029958,1.7860514287000002,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Switzerland,1,2024,619.67295,13852.915004975803,14472.587954975803,1.7860514287000002,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Singapore,1,2024,518.7307500000001,16525.56493123985,17044.295681239848,24.03514922622,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Hungary,1,2024,504.711,8222.222629813781,8726.93362981378,10.41012832728,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Philippines,1,2024,501.90705,7797.038100676325,8298.945150676325,31.17935494102,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Netherlands,1,2024,574.80975,12524.473253464286,13099.283003464287,13.676050939760001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Norway,1,2024,636.49665,6486.099581440244,7122.596231440244,1.5309012246,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Oman,1,2024,535.55445,11463.206667475066,11998.761117475065,28.831973063299998,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Italy,1,2024,538.3584,24292.48939346067,24830.84779346067,16.89094351142,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Austria,1,2024,583.2216,15897.693839368481,16480.91543936848,5.664334531020001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Finland,1,2024,605.6532,6720.456482656936,7326.109682656936,4.03137322478,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Portugal,1,2024,510.31890000000004,7878.769186633843,8389.088086633843,8.47098677612,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Germany,1,2024,577.6137,14029.896562943155,14607.510262943155,19.44244555242,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Greece,1,2024,515.9268000000001,12063.255397708881,12579.18219770888,17.19712375634,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,France,1,2024,566.3979,9923.642616171148,10490.040516171148,2.85768228592,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Brazil,1,2024,515.9268000000001,6024.734962391393,6540.6617623913935,5.0009440003600005,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,United Kingdom,1,2024,597.24135,6377.707664197855,6974.949014197855,12.14514971516,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Spain,1,2024,521.5347,7548.7994574012855,8070.334157401286,8.87922710268,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Sweden,1,2024,616.8690000000001,4279.500365704471,4896.369365704471,2.09223167362,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Czech Republic,1,2024,510.31890000000004,8047.479148357396,8557.798048357396,27.250041797880005,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Japan,1,2024,605.6532,9686.274029793567,10291.927229793568,24.7495697977,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Belgium,1,2024,574.80975,8006.940926025971,8581.750676025971,7.042145633160001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Poland,1,2024,518.7307500000001,28337.228421791584,28855.959171791583,33.78188702284,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,India,1,2024,496.29915,6577.166435973783,7073.465585973783,36.38441910466,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Indonesia,1,2024,451.43595,3565.133121593783,4016.569071593783,36.38441910466,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,South Korea,1,2024,527.1426,5945.8527131382225,6472.995313138223,21.99394759342,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,China,1,2024,513.12285,4625.756769813322,5138.879619813321,29.69948375724,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,United Arab Emirates,1,2024,535.55445,5705.365884471381,6240.920334471381,23.728968981300003,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,United States,1,2024,560.79,7119.211042698131,7680.001042698131,18.83008506258,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Turkey,1,2024,513.12285,6732.053910111853,7245.176760111853,23.728968981300003,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Australia,1,2024,574.80975,9371.164011751669,9945.97376175167,28.015492410180006,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Malaysia,1,2024,490.69125,6731.317748447014,7222.008998447014,5.3581542861,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Canada,1,2024,572.0058,5930.653626713322,6502.659426713322,8.6751069394,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Mexico,1,2024,493.4952,10044.717118286035,10538.212318286034,25.87223069574,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Thailand,1,2024,499.10310000000004,5919.359958323645,6418.463058323645,28.066522451000004,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Russia,1,2024,529.94655,4894.171954467088,5424.118504467087,22.504248001620002,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,grid,LTE_H_grid_E,Saudi Arabia,1,2024,535.55445,3557.0371865181282,4092.5916365181283,22.504248001620002,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,South Africa,1,2024,393.0590400000001,1248.9685128885765,1642.0275528885766,2.3682751696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Taiwan,1,2024,386.75327999999996,1505.0474839668111,1891.800763966811,1.7087351696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Switzerland,1,2024,464.52432000000005,1596.9337463668112,2061.458066366811,1.7087351696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Singapore,1,2024,388.8552000000001,1512.5466113863924,1901.4018113863926,2.1360151696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Hungary,1,2024,378.34560000000005,1241.9415071573517,1620.2871071573518,1.8743551696150575,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Philippines,1,2024,376.24368000000004,1203.7290393087212,1579.9727193087213,2.2732151696150575,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Netherlands,1,2024,430.8936,1417.4004705401883,1848.2940705401884,1.9370751696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Norway,1,2024,477.13584000000003,1354.4945056519637,1831.6303456519636,1.7038351696150578,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Oman,1,2024,401.46672000000007,1330.8286281105268,1732.295348110527,2.2281351696150575,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Italy,1,2024,403.56864,1620.5580274151848,2024.1266674151848,1.9988151696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Austria,1,2024,437.19936,1477.7957293968786,1914.9950893968787,1.7832151696150578,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Finland,1,2024,454.01472000000007,1287.5165290410198,1741.53124904102,1.7518551696150575,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Portugal,1,2024,382.54944,1200.1892635079478,1582.7387035079478,1.8371151696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Germany,1,2024,432.99552,1414.2077888640185,1847.2033088640185,2.047815169615058,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Greece,1,2024,386.75328,1270.0710804583418,1656.8243604583417,2.004695169615058,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,France,1,2024,424.58784,1309.6521737783437,1734.2400137783438,1.7293151696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Brazil,1,2024,386.75327999999996,1113.2662791322055,1500.0195591322054,1.7704751696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,United Kingdom,1,2024,447.70896,1177.5025429011182,1625.2115029011181,1.9076751696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Spain,1,2024,390.95712,1173.713904091972,1564.671024091972,1.8449551696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Sweden,1,2024,462.42240000000004,1181.361342502727,1643.783742502727,1.7146151696150578,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Czech Republic,1,2024,382.54944,1140.7439402063967,1523.2933802063967,2.197755169615058,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Japan,1,2024,454.01472000000007,1212.3609430585907,1666.3756630585908,2.1497351696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Belgium,1,2024,430.8936,1257.5215513796268,1688.4151513796269,1.8096751696150575,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Poland,1,2024,388.8552000000001,1502.7447257685756,1891.5999257685758,2.3231951696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,India,1,2024,372.03984,1064.4445485303654,1436.4843885303653,2.373175169615058,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Indonesia,1,2024,338.40912000000003,1005.1067053303655,1343.5158253303655,2.373175169615058,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,South Korea,1,2024,395.16096,1095.6470561352603,1490.8080161352602,2.0968151696150574,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,China,1,2024,384.65136000000007,1073.9200290322783,1458.5713890322784,2.244795169615058,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,United Arab Emirates,1,2024,401.46672000000007,1076.2835957647164,1477.7503157647166,2.1301351696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,United States,1,2024,420.384,1138.959187316315,1559.343187316315,2.0360551696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Turkey,1,2024,384.65136000000007,1005.2673135964361,1389.9186735964363,2.1301351696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Australia,1,2024,430.8936,1174.861174142518,1605.7547741425178,2.212455169615058,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Malaysia,1,2024,367.83600000000007,997.973132166853,1365.809132166853,1.7773351696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Canada,1,2024,428.79168000000004,1057.8100118631007,1486.6016918631008,1.8410351696150578,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Mexico,1,2024,369.93792,1036.4940121099507,1406.4319321099508,2.1712951696150578,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Thailand,1,2024,374.14176000000003,975.1865662866243,1349.3283262866244,2.2134351696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Russia,1,2024,397.26288000000005,913.0902264933163,1310.3531064933163,2.1066151696150577,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,grid,BG_H_grid_E,Saudi Arabia,1,2024,401.46672000000007,944.4918616025333,1345.9585816025333,2.1066151696150577,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,South Africa,1,2024,367.6456522867535,9294.143178049893,9661.788830336647,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Taiwan,1,2024,361.74759369391785,8906.454390577637,9268.201984271554,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Switzerland,1,2024,434.49031633889047,8988.632618532609,9423.122934871499,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Singapore,1,2024,363.71361322486314,8701.736971767767,9065.45058499263,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Hungary,1,2024,353.88351557013704,7513.286148310538,7867.169663880675,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Philippines,1,2024,351.91749603919186,7275.125447627317,7627.042943666509,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Netherlands,1,2024,403.03400384376715,7305.763832154776,7708.797835998543,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Norway,1,2024,446.2864335245617,7412.6122195682965,7858.898653092858,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Oman,1,2024,375.5097304105343,7250.250021636243,7625.759752046777,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Italy,1,2024,377.4757499414795,7032.321942185231,7409.79769212671,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Austria,1,2024,408.93206243660285,6763.7636840704345,7172.695746507037,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Finland,1,2024,424.6602186841645,6451.569026275449,6876.229244959613,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Portugal,1,2024,357.81555463202744,6146.004027123729,6503.819581755757,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Germany,1,2024,405.00002337471244,5563.935471140577,5968.935494515289,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Greece,1,2024,361.7475936939179,5492.204468263567,5853.952061957485,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,France,1,2024,397.1359452509316,5469.874171847988,5867.010117098919,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Brazil,1,2024,361.74759369391785,5173.867806607019,5535.615400300937,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,United Kingdom,1,2024,418.76216009132884,4714.529327445751,5133.29148753708,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Spain,1,2024,365.67963275580826,4372.965132487007,4738.644765242816,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Sweden,1,2024,432.5242968079453,4544.713401237275,4977.237698045221,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Czech Republic,1,2024,357.81555463202744,4390.096405702815,4747.911960334843,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Japan,1,2024,424.6602186841645,4255.953484027452,4680.6137027116165,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Belgium,1,2024,403.03400384376715,4235.34034379184,4638.374347635607,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Poland,1,2024,363.71361322486314,4121.560938442659,4485.274551667522,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,India,1,2024,347.98545697730145,3580.587327135378,3928.5727841126795,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Indonesia,1,2024,316.52914448217814,3640.7403508701427,3957.269495352321,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,South Korea,1,2024,369.61167181769866,3394.680784996478,3764.2924568141766,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,China,1,2024,359.7815741629727,2801.1772551084623,3160.958829271435,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,United Arab Emirates,1,2024,375.5097304105343,2575.21704761194,2950.7267780224743,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,United States,1,2024,393.20390618904116,2224.460704984493,2617.6646111735345,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Turkey,1,2024,359.7815741629727,2174.0999242087323,2533.8814983717048,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Australia,1,2024,403.03400384376715,1958.6731248620906,2361.707128705858,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Malaysia,1,2024,344.053417915411,1709.4681500716702,2053.521567987081,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Canada,1,2024,401.067984312822,1570.6649950149051,1971.7329793277272,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Mexico,1,2024,346.0194374463562,1467.6839749175604,1813.7034123639166,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Thailand,1,2024,349.9514765082466,1377.6221610539385,1727.573637562185,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Russia,1,2024,371.57769134864395,746.7488796899887,1118.3265710386327,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Saudi Arabia,1,2024,375.5097304105343,616.0481535205096,991.5578839310439,1.3726441767443651,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,South Africa,1,2024,393.0590400000001,1238.9725128885764,1632.0315528885765,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Taiwan,1,2024,386.75327999999996,1364.5154839668112,1751.268763966811,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Switzerland,1,2024,464.52432000000005,1395.6417463668113,1860.1660663668113,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Singapore,1,2024,388.8552000000001,1254.8458113863926,1643.7010113863926,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Hungary,1,2024,378.34560000000005,1169.4705071573514,1547.8161071573516,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Philippines,1,2024,376.24368000000004,1111.0210393087211,1487.2647193087212,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Netherlands,1,2024,430.8936,1237.3744705401884,1668.2680705401885,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Norway,1,2024,477.13584000000003,1323.7225056519637,1800.8583456519636,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Oman,1,2024,401.46672000000007,1155.604628110527,1557.0713481105272,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Italy,1,2024,403.56864,1209.0560274151846,1612.6246674151846,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Austria,1,2024,437.19936,1236.3237293968787,1673.5230893968787,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Finland,1,2024,454.01472000000007,1251.8445290410195,1705.8592490410197,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Portugal,1,2024,382.54944,1095.3292635079476,1477.8787035079476,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Germany,1,2024,432.99552,1208.9957888640183,1641.9913088640183,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Greece,1,2024,386.75328,1084.8510804583418,1471.604360458342,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,France,1,2024,424.58784,1170.4921737783438,1595.080013778344,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Brazil,1,2024,386.75327999999996,1056.6222791322052,1443.3755591322051,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,United Kingdom,1,2024,447.70896,1124.680542901118,1572.389502901118,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Spain,1,2024,390.95712,1068.2659040919723,1459.2230240919723,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Sweden,1,2024,462.42240000000004,1192.729342502727,1655.1517425027268,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Czech Republic,1,2024,382.54944,1049.2119402063968,1431.7613802063968,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Japan,1,2024,454.01472000000007,1128.6689430585905,1582.6836630585906,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Belgium,1,2024,430.8936,1194.9975513796267,1625.8911513796265,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Poland,1,2024,388.8552000000001,1068.7027257685756,1457.5579257685758,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,India,1,2024,372.03984,986.1425485303654,1358.1823885303654,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Indonesia,1,2024,338.40912000000003,1005.5575053303655,1343.9666253303656,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,South Korea,1,2024,395.16096,1049.0970561352601,1444.25801613526,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,China,1,2024,384.65136000000007,1021.5880290322783,1406.2393890322783,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,United Arab Emirates,1,2024,401.46672000000007,993.5715957647166,1395.0383157647166,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,United States,1,2024,420.384,1060.6571873163148,1481.0411873163148,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Turkey,1,2024,384.65136000000007,957.933313596436,1342.584673596436,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Australia,1,2024,430.8936,1030.507174142518,1461.400774142518,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Malaysia,1,2024,367.83600000000007,929.735732166853,1297.571732166853,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Canada,1,2024,428.79168000000004,1037.2300118631006,1466.0216918631006,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Mexico,1,2024,369.93792,907.9180121099508,1277.8559321099508,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Thailand,1,2024,374.14176000000003,911.7707662866243,1285.9125262866244,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Russia,1,2024,397.26288000000005,911.1302264933163,1308.3931064933163,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,solar,BG_H_solar_E,Saudi Arabia,1,2024,401.46672000000007,920.5798616025332,1322.0465816025333,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,South Africa,1,2024,524.33865,3887.047163714775,4411.3858137147745,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Taiwan,1,2024,515.9268000000001,1987.308749407801,2503.235549407801,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Switzerland,1,2024,619.67295,3371.3446205478017,3991.017570547802,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Singapore,1,2024,518.7307500000001,3106.7053972126455,3625.4361472126457,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Hungary,1,2024,504.711,4448.551111174783,4953.262111174783,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Philippines,1,2024,501.90705,2969.596239104325,3471.5032891043247,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Netherlands,1,2024,574.80975,3150.2547548302864,3725.0645048302863,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Norway,1,2024,636.49665,4883.756299692243,5520.252949692243,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Oman,1,2024,535.55445,2339.0353688590635,2874.5898188590636,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Italy,1,2024,538.3584,2864.975253142673,3403.333653142673,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Austria,1,2024,583.2216,3323.891781320482,3907.113381320482,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Finland,1,2024,605.6532,4862.962996808937,5468.616196808936,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Portugal,1,2024,510.31890000000004,2418.5548188938437,2928.873718893844,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Germany,1,2024,577.6137,3344.206015235153,3921.8197152351527,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Greece,1,2024,515.9268000000001,2418.5776827288814,2934.5044827288816,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,France,1,2024,566.3979,2677.3768197311465,3243.7747197311464,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Brazil,1,2024,515.9268000000001,3075.1986029953937,3591.125402995394,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,United Kingdom,1,2024,597.24135,3627.1884639998543,4224.429813999855,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Spain,1,2024,521.5347,2057.967065169285,2579.501765169285,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Sweden,1,2024,616.8690000000001,4871.44883921647,5488.31783921647,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Czech Republic,1,2024,510.31890000000004,3281.2733357693965,3791.5922357693967,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Japan,1,2024,605.6532,5328.308543765566,5933.961743765566,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Belgium,1,2024,574.80975,4751.224321709971,5326.034071709972,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Poland,1,2024,518.7307500000001,5736.023342613577,6254.754092613577,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,India,1,2024,496.29915,2499.8661744557817,2996.1653244557815,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Indonesia,1,2024,451.43595,3588.606940370982,4040.042890370982,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,South Korea,1,2024,527.1426,3521.925774188223,4049.068374188223,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,China,1,2024,513.12285,1900.7525900253218,2413.875440025322,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,United Arab Emirates,1,2024,535.55445,1398.4304392633812,1933.9848892633813,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,United States,1,2024,560.79,3041.91078118013,3602.70078118013,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Turkey,1,2024,513.12285,4267.302938505853,4780.425788505852,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Australia,1,2024,574.80975,1854.4389989656675,2429.2487489656673,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Malaysia,1,2024,490.69125,3178.0960061504134,3668.787256150413,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Canada,1,2024,572.0058,4859.022769493322,5431.028569493322,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Mexico,1,2024,493.4952,3349.575762702034,3843.0709627020337,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Thailand,1,2024,499.10310000000004,2617.206016861445,3116.3091168614446,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Russia,1,2024,529.94655,4792.111872827088,5322.058422827087,1.8881115103400001,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,solar,LTE_H_solar_E,Saudi Arabia,1,2024,535.55445,2311.904190510128,2847.458640510128,1.8881115103400001,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,solar,SMR_H_solar_E,South Africa,1,2024,180.30621555628608,8310.492751504271,8490.798967060557,10.517062087093331,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,solar,SMR_H_solar_E,Taiwan,1,2024,177.41360247249534,8056.260323473434,8233.67392594593,10.517062087093331,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,solar,SMR_H_solar_E,Switzerland,1,2024,213.08916383924714,8075.840984354088,8288.930148193334,10.517062087093331,hydrogen at standard temperature and pressure
@@ -265,120 +379,120 @@ hydrogen,SMRCCS,n/a,solar,SMRCCS_H_solar_E,Mexico,1,2024,426.95789716206906,1639
 hydrogen,SMRCCS,n/a,solar,SMRCCS_H_solar_E,Thailand,1,2024,431.8096914480017,1550.7919047265686,1982.6015961745702,1.9230999769347594,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,solar,SMRCCS_H_solar_E,Russia,1,2024,458.494560020631,758.3938692016122,1216.8884292222433,1.9230999769347594,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,solar,SMRCCS_H_solar_E,Saudi Arabia,1,2024,463.3463543065636,690.7178239977496,1154.0641783043134,1.9230999769347594,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,South Africa,1,2024,367.6456522867535,9294.143178049893,9661.788830336647,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Taiwan,1,2024,361.74759369391785,8906.454390577637,9268.201984271554,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Switzerland,1,2024,434.49031633889047,8988.632618532609,9423.122934871499,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Singapore,1,2024,363.71361322486314,8701.736971767767,9065.45058499263,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Hungary,1,2024,353.88351557013704,7513.286148310538,7867.169663880675,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Philippines,1,2024,351.91749603919186,7275.125447627317,7627.042943666509,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Netherlands,1,2024,403.03400384376715,7305.763832154776,7708.797835998543,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Norway,1,2024,446.2864335245617,7412.6122195682965,7858.898653092858,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Oman,1,2024,375.5097304105343,7250.250021636243,7625.759752046777,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Italy,1,2024,377.4757499414795,7032.321942185231,7409.79769212671,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Austria,1,2024,408.93206243660285,6763.7636840704345,7172.695746507037,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Finland,1,2024,424.6602186841645,6451.569026275449,6876.229244959613,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Portugal,1,2024,357.81555463202744,6146.004027123729,6503.819581755757,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Germany,1,2024,405.00002337471244,5563.935471140577,5968.935494515289,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Greece,1,2024,361.7475936939179,5492.204468263567,5853.952061957485,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,France,1,2024,397.1359452509316,5469.874171847988,5867.010117098919,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Brazil,1,2024,361.74759369391785,5173.867806607019,5535.615400300937,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,United Kingdom,1,2024,418.76216009132884,4714.529327445751,5133.29148753708,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Spain,1,2024,365.67963275580826,4372.965132487007,4738.644765242816,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Sweden,1,2024,432.5242968079453,4544.713401237275,4977.237698045221,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Czech Republic,1,2024,357.81555463202744,4390.096405702815,4747.911960334843,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Japan,1,2024,424.6602186841645,4255.953484027452,4680.6137027116165,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Belgium,1,2024,403.03400384376715,4235.34034379184,4638.374347635607,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Poland,1,2024,363.71361322486314,4121.560938442659,4485.274551667522,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,India,1,2024,347.98545697730145,3580.587327135378,3928.5727841126795,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Indonesia,1,2024,316.52914448217814,3640.7403508701427,3957.269495352321,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,South Korea,1,2024,369.61167181769866,3394.680784996478,3764.2924568141766,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,China,1,2024,359.7815741629727,2801.1772551084623,3160.958829271435,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,United Arab Emirates,1,2024,375.5097304105343,2575.21704761194,2950.7267780224743,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,United States,1,2024,393.20390618904116,2224.460704984493,2617.6646111735345,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Turkey,1,2024,359.7815741629727,2174.0999242087323,2533.8814983717048,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Australia,1,2024,403.03400384376715,1958.6731248620906,2361.707128705858,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Malaysia,1,2024,344.053417915411,1709.4681500716702,2053.521567987081,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Canada,1,2024,401.067984312822,1570.6649950149051,1971.7329793277272,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Mexico,1,2024,346.0194374463562,1467.6839749175604,1813.7034123639166,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Thailand,1,2024,349.9514765082466,1377.6221610539385,1727.573637562185,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Russia,1,2024,371.57769134864395,746.7488796899887,1118.3265710386327,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,solar,ATRCCS_H_solar_E,Saudi Arabia,1,2024,375.5097304105343,616.0481535205096,991.5578839310439,1.3726441767443651,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,South Africa,1,2024,524.33865,3887.047163714775,4411.3858137147745,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Taiwan,1,2024,515.9268000000001,1987.308749407801,2503.235549407801,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Switzerland,1,2024,619.67295,3371.3446205478017,3991.017570547802,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Singapore,1,2024,518.7307500000001,3106.7053972126455,3625.4361472126457,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Hungary,1,2024,504.711,4448.551111174783,4953.262111174783,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Philippines,1,2024,501.90705,2969.596239104325,3471.5032891043247,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Netherlands,1,2024,574.80975,3150.2547548302864,3725.0645048302863,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Norway,1,2024,636.49665,4883.756299692243,5520.252949692243,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Oman,1,2024,535.55445,2339.0353688590635,2874.5898188590636,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Italy,1,2024,538.3584,2864.975253142673,3403.333653142673,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Austria,1,2024,583.2216,3323.891781320482,3907.113381320482,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Finland,1,2024,605.6532,4862.962996808937,5468.616196808936,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Portugal,1,2024,510.31890000000004,2418.5548188938437,2928.873718893844,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Germany,1,2024,577.6137,3344.206015235153,3921.8197152351527,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Greece,1,2024,515.9268000000001,2418.5776827288814,2934.5044827288816,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,France,1,2024,566.3979,2677.3768197311465,3243.7747197311464,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Brazil,1,2024,515.9268000000001,3075.1986029953937,3591.125402995394,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,United Kingdom,1,2024,597.24135,3627.1884639998543,4224.429813999855,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Spain,1,2024,521.5347,2057.967065169285,2579.501765169285,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Sweden,1,2024,616.8690000000001,4871.44883921647,5488.31783921647,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Czech Republic,1,2024,510.31890000000004,3281.2733357693965,3791.5922357693967,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Japan,1,2024,605.6532,5328.308543765566,5933.961743765566,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Belgium,1,2024,574.80975,4751.224321709971,5326.034071709972,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Poland,1,2024,518.7307500000001,5736.023342613577,6254.754092613577,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,India,1,2024,496.29915,2499.8661744557817,2996.1653244557815,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Indonesia,1,2024,451.43595,3588.606940370982,4040.042890370982,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,South Korea,1,2024,527.1426,3521.925774188223,4049.068374188223,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,China,1,2024,513.12285,1900.7525900253218,2413.875440025322,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,United Arab Emirates,1,2024,535.55445,1398.4304392633812,1933.9848892633813,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,United States,1,2024,560.79,3041.91078118013,3602.70078118013,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Turkey,1,2024,513.12285,4267.302938505853,4780.425788505852,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Australia,1,2024,574.80975,1854.4389989656675,2429.2487489656673,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Malaysia,1,2024,490.69125,3178.0960061504134,3668.787256150413,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Canada,1,2024,572.0058,4859.022769493322,5431.028569493322,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Mexico,1,2024,493.4952,3349.575762702034,3843.0709627020337,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Thailand,1,2024,499.10310000000004,2617.206016861445,3116.3091168614446,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Russia,1,2024,529.94655,4792.111872827088,5322.058422827087,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,solar,LTE_H_solar_E,Saudi Arabia,1,2024,535.55445,2311.904190510128,2847.458640510128,1.8881115103400001,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,South Africa,1,2024,393.0590400000001,1238.9725128885764,1632.0315528885765,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Taiwan,1,2024,386.75327999999996,1364.5154839668112,1751.268763966811,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Switzerland,1,2024,464.52432000000005,1395.6417463668113,1860.1660663668113,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Singapore,1,2024,388.8552000000001,1254.8458113863926,1643.7010113863926,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Hungary,1,2024,378.34560000000005,1169.4705071573514,1547.8161071573516,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Philippines,1,2024,376.24368000000004,1111.0210393087211,1487.2647193087212,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Netherlands,1,2024,430.8936,1237.3744705401884,1668.2680705401885,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Norway,1,2024,477.13584000000003,1323.7225056519637,1800.8583456519636,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Oman,1,2024,401.46672000000007,1155.604628110527,1557.0713481105272,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Italy,1,2024,403.56864,1209.0560274151846,1612.6246674151846,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Austria,1,2024,437.19936,1236.3237293968787,1673.5230893968787,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Finland,1,2024,454.01472000000007,1251.8445290410195,1705.8592490410197,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Portugal,1,2024,382.54944,1095.3292635079476,1477.8787035079476,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Germany,1,2024,432.99552,1208.9957888640183,1641.9913088640183,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Greece,1,2024,386.75328,1084.8510804583418,1471.604360458342,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,France,1,2024,424.58784,1170.4921737783438,1595.080013778344,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Brazil,1,2024,386.75327999999996,1056.6222791322052,1443.3755591322051,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,United Kingdom,1,2024,447.70896,1124.680542901118,1572.389502901118,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Spain,1,2024,390.95712,1068.2659040919723,1459.2230240919723,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Sweden,1,2024,462.42240000000004,1192.729342502727,1655.1517425027268,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Czech Republic,1,2024,382.54944,1049.2119402063968,1431.7613802063968,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Japan,1,2024,454.01472000000007,1128.6689430585905,1582.6836630585906,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Belgium,1,2024,430.8936,1194.9975513796267,1625.8911513796265,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Poland,1,2024,388.8552000000001,1068.7027257685756,1457.5579257685758,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,India,1,2024,372.03984,986.1425485303654,1358.1823885303654,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Indonesia,1,2024,338.40912000000003,1005.5575053303655,1343.9666253303656,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,South Korea,1,2024,395.16096,1049.0970561352601,1444.25801613526,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,China,1,2024,384.65136000000007,1021.5880290322783,1406.2393890322783,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,United Arab Emirates,1,2024,401.46672000000007,993.5715957647166,1395.0383157647166,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,United States,1,2024,420.384,1060.6571873163148,1481.0411873163148,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Turkey,1,2024,384.65136000000007,957.933313596436,1342.584673596436,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Australia,1,2024,430.8936,1030.507174142518,1461.400774142518,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Malaysia,1,2024,367.83600000000007,929.735732166853,1297.571732166853,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Canada,1,2024,428.79168000000004,1037.2300118631006,1466.0216918631006,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Mexico,1,2024,369.93792,907.9180121099508,1277.8559321099508,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Thailand,1,2024,374.14176000000003,911.7707662866243,1285.9125262866244,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Russia,1,2024,397.26288000000005,911.1302264933163,1308.3931064933163,1.7106951696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,solar,BG_H_solar_E,Saudi Arabia,1,2024,401.46672000000007,920.5798616025332,1322.0465816025333,1.7106951696150576,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,South Africa,1,2024,367.6456522867535,9221.805289851134,9589.450942137888,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Taiwan,1,2024,361.74759369391785,8878.787309832298,9240.534903526215,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Switzerland,1,2024,434.49031633889047,8961.83013406056,9396.32045039945,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Singapore,1,2024,363.71361322486314,8771.94218915907,9135.655802383933,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Hungary,1,2024,353.88351557013704,7396.997949552774,7750.881465122911,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Philippines,1,2024,351.91749603919186,7276.5664414161365,7628.4839374553285,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Netherlands,1,2024,403.03400384376715,7254.752652030553,7657.78665587432,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Norway,1,2024,446.2864335245617,7260.731474226681,7707.017907751242,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Oman,1,2024,375.5097304105343,7273.594121015125,7649.10385142566,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Italy,1,2024,377.4757499414795,7021.3703893902,7398.846139331679,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Austria,1,2024,408.93206243660285,6715.058094008322,7123.990156444925,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Finland,1,2024,424.6602186841645,6307.469647393461,6732.129866077626,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Portugal,1,2024,357.81555463202744,6162.431356316276,6520.246910948304,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Germany,1,2024,405.00002337471244,5537.132986668527,5942.13301004324,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Greece,1,2024,361.7475936939179,5493.3572632946225,5855.104856988541,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,France,1,2024,397.1359452509316,5465.262991723765,5862.398936974696,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Brazil,1,2024,361.74759369391785,5073.862837662919,5435.610431356838,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,United Kingdom,1,2024,418.76216009132884,4605.878395768733,5024.640555860062,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Spain,1,2024,365.67963275580826,4365.18376602738,4730.863398783189,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Sweden,1,2024,432.5242968079453,4403.496009932927,4836.020306740873,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Czech Republic,1,2024,357.81555463202744,4363.293921230765,4721.109475862792,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Japan,1,2024,424.6602186841645,4319.933608251054,4744.593826935218,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Belgium,1,2024,403.03400384376715,4114.873263046497,4517.9072668902645,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Poland,1,2024,363.71361322486314,3943.454106144523,4307.167719369386,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,India,1,2024,347.98545697730145,3575.6879482533905,3923.673405230692,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Indonesia,1,2024,316.52914448217814,3680.915257702441,3997.4444021846193,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,South Korea,1,2024,369.61167181769866,3394.3925862387136,3764.0042580564123,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,China,1,2024,359.7815741629727,2773.5101743631208,3133.291748526093,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,United Arab Emirates,1,2024,375.5097304105343,2652.1661159349214,3027.6758463454557,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,United States,1,2024,393.20390618904116,2170.5675372826295,2563.771443471671,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Turkey,1,2024,359.7815741629727,2158.5371912894775,2518.31876545245,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Australia,1,2024,403.03400384376715,1983.1700192720284,2386.2040231157957,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Malaysia,1,2024,344.053417915411,1772.958336407074,2117.011754322485,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Canada,1,2024,401.067984312822,1407.5444981204953,1808.6124824333174,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Mexico,1,2024,346.0194374463562,1416.6727947933366,1762.6922322396929,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Thailand,1,2024,349.9514765082466,1441.7752045321995,1791.7266810404462,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Russia,1,2024,371.57769134864395,783.3501219260136,1154.9278132746576,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Saudi Arabia,1,2024,375.5097304105343,641.1214454459754,1016.6311758565097,1.294254114632564,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,South Africa,1,2024,393.0590400000001,1214.3745128885766,1607.4335528885767,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Taiwan,1,2024,386.75327999999996,1355.107483966811,1741.860763966811,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Switzerland,1,2024,464.52432000000005,1386.5277463668112,1851.0520663668112,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Singapore,1,2024,388.8552000000001,1278.7186113863925,1667.5738113863927,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Hungary,1,2024,378.34560000000005,1129.9275071573516,1508.2731071573517,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Philippines,1,2024,376.24368000000004,1111.5110393087214,1487.7547193087214,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Netherlands,1,2024,430.8936,1220.0284705401882,1650.922070540188,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Norway,1,2024,477.13584000000003,1272.0765056519638,1749.212345651964,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Oman,1,2024,401.46672000000007,1163.5426281105267,1565.0093481105268,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Italy,1,2024,403.56864,1205.3320274151847,1608.9006674151847,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Austria,1,2024,437.19936,1219.7617293968788,1656.9610893968788,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Finland,1,2024,454.01472000000007,1202.8445290410198,1656.85924904102,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Portugal,1,2024,382.54944,1100.9152635079479,1483.464703507948,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Germany,1,2024,432.99552,1199.8817888640183,1632.8773088640182,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Greece,1,2024,386.75328,1085.2430804583419,1471.9963604583418,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,France,1,2024,424.58784,1168.9241737783439,1593.5120137783438,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Brazil,1,2024,386.75327999999996,1022.6162791322054,1409.3695591322053,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,United Kingdom,1,2024,447.70896,1087.7345429011182,1535.443502901118,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Spain,1,2024,390.95712,1065.619904091972,1456.5770240919721,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Sweden,1,2024,462.42240000000004,1144.7093425027267,1607.1317425027269,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Czech Republic,1,2024,382.54944,1040.0979402063967,1422.6473802063967,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Japan,1,2024,454.01472000000007,1150.4249430585908,1604.439663058591,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Belgium,1,2024,430.8936,1154.0335513796267,1584.9271513796266,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Poland,1,2024,388.8552000000001,1008.1387257685757,1396.9939257685758,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,India,1,2024,372.03984,984.4765485303653,1356.5163885303655,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Indonesia,1,2024,338.40912000000003,1019.2187053303657,1357.6278253303658,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,South Korea,1,2024,395.16096,1048.9990561352602,1444.16001613526,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,China,1,2024,384.65136000000007,1012.1800290322782,1396.8313890322784,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,United Arab Emirates,1,2024,401.46672000000007,1019.7375957647164,1421.2043157647165,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,United States,1,2024,420.384,1042.331187316315,1462.715187316315,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Turkey,1,2024,384.65136000000007,952.641313596436,1337.292673596436,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Australia,1,2024,430.8936,1038.8371741425178,1469.730774142518,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Malaysia,1,2024,367.83600000000007,951.325132166853,1319.1611321668531,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Canada,1,2024,428.79168000000004,981.7620118631006,1410.5536918631005,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Mexico,1,2024,369.93792,890.5720121099508,1260.5099321099508,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Thailand,1,2024,374.14176000000003,933.5855662866243,1307.7273262866242,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Russia,1,2024,397.26288000000005,923.5762264933163,1320.8391064933164,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,BG,n/a,wind,BG_H_wind_E,Saudi Arabia,1,2024,401.46672000000007,929.1058616025333,1330.5725816025333,1.6840391696150576,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,South Africa,1,2024,524.33865,2606.193139132775,3130.531789132775,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Taiwan,1,2024,515.9268000000001,1497.420357535801,2013.3471575358012,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Switzerland,1,2024,619.67295,2896.7652409218013,3516.4381909218014,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Singapore,1,2024,518.7307500000001,4349.797191587847,4868.527941587847,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Hungary,1,2024,504.711,2389.4889640877823,2894.199964087782,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Philippines,1,2024,501.90705,2995.1112595143254,3497.0183095143257,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Netherlands,1,2024,574.80975,2247.0230323162864,2821.8327823162863,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Norway,1,2024,636.49665,2194.4731484782424,2830.9697984782424,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Oman,1,2024,535.55445,2752.378699501064,3287.9331495010642,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Italy,1,2024,538.3584,2671.0610980266724,3209.4194980266725,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Austria,1,2024,583.2216,2461.484091462482,3044.705691462482,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Finland,1,2024,605.6532,2311.460955808935,2917.114155808935,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Portugal,1,2024,510.31890000000004,2709.426051567844,3219.744951567844,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Germany,1,2024,577.6137,2869.626635609153,3447.2403356091527,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Greece,1,2024,515.9268000000001,2438.989699056881,2954.916499056881,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,France,1,2024,566.3979,2595.7287544191468,3162.1266544191467,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Brazil,1,2024,515.9268000000001,1304.4561865413934,1820.3829865413936,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,United Kingdom,1,2024,597.24135,1703.3559250858543,2300.5972750858546,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Spain,1,2024,521.5347,1920.1859549552853,2441.720654955285,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Sweden,1,2024,616.8690000000001,2370.9768390364698,2987.84583903647,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Czech Republic,1,2024,510.31890000000004,2806.693956143396,3317.012856143396,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Japan,1,2024,605.6532,6461.175449969566,7066.828649969566,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Belgium,1,2024,574.80975,2618.1686154339704,3192.9783654339703,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Poland,1,2024,518.7307500000001,2582.366819937577,3101.097569937577,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,India,1,2024,496.29915,2413.115105061782,2909.4142550617817,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Indonesia,1,2024,451.43595,4299.965709401783,4751.401659401783,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,South Korea,1,2024,527.1426,3516.822770106223,4043.965370106223,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,China,1,2024,513.12285,1410.8641981533217,1923.9870481533217,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,United Arab Emirates,1,2024,535.55445,2760.9325291573814,3296.4869791573815,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,United States,1,2024,560.79,2087.64901784613,2648.43901784613,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Turkey,1,2024,513.12285,3991.7407180778528,4504.8635680778525,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Australia,1,2024,574.80975,2288.1943459356676,2863.0040959356675,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Malaysia,1,2024,490.69125,4302.287805415014,4792.979055415014,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Canada,1,2024,572.0058,1970.7224590813216,2542.7282590813215,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Mexico,1,2024,493.4952,2446.344040188034,2939.8392401880337,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Thailand,1,2024,499.10310000000004,3753.134725514645,4252.237825514645,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Russia,1,2024,529.94655,5440.193391241088,5970.139941241087,0.500094400036,hydrogen at standard temperature and pressure
+hydrogen,LTE,n/a,wind,LTE_H_wind_E,Saudi Arabia,1,2024,535.55445,2755.865545644128,3291.419995644128,0.500094400036,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,wind,SMR_H_wind_E,South Africa,1,2024,180.30621555628608,8294.279892515897,8474.586108072182,10.499492773767285,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,wind,SMR_H_wind_E,Taiwan,1,2024,177.41360247249534,8050.059389358358,8227.472991830853,10.499492773767285,hydrogen at standard temperature and pressure
 hydrogen,SMR,n/a,wind,SMR_H_wind_E,Switzerland,1,2024,213.08916383924714,8069.8338294301075,8282.922993269354,10.499492773767285,hydrogen at standard temperature and pressure
@@ -455,117 +569,3 @@ hydrogen,SMRCCS,n/a,wind,SMRCCS_H_wind_E,Mexico,1,2024,426.95789716206906,1603.4
 hydrogen,SMRCCS,n/a,wind,SMRCCS_H_wind_E,Thailand,1,2024,431.8096914480017,1596.1414699439597,2027.9511613919613,1.8676863123384861,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,wind,SMRCCS_H_wind_E,Russia,1,2024,458.494560020631,784.2671611270781,1242.761721147709,1.8676863123384861,hydrogen at standard temperature and pressure
 hydrogen,SMRCCS,n/a,wind,SMRCCS_H_wind_E,Saudi Arabia,1,2024,463.3463543065636,708.4420476002341,1171.7884019067978,1.8676863123384861,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,South Africa,1,2024,367.6456522867535,9221.805289851134,9589.450942137888,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Taiwan,1,2024,361.74759369391785,8878.787309832298,9240.534903526215,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Switzerland,1,2024,434.49031633889047,8961.83013406056,9396.32045039945,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Singapore,1,2024,363.71361322486314,8771.94218915907,9135.655802383933,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Hungary,1,2024,353.88351557013704,7396.997949552774,7750.881465122911,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Philippines,1,2024,351.91749603919186,7276.5664414161365,7628.4839374553285,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Netherlands,1,2024,403.03400384376715,7254.752652030553,7657.78665587432,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Norway,1,2024,446.2864335245617,7260.731474226681,7707.017907751242,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Oman,1,2024,375.5097304105343,7273.594121015125,7649.10385142566,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Italy,1,2024,377.4757499414795,7021.3703893902,7398.846139331679,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Austria,1,2024,408.93206243660285,6715.058094008322,7123.990156444925,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Finland,1,2024,424.6602186841645,6307.469647393461,6732.129866077626,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Portugal,1,2024,357.81555463202744,6162.431356316276,6520.246910948304,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Germany,1,2024,405.00002337471244,5537.132986668527,5942.13301004324,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Greece,1,2024,361.7475936939179,5493.3572632946225,5855.104856988541,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,France,1,2024,397.1359452509316,5465.262991723765,5862.398936974696,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Brazil,1,2024,361.74759369391785,5073.862837662919,5435.610431356838,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,United Kingdom,1,2024,418.76216009132884,4605.878395768733,5024.640555860062,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Spain,1,2024,365.67963275580826,4365.18376602738,4730.863398783189,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Sweden,1,2024,432.5242968079453,4403.496009932927,4836.020306740873,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Czech Republic,1,2024,357.81555463202744,4363.293921230765,4721.109475862792,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Japan,1,2024,424.6602186841645,4319.933608251054,4744.593826935218,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Belgium,1,2024,403.03400384376715,4114.873263046497,4517.9072668902645,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Poland,1,2024,363.71361322486314,3943.454106144523,4307.167719369386,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,India,1,2024,347.98545697730145,3575.6879482533905,3923.673405230692,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Indonesia,1,2024,316.52914448217814,3680.915257702441,3997.4444021846193,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,South Korea,1,2024,369.61167181769866,3394.3925862387136,3764.0042580564123,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,China,1,2024,359.7815741629727,2773.5101743631208,3133.291748526093,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,United Arab Emirates,1,2024,375.5097304105343,2652.1661159349214,3027.6758463454557,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,United States,1,2024,393.20390618904116,2170.5675372826295,2563.771443471671,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Turkey,1,2024,359.7815741629727,2158.5371912894775,2518.31876545245,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Australia,1,2024,403.03400384376715,1983.1700192720284,2386.2040231157957,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Malaysia,1,2024,344.053417915411,1772.958336407074,2117.011754322485,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Canada,1,2024,401.067984312822,1407.5444981204953,1808.6124824333174,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Mexico,1,2024,346.0194374463562,1416.6727947933366,1762.6922322396929,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Thailand,1,2024,349.9514765082466,1441.7752045321995,1791.7266810404462,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Russia,1,2024,371.57769134864395,783.3501219260136,1154.9278132746576,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,ATRCCS,n/a,wind,ATRCCS_H_wind_E,Saudi Arabia,1,2024,375.5097304105343,641.1214454459754,1016.6311758565097,1.294254114632564,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,South Africa,1,2024,524.33865,2606.193139132775,3130.531789132775,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Taiwan,1,2024,515.9268000000001,1497.420357535801,2013.3471575358012,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Switzerland,1,2024,619.67295,2896.7652409218013,3516.4381909218014,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Singapore,1,2024,518.7307500000001,4349.797191587847,4868.527941587847,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Hungary,1,2024,504.711,2389.4889640877823,2894.199964087782,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Philippines,1,2024,501.90705,2995.1112595143254,3497.0183095143257,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Netherlands,1,2024,574.80975,2247.0230323162864,2821.8327823162863,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Norway,1,2024,636.49665,2194.4731484782424,2830.9697984782424,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Oman,1,2024,535.55445,2752.378699501064,3287.9331495010642,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Italy,1,2024,538.3584,2671.0610980266724,3209.4194980266725,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Austria,1,2024,583.2216,2461.484091462482,3044.705691462482,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Finland,1,2024,605.6532,2311.460955808935,2917.114155808935,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Portugal,1,2024,510.31890000000004,2709.426051567844,3219.744951567844,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Germany,1,2024,577.6137,2869.626635609153,3447.2403356091527,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Greece,1,2024,515.9268000000001,2438.989699056881,2954.916499056881,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,France,1,2024,566.3979,2595.7287544191468,3162.1266544191467,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Brazil,1,2024,515.9268000000001,1304.4561865413934,1820.3829865413936,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,United Kingdom,1,2024,597.24135,1703.3559250858543,2300.5972750858546,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Spain,1,2024,521.5347,1920.1859549552853,2441.720654955285,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Sweden,1,2024,616.8690000000001,2370.9768390364698,2987.84583903647,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Czech Republic,1,2024,510.31890000000004,2806.693956143396,3317.012856143396,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Japan,1,2024,605.6532,6461.175449969566,7066.828649969566,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Belgium,1,2024,574.80975,2618.1686154339704,3192.9783654339703,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Poland,1,2024,518.7307500000001,2582.366819937577,3101.097569937577,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,India,1,2024,496.29915,2413.115105061782,2909.4142550617817,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Indonesia,1,2024,451.43595,4299.965709401783,4751.401659401783,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,South Korea,1,2024,527.1426,3516.822770106223,4043.965370106223,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,China,1,2024,513.12285,1410.8641981533217,1923.9870481533217,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,United Arab Emirates,1,2024,535.55445,2760.9325291573814,3296.4869791573815,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,United States,1,2024,560.79,2087.64901784613,2648.43901784613,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Turkey,1,2024,513.12285,3991.7407180778528,4504.8635680778525,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Australia,1,2024,574.80975,2288.1943459356676,2863.0040959356675,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Malaysia,1,2024,490.69125,4302.287805415014,4792.979055415014,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Canada,1,2024,572.0058,1970.7224590813216,2542.7282590813215,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Mexico,1,2024,493.4952,2446.344040188034,2939.8392401880337,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Thailand,1,2024,499.10310000000004,3753.134725514645,4252.237825514645,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Russia,1,2024,529.94655,5440.193391241088,5970.139941241087,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,LTE,n/a,wind,LTE_H_wind_E,Saudi Arabia,1,2024,535.55445,2755.865545644128,3291.419995644128,0.500094400036,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,South Africa,1,2024,393.0590400000001,1214.3745128885766,1607.4335528885767,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Taiwan,1,2024,386.75327999999996,1355.107483966811,1741.860763966811,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Switzerland,1,2024,464.52432000000005,1386.5277463668112,1851.0520663668112,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Singapore,1,2024,388.8552000000001,1278.7186113863925,1667.5738113863927,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Hungary,1,2024,378.34560000000005,1129.9275071573516,1508.2731071573517,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Philippines,1,2024,376.24368000000004,1111.5110393087214,1487.7547193087214,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Netherlands,1,2024,430.8936,1220.0284705401882,1650.922070540188,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Norway,1,2024,477.13584000000003,1272.0765056519638,1749.212345651964,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Oman,1,2024,401.46672000000007,1163.5426281105267,1565.0093481105268,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Italy,1,2024,403.56864,1205.3320274151847,1608.9006674151847,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Austria,1,2024,437.19936,1219.7617293968788,1656.9610893968788,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Finland,1,2024,454.01472000000007,1202.8445290410198,1656.85924904102,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Portugal,1,2024,382.54944,1100.9152635079479,1483.464703507948,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Germany,1,2024,432.99552,1199.8817888640183,1632.8773088640182,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Greece,1,2024,386.75328,1085.2430804583419,1471.9963604583418,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,France,1,2024,424.58784,1168.9241737783439,1593.5120137783438,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Brazil,1,2024,386.75327999999996,1022.6162791322054,1409.3695591322053,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,United Kingdom,1,2024,447.70896,1087.7345429011182,1535.443502901118,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Spain,1,2024,390.95712,1065.619904091972,1456.5770240919721,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Sweden,1,2024,462.42240000000004,1144.7093425027267,1607.1317425027269,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Czech Republic,1,2024,382.54944,1040.0979402063967,1422.6473802063967,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Japan,1,2024,454.01472000000007,1150.4249430585908,1604.439663058591,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Belgium,1,2024,430.8936,1154.0335513796267,1584.9271513796266,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Poland,1,2024,388.8552000000001,1008.1387257685757,1396.9939257685758,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,India,1,2024,372.03984,984.4765485303653,1356.5163885303655,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Indonesia,1,2024,338.40912000000003,1019.2187053303657,1357.6278253303658,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,South Korea,1,2024,395.16096,1048.9990561352602,1444.16001613526,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,China,1,2024,384.65136000000007,1012.1800290322782,1396.8313890322784,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,United Arab Emirates,1,2024,401.46672000000007,1019.7375957647164,1421.2043157647165,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,United States,1,2024,420.384,1042.331187316315,1462.715187316315,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Turkey,1,2024,384.65136000000007,952.641313596436,1337.292673596436,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Australia,1,2024,430.8936,1038.8371741425178,1469.730774142518,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Malaysia,1,2024,367.83600000000007,951.325132166853,1319.1611321668531,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Canada,1,2024,428.79168000000004,981.7620118631006,1410.5536918631005,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Mexico,1,2024,369.93792,890.5720121099508,1260.5099321099508,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Thailand,1,2024,374.14176000000003,933.5855662866243,1307.7273262866242,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Russia,1,2024,397.26288000000005,923.5762264933163,1320.8391064933164,1.6840391696150576,hydrogen at standard temperature and pressure
-hydrogen,BG,n/a,wind,BG_H_wind_E,Saudi Arabia,1,2024,401.46672000000007,929.1058616025333,1330.5725816025333,1.6840391696150576,hydrogen at standard temperature and pressure

@@ -1067,9 +1067,58 @@ def calculate_resource_demands_FTdiesel(H_pathway, C_pathway):
     CO2_demand += H2_CO2_demand * H2_demand
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
+    
+def get_electricity_inputs(E_pathway, row):
+    if E_pathway == "n/a":
+        return 0.0, 0.0  # Fossil pathways
+    elif E_pathway == "grid":
+        return row["Grid Electricity price [2024$/kWh]"], row["Grid Electricity Emissions [kgCO2e/kWh]"]
+    elif E_pathway == "solar":
+        return row["Solar Electricity Price [2024$/kWh]"], row["Solar Electricity Emissions [kgCO2e/kWh]"]
+    elif E_pathway == "wind":
+        return row["Wind Onshore Electricity Price [2024$/kWh]"], row["Wind Onshore Electricity Emissions [kgCO2e/kWh]"]
+    elif E_pathway == "nuke":
+        return row["Nuclear Electricity Price [2024$/kWh]"], row["Nuclear Electricity Emissions [kgCO2e/kWh]"]
+    else:
+        raise ValueError(f"Unknown electricity source: {E_pathway}")
+        
+def generate_fuel_pathways(fuel, fuel_content_map, Esources, Hsources, Csources):
+    if "fossil" in fuel_content_map[fuel]:
+        return ["fossil"], ["n/a"], ["n/a"], ["n/a"]
 
+    if "C" in fuel_content_map[fuel]:  # if fuel contains carbon
+        fuel_pathways_noelec = []
+        H_pathways_noelec = []
+        C_pathways_noelec = []
 
-# end of section added by Grace for 10/18
+        for Csource in Csources:
+            for Hsource in Hsources:
+                if Hsource == Csource:
+                    H_pathways_noelec.append(Hsource)
+                    C_pathways_noelec.append(Csource)
+                    fuel_pathways_noelec.append(f"{Hsource}_H_C")
+                elif ((Hsource == "SMR") and (Csource in ["SMRCCS", "ATRCCS"])) \
+                    or ((Hsource != "SMR") and (Csource == "SMR")) \
+                    or ((Hsource != "BG") and (Csource == "BG")):
+                    continue
+                else:
+                    H_pathways_noelec.append(Hsource)
+                    C_pathways_noelec.append(Csource)
+                    fuel_pathways_noelec.append(f"{Hsource}_H_{Csource}_C")
+    else:  # no carbon
+        fuel_pathways_noelec = [f"{H}_H" for H in Hsources]
+        H_pathways_noelec = Hsources.copy()
+        C_pathways_noelec = ["n/a"] * len(Hsources)
+
+    fuel_pathways, H_pathways, C_pathways, E_pathways = [], [], [], []
+    for E in Esources:
+        fuel_pathways += [f"{fp}_E" if "_E" not in fp else fp for fp in fuel_pathways_noelec]
+        H_pathways += H_pathways_noelec
+        C_pathways += C_pathways_noelec
+        E_pathways += [E] * len(fuel_pathways_noelec)
+
+    return fuel_pathways, H_pathways, C_pathways, E_pathways
+
 
 def main():
     input_dir = f"{top_dir}/input_fuel_pathway_data/"
@@ -1083,21 +1132,31 @@ def main():
     pathway_df = pd.read_csv(input_dir + 'fuel_pathway_options.csv')
 
     # Populate the arrays using the columns
-    fuels = pathway_df['WTG fuels'].dropna().tolist()
-    fuel_contents = pathway_df['fuel contents'].dropna().tolist()
+    fuels_and_contents = pathway_df[['WTG fuels', 'fuel contents']].dropna()
+    fuels = fuels_and_contents['WTG fuels'].tolist()
+    fuel_content_map = dict(zip(fuels_and_contents['WTG fuels'], fuels_and_contents['fuel contents']))
     processes = pathway_df['GTT processes'].dropna().tolist()
-    Esources = pathway_df['electricity sources'].dropna().tolist()
-    Hsources = pathway_df['hydrogen sources'].dropna().tolist()
-    Csources = pathway_df['carbon sources'].dropna().tolist()
+    
+    def get_unique_sources(column):
+        return sorted(set(
+            source.strip()
+            for sources in pathway_df[column].dropna()
+            for source in str(sources).split(",")
+            if source.strip()
+        ))
+    
+    Esources = get_unique_sources('electricity sources')
+    Hsources = get_unique_sources('hydrogen sources')
+    Csources = get_unique_sources('carbon sources')
     # Well to Gate fuel production
     for fuel in fuels:
-        if "fossil" in fuel_contents[fuels.index(fuel)]:
+        if "fossil" in fuel_content_map[fuel]:
             fuel_pathways=["fossil"]
             H_pathways = ["n/a"]
             C_pathways = ["n/a"]
             E_pathways = ["n/a"]
         else:
-            if "C" in fuel_contents[fuels.index(fuel)]: # if fuel contains carbon
+            if "C" in fuel_content_map[fuel]: # if fuel contains carbon
                 fuel_pathways_noelec = []
                 H_pathways_noelec = []
                 C_pathways_noelec = []
@@ -1135,27 +1194,20 @@ def main():
         output_resource_data = []
 
         # Iterate through each row in the input data and perform calculations
-
-        # First, handle fossil production pathway
-
-        for row_index, row in input_df.iterrows():
-            region,instal_factor_low,instal_factor_high,src,water_price,src,NG_price,src,NG_fugitive_emissions,src,LCB_price,src,LCB_upstream_emissions,src,grid_price,src,grid_emissions_intensity,src,solar_price,src,solar_emissions_intensity,src,wind_price,src,wind_emissions_intensity,src,nuke_price,src,nuke_emissions_intensity,src,hourly_labor_rate,src = row
-
-            # Calculate the average installation factor
-            instal_factor = (instal_factor_low + instal_factor_high) / 2
-
-            if fuel == "ng":
-                CapEx, OpEx, emissions = calculate_production_costs_emissions_NG(water_price, NG_price,elect_price,elect_emissions_intensity)
-                comment = "natural gas at standard temperature and pressure"
-            elif fuel == "lng":
-                CapEx, OpEx, emissions = calculate_production_costs_emissions_liquid_NG(instal_factor,water_price,NG_price,elect_price,elect_emissions_intensity)
-                comment = "liquid natural gas at atmospheric pressure"
-
-        # Next, iterate through the non-fossil production pathways
         for fuel_pathway in fuel_pathways:
             pathway_index = fuel_pathways.index(fuel_pathway)
             H_pathway = H_pathways[pathway_index]
             C_pathway = C_pathways[pathway_index]
+
+            if fuel == "ng":
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = generic_demands("NG")
+                comment = "natural gas at standard temperature and pressure"
+            elif fuel == "lng":
+                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = generic_demands("NG")
+                elect_demand += CTX["derived"]["NG_liq_elect_demand"]
+                NG_demand    += CTX["derived"]["NG_liq_NG_demand_GJ"]
+                water_demand += CTX["derived"]["NG_liq_water_demand"]
+                comment = "liquid natural gas at atmospheric pressure"
 
             if fuel == "hydrogen":
                 elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = generic_demands(H_pathway)
@@ -1271,7 +1323,12 @@ def main():
 
 
     # Gate to Pump Processes
-    processes = ["hydrogen_liquefaction", "hydrogen_compression", "hydrogen_to_ammonia_conversion", "ng_liquefaction"]
+    processes = sorted(set(
+        proc.strip()
+        for procs in pathway_df['GTT processes'].dropna()
+        for proc in str(procs).split(",")
+        if proc.strip()
+    ))
 
     for process in processes:
         if process == "ng_liquefaction":
