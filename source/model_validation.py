@@ -2,16 +2,17 @@
 Date: July 1, 2024
 Purpose: Model validations to compare NavigaTE fleet model inputs and outputs with other sources
 """
+
 # get_top_dir used for file organization
 # pandas as pd used to organize data in table format
-from common_tools import get_top_dir
-import parse
 import pandas as pd
+import parse
+from common_tools import get_top_dir
 
 # twenty-foot equivalent unit (cargo capacity)
 TONNES_PER_TEU = 14  # Average tons of cargo in one TEU. Obtained from https://www.mpc-container.com/about-us/industry-terms/
 
-#conversion units
+# conversion units
 MJ_PER_GJ = 1000
 KG_PER_TONNE = 1000
 G_PER_KG = 1000
@@ -24,7 +25,7 @@ top_dir = get_top_dir()
 fuel_info_df = pd.read_csv(f"{top_dir}/info_files/fuel_info.csv").set_index("Fuel")
 HFO_LHV = fuel_info_df.loc["lsfo", "Lower Heating Value (MJ / kg)"]
 
-#vessels dictionary holds different container types:
+# vessels dictionary holds different container types:
 vessels = {
     "bulk": [
         "bulk_carrier_capesize_ice",
@@ -41,7 +42,7 @@ vessels = {
 }
 
 # maps the names for the vessel models to specific strings to be understandable to readers
-#capesize: largest dry cargo ships
+# capesize: largest dry cargo ships
 vessel_size_title = {
     "bulk_carrier_capesize_ice": "Capesize",
     "bulk_carrier_handy_ice": "Handy",
@@ -76,9 +77,15 @@ fuel_components = {
 }
 
 # Number of vessels of each type (from IMO 4th GHG study, Table 7)
-vessel_numbers_imo = {"bulk": 11672, "container": 5182, "tanker": 13862, "gas_carrier": 1953}
+vessel_numbers_imo = {
+    "bulk": 11672,
+    "container": 5182,
+    "tanker": 13862,
+    "gas_carrier": 1953,
+}
 
-#parameters: file name and lsfo fuel (Low Sulphur Fuel Oil heavy fuel oils)
+
+# parameters: file name and lsfo fuel (Low Sulphur Fuel Oil heavy fuel oils)
 def read_results(filename, fuel="lsfo"):
     columns = [
         "Vessel",
@@ -96,9 +103,9 @@ def read_results(filename, fuel="lsfo"):
         "Miles / year",
         "Cargo tonne-miles / year",
     ]
-# sets up predetermined columns
+    # sets up predetermined columns
     all_results_df = pd.DataFrame(columns=columns)
-# use different sets of columns for the different fuels
+    # use different sets of columns for the different fuels
     if fuel == "lsfo":
         results_df_columns = [
             "Date",
@@ -130,10 +137,10 @@ def read_results(filename, fuel="lsfo"):
             f"ConsumedEnergy_{fuel}",
             "ConsumedEnergy_lsfo",
         ]
-# reads excel that's named "Vessels"
+    # reads excel that's named "Vessels"
     results = pd.ExcelFile(filename)
     results_df = pd.read_excel(results, "Vessels")
-# iterates over each vessel type
+    # iterates over each vessel type
     for vessel_type in vessels:
         # iterates over each vessel in the vessel type
         for vessel in vessels[vessel_type]:
@@ -143,7 +150,7 @@ def read_results(filename, fuel="lsfo"):
             )
             results_df_vessel.columns = results_df_columns
             results_df_vessel = results_df_vessel.set_index("Date")
-            #extracts info from the excel sheet
+            # extracts info from the excel sheet
             results_dict["Vessel"] = f"{vessel}_{fuel}"
             results_dict["Fuel"] = fuel
             results_dict["WTT Emissions (tonnes CO2 / year)"] = results_df_vessel[
@@ -164,7 +171,7 @@ def read_results(filename, fuel="lsfo"):
             results_dict["Other OPEX (USD / year)"] = results_df_vessel[
                 "TotalExcludingFuelOPEX"
             ].loc["2024-01-01"]
-            # calculates total cost per year (capital expenditures + operating expenditures of fuel + OPEX non fuel) 
+            # calculates total cost per year (capital expenditures + operating expenditures of fuel + OPEX non fuel)
             results_dict["Total Cost (USD / year)"] = (
                 results_df_vessel["TotalCAPEX"].loc["2024-01-01"]
                 + results_df_vessel["TotalFuelOPEX"].loc["2024-01-01"]
@@ -218,10 +225,16 @@ def energy_to_fuel_consumption_lsfo(energy_consumption_GJ):
     fuel_consumption_thou_tonnes = fuel_consumption_kg / (KG_PER_TONNE * 1000)
     return fuel_consumption_thou_tonnes
 
+
 # Compare annual fuel consumption evaluated for each vessel type between NavigaTE and IMO
 def compare_fuel_consumption(all_results_df, fuel="lsfo"):
     # Total HFO-equivalent fuel consumption for each vessel type in thousand tonnes (from IMO 4th GHG study, Figure 5)
-    annual_fuel_consumption_imo = {"bulk": 54359, "container": 63906, "tanker": 54495, "gas_carrier": 19965}
+    annual_fuel_consumption_imo = {
+        "bulk": 54359,
+        "container": 63906,
+        "tanker": 54495,
+        "gas_carrier": 19965,
+    }
 
     columns = [
         "Vessel",
@@ -252,8 +265,8 @@ def compare_fuel_consumption(all_results_df, fuel="lsfo"):
                 * vessel_size_number[vessel]
             )
             vessel_type_number_navigate += vessel_size_number[vessel]
-            
-# find percentage difference between the average fuel consumptions of the NavigaTE model and the IMO data
+
+        # find percentage difference between the average fuel consumptions of the NavigaTE model and the IMO data
         fuel_consumption_info["Global perc diff"] = (
             100
             * (
@@ -293,10 +306,20 @@ def compare_fuel_consumption(all_results_df, fuel="lsfo"):
 # Compare annual fuel consumption rate (tonnes / cargo tonne-mile) evaluated for each vessel type between NavigaTE and IMO
 def compare_fuel_consumption_rate(all_results_df, fuel="lsfo"):
     # Total HFO-equivalent fuel consumption for each vessel type in thousand tonnes (from IMO 4th GHG study, Figure 5)
-    annual_fuel_consumption_imo = {"bulk": 54359, "container": 63906, "tanker": 54495, "gas_carrier": 19965}
+    annual_fuel_consumption_imo = {
+        "bulk": 54359,
+        "container": 63906,
+        "tanker": 54495,
+        "gas_carrier": 19965,
+    }
 
     # Annual cargo miles traveled by vessel class in 2018 (million tonne-miles), from IMO 4th GHG report using option 2 (categorizing trips by journey) (Table 69)
-    annual_cargo_miles_imo_opt2 = {"bulk": 26234, "container": 13406, "tanker": 16859, "gas_carrier": 3326}
+    annual_cargo_miles_imo_opt2 = {
+        "bulk": 26234,
+        "container": 13406,
+        "tanker": 16859,
+        "gas_carrier": 3326,
+    }
 
     columns = [
         "Vessel",
@@ -497,13 +520,28 @@ def compare_annual_miles(all_results_df, fuel="lsfo"):
 # Compare annual miles traveled between NavigaTE, UNCTAD and IMO
 def compare_annual_cargo_miles(all_results_df, fuel="lsfo"):
     # Annual cargo miles traveled by vessel class in 2018 (million tonne-miles), from IMO 4th GHG report using option 1 (categorizing trips by vessel) (Table 69)
-    annual_cargo_miles_imo_opt1 = {"bulk": 28464, "container": 15153, "tanker": 18333, "gas_carrier": 3484}
+    annual_cargo_miles_imo_opt1 = {
+        "bulk": 28464,
+        "container": 15153,
+        "tanker": 18333,
+        "gas_carrier": 3484,
+    }
 
     # Annual cargo miles traveled by vessel class in 2018 (million tonne-miles), from IMO 4th GHG report using option 2 (categorizing trips by journey) (Table 69)
-    annual_cargo_miles_imo_opt2 = {"bulk": 26234, "container": 13406, "tanker": 16859, "gas_carrier": 3326}
+    annual_cargo_miles_imo_opt2 = {
+        "bulk": 26234,
+        "container": 13406,
+        "tanker": 16859,
+        "gas_carrier": 3326,
+    }
 
     # Annual cargo miles traveled by vessel class in 2018 (million tonne-miles), from UNCTAD (as reported in Table 69 of IMO 4th GHG report)
-    annual_cargo_miles_unctad = {"bulk": 34193, "container": 9535, "tanker": 14920, "gas_carrier": 1766}
+    annual_cargo_miles_unctad = {
+        "bulk": 34193,
+        "container": 9535,
+        "tanker": 14920,
+        "gas_carrier": 1766,
+    }
 
     columns = [
         "Vessel",
@@ -566,11 +604,12 @@ def compare_annual_cargo_miles(all_results_df, fuel="lsfo"):
         )
 
     return cargo_miles_df
-    
+
+
 def collect_capex_opex_navigate(top_dir):
     """
     Reads in the default CAPEX and OPEX for each vessel from NavigaTE input files as a dataframe. Saves the dataframe as a csv and returns it.
-    
+
     Parameters
     ----------
     top_dir : str
@@ -582,71 +621,107 @@ def collect_capex_opex_navigate(top_dir):
         Dataframe containing the CAPEX and OPEX for each vessel.
     """
     # Initialize a dataframe to contain the CAPEX and OPEX info
-    capex_opex_df = pd.DataFrame(columns = ["Vessel Name", "CAPEX (Million USD)", "OPEX (USD/day)"])
-    
+    capex_opex_df = pd.DataFrame(
+        columns=["Vessel Name", "CAPEX (Million USD)", "OPEX (USD/day)"]
+    )
+
     # Define the parse format for the lines containing the CAPEX and OPEX
     capex_format = "CAPEX = {}"
     opex_format = "OPEX = {}"
-    
+
     # Loop through each vessel type and size
     for vessel_type, vessel_classes in vessels.items():
         for vessel_class in vessel_classes:
-            
             vessel_type_pretty = vessel_type.replace("_", " ").title()
             vessel_class_pretty = vessel_size_title[vessel_class]
             vessel_name_pretty = f"{vessel_type_pretty} ({vessel_class_pretty})"
-        
+
             # Construct the filepath to the vessel .inc file for the given vessel
             filepath = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{vessel_class}_oil.inc"
 
             # Try to open the file and read its content
             try:
-                with open(filepath, 'r') as file:
-                    capex=None
-                    opex=None
+                with open(filepath, "r") as file:
+                    capex = None
+                    opex = None
                     for line in file:
                         # Parse the line using the format string
                         result_capex = parse.parse(capex_format, line.strip())
                         result_opex = parse.parse(opex_format, line.strip())
                         if result_capex:
-                            capex = float(result_capex[0]) / 1e6    # Convert from USD to million USD
+                            capex = (
+                                float(result_capex[0]) / 1e6
+                            )  # Convert from USD to million USD
                         elif result_opex:
-                            opex = float(result_opex[0]) / DAYS_PER_YEAR    # Convert from USD/year to USD/day
-                new_row = {"Vessel Name": vessel_name_pretty, "CAPEX (Million USD)": capex, "OPEX (USD/day)": opex}
+                            opex = (
+                                float(result_opex[0]) / DAYS_PER_YEAR
+                            )  # Convert from USD/year to USD/day
+                new_row = {
+                    "Vessel Name": vessel_name_pretty,
+                    "CAPEX (Million USD)": capex,
+                    "OPEX (USD/day)": opex,
+                }
                 new_row_df = pd.DataFrame([new_row])
-                capex_opex_df = pd.concat([capex_opex_df, new_row_df], ignore_index=True)
-            
+                capex_opex_df = pd.concat(
+                    [capex_opex_df, new_row_df], ignore_index=True
+                )
+
             except FileNotFoundError:
                 print(f"File not found: {filepath}")
-    
+
     # Save the dataframe to csv and return
     capex_opex_df.to_csv("data/NavigaTE_CAPEX_OPEX.csv")
     return capex_opex_df
-    
+
+
 def compare_capex_opex(capex_opex_navigate):
-    capex_opex_public = pd.read_csv("data/public_CAPEX_OPEX.csv", usecols=["Vessel Type", "CAPEX (Million USD)", "OPEX (USD/day)"])
-    
+    capex_opex_public = pd.read_csv(
+        "data/public_CAPEX_OPEX.csv",
+        usecols=["Vessel Type", "CAPEX (Million USD)", "OPEX (USD/day)"],
+    )
+
     # Rename columns to clarify their sources
-    capex_opex_navigate = capex_opex_navigate.rename(columns={"CAPEX (Million USD)": "NavigaTE CAPEX (Million USD)", "OPEX (USD/day)": "NavigaTE OPEX (USD/day)"})
-    capex_opex_public = capex_opex_public.rename(columns={"CAPEX (Million USD)": "Public CAPEX (Million USD)", "OPEX (USD/day)": "Public OPEX (USD/day)"})
-    
+    capex_opex_navigate = capex_opex_navigate.rename(
+        columns={
+            "CAPEX (Million USD)": "NavigaTE CAPEX (Million USD)",
+            "OPEX (USD/day)": "NavigaTE OPEX (USD/day)",
+        }
+    )
+    capex_opex_public = capex_opex_public.rename(
+        columns={
+            "CAPEX (Million USD)": "Public CAPEX (Million USD)",
+            "OPEX (USD/day)": "Public OPEX (USD/day)",
+        }
+    )
+
     print(capex_opex_navigate)
     print(capex_opex_public)
-    
+
     # Perform a left merge to preserve rows in capex_opex_navigate
     merged_df = capex_opex_navigate.merge(
         capex_opex_public,
         left_on="Vessel Name",  # Column in capex_opex_navigate
         right_on="Vessel Type",  # Column in capex_opex_public
-        how="left"
+        how="left",
     )
     merged_df.drop(columns=["Vessel Type"], inplace=True)
-    
-    merged_df["CAPEX Diff (%)"] = 100 * (merged_df["NavigaTE CAPEX (Million USD)"] - merged_df["Public CAPEX (Million USD)"]) / merged_df["Public CAPEX (Million USD)"]
-    merged_df["OPEX Diff (%)"] = 100 * (merged_df["NavigaTE OPEX (USD/day)"] - merged_df["Public OPEX (USD/day)"]) / merged_df["Public OPEX (USD/day)"]
-    
+
+    merged_df["CAPEX Diff (%)"] = (
+        100
+        * (
+            merged_df["NavigaTE CAPEX (Million USD)"]
+            - merged_df["Public CAPEX (Million USD)"]
+        )
+        / merged_df["Public CAPEX (Million USD)"]
+    )
+    merged_df["OPEX Diff (%)"] = (
+        100
+        * (merged_df["NavigaTE OPEX (USD/day)"] - merged_df["Public OPEX (USD/day)"])
+        / merged_df["Public OPEX (USD/day)"]
+    )
+
     return merged_df
-            
+
 
 def main():
     top_dir = get_top_dir()
@@ -669,10 +744,11 @@ def main():
 
     ttw_emission_rate_df = compare_ttw_emissions(all_results_df)
     print(ttw_emission_rate_df)
-    
+
     capex_opex_df = collect_capex_opex_navigate(top_dir)
 
     capex_opex_comparison_df = compare_capex_opex(capex_opex_df)
     print(capex_opex_comparison_df)
+
 
 main()
