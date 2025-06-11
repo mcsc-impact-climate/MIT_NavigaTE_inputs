@@ -342,10 +342,10 @@ class FuelWTG:
             stage_data_df.rename(columns={"Emissions [kg CO2e / kg fuel]": f"{stage}: Emissions"}, inplace=True)
             
             # Account values from per tonne of H2 to per tonne of ammonia in the case of hydrogen production for ammonia
-            if stage == "Hydrogen Production" and self.fuel == "ammonia":
-                stage_data_df["Hydrogen Production: CapEx"] = stage_data_df["Hydrogen Production: CapEx"] * H2_PER_NH3
-                stage_data_df["Hydrogen Production: OpEx"] = stage_data_df["Hydrogen Production: OpEx"] * H2_PER_NH3
-                stage_data_df["Hydrogen Production: Emissions"] = stage_data_df["Hydrogen Production: Emissions"] * H2_PER_NH3
+            if stage == "H Production" and self.fuel == "ammonia":
+                stage_data_df["H Production: CapEx"] = stage_data_df["H Production: CapEx"] * H2_PER_NH3
+                stage_data_df["H Production: OpEx"] = stage_data_df["H Production: OpEx"] * H2_PER_NH3
+                stage_data_df["H Production: Emissions"] = stage_data_df["H Production: Emissions"] * H2_PER_NH3
         
             return stage_data_df
         
@@ -391,7 +391,7 @@ class FuelWTG:
             raise ValueError("Error: supplied quantity must be either 'cost' or 'emissions'")
 
         num_pathways = len(self.pathways)
-        fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
+        fig_height = max(6, num_pathways * 0.7)  # Adjust this factor as needed
 
         fig, ax = plt.subplots(figsize=(20, fig_height))
 
@@ -541,6 +541,7 @@ class FuelWTG:
                 bbox_to_anchor=(1.01, 0.75),
                 loc="upper left",
                 borderaxespad=0.0,
+                frameon=False
             )
 
             ax.add_artist(legend1)
@@ -554,6 +555,7 @@ class FuelWTG:
                 bbox_to_anchor=(1.01, 0.25),
                 loc="center left",
                 borderaxespad=0.0,
+                frameon=False
             )
 
             ax.add_artist(legend2)
@@ -570,6 +572,7 @@ class FuelWTG:
                 bbox_to_anchor=(1.01, 0.445),
                 loc="center left",
                 borderaxespad=0.0,
+                frameon=False
             )
             ax.add_artist(legend3)
 
