@@ -524,7 +524,7 @@
     }
   },
   "H2_BG": {
-    "elec_demand": {
+    "elect_demand": {
       "value": 0.98,
       "units": "kWh elect/kg H2",
       "source": "H2A",
@@ -612,7 +612,7 @@
       "units": "2024$ / kg H2",
       "source": "HDSAM"
     },
-    "elec_demand": {
+    "elect_demand": {
       "value": 8.0,
       "units": "kWh elect / kg H2",
       "source": "HDSAM"
@@ -624,7 +624,7 @@
       "units": "2024$ / kg H2",
       "source": "HDSAM"
     },
-    "elec_demand": {
+    "elect_demand": {
       "value": 3.0,
       "units": "kWh elect / kg H2",
       "source": "HDSAM"

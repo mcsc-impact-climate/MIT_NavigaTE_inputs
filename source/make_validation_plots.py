@@ -4,26 +4,37 @@ Author: danikam
 Purpose: Makes validation plots for csv files produced by make_output_csvs.py
 """
 
-from common_tools import get_top_dir, generate_blue_shades, get_pathway_type, get_pathway_type_color, get_pathway_type_label, get_pathway_label, read_pathway_labels, read_fuel_labels, get_fuel_label, create_directory_if_not_exists
-import pandas as pd
-import matplotlib.pyplot as plt
+import os
+import re
+
+import geopandas as gpd
+import ipdb
 import matplotlib
 import matplotlib.colors as mcolors
-import re
-import os
-import geopandas as gpd
+import matplotlib.pyplot as plt
 import numpy as np
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-# GE - 3/23/25
-from matplotlib.colors import LogNorm
-from fuzzywuzzy import process
+import pandas as pd
 import pycountry
 import pycountry_convert as pc
 import seaborn as sns
+from common_tools import (
+    create_directory_if_not_exists,
+    generate_blue_shades,
+    get_fuel_label,
+    get_pathway_label,
+    get_pathway_type,
+    get_pathway_type_color,
+    get_pathway_type_label,
+    get_top_dir,
+    read_fuel_labels,
+    read_pathway_labels,
+)
+from fuzzywuzzy import process
+
+# GE - 3/23/25
+from matplotlib.colors import LogNorm
 from matplotlib.ticker import ScalarFormatter
-
-import ipdb
-
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 from parse import parse
 
 matplotlib.rc("xtick", labelsize=18)
@@ -93,6 +104,7 @@ fuel_labels_df = read_fuel_labels()
 
 # Global dataframe with labels for each fuel production pathway
 pathway_labels_df = read_pathway_labels()
+
 
 def read_quantity_info(top_dir):
     """
@@ -323,6 +335,7 @@ def add_west_australia(world):
 
     return world_with_west_australia
 
+
 def get_custom_tab20_without_blue():
     # Define the tab20 colormap
     tab20 = plt.get_cmap("tab20")
@@ -348,6 +361,7 @@ def get_custom_tab20_without_blue():
     ]
 
     return mcolors.ListedColormap(custom_colors)
+
 
 def assign_colors_to_strings(strings):
     """
@@ -414,7 +428,7 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
     base_units = quantity_info_df.loc[quantity, "Units"]
     if pd.isna(base_units):
         return None
-    
+
     else:
         # Modify the denominator if needed based on the modifier
         modifier_denom_dict = {
@@ -442,20 +456,25 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
 
         return units
 
+
 # DME: Creating new ProcessedResource class to contain functions relating to resource availability and demand
 class ProcessedResource:
     """
     A class to contain results and functions for resource availability and demand
     """
-    
-    def __init__(
-        self, resource
-    ):
+
+    def __init__(self, resource):
         self.resource = resource
-        self.resource_excel = self.read_resource_excel(resource)    # DME: Run read_resource_excel once to create class variable for df read from excel file
-    
+        self.resource_excel = self.read_resource_excel(
+            resource
+        )  # DME: Run read_resource_excel once to create class variable for df read from excel file
+
     # GE - 3/19/2025 - read in data from excel sheet
-    def read_resource_excel(self, resource_name, file_path=f"{top_dir}/data/NationalResourceAvailabilityData.xlsx"):
+    def read_resource_excel(
+        self,
+        resource_name,
+        file_path=f"{top_dir}/data/NationalResourceAvailabilityData.xlsx",
+    ):
         """
         Reads the first four columns of data from the sheet with given name in the given Excel file.
 
@@ -463,17 +482,22 @@ class ProcessedResource:
         -----------
         filepath : str
             Path to the Excel file.
-            
+
         resource_name : str
             Name of the sheet to read (e.g., 'Water', 'Carbon Dioxide', 'Natural Gas', 'Electricity').
-        
+
 
         Returns:
         --------
         DataFrame containing only the first four columns of the excel sheet.
         """
-        return pd.read_excel(file_path, sheet_name = resource_name, usecols=["Country", "Average", "Standard Deviation", "Ratio of SD:Average"], index_col="Country")
-        
+        return pd.read_excel(
+            file_path,
+            sheet_name=resource_name,
+            usecols=["Country", "Average", "Standard Deviation", "Ratio of SD:Average"],
+            index_col="Country",
+        )
+
     # GE - 3/19/2025 - plot relative resource availability by country on a map
     def plot_resource_availability_map(self, resource_type):
         """
@@ -489,16 +513,20 @@ class ProcessedResource:
         None
         """
         # Make data frame containing data from resource availability spreadsheet for the desired resource type
-        resource_df = self.resource_excel   # DME: Read from class variable instead of calling read_resource_excel
+        resource_df = (
+            self.resource_excel
+        )  # DME: Read from class variable instead of calling read_resource_excel
         # smaller data frame only containing the country names and the average resource availabilities
         resource_avg_df = resource_df.iloc[:, [0]]
-        
+
         # Load world map
         url = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
         world = gpd.read_file(url)
 
         # Merge world map with resource data
-        merged = world.merge(resource_avg_df, left_on="NAME", right_index=True, how="left")
+        merged = world.merge(
+            resource_avg_df, left_on="NAME", right_index=True, how="left"
+        )
 
         # Plot
         fig, ax = plt.subplots(figsize=(12, 8))
@@ -509,47 +537,56 @@ class ProcessedResource:
         # Compute vmin and vmax while ignoring NaNs and zeros
         vmin = np.nanmin(valid_values)  # Ignores NaNs and zeros
         vmax = np.nanmax(valid_values)  # Ignores NaNs and zeros
-        
+
         # Plot countries with valid data
         merged_valid = merged.dropna(subset=["Average"]).copy()
         merged_valid = merged_valid[merged_valid["Average"] > 0]
         merged_valid.plot(
-            column="Average", cmap="coolwarm", linewidth=0.8, ax=ax, edgecolor="black",
-            legend=True, norm=LogNorm(vmin=vmin, vmax=vmax)
+            column="Average",
+            cmap="coolwarm",
+            linewidth=0.8,
+            ax=ax,
+            edgecolor="black",
+            legend=True,
+            norm=LogNorm(vmin=vmin, vmax=vmax),
         )
 
         # Plot countries with missing data using hatch
         merged_na = merged[merged["Average"].isna()]
-        merged_na.plot(ax=ax, facecolor='none', edgecolor='black', hatch='///', linewidth=0.5)
+        merged_na.plot(
+            ax=ax, facecolor="none", edgecolor="black", hatch="///", linewidth=0.5
+        )
         ax.set_title(f"{resource_type} Availability by Country", fontsize=16)
         ax.set_axis_off()
-        
+
         unit_labels = {
             "Natural Gas": "Billion Cubic Meters",
             "Carbon Dioxide": "Megatons",
             "Water": "Cubic Meters",
-            "Electricity": "TWh"
+            "Electricity": "TWh",
         }
         legend_label = unit_labels.get(resource_type)
-        
 
         # Find the color bar and modify its label
-        cbar = ax.get_figure().get_axes()[-1]  # Get last axis (which should be the color bar)
+        cbar = ax.get_figure().get_axes()[
+            -1
+        ]  # Get last axis (which should be the color bar)
         cbar.set_ylabel(f"Log-normal Distribution", fontsize=12)
-        
+
         if resource_type == "Natural Gas":
             resource_type_short = "NG"
         elif resource_type == "Carbon Dioxide":
             resource_type_short = "CO2"
         else:
             resource_type_short = resource_type
-        
-        create_directory_if_not_exists(f"{top_dir}/plots/availability_maps")     # DME: Create the availability-maps directory if it doesn't exist
+
+        create_directory_if_not_exists(
+            f"{top_dir}/plots/availability_maps"
+        )  # DME: Create the availability-maps directory if it doesn't exist
         filepath_save = f"{top_dir}/plots/availability_maps/{resource_type_short}-AvailabilityMap.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
-        
-        
+
     # GE - 3/23/2025 - plot SD:average ratio by country on a map
     def plot_SD_ratio_map(self, resource_type):
         """
@@ -565,16 +602,20 @@ class ProcessedResource:
         None
         """
         # Make data frame containing data from resource availability spreadsheet for the desired resource type
-        resource_df = self.resource_excel   # DME: Read from class variable instead of calling read_resource_excel
+        resource_df = (
+            self.resource_excel
+        )  # DME: Read from class variable instead of calling read_resource_excel
         # smaller data frame only containing the country names and the SD:ratio
         resource_ratio_df = resource_df.iloc[:, [2]]
-        
+
         # Load world map
         url = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
         world = gpd.read_file(url)
 
         # Merge world map with resource data
-        merged = world.merge(resource_ratio_df, left_on="NAME", right_index=True, how="left")
+        merged = world.merge(
+            resource_ratio_df, left_on="NAME", right_index=True, how="left"
+        )
 
         # Plot
         fig, ax = plt.subplots(figsize=(12, 8))
@@ -585,9 +626,20 @@ class ProcessedResource:
         # Compute vmin and vmax while ignoring NaNs and zeros
         vmin = np.nanmin(valid_values)  # Ignores NaNs and zeros
         vmax = np.nanmax(valid_values)  # Ignores NaNs and zeros
-        
-        merged.plot(column= "Ratio of SD:Average", cmap="coolwarm", linewidth=0.8, ax=ax, edgecolor="black", legend=True, norm=LogNorm(vmin=vmin, vmax=vmax))
-        ax.set_title(f"{resource_type} Standard Deviation to Average Availability Ratio by Country", fontsize=16)
+
+        merged.plot(
+            column="Ratio of SD:Average",
+            cmap="coolwarm",
+            linewidth=0.8,
+            ax=ax,
+            edgecolor="black",
+            legend=True,
+            norm=LogNorm(vmin=vmin, vmax=vmax),
+        )
+        ax.set_title(
+            f"{resource_type} Standard Deviation to Average Availability Ratio by Country",
+            fontsize=16,
+        )
         ax.set_axis_off()
 
         if resource_type == "Natural Gas":
@@ -597,12 +649,13 @@ class ProcessedResource:
         else:
             resource_type_short = resource_type
 
-        create_directory_if_not_exists(f"{top_dir}/plots/availability_maps")     # DME: Create the availability-maps directory if it doesn't exist
+        create_directory_if_not_exists(
+            f"{top_dir}/plots/availability_maps"
+        )  # DME: Create the availability-maps directory if it doesn't exist
         filepath_save = f"{top_dir}/plots/availability_maps/{resource_type_short}-SDAvailabilityMap.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
-        
-        
+
     # GE - 3/23/25 - Function to get continent based on country using fuzzy matching
     def get_continent(self, country_name, country_list):
         """
@@ -612,7 +665,7 @@ class ProcessedResource:
         -----------
         country_name : str
             Country name as it appears in the data source.
-            
+
         country_list : list of str
             Country name as it appears in the reference, intended to be pycountry.
 
@@ -624,12 +677,14 @@ class ProcessedResource:
         try:
             # Find the best match for the country name
             best_match = process.extractOne(country_name, country_list)
-            
+
             if best_match:
                 matched_country = best_match[0]
                 country_alpha2 = pc.country_name_to_country_alpha2(matched_country)
                 continent_code = pc.country_alpha2_to_continent_code(country_alpha2)
-                continent_name = pc.convert_continent_code_to_continent_name(continent_code)
+                continent_name = pc.convert_continent_code_to_continent_name(
+                    continent_code
+                )
                 return continent_name
             else:
                 return None
@@ -640,7 +695,7 @@ class ProcessedResource:
     def add_continent_column(self, resource_type):
         """
         Adds column to dataframe containing the continent in which each country is found.
-        
+
         Parameters:
         -----------
         resource_type : str
@@ -653,27 +708,32 @@ class ProcessedResource:
         """
         # List of country names recognized by pycountry
         country_list = [country.name for country in pycountry.countries]
-        
+
         # dataframe from NationalResourceAvailabilityData excel sheet.
-        resource_df = self.resource_excel   # DME: Read from class variable instead of calling read_resource_excel
-    
+        resource_df = (
+            self.resource_excel
+        )  # DME: Read from class variable instead of calling read_resource_excel
+
         # smaller data frame only containing the country names and the average resource availabilities and standard deviation of each country's data
-        resource_avg_df = resource_df.iloc[:, [0,1]]
-        
+        resource_avg_df = resource_df.iloc[:, [0, 1]]
+
         # Apply the get_continent function to create a new 'Continent' column in the dataframe
-        resource_avg_df['Continent'] = resource_avg_df.index.to_series().apply(lambda x: self.get_continent(str(x), country_list) if isinstance(x, str) else None)
-        
+        resource_avg_df["Continent"] = resource_avg_df.index.to_series().apply(
+            lambda x: self.get_continent(str(x), country_list)
+            if isinstance(x, str)
+            else None
+        )
+
         # Remove NaN values from the DataFrame (filter out countries with NaN availability)
-        resource_avg_df = resource_avg_df.dropna(subset=['Continent'])
-        
+        resource_avg_df = resource_avg_df.dropna(subset=["Continent"])
+
         return resource_avg_df
-    
-        
+
     # GE - 3/23/25 - stacked plot to compare continential resource availability to global demand
     def make_stacked_plot_avail_vs_demand(self, resource_type, fuel, pathway_type):
         """
         Makes stacked plot to compare global resource availability (sum of continent-level data) to global demand (averaged over all pathways within a pathway type).
-        
+
         Parameters:
         -----------
         resource_type : str
@@ -688,74 +748,83 @@ class ProcessedResource:
         None
         """
         resource_avg_cont_df = self.add_continent_column(resource_type)
-        
+
         # Aggregate availability per continent
         continent_avail_df = resource_avg_cont_df.groupby("Continent")["Average"].sum()
-        
+
         # Compute global standard deviation
         global_stdev = np.sqrt(np.sum(resource_avg_cont_df["Standard Deviation"] ** 2))
-        
+
         # Set color palette (one color per continent)
-        colors = sns.color_palette("husl", len(continent_avail_df))  # Husl gives distinct colors
-        
+        colors = sns.color_palette(
+            "husl", len(continent_avail_df)
+        )  # Husl gives distinct colors
+
         if resource_type == "Natural Gas":
             resource_type_short = "NG"
         elif resource_type == "Carbon Dioxide":
             resource_type_short = "CO2"
         else:
             resource_type_short = resource_type
-            
+
         # Load pathway info to sort into pathways (blue, grey, etc.)
         pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
-        
+
         # Filter for matching pathway type and fuel
-        matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]["Pathway Name"].tolist()
+        matching_pathways = pathway_info_df[
+            (pathway_info_df["Pathway Type"] == pathway_type)
+        ]["Pathway Name"].tolist()
         if "fossil" in matching_pathways:
             matching_pathways.remove("fossil")
-        
+
         # Get demand data from existing csv for the given pathway type and resource
         global_demands = []
-        
+
         for matching_pathway in matching_pathways:
-            #if "BG" in matching_pathway or "ATR" in matching_pathway or "nuke" in matching_pathway:
+            # if "BG" in matching_pathway or "ATR" in matching_pathway or "nuke" in matching_pathway:
             if "nuke" in matching_pathway:
                 pass
-            elif fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"] and "_C_" in matching_pathway:
+            elif (
+                fuel in ["compressed_hydrogen", "liquid_hydrogen", "ammonia"]
+                and "_C_" in matching_pathway
+            ):
                 pass
             elif fuel in ["methanol", "FTdiesel"] and not "_C_" in matching_pathway:
                 pass
             else:
                 filepath = f"{top_dir}/processed_results/{fuel}-{matching_pathway}-Consumed{resource_type_short}_main-fleet.csv"
-                
+
                 # print(f"Reading: {filepath} for pathway: {matching_pathway}")
-        
+
                 if os.path.exists(filepath):
                     try:
                         result_df = pd.read_csv(filepath)
-                        demand_value = result_df.loc[result_df["Region"] == "Global Average", "fleet"].values[0]
+                        demand_value = result_df.loc[
+                            result_df["Region"] == "Global Average", "fleet"
+                        ].values[0]
                         global_demands.append(demand_value)
                     except Exception as e:
                         print(f"Error reading {filepath}: {e}")
                 else:
                     print(f"File not found: {filepath}")
-        
+
         # remove 0 values for global demand so pathways without data don't affect plot
         global_demands = [x for x in global_demands if x != 0]
-        
+
         # Define unit conversion factors (convert demand to match availability)
         unit_conversions = {
-            "NG": 1e-6 * 1/35.3,  # Convert from GJ to billion cubic meters
+            "NG": 1e-6 * 1 / 35.3,  # Convert from GJ to billion cubic meters
             "CO2": 1e-9,  # Convert from kilograms to megatons
             "Water": 1,  # Convert from cubic meters to cubic meters
             "Electricity": 1e-9,  # Convert from kWh to TWh
         }
-        
+
         # Convert global demand to match availability units
         conversion_factor = unit_conversions.get(resource_type_short)
-        
+
         # seems to be giving only one value or several of the same value...
         # print(global_demands)
-        
+
         # compute statistics
         if global_demands:
             global_demands = [d * conversion_factor for d in global_demands]
@@ -764,94 +833,139 @@ class ProcessedResource:
             max_demand = np.max(global_demands)
         else:
             return
-            
+
         # Set color palette (one color per continent)
-        colors = sns.color_palette("tab10", len(continent_avail_df))  # Husl gives distinct colors
-        
+        colors = sns.color_palette(
+            "tab10", len(continent_avail_df)
+        )  # Husl gives distinct colors
+
         # Create stacked bar plot
         fig, ax1 = plt.subplots(figsize=(8, 6))
 
         # Plot availability (stacked by continent)
         bottom = 0
         for continent, value in continent_avail_df.items():
-            ax1.bar("Availability", value, bottom=bottom, label=continent, color=colors.pop(0))
+            ax1.bar(
+                "Availability",
+                value,
+                bottom=bottom,
+                label=continent,
+                color=colors.pop(0),
+            )
             bottom += value
-        
-        
+
         # Set the y-axis limits based on availability if order of magnitude or more different
         max_availability = continent_avail_df.sum()
-        
+
         if avg_demand != 0 and max_availability > 10 * avg_demand:
             # Create secondary y-axis for demand
             ax2 = ax1.twinx()
-            ax2.bar("Demand", avg_demand, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
-        
+            ax2.bar(
+                "Demand",
+                avg_demand,
+                color="gray",
+                label=f"Global Demand\n({pathway_type})",
+                alpha=1,
+            )
+
             # Scale demand axis for visibility vs. availability
             ax1.set_ylim(0, max_availability * 1.1)
             ax2.set_ylim(0, avg_demand * 3)
-            
+
             # error bar for demand showing max and min values
             lower_error = max(avg_demand - min_demand, 0)
             upper_error = max(max_demand - avg_demand, 0)
 
             asymmetric_error = [[lower_error], [upper_error]]
-            ax2.scatter(x=["Demand"]*len(global_demands), y=global_demands, s=10, color='black')  # DME: Updating from error bar to scatter
+            ax2.scatter(
+                x=["Demand"] * len(global_demands),
+                y=global_demands,
+                s=10,
+                color="black",
+            )  # DME: Updating from error bar to scatter
 
             # Merge legends from both axes
             handles1, labels1 = ax1.get_legend_handles_labels()
             handles2, labels2 = ax2.get_legend_handles_labels()
-            ax1.legend(handles1 + handles2, labels1 + labels2, title="Legend", loc="center left", bbox_to_anchor=(1.3, 0.75))
+            ax1.legend(
+                handles1 + handles2,
+                labels1 + labels2,
+                title="Legend",
+                loc="center left",
+                bbox_to_anchor=(1.3, 0.75),
+            )
         else:
             # Create bar for demand
-            ax1.bar("Demand", avg_demand, color="gray", label=f"Global Demand\n({pathway_type})", alpha=1)
+            ax1.bar(
+                "Demand",
+                avg_demand,
+                color="gray",
+                label=f"Global Demand\n({pathway_type})",
+                alpha=1,
+            )
 
-            ax1.scatter(x=["Demand"]*len(global_demands), y=global_demands, s=10, color='black')  # DME: Updating from error bar to scatter
-            
+            ax1.scatter(
+                x=["Demand"] * len(global_demands),
+                y=global_demands,
+                s=10,
+                color="black",
+            )  # DME: Updating from error bar to scatter
+
             # Legend
             handles1, labels1 = ax1.get_legend_handles_labels()
-            ax1.legend(handles1, labels1, title="Legend", loc="center left", bbox_to_anchor=(1.3, 0.75))
-            
-        
+            ax1.legend(
+                handles1,
+                labels1,
+                title="Legend",
+                loc="center left",
+                bbox_to_anchor=(1.3, 0.75),
+            )
+
         # Adjust layout to prevent overlap
         plt.subplots_adjust(right=0.6)  # Moves plot left to create space for the legend
         plt.subplots_adjust(left=0.2)  # Increase left margin space
-        
+
         # add error bars based on standard deviation data
-        ax1.errorbar(x=["Availability"], y=[max_availability], yerr=[global_stdev], fmt='o', color='black', capsize=5, markersize=2)
-        
+        ax1.errorbar(
+            x=["Availability"],
+            y=[max_availability],
+            yerr=[global_stdev],
+            fmt="o",
+            color="black",
+            capsize=5,
+            markersize=2,
+        )
+
         # get y axis units
         # Define unit labels for each resource type
         unit_labels = {
             "NG": "Billion Cubic Meters",
             "CO2": "Megatons",
             "Water": "Cubic Meters",
-            "Electricity": "TWh"
+            "Electricity": "TWh",
         }
         y_axis_label = unit_labels.get(resource_type_short)
-        
 
         # Labels for left-hand axis and title
         plt.title(f"Global {resource_type} Availability vs. Demand")
         ax1.set_ylabel(f"{y_axis_label}")
-        ax1.tick_params(axis='y', labelsize=9)  # Adjust label font size
-        if 'ax2' in locals():  # If a second axis (demand) exists
+        ax1.tick_params(axis="y", labelsize=9)  # Adjust label font size
+        if "ax2" in locals():  # If a second axis (demand) exists
             ax2.set_ylabel(f"{y_axis_label}")
-            ax2.tick_params(axis='y', labelsize=9)  # Adjust label font size
-            
-        
+            ax2.tick_params(axis="y", labelsize=9)  # Adjust label font size
+
         # change y-axis to scientific notation
         ax1.yaxis.set_major_formatter(ScalarFormatter(useMathText=True))
-        ax1.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
-        if 'ax2' in locals():
+        ax1.ticklabel_format(style="sci", axis="y", scilimits=(0, 0))
+        if "ax2" in locals():
             ax2.yaxis.set_major_formatter(ScalarFormatter(useMathText=True))
-            ax2.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
-
+            ax2.ticklabel_format(style="sci", axis="y", scilimits=(0, 0))
 
         # Save plots
         filepath_save = f"{top_dir}/plots/{fuel}/{fuel}-{pathway_type}-{resource_type_short}-StackedAvailDemand.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
-    
+
 
 class ProcessedQuantity:
     """
@@ -903,9 +1017,7 @@ class ProcessedQuantity:
         Plots all stacked histograms for the available vessel types
     """
 
-    def __init__(
-        self, quantity, modifier, fuel, pathway, results_dir=RESULTS_DIR
-    ):
+    def __init__(self, quantity, modifier, fuel, pathway, results_dir=RESULTS_DIR):
         self.quantity = quantity
         self.modifier = modifier
         self.fuel = fuel
@@ -1002,9 +1114,7 @@ class ProcessedQuantity:
 
             # Only stack vessel types if the quantity is expressed for the full fleet with no normalization
             if self.modifier == "fleet":
-                stack_by = [
-                    f"{vessel_type}" for vessel_type in vessel_types
-                ]
+                stack_by = [f"{vessel_type}" for vessel_type in vessel_types]
 
                 result_df_region_av[stack_by].plot(kind="barh", stacked=True, ax=ax)
                 stack_vessel_types = True
@@ -1034,10 +1144,7 @@ class ProcessedQuantity:
             # Update legend labels if plotting stacked vessels
             if stack_vessel_types:
                 handles, labels = ax.get_legend_handles_labels()
-                new_labels = [
-                    vessel_type_title[label]
-                    for label in labels
-                ]
+                new_labels = [vessel_type_title[label] for label in labels]
 
             # Construct the filename to save to
             filename_save = f"{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-hist_by_region_allvessels"
@@ -1057,8 +1164,7 @@ class ProcessedQuantity:
             )
             if self.modifier == "fleet":
                 stack_by = [
-                    f"{vessel_size}"
-                    for vessel_size in vessel_sizes[vessel_type]
+                    f"{vessel_size}" for vessel_size in vessel_sizes[vessel_type]
                 ]
 
                 result_df_region_av[stack_by].plot(kind="barh", stacked=True, ax=ax)
@@ -1089,10 +1195,7 @@ class ProcessedQuantity:
             # Update legend labels if plotting stacked vessel sizes
             if stack_vessel_sizes:
                 handles, labels = ax.get_legend_handles_labels()
-                new_labels = [
-                    vessel_size_title[label]
-                    for label in labels
-                ]
+                new_labels = [vessel_size_title[label] for label in labels]
 
             # Construct the filename to save to
             filename_save = f"{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-hist_by_region_{vessel_type}"
@@ -1212,7 +1315,7 @@ class ProcessedQuantity:
                 * container_ice: container vessel (internal combustion engine)
                 * tanker_ice: tanker vessel (internal combustion engine)
                 * gas_carrier_ice: gas carrier vessel (internal combustion engine)
-                
+
         vessel_size : str
             Size class for the given vessel
 
@@ -1254,14 +1357,14 @@ class ProcessedQuantity:
         world = gpd.read_file(url)
 
         # Add West Australia to the world geojson
-        #world = add_west_australia(world)
+        # world = add_west_australia(world)
 
         # Add a column "NAME" to self.results_df with region names to match the geojson world file, if needed
         self.add_region_names()
 
         # Create a figure and axis with appropriate size
         fig, ax = plt.subplots(1, 1, figsize=(15, 10))
-        
+
         # Merge the result_df with the world geodataframe based on the column "NAME" with region names
         merged = world.merge(self.result_df, on="NAME", how="left")
 
@@ -1295,7 +1398,7 @@ class ProcessedQuantity:
         vessel_type_label = "All"
         if not vessel_type == "all":
             vessel_type_label = vessel_type_title[vessel_type]
-        
+
         vessel_size_label = "All"
         if not vessel_size == "all":
             vessel_size_label = vessel_size_title[vessel_size]
@@ -1347,7 +1450,7 @@ class ProcessedQuantity:
         )
 
         plt.subplots_adjust(left=0.05, right=0.67)
-        #plt.tight_layout()
+        # plt.tight_layout()
 
         # Save the plot
         create_directory_if_not_exists(
@@ -1361,7 +1464,7 @@ class ProcessedQuantity:
         print(f"Saving figure to {filepath_save_pdf}")
         plt.savefig(filepath_save_pdf)
         plt.close()
-    
+
 
 class ProcessedPathway:
     """
@@ -1495,8 +1598,21 @@ class ProcessedPathway:
     def apply_to_all_quantities(
         self,
         method_name,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
-        modifiers=["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig", "per_mile", "vessel", "fleet"],
+        quantities=[
+            "TotalEquivalentWTW",
+            "TotalCost",
+            "CostTimesEmissions",
+            "AverageCostEmissionsRatio",
+        ],
+        modifiers=[
+            "per_tonne_mile",
+            "per_tonne_mile_orig",
+            "per_cbm_mile",
+            "per_cbm_mile_orig",
+            "per_mile",
+            "vessel",
+            "fleet",
+        ],
     ):
         """
         Applies the provided method to instances of the ProcessedQuantity class for all provided quantities and modifiers
@@ -1637,8 +1753,21 @@ class ProcessedPathway:
 
     def make_all_hists_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
-        modifiers=["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig", "per_mile", "vessel", "fleet"],
+        quantities=[
+            "TotalEquivalentWTW",
+            "TotalCost",
+            "CostTimesEmissions",
+            "AverageCostEmissionsRatio",
+        ],
+        modifiers=[
+            "per_tonne_mile",
+            "per_tonne_mile_orig",
+            "per_cbm_mile",
+            "per_cbm_mile_orig",
+            "per_mile",
+            "vessel",
+            "fleet",
+        ],
     ):
         """
         Executes make_all_hists_by_region() in each ProcessedQuantity class instance contained in the ProcessedQuantities dictionary to produce validation hists for the given pathway, for the selected quantities.
@@ -1660,7 +1789,12 @@ class ProcessedPathway:
 
     def map_all_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
+        quantities=[
+            "TotalEquivalentWTW",
+            "TotalCost",
+            "CostTimesEmissions",
+            "AverageCostEmissionsRatio",
+        ],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -1679,7 +1813,7 @@ class ProcessedPathway:
         None
         """
         self.apply_to_all_quantities("map_by_region", quantities, modifiers)
-        
+
 
 class ProcessedFuel:
     """
@@ -1709,10 +1843,8 @@ class ProcessedFuel:
         pathways : list of Dictionaries
             List of unique pathways available for the given fuel, provided as dictionaries containing the pathway name and its associated type.
         """
-        pathways = find_unique_identifiers(
-            self.results_dir, "pathway", f"{self.fuel}"
-        )
-        
+        pathways = find_unique_identifiers(self.results_dir, "pathway", f"{self.fuel}")
+
         return pathways
 
     def get_processed_pathways(self):
@@ -1730,9 +1862,7 @@ class ProcessedFuel:
         """
         ProcessedPathways = {}
         for pathway in self.pathways:
-            ProcessedPathways[pathway] = ProcessedPathway(
-                self.fuel, pathway
-            )
+            ProcessedPathways[pathway] = ProcessedPathway(self.fuel, pathway)
 
         return ProcessedPathways
 
@@ -1773,7 +1903,9 @@ class ProcessedFuel:
             Dictionary containing a list of pathways corresponding to each type
         """
         all_countries = []
-        ProcessedPathways = self.get_processed_pathways()       # DME: Switching to in-place call to get_processed_pathways()
+        ProcessedPathways = (
+            self.get_processed_pathways()
+        )  # DME: Switching to in-place call to get_processed_pathways()
         for pathway in ProcessedPathways:
             processed_quantities = ProcessedPathways[pathway].ProcessedQuantities
             sample_quantity = list(processed_quantities.keys())[0]
@@ -1795,7 +1927,14 @@ class ProcessedFuel:
 
         return all_countries
 
-    def make_stacked_hist(self, quantity, modifier, sub_quantities=[], plot_global=False, exclude_lsfo=False):
+    def make_stacked_hist(
+        self,
+        quantity,
+        modifier,
+        sub_quantities=[],
+        plot_global=False,
+        exclude_lsfo=False,
+    ):
         """
         Makes a histogram of the given quantity with respect to the available fuel production pathways.
         Stacks pathways grouped by color and includes yellow bands to indicate total stacked results.
@@ -1826,12 +1965,11 @@ class ProcessedFuel:
 
         # Sort pathways by their associated color
         sorted_pathways = sorted(
-            self.pathways,
-            key=lambda p: get_pathway_type_color(get_pathway_type(p))
+            self.pathways, key=lambda p: get_pathway_type_color(get_pathway_type(p))
         )
 
         y_positions = np.arange(len(sorted_pathways))  # Assign y-positions
-        
+
         y_labels_list = []
         y_pos_list = []
 
@@ -1871,10 +2009,14 @@ class ProcessedFuel:
                 cumulative_values[pathway_name] = 0
                 cumulative_values_negative[pathway_name] = 0
 
-            region_average_results = pathway.get_region_average_results(sub_quantities, modifier)
+            region_average_results = pathway.get_region_average_results(
+                sub_quantities, modifier
+            )
             all_region_results, _ = pathway.get_all_region_results(quantity, modifier)
-            
-            ProcessedPathways = self.get_processed_pathways() # DME: Switching to in-place call to get_processed_pathways()
+
+            ProcessedPathways = (
+                self.get_processed_pathways()
+            )  # DME: Switching to in-place call to get_processed_pathways()
 
             for i, sub_quantity in enumerate(sub_quantities):
                 value = region_average_results.get(sub_quantity, 0)
@@ -1884,7 +2026,9 @@ class ProcessedFuel:
                         y_pos,
                         value,
                         left=cumulative_values[pathway_name],
-                        label=get_quantity_label(sub_quantity) if i_pathway == 0 else "",
+                        label=get_quantity_label(sub_quantity)
+                        if i_pathway == 0
+                        else "",
                         color=blues[i],
                     )
                     cumulative_values[pathway_name] += value
@@ -1893,7 +2037,9 @@ class ProcessedFuel:
                         y_pos,
                         value,
                         left=cumulative_values_negative[pathway_name],
-                        label=get_quantity_label(sub_quantity) if i_pathway == 0 else "",
+                        label=get_quantity_label(sub_quantity)
+                        if i_pathway == 0
+                        else "",
                         color=blues[i],
                     )
                     cumulative_values_negative[pathway_name] += value
@@ -1920,17 +2066,27 @@ class ProcessedFuel:
                 scatter_labels.append("Individual Countries")
 
             # **Add yellow band showing total stacked value**
-            if cumulative_values_negative[pathway_name]:# or cumulative_values[pathway_name]:
-                total_width = cumulative_values[pathway_name] + cumulative_values_negative[pathway_name]
+            if cumulative_values_negative[
+                pathway_name
+            ]:  # or cumulative_values[pathway_name]:
+                total_width = (
+                    cumulative_values[pathway_name]
+                    + cumulative_values_negative[pathway_name]
+                )
                 bar_height = bar[0].get_height()  # Get the height of the horizontal bar
-                y_center = bar[0].get_y() + bar_height / 2  # Calculate the center of the bar
+                y_center = (
+                    bar[0].get_y() + bar_height / 2
+                )  # Calculate the center of the bar
 
                 ax.plot(
                     [total_width, total_width],  # x coordinates (vertical line)
-                    [y_center - bar_height * 0.4, y_center + bar_height * 0.4],  # y coordinates
-                    color='yellow',
+                    [
+                        y_center - bar_height * 0.4,
+                        y_center + bar_height * 0.4,
+                    ],  # y coordinates
+                    color="yellow",
                     linewidth=5,
-                    label="Sum" if i_pathway == 0 else ""
+                    label="Sum" if i_pathway == 0 else "",
                 )
 
             # Set the y-axis label color to match the pathway type
@@ -1943,7 +2099,9 @@ class ProcessedFuel:
 
         # Loop through pathways and sort by color
         i_pathway = 0
-        for i_pathway, (pathway_name, y_pos) in enumerate(zip(sorted_pathways, y_positions)):
+        for i_pathway, (pathway_name, y_pos) in enumerate(
+            zip(sorted_pathways, y_positions)
+        ):
             pathway = ProcessedPathways[pathway_name]
             pathway_label = get_pathway_label(pathway_name)
             make_bar(pathway, pathway_name, pathway_label, y_pos)
@@ -1956,7 +2114,9 @@ class ProcessedFuel:
             lsfo_ypos = len(y_pos_list)  # next row
             lsfo_pathway = ProcessedPathway("lsfo", "fossil")
             make_bar(lsfo_pathway, "lsfo", "LSFO (fossil)", lsfo_ypos)
-            lsfo_value = lsfo_pathway.get_region_average_results([quantity], modifier)[quantity]
+            lsfo_value = lsfo_pathway.get_region_average_results([quantity], modifier)[
+                quantity
+            ]
             plt.axvline(
                 lsfo_pathway.get_region_average_results([quantity], modifier)[quantity],
                 linewidth=3,
@@ -1965,20 +2125,24 @@ class ProcessedFuel:
             )
             y_labels_list.append("LSFO (fossil)")
             y_pos_list.append(lsfo_ypos)
-            
+
         # Set y-axis labels **after** all bars are plotted
         ax.set_yticks(y_pos_list)
         ticks = ax.set_yticklabels(y_labels_list, fontsize=18)
-        
+
         # Apply colors to y-axis labels
         for idx, label in enumerate(y_labels_list):
-            pathway_name = sorted_pathways[idx] if idx < len(sorted_pathways) else "lsfo"
+            pathway_name = (
+                sorted_pathways[idx] if idx < len(sorted_pathways) else "lsfo"
+            )
             pathway_type = get_pathway_type(pathway_name)
             ticks[idx].set_color(get_pathway_type_color(pathway_type))
             ticks[idx].set_fontweight("bold")
 
         # Add labels and title
-        xlabel = f"{quantity_label} ({quantity_units})" if quantity_units else quantity_label
+        xlabel = (
+            f"{quantity_label} ({quantity_units})" if quantity_units else quantity_label
+        )
         ax.set_xlabel(xlabel, fontsize=20)
         ax.set_title(f"Fuel: {fuel_label}", fontsize=24)
 
@@ -2015,24 +2179,35 @@ class ProcessedFuel:
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
         print(f"Saving figure to {filepath_save}")
         plt.savefig(filepath_save, dpi=200)
-        
+
         filepath_save_pdf = f"{top_dir}/plots/{self.fuel}/{filename_save}.pdf"
         print(f"Saving figure to {filepath_save_pdf}")
         plt.savefig(filepath_save_pdf)
-        
-#        ax.set_xscale("log")
-#        filepath_save_log = f"{top_dir}/plots/{self.fuel}/{filename_save}_logx.png"
-#        print(f"Saving figure to {filepath_save_log}")
-#        plt.savefig(filepath_save_log, dpi=200)
+
+        #        ax.set_xscale("log")
+        #        filepath_save_log = f"{top_dir}/plots/{self.fuel}/{filename_save}_logx.png"
+        #        print(f"Saving figure to {filepath_save_log}")
+        #        plt.savefig(filepath_save_log, dpi=200)
 
         plt.close()
 
-
-
     def make_all_stacked_hists(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
-        modifiers=["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig", "per_mile", "vessel", "fleet"],
+        quantities=[
+            "TotalEquivalentWTW",
+            "TotalCost",
+            "CostTimesEmissions",
+            "AverageCostEmissionsRatio",
+        ],
+        modifiers=[
+            "per_tonne_mile",
+            "per_tonne_mile_orig",
+            "per_cbm_mile",
+            "per_cbm_mile_orig",
+            "per_mile",
+            "vessel",
+            "fleet",
+        ],
     ):
         """
         Plot a stacked histogram for the given quantities and modifiers with respect to the pathway and region.
@@ -2051,7 +2226,9 @@ class ProcessedFuel:
         """
 
         # Handle the situation where the user wants to plot all quantities and/or all modifiers
-        ProcessedPathways = self.get_processed_pathways()   # DME: Switching to in-line call to get_processed_pathways()
+        ProcessedPathways = (
+            self.get_processed_pathways()
+        )  # DME: Switching to in-line call to get_processed_pathways()
         sample_processed_pathway = ProcessedPathways[self.pathways[0]]
         all_avalable_quantities = sample_processed_pathway.quantities
 
@@ -2081,13 +2258,18 @@ class ProcessedFuel:
             for modifier in modifiers:
                 if modifier in all_available_modifiers:
                     self.make_stacked_hist(quantity, modifier, sub_quantities)
-                    
+
     # GE - function to produce histograms of resource demands for each fuel and resource
     # modeled off make_all_stacked_hists()
     def make_all_resource_demands_hists(
         self,
-        quantities=["ConsumedCO2_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedWater_main"],
-        modifier = "fleet",
+        quantities=[
+            "ConsumedCO2_main",
+            "ConsumedNG_main",
+            "ConsumedElectricity_main",
+            "ConsumedWater_main",
+        ],
+        modifier="fleet",
     ):
         """
         Plot a stacked histogram for the given quantities at fleet level with respect to the pathway and fuel.
@@ -2102,9 +2284,16 @@ class ProcessedFuel:
         None
         """
         # Handle the situation where the user wants to plot all quantities
-        ProcessedPathways = self.get_processed_pathways()   # DME: Switching to in-line call to get_processed_pathways()
+        ProcessedPathways = (
+            self.get_processed_pathways()
+        )  # DME: Switching to in-line call to get_processed_pathways()
         sample_processed_pathway = ProcessedPathways[self.pathways[0]]
-        all_available_quantities = ["ConsumedCO2_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedWater_main"]
+        all_available_quantities = [
+            "ConsumedCO2_main",
+            "ConsumedNG_main",
+            "ConsumedElectricity_main",
+            "ConsumedWater_main",
+        ]
 
         if quantities == "all":
             quantities = all_available_quantities
@@ -2117,8 +2306,9 @@ class ProcessedFuel:
                 )
 
         for quantity in quantities:
-            self.make_stacked_hist(quantity, modifier, plot_global = True, exclude_lsfo = True)
-    
+            self.make_stacked_hist(
+                quantity, modifier, plot_global=True, exclude_lsfo=True
+            )
 
     def apply_to_all_pathways(self, method_name, *args, **kwargs):
         """
@@ -2140,7 +2330,9 @@ class ProcessedFuel:
         None
         """
 
-        ProcessedPathways = self.get_processed_pathways()   # DME: Switching to in-line call to get_processed_pathways()
+        ProcessedPathways = (
+            self.get_processed_pathways()
+        )  # DME: Switching to in-line call to get_processed_pathways()
         for pathway in ProcessedPathways:
             processed_pathway = ProcessedPathways[pathway]
             # Dynamically get the method from the instance and call it
@@ -2149,8 +2341,21 @@ class ProcessedFuel:
 
     def make_all_hists_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
-        modifiers=["per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig", "per_mile", "vessel", "fleet"],
+        quantities=[
+            "TotalEquivalentWTW",
+            "TotalCost",
+            "CostTimesEmissions",
+            "AverageCostEmissionsRatio",
+        ],
+        modifiers=[
+            "per_tonne_mile",
+            "per_tonne_mile_orig",
+            "per_cbm_mile",
+            "per_cbm_mile_orig",
+            "per_mile",
+            "vessel",
+            "fleet",
+        ],
     ):
         """
         Applies make_all_hists_by_region to all available pathways for the given fuel
@@ -2172,7 +2377,12 @@ class ProcessedFuel:
 
     def map_all_by_region(
         self,
-        quantities=["TotalEquivalentWTW", "TotalCost", "CostTimesEmissions", "AverageCostEmissionsRatio"],
+        quantities=[
+            "TotalEquivalentWTW",
+            "TotalCost",
+            "CostTimesEmissions",
+            "AverageCostEmissionsRatio",
+        ],
         modifiers=["per_tonne_mile", "per_mile", "vessel", "fleet"],
     ):
         """
@@ -2194,9 +2404,7 @@ class ProcessedFuel:
         self.apply_to_all_pathways("map_all_by_region", quantities, modifiers)
 
 
-def structure_results_fuels_types(
-    quantity, modifier, fuels=None
-):
+def structure_results_fuels_types(quantity, modifier, fuels=None):
     """
     Structures results from all pathways for the given fuels into pathway types.
 
@@ -2216,7 +2424,7 @@ def structure_results_fuels_types(
     results_fuels_types : Dictionary
         Dictionary containing the results for all fuel types
     """
-    
+
     # If supplied fuels is None, get unique fuels based on filenames in the results dir
     if fuels is None:
         fuels = find_unique_identifiers(RESULTS_DIR, "fuel", "")
@@ -2225,7 +2433,9 @@ def structure_results_fuels_types(
     for fuel in fuels:
         results_fuels_types[fuel] = {}
         processed_fuel = ProcessedFuel(fuel)
-        type_pathway_dict = processed_fuel.organize_pathways_by_type()      # DME: Switching to inline call to organize_pathways_by_type()
+        type_pathway_dict = (
+            processed_fuel.organize_pathways_by_type()
+        )  # DME: Switching to inline call to organize_pathways_by_type()
         for pathway_type in type_pathway_dict:
             results_fuels_types[fuel][pathway_type] = []
             for pathway in type_pathway_dict[pathway_type]:
@@ -2242,7 +2452,9 @@ def structure_results_fuels_types(
     return results_fuels_types
 
 
-def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 10), overlay_type='bar'):
+def plot_scatter_overlay(
+    structured_results, quantity, modifier, plot_size=(12, 10), overlay_type="bar"
+):
     """
     Plot the data from a dictionary as horizontal scatterplots overlaid on either bars extending to the mean value or violin plots.
 
@@ -2261,7 +2473,7 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     None
     """
     fig, ax = plt.subplots(figsize=plot_size)
-    
+
     y_position = 0
     y_tick_positions = []  # Left-side labels
     y_tick_labels = []
@@ -2279,17 +2491,17 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
         for pathway_type in pathway_types_sorted:
             values = structured_results[fuel][pathway_type]
             mean_value = np.mean(values) if values else 0
-                
+
             # Make the bar or violin plot
-            if overlay_type == 'bar':
+            if overlay_type == "bar":
                 ax.barh(
                     y_position,
                     mean_value,
                     color=get_pathway_type_color(pathway_type),
                     alpha=0.3,
-                    height=0.5
+                    height=0.5,
                 )
-            elif overlay_type == 'violin' and len(values) > 1:
+            elif overlay_type == "violin" and len(values) > 1:
                 parts = ax.violinplot(
                     values,
                     positions=[y_position],
@@ -2308,7 +2520,7 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
                 [y_position] * len(values),
                 color=get_pathway_type_color(pathway_type),
                 edgecolor="black",
-                zorder=3
+                zorder=3,
             )
 
             # Right-side pathway labels
@@ -2317,13 +2529,13 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
             y_tick_colors_right.append(get_pathway_type_color(pathway_type))
 
             y_position += 1
-            
+
         # Lock in y-axis range to prevent autoscaling shifts
         ax.set_ylim(-0.5, y_position - 0.5)
 
         # Center the fuel label among its pathways
         fuel_center = y_position - n_pathways / 2 - 0.5
-            
+
         y_tick_positions.append(fuel_center)
         y_tick_labels.append(get_fuel_label(fuel))
 
@@ -2365,11 +2577,12 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     plt.savefig(f"{filepath_base}.png", dpi=200)
     plt.savefig(f"{filepath_base}.pdf")
     plt.close()
-    
+
+
 def collect_cargo_mile_results(fuels=None):
     """
     Collect CargoMiles for each fuel and vessel type. Note that CargoMiles is independent of the fuel production pathway and region.
-    
+
     Parameters
     ----------
     fuels : list of str
@@ -2380,52 +2593,57 @@ def collect_cargo_mile_results(fuels=None):
     results_fuels_types : Dictionary
         Dictionary containing the results for all fuel types
     """
-    
+
     # If supplied fuels is None, get unique fuels based on filenames in the results dir
     if fuels is None:
         fuels = find_unique_identifiers(RESULTS_DIR, "fuel", "")
-    
+
     cargo_mile_results = {}
     for fuel in fuels:
         cargo_mile_results[fuel] = {}
-        
-        pathways = find_unique_identifiers(
-            RESULTS_DIR, "pathway", fuel
+
+        pathways = find_unique_identifiers(RESULTS_DIR, "pathway", fuel)
+
+        processed_cargo_miles = ProcessedQuantity(
+            "CargoMiles", "fleet", fuel, pathways[0]
         )
-        
-        processed_cargo_miles = ProcessedQuantity("CargoMiles", "fleet", fuel, pathways[0])
         result_df = processed_cargo_miles.result_df
         for vessel_type in vessel_types:
-            cargo_mile_results[fuel][vessel_type] = result_df.loc["Global Average", vessel_type]
-    
+            cargo_mile_results[fuel][vessel_type] = result_df.loc[
+                "Global Average", vessel_type
+            ]
+
     return cargo_mile_results
-    
+
+
 def plot_cargo_miles():
     """
     Plot a stacked horizontal bar chart for cargo miles by fuel and vessel type.
-    
+
     Parameters
     ----------
     cargo_mile_results : dict
         Dictionary where keys are fuel types and values are dictionaries.
         Each inner dictionary contains cargo miles for different vessel types (e.g., 'bulk_carrier_ice', 'container_ice', etc.).
-    
+
     Returns
     -------
     None
         This function generates and displays a horizontal stacked bar plot, showing cargo miles stacked by vessel type for each fuel.
     """
-    
+
     cargo_mile_results = collect_cargo_mile_results()
-    
+
     # Get the list of fuels (keys) and vessel types (sub-keys) from the dictionary
     fuels = list(cargo_mile_results.keys())
     fuel_labels = [get_fuel_label(fuel) for fuel in fuels]
     vessel_types = list(next(iter(cargo_mile_results.values())).keys())
 
     # Create a figure and axes object for the plot
-    fig, ax = plt.subplots(figsize=(12, len(fuels) * 0.7))  # Adjust the figure size based on the number of fuels
-    
+    fig, ax = plt.subplots(
+        figsize=(12, len(fuels) * 0.7)
+    )  # Adjust the figure size based on the number of fuels
+
     # Initialize the bottom position for the stacked bars (all zeros at the start)
     bottom = [0] * len(fuels)
 
@@ -2433,7 +2651,7 @@ def plot_cargo_miles():
     for vessel_type in vessel_types:
         # Get the values of cargo miles for each fuel for the current vessel type
         values = [cargo_mile_results[fuel][vessel_type] for fuel in fuels]
-        
+
         # Plot a horizontal bar for this vessel type on top of the previous bars (stacking)
         ax.barh(fuels, values, left=bottom, label=vessel_type_title[vessel_type])
 
@@ -2442,8 +2660,10 @@ def plot_cargo_miles():
 
     # Update the y-axis labels to use the fuel_labels
     ax.set_yticks(range(len(fuels)))  # Set y-ticks based on the number of fuels
-    ax.set_yticklabels(fuel_labels, fontsize=18)  # Use fuel_labels for the y-axis tick labels
-    
+    ax.set_yticklabels(
+        fuel_labels, fontsize=18
+    )  # Use fuel_labels for the y-axis tick labels
+
     # Add a vertical dashed line at the LSFO Cargo Miles
     lsfo_cargo_miles = cargo_mile_results.get("lsfo", {})
     total_cargo_miles_lsfo = sum(lsfo_cargo_miles.values())
@@ -2451,166 +2671,170 @@ def plot_cargo_miles():
 
     # Add labels and title
     ax.set_xlabel("Cargo Miles (tonne-miles)", fontsize=20)
-    ax.legend(title="Vessel Type", bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=18, title_fontsize=20)
+    ax.legend(
+        title="Vessel Type",
+        bbox_to_anchor=(1.05, 1),
+        loc="upper left",
+        fontsize=18,
+        title_fontsize=20,
+    )
 
     # Show the plot
     plt.tight_layout()
     plt.savefig("plots/cargo_miles_comparison.png", dpi=300)
     plt.savefig("plots/cargo_miles_comparison.pdf")
-    
+
 
 def main():
+    # ------- Sample execution of class methods for testing and development -------#
+    #    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "LTE_H_grid_E")
+    #    processed_quantity.map_by_region()
+    #
+    #    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "LTE_H_grid_E")
+    #    processed_quantity.map_by_region()
+    #
+    #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
+    #    processed_quantity.map_by_region()
 
-# ------- Sample execution of class methods for testing and development -------#
-#    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "LTE_H_grid_E")
-#    processed_quantity.map_by_region()
-#
-#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "LTE_H_grid_E")
-#    processed_quantity.map_by_region()
-#
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
-#    processed_quantity.map_by_region()
-    
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "ATRCCS_H_grid_E")
-#    processed_quantity.map_by_region()
-    
-#    processed_quantity.make_hist_by_region("bulk_carrier_ice")
-#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "lng", "fossil")
-#    processed_quantity.map_by_region()
-#    processed_quantity.make_hist_by_region()
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "FTdiesel", "LTE_H_grid_E")
-#    processed_quantity.make_hist_by_region()
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
-#    processed_quantity.map_by_region()
-#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "ammonia", "LTE_H_wind_E")
-#    processed_quantity.map_by_region()
-#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "ammonia", "LTE_H_wind_E")
-#    processed_quantity.map_by_region()
-#
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "FTdiesel", "LTE_H_BEC_C_wind_E")
-#    processed_quantity.map_by_region()
-#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "FTdiesel", "LTE_H_BEC_C_wind_E")
-#    processed_quantity.map_by_region()
-#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "FTdiesel", "LTE_H_BEC_C_wind_E")
-#    processed_quantity.map_by_region()
+    #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "ATRCCS_H_grid_E")
+    #    processed_quantity.map_by_region()
 
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "BG_H_grid_E")
-#    processed_quantity.map_by_region()
-#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "ammonia", "BG_H_grid_E")
-#    processed_quantity.map_by_region()
-#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "ammonia", "BG_H_grid_E")
-#    processed_quantity.map_by_region()
-#
-#    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "FTdiesel", "BG_H_BEC_C_wind_E")
-#    processed_quantity.map_by_region()
-#    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "FTdiesel", "BG_H_BEC_C_wind_E")
-#    processed_quantity.map_by_region()
-#    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "FTdiesel", "BG_H_BEC_C_wind_E")
-#    processed_quantity.map_by_region()
-    
-#
-#    processed_pathway = ProcessedPathway("ammonia", "LTE_H_solar_E")
-#    processed_pathway.make_all_hists_by_region()
-#    processed_pathway.map_all_by_region()
-    
+    #    processed_quantity.make_hist_by_region("bulk_carrier_ice")
+    #    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "lng", "fossil")
+    #    processed_quantity.map_by_region()
+    #    processed_quantity.make_hist_by_region()
+    #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "FTdiesel", "LTE_H_grid_E")
+    #    processed_quantity.make_hist_by_region()
+    #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
+    #    processed_quantity.map_by_region()
+    #    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "ammonia", "LTE_H_wind_E")
+    #    processed_quantity.map_by_region()
+    #    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "ammonia", "LTE_H_wind_E")
+    #    processed_quantity.map_by_region()
+    #
+    #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "FTdiesel", "LTE_H_BEC_C_wind_E")
+    #    processed_quantity.map_by_region()
+    #    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "FTdiesel", "LTE_H_BEC_C_wind_E")
+    #    processed_quantity.map_by_region()
+    #    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "FTdiesel", "LTE_H_BEC_C_wind_E")
+    #    processed_quantity.map_by_region()
+
+    #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "BG_H_grid_E")
+    #    processed_quantity.map_by_region()
+    #    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "ammonia", "BG_H_grid_E")
+    #    processed_quantity.map_by_region()
+    #    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "ammonia", "BG_H_grid_E")
+    #    processed_quantity.map_by_region()
+    #
+    #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "FTdiesel", "BG_H_BEC_C_wind_E")
+    #    processed_quantity.map_by_region()
+    #    processed_quantity = ProcessedQuantity("TotalCost", "vessel", "FTdiesel", "BG_H_BEC_C_wind_E")
+    #    processed_quantity.map_by_region()
+    #    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "vessel", "FTdiesel", "BG_H_BEC_C_wind_E")
+    #    processed_quantity.map_by_region()
+
+    #
+    #    processed_pathway = ProcessedPathway("ammonia", "LTE_H_solar_E")
+    #    processed_pathway.make_all_hists_by_region()
+    #    processed_pathway.map_all_by_region()
+
     # GE - test make_stacked_hist() with two new boolean arguments so it applies to global scale
-#    processed_fuel_GE = ProcessedFuel("methanol")
-#    processed_fuel_GE.make_stacked_hist("ConsumedWater_main", "fleet", plot_global = True, exclude_lsfo = True)
-    
+    #    processed_fuel_GE = ProcessedFuel("methanol")
+    #    processed_fuel_GE.make_stacked_hist("ConsumedWater_main", "fleet", plot_global = True, exclude_lsfo = True)
+
     # GE - test make_all_resource_demands_hist() - NOT WOKRING FOR "all" CASE
-#    processed_fuel_GE_test = ProcessedFuel("ammonia")
-#    processed_fuel_GE_test.make_all_resource_demands_hists()
-    
-#    processed_fuel = ProcessedFuel("FTdiesel")
-#    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", [])
+    #    processed_fuel_GE_test = ProcessedFuel("ammonia")
+    #    processed_fuel_GE_test.make_all_resource_demands_hists()
 
-#    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile_orig", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
-#    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
-#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
-#    processed_fuel.make_stacked_hist("TotalCost", "vessel", [])
-#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", [])
-#    processed_fuel.make_stacked_hist("CAC", "vessel", [])
-#    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
-#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
+    #    processed_fuel = ProcessedFuel("FTdiesel")
+    #    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", [])
 
+    #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+    #    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile_orig", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+    #    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+    #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+    #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+    #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+    #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
+    #    processed_fuel.make_stacked_hist("TotalCost", "vessel", [])
+    #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", [])
+    #    processed_fuel.make_stacked_hist("CAC", "vessel", [])
+    #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+    #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
 
-# -----------------------------------------------------------------------------#
-    
+    # -----------------------------------------------------------------------------#
+
     # Loop through all fuels of interest
-#    for fuel in ["ammonia", "methanol", "FTdiesel", "LNG"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
-#        processed_fuel = ProcessedFuel(fuel)
+    #    for fuel in ["ammonia", "methanol", "FTdiesel", "LNG"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
+    #        processed_fuel = ProcessedFuel(fuel)
 
-        # Make validation plots for each fuel, pathway and quantity
-#        processed_fuel.make_all_hists_by_region()
-#        processed_fuel.map_all_by_region()
-#        processed_fuel.make_all_stacked_hists()
-    
-#        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
-#        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
-#        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
-#        processed_fuel.make_stacked_hist("CAC", "vessel", [])
-    
-    
-#    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
-#    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
-#    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
-#    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
-#    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
-#    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
-#    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
-#    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
-#    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
-#    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
+    # Make validation plots for each fuel, pathway and quantity
+    #        processed_fuel.make_all_hists_by_region()
+    #        processed_fuel.map_all_by_region()
+    #        processed_fuel.make_all_stacked_hists()
 
+    #        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+    #        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+    #        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+    #        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
+    #        processed_fuel.make_stacked_hist("CAC", "vessel", [])
 
-#    structured_results = structure_results_fuels_types("TotalCost", "fleet")
-#    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
-#    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
-#    plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
-#    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
-#    plot_scatter_overlay(structured_results, "CostTimesEmissions", "vessel", overlay_type="violin")
-#    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
-#    plot_scatter_overlay(structured_results, "AverageCostEmissionsRatio", "vessel", overlay_type="violin")
-#    structured_results = structure_results_fuels_types("CAC", "vessel")
-#    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
-    
-#    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
+    #    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
+    #    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
+    #    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
+    #    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
+    #    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
+    #    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
+    #    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
+    #    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
+    #    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
+    #    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
 
- #       for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
- #           if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
- #               continue
- #           structured_results = structure_results_fuels_types(quantity, modifier)
- #           if "_main" in quantity:
- #               plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="bar")
- #           else:
- #               plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
+    #    structured_results = structure_results_fuels_types("TotalCost", "fleet")
+    #    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
+    #    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
+    #    plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
+    #    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
+    #    plot_scatter_overlay(structured_results, "CostTimesEmissions", "vessel", overlay_type="violin")
+    #    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
+    #    plot_scatter_overlay(structured_results, "AverageCostEmissionsRatio", "vessel", overlay_type="violin")
+    #    structured_results = structure_results_fuels_types("CAC", "vessel")
+    #    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
 
-#    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "ConsumedLCB_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
-#        for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
-#            if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
-#                continue
-#            structured_results = structure_results_fuels_types(quantity, modifier)
-#            if "_main" in quantity:
-#                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="bar")
-#            else:
-#                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
+    #    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
 
-# GE - 3/20/2025 - testing out resource mapping functions and stacked plot of availability vs. demand functions
-#    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
-#        processed_resource = ProcessedResource(resource)
-#        processed_resource.plot_resource_availability_map(resource)
-#        processed_resource.plot_SD_ratio_map(resource)
+    #       for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
+    #           if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
+    #               continue
+    #           structured_results = structure_results_fuels_types(quantity, modifier)
+    #           if "_main" in quantity:
+    #               plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="bar")
+    #           else:
+    #               plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
+
+    #    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "ConsumedLCB_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
+    #        for modifier in ["fleet", "vessel", "per_mile", "per_tonne_mile", "per_cbm_mile"]: #["vessel", "fleet", "per_mile", "per_tonne_mile", "per_tonne_mile_orig", "per_cbm_mile", "per_cbm_mile_orig"]:
+    #            if (quantity == "AverageCostEmissionsRatio" or quantity == "CAC" or quantity == "CostTimesEmissions") and modifier != "vessel":
+    #                continue
+    #            structured_results = structure_results_fuels_types(quantity, modifier)
+    #            if "_main" in quantity:
+    #                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="bar")
+    #            else:
+    #                plot_scatter_overlay(structured_results, quantity, modifier, overlay_type="violin")
+
+    # GE - 3/20/2025 - testing out resource mapping functions and stacked plot of availability vs. demand functions
+    #    for resource in ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]:
+    #        processed_resource = ProcessedResource(resource)
+    #        processed_resource.plot_resource_availability_map(resource)
+    #        processed_resource.plot_SD_ratio_map(resource)
 
     # Load pathway info
     pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
 
     # Get unique fuels and pathway types from the CSV
-    fuels = ["methanol"]#, "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
+    fuels = [
+        "methanol"
+    ]  # , "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
     resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
     pathway_types = pathway_info_df["Pathway Type"].unique()
     print(pathway_types)
@@ -2619,15 +2843,20 @@ def main():
     for fuel in fuels:
         for resource in resource_types:
             processed_resource = ProcessedResource(resource)
-            for pathway_type in ["blue_dac_C"]:#pathway_types:
+            for pathway_type in ["blue_dac_C"]:  # pathway_types:
                 # Check if this fuel-pathway type combination exists in the dataset
-                matching_pathways = pathway_info_df[(pathway_info_df["Pathway Type"] == pathway_type)]
+                matching_pathways = pathway_info_df[
+                    (pathway_info_df["Pathway Type"] == pathway_type)
+                ]
 
                 if not matching_pathways.empty:
-                    processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway_type)
+                    processed_resource.make_stacked_plot_avail_vs_demand(
+                        resource, fuel, pathway_type
+                    )
 
-                    #processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway)
-    
+                    # processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway)
+
+
 #    processed_quantity.make_stacked_plot_avail_vs_demand("Water", "compressed_hydrogen", "LTE_H_grid_E")
 #    processed_quantity.make_stacked_plot_avail_vs_demand("Electricity", "FTdiesel", "SMRCCS_H_BEC_C_grid_E")
 

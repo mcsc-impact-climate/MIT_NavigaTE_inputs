@@ -1,7 +1,8 @@
-from pathlib import Path
 import os
-import pandas as pd
+from pathlib import Path
+
 import matplotlib.colors as mcolors
+import pandas as pd
 
 
 def get_top_dir():
@@ -20,15 +21,16 @@ def get_top_dir():
     source_dir = source_path.parent
     top_dir = os.path.dirname(source_dir)
     return top_dir
-    
+
+
 def ensure_directory_exists(directory_path):
     """
     Checks if the specified directory exists, and if not, creates it.
-    
+
     Parameters
     ----------
     directory_path (str): The path of the directory to check or create.
-    
+
     Returns
     -------
     top_dir (string): Path to the top level of the git repo
@@ -38,7 +40,8 @@ def ensure_directory_exists(directory_path):
         print(f"Directory '{directory_path}' created.")
     else:
         print(f"Directory '{directory_path}' already exists.")
-        
+
+
 def generate_blue_shades(num_shades):
     """
     Generates a list of blue shades ranging from light to dark.
@@ -77,16 +80,17 @@ def generate_blue_shades(num_shades):
         blue_shades = [light_blue]
 
     return blue_shades
-    
+
+
 def get_pathway_type(pathway, info_file=None):
     """
     Reads in the pathway type label for the given fuel production pathway based on the csv info file.
-    
+
     Parameters
     ----------
     pathway : str
         Name of the pathway
-        
+
     info_file : str
         Path to an info file that contains a mapping between pathway names and types
 
@@ -98,16 +102,23 @@ def get_pathway_type(pathway, info_file=None):
     if info_file is None:
         top_dir = get_top_dir()
         info_file = f"{top_dir}/info_files/pathway_info.csv"
-    
+
     try:
         info_df = pd.read_csv(info_file)
     except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type.")
+        raise Exception(
+            f"Pathway info file {info_file} not found. Cannot evaluate pathway type."
+        )
     try:
-        pathway_type = info_df["Pathway Type"][info_df["Pathway Name"] == pathway].iloc[0]
+        pathway_type = info_df["Pathway Type"][info_df["Pathway Name"] == pathway].iloc[
+            0
+        ]
     except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type.")
+        raise Exception(
+            f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type."
+        )
     return pathway_type
+
 
 def get_pathway_type_color(pathway_type, info_file=None):
     if info_file is None:
@@ -117,13 +128,20 @@ def get_pathway_type_color(pathway_type, info_file=None):
     try:
         info_df = pd.read_csv(info_file)
     except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway color.")
+        raise Exception(
+            f"Pathway info file {info_file} not found. Cannot evaluate pathway color."
+        )
     try:
-        pathway_color = info_df["Color"][info_df["Pathway Type"] == pathway_type].iloc[0]
+        pathway_color = info_df["Color"][info_df["Pathway Type"] == pathway_type].iloc[
+            0
+        ]
     except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway color.")
+        raise Exception(
+            f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway color."
+        )
     return pathway_color
-    
+
+
 def get_pathway_type_label(pathway_type, info_file=None):
     if info_file is None:
         top_dir = get_top_dir()
@@ -131,13 +149,20 @@ def get_pathway_type_label(pathway_type, info_file=None):
     try:
         info_df = pd.read_csv(info_file)
     except FileNotFoundError:
-        raise Exception(f"Pathway info file {info_file} not found. Cannot evaluate pathway type label.")
+        raise Exception(
+            f"Pathway info file {info_file} not found. Cannot evaluate pathway type label."
+        )
     try:
-        pathway_type_label = info_df["Label"][info_df["Pathway Type"] == pathway_type].iloc[0]
+        pathway_type_label = info_df["Label"][
+            info_df["Pathway Type"] == pathway_type
+        ].iloc[0]
     except KeyError as e:
-        raise Exception(f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type label.")
+        raise Exception(
+            f"KeyError: {e.args[0]} not found in the provided info file {info_file}. Cannot evaluate pathway type label."
+        )
     return pathway_type_label
-    
+
+
 def read_pathway_labels():
     """
     Reads in the label and description of each fuel production pathway from an info file.
@@ -157,7 +182,8 @@ def read_pathway_labels():
         "Pathway Name"
     )
     return pathway_labels_df
-    
+
+
 def get_pathway_label(pathway):
     """
     Returns the label in the row of the pathway_labels_df corresponding to the given pathway.
@@ -177,7 +203,8 @@ def get_pathway_label(pathway):
     """
     pathway_labels_df = read_pathway_labels()
     return pathway_labels_df.loc[pathway, "Label"]
-    
+
+
 def read_fuel_labels():
     """
     Reads in the label and description of each fuel from an info file.
@@ -197,7 +224,8 @@ def read_fuel_labels():
         "Fuel"
     )
     return fuel_labels_df
-    
+
+
 def get_fuel_label(fuel):
     """
     Returns the label in the row of the fuel_labels_df corresponding to the given fuel.
@@ -214,7 +242,8 @@ def get_fuel_label(fuel):
     """
     fuel_labels_df = read_fuel_labels()
     return fuel_labels_df.loc[fuel, "Label"]
-    
+
+
 def get_fuel_LHV(fuel):
     """
     Returns the LHV of the given fuel.
@@ -231,7 +260,8 @@ def get_fuel_LHV(fuel):
     """
     fuel_info_df = read_fuel_labels()
     return fuel_info_df.loc[fuel, "Lower Heating Value (MJ / kg)"]
-    
+
+
 def get_fuel_density(fuel):
     """
     Returns the density of the given fuel.
@@ -248,7 +278,8 @@ def get_fuel_density(fuel):
     """
     fuel_info_df = read_fuel_labels()
     return fuel_info_df.loc[fuel, "Mass density (kg/L)"]
-    
+
+
 def create_directory_if_not_exists(directory_path):
     """
     Creates a directory if it doesn't already exist.
