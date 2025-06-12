@@ -8,6 +8,8 @@ from typing import Dict
 from dataclasses import dataclass
 from typing import Callable
 import pandas as pd
+import argparse
+import json
 
 # ---------------------------------------------------------------------------
 # One-time loaders wrapped in a helper – *nothing else calls these yet*
@@ -410,11 +412,11 @@ def _p(path: str, field: str):
 # ---------------------------------------------------------------------------
 def generic_production(
     path: str,
+    product: str,
     install_factor: float,
     prices: dict,
     elec_intensity: float,
-    *,
-    lcb_upstream_emiss: float = 0.0,  # keep args you’ll need later
+    lcb_upstream_emiss: float = 0.0,
 ) -> tuple[float, float, float]:
     """
     Pathway-agnostic production cost & emissions calculator.
@@ -430,34 +432,34 @@ def generic_production(
 
     # -------- CapEx ----------------------------------------------------
     capex_components = {
-        "Base CapEx": _p(path, "base_capex") * install_factor
+        f"{product} Production Facility": _p(path, "base_capex") * install_factor
     }
 
     # -------- OpEx -----------------------------------------------------
     opex_components = {
-        "Labor": CTX["glob"]["workhours_per_year"]["value"]
+        f"Labor for {product} Production": CTX["glob"]["workhours_per_year"]["value"]
                     * prices["labor"]
                     * _p(path, "employees")
                     / _p(path, "yearly_output")
                     * (1 + CTX["glob"]["gen_admin_rate"]["value"]),
-        "O&M": (CTX["glob"]["op_maint_rate"]["value"]
+        f"O&M for {product} Production": (CTX["glob"]["op_maint_rate"]["value"]
                     + CTX["glob"]["tax_rate"]["value"])
                     * sum(capex_components.values()),
-        "Electricity": elect * prices["elec"],
-        "NG": ng * prices["ng"],
-        "Water": water * prices["water"],
-        "LCB": lcb * prices["lcb"]
+        f"Electricity for {product} Production": elect * prices["elec"],
+        f"NG for {product} Production": ng * prices["ng"],
+        f"Water for {product} Production": water * prices["water"],
+        f"LCB for {product} Production": lcb * prices["lcb"]
     }
 
     # -------- Emissions -------------------------------------------------
     emiss_components = {
-        "Electricity": elect * elec_intensity,
-        "NG": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4 and upstream CO2-e
+        f"Electricity for {product} Production": elect * elec_intensity,
+        f"NG for {product} Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4 and upstream CO2-e
         * CTX["glob"]["NG_GWP"]["value"]
         * CTX["derived"]["NG_CH4_leakage"]
-        + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["derived"]["NG_CO2_emissions"],     # DME: zzz Use this as reference for adding upstream CO2 emissions for NG
-        "Onsite": _p(path, "onsite_emiss"),
-        "LCB Upstream": lcb * lcb_upstream_emiss
+        + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["derived"]["NG_CO2_emissions"],
+        f"Onsite Emissions for {product} Production": _p(path, "onsite_emiss"),
+        f"LCB Upstream Emissions for {product} Production": lcb * lcb_upstream_emiss
     }
 
     return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
@@ -506,23 +508,6 @@ def demands_compressed_h2(H_pathway: str):
     elect += CTX["tech"]["H2_comp"]["elect_demand"]["value"]
     return elect, lcb, ng, water, co2
 
-
-# ---------------------------------------------------------------------------
-# Feed-stock helpers: generic H₂ and CO₂ (BEC / DAC / fossil) in one place
-# ---------------------------------------------------------------------------
-def _feed_h2(
-    h_path: str,
-    instal_factor: float,
-    prices: dict,
-    elect_emissions_intensity: float,
-    lcb_up_emiss: float,
-) -> tuple[float, float, float]:
-    """CapEx, OpEx, Emiss for 1 kg of *STP hydrogen* from pathway *h_path*."""
-    return generic_production(
-        h_path, instal_factor, prices, elect_emissions_intensity, lcb_upstream_emiss=lcb_up_emiss
-    )
-
-
 # ----------------------------------------------------------------------
 # Helper: cost / emissions for 1 kg of captured-CO₂ feedstock
 # ----------------------------------------------------------------------
@@ -554,11 +539,13 @@ def _feed_co2(
         }
         emiss_components = {
             "Embedded Emissions of DAC Facility": CTX["derived"]["DAC_CO2_upstream_emissions"] * CO2_demand,
-            # DME: zzz needs to be updated to add leakage to CO2
             "Upstream Emissions of NG Used for DAC": CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
                                                                     / CTX["glob"]["NG_HHV"]["value"]
                                                                     * CTX["glob"]["NG_GWP"]["value"]
-                                                                    * CTX["derived"]["NG_CH4_leakage"],     # DME: zzz This needs to be fixed to add CH4 leakage emissions to upstream CO2 emissions (rather than multiplying)
+                                                                    * CTX["derived"]["NG_CH4_leakage"]      # Upstream CH4 leakage
+                                                                    + CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
+                                                                    / CTX["glob"]["NG_HHV"]["value"]
+                                                                    * CTX["derived"]["NG_CO2_emissions"],   # Upstream CO2 emissions to produce NG
             "Upstream Emissions of Electricity Used for DAC Production": CTX["derived"]["DAC_CO2_upstream_elect"] * elect_emissions_intensity * CO2_demand,
             "Captured Carbon Credit": -1.0 * credit_per_kg_fuel
         }
@@ -606,10 +593,12 @@ def calculate_production_costs_emissions_STP_hydrogen(
     }
     capex, opex, emiss, capex_components, opex_components, emiss_components = generic_production(
         H_pathway,
+        "H2",
         instal_factor,
         prices,
         elect_emissions_intensity,
-        lcb_upstream_emiss=LCB_upstream_emissions,
+        lcb_upstream_emiss=LCB_upstream_emissions
+        
     )
     return capex, opex, emiss, capex_components, opex_components, emiss_components
 
@@ -651,10 +640,11 @@ def calculate_production_costs_emissions_liquid_hydrogen(
     }
     capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
         H_pathway,
+        "H2",
         instal_factor,
         prices,
         elect_emissions_intensity,
-        lcb_upstream_emiss=LCB_upstream_emissions,
+        lcb_upstream_emiss=LCB_upstream_emissions
     )
     
     capex_components = capex_h2_components
@@ -680,9 +670,10 @@ def calculate_production_costs_emissions_NG(
     }
     return generic_production(
         "NG",  # canonical table key
+        "NG",
         install_factor=1.0,
         prices=prices,
-        elec_intensity=elect_emissions_intensity,
+        elec_intensity=elect_emissions_intensity
     )
 
 
@@ -766,10 +757,11 @@ def calculate_production_costs_emissions_compressed_hydrogen(
     }
     capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
         H_pathway,
+        "H2",
         instal_factor,
         prices,
         elect_emissions_intensity,
-        lcb_upstream_emiss=LCB_upstream_emissions,
+        LCB_upstream_emissions
     )
     
     capex_components = capex_h2_components
@@ -822,9 +814,11 @@ def calculate_production_costs_emissions_ammonia(
 
     emiss_nh3_components = {
         "Electricity for NH3 Production": elect * elect_emissions_intensity,
-        "NG for NH3 Production": ng / CTX["glob"]["NG_HHV"]["value"]
-                                    * CTX["glob"]["NG_GWP"]["value"]
-                                    * CTX["derived"]["NG_CH4_leakage"]      # DME: zzz This needs to be updated to include upstream CO2 emissions for NG
+        "NG for NH3 Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4
+        * CTX["glob"]["NG_GWP"]["value"]
+        * CTX["derived"]["NG_CH4_leakage"]
+        + ng / CTX["glob"]["NG_HHV"]["value"]
+        * CTX["derived"]["NG_CO2_emissions"]  # upstream CO2 from NG production
     }
 
     # (No onsite-process CO₂ for NH₃, so nothing else to add)
@@ -842,10 +836,11 @@ def calculate_production_costs_emissions_ammonia(
 
     capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
         H_pathway,
+        "H2",
         instal_factor,
         prices,
         elect_emissions_intensity,
-        lcb_upstream_emiss=LCB_upstream_emissions,
+        LCB_upstream_emissions
     )
     
     # Scale all H2 components by the H2 demand of the NH3 production process
@@ -897,9 +892,11 @@ def calculate_production_costs_emissions_methanol(
 
     emiss_methanol_components = {
         "Electricity for Methanol Production": elect * elect_emissions_intensity,
-        "NG for Methanol Production": ng / CTX["glob"]["NG_HHV"]["value"]
+        "NG for Methanol Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4
                                         * CTX["glob"]["NG_GWP"]["value"]
-                                        * CTX["derived"]["NG_CH4_leakage"]      # DME: zzz Need to include NG upstream CO2 emissions
+                                        * CTX["derived"]["NG_CH4_leakage"]
+                                        + ng / CTX["glob"]["NG_HHV"]["value"]
+                                        * CTX["derived"]["NG_CO2_emissions"]  # upstream CO2 from NG production
     }
 
     if C_pathway not in ("BEC", "DAC"):  # keep legacy rule
@@ -919,10 +916,11 @@ def calculate_production_costs_emissions_methanol(
 
     capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
         H_pathway,
+        "H2",
         instal_factor,
         prices,
         elect_emissions_intensity,
-        lcb_upstream_emiss=LCB_upstream_emissions,
+        lcb_upstream_emiss=LCB_upstream_emissions
     )
     
     # Scale all H2 components by the H2 demand of the methanol production process
@@ -996,9 +994,11 @@ def calculate_production_costs_emissions_FTdiesel(
 
     emiss_ftdiesel_components = {
         "Electricity for FT Diesel Production": elect * elect_emissions_intensity,
-        "NG for FT Diesel Production": ng / CTX["glob"]["NG_HHV"]["value"]
+        "NG for FT Diesel Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4
                                         * CTX["glob"]["NG_GWP"]["value"]
-                                        * CTX["derived"]["NG_CH4_leakage"]      # DME: zzz Need to include NG upstream CO2 emissions
+                                        * CTX["derived"]["NG_CH4_leakage"]
+                                        + ng / CTX["glob"]["NG_HHV"]["value"]
+                                        * CTX["derived"]["NG_CO2_emissions"]  # upstream CO2 from NG production
     }
 
     if C_pathway not in ("BEC", "DAC"):
@@ -1018,10 +1018,11 @@ def calculate_production_costs_emissions_FTdiesel(
 
     capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
         H_pathway,
+        "H2",
         instal_factor,
         prices,
         elect_emissions_intensity,
-        lcb_upstream_emiss=LCB_upstream_emissions,
+        lcb_upstream_emiss=LCB_upstream_emissions
     )
 
     # Scale all H2 components by the H2 demand of the FT diesel production process
@@ -1225,12 +1226,19 @@ fuel_comments = {
 }
 
 
-def main():
+def main(save_json=False):
     input_dir = f"{top_dir}/input_fuel_pathway_data/"
     output_dir_production = f"{top_dir}/input_fuel_pathway_data/production/"
     ensure_directory_exists(output_dir_production)
+    output_dir_production_components = os.path.join(output_dir_production, "cost_emissions_components")
+    if save_json:
+        ensure_directory_exists(output_dir_production_components)
+        
     output_dir_process = f"{top_dir}/input_fuel_pathway_data/process/"
     ensure_directory_exists(output_dir_process)
+    output_dir_process_components = os.path.join(output_dir_process, "cost_emissions_components")
+    if save_json:
+        ensure_directory_exists(output_dir_process_components)
 
     # Read the input CSV files
     input_df = pd.read_csv(input_dir + "regional_TEA_inputs.csv")
@@ -1482,7 +1490,9 @@ def main():
                     comment = fuel_comments.get(fuel, "")
 
                 CapEx *= 1000  # convert to $/tonne
+                CapEx_components = {k: v * 1000 for k, v in CapEx_components.items()}
                 OpEx *= 1000  # convert to $/tonne
+                OpEx_components = {k: v * 1000 for k, v in OpEx_components.items()}
                 LCOF = CapEx + OpEx  # in $/tonne
                 calculated_row = [
                     fuel,
@@ -1500,6 +1510,17 @@ def main():
                     comment,
                 ]
                 output_data.append(calculated_row)
+                if save_json:
+                    region_safe = region.replace(" ", "_").lower()
+                    path_prefix = os.path.join(output_dir_production_components, f"{fuel}_{fuel_pathway}_{region_safe}")
+                    
+                    combined_components = {
+                        "CapEx (2024$/tonne)": CapEx_components,
+                        "OpEx (2024$/tonne)": OpEx_components,
+                        "emissions (kg CO2e / kg fuel)": emissions_components
+                    }
+                    with open(f"{path_prefix}_components.json", "w") as f:
+                        json.dump(combined_components, f, indent=2)
 
         # GE - Define the resource output to CSV column names - may need to add more columns
         output_resource_columns = [
@@ -1786,6 +1807,11 @@ def main():
             f"Output CSV file created: {os.path.join(output_dir_process, output_file)}"
         )
 
-
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Generate cost/emissions and resource .csvs (optionally with component .jsons).")
+    parser.add_argument(
+        "--save_json", action="store_true",
+        help="Save component-level CapEx, OpEx, and emissions breakdowns to JSON files"
+    )
+    args = parser.parse_args()
+    main(save_json=args.save_json)
