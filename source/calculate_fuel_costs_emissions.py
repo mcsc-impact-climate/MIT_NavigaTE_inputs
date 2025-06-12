@@ -8,6 +8,8 @@ from typing import Dict
 from dataclasses import dataclass
 from typing import Callable
 import pandas as pd
+import argparse
+import json
 
 # ---------------------------------------------------------------------------
 # One-time loaders wrapped in a helper – *nothing else calls these yet*
@@ -410,11 +412,11 @@ def _p(path: str, field: str):
 # ---------------------------------------------------------------------------
 def generic_production(
     path: str,
+    product: str,
     install_factor: float,
     prices: dict,
     elec_intensity: float,
-    *,
-    lcb_upstream_emiss: float = 0.0,  # keep args you’ll need later
+    lcb_upstream_emiss: float = 0.0,
 ) -> tuple[float, float, float]:
     """
     Pathway-agnostic production cost & emissions calculator.
@@ -429,40 +431,38 @@ def generic_production(
     lcb = _p(path, "lcb_demand")
 
     # -------- CapEx ----------------------------------------------------
-    capex = _p(path, "base_capex") * install_factor
+    capex_components = {
+        f"{product} Production Facility": _p(path, "base_capex") * install_factor
+    }
 
     # -------- OpEx -----------------------------------------------------
-    fixed_opex = (
-        CTX["glob"]["workhours_per_year"]["value"]
-        * prices["labor"]
-        * _p(path, "employees")
-        / _p(path, "yearly_output")
-        * (1 + CTX["glob"]["gen_admin_rate"]["value"])
-        + (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"])
-        * capex
-    )
-
-    variable_opex = (
-        elect * prices["elec"]
-        + ng * prices["ng"]
-        + water * prices["water"]
-        + lcb * prices["lcb"]
-    )
+    opex_components = {
+        f"Labor for {product} Production": CTX["glob"]["workhours_per_year"]["value"]
+                    * prices["labor"]
+                    * _p(path, "employees")
+                    / _p(path, "yearly_output")
+                    * (1 + CTX["glob"]["gen_admin_rate"]["value"]),
+        f"O&M for {product} Production": (CTX["glob"]["op_maint_rate"]["value"]
+                    + CTX["glob"]["tax_rate"]["value"])
+                    * sum(capex_components.values()),
+        f"Electricity for {product} Production": elect * prices["elec"],
+        f"NG for {product} Production": ng * prices["ng"],
+        f"Water for {product} Production": water * prices["water"],
+        f"LCB for {product} Production": lcb * prices["lcb"]
+    }
 
     # -------- Emissions -------------------------------------------------
-    emiss = (
-        elect * elec_intensity
-        # fugitive CH4 and upstream CO2-e
-        + ng
-        / CTX["glob"]["NG_HHV"]["value"]
+    emiss_components = {
+        f"Electricity for {product} Production": elect * elec_intensity,
+        f"NG for {product} Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4 and upstream CO2-e
         * CTX["glob"]["NG_GWP"]["value"]
         * CTX["derived"]["NG_CH4_leakage"]
-        + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["derived"]["NG_CO2_emissions"]
-        + _p(path, "onsite_emiss")
-        + lcb * lcb_upstream_emiss
-    )
+        + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["derived"]["NG_CO2_emissions"],
+        f"Onsite Emissions for {product} Production": _p(path, "onsite_emiss"),
+        f"LCB Upstream Emissions for {product} Production": lcb * lcb_upstream_emiss
+    }
 
-    return capex, fixed_opex + variable_opex, emiss
+    return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
 
 
 # ---------------------------------------------------------------------------
@@ -508,23 +508,6 @@ def demands_compressed_h2(H_pathway: str):
     elect += CTX["tech"]["H2_comp"]["elect_demand"]["value"]
     return elect, lcb, ng, water, co2
 
-
-# ---------------------------------------------------------------------------
-# Feed-stock helpers: generic H₂ and CO₂ (BEC / DAC / fossil) in one place
-# ---------------------------------------------------------------------------
-def _feed_h2(
-    h_path: str,
-    instal: float,
-    prices: dict,
-    elec_int: float,
-    lcb_up_emiss: float,
-) -> tuple[float, float, float]:
-    """CapEx, OpEx, Emiss for 1 kg of *STP hydrogen* from pathway *h_path*."""
-    return generic_production(
-        h_path, instal, prices, elec_int, lcb_upstream_emiss=lcb_up_emiss
-    )
-
-
 # ----------------------------------------------------------------------
 # Helper: cost / emissions for 1 kg of captured-CO₂ feedstock
 # ----------------------------------------------------------------------
@@ -532,7 +515,7 @@ def _feed_co2(
     C_pathway: str,
     credit_per_kg_fuel: float,  # e.g. MW_CO2 / MW_MeOH   or  nC*MW_CO2 / MW_FTdiesel
     prices: dict,
-    elect_int: float,
+    elect_emissions_intensity: float,
     CO2_demand: float,
 ):
     """Return (capex, opex, emissions) *per kg CO₂* for any fuel.
@@ -541,41 +524,53 @@ def _feed_co2(
     when carbon stays sequestered in the product rather than emitted.
     """
     if C_pathway == "BEC":
-        cap = 0.0
-        op = CTX["glob"]["BEC_CO2_price"]["value"]
-        em = (
-            CTX["derived"]["BEC_CO2_upstream_emissions"] * CO2_demand
-            - credit_per_kg_fuel
-        )
+        capex_components = {}
+        opex_components = {
+            "CO2 from BEC": CTX["glob"]["BEC_CO2_price"]["value"]
+        }
+        emiss_components = {
+        "BEC Facility Operational Emissions": CTX["derived"]["BEC_CO2_upstream_emissions"] * CO2_demand,
+        "Captured Carbon Credit": -1.0 * credit_per_kg_fuel
+        }
     elif C_pathway == "DAC":
-        cap = 0.0
-        op = CTX["glob"]["DAC_CO2_price"]["value"]
-        em = (
-            CTX["derived"]["DAC_CO2_upstream_emissions"] * CO2_demand
-            + CTX["derived"]["DAC_CO2_upstream_NG"]
-            * CO2_demand
-            / CTX["glob"]["NG_HHV"]["value"]
-            * CTX["glob"]["NG_GWP"]["value"]
-            * CTX["derived"]["NG_CH4_leakage"]
-            + CTX["derived"]["DAC_CO2_upstream_elect"] * elect_int * CO2_demand
-            - credit_per_kg_fuel
-        )
+        capex_components = {}
+        opex_components = {
+            "CO2 from DAC": CTX["glob"]["DAC_CO2_price"]["value"]
+        }
+        emiss_components = {
+            "Embedded Emissions of DAC Facility": CTX["derived"]["DAC_CO2_upstream_emissions"] * CO2_demand,
+            "Upstream Emissions of NG Used for DAC": CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
+                                                                    / CTX["glob"]["NG_HHV"]["value"]
+                                                                    * CTX["glob"]["NG_GWP"]["value"]
+                                                                    * CTX["derived"]["NG_CH4_leakage"]      # Upstream CH4 leakage
+                                                                    + CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
+                                                                    / CTX["glob"]["NG_HHV"]["value"]
+                                                                    * CTX["derived"]["NG_CO2_emissions"],   # Upstream CO2 emissions to produce NG
+            "Upstream Emissions of Electricity Used for DAC Production": CTX["derived"]["DAC_CO2_upstream_elect"] * elect_emissions_intensity * CO2_demand,
+            "Captured Carbon Credit": -1.0 * credit_per_kg_fuel
+        }
+
     elif C_pathway in ("SMRCCS", "ATRCCS"):
-        cap = 0.0
-        op = 0.0
-        em = CO2_demand - credit_per_kg_fuel  # captured fossil CO₂, not 100 % conv.
+        capex_components = {}
+        opex_components = {}
+        emiss_components = {
+            "Emissions to Operate CCS": CO2_demand,
+            "Captured Carbon Credit": -1.0 * credit_per_kg_fuel
+        }
     elif C_pathway == "SMR":
-        cap = 0.0
-        op = 0.0
-        em = -credit_per_kg_fuel  # fossil CO₂ retained in fuel (credit)
+        capex_components = {}
+        opex_components = {}
+        emiss_components = {
+            "Captured Carbon Credit": -1.0 * credit_per_kg_fuel
+        }
     elif C_pathway == "BG":
-        cap = 0.0
-        op = 0.0
-        em = 0.0  # biogenic credit already counted
+        capex_components = {}
+        opex_components = {}
+        emiss_components = {}  # biogenic credit already counted
     else:
         raise ValueError(f"Unknown CO₂ pathway: {C_pathway}")
 
-    return cap, op, em
+    return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
 
 
 def calculate_production_costs_emissions_STP_hydrogen(
@@ -596,14 +591,16 @@ def calculate_production_costs_emissions_STP_hydrogen(
         "elec": elect_price,
         "labor": hourly_labor_rate,
     }
-    capex, opex, emiss = generic_production(
+    capex, opex, emiss, capex_components, opex_components, emiss_components = generic_production(
         H_pathway,
+        "H2",
         instal_factor,
         prices,
         elect_emissions_intensity,
-        lcb_upstream_emiss=LCB_upstream_emissions,
+        lcb_upstream_emiss=LCB_upstream_emissions
+        
     )
-    return capex, opex, emiss
+    return capex, opex, emiss, capex_components, opex_components, emiss_components
 
 
 # ────────────────────────────────────────────────────────────────────
@@ -625,9 +622,12 @@ def calculate_production_costs_emissions_liquid_hydrogen(
     elect_liq = CTX["tech"]["H2_liq"]["elect_demand"]["value"]
 
     capex_liq = base_capex_liq * instal_factor
-    opex_liq = (
-        CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]
-    ) * capex_liq + elect_liq * elect_price
+    opex_liq_components = {
+        "Liquefaction Facility O&M": (CTX["glob"]["op_maint_rate"]["value"]
+                                        + CTX["glob"]["tax_rate"]["value"]
+                                        ) * capex_liq,
+        "Liquefaction Facility Electricity": elect_liq * elect_price,
+    }
     emiss_liq = elect_liq * elect_emissions_intensity
 
     # --- underlying STP hydrogen via generic engine --------------------
@@ -638,19 +638,28 @@ def calculate_production_costs_emissions_liquid_hydrogen(
         "elec": elect_price,
         "labor": hourly_labor_rate,
     }
-    capex_h2, opex_h2, emiss_h2 = generic_production(
+    capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
         H_pathway,
+        "H2",
         instal_factor,
         prices,
         elect_emissions_intensity,
-        lcb_upstream_emiss=LCB_upstream_emissions,
+        lcb_upstream_emiss=LCB_upstream_emissions
     )
+    
+    capex_components = capex_h2_components
+    capex_components["Liquefaction Facility"] = capex_liq
 
-    return capex_liq + capex_h2, opex_liq + opex_h2, emiss_liq + emiss_h2
+    opex_components = {**opex_liq_components, **opex_h2_components}
+
+    emiss_components = emiss_h2_components
+    emiss_components["Electricity for Liquefaction"] = emiss_liq
+
+    return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
 
 
 def calculate_production_costs_emissions_NG(
-    water_price, NG_price, elect_price, elect_intensity
+    water_price, NG_price, elect_price, elect_emissions_intensity
 ):
     prices = {
         "water": water_price,
@@ -661,9 +670,10 @@ def calculate_production_costs_emissions_NG(
     }
     return generic_production(
         "NG",  # canonical table key
+        "NG",
         install_factor=1.0,
         prices=prices,
-        elec_intensity=elect_intensity,
+        elec_intensity=elect_emissions_intensity
     )
 
 
@@ -672,7 +682,7 @@ def calculate_production_costs_emissions_liquid_NG(
     water_price,
     NG_price,
     elect_price,
-    elect_intensity,
+        elect_emissions_intensity,
 ):
     """Incremental liquefaction block + generic NG feedstock."""
     # incremental liquefaction
@@ -681,25 +691,33 @@ def calculate_production_costs_emissions_liquid_NG(
         * CTX["glob"]["2018_to_2024_USD"]["value"]
         * instal_factor
     )
-    opex_liq = (
-        (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"])
-        * capex_liq
-        + CTX["derived"]["NG_liq_NG_demand_GJ"] * NG_price
-        + CTX["derived"]["NG_liq_water_demand"] * water_price
-        + CTX["derived"]["NG_liq_elect_demand"] * elect_price
-    )
-    emiss_liq = (
-        CTX["derived"]["NG_liq_CO2_emissions"]
-        + CTX["derived"]["NG_liq_CH4_leakage"] * CTX["glob"]["NG_GWP"]["value"]
-        + CTX["derived"]["NG_liq_elect_demand"] * elect_intensity
-    )
+    opex_liq_components = {
+        "Liquefaction Facility O&M": (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"])
+        * capex_liq,
+        "NG for Liquefaction": CTX["derived"]["NG_liq_NG_demand_GJ"] * NG_price,
+        "Water for Liquefaction": CTX["derived"]["NG_liq_water_demand"] * water_price,
+        "Electricity for Liquefaction": CTX["derived"]["NG_liq_elect_demand"] * elect_price
+    }
+    
+    emiss_liq_components = {
+        "Onsite CO2 Emissions for Liquefaction": CTX["derived"]["NG_liq_CO2_emissions"],
+        "CH4 Leakage for Liquefaction": CTX["derived"]["NG_liq_CH4_leakage"] * CTX["glob"]["NG_GWP"]["value"],
+        "Electricity Demand for Liquefaction": CTX["derived"]["NG_liq_elect_demand"] * elect_emissions_intensity
+    }
 
     # upstream NG via generic engine
-    capex_ng, opex_ng, emiss_ng = calculate_production_costs_emissions_NG(
-        water_price, NG_price, elect_price, elect_intensity
+    capex_ng, opex_ng, emiss_ng, capex_ng_components, opex_ng_components, emiss_ng_components = calculate_production_costs_emissions_NG(
+        water_price, NG_price, elect_price, elect_emissions_intensity
     )
+    
+    capex_components = capex_ng_components
+    capex_components["Liquefaction facility"] = capex_liq
+    
+    opex_components = {**opex_liq_components, **opex_ng_components}
+    
+    emiss_components = {**emiss_liq_components, **emiss_ng_components}
 
-    return capex_liq + capex_ng, opex_liq + opex_ng, emiss_liq + emiss_ng
+    return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
 
 
 # ────────────────────────────────────────────────────────────────────
@@ -721,9 +739,12 @@ def calculate_production_costs_emissions_compressed_hydrogen(
     elect_comp = CTX["tech"]["H2_comp"]["elect_demand"]["value"]
 
     capex_comp = base_capex_comp * instal_factor
-    opex_comp = (
-        CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]
-    ) * capex_comp + elect_comp * elect_price
+    opex_comp_components = {
+        "Compression Facility O&M": (CTX["glob"]["op_maint_rate"]["value"]
+                                        + CTX["glob"]["tax_rate"]["value"]
+                                        ) * capex_comp,
+        "Electricity for Compression": elect_comp * elect_price
+    }
     emiss_comp = elect_comp * elect_emissions_intensity
 
     # --- underlying STP hydrogen via generic engine --------------------
@@ -734,15 +755,24 @@ def calculate_production_costs_emissions_compressed_hydrogen(
         "elec": elect_price,
         "labor": hourly_labor_rate,
     }
-    capex_h2, opex_h2, emiss_h2 = generic_production(
+    capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
         H_pathway,
+        "H2",
         instal_factor,
         prices,
         elect_emissions_intensity,
-        lcb_upstream_emiss=LCB_upstream_emissions,
+        LCB_upstream_emissions
     )
+    
+    capex_components = capex_h2_components
+    capex_components["Compression Facility"] = capex_comp
 
-    return capex_comp + capex_h2, opex_comp + opex_h2, emiss_comp + emiss_h2
+    opex_components = {**opex_comp_components, **opex_h2_components}
+
+    emiss_components = emiss_h2_components
+    emiss_components["Electricity for Compression"] = emiss_comp
+
+    return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
 
 
 # ────────────────────────────────────────────────────────────────────
@@ -750,13 +780,13 @@ def calculate_production_costs_emissions_compressed_hydrogen(
 # ────────────────────────────────────────────────────────────────────
 def calculate_production_costs_emissions_ammonia(
     H_pathway: str,
-    instal: float,
+    instal_factor: float,
     water_price: float,
     NG_price: float,
     LCB_price: float,
-    LCB_up_emiss: float,
+    LCB_upstream_emissions: float,
     elect_price: float,
-    elect_int: float,
+    elect_emissions_intensity: float,
     labor_rate: float,
 ):
     # --- core Haber-Bosch block (no feeds) ----------------------------
@@ -767,26 +797,36 @@ def calculate_production_costs_emissions_ammonia(
     employees = CTX["derived"]["NH3_employees"]
     yearly_output = CTX["tech"]["NH3"]["yearly_output"]["value"]
 
-    cap_core = CTX["derived"]["NH3_base_CapEx"] * instal
-    op_core = (
-        _fixed_opex(cap_core, employees, yearly_output, labor_rate)
-        + elect * elect_price
-        + water * water_price
-        + ng * NG_price
-    )
-    em_core = (
-        elect * elect_int
-        + ng
-        / CTX["glob"]["NG_HHV"]["value"]
+    capex_nh3 = CTX["derived"]["NH3_base_CapEx"] * instal_factor
+        
+    opex_nh3_components = {
+        "NH3 Production Labor": CTX["glob"]["workhours_per_year"]["value"]
+                                    * labor_rate
+                                    * employees
+                                    / yearly_output
+                                    * (1 + CTX["glob"]["gen_admin_rate"]["value"]),
+        "NH3 Production O&M": (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"])
+                                    * capex_nh3,
+        "Electricity for NH3 Production": elect * elect_price,
+        "Water for NH3 Production": water * water_price,
+        "NG for NH3 Production": ng * NG_price
+    }
+
+    emiss_nh3_components = {
+        "Electricity for NH3 Production": elect * elect_emissions_intensity,
+        "NG for NH3 Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4
         * CTX["glob"]["NG_GWP"]["value"]
         * CTX["derived"]["NG_CH4_leakage"]
-    )
+        + ng / CTX["glob"]["NG_HHV"]["value"]
+        * CTX["derived"]["NG_CO2_emissions"]  # upstream CO2 from NG production
+    }
+
     # (No onsite-process CO₂ for NH₃, so nothing else to add)
 
     # --- H₂ feed (generic engine) ------------------------------------
     H2_demand = CTX["derived"]["NH3_H2_demand"]  # kg H₂ per kg NH₃
 
-    price_ctx = {
+    prices = {
         "water": water_price,
         "ng": NG_price,
         "lcb": LCB_price,
@@ -794,46 +834,38 @@ def calculate_production_costs_emissions_ammonia(
         "labor": labor_rate,
     }
 
-    cap_h2, op_h2, em_h2 = _feed_h2(
-        H_pathway, instal, price_ctx, elect_int, LCB_up_emiss
+    capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
+        H_pathway,
+        "H2",
+        instal_factor,
+        prices,
+        elect_emissions_intensity,
+        LCB_upstream_emissions
     )
+    
+    # Scale all H2 components by the H2 demand of the NH3 production process
+    capex_h2_components_scaled = {k: v * H2_demand for k, v in capex_h2_components.items()}
+    opex_h2_components_scaled = {k: v * H2_demand for k, v in opex_h2_components.items()}
+    emiss_h2_components_scaled = {k: v * H2_demand for k, v in emiss_h2_components.items()}
+    
+    # Combine all component dictionaries together
+    capex_components = capex_h2_components_scaled
+    capex_components["NH3 Production Facility"] = capex_nh3
+    opex_components = {**opex_h2_components_scaled, **opex_nh3_components}
+    emiss_components = {**emiss_h2_components_scaled, **emiss_nh3_components}
 
-    # --- totals per kg NH₃ -------------------------------------------
-    CapEx = cap_core + cap_h2 * H2_demand
-    OpEx = op_core + op_h2 * H2_demand
-    Emiss = em_core + em_h2 * H2_demand
-
-    return CapEx, OpEx, Emiss
-
-
-def _fixed_opex(
-    capex: float, employees: int, yearly_output: float, labor_rate: float
-) -> float:
-    """Legacy fixed-OpEx block (labour + gen-admin + O&M + tax)."""
-    labor = (
-        CTX["glob"]["workhours_per_year"]["value"]
-        * labor_rate
-        * employees
-        / yearly_output
-        * (1 + CTX["glob"]["gen_admin_rate"]["value"])
-    )
-    return (
-        labor
-        + (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"])
-        * capex
-    )
-
+    return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
 
 def calculate_production_costs_emissions_methanol(
     H_pathway: str,
     C_pathway: str,
-    instal: float,
+    instal_factor: float,
     water_price: float,
     NG_price: float,
     LCB_price: float,
-    LCB_up_emiss: float,
+    LCB_upstream_emissions: float,
     elect_price: float,
-    elect_int: float,
+    elect_emissions_intensity: float,
     labor_rate: float,
 ):
     # ── “core” MeOH synthesis block (no feeds) ────────────────────────
@@ -843,28 +875,38 @@ def calculate_production_costs_emissions_methanol(
     employees = CTX["tech"]["MeOH"]["employees"]["value"]
     yearly_output = CTX["tech"]["MeOH"]["yearly_output"]["value"]
 
-    cap_core = CTX["tech"]["MeOH"]["base_CapEx"]["value"] * instal
-    op_core = (
-        _fixed_opex(cap_core, employees, yearly_output, labor_rate)
-        + elect * elect_price
-        + water * water_price
-        + ng * NG_price
-    )
-    em_core = (
-        elect * elect_int
-        + ng
-        / CTX["glob"]["NG_HHV"]["value"]
-        * CTX["glob"]["NG_GWP"]["value"]
-        * CTX["derived"]["NG_CH4_leakage"]
-    )
+    capex_methanol = CTX["tech"]["MeOH"]["base_CapEx"]["value"] * instal_factor
+    
+    opex_methanol_components = {
+        "Methanol Production Labor": CTX["glob"]["workhours_per_year"]["value"]
+                                        * labor_rate
+                                        * employees
+                                        / yearly_output
+                                        * (1 + CTX["glob"]["gen_admin_rate"]["value"]),
+        "Methanol Production O&M": (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"])
+                                * capex_methanol,
+        "Electricity for Methanol Production": elect * elect_price,
+        "Water for Methanol Production": water * water_price,
+        "NG for Methanol Production": ng * NG_price
+    }
+
+    emiss_methanol_components = {
+        "Electricity for Methanol Production": elect * elect_emissions_intensity,
+        "NG for Methanol Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4
+                                        * CTX["glob"]["NG_GWP"]["value"]
+                                        * CTX["derived"]["NG_CH4_leakage"]
+                                        + ng / CTX["glob"]["NG_HHV"]["value"]
+                                        * CTX["derived"]["NG_CO2_emissions"]  # upstream CO2 from NG production
+    }
+
     if C_pathway not in ("BEC", "DAC"):  # keep legacy rule
-        em_core += CTX["tech"]["MeOH"]["onsite_emissions"]["value"]
+        emiss_methanol_components["Onsite Emissions for Methanol Production"] = CTX["tech"]["MeOH"]["onsite_emissions"]["value"]
 
     # ── H₂ and CO₂ feed handling via helpers ──────────────────────────
     H2_demand = CTX["tech"]["MeOH"]["H2_demand"]["value"]
     CO2_demand = CTX["tech"]["MeOH"]["CO2_demand"]["value"]
 
-    price_ctx = {
+    prices = {
         "water": water_price,
         "ng": NG_price,
         "lcb": LCB_price,
@@ -872,24 +914,45 @@ def calculate_production_costs_emissions_methanol(
         "labor": labor_rate,
     }
 
-    cap_h2, op_h2, em_h2 = _feed_h2(
-        H_pathway, instal, price_ctx, elect_int, LCB_up_emiss
+    capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
+        H_pathway,
+        "H2",
+        instal_factor,
+        prices,
+        elect_emissions_intensity,
+        lcb_upstream_emiss=LCB_upstream_emissions
     )
+    
+    # Scale all H2 components by the H2 demand of the methanol production process
+    capex_h2_components_scaled = {k: v * H2_demand for k, v in capex_h2_components.items()}
+    opex_h2_components_scaled = {k: v * H2_demand for k, v in opex_h2_components.items()}
+    emiss_h2_components_scaled = {k: v * H2_demand for k, v in emiss_h2_components.items()}
 
     credit_methanol = (
         CTX["molecular_info"]["MW_CO2"]["value"]
         / CTX["molecular_info"]["MW_MeOH"]["value"]
     )
-    cap_co2, op_co2, em_co2 = _feed_co2(
-        C_pathway, credit_methanol, price_ctx, elect_int, CO2_demand
+    capex_co2, opex_co2, emiss_co2, capex_co2_components, opex_co2_components, emiss_co2_components = _feed_co2(
+        C_pathway, credit_methanol, prices, elect_emissions_intensity, CO2_demand
     )
+    
+    # Scale the CapEx and OpEx CO2 components by the CO2 demand of the methanol production process (the emissions components are already scaled)
+    capex_co2_components_scaled = {k: v * CO2_demand for k, v in capex_co2_components.items()}
+    opex_co2_components_scaled = {k: v * CO2_demand for k, v in opex_co2_components.items()}
+
+    # Combine all component dictionaries together
+    capex_components = {**capex_h2_components_scaled, **capex_co2_components_scaled}
+    capex_components["Methanol Production Facility"] = capex_methanol
+    opex_components = {**opex_h2_components_scaled, **opex_co2_components_scaled, **opex_methanol_components}
+    emiss_components = {**emiss_h2_components_scaled, **emiss_co2_components, **emiss_methanol_components}
+
 
     # ── totals (per kg MeOH) ──────────────────────────────────────────
-    CapEx = cap_core + cap_h2 * H2_demand + cap_co2 * CO2_demand
-    OpEx = op_core + op_h2 * H2_demand + op_co2 * CO2_demand
-    Emiss = em_core + em_h2 * H2_demand + em_co2
+#    CapEx = cap_core + cap_h2 * H2_demand + cap_co2 * CO2_demand
+#    OpEx = op_core + op_h2 * H2_demand + op_co2 * CO2_demand
+#    Emiss = em_core + em_h2 * H2_demand + em_co2
 
-    return CapEx, OpEx, Emiss
+    return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
 
 
 # -----------------------------------------------------------------------
@@ -898,13 +961,13 @@ def calculate_production_costs_emissions_methanol(
 def calculate_production_costs_emissions_FTdiesel(
     H_pathway: str,
     C_pathway: str,
-    instal: float,
+    instal_factor: float,
     water_price: float,
     NG_price: float,
     LCB_price: float,
-    LCB_up_emiss: float,
+    LCB_upstream_emissions: float,
     elect_price: float,
-    elect_int: float,
+    elect_emissions_intensity: float,
     labor_rate: float,
 ):
     # ── “core” FT block (no feeds) ────────────────────────────────────
@@ -914,28 +977,38 @@ def calculate_production_costs_emissions_FTdiesel(
     employees = CTX["tech"]["FTdiesel"]["employees"]["value"]
     yearly_output = CTX["tech"]["FTdiesel"]["yearly_output"]["value"]
 
-    cap_core = CTX["tech"]["FTdiesel"]["base_CapEx"]["value"] * instal
-    op_core = (
-        _fixed_opex(cap_core, employees, yearly_output, labor_rate)
-        + elect * elect_price
-        + water * water_price
-        + ng * NG_price
-    )
-    em_core = (
-        elect * elect_int
-        + ng
-        / CTX["glob"]["NG_HHV"]["value"]
-        * CTX["glob"]["NG_GWP"]["value"]
-        * CTX["derived"]["NG_CH4_leakage"]
-    )
+    capex_ftdiesel = CTX["tech"]["FTdiesel"]["base_CapEx"]["value"] * instal_factor
+
+    opex_ftdiesel_components = {
+        "FT Diesel Production Labor": CTX["glob"]["workhours_per_year"]["value"]
+                                        * labor_rate
+                                        * employees
+                                        / yearly_output
+                                        * (1 + CTX["glob"]["gen_admin_rate"]["value"]),
+        "FT Diesel Production O&M": (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"])
+                                * capex_ftdiesel,
+        "Electricity for FT Diesel Production": elect * elect_price,
+        "Water for FT Diesel Production": water * water_price,
+        "NG for FT Diesel Production": ng * NG_price
+    }
+
+    emiss_ftdiesel_components = {
+        "Electricity for FT Diesel Production": elect * elect_emissions_intensity,
+        "NG for FT Diesel Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4
+                                        * CTX["glob"]["NG_GWP"]["value"]
+                                        * CTX["derived"]["NG_CH4_leakage"]
+                                        + ng / CTX["glob"]["NG_HHV"]["value"]
+                                        * CTX["derived"]["NG_CO2_emissions"]  # upstream CO2 from NG production
+    }
+
     if C_pathway not in ("BEC", "DAC"):
-        em_core += CTX["tech"]["FTdiesel"]["onsite_emissions"]["value"]
+        emiss_ftdiesel_components["Onsite Emissions for FT Diesel Production"] = CTX["tech"]["FTdiesel"]["onsite_emissions"]["value"]
 
     # ── H₂ and CO₂ feeds ──────────────────────────────────────────────
     H2_demand = CTX["tech"]["FTdiesel"]["H2_demand"]["value"]
     CO2_demand = CTX["tech"]["FTdiesel"]["CO2_demand"]["value"]
 
-    price_ctx = {
+    prices = {
         "water": water_price,
         "ng": NG_price,
         "lcb": LCB_price,
@@ -943,9 +1016,19 @@ def calculate_production_costs_emissions_FTdiesel(
         "labor": labor_rate,
     }
 
-    cap_h2, op_h2, em_h2 = _feed_h2(
-        H_pathway, instal, price_ctx, elect_int, LCB_up_emiss
+    capex_h2, opex_h2, emiss_h2, capex_h2_components, opex_h2_components, emiss_h2_components = generic_production(
+        H_pathway,
+        "H2",
+        instal_factor,
+        prices,
+        elect_emissions_intensity,
+        lcb_upstream_emiss=LCB_upstream_emissions
     )
+
+    # Scale all H2 components by the H2 demand of the FT diesel production process
+    capex_h2_components_scaled = {k: v * H2_demand for k, v in capex_h2_components.items()}
+    opex_h2_components_scaled = {k: v * H2_demand for k, v in opex_h2_components.items()}
+    emiss_h2_components_scaled = {k: v * H2_demand for k, v in emiss_h2_components.items()}
 
     # fuel-specific credit factor:  nC * MW_CO2  /  MW_FTdiesel
     credit_ft = (
@@ -953,16 +1036,27 @@ def calculate_production_costs_emissions_FTdiesel(
         * CTX["molecular_info"]["MW_CO2"]["value"]
         / CTX["molecular_info"]["MW_FTdiesel"]["value"]
     )
-    cap_co2, op_co2, em_co2 = _feed_co2(
-        C_pathway, credit_ft, price_ctx, elect_int, CO2_demand
+
+    capex_co2, opex_co2, emiss_co2, capex_co2_components, opex_co2_components, emiss_co2_components = _feed_co2(
+        C_pathway, credit_ft, prices, elect_emissions_intensity, CO2_demand
     )
+    
+    # Scale the CapEx and OpEx CO2 components by the CO2 demand of the methanol production process (the emissions components are already scaled)
+    capex_co2_components_scaled = {k: v * CO2_demand for k, v in capex_co2_components.items()}
+    opex_co2_components_scaled = {k: v * CO2_demand for k, v in opex_co2_components.items()}
+    
+    # Combine all component dictionaries together
+    capex_components = {**capex_h2_components_scaled, **capex_co2_components_scaled}
+    capex_components["FT Diesel Production Facility"] = capex_ftdiesel
+    opex_components = {**opex_h2_components_scaled, **opex_co2_components_scaled, **opex_ftdiesel_components}
+    emiss_components = {**emiss_h2_components_scaled, **emiss_co2_components, **emiss_ftdiesel_components}
 
-    # ── totals (per kg FT-diesel) ─────────────────────────────────────
-    CapEx = cap_core + cap_h2 * H2_demand + cap_co2 * CO2_demand
-    OpEx = op_core + op_h2 * H2_demand + op_co2 * CO2_demand
-    Emiss = em_core + em_h2 * H2_demand + em_co2
+#    # ── totals (per kg FT-diesel) ─────────────────────────────────────
+#    CapEx = cap_core + cap_h2 * H2_demand + cap_co2 * CO2_demand
+#    OpEx = op_core + op_h2 * H2_demand + op_co2 * CO2_demand
+#    Emiss = em_core + em_h2 * H2_demand + em_co2
 
-    return CapEx, OpEx, Emiss
+    return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
 
 
 def calculate_resource_demands_STP_hydrogen(H_pathway: str):
@@ -1132,12 +1226,19 @@ fuel_comments = {
 }
 
 
-def main():
+def main(save_json=False):
     input_dir = f"{top_dir}/input_fuel_pathway_data/"
     output_dir_production = f"{top_dir}/input_fuel_pathway_data/production/"
     ensure_directory_exists(output_dir_production)
+    output_dir_production_components = os.path.join(output_dir_production, "cost_emissions_components")
+    if save_json:
+        ensure_directory_exists(output_dir_production_components)
+        
     output_dir_process = f"{top_dir}/input_fuel_pathway_data/process/"
     ensure_directory_exists(output_dir_process)
+    output_dir_process_components = os.path.join(output_dir_process, "cost_emissions_components")
+    if save_json:
+        ensure_directory_exists(output_dir_process_components)
 
     # Read the input CSV files
     input_df = pd.read_csv(input_dir + "regional_TEA_inputs.csv")
@@ -1334,7 +1435,7 @@ def main():
                 # Get the appropriate function for cost/emissions
                 if fuel in cost_emission_fn:
                     if fuel in ["methanol", "FTdiesel"]:
-                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                        CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = cost_emission_fn[fuel](
                             H_pathway,
                             C_pathway,
                             instal_factor,
@@ -1347,7 +1448,7 @@ def main():
                             hourly_labor_rate,
                         )
                     elif fuel in ["ammonia"]:
-                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                        CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = cost_emission_fn[fuel](
                             H_pathway,
                             instal_factor,
                             water_price,
@@ -1359,14 +1460,14 @@ def main():
                             hourly_labor_rate,
                         )
                     elif fuel == "ng":
-                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                        CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = cost_emission_fn[fuel](
                             water_price,
                             NG_price,
                             elect_price,
                             elect_emissions_intensity,
                         )
                     elif fuel == "lng":
-                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                        CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = cost_emission_fn[fuel](
                             instal_factor,
                             water_price,
                             NG_price,
@@ -1374,7 +1475,7 @@ def main():
                             elect_emissions_intensity,
                         )
                     else:
-                        CapEx, OpEx, emissions = cost_emission_fn[fuel](
+                        CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = cost_emission_fn[fuel](
                             H_pathway,
                             instal_factor,
                             water_price,
@@ -1389,7 +1490,9 @@ def main():
                     comment = fuel_comments.get(fuel, "")
 
                 CapEx *= 1000  # convert to $/tonne
+                CapEx_components = {k: v * 1000 for k, v in CapEx_components.items()}
                 OpEx *= 1000  # convert to $/tonne
+                OpEx_components = {k: v * 1000 for k, v in OpEx_components.items()}
                 LCOF = CapEx + OpEx  # in $/tonne
                 calculated_row = [
                     fuel,
@@ -1407,6 +1510,17 @@ def main():
                     comment,
                 ]
                 output_data.append(calculated_row)
+                if save_json:
+                    region_safe = region.replace(" ", "_").lower()
+                    path_prefix = os.path.join(output_dir_production_components, f"{fuel}_{fuel_pathway}_{region_safe}")
+                    
+                    combined_components = {
+                        "CapEx (2024$/tonne)": CapEx_components,
+                        "OpEx (2024$/tonne)": OpEx_components,
+                        "emissions (kg CO2e / kg fuel)": emissions_components
+                    }
+                    with open(f"{path_prefix}_components.json", "w") as f:
+                        json.dump(combined_components, f, indent=2)
 
         # GE - Define the resource output to CSV column names - may need to add more columns
         output_resource_columns = [
@@ -1542,7 +1656,7 @@ def main():
                     elect_emissions_intensity = nuke_emissions_intensity
                 # Calculations use LTE pathway for all, but subtract away the LTE costs/emissions
                 if process == "hydrogen_liquefaction":
-                    CapEx, OpEx, emissions = (
+                    CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = (
                         calculate_production_costs_emissions_liquid_hydrogen(
                             "LTE",
                             instal_factor,
@@ -1555,7 +1669,7 @@ def main():
                             hourly_labor_rate,
                         )
                     )
-                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = (
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod, CapEx_H2prod_components, OpEx_H2prod_components, emissions_H2prod_components = (
                         calculate_production_costs_emissions_STP_hydrogen(
                             "LTE",
                             instal_factor,
@@ -1574,7 +1688,7 @@ def main():
                     fuel = "liquid_hydrogen"
                     comment = "Liquefaction of STP hydrogen to cryogenic hydrogen at atmospheric pressure"
                 elif process == "hydrogen_compression":
-                    CapEx, OpEx, emissions = (
+                    CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = (
                         calculate_production_costs_emissions_compressed_hydrogen(
                             "LTE",
                             instal_factor,
@@ -1587,7 +1701,7 @@ def main():
                             hourly_labor_rate,
                         )
                     )
-                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = (
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod, CapEx_H2prod_components, OpEx_H2prod_components, emissions_H2prod_components = (
                         calculate_production_costs_emissions_STP_hydrogen(
                             "LTE",
                             instal_factor,
@@ -1608,7 +1722,7 @@ def main():
                         "compression of STP hydrogen to gaseous hydrogen at 700 bar"
                     )
                 elif process == "hydrogen_to_ammonia_conversion":
-                    CapEx, OpEx, emissions = (
+                    CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = (
                         calculate_production_costs_emissions_ammonia(
                             "LTE",
                             instal_factor,
@@ -1621,7 +1735,7 @@ def main():
                             hourly_labor_rate,
                         )
                     )
-                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod = (
+                    CapEx_H2prod, OpEx_H2prod, emissions_H2prod, CapEx_H2prod_components, OpEx_H2prod_components, emissions_H2prod_components = (
                         calculate_production_costs_emissions_STP_hydrogen(
                             "LTE",
                             instal_factor,
@@ -1640,7 +1754,7 @@ def main():
                     fuel = "ammonia"
                     comment = "conversion of STP hydrogen to liquid cryogenic ammonia at atmospheric pressure"
                 elif process == "ng_liquefaction":
-                    CapEx, OpEx, emissions = (
+                    CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = (
                         calculate_production_costs_emissions_liquid_NG(
                             instal_factor,
                             water_price,
@@ -1649,7 +1763,7 @@ def main():
                             elect_emissions_intensity,
                         )
                     )
-                    CapEx_NGprod, OpEx_NGprod, emissions_NGprod = (
+                    CapEx_NGprod, OpEx_NGprod, emissions_NGprod, CapEx_NGprod_components, OpEx_NGprod_components, emissions_NGprod_components = (
                         calculate_production_costs_emissions_NG(
                             water_price,
                             NG_price,
@@ -1693,6 +1807,11 @@ def main():
             f"Output CSV file created: {os.path.join(output_dir_process, output_file)}"
         )
 
-
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Generate cost/emissions and resource .csvs (optionally with component .jsons).")
+    parser.add_argument(
+        "--save_json", action="store_true",
+        help="Save component-level CapEx, OpEx, and emissions breakdowns to JSON files"
+    )
+    args = parser.parse_args()
+    main(save_json=args.save_json)

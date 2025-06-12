@@ -17,3 +17,4 @@ data/NavigaTE_CAPEX_OPEX.csv
 all_outputs_full_fleet*
 processed_results*
 all_results_df*.csv
+*_components.json
