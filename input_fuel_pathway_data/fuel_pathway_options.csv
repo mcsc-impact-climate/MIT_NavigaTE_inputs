@@ -1,8 +1,16 @@
 WTG fuels,fuel contents,GTT processes,electricity sources,hydrogen sources,carbon sources
 hydrogen,H,"hydrogen_liquefaction, hydrogen_compression",grid,SMR,SMR
+<<<<<<< HEAD
 liquid_hydrogen,H,hydrogen_to_ammonia_conversion,solar,SMRCCS,BEC
 ammonia,NH,,wind,ATRCCS,DAC
 methanol,CHO,,,LTE,BG
 FTdiesel,CH,,,BG,
+=======
+liquid_hydrogen,H,,solar,SMRCCS,BEC
+compressed_hydrogen,H,hydrogen_to_ammonia_conversion,wind,ATRCCS,DAC
+ammonia,NH,,,LTE,BG
+methanol,CHO,,,BG,
+FTdiesel,CH,,,,
+>>>>>>> main
 ng,fossil,ng_liquefaction,,,
 lng,fossil,,,,
