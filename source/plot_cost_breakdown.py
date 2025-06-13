@@ -178,6 +178,8 @@ for vessel_type in vessel_types:
                                 color='darkred'
                             )
 
+        max_value = max(bottoms)
+        ax.set_xlim([0, max_value * 1.15])  # 15% buffer on the right
         ax.set_xlabel("Annual Vessel Cost ($/year)", fontsize=16)
         ax.set_title(f"{vessel_type_title[vessel_type]} – {vessel_size_title[vessel_size]}", fontsize=16)
         ax.legend(
