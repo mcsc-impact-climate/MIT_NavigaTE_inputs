@@ -1,5 +1,5 @@
 # DMM: Copied from tanker_35k_dwt_ice_oil.inc
-Vessel "tanker_35k_dwt_ice_diesel" {
+Vessel "tanker_35k_dwt_ice_FTdiesel" {
     
     PropulsionLoadLevel = Surface("speed_draft_power_surface_tanker_35k_dwt")
     ElectricalLoadLevelAtSea=0.6
@@ -22,22 +22,11 @@ Vessel "tanker_35k_dwt_ice_diesel" {
 }
 
 PowerSystem "ice_diesel_tanker_35k_dwt" {
-    Propulsion = [Converter("propulsion_ice_diesel_tanker_35k_dwt")]
-    Electrical = [Converter("electrical_ice_diesel_tanker_35k_dwt")]
-    Heat = [Converter("heat_boiler_oil_diesel_tanker_35k_dwt")]
-    
-    PropulsionInStreams = Array [
-        [0, 1.0, 0, 0]
-    ]
-    
-    ElectricalInStreams = Array [
-        [0, 0, 1.0, 0]
-    ]
-    
-    HeatInStreams = Array [
-        [0, 0, 0, 0.825]
-    ]
-    
+    Setup = INDIVIDUAL
+    Propulsion = Converter("propulsion_ice_diesel_tanker_35k_dwt")
+    Electrical = Converter("electrical_ice_diesel_tanker_35k_dwt")
+    Heat = Converter("heat_boiler_diesel_tanker_35k_dwt")
+
     CAPEX = 0.265e6     # DMM: Copied from ice_oil_tanker_35k_dwt.inc
     OPEX = 0.265e4      # DMM: Copied from ice_oil_tanker_35k_dwt.inc
 }
@@ -46,8 +35,7 @@ Converter "propulsion_ice_diesel_tanker_35k_dwt" {
     PowerCapacity=8.5
     MinimumLoad=0.2
     MainFuelTypes = [DIESEL]
-    OutStream = [0, Forecast("propulsion_ice_diesel_thermal_efficiency"), 0, <1 - Forecast("propulsion_ice_diesel_thermal_efficiency")>]
-    PrimaryStream = MECHANICAL
+    Efficiency = Forecast("propulsion_ice_diesel_thermal_efficiency")
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -58,8 +46,7 @@ Converter "propulsion_ice_diesel_tanker_35k_dwt" {
 Converter "electrical_ice_diesel_tanker_35k_dwt" {
     PowerCapacity=3.
     MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0.5, 0.5]    # DMM: Copied from electrical_ice_oil_tanker_35k_dwt.inc
-    PrimaryStream = ELECTRICAL
+    Efficiency = 0.5    # DMM: Copied from electrical_ice_oil_tanker_35k_dwt.inc
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -103,14 +90,3 @@ Forecast "propulsion_ice_diesel_thermal_efficiency" {
     ]
     Extrapolate=LINEAR
 }
-
-Converter "heat_boiler_oil_diesel_tanker_35k_dwt" {
-    PowerCapacity=2.
-    MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0, 1.0]
-    PrimaryStream = HEAT
-    
-    CAPEX = 55e3
-    OPEX = 0
-}
-

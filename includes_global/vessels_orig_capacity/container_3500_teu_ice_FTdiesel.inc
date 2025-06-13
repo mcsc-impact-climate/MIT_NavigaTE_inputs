@@ -1,5 +1,5 @@
 # DMM: Currently copied from container_3500_teu_ice_oil.inc
-Vessel "container_3500_teu_ice_diesel" {
+Vessel "container_3500_teu_ice_FTdiesel" {
     
     PropulsionLoadLevel = Curve("speed_power_curve_container_3500_teu")
     ElectricalLoadLevelAtSea=0.9
@@ -22,21 +22,10 @@ Vessel "container_3500_teu_ice_diesel" {
 }
 
 PowerSystem "ice_diesel_container_3500_teu" {
-    Propulsion = [Converter("propulsion_ice_diesel_container_3500_teu")]
-    Electrical = [Converter("electrical_ice_diesel_container_3500_teu")]
-    Heat = [Converter("heat_boiler_oil_diesel_container_3500_teu")]
-    
-    PropulsionInStreams = Array [
-        [0, 1.0, 0, 0]
-    ]
-    
-    ElectricalInStreams = Array [
-        [0, 0, 1.0, 0]
-    ]
-    
-    HeatInStreams = Array [
-        [0, 0, 0, 0.825]
-    ]
+    Setup = INDIVIDUAL
+    Propulsion = Converter("propulsion_ice_diesel_container_3500_teu")
+    Electrical = Converter("electrical_ice_diesel_container_3500_teu")
+    Heat = Converter("heat_boiler_diesel_container_3500_teu")
     
     CAPEX = 0.46e6      # DMM: Copied from ice_oil_container_3500_teu.inc
     OPEX = 0.46e4       # DMM: Copied from ice_oil_container_3500_teu.inc
@@ -46,8 +35,7 @@ Converter "propulsion_ice_diesel_container_3500_teu" {
     PowerCapacity=26.9              # DMM: Copied from propulsion_ice_oil_container_3500_teu.inc
     MinimumLoad=0.15                # DMM: Copied from propulsion_ice_oil_container_3500_teu.inc
     MainFuelTypes = [DIESEL]
-    OutStream = [0, Forecast("propulsion_ice_diesel_thermal_efficiency"), 0, <1 - Forecast("propulsion_ice_diesel_thermal_efficiency")>]
-    PrimaryStream = MECHANICAL
+    Efficiency = Forecast("propulsion_ice_diesel_thermal_efficiency")
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -58,8 +46,7 @@ Converter "propulsion_ice_diesel_container_3500_teu" {
 Converter "electrical_ice_diesel_container_3500_teu" {
     PowerCapacity=6.
     MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0.5, 0.5]        # Copied from electrical_ice_oil_container_3500_teu.inc
-    PrimaryStream = ELECTRICAL
+    Efficiency = 0.5        # Copied from electrical_ice_oil_container_3500_teu.inc
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -104,13 +91,4 @@ Forecast "propulsion_ice_diesel_thermal_efficiency" {
     Extrapolate=LINEAR
 }
 
-Converter "heat_boiler_oil_diesel_container_3500_teu" {
-    PowerCapacity=1.5       # DMM: Copied from heat_boiler_oil_container_3500_teu.inc
-    MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0, 1.0]  # DMM: Copied from heat_boiler_oil_container_3500_teu.inc
-    PrimaryStream = HEAT
-    
-    CAPEX = 55e3            # DMM: Copied from heat_boiler_oil_container_3500_teu.inc
-    OPEX = 0                # DMM: Copied from heat_boiler_oil_container_3500_teu.inc
-}
 

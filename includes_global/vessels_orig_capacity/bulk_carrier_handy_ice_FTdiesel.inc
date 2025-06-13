@@ -1,5 +1,5 @@
 # DMM: Copied from bulk_carrier_handy_ice_oil.inc
-Vessel "bulk_carrier_handy_ice_diesel" {
+Vessel "bulk_carrier_handy_ice_FTdiesel" {
     
     PropulsionLoadLevel = Surface("speed_draft_power_surface_bulk_carrier_handy")
     ElectricalLoadLevelAtSea=0.3
@@ -22,21 +22,10 @@ Vessel "bulk_carrier_handy_ice_diesel" {
 }
 
 PowerSystem "ice_diesel_bulk_carrier_handy" {
-    Propulsion = [Converter("propulsion_ice_diesel_bulk_carrier_handy")]
-    Electrical = [Converter("electrical_ice_diesel_bulk_carrier_handy")]
-    Heat = [Converter("heat_boiler_oil_diesel_bulk_carrier_handy")]
-    
-    PropulsionInStreams = Array [
-        [0, 1.0, 0, 0]
-    ]
-    
-    ElectricalInStreams = Array [
-        [0, 0, 1.0, 0]
-    ]
-    
-    HeatInStreams = Array [
-        [0, 0, 0, 0.825]
-    ]
+    Setup = INDIVIDUAL
+    Propulsion = Converter("propulsion_ice_diesel_bulk_carrier_handy")
+    Electrical = Converter("electrical_ice_diesel_bulk_carrier_handy")
+    Heat = Converter("heat_boiler_diesel_bulk_carrier_handy")
     
     CAPEX = 0.22e6      # DMM: Copied from ice_oil_bulk_carrier_handy.inc
     OPEX = 0.22e4       # DMM: Copied from ice_oil_bulk_carrier_handy.inc
@@ -46,8 +35,7 @@ Converter "propulsion_ice_diesel_bulk_carrier_handy" {
     PowerCapacity=7.1       # DMM: Copied from propulsion_ice_oil_bulk_carrier_handy.inc
     MinimumLoad=0.2         # DMM: Copied from propulsion_ice_oil_bulk_carrier_handy.inc
     MainFuelTypes = [DIESEL]
-    OutStream = [0, Forecast("propulsion_ice_diesel_thermal_efficiency"), 0, <1 - Forecast("propulsion_ice_diesel_thermal_efficiency")>]
-    PrimaryStream = MECHANICAL
+    Efficiency = Forecast("propulsion_ice_diesel_thermal_efficiency")
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -58,8 +46,7 @@ Converter "propulsion_ice_diesel_bulk_carrier_handy" {
 Converter "electrical_ice_diesel_bulk_carrier_handy" {
     PowerCapacity=1.7
     MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0.5, 0.5]        # DMM: Copied from electrical_ice_oil_bulk_carrier_handy.inc
-    PrimaryStream = ELECTRICAL
+    Efficiency = 0.5        # DMM: Copied from electrical_ice_oil_bulk_carrier_handy.inc
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -102,15 +89,5 @@ Forecast "propulsion_ice_diesel_thermal_efficiency" {
         "01-01-2050"    0.5559
     ]
     Extrapolate=LINEAR
-}
-
-Converter "heat_boiler_oil_diesel_bulk_carrier_handy" {
-    PowerCapacity=2.
-    MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0, 1.0]
-    PrimaryStream = HEAT
-    
-    CAPEX = 55e3
-    OPEX = 0
 }
 
