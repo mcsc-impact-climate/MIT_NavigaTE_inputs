@@ -1,39 +1,39 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
-ng,n/a,n/a,n/a,fossil,South Africa,1,2024,0.0,2978.1477049975047,2978.1477049975047,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Taiwan,1,2024,0.0,2879.542592658305,2879.542592658305,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Switzerland,1,2024,0.0,2879.542592658305,2879.542592658305,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Singapore,1,2024,0.0,2796.2120114189815,2796.2120114189815,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Hungary,1,2024,0.0,2382.5737981805587,2382.5737981805587,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Philippines,1,2024,0.0,2332.7824285537595,2332.7824285537595,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Netherlands,1,2024,0.0,2333.5391695132157,2333.5391695132157,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Norway,1,2024,0.0,2333.7600560635433,2333.7600560635433,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Oman,1,2024,0.0,2333.2814685378335,2333.2814685378335,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Italy,1,2024,0.0,2250.4376558075664,2250.4376558075664,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Austria,1,2024,0.0,2151.521666101238,2151.521666101238,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Finland,1,2024,0.0,2019.4468811033364,2019.4468811033364,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Portugal,1,2024,0.0,1969.3855390261367,1969.3855390261367,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Germany,1,2024,0.0,1755.0191570784016,1755.0191570784016,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Greece,1,2024,0.0,1754.1560633354538,1754.1560633354538,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,France,1,2024,0.0,1738.071615479761,1738.071615479761,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Brazil,1,2024,0.0,1638.2598080971036,1638.2598080971036,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,United Kingdom,1,2024,0.0,1473.124399012388,1473.124399012388,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Spain,1,2024,0.0,1390.7182688911034,1390.7182688911034,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Sweden,1,2024,0.0,1391.070051174959,1391.070051174959,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Czech Republic,1,2024,0.0,1374.457929893483,1374.457929893483,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Japan,1,2024,0.0,1291.0373578373597,1291.0373578373597,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Belgium,1,2024,0.0,1291.7163794550343,1291.7163794550343,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Poland,1,2024,0.0,1241.6591272741214,1241.6591272741214,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,India,1,2024,0.0,1125.317008443443,1125.317008443443,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Indonesia,1,2024,0.0,1125.3579133601704,1125.3579133601704,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,South Korea,1,2024,0.0,1042.820887505358,1042.820887505358,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,China,1,2024,0.0,877.3214246617692,877.3214246617692,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,United Arab Emirates,1,2024,0.0,811.5846833007646,811.5846833007646,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,United States,1,2024,0.0,663.0818485512744,663.0818485512744,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Turkey,1,2024,0.0,629.3012985254447,629.3012985254447,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Australia,1,2024,0.0,597.1324016232875,597.1324016232875,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Malaysia,1,2024,0.0,496.87473082691764,496.87473082691764,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Canada,1,2024,0.0,414.975821732591,414.975821732591,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Mexico,1,2024,0.0,414.31316208160763,414.31316208160763,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Thailand,1,2024,0.0,397.72149284172536,397.72149284172536,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Russia,1,2024,0.0,149.6809138302671,149.6809138302671,0.4131749474513325,natural gas at standard temperature and pressure
-ng,n/a,n/a,n/a,fossil,Saudi Arabia,1,2024,0.0,150.13086791426815,150.13086791426815,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,South Africa,1,2024,0.0,213.14357938757422,213.14357938757422,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Taiwan,1,2024,0.0,629.2399435318966,629.2399435318966,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Switzerland,1,2024,0.0,2780.3116374747196,2780.3116374747196,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Singapore,1,2024,0.0,3027.7836401084405,3027.7836401084405,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Hungary,1,2024,0.0,1072.7251609405585,1072.7251609405585,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Philippines,1,2024,0.0,609.223465453218,609.223465453218,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Netherlands,1,2024,0.0,1886.9998631493731,1886.9998631493731,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Norway,1,2024,0.0,1363.9663379486842,1363.9663379486842,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Oman,1,2024,0.0,74.49170755820332,74.49170755820332,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Italy,1,2024,0.0,2118.1297151658614,2118.1297151658614,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Austria,1,2024,0.0,1771.1363282720902,1771.1363282720902,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Finland,1,2024,0.0,1887.1839352746463,1887.1839352746463,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Portugal,1,2024,0.0,1638.644314314341,1638.644314314341,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Germany,1,2024,0.0,1639.249707081906,1639.249707081906,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Greece,1,2024,0.0,876.2928667168162,876.2928667168162,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,France,1,2024,0.0,1837.3025766172043,1837.3025766172043,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Brazil,1,2024,0.0,1803.6611003313185,1803.6611003313185,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,United Kingdom,1,2024,0.0,1341.2459576147783,1341.2459576147783,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Spain,1,2024,0.0,1341.1027904062323,1341.1027904062323,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Sweden,1,2024,0.0,2813.355901976385,2813.355901976385,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Czech Republic,1,2024,0.0,1357.9194380575022,1357.9194380575022,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Japan,1,2024,0.0,1423.3453014559932,1423.3453014559932,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Belgium,1,2024,0.0,1043.6389858399054,1043.6389858399054,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Poland,1,2024,0.0,1522.813509324298,1522.813509324298,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,India,1,2024,0.0,993.0090672063526,993.0090672063526,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Indonesia,1,2024,0.0,1589.0040358313486,1589.0040358313486,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,South Korea,1,2024,0.0,1125.51335263912,1125.51335263912,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,China,1,2024,0.0,987.4178451917741,987.4178451917741,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,United Arab Emirates,1,2024,0.0,74.33626887463932,74.33626887463932,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,United States,1,2024,0.0,613.4663712571746,613.4663712571746,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Turkey,1,2024,0.0,546.6088339870684,546.6088339870684,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Australia,1,2024,0.0,807.4256020789497,807.4256020789497,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Malaysia,1,2024,0.0,513.41322427044,513.41322427044,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Canada,1,2024,0.0,365.360343604951,365.360343604951,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Mexico,1,2024,0.0,298.54371184695805,298.54371184695805,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Thailand,1,2024,0.0,558.8654840826853,558.8654840826853,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Russia,1,2024,0.0,182.75789988377187,182.75789988377187,0.4131749474513325,natural gas at standard temperature and pressure
+ng,n/a,n/a,n/a,fossil,Saudi Arabia,1,2024,0.0,74.33626887463932,74.33626887463932,0.4131749474513325,natural gas at standard temperature and pressure
