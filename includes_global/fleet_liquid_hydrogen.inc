@@ -70,18 +70,18 @@ Uptake "fuel_conversion_uptake" {
     CoefficientOfVariation = 0.15
 }
 
-# Enforce main fuel share for all vessels
-Import Vessel "bulk_carrier_capesize_ice_liquid_hydrogen"
-Import Vessel "bulk_carrier_panamax_ice_liquid_hydrogen"
-Import Vessel "bulk_carrier_handy_ice_liquid_hydrogen"
-Import Vessel "container_15000_teu_ice_liquid_hydrogen"
-Import Vessel "container_8000_teu_ice_liquid_hydrogen"
-Import Vessel "container_3500_teu_ice_liquid_hydrogen"
-Import Vessel "tanker_300k_dwt_ice_liquid_hydrogen"
-Import Vessel "tanker_100k_dwt_ice_liquid_hydrogen"
-Import Vessel "tanker_35k_dwt_ice_liquid_hydrogen"
-Import Vessel "gas_carrier_100k_cbm_ice_liquid_hydrogen"
-
-Vessel "*" {
-    EnforceMainFuelShare = TRUE
-}
+## Enforce main fuel share for all vessels
+#Import Vessel "bulk_carrier_capesize_ice_liquid_hydrogen"
+#Import Vessel "bulk_carrier_panamax_ice_liquid_hydrogen"
+#Import Vessel "bulk_carrier_handy_ice_liquid_hydrogen"
+#Import Vessel "container_15000_teu_ice_liquid_hydrogen"
+#Import Vessel "container_8000_teu_ice_liquid_hydrogen"
+#Import Vessel "container_3500_teu_ice_liquid_hydrogen"
+#Import Vessel "tanker_300k_dwt_ice_liquid_hydrogen"
+#Import Vessel "tanker_100k_dwt_ice_liquid_hydrogen"
+#Import Vessel "tanker_35k_dwt_ice_liquid_hydrogen"
+#Import Vessel "gas_carrier_100k_cbm_ice_liquid_hydrogen"
+#
+#Vessel "*" {
+#    EnforceMainFuelShare = TRUE
+#}

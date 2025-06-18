@@ -71,17 +71,17 @@ Uptake "fuel_conversion_uptake" {
 }
 
 # Enforce main fuel share for all vessels
-Import Vessel "bulk_carrier_capesize_ice_ammonia"
-Import Vessel "bulk_carrier_panamax_ice_ammonia"
-Import Vessel "bulk_carrier_handy_ice_ammonia"
-Import Vessel "container_15000_teu_ice_ammonia"
-Import Vessel "container_8000_teu_ice_ammonia"
-Import Vessel "container_3500_teu_ice_ammonia"
-Import Vessel "tanker_300k_dwt_ice_ammonia"
-Import Vessel "tanker_100k_dwt_ice_ammonia"
-Import Vessel "tanker_35k_dwt_ice_ammonia"
-Import Vessel "gas_carrier_100k_cbm_ice_ammonia"
-
-Vessel "*" {
-    EnforceMainFuelShare = TRUE
-}
+#Import Vessel "bulk_carrier_capesize_ice_ammonia"
+#Import Vessel "bulk_carrier_panamax_ice_ammonia"
+#Import Vessel "bulk_carrier_handy_ice_ammonia"
+#Import Vessel "container_15000_teu_ice_ammonia"
+#Import Vessel "container_8000_teu_ice_ammonia"
+#Import Vessel "container_3500_teu_ice_ammonia"
+#Import Vessel "tanker_300k_dwt_ice_ammonia"
+#Import Vessel "tanker_100k_dwt_ice_ammonia"
+#Import Vessel "tanker_35k_dwt_ice_ammonia"
+#Import Vessel "gas_carrier_100k_cbm_ice_ammonia"
+#
+#Vessel "*" {
+#    EnforceMainFuelShare = TRUE
+#}
