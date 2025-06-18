@@ -6,7 +6,7 @@ SIMULATION NAV {
     
     # Modified fleets for Singapore - Rotterdam roundtrip
     INCLUDE "../../includes_global/fleet_singapore_rotterdam.inc"
-    INCLUDE "../../includes_global/fleet_uptake.inc"
+    #INCLUDE "../../includes_global/fleet_uptake.inc"
     
     
     # fuels
@@ -37,12 +37,16 @@ SIMULATION NAV {
     # output results to excel
     INCLUDE "../../includes_global/make_excel_singapore_rotterdam.inc"
     
-    # 2050 Net zero regulation
-    #INCLUDE "../../includes_global/net_zero_regulation.inc"
+    # IMO tier 1 and tier 2 net zero regulations
+    INCLUDE "../../includes_global/net_zero_regulation_imo_tier1.inc"
+    INCLUDE "../../includes_global/net_zero_regulation_imo_tier2.inc"
+    
     
     # Vessel mods for Singapore-Rotterdam roundtrip
     INCLUDE "../../includes_global/vessels_singapore_rotterdam.inc"
 
+    # Allow for fuel conversion
+    INCLUDE "../../includes_global/fuel_conversion.inc"
 }
 
 SIMULATION FT {
