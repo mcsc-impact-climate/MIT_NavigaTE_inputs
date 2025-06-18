@@ -1225,19 +1225,31 @@ fuel_comments = {
     "lng": "liquid natural gas at atmospheric pressure",
 }
 
+def load_projection_if_year_given(input_dir, file_prefix, region, year, unit_label):
+    """
+    If year is provided, load the projection file for the given prefix (e.g., 'grid_electricity_price')
+    and return the value for the specified region and year. If not, return None.
+    """
+    if year is None:
+        return None
+    filename = os.path.join(input_dir, f"{file_prefix}_projection.csv")
+    df = pd.read_csv(filename).set_index("Region")
+    col = f"{year} [{unit_label}]"
+    return df.loc[region, col]
 
-def main(save_json=False):
+def main(save_breakdowns=False, year=None, include_demands=False):
     input_dir = f"{top_dir}/input_fuel_pathway_data/"
     output_dir_production = f"{top_dir}/input_fuel_pathway_data/production/"
+    output_year = year if year is not None else 2024
     ensure_directory_exists(output_dir_production)
     output_dir_production_components = os.path.join(output_dir_production, "cost_emissions_components")
-    if save_json:
+    if save_breakdowns:
         ensure_directory_exists(output_dir_production_components)
         
     output_dir_process = f"{top_dir}/input_fuel_pathway_data/process/"
     ensure_directory_exists(output_dir_process)
     output_dir_process_components = os.path.join(output_dir_process, "cost_emissions_components")
-    if save_json:
+    if save_breakdowns:
         ensure_directory_exists(output_dir_process_components)
 
     # Read the input CSV files
@@ -1330,51 +1342,53 @@ def main(save_json=False):
             H_pathway = H_pathways[pathway_index]
             C_pathway = C_pathways[pathway_index]
 
-            if fuel == "ng":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
-                    generic_demands("NG")
-                )
-                comment = "natural gas at standard temperature and pressure"
-            elif fuel == "lng":
-                elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
-                    generic_demands("NG")
-                )
-                elect_demand += CTX["derived"]["NG_liq_elect_demand"]
-                NG_demand += CTX["derived"]["NG_liq_NG_demand_GJ"]
-                water_demand += CTX["derived"]["NG_liq_water_demand"]
-                comment = "liquid natural gas at atmospheric pressure"
 
-            # Get resource demand function and call it
-            if fuel in resource_demand_fn:
-                if fuel in ["methanol", "FTdiesel"]:
+            if include_demands:
+                if fuel == "ng":
                     elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
-                        resource_demand_fn[fuel](H_pathway, C_pathway)
+                        generic_demands("NG")
                     )
-                elif fuel in ["ammonia"]:
+                    comment = "natural gas at standard temperature and pressure"
+                elif fuel == "lng":
                     elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
-                        resource_demand_fn[fuel](H_pathway)
+                        generic_demands("NG")
                     )
-                elif fuel in ["ng", "lng"]:
-                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
-                        resource_demand_fn[fuel]()
-                    )
-                else:
-                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
-                        resource_demand_fn[fuel](H_pathway)
-                    )
+                    elect_demand += CTX["derived"]["NG_liq_elect_demand"]
+                    NG_demand += CTX["derived"]["NG_liq_NG_demand_GJ"]
+                    water_demand += CTX["derived"]["NG_liq_water_demand"]
+                    comment = "liquid natural gas at atmospheric pressure"
 
-            calculated_resource_row = [
-                fuel,
-                H_pathway,
-                C_pathway,
-                fuel_pathway,
-                elect_demand,
-                LCB_demand,
-                NG_demand,
-                water_demand,
-                CO2_demand,
-            ]
-            output_resource_data.append(calculated_resource_row)
+                # Get resource demand function and call it
+                if fuel in resource_demand_fn:
+                    if fuel in ["methanol", "FTdiesel"]:
+                        elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
+                            resource_demand_fn[fuel](H_pathway, C_pathway)
+                        )
+                    elif fuel in ["ammonia"]:
+                        elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
+                            resource_demand_fn[fuel](H_pathway)
+                        )
+                    elif fuel in ["ng", "lng"]:
+                        elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
+                            resource_demand_fn[fuel]()
+                        )
+                    else:
+                        elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
+                            resource_demand_fn[fuel](H_pathway)
+                        )
+
+                calculated_resource_row = [
+                    fuel,
+                    H_pathway,
+                    C_pathway,
+                    fuel_pathway,
+                    elect_demand,
+                    LCB_demand,
+                    NG_demand,
+                    water_demand,
+                    CO2_demand,
+                ]
+                output_resource_data.append(calculated_resource_row)
 
             for row_index, row in input_df.iterrows():
                 (
@@ -1420,8 +1434,10 @@ def main(save_json=False):
                 # Check whether we are working with grid or renewable electricity
                 # if renewables, fix electricity price and emissions to imposed values
                 if E_pathway == "grid":
-                    elect_price = grid_price
-                    elect_emissions_intensity = grid_emissions_intensity
+                    proj_price = load_projection_if_year_given(input_dir, "grid_electricity_price", region, year, "2024$/kWh")
+                    proj_emiss = load_projection_if_year_given(input_dir, "grid_electricity_emissions", region, year, "kgCO2e/kWh")
+                    elect_price = proj_price if proj_price is not None else grid_price
+                    elect_emissions_intensity = proj_emiss if proj_emiss is not None else grid_emissions_intensity
                 elif E_pathway == "solar":
                     elect_price = solar_price
                     elect_emissions_intensity = solar_emissions_intensity
@@ -1502,7 +1518,7 @@ def main(save_json=False):
                     fuel_pathway,
                     region,
                     1,
-                    2024,
+                    output_year,
                     CapEx,
                     OpEx,
                     LCOF,
@@ -1510,7 +1526,7 @@ def main(save_json=False):
                     comment,
                 ]
                 output_data.append(calculated_row)
-                if save_json:
+                if save_breakdowns:
                     region_safe = region.replace(" ", "_").lower()
                     path_prefix = os.path.join(output_dir_production_components, f"{fuel}_{fuel_pathway}_{region_safe}")
                     
@@ -1541,13 +1557,14 @@ def main(save_json=False):
         )
 
         # Write the output data to a CSV file
-        output_resource_file = f"{fuel}_resource_demands.csv"
-        resource_df.to_csv(
-            os.path.join(output_dir_production, output_resource_file), index=False
-        )
-        print(
-            f"Output CSV file created: {os.path.join(output_dir_production, output_resource_file)}"
-        )
+        if include_demands:
+            output_resource_file = f"{fuel}_resource_demands.csv"
+            resource_df.to_csv(
+                os.path.join(output_dir_production, output_resource_file), index=False
+            )
+            print(
+                f"Output CSV file created: {os.path.join(output_dir_production, output_resource_file)}"
+            )
 
         # Define the output CSV column names
         output_columns = [
@@ -1570,7 +1587,8 @@ def main(save_json=False):
         output_df = pd.DataFrame(output_data, columns=output_columns)
 
         # Write the output data to a CSV file
-        output_file = f"{fuel}_costs_emissions.csv"
+        suffix = f"_{year}" if year is not None else ""
+        output_file = f"{fuel}_costs_emissions{suffix}.csv"
         output_df.to_csv(os.path.join(output_dir_production, output_file), index=False)
 
         print(
@@ -1787,7 +1805,7 @@ def main(save_json=False):
                     process_pathway,
                     region,
                     1,
-                    2024,
+                    output_year,
                     CapEx,
                     OpEx,
                     LCOF,
@@ -1800,7 +1818,7 @@ def main(save_json=False):
         output_df = pd.DataFrame(output_data, columns=output_columns)
 
         # Write the output data to a CSV file
-        output_file = f"{process}_costs_emissions.csv"
+        output_file = f"{process}_costs_emissions{suffix}.csv"
         output_df.to_csv(os.path.join(output_dir_process, output_file), index=False)
 
         print(
@@ -1810,8 +1828,16 @@ def main(save_json=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate cost/emissions and resource .csvs (optionally with component .jsons).")
     parser.add_argument(
-        "--save_json", action="store_true",
+        "-b", "--save_breakdowns", action="store_true",
         help="Save component-level CapEx, OpEx, and emissions breakdowns to JSON files"
     )
+    parser.add_argument(
+        "-y", "--year", type=int, default=None,
+        help="Projection year for electricity and other dynamic inputs (only affects inputs stored in *_projection.csv if provided)"
+    )
+    parser.add_argument(
+        "-d", "--include_demands", action="store_true",
+        help="Also compute and write resource demand CSVs for each fuel"
+    )
     args = parser.parse_args()
-    main(save_json=args.save_json)
+    main(save_breakdowns=args.save_breakdowns, year=args.year, include_demands=args.include_demands)

@@ -1,39 +1,39 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
-lng,n/a,n/a,n/a,fossil,South Africa,1,2024,767.85753,3303.814623654461,4071.672153654461,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Taiwan,1,2024,755.53896,3195.3909684794803,3950.92992847948,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Switzerland,1,2024,907.46799,3204.5067102794806,4111.97470027948,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Singapore,1,2024,759.6451500000001,3104.397445198629,3864.042595198629,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Hungary,1,2024,739.1142000000001,2650.8728063716776,3389.9870063716776,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Philippines,1,2024,735.00801,2596.150718994618,3331.158728994618,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Netherlands,1,2024,841.7689499999999,2603.5370237275497,3445.30597372755,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Norway,1,2024,932.10513,2609.24343782473,3541.34856782473,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Oman,1,2024,784.2822900000001,2599.753873614173,3384.036163614173,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Italy,1,2024,788.38848,2509.3911457474787,3297.779625747479,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Austria,1,2024,854.0875200000002,2405.2456862357258,3259.333206235726,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Finland,1,2024,886.93704,2262.8580520385212,3149.795092038521,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Portugal,1,2024,747.32658,2199.6558555426855,2946.9824355426854,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Germany,1,2024,845.8751400000001,1971.3166720707638,2817.191812070764,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Greece,1,2024,755.5389600000001,1964.7780320910408,2720.316992091041,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,France,1,2024,829.45038,1951.7185128915576,2781.1688928915573,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Brazil,1,2024,755.53896,1838.0355501856845,2593.5745101856846,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,United Kingdom,1,2024,874.61847,1664.6777304952461,2539.296200495246,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Spain,1,2024,763.75134,1567.9837892211121,2331.7351292211124,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Sweden,1,2024,903.3618000000001,1576.8162857758807,2480.178085775881,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Czech Republic,1,2024,747.32658,1549.2761647442444,2296.6027447442443,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Japan,1,2024,886.93704,1466.2962800238015,2353.2333200238018,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Belgium,1,2024,841.7689499999999,1464.4661277225407,2306.2350777225406,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Poland,1,2024,759.6451500000001,1404.7184309775314,2164.3635809775315,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,India,1,2024,726.7956300000001,1275.4271904760153,2002.2228204760154,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Indonesia,1,2024,661.09659,1271.5382560940116,1932.6348460940117,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,South Korea,1,2024,771.96372,1187.9787447622896,1959.9424647622895,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,China,1,2024,751.4327700000001,1005.7725261116834,1757.2052961116835,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,United Arab Emirates,1,2024,784.2822900000001,935.9538035453544,1720.2360935453544,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,United States,1,2024,821.238,775.8730683465236,1597.1110683465236,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Turkey,1,2024,751.4327700000001,734.6078291875273,1486.0405991875273,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Australia,1,2024,841.7689499999999,705.0395898866134,1546.8085398866133,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Malaysia,1,2024,718.58325,587.8223831798728,1306.405633179873,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Canada,1,2024,837.66276,505.58253979399103,1343.245299793991,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Mexico,1,2024,722.68944,497.8254107024503,1220.5148507024503,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Thailand,1,2024,730.90182,480.16664922413077,1211.0684692241307,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Russia,1,2024,776.06991,211.685533235295,987.755443235295,0.7623568075137377,liquid natural gas at atmospheric pressure
-lng,n/a,n/a,n/a,fossil,Saudi Arabia,1,2024,784.2822900000001,212.76136423325477,997.0436542332549,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,South Africa,1,2024,767.85753,280.6584588393822,1048.5159888393823,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Taiwan,1,2024,755.53896,734.7746911644263,1490.3136511644261,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Switzerland,1,2024,907.46799,3096.0111492330498,4003.47913923305,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Singapore,1,2024,759.6451500000001,3357.5961709199482,4117.2413209199485,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Hungary,1,2024,739.1142000000001,1218.7313690516773,1957.8455690516776,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Philippines,1,2024,735.00801,711.673275920175,1446.681285920175,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Netherlands,1,2024,841.7689499999999,2115.3069902304705,2957.07594023047,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Norway,1,2024,932.10513,1548.924055874749,2481.029185874749,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Oman,1,2024,784.2822900000001,130.0743068900497,914.3565968900498,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Italy,1,2024,788.38848,2364.7303972515883,3153.1188772515884,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Austria,1,2024,854.0875200000002,1989.3460250336707,2843.4335450336707,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Finland,1,2024,886.93704,2118.255611711454,3005.1926517114543,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Portugal,1,2024,747.32658,1838.0410827548503,2585.3676627548502,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Germany,1,2024,845.8751400000001,1844.7385150211962,2690.6136550211963,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Greece,1,2024,755.5389600000001,1004.9539543832074,1760.4929143832073,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,France,1,2024,829.45038,2060.2140804477226,2889.6644604477224,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Brazil,1,2024,755.53896,2018.8826938950465,2774.4216538950463,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,United Kingdom,1,2024,874.61847,1520.5735635844242,2395.1920335844243,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Spain,1,2024,763.75134,1513.7360077214369,2277.487347721437,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Sweden,1,2024,903.3618000000001,3131.8875621229786,4035.2493621229787,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Czech Republic,1,2024,747.32658,1531.193571995975,2278.520151995975,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Japan,1,2024,886.93704,1610.9570317745588,2497.894071774559,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Belgium,1,2024,841.7689499999999,1193.2272189222165,2034.9961689222164,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Poland,1,2024,759.6451500000001,1712.1225304821821,2471.767680482182,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,India,1,2024,726.7956300000001,1130.7664413291516,1857.5620713291516,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Indonesia,1,2024,661.09659,1778.4722676778658,2439.5688576778657,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,South Korea,1,2024,771.96372,1278.3917150133711,2050.355435013371,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,China,1,2024,751.4327700000001,1126.1479965735718,1877.580766573572,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,United Arab Emirates,1,2024,784.2822900000001,129.87287642166362,914.1551664216637,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,United States,1,2024,821.238,721.6252881487949,1542.863288148795,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Turkey,1,2024,751.4327700000001,644.194859587419,1395.627629587419,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Australia,1,2024,841.7689499999999,934.977388733275,1776.746338733275,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Malaysia,1,2024,718.58325,605.9049776857704,1324.4882276857704,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Canada,1,2024,837.66276,451.3347586848995,1288.9975186848997,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Mexico,1,2024,722.68944,371.2472533924935,1093.9366933924935,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Thailand,1,2024,730.90182,656.355699370865,1387.2575193708649,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Russia,1,2024,776.06991,247.85072133572763,1023.9206313357276,0.7623568075137377,liquid natural gas at atmospheric pressure
+lng,n/a,n/a,n/a,fossil,Saudi Arabia,1,2024,784.2822900000001,129.87287642166362,914.1551664216637,0.7623568075137377,liquid natural gas at atmospheric pressure

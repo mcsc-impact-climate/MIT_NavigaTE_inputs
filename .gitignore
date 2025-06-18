@@ -18,3 +18,4 @@ all_outputs_full_fleet*
 processed_results*
 all_results_df*.csv
 *_components.json
+input_fuel_pathway_data/*/*_20*.csv
