@@ -107,12 +107,8 @@ def get_fuel_processes(all_costs_dir: str) -> dict:
 def generate_port_cost_emissions_files(port_info: dict, fuel_processes: dict, top_dir: str) -> None:
     """
     For each fuel and set of ports, create cost and emissions overwrite files for ports using
-    country-specific .inc files.
-
-    Args:
-        port_info (dict): Dictionary with keys 'countries' and 'ports', each a list of same length.
-        fuel_processes (dict): Dictionary from fuel to set of pathway strings.
-        top_dir (str): Base directory path.
+    country-specific .inc files. Supports both direct values and Forecast references.
+    Forecasts are renamed to include fuel and process names to ensure uniqueness.
     """
     assert len(port_info['countries']) == len(port_info['ports']), "countries and ports lists must be same length"
 
@@ -124,9 +120,10 @@ def generate_port_cost_emissions_files(port_info: dict, fuel_processes: dict, to
         output_path = os.path.join(includes_dir, filename)
 
         port_blocks = []
+        forecast_blocks = set()  # to avoid duplicate forecast definitions
 
         for country, port in zip(port_info['countries'], port_info['ports']):
-            port_block = [f'Port "port_{port}" {{\n', '    \n', '    # Emissions\n']
+            port_block = [f'Port "port_{port}" {{\n', '\n    # Emissions\n']
 
             for process in sorted(processes):
                 inc_path = os.path.join(all_costs_dir, f"{fuel}-{process}-{country}-1.inc")
@@ -137,17 +134,24 @@ def generate_port_cost_emissions_files(port_info: dict, fuel_processes: dict, to
                 with open(inc_path, 'r') as f:
                     content = f.read()
 
-                # Extract emissions and cost values
-                emission_match = re.search(r'set_bunker_WTT_overwrite\("[^"]+",\s*"carbon_dioxide",\s*([-0-9.]+)\)', content)
-                cost_match = re.search(r'set_bunker_price_overwrite\("[^"]+",\s*([-0-9.]+)\)', content)
+                # WTT overwrite
+                wtt_match = re.search(r'set_bunker_WTT_overwrite\(".*?",\s*"carbon_dioxide",\s*(Forecast\("([^"]+)"\)|[-\d.]+)\)', content)
+                if wtt_match:
+                    value = wtt_match.group(1)
+                    if value.startswith("Forecast"):
+                        orig_name = wtt_match.group(2)
+                        new_name = f"{country}-{process}_{orig_name}"
+                        port_block.append(f'    set_bunker_WTT_overwrite("{fuel}-{process}", "carbon_dioxide", Forecast("{new_name}"))\n')
 
-                if emission_match and cost_match:
-                    emission_val = float(emission_match.group(1))
-                    cost_val = float(cost_match.group(1))
-                    port_block.append(f'    set_bunker_WTT_overwrite("{fuel}-{process}", "carbon_dioxide", {emission_val})\n')
+                        # Extract and rename Forecast block
+                        forecast_def_match = re.search(rf'Forecast "{re.escape(orig_name)}"\s*\{{.*?\}}', content, re.DOTALL)
+                        if forecast_def_match:
+                            forecast_text = forecast_def_match.group().replace(f'Forecast "{orig_name}"', f'Forecast "{new_name}"', 1)
+                            forecast_blocks.add(forecast_text)
+                    else:
+                        port_block.append(f'    set_bunker_WTT_overwrite("{fuel}-{process}", "carbon_dioxide", {value})\n')
                 else:
-                    print(f"Warning: could not find values in {inc_path}")
-                    continue
+                    print(f"Warning: no WTT match found in {inc_path}")
 
             port_block.append('\n    # Costs\n')
             for process in sorted(processes):
@@ -158,18 +162,38 @@ def generate_port_cost_emissions_files(port_info: dict, fuel_processes: dict, to
                 with open(inc_path, 'r') as f:
                     content = f.read()
 
-                cost_match = re.search(r'set_bunker_price_overwrite\("[^"]+",\s*([-0-9.]+)\)', content)
-                if cost_match:
-                    cost_val = float(cost_match.group(1))
-                    port_block.append(f'    set_bunker_price_overwrite("{fuel}-{process}", {cost_val})\n')
+                # Price overwrite
+                price_match = re.search(r'set_bunker_price_overwrite\(".*?",\s*(Forecast\("([^"]+)"\)|[-\d.]+)\)', content)
+                if price_match:
+                    value = price_match.group(1)
+                    if value.startswith("Forecast"):
+                        orig_name = price_match.group(2)
+                        new_name = f"{country}-{process}_{orig_name}"
+                        port_block.append(f'    set_bunker_price_overwrite("{fuel}-{process}", Forecast("{new_name}"))\n')
+
+                        forecast_def_match = re.search(rf'Forecast "{re.escape(orig_name)}"\s*\{{.*?\}}', content, re.DOTALL)
+                        if forecast_def_match:
+                            forecast_text = forecast_def_match.group().replace(f'Forecast "{orig_name}"', f'Forecast "{new_name}"', 1)
+                            forecast_blocks.add(forecast_text)
+                    else:
+                        port_block.append(f'    set_bunker_price_overwrite("{fuel}-{process}", {value})\n')
+                else:
+                    print(f"Warning: no price match found in {inc_path}")
 
             port_block.append('\n}\n\n')
             port_blocks.extend(port_block)
 
+        # Write output file
         with open(output_path, 'w') as f_out:
             f_out.writelines(port_blocks)
+            if forecast_blocks:
+                f_out.write("# Forecast Definitions\n\n")
+                f_out.write("\n\n".join(sorted(forecast_blocks)))
+                f_out.write("\n")
 
         print(f"[✓] Created {output_path}")
+
+
         
 def write_bunker_logistics_file(fuel_processes: dict, includes_dir: str) -> None:
     """
@@ -200,7 +224,6 @@ def write_bunker_logistics_file(fuel_processes: dict, includes_dir: str) -> None
         f_out.write("}\n")
 
     print(f"[✓] Created {output_path}")
-
 
 
 def main():
