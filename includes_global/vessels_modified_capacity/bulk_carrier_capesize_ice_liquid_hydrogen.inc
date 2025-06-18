@@ -11,7 +11,7 @@ Vessel "bulk_carrier_capesize_ice_liquid_hydrogen" {
     
     Route=Route("globalized_bulk_carrier_capesize")
     
-    NominalCapacity = 102190.38268173016
+    NominalCapacity = 106253.7448370028
 
     Lifetime=25
     Finance=Finance("vessel_finance")
@@ -113,7 +113,9 @@ Forecast "propulsion_ice_hydrogen_thermal_efficiency" {
 
 Converter "heat_boiler_oil_hydrogen_bulk_carrier_capesize" {
     PowerCapacity=2.
-    MainFuelTypes = [HFO, DIESEL]
+    MainFuelTypes = [HYDROGEN]
+    PilotFuelTypes = [DIESEL, HFO]
+    MinimumPilotFuel = 0.05
     OutStream = [0, 0, 0, 1.0]
     PrimaryStream = HEAT
     

@@ -1,4 +1,4 @@
-# Definition of low_sulfur_fuel_oil
+# Definition of lng
 
 Fuel "lng" {
     FuelType = METHANE

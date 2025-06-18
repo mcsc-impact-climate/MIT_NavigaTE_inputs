@@ -60,9 +60,15 @@ vessel_size_number = {
 quantities = [
     "ConsumedEnergy_lsfo",  # GE - low sulfur fuel oil
     "ConsumedEnergy_main",
-    "TotalCAPEX",  # GE - CAPEX = Capital Expenditure
-    "TotalExcludingFuelOPEX",  # GE - OPEX = Operating Expense
-    "TotalFuelOPEX",
+    "CAPEX", # GE - CAPEX = Capital Expenditure
+    "OPEX", # GE - OPEX = Operating Expenses excluding fuelo
+    "BaseCAPEX",
+    "BaseOPEX",
+    "TankCAPEX",
+    "TankOPEX",
+    "PowerCAPEX",
+    "PowerOPEX",
+    "FuelOPEX",
     "TotalCost",
     "TotalEquivalentWTT",  # GE - wtt = well-to-tank emissions
     "TotalEquivalentTTW",  # GE - ttw = tank-to-wake emissions
@@ -82,8 +88,8 @@ evaluation_choices = [
     "per_cbm_mile_lsfo_final",
     "per_cbm_mile",
     "per_cbm_mile_final",
+    "per_gj_fuel"
 ]  # per tonne-mile = multiply weight by distance
-
 
 def time_function(func):
     """A decorator that logs the time a function takes to execute."""
@@ -146,11 +152,18 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             "TotalEquivalentTTW",
             "TotalEquivalentWTW",
             "Miles",
-            "CargoMiles",  # GE - another term for ton-miles
+            "CargoMiles",
             "SpendEnergy",
-            "TotalCAPEX",
-            "TotalExcludingFuelOPEX",
-            "TotalFuelOPEX",
+            "CAPEX",
+            "OPEX",
+            "BaseCAPEX",
+            "BaseOPEX",
+            "TankCAPEX",
+            "TankOPEX",
+            "PowerCAPEX",
+            "PowerOPEX",
+            "FuelOPEX",
+            "TotalCost",
             "ConsumedEnergy_lsfo",
         ]
     elif fuel == "FTdiesel":  # GE - FT = Fischer-Tropsch: synthetic, biomass fuel
@@ -163,9 +176,16 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             "Miles",
             "CargoMiles",
             "SpendEnergy",
-            "TotalCAPEX",
-            "TotalExcludingFuelOPEX",
-            "TotalFuelOPEX",
+            "CAPEX",
+            "OPEX",
+            "BaseCAPEX",
+            "BaseOPEX",
+            "TankCAPEX",
+            "TankOPEX",
+            "PowerCAPEX",
+            "PowerOPEX",
+            "FuelOPEX",
+            "TotalCost",
             f"ConsumedEnergy_{fuel}",
         ]
     else:
@@ -178,9 +198,16 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             "Miles",
             "CargoMiles",
             "SpendEnergy",
-            "TotalCAPEX",
-            "TotalExcludingFuelOPEX",
-            "TotalFuelOPEX",
+            "CAPEX",
+            "OPEX",
+            "BaseCAPEX",
+            "BaseOPEX",
+            "TankCAPEX",
+            "TankOPEX",
+            "PowerCAPEX",
+            "PowerOPEX",
+            "FuelOPEX",
+            "TotalCost",
             f"ConsumedEnergy_{fuel_orig}",
             "ConsumedEnergy_lsfo",
         ]
@@ -203,66 +230,82 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
             results_dict["Region"] = region
             results_dict["Number"] = number
             results_dict["TotalEquivalentWTT"] = float(
-                results_df_vessel["TotalEquivalentWTT"].loc["2024-01-01"]
+                results_df_vessel["TotalEquivalentWTT"].loc["2025-01-01"]
             )
             results_dict["TotalEquivalentTTW"] = float(
-                results_df_vessel["TotalEquivalentTTW"].loc["2024-01-01"]
+                results_df_vessel["TotalEquivalentTTW"].loc["2025-01-01"]
             )
             results_dict["TotalEquivalentWTW"] = float(
-                results_df_vessel["TotalEquivalentWTW"].loc["2024-01-01"]
+                results_df_vessel["TotalEquivalentWTW"].loc["2025-01-01"]
             )
-            results_dict["TotalCAPEX"] = float(
-                results_df_vessel["TotalCAPEX"].loc["2024-01-01"]
+            results_dict["CAPEX"] = float(
+                results_df_vessel["CAPEX"].loc["2025-01-01"]
             )
-            results_dict["TotalFuelOPEX"] = float(
-                results_df_vessel["TotalFuelOPEX"].loc["2024-01-01"]
+            results_dict["BaseCAPEX"] = float(
+                results_df_vessel["BaseCAPEX"].loc["2025-01-01"]
             )
-            results_dict["TotalExcludingFuelOPEX"] = float(
-                results_df_vessel["TotalExcludingFuelOPEX"].loc["2024-01-01"]
+            results_dict["TankCAPEX"] = float(
+                results_df_vessel["TankCAPEX"].loc["2025-01-01"]
+            )
+            results_dict["PowerCAPEX"] = float(
+                results_df_vessel["PowerCAPEX"].loc["2025-01-01"]
+            )
+            results_dict["FuelOPEX"] = float(
+                results_df_vessel["FuelOPEX"].loc["2025-01-01"]
+            )
+            results_dict["OPEX"] = float(
+                results_df_vessel["OPEX"].loc["2025-01-01"]
+            )
+            results_dict["BaseOPEX"] = float(
+                results_df_vessel["BaseOPEX"].loc["2025-01-01"]
+            )
+            results_dict["TankOPEX"] = float(
+                results_df_vessel["TankOPEX"].loc["2025-01-01"]
+            )
+            results_dict["PowerOPEX"] = float(
+                results_df_vessel["PowerOPEX"].loc["2025-01-01"]
             )
             results_dict["TotalCost"] = (
-                float(results_df_vessel["TotalCAPEX"].loc["2024-01-01"])
-                + float(results_df_vessel["TotalFuelOPEX"].loc["2024-01-01"])
-                + float(results_df_vessel["TotalExcludingFuelOPEX"].loc["2024-01-01"])
+                float(results_df_vessel["CAPEX"].loc["2025-01-01"])
+                + float(results_df_vessel["FuelOPEX"].loc["2025-01-01"])
+                + float(results_df_vessel["OPEX"].loc["2025-01-01"])
             )
-            results_dict["Miles"] = float(results_df_vessel["Miles"].loc["2024-01-01"])
+            results_dict["Miles"] = float(results_df_vessel["Miles"].loc["2025-01-01"])
             if "container" in vessel_type:
                 results_dict["CargoMiles"] = (
-                    float(results_df_vessel["CargoMiles"].loc["2024-01-01"])
+                    float(results_df_vessel["CargoMiles"].loc["2025-01-01"])
                     * TONNES_PER_TEU
                 )
             elif "gas_carrier" in vessel_type:
                 results_dict["CargoMiles"] = (
-                    float(results_df_vessel["CargoMiles"].loc["2024-01-01"])
+                    float(results_df_vessel["CargoMiles"].loc["2025-01-01"])
                     * TONNES_PER_M3_LNG
                 )
             else:
                 results_dict["CargoMiles"] = float(
-                    results_df_vessel["CargoMiles"].loc["2024-01-01"]
+                    results_df_vessel["CargoMiles"].loc["2025-01-01"]
                 )
-
             if fuel == "lsfo":
                 results_dict["ConsumedEnergy_main"] = float(
-                    results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"]
+                    results_df_vessel["ConsumedEnergy_lsfo"].loc["2025-01-01"]
                 )
                 results_dict["ConsumedEnergy_lsfo"] = (
-                    float(results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"])
+                    float(results_df_vessel["ConsumedEnergy_lsfo"].loc["2025-01-01"])
                     * 0
                 )
-            if fuel == "FTdiesel":
+            elif fuel == "FTdiesel":
                 results_dict["ConsumedEnergy_main"] = float(
-                    results_df_vessel[f"ConsumedEnergy_{fuel}"].loc["2024-01-01"]
+                    results_df_vessel[f"ConsumedEnergy_{fuel}"].loc["2025-01-01"]
                 )
                 results_dict["ConsumedEnergy_lsfo"] = (
-                    float(results_df_vessel[f"ConsumedEnergy_{fuel}"].loc["2024-01-01"])
-                    * 0
+                    float(results_df_vessel[f"ConsumedEnergy_{fuel}"].loc["2025-01-01"]) * 0
                 )
             else:
                 results_dict["ConsumedEnergy_main"] = float(
-                    results_df_vessel[f"ConsumedEnergy_{fuel_orig}"].loc["2024-01-01"]
+                    results_df_vessel[f"ConsumedEnergy_{fuel_orig}"].loc["2025-01-01"]
                 )
                 results_dict["ConsumedEnergy_lsfo"] = float(
-                    results_df_vessel["ConsumedEnergy_lsfo"].loc["2024-01-01"]
+                    results_df_vessel["ConsumedEnergy_lsfo"].loc["2025-01-01"]
                 )
 
             results_row_df = pd.DataFrame([results_dict])
@@ -327,9 +370,9 @@ def collect_all_results(top_dir):
         "TotalEquivalentWTT",
         "TotalEquivalentTTW",
         "TotalEquivalentWTW",
-        "TotalCAPEX",
-        "TotalFuelOPEX",
-        "TotalExcludingFuelOPEX",
+        "CAPEX",
+        "FuelOPEX",
+        "OPEX",
         "TotalCost",
         "Miles",
         "CargoMiles",
@@ -424,6 +467,8 @@ def add_quantity_modifiers(all_results_df):
                 column_divide = "CbmMiles_lsfo"
             elif evaluation_choice == "per_cbm_mile_lsfo_final":
                 column_divide = "FinalCbmMiles_lsfo"
+            elif evaluation_choice == "per_gj_fuel":
+                column_divide = "ConsumedEnergy_total"
             else:
                 continue
 
@@ -599,44 +644,6 @@ def add_fleet_level_quantities(all_results_df):
 
     return all_results_df
 
-
-def get_boiloff_factor(tank_size_factors, fuel, vessel):
-    """
-    For the given vessel and fuel, reads in the boil-off factor that accounts for fuel lost to boil-off.
-
-    Parameters
-    ----------
-    tank_size_factors : pandas.DataFrame
-        Dataframe containing the boiloff factor for each vessel and fuel
-
-    fuel : str
-        Fuel being used by the vessel
-
-    vessel : str
-        Name of the vessel
-
-    Returns
-    -------
-    boiloff_factor : float
-        The boiloff factor for the given vessel and fuel
-    """
-    vessel_read = vessel.split(f"_ice")[0]
-
-    fuel_read = fuel
-    if fuel_read == "liquidhydrogen":
-        fuel_read = "liquid_hydrogen"
-    if fuel_read == "compressedhydrogen":
-        fuel_read = "compressed_hydrogen"
-
-    boiloff_factor = tank_size_factors.loc[
-        (tank_size_factors["Fuel"] == fuel_read)
-        & (tank_size_factors["Vessel Class"] == vessel_read),
-        "Boil-off",
-    ].iloc[0]
-
-    return boiloff_factor
-
-
 @time_function
 def add_boiloff(all_results_df):
     """
@@ -687,7 +694,7 @@ def add_boiloff(all_results_df):
     all_results_df["TotalEquivalentTTW"] *= all_results_df["Boil-off Factor"]
     all_results_df["TotalEquivalentWTW"] *= all_results_df["Boil-off Factor"]
     all_results_df["ConsumedEnergy_main"] *= all_results_df["Boil-off Factor"]
-    all_results_df["TotalFuelOPEX"] *= all_results_df["Boil-off Factor"]
+    all_results_df["FuelOPEX"] *= all_results_df["Boil-off Factor"]
 
     # Recalculate TotalCost
     all_results_df["TotalEquivalentWTW"] = (
@@ -695,9 +702,9 @@ def add_boiloff(all_results_df):
     )
 
     all_results_df["TotalCost"] = (
-        all_results_df["TotalCAPEX"]
-        + all_results_df["TotalFuelOPEX"]
-        + all_results_df["TotalExcludingFuelOPEX"]
+        all_results_df["CAPEX"]
+        + all_results_df["FuelOPEX"]
+        + all_results_df["OPEX"]
     )
 
     # Drop the temporary Boil-off Factor column
@@ -958,6 +965,31 @@ def add_cost_times_emissions(all_results_df):
             all_results_df[f"TotalCost-{modifier}"]
             * all_results_df[f"TotalEquivalentWTW"]
         )
+
+    return all_results_df
+    
+@time_function
+def add_total_consumed_energy(all_results_df):
+    """
+    Adds the total consumed energy (sum of pilot and alternative fuel)
+
+    Parameters
+    ----------
+    all_results_df : pandas.DataFrame
+        The DataFrame containing the results to which total consumed energy will be added
+
+    Returns
+    -------
+    all_results_df : pandas.DataFrame
+        The updated DataFrame with the cost of carbon abatement added.
+        
+    """
+    
+    # Get a list of all modifiers to handle
+    all_modifiers = ["per_mile", "per_tonne_mile", "fleet"]
+    
+    # Calculate the product of cost times emissions
+    all_results_df["ConsumedEnergy_total"] = all_results_df["ConsumedEnergy_main"] + all_results_df["ConsumedEnergy_lsfo"]
 
     return all_results_df
 
@@ -1303,9 +1335,9 @@ def main():
     all_results_df = add_number_of_vessels(all_results_df)
 
     # Add fuel needed to offset fuel loss due to boiloff
-    # all_results_df = add_boiloff(all_results_df)
-
-    # all_results_df.to_csv("all_results_df_with_boiloff.csv")
+    all_results_df = add_boiloff(all_results_df)
+    
+    #all_results_df.to_csv("all_results_df_with_boiloff.csv")
 
     # Add cargo miles (both tonne-miles and m^3-miles) to the dataframe
     all_results_df = add_cargo_miles(all_results_df)
@@ -1324,6 +1356,9 @@ def main():
 
     # Group all vessel together to get fleet-level quantities
     all_results_df = add_fleet_level_quantities(all_results_df)
+    
+    # Add total GJ of fuel consumed
+    all_results_df = add_total_consumed_energy(all_results_df)
 
     # Add evaluated quantities (per mile and per tonne-mile) to the dataframe
     add_quantity_modifiers(all_results_df)
@@ -1341,10 +1376,10 @@ def main():
     all_results_df = add_av_cost_emissions_ratios(all_results_df)
 
     # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
-    all_results_df = add_fuel_mass(all_results_df, top_dir)
+    #all_results_df = add_fuel_mass(all_results_df, top_dir)
 
     # GE - adds resource demands columns
-    all_results_df = add_resource_demands(all_results_df)
+    #all_results_df = add_resource_demands(all_results_df)
 
     # Output all_results_df to a csv file to help with debugging
     all_results_df.to_csv("all_results_df.csv")

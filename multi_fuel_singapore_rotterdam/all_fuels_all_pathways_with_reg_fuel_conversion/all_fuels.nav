@@ -1,0 +1,55 @@
+SIMULATION NAV {
+                
+    # model definition
+    INCLUDE "../../includes_global/model_definition.inc"
+    INCLUDE "../../includes_global/bunker_logistics_all_pathways.inc"
+    
+    # Modified fleets for Singapore - Rotterdam roundtrip
+    INCLUDE "../../includes_global/fleet_singapore_rotterdam.inc"
+    #INCLUDE "../../includes_global/fleet_uptake.inc"
+    
+    
+    # fuels
+    INCLUDE "../../includes_global/ammonia-all_pathways.inc"
+    INCLUDE "../../includes_global/liquid_hydrogen-all_pathways.inc"
+    INCLUDE "../../includes_global/methanol-all_pathways.inc"
+    INCLUDE "../../includes_global/FTdiesel-all_pathways.inc"
+    INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
+    INCLUDE "../../includes_global/lng-all_pathways.inc"
+    
+    # Route
+    INCLUDE "../../includes_global/route_singapore_rotterdam.inc"
+    
+    # Costs and emissions of lsfo
+    INCLUDE "../../includes_global/cost_emissions_lsfo_singapore_rotterdam.inc"
+    
+    # costs and emission of alternative fuels at each port
+    INCLUDE "../../includes_global/cost_emissions_ammonia-singapore_rotterdam.inc"
+    INCLUDE "../../includes_global/cost_emissions_liquid_hydrogen-singapore_rotterdam.inc"
+    INCLUDE "../../includes_global/cost_emissions_methanol-singapore_rotterdam.inc"
+    INCLUDE "../../includes_global/cost_emissions_FTdiesel-singapore_rotterdam.inc"
+    INCLUDE "../../includes_global/cost_emissions_lng-singapore_rotterdam.inc"
+
+    
+    # center default emissions
+    IMPORT CenterDefaultEmissions
+    
+    # output results to excel
+    INCLUDE "../../includes_global/make_excel_singapore_rotterdam.inc"
+    
+    # IMO tier 1 and tier 2 net zero regulations
+    INCLUDE "../../includes_global/net_zero_regulation_imo_tier1.inc"
+    INCLUDE "../../includes_global/net_zero_regulation_imo_tier2.inc"
+    
+    
+    # Vessel mods for Singapore-Rotterdam roundtrip
+    INCLUDE "../../includes_global/vessels_singapore_rotterdam.inc"
+
+    # Allow for fuel conversion
+    INCLUDE "../../includes_global/fuel_conversion.inc"
+}
+
+SIMULATION FT {
+    # time steps
+    INCLUDE "../../includes_global/time_steps_yearly_projection.inc"
+}

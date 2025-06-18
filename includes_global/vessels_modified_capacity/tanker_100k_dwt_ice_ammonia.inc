@@ -15,15 +15,15 @@ Vessel "tanker_100k_dwt_ice_ammonia" {
 	HeatLoadLevelAtSea = 3.7
 	HeatLoadLevelInPort = 3.7
 	
-	PowerSystem=PowerSystem("ice_ammonia_tanker_100k_dwt")
+	PowerSystem = PowerSystem("ice_ammonia_tanker_100k_dwt")
     Tanks = [Tank("main_ammonia_tanker_100k_dwt"), Tank("pilot_oil_bulk_carrier_capesize")]
 	
-	Route=Route("globalized_tanker_100k_dwt")
+	Route = Route("globalized_tanker_100k_dwt")
 	
-    NominalCapacity = 87358.52184507225
+    NominalCapacity = 87322.10438702288
 	
-	Lifetime=25
-	Finance=Finance("vessel_finance")
+	Lifetime = 25
+	CostOfCapital = Variable("cost_of_capital_vessel")
 	CAPEX = 50e6
 	OPEX = 2.5e6
 }

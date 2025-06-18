@@ -9,21 +9,21 @@
 Vessel "bulk_carrier_panamax_ice_lsfo" {
 
 	PropulsionLoadLevel = Surface("speed_draft_power_surface_bulk_carrier_panamax")
-	ElectricalLoadLevelAtSea=0.34
-	ElectricalLoadLevelInPort=0.3
-	HeatLoadLevelAtSea=0	
-	HeatLoadLevelInPort=0.44
+	ElectricalLoadLevelAtSea = 0.34
+	ElectricalLoadLevelInPort = 0.3
+	HeatLoadLevelAtSea = 0	
+	HeatLoadLevelInPort = 0.44
 	
-	PowerSystem=PowerSystem("ice_oil_bulk_carrier_panamax")
+	PowerSystem = PowerSystem("ice_oil_bulk_carrier_panamax")
     Tanks = [Tank("main_lsfo_bulk_carrier_panamax"), Tank("pilot_oil_bulk_carrier_capesize")]
 	
-	Route=Route("globalized_bulk_carrier_panamax")
+	Route = Route("globalized_bulk_carrier_panamax")
 	
     NominalCapacity = 62001.708506750336
 	
 
-	Lifetime=25
-	Finance=Finance("vessel_finance")
+	Lifetime = 25
+	CostOfCapital = Variable("cost_of_capital_vessel")
 	CAPEX = 30e6
 	OPEX = 1.8e6
 }

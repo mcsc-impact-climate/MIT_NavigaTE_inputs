@@ -1,8 +1,8 @@
 # Definition of the lng bulk fleet
 Fleet "lng_fleet_bulk" {
     Vessels = [Vessel("bulk_carrier_capesize_ice_methane"), Vessel("bulk_carrier_handy_ice_methane"), Vessel("bulk_carrier_panamax_ice_methane")]
-    FuelUptake = Uptake("uptake")
-    TechnologyUptake = Uptake("uptake")
+#    FuelUptake = Uptake("uptake")
+#    TechnologyUptake = Uptake("uptake")
     InitialVessels = 12583      
     InitialSplit = [0.16, 0.33, 0.51] # Vessel numbers taken from the default files bulk_carrier_capesize.inc, bulk_carrier_handy.inc and bulk_carrier_panamax.inc
     TradeGrowth = 0
@@ -11,8 +11,8 @@ Fleet "lng_fleet_bulk" {
 # Definition of the lng container fleet
 Fleet "lng_fleet_container" {
     Vessels = [Vessel("container_15000_teu_ice_methane"), Vessel("container_3500_teu_ice_methane"), Vessel("container_8000_teu_ice_methane")]
-    FuelUptake = Uptake("uptake")
-    TechnologyUptake = Uptake("uptake")
+#    FuelUptake = Uptake("uptake")
+#    TechnologyUptake = Uptake("uptake")
     InitialVessels = 5565      
     InitialSplit = [0.08, 0.70, 0.22] # Vessel numbers taken from the default files container_15000_TEU.inc, container_3500_TEU.inc and container_8000_TEU.inc
     TradeGrowth = 0
@@ -21,8 +21,8 @@ Fleet "lng_fleet_container" {
 # Definition of the lng tanker fleet
 Fleet "lng_fleet_tanker" {
     Vessels = [Vessel("tanker_100k_dwt_ice_methane"), Vessel("tanker_300k_dwt_ice_methane"), Vessel("tanker_35k_dwt_ice_methane")]
-    FuelUptake = Uptake("uptake")
-    TechnologyUptake = Uptake("uptake")
+#    FuelUptake = Uptake("uptake")
+#    TechnologyUptake = Uptake("uptake")
     InitialVessels = 5565      
     InitialSplit = [0.28, 0.07, 065] # Vessel numbers taken from the default files tanker_100k_dwt.inc, tanker_300k_dwt.inc and tanker_35k_dwt.inc
     TradeGrowth = 0
@@ -31,56 +31,57 @@ Fleet "lng_fleet_tanker" {
 # Definition of the lng gas carrier fleet
 Fleet "lng_fleet_gas" {
     Vessels = [Vessel("gas_carrier_100k_cbm_ice_methane")]
-    FuelUptake = Uptake("uptake")
-    TechnologyUptake = Uptake("uptake")
+#    FuelUptake = Uptake("uptake")
+#    TechnologyUptake = Uptake("uptake")
     InitialVessels = 2156
     InitialSplit = [1] # Vessel numbers taken from the default file gas_carrier_100k_cbm_ice_methane.inc
     TradeGrowth = 0
 }
 
-# Define uptake node
-Uptake "uptake" {
-    Objective=MINIMIZE
+## Define uptake node
+#Uptake "uptake" {
+#    Objective=MINIMIZE
+#}
+
+Fleet "*" {
+    InterFuelUptake = Uptake("inter_fuel_vessel")
+    IntraFuelUptake = Uptake("intra_fuel_vessel")
+    FuelConversionUptake = Uptake("fuel_conversion_uptake")
 }
 
-# Need to enforce alternative fuel use in all vessels
-Import Vessel "bulk_carrier_capesize_ice_methane"
-Vessel "bulk_carrier_capesize_ice_methane" {
-    EnforceMainFuelShare = TRUE
+Uptake "intra_fuel_vessel" {
+    Method = DISCRETE
+    Beta = 1.
+    
+    CoefficientOfVariation = 0.15
 }
-Import Vessel "bulk_carrier_handy_ice_methane"
-Vessel "bulk_carrier_handy_ice_methane" {
-    EnforceMainFuelShare = TRUE
+
+Uptake "inter_fuel_vessel" {
+    Method = DISCRETE
+    Beta = 1.
+    
+    CoefficientOfVariation = 0.15
 }
-Import Vessel "bulk_carrier_panamax_ice_methane"
-Vessel "bulk_carrier_panamax_ice_methane" {
-    EnforceMainFuelShare = TRUE
+
+Uptake "fuel_conversion_uptake" {
+    Method = DISCRETE
+    Beta = 1.
+    
+    CoefficientOfVariation = 0.15
 }
-Import Vessel "container_15000_teu_ice_methane"
-Vessel "container_15000_teu_ice_methane" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "container_3500_teu_ice_methane"
-Vessel "container_3500_teu_ice_methane" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "container_8000_teu_ice_methane"
-Vessel "container_8000_teu_ice_methane" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "tanker_100k_dwt_ice_methane"
-Vessel "tanker_100k_dwt_ice_methane" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "tanker_300k_dwt_ice_methane"
-Vessel "tanker_300k_dwt_ice_methane" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "tanker_35k_dwt_ice_methane"
-Vessel "tanker_35k_dwt_ice_methane" {
-    EnforceMainFuelShare = TRUE
-}
-Import Vessel "gas_carrier_100k_cbm_ice_methane"
-Vessel "gas_carrier_100k_cbm_ice_methane" {
-    EnforceMainFuelShare = TRUE
-}
+
+## Enforce main fuel share for all vessels
+#Import Vessel "bulk_carrier_capesize_ice_methane"
+#Import Vessel "bulk_carrier_panamax_ice_methane"
+#Import Vessel "bulk_carrier_handy_ice_methane"
+#Import Vessel "container_15000_teu_ice_methane"
+#Import Vessel "container_8000_teu_ice_methane"
+#Import Vessel "container_3500_teu_ice_methane"
+#Import Vessel "tanker_300k_dwt_ice_methane"
+#Import Vessel "tanker_100k_dwt_ice_methane"
+#Import Vessel "tanker_35k_dwt_ice_methane"
+#Import Vessel "gas_carrier_100k_cbm_ice_methane"
+#
+#Vessel "*" {
+#    EnforceMainFuelShare = TRUE
+#}

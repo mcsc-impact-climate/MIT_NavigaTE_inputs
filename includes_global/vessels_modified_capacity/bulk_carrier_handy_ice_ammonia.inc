@@ -9,21 +9,21 @@
 Vessel "bulk_carrier_handy_ice_ammonia" {
 	
 	PropulsionLoadLevel = Surface("speed_draft_power_surface_bulk_carrier_handy")
-	ElectricalLoadLevelAtSea=0.3
-	ElectricalLoadLevelInPort=0.5
-	HeatLoadLevelAtSea=0.25
-	HeatLoadLevelInPort=0.49
+	ElectricalLoadLevelAtSea = 0.3
+	ElectricalLoadLevelInPort = 0.5
+	HeatLoadLevelAtSea = 0.25
+	HeatLoadLevelInPort = 0.49
 	
-	PowerSystem=PowerSystem("ice_ammonia_bulk_carrier_handy")
+	PowerSystem = PowerSystem("ice_ammonia_bulk_carrier_handy")
     Tanks = [Tank("main_ammonia_bulk_carrier_handy"), Tank("pilot_oil_bulk_carrier_capesize")]
 	
-	Route=Route("globalized_bulk_carrier_handy")
+	Route = Route("globalized_bulk_carrier_handy")
 	
-    NominalCapacity = 16522.523177286264
+    NominalCapacity = 16476.821926133485
 	
 
-	Lifetime=25
-	Finance=Finance("vessel_finance")
+	Lifetime = 25
+	CostOfCapital = Variable("cost_of_capital_vessel")
 	CAPEX = 23e6
 	OPEX = 1.5e6
 }

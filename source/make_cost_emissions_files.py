@@ -4,12 +4,52 @@ Purpose: Prepare .inc files containing cost and emissions NavigaTE inputs for cu
 """
 
 import os
-
 import pandas as pd
+import argparse
 from common_tools import get_top_dir
 
 
-# Function to create content of cost and emissions .inc file
+def create_forecast_inc_file_content(fuel, pathway, region, yearly_values):
+    # Build table lines for forecasts
+    forecast_lines_price = []
+    forecast_lines_emiss = []
+    for year in sorted(yearly_values.keys()):
+        date_str = f'"01-01-{year}"'
+        forecast_lines_emiss.append(f"        {date_str}    {yearly_values[year]['Emissions']}")
+        forecast_lines_price.append(f"        {date_str}    {yearly_values[year]['LCOF']}")
+
+    fuel_lower = fuel.lower()
+    content = f"""# Definition of cost and emissions for {fuel} from {region} for pathway {pathway}
+
+Port "port" {{
+    
+# Emissions
+set_bunker_WTT_overwrite("{fuel}", "carbon_dioxide", Forecast("{fuel_lower}_WTT"))
+
+# Costs
+set_bunker_price_overwrite("{fuel}", Forecast("{fuel_lower}_price"))
+
+}}
+
+Forecast "{fuel_lower}_WTT" {{
+    Table [
+{chr(10).join(forecast_lines_emiss)}
+    ]
+    Extrapolate=FLAT
+    Interpolate=LINEAR
+}}
+
+Forecast "{fuel_lower}_price" {{
+    Table [
+{chr(10).join(forecast_lines_price)}
+    ]
+    Extrapolate=FLAT
+    Interpolate=LINEAR
+}}
+"""
+    return content
+
+
 def create_cost_emissions_file_content(row):
     content = f"""# Definition of cost and emissions for {row['Fuel']} from {row['Region']} for pathway {row['Pathway Name']}
 
@@ -26,136 +66,104 @@ set_bunker_price_overwrite("{row['Fuel']}", {row['LCOF [$/tonne]']})
     return content
 
 
-# Function to create content of .inc file for excel report
-def create_report_file_content(row, top_dir):
-    # Make the directory to contain the report if it doesn't already exist
-    report_output_dir = f"{top_dir}/navigate_reports/{row['Fuel']}-{row['Pathway Name']}-{row['Region']}-{row['Number']}"
-    os.makedirs(report_output_dir, exist_ok=True)
-
-    content = f"""
-Report "excel_report" {{
-    
-    Directory="../../all_outputs_full_fleet"
-    
-    # Vessel properties
-    add_vessel_property("*", TotalEquivalentWTT)        # tonnes CO2e/year
-    add_vessel_property("*", TotalEquivalentTTW)        # tonnes CO2e/year
-    add_vessel_property("*", TotalEquivalentWTW)        # tonnes CO2e/year
-    add_vessel_property("*", Miles)                     # miles/year
-    add_vessel_property("*", CargoMiles)                # tonne/miles per year
-    add_vessel_property("*", SpendEnergy, BOTH)         # Energy demand / year (GJ)
-        
-    add_vessel_property("*", TotalCAPEX)
-    add_vessel_property("*", TotalExcludingFuelOPEX)
-    add_vessel_property("*", TotalFuelOPEX)
-    add_vessel_property("*", ConsumedEnergy)            # Dictionary for each fuel
-    
-    # Fleet properties
-    #add_fleet_property("*", Vessels)                   # DMM: Currently produces an error
-    add_fleet_property("*", TotalEquivalentWTT)
-    add_fleet_property("*", TotalEquivalentTTW)
-    add_fleet_property("*", TotalEquivalentWTW)
-    #add_fleet_property("*", Miles)
-    #add_fleet_property("*", SpendEnergy, BOTH)         # DMM: Absolute number in GJ
-    
-    #add_fleet_property("*", TotalCAPEX)
-    #add_fleet_property("*", TotalExcludingFuelOPEX)
-    #add_fleet_property("*", TotalFuelOPEX)
-    add_fleet_property("*", ConsumedEnergy)
-
-}}
-"""
-    return content
-
-
 def create_inc_file(row, output_dir, file_content):
     inc_file_name = f"{output_dir}{row['Fuel']}-{row['Pathway Name']}-{row['Region']}-{row['Number']}.inc"
-
-    # Write content to .inc file
     with open(inc_file_name, "w") as file:
         file.write(file_content)
-
     print(f"File created: {inc_file_name}")
 
 
-def create_nav_file(row, top_dir, cost_emissions_dir, report_dir):
-    # Define the directory and ensure it exists
+def create_nav_file(row, top_dir, cost_emissions_dir):
     navs_dir = f"{top_dir}/single_pathway_full_fleet/{row['Fuel']}/navs"
     os.makedirs(navs_dir, exist_ok=True)
 
-    # Define paths for the original and modified .nav files
     original_nav_file = (
         f"{top_dir}/single_pathway_full_fleet/{row['Fuel']}/{row['Fuel']}.nav"
     )
     modified_nav_file = f"{navs_dir}/{row['Fuel']}-{row['Pathway Name']}-{row['Region']}-{row['Number']}.nav"
 
-    # Read the content of the original .nav file
     with open(original_nav_file, "r") as file:
         nav_content = file.readlines()
 
-    # Define the replacement string
     cost_emissions_include_line = f'    INCLUDE "{cost_emissions_dir}{row["Fuel"]}-{row["Pathway Name"]}-{row["Region"]}-{row["Number"]}.inc"\n'
-    report_include_line = f'    INCLUDE "{report_dir}{row["Fuel"]}-{row["Pathway Name"]}-{row["Region"]}-{row["Number"]}.inc"\n'
 
-    # Modify the content of the .nav file
     modified_content = []
     for line in nav_content:
-        # Replace the line that includes the cost_emissions row['Fuel'].inc
         if f'INCLUDE "../../includes_global/cost_emissions_{row["Fuel"]}.inc"' in line:
             modified_content.append(cost_emissions_include_line)
-        elif f'INCLUDE "../../includes_global/make_excel.inc"' in line:
-            modified_content.append(report_include_line)
         else:
             modified_content.append(line)
 
-    # Write the modified content to the new .nav file
     with open(modified_nav_file, "w") as file:
         file.writelines(modified_content)
-
     print(f"File created: {modified_nav_file}")
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--yearly", action="store_true", help="Enable yearly mode using *_costs_emissions_YEAR.csv")
+    args = parser.parse_args()
+
     top_dir = get_top_dir()
     input_dir = f"{top_dir}/input_fuel_pathway_data/production"
     cost_emissions_dir = f"{top_dir}/includes_global/all_costs_emissions/"
-    report_dir = f"{top_dir}/includes_global/all_reports/"
 
-    # Ensure the directories to contain the cost/emissions and report inc files exist
     os.makedirs(cost_emissions_dir, exist_ok=True)
-    os.makedirs(report_dir, exist_ok=True)
+    for file_name in os.listdir(cost_emissions_dir):
+        if file_name.endswith(".inc"):
+            os.remove(os.path.join(cost_emissions_dir, file_name))
+            print(f"Deleted file: {file_name}")
 
-    # Delete all existing .inc files
-    for inc_dir in [cost_emissions_dir, report_dir]:
-        for file_name in os.listdir(inc_dir):
-            if file_name.endswith(".inc"):
-                os.remove(os.path.join(inc_dir, file_name))
-                print(f"Deleted file: {file_name}")
-
-    # Loop through all CSV files in the input directory
     fuels = [
         "FTdiesel",
         "lng",
         "ammonia",
-        "compressed_hydrogen",
+        #"compressed_hydrogen",
         "liquid_hydrogen",
         "methanol",
     ]
+
     for fuel in fuels:
-        file_name = f"{fuel}_costs_emissions.csv"
-        csv_file = os.path.join(input_dir, file_name)
-        df = pd.read_csv(csv_file)
+        if args.yearly:
+            # Collect yearly data across all files
+            yearly_dfs = {}
+            for year in range(2024, 2051):
+                file_path = os.path.join(input_dir, f"{fuel}_costs_emissions_{year}.csv")
+                if os.path.exists(file_path):
+                    yearly_dfs[year] = pd.read_csv(file_path)
 
-        # Iterate over rows in the dataframe and create .inc files
-        for index, row in df.iterrows():
-            cost_emissions_file_content = create_cost_emissions_file_content(row)
-            report_file_content = create_report_file_content(row, top_dir)
+            if not yearly_dfs:
+                print(f"No yearly data found for {fuel}, skipping.")
+                continue
 
-            create_inc_file(row, cost_emissions_dir, cost_emissions_file_content)
-            create_inc_file(row, report_dir, report_file_content)
+            # Group by common identifying columns
+            for i in range(len(next(iter(yearly_dfs.values())))):
+                row_key = (
+                    yearly_dfs[2024].loc[i, "Fuel"],
+                    yearly_dfs[2024].loc[i, "Pathway Name"],
+                    yearly_dfs[2024].loc[i, "Region"],
+                )
+                sample_row = yearly_dfs[2024].loc[i]
+                yearly_values = {
+                    year: {
+                        "LCOF": yearly_dfs[year].loc[i, "LCOF [$/tonne]"],
+                        "Emissions": yearly_dfs[year].loc[i, "Emissions [kg CO2e / kg fuel]"]
+                    }
+                    for year in yearly_dfs
+                }
+                content = create_forecast_inc_file_content(*row_key, yearly_values)
+                create_inc_file(sample_row, cost_emissions_dir, content)
+                create_nav_file(sample_row, top_dir, cost_emissions_dir)
 
-            # Create a modified version of the nav file that uses the costs and emissions .inc and the report .inc file
-            create_nav_file(row, top_dir, cost_emissions_dir, report_dir)
+        else:
+            file_path = os.path.join(input_dir, f"{fuel}_costs_emissions.csv")
+            if not os.path.exists(file_path):
+                continue
+            df = pd.read_csv(file_path)
+            for _, row in df.iterrows():
+                content = create_cost_emissions_file_content(row)
+                create_inc_file(row, cost_emissions_dir, content)
+                create_nav_file(row, top_dir, cost_emissions_dir)
 
 
 if __name__ == "__main__":

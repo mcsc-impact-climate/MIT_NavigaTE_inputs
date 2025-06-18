@@ -9,21 +9,21 @@
 Vessel "bulk_carrier_capesize_ice_methanol" {
 	
 	PropulsionLoadLevel = Surface("speed_draft_power_surface_bulk_carrier_capesize")
-	ElectricalLoadLevelAtSea=0.7
-	ElectricalLoadLevelInPort=0.7
-	HeatLoadLevelAtSea=0.
-	HeatLoadLevelInPort=0.9
+	ElectricalLoadLevelAtSea = 0.7
+	ElectricalLoadLevelInPort = 0.7
+	HeatLoadLevelAtSea = 0.
+	HeatLoadLevelInPort = 0.9
 	
-	PowerSystem=PowerSystem("ice_methanol_bulk_carrier_capesize")
+	PowerSystem = PowerSystem("ice_methanol_bulk_carrier_capesize")
 	Tanks = [Tank("main_methanol_bulk_carrier_capesize"), Tank("pilot_oil_bulk_carrier_capesize")]
 	
-	Route=Route("globalized_bulk_carrier_capesize")
+	Route = Route("globalized_bulk_carrier_capesize")
 	
     NominalCapacity = 132698.57214502685
 	
 
-	Lifetime=25
-	Finance=Finance("vessel_finance")
+	Lifetime = 25
+	CostOfCapital = Variable("cost_of_capital_vessel")
 	CAPEX = 50e6
 	OPEX = 2.4e6
 }

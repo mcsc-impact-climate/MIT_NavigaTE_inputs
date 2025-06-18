@@ -13,6 +13,12 @@ import matplotlib
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from matplotlib.patches import Patch
+from matplotlib.legend import Legend
+# GE - 3/23/25
+from matplotlib.colors import LogNorm
+from fuzzywuzzy import process
 import pandas as pd
 import pycountry
 import pycountry_convert as pc
@@ -36,6 +42,7 @@ from matplotlib.colors import LogNorm
 from matplotlib.ticker import ScalarFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from parse import parse
+KG_PER_TONNE = 1000
 
 matplotlib.rc("xtick", labelsize=18)
 matplotlib.rc("ytick", labelsize=18)
@@ -445,6 +452,7 @@ def get_units(quantity, modifier, quantity_info_df=quantity_info_df):
             "per_cbm_mile_lsfo": "$m^3-nm$",
             "per_cbm_mile_lsfo_final": "$m^3-nm$",
             "per_cbm_mile_final": "$m^3-nm$",
+            "per_gj_fuel": "GJ Fuel"
         }
 
         denom_units = modifier_denom_dict[modifier]
@@ -2191,6 +2199,197 @@ class ProcessedFuel:
 
         plt.close()
 
+    def make_country_bar_hist(self, quantity, modifier, countries, sub_quantities=[], exclude_lsfo=False):
+    
+        ProcessedPathways = (
+            self.get_processed_pathways()
+        )  # DME: Switching to in-line call to get_processed_pathways()
+        
+        if len(countries) > 3:
+            raise ValueError("A maximum of 3 countries is supported.")
+
+        hatch_styles = ["", "//", "xx", "\\\\"]
+        if not sub_quantities:
+            sub_quantities = [quantity]
+        if len(sub_quantities) > len(hatch_styles):
+            raise ValueError("A maximum of 4 sub-quantities is supported for hatching.")
+
+        region_colors = assign_colors_to_strings(countries)
+
+        fuel_label = get_fuel_label(self.fuel)
+        quantity_label = get_quantity_label(quantity)
+        quantity_units = get_units(quantity, modifier)
+
+        bar_width = 0.025
+        n_bars = len(countries)
+        cluster_height = n_bars * bar_width
+        spacing = 0.025
+
+        sorted_pathways = sorted(self.pathways, key=lambda p: get_pathway_type_color(get_pathway_type(p)))
+        y_positions = {}
+        y_ticks = []
+        y_labels = []
+        y_label_pathway_names = []
+
+        # Add LSFO bar at the top
+        if not exclude_lsfo:
+            lsfo_y_pos = len(sorted_pathways) * (cluster_height + spacing)
+            y_positions["lsfo"] = lsfo_y_pos
+            y_label_pathway_names.append("lsfo")
+            y_ticks.append(lsfo_y_pos)
+            y_labels.append("LSFO (fossil)")
+
+        # Assign other pathway positions below
+        for i, pathway_name in enumerate(sorted_pathways):
+            y_pos = i * (cluster_height + spacing)
+            y_positions[pathway_name] = y_pos
+            y_label_pathway_names.append(pathway_name)
+            y_ticks.append(y_pos)
+            y_labels.append(get_pathway_label(pathway_name))
+
+        fig, ax = plt.subplots(figsize=(16, max(5, len(y_positions) * 0.5)))
+
+        subq_legend_handles = {}
+        country_legend_handles = {}
+
+        # Plot bars
+        for pathway_name, y_center in y_positions.items():
+            is_lsfo = pathway_name == "lsfo"
+            pathway = ProcessedPathway("lsfo", "fossil") if is_lsfo else ProcessedPathways[pathway_name]
+
+            dfs = {
+                sub_q: pathway.ProcessedQuantities[sub_q][modifier].result_df
+                for sub_q in sub_quantities
+            }
+
+            if is_lsfo:
+                left = 0
+                for k, sub_q in enumerate(sub_quantities):
+                    if "Global Average" not in dfs[sub_q].index:
+                        continue
+                    val = dfs[sub_q].loc["Global Average", "fleet"]
+                    if quantity == "TotalEquivalentWTW" and modifier == "per_gj_fuel":
+                        val = val * KG_PER_TONNE
+                    ax.barh(
+                        y=y_center,
+                        width=val,
+                        height=bar_width * 0.9,
+                        left=left,
+                        color="lightgray",
+                        edgecolor="black",
+                        hatch=hatch_styles[k],
+                    )
+                    left += val
+                    if k not in subq_legend_handles:
+                        subq_legend_handles[k] = Patch(facecolor="white", edgecolor="black", hatch=hatch_styles[k],
+                                                       label=get_quantity_label(sub_q))
+            else:
+                for j, region in enumerate(countries):
+                    y_pos = y_center + (j - (n_bars - 1) / 2) * bar_width
+                    left = 0
+                    for k, sub_q in enumerate(sub_quantities):
+                        if region not in dfs[sub_q].index:
+                            continue
+                        val = dfs[sub_q].loc[region, "fleet"]
+                        if quantity == "TotalEquivalentWTW" and modifier == "per_gj_fuel":
+                            val = val * KG_PER_TONNE
+                        ax.barh(
+                            y=y_pos,
+                            width=val,
+                            height=bar_width * 0.9,
+                            left=left,
+                            color=region_colors[region],
+                            edgecolor="black",
+                            hatch=hatch_styles[k],
+                        )
+                        left += val
+                        if k not in subq_legend_handles:
+                            subq_legend_handles[k] = Patch(facecolor="white", edgecolor="black", hatch=hatch_styles[k],
+                                                           label=get_quantity_label(sub_q))
+                    if region not in country_legend_handles:
+                        country_legend_handles[region] = Patch(facecolor=region_colors[region], edgecolor="black", label=region)
+
+        # LSFO vertical reference line
+        if not exclude_lsfo:
+            lsfo_pathway = ProcessedPathway("lsfo", "fossil")
+            lsfo_val = lsfo_pathway.get_region_average_results([quantity], modifier).get(quantity, None)
+            if quantity == "TotalEquivalentWTW" and modifier == "per_gj_fuel":
+                lsfo_val = lsfo_val * KG_PER_TONNE      # Convert from tonnes CO2e to kg
+            if lsfo_val is not None:
+                ax.axvline(lsfo_val, color='black', linestyle='--', linewidth=2, label='LSFO')
+
+        # Apply axis ticks and labels
+        ax.set_yticks(y_ticks)
+        tick_labels = ax.set_yticklabels(y_labels, fontsize=18)
+
+        # Match each tick label to correct pathway type color
+        for i, label in enumerate(tick_labels):
+            pathway_name = y_label_pathway_names[i]
+            if pathway_name == "lsfo":
+                label.set_color("gray")
+            else:
+                pathway_type = get_pathway_type(pathway_name)
+                label.set_color(get_pathway_type_color(pathway_type))
+            label.set_fontweight("bold")
+
+        # X-axis label
+        xlabel = f"{quantity_label} ({quantity_units})" if quantity_units else quantity_label
+        if quantity == "TotalEquivalentWTW" and modifier == "per_gj_fuel":
+            xlabel = "WTW Emissions (kg CO$_2$e / GJ Fuel)"
+        ax.set_xlabel(xlabel, fontsize=24)
+
+        # Country legend (keep as main legend, uses ax.legend)
+        legend1 = ax.legend(handles=country_legend_handles.values(),
+                            title="Country",
+                            loc='upper left', bbox_to_anchor=(1.02, 1),
+                            fontsize=20, title_fontsize=22, borderaxespad=0.)
+
+        # Sub-quantities legend, added manually (only if > 1 sub-quantity)
+        if len(sub_quantities) > 1:
+            legend2 = Legend(ax,
+                             handles=list(subq_legend_handles.values()),
+                             labels=[h.get_label() for h in subq_legend_handles.values()],
+                             title="Sub-quantities",
+                             loc='lower left', bbox_to_anchor=(1.02, 0),
+                             fontsize=20, title_fontsize=22, borderaxespad=0.)
+            ax.add_artist(legend2)
+        
+        if quantity == "CAC" and not exclude_lsfo:
+            # Draw vertical dashed lines
+            ax.axvline(100, ls="--", color="blue")
+            ax.axvline(380, ls="--", color="red")
+
+            # Annotate Tier 1 (just above and slightly to the left of 100)
+            ax.annotate("Tier 1",
+                        xy=(100, 1),  # x in data coords, y = top of y-axis (axes coords)
+                        xycoords=('data', 'axes fraction'),
+                        xytext=(-5, 5),  # offset in points
+                        textcoords='offset points',
+                        ha="right", va="bottom",
+                        color="blue", fontsize=20)
+
+            # Annotate Tier 2 (just above and slightly to the right of 380)
+            ax.annotate("Tier 2",
+                        xy=(380, 1),
+                        xycoords=('data', 'axes fraction'),
+                        xytext=(5, 5),
+                        textcoords='offset points',
+                        ha="left", va="bottom",
+                        color="red", fontsize=20)
+
+        plt.tight_layout()
+        plt.subplots_adjust(right=0.75)
+        create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
+        filename_png = f"{self.fuel}-{quantity}-{modifier}-by_country.png"
+        path_png = f"{top_dir}/plots/{self.fuel}/{filename_png}"
+        print(f"Saving figure to {path_png}")
+        plt.savefig(path_png, dpi=200)
+        filename_pdf = f"{self.fuel}-{quantity}-{modifier}-by_country.pdf"
+        path_pdf = f"{top_dir}/plots/{self.fuel}/{filename_pdf}"
+        print(f"Saving figure to {path_pdf}")
+        plt.savefig(path_pdf)
+        plt.close()
+
     def make_all_stacked_hists(
         self,
         quantities=[
@@ -2745,14 +2944,22 @@ def main():
     # GE - test make_all_resource_demands_hist() - NOT WOKRING FOR "all" CASE
     #    processed_fuel_GE_test = ProcessedFuel("ammonia")
     #    processed_fuel_GE_test.make_all_resource_demands_hists()
-
+    
     #    processed_fuel = ProcessedFuel("FTdiesel")
     #    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", [])
+#    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["CAPEX", "OPEX", "FuelOPEX"])
+#    processed_fuel.make_country_bar_hist("TotalCost", "per_tonne_mile_final", ["Singapore", "Netherlands"], ["CAPEX", "OPEX", "FuelOPEX"])
+#    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+#    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
+#    processed_fuel.make_stacked_hist("TotalCost", "vessel", [])
+#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "vessel", [])
+#    processed_fuel.make_stacked_hist("CAC", "vessel", [])
+#    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+#    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
 
-    #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-    #    processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile_orig", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-    #    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-    #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
     #    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
     #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
     #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
@@ -2765,19 +2972,36 @@ def main():
     # -----------------------------------------------------------------------------#
 
     # Loop through all fuels of interest
-    #    for fuel in ["ammonia", "methanol", "FTdiesel", "LNG"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
-    #        processed_fuel = ProcessedFuel(fuel)
+    for fuel in ["liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lng"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
+        processed_fuel = ProcessedFuel(fuel)
 
-    # Make validation plots for each fuel, pathway and quantity
-    #        processed_fuel.make_all_hists_by_region()
-    #        processed_fuel.map_all_by_region()
-    #        processed_fuel.make_all_stacked_hists()
-
-    #        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-    #        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
-    #        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
-    #        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
-    #        processed_fuel.make_stacked_hist("CAC", "vessel", [])
+#        # Make validation plots for each fuel, pathway and quantity
+#        processed_fuel.make_all_hists_by_region()
+#        processed_fuel.map_all_by_region()
+#        processed_fuel.make_all_stacked_hists()
+    
+#        processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile_final", ["CAPEX", "OPEX", "FuelOPEX"])
+#        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+#        #processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
+#        #processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
+#        processed_fuel.make_stacked_hist("CAC", "vessel", [])
+        
+        #processed_fuel.make_country_bar_hist("TotalCost", "per_tonne_mile_final", ["Singapore", "Netherlands"], ["CAPEX", "OPEX", "FuelOPEX"])
+        processed_fuel.make_country_bar_hist("TotalCost", "per_gj_fuel", ["Singapore", "Netherlands"], ["CAPEX", "OPEX", "FuelOPEX"])
+#        processed_fuel.make_country_bar_hist("TotalEquivalentWTW", "per_gj_fuel", ["Singapore", "Netherlands"], [])
+#        processed_fuel.make_country_bar_hist("CAC", "vessel", ["Singapore", "Netherlands"], [])
+    
+    
+#    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
 
     #    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
     #    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")

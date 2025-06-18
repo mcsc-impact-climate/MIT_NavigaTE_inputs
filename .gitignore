@@ -16,6 +16,10 @@ data/vessel_ranges.csv
 data/NavigaTE_CAPEX_OPEX.csv
 all_outputs_full_fleet*
 processed_results*
+*.lp
+*.ilp
+*.log
 all_results_df*.csv
+data/FAF5.6.1
 *_components.json
 input_fuel_pathway_data/*/*_20*.csv

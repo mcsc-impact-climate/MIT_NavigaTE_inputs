@@ -15,15 +15,15 @@ Vessel "tanker_300k_dwt_ice_methanol" {
 	HeatLoadLevelAtSea = 4.0	
 	HeatLoadLevelInPort = 4.0	
 	
-	PowerSystem=PowerSystem("ice_methanol_tanker_300k_dwt")
+	PowerSystem = PowerSystem("ice_methanol_tanker_300k_dwt")
     Tanks = [Tank("main_methanol_tanker_300k_dwt"), Tank("pilot_oil_bulk_carrier_capesize")]
 	
-	Route=Route("globalized_tanker_300k_dwt")
+	Route = Route("globalized_tanker_300k_dwt")
 	
     NominalCapacity = 272491.91986837843
 	
-	Lifetime=25
-	Finance=Finance("vessel_finance")
+	Lifetime = 25
+	CostOfCapital = Variable("cost_of_capital_vessel")
 	CAPEX = 90e6
 	OPEX = 2.9e6
 }
