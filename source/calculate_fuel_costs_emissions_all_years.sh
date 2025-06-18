@@ -1,4 +1,8 @@
-#!/bin/bash
+"""
+Date: June 18, 2025
+Author: danikae
+Purpose: Automated script to execute calculate_fuel_costs_emissions.py over all years from 2024 to 2050 to produce fuel supply chain model outputs for each of these years.
+"""
 
 # Set the max number of parallel jobs
 N_PARALLEL=16
