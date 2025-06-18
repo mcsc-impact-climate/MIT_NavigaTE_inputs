@@ -101,7 +101,7 @@ def create_nav_file(row, top_dir, cost_emissions_dir):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--yearly", action="store_true", help="Enable yearly mode using *_costs_emissions_YEAR.csv")
+    parser.add_argument("-y", "--yearly", action="store_true", help="Enable yearly mode using *_costs_emissions_YEAR.csv")
     args = parser.parse_args()
 
     top_dir = get_top_dir()
@@ -127,23 +127,29 @@ def main():
         if args.yearly:
             # Collect yearly data across all files
             yearly_dfs = {}
-            for year in range(2024, 2051):
-                file_path = os.path.join(input_dir, f"{fuel}_costs_emissions_{year}.csv")
-                if os.path.exists(file_path):
-                    yearly_dfs[year] = pd.read_csv(file_path)
+            for file_name in os.listdir(input_dir):
+                if file_name.startswith(f"{fuel}_costs_emissions_") and file_name.endswith(".csv"):
+                    try:
+                        year_str = file_name.rsplit("_", 1)[-1].replace(".csv", "")
+                        year = int(year_str)
+                        file_path = os.path.join(input_dir, file_name)
+                        yearly_dfs[year] = pd.read_csv(file_path)
+                    except ValueError:
+                        continue
 
             if not yearly_dfs:
                 print(f"No yearly data found for {fuel}, skipping.")
                 continue
 
             # Group by common identifying columns
-            for i in range(len(next(iter(yearly_dfs.values())))):
+            first_year = sorted(yearly_dfs.keys())[0]
+            for i in range(len(yearly_dfs[first_year])):
                 row_key = (
-                    yearly_dfs[2024].loc[i, "Fuel"],
-                    yearly_dfs[2024].loc[i, "Pathway Name"],
-                    yearly_dfs[2024].loc[i, "Region"],
+                    yearly_dfs[first_year].loc[i, "Fuel"],
+                    yearly_dfs[first_year].loc[i, "Pathway Name"],
+                    yearly_dfs[first_year].loc[i, "Region"],
                 )
-                sample_row = yearly_dfs[2024].loc[i]
+                sample_row = yearly_dfs[first_year].loc[i]
                 yearly_values = {
                     year: {
                         "LCOF": yearly_dfs[year].loc[i, "LCOF [$/tonne]"],
@@ -164,7 +170,6 @@ def main():
                 content = create_cost_emissions_file_content(row)
                 create_inc_file(row, cost_emissions_dir, content)
                 create_nav_file(row, top_dir, cost_emissions_dir)
-
 
 if __name__ == "__main__":
     main()
