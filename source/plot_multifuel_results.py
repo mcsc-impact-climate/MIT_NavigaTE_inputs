@@ -244,143 +244,90 @@ def get_pathway_color_map(pathway_name, num_shades):
         levels = np.linspace(0.0, 0.3, num_shades)  # dark 30% of colormap
 
     return [mcolors.to_hex(cmap(i)) for i in levels]
+    
 
+import pandas as pd
+from collections import defaultdict
 
-# Read in results for the fleet sheet
 def read_results_fleet(filename):
-    """
-    Reads the results from an Excel file and extracts relevant data for each vessel type and size.
+    df_raw = pd.read_excel(filename, sheet_name="Fleets", header=None)
 
-    Parameters
-    ----------
-    filename : str
-        The path to the Excel file containing the results.
+    # Metadata rows
+    row_category = df_raw.iloc[1]
+    row_origin = df_raw.iloc[2]  # origin vessel
+    row_target = df_raw.iloc[3]  # target vessel (for FuelConversions only)
 
-    Returns
-    -------
-    results_df : pandas.DataFrame
-        DataFrame containing the results
-    """
-    
-    # Read the results from the excel file
-    results_df = pd.read_excel(filename, "Fleets")
-    results_dict = {}
-    
-    for vessel_type in vessels:
-        results_dict[vessel_type] = {}
-        for vessel in vessels[vessel_type]:
-            results_dict[vessel_type][vessel] = {}
-            
-            results_df_vessel = results_df.filter(regex=f"Date|Time|{vessel}")
-            
-            ####################### Add a df containing fleet info #######################
-            # Identify columns with NaN in row index 1
-            nan_columns = results_df_vessel.columns[results_df_vessel.iloc[1].isna()]
+    # Actual data starts at row index 4
+    df_data = df_raw.iloc[4:].reset_index(drop=True)
 
-            # Retain 'Date' and 'Time (days)' columns
-            columns_to_keep = list(nan_columns)
+    # Assign proper column names
+    new_columns = []
+    for idx, full in enumerate(row_origin):
+        if idx == 0:
+            new_columns.append("Date")
+        elif idx == 1:
+            new_columns.append("Time (days)")
+        else:
+            new_columns.append(full if isinstance(full, str) else f"unknown_{idx}")
+    df_data.columns = new_columns
 
-            # Filter the dataframe
-            filtered_df = results_df_vessel[columns_to_keep]
+    results_dict = defaultdict(lambda: defaultdict(lambda: {"main fuel info": {}}))
 
-            # Rename the columns using the values from row index 1, except for 'Date' and 'Time (days)'
-            new_column_names = {}
-            for col in nan_columns:
-                cell_value = filtered_df.iloc[0][col]
-                if isinstance(cell_value, (str, int, float)) and pd.notna(cell_value):
-                    new_column_names[col] = str(cell_value)
+    for idx in range(2, len(df_data.columns)):  # skip Date and Time
+        origin_full = row_origin[idx]
+        target_full = row_target[idx]
+        category = row_category[idx]
 
-            filtered_df = filtered_df.rename(columns=new_column_names)
+        if not isinstance(origin_full, str) or "_ice_" not in origin_full or not isinstance(category, str):
+            continue
 
-            # Drop rows with index 0, 1, and 2
-            results_dict[vessel_type][vessel]["fleet info"] = filtered_df.drop(index=[0, 1, 2]).reset_index(drop=True)
-            ##############################################################################
-            
-            ############## Add dfs containing info about each vessel type ################
-            results_dict[vessel_type][vessel]["main fuel info"] = {}
+        # Skip only FuelConversions that cross vessel types
+        if category == "FuelConversions":
+            if not isinstance(target_full, str) or "_ice_" not in target_full:
+                continue
+            if origin_full.split("_ice_")[0] != target_full.split("_ice_")[0]:
+                continue
 
-            # Identify relevant vessel-specific columns
-            vessel_columns = [col for col in results_df_vessel.columns
-                              if isinstance(results_df_vessel.iloc[1][col], str) and
-                              vessel in results_df_vessel.iloc[1][col]]
+        try:
+            vessel_base, origin_fuel = origin_full.split("_ice_")
+        except ValueError:
+            continue
 
-            filtered_df = results_df_vessel[vessel_columns]
+        # Match vessel_base to vessel_type and vessel_name
+        vessel_type, vessel_name = None, None
+        for vt in vessels:
+            for vn in vessels[vt]:
+                if vn == vessel_base:
+                    vessel_type = vt
+                    vessel_name = vn
+                    break
+            if vessel_type:
+                break
+        if vessel_type is None or vessel_name is None:
+            continue
 
-            # Get unique fuel strings from row 1
-            unique_main_fuels_long = filtered_df.iloc[1][vessel_columns].unique()
-            unique_main_fuels = [v.split('_ice_')[-1] for v in unique_main_fuels_long if isinstance(v, str) and 'ice' in v]
+        # Use correct fuel label
+        if category == "FuelConversions":
+            try:
+                target_fuel = target_full.split("_ice_")[1]
+            except Exception:
+                target_fuel = "unknown"
+            col_label = f"FuelConversions_{target_fuel}"
+        else:
+            col_label = category
 
-            for main_fuel_long, main_fuel in zip(unique_main_fuels_long, unique_main_fuels):
-                main_fuel_columns = [col for col in filtered_df.columns
-                                     if filtered_df.iloc[1][col] == main_fuel_long]
+        # Group data under origin fuel
+        if origin_fuel not in results_dict[vessel_type][vessel_name]["main fuel info"]:
+            base_df = pd.DataFrame()
+            base_df["Date"] = df_data["Date"]
+            base_df["Time (days)"] = df_data["Time (days)"]
+            results_dict[vessel_type][vessel_name]["main fuel info"][origin_fuel] = base_df
 
-                new_col_names = {}
-                for col in main_fuel_columns:
-                    top_label = str(results_df_vessel.iloc[0][col])
-                    if top_label == "FuelConversions":
-                        # Get target fuel from row index 2
-                        try:
-                            full_target = str(results_df_vessel.iloc[2][col])
-                            target_fuel = full_target.split('_ice_')[-1]  # strip vessel prefix
-                        except Exception:
-                            target_fuel = "unknown"
-                        new_col_names[col] = f"FuelConversions_{target_fuel}"
-                    else:
-                        new_col_names[col] = top_label  # Keep unchanged
+        results_dict[vessel_type][vessel_name]["main fuel info"][origin_fuel][col_label] = df_data.iloc[:, idx].reset_index(drop=True)
 
-                main_fuel_df = filtered_df[main_fuel_columns].copy()
-                main_fuel_df.columns = [new_col_names[col] for col in main_fuel_columns]
-
-                # Drop metadata rows
-                main_fuel_df = main_fuel_df.drop(index=[0, 1, 2]).reset_index(drop=True)
-
-                # Add time columns
-                main_fuel_df.insert(0, 'Time (days)', results_df_vessel['Time (days)'].iloc[3:].reset_index(drop=True))
-                main_fuel_df.insert(0, 'Date', results_df_vessel['Date'].iloc[3:].reset_index(drop=True))
-
-                results_dict[vessel_type][vessel]["main fuel info"][main_fuel] = main_fuel_df
-
-            ##############################################################################
-            
-            ############### Add dfs containing info about fuel consumption ###############
-            results_dict[vessel_type][vessel]["consumed fuel info"] = {}
-
-            # Identify all consumed fuel columns by excluding vessel-specific columns
-            consumed_fuel_columns = [col for col in results_df_vessel.columns
-                                     if isinstance(results_df_vessel.iloc[1][col], str) and
-                                     vessel not in results_df_vessel.iloc[1][col]]
-
-            # Retain relevant columns
-            filtered_df = results_df_vessel[consumed_fuel_columns]
-
-            # Get unique fuel names
-            unique_consumed_fuels = filtered_df.iloc[1].dropna().unique()  # Drop NaN values before extracting unique names
-
-            for consumed_fuel in unique_consumed_fuels:
-                # Identify columns where the value in row index 1 matches `consumed_fuel`
-                consumed_fuel_columns = [col for col in filtered_df.columns
-                                         if isinstance(filtered_df.iloc[1][col], str) and
-                                         filtered_df.iloc[1][col] == consumed_fuel]
-
-                # Ensure at least one column is found before processing
-                if consumed_fuel_columns:
-                    # Filter the dataframe for the current consumed fuel
-                    consumed_fuel_df = filtered_df[consumed_fuel_columns].copy()
-
-                    # Set values of row index 0 as the new column names
-                    consumed_fuel_df.columns = consumed_fuel_df.iloc[0]
-
-                    # Drop rows with index 0, 1, and 2
-                    consumed_fuel_df = consumed_fuel_df.drop(index=[0, 1, 2]).reset_index(drop=True)
-
-                    # Add 'Date' and 'Time (days)' columns at the far left
-                    consumed_fuel_df.insert(0, 'Time (days)', results_df_vessel['Time (days)'].iloc[3:].reset_index(drop=True))
-                    consumed_fuel_df.insert(0, 'Date', results_df_vessel['Date'].iloc[3:].reset_index(drop=True))
-
-                    # Add the dataframe to the dictionary
-                    results_dict[vessel_type][vessel]["consumed fuel info"][consumed_fuel] = consumed_fuel_df
-            ##############################################################################
     return results_dict
+
+
     
 
 def read_results_global(filename):
@@ -517,7 +464,6 @@ def read_results_regulation(filename):
         }
 
     return results_dict
-
 
     
 def plot_fleet_info_column(data_dict, column_name, info_type="global", ylabel=None, save_label=None):
@@ -818,9 +764,7 @@ def plot_fuel_conversions(data, column, save_path_png, save_path_pdf, ylabel=Non
 
 
 def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_carrier", "container", "tanker", "gas_carrier"], level="size", ylabel=None, save_label=None):
-    from collections import defaultdict
-    import numpy as np
-    import matplotlib.pyplot as plt
+    print("plot_main_fuel_info_fleet")
 
     def sort_fleet_label_columns(columns):
         sorted_cols = []
@@ -851,6 +795,7 @@ def plot_main_fuel_info_fleet(fleet_results_dict, column, vessel_classes=["bulk_
 
         for vessel_size in fleet_results_class_dict:
             main_fuel_size_dict = fleet_results_class_dict[vessel_size]["main fuel info"]
+            #print(main_fuel_size_dict)
             stacked_data = None
 
             for fuel, df in main_fuel_size_dict.items():
@@ -1608,37 +1553,38 @@ def make_all_plots(results_file, results_label=None, regulations=None):
         Label to append to filenames of plots produced for the given simulation result
     """
 
-#    ################################## Global results ##################################
-#    global_results_dict = read_results_global(results_file)
-#
-#    # Fleet info
-#    plot_fleet_info_column(global_results_dict, "TotalEquivalentWTW", info_type="global", ylabel="WTW Emissions (tonnes CO2e)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "CumulativeTotalEquivalentWTW", info_type="global", ylabel="Cumulative WTW (tonnes CO2e)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "IntensityTotalEquivalentWTW", info_type="global", ylabel="WTW Intensity (kg CO$_2$e / GJ fuel)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "RegulationExpenses", info_type="global", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "VesselExpenses", info_type="global", ylabel="Vessel Expenses (USD)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "Expenses", info_type="global", ylabel="Total Expenses (USD)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "CumulativeExpenses", info_type="global", ylabel="Cumulative Expenses (USD)", save_label=results_label)
-#
-#    # Global info
-#    plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
-#    plot_global_stacked_fuel_info(global_results_dict, "FuelRelatedExpenses", save_label=results_label)
-#
-#    ####################################################################################
-#
-#    ################################ Regulation results ################################
-#    regulation_results_dict = read_results_regulation(results_file)
-#    if regulations is not None:
-#        for regulation in regulations:
-#            if regulation in regulation_results_dict:
-#                plot_fleet_info_column(regulation_results_dict[regulation], "FlexibilityCost", info_type = "regulation", save_label=results_label)
-#                plot_regulation_vessel_info(regulation_results_dict, "VesselThreshold", ylabel="Max kg CO2e WTW / GJ fuel", save_label=results_label, regulation_name=regulation)
-#            else:
-#                print(f"Regulation {regulation} is not in the simulation output. No plots produced.")
-#    ####################################################################################
+    ################################## Global results ##################################
+    global_results_dict = read_results_global(results_file)
+
+    # Fleet info
+    plot_fleet_info_column(global_results_dict, "TotalEquivalentWTW", info_type="global", ylabel="WTW Emissions (tonnes CO2e)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "CumulativeTotalEquivalentWTW", info_type="global", ylabel="Cumulative WTW (tonnes CO2e)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "IntensityTotalEquivalentWTW", info_type="global", ylabel="WTW Intensity (kg CO$_2$e / GJ fuel)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "RegulationExpenses", info_type="global", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "VesselExpenses", info_type="global", ylabel="Vessel Expenses (USD)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "Expenses", info_type="global", ylabel="Total Expenses (USD)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "CumulativeExpenses", info_type="global", ylabel="Cumulative Expenses (USD)", save_label=results_label)
+
+    # Global info
+    plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
+    plot_global_stacked_fuel_info(global_results_dict, "FuelRelatedExpenses", save_label=results_label)
+
+    ####################################################################################
+
+    ################################ Regulation results ################################
+    regulation_results_dict = read_results_regulation(results_file)
+    if regulations is not None:
+        for regulation in regulations:
+            if regulation in regulation_results_dict:
+                plot_fleet_info_column(regulation_results_dict[regulation], "FlexibilityCost", info_type = "regulation", save_label=results_label)
+                plot_regulation_vessel_info(regulation_results_dict, "VesselThreshold", ylabel="Max kg CO2e WTW / GJ fuel", save_label=results_label, regulation_name=regulation)
+            else:
+                print(f"Regulation {regulation} is not in the simulation output. No plots produced.")
+    ####################################################################################
 
     ################################ Fleet results ###################################
     fleet_results_dict = read_results_fleet(results_file)
+    #print(fleet_results_dict)
 
     # Plot fleet info for each vessel class and size
     plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="size", ylabel="Existing Vessels", save_label=results_label)
@@ -1658,30 +1604,36 @@ def make_all_plots(results_file, results_label=None, regulations=None):
     plot_main_fuel_info_fleet(fleet_results_dict, "FuelConversions", level="fleet", save_label=results_label)
     plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="fleet", ylabel="Scrapped Vessels", save_label=results_label)
 
-#    # Plot vessel metrics by fuel
-#    vessel_results_dict = read_results_vessel(results_file)
-#    plot_vessel_fuel_metric(vessel_results_dict, "InvestmentMetricExpected", xlabel="Vessel Investment Metric", save_label=results_label, relative_to_lsfo=True)
-#    plot_vessel_fuel_metric(vessel_results_dict, "CargoMiles", xlabel="Annual Vessel Cargo Miles", save_label=results_label, relative_to_lsfo=True)
-#    plot_vessel_fuel_metric(vessel_results_dict, "TotalCost", xlabel="Annual Vessel Cost (USD)", save_label=results_label, relative_to_lsfo=True)
-#    plot_vessel_fuel_metric(vessel_results_dict, "PilotFuelShare", xlabel="Pilot Fuel Fraction", save_label=results_label, relative_to_lsfo=False)
-#    compare_tank_ranges(vessel_results_dict, save_label=results_label)
-#    if regulations is None:
-#        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
-#    else:
-#        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX", "RegulationOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost", "Regulatory Penalties"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
+    # Plot vessel metrics by fuel
+    vessel_results_dict = read_results_vessel(results_file)
+    plot_vessel_fuel_metric(vessel_results_dict, "InvestmentMetricExpected", xlabel="Vessel Investment Metric", save_label=results_label, relative_to_lsfo=True)
+    plot_vessel_fuel_metric(vessel_results_dict, "CargoMiles", xlabel="Annual Vessel Cargo Miles", save_label=results_label, relative_to_lsfo=True)
+    plot_vessel_fuel_metric(vessel_results_dict, "TotalCost", xlabel="Annual Vessel Cost (USD)", save_label=results_label, relative_to_lsfo=True)
+    plot_vessel_fuel_metric(vessel_results_dict, "PilotFuelShare", xlabel="Pilot Fuel Fraction", save_label=results_label, relative_to_lsfo=False)
+    compare_tank_ranges(vessel_results_dict, save_label=results_label)
+    if regulations is None:
+        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
+    else:
+        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX", "RegulationOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost", "Regulatory Penalties"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
 
     ####################################################################################
 
 def main():
 
-#    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways/plots/all_fuels_excel_report.xlsx"
-#    make_all_plots(results_file_base, results_label="singapore_rotterdam")
-#
-#    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg/plots/all_fuels_excel_report.xlsx"
-#    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
+    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways/plots/all_fuels_excel_report.xlsx"
+    make_all_plots(results_file_base, results_label="singapore_rotterdam")
+
+    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg/plots/all_fuels_excel_report.xlsx"
+    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
 
     results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg_fuel_conversion/plots/all_fuels_excel_report.xlsx"
     make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg_fuel_conversion", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
+    
+    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg_fuel_conversion_single_fleet/plots/all_fuels_excel_report.xlsx"
+    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg_fuel_conversion_single_fleet", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
+
+    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg_fuel_conversion_class_fleets/plots/all_fuels_excel_report.xlsx"
+    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg_fuel_conversion_class_fleets", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
 
 #    results_file_base = "multi_fuel_full_fleet/all_fuels_base/plots/all_fuels_base_no_cm_excel_report.xlsx"
 #    make_all_plots(results_file_base, results_label="base_no_cm")
