@@ -8,7 +8,6 @@ import os
 import re
 
 import geopandas as gpd
-import ipdb
 import matplotlib
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
@@ -1962,6 +1961,10 @@ class ProcessedFuel:
         fuel_label = get_fuel_label(self.fuel)
         quantity_label = get_quantity_label(quantity)
         quantity_units = get_units(quantity, modifier)
+        
+        ProcessedPathways = (
+            self.get_processed_pathways()
+        )  # DME: Switching to in-place call to get_processed_pathways()
 
         if not sub_quantities:
             sub_quantities = [quantity]
@@ -2021,10 +2024,6 @@ class ProcessedFuel:
                 sub_quantities, modifier
             )
             all_region_results, _ = pathway.get_all_region_results(quantity, modifier)
-
-            ProcessedPathways = (
-                self.get_processed_pathways()
-            )  # DME: Switching to in-place call to get_processed_pathways()
 
             for i, sub_quantity in enumerate(sub_quantities):
                 value = region_average_results.get(sub_quantity, 0)
@@ -2972,7 +2971,7 @@ def main():
     # -----------------------------------------------------------------------------#
 
     # Loop through all fuels of interest
-    for fuel in ["liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lng"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
+    for fuel in ["liquid_hydrogen"]:#, "ammonia", "methanol", "FTdiesel", "lng"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
         processed_fuel = ProcessedFuel(fuel)
 
 #        # Make validation plots for each fuel, pathway and quantity
@@ -2980,7 +2979,7 @@ def main():
 #        processed_fuel.map_all_by_region()
 #        processed_fuel.make_all_stacked_hists()
     
-#        processed_fuel.make_stacked_hist("TotalCost", "per_tonne_mile_final", ["CAPEX", "OPEX", "FuelOPEX"])
+        processed_fuel.make_stacked_hist("TotalCost", "per_mile", ["CAPEX", "OPEX", "FuelOPEX"])
 #        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #        #processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #        #processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
@@ -3053,30 +3052,30 @@ def main():
     #        processed_resource.plot_SD_ratio_map(resource)
 
     # Load pathway info
-    pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
-
-    # Get unique fuels and pathway types from the CSV
-    fuels = [
-        "methanol"
-    ]  # , "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
-    resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
-    pathway_types = pathway_info_df["Pathway Type"].unique()
-    print(pathway_types)
-
-    # Loop over all combinations
-    for fuel in fuels:
-        for resource in resource_types:
-            processed_resource = ProcessedResource(resource)
-            for pathway_type in ["blue_dac_C"]:  # pathway_types:
-                # Check if this fuel-pathway type combination exists in the dataset
-                matching_pathways = pathway_info_df[
-                    (pathway_info_df["Pathway Type"] == pathway_type)
-                ]
-
-                if not matching_pathways.empty:
-                    processed_resource.make_stacked_plot_avail_vs_demand(
-                        resource, fuel, pathway_type
-                    )
+#    pathway_info_df = pd.read_csv(f"{top_dir}/info_files/pathway_info.csv")
+#
+#    # Get unique fuels and pathway types from the CSV
+#    fuels = [
+#        "methanol"
+#    ]  # , "compressed_hydrogen", "liquid_hydrogen", "ammonia", "FTdiesel"]
+#    resource_types = ["Water", "Electricity", "Carbon Dioxide", "Natural Gas"]
+#    pathway_types = pathway_info_df["Pathway Type"].unique()
+#    print(pathway_types)
+#
+#    # Loop over all combinations
+#    for fuel in fuels:
+#        for resource in resource_types:
+#            processed_resource = ProcessedResource(resource)
+#            for pathway_type in ["blue_dac_C"]:  # pathway_types:
+#                # Check if this fuel-pathway type combination exists in the dataset
+#                matching_pathways = pathway_info_df[
+#                    (pathway_info_df["Pathway Type"] == pathway_type)
+#                ]
+#
+#                if not matching_pathways.empty:
+#                    processed_resource.make_stacked_plot_avail_vs_demand(
+#                        resource, fuel, pathway_type
+#                    )
 
                     # processed_resource.make_stacked_plot_avail_vs_demand(resource, fuel, pathway)
 
