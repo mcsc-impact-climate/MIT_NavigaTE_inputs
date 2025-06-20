@@ -7,7 +7,7 @@ Fleet "bulk_carrier_handy" {
                Vessel("bulk_carrier_handy_ice_FTdiesel"),
                Vessel("bulk_carrier_handy_ice_methane")
                ]
-    InitialVessels = 1
+    InitialVessels = 0.18
 }
 
 Import Fleet "bulk_carrier_panamax"
@@ -19,7 +19,7 @@ Fleet "bulk_carrier_panamax" {
                Vessel("bulk_carrier_panamax_ice_FTdiesel"),
                Vessel("bulk_carrier_panamax_ice_methane")
                ]
-    InitialVessels = 4
+    InitialVessels = 0.64
 }
 
 Import Fleet "bulk_carrier_capesize"
@@ -31,7 +31,7 @@ Fleet "bulk_carrier_capesize" {
                Vessel("bulk_carrier_capesize_ice_FTdiesel"),
                Vessel("bulk_carrier_capesize_ice_methane")
                ]
-    InitialVessels = 2
+    InitialVessels = 0.33
 }
 
 #Import Fleet "container_15000_teu"
@@ -55,7 +55,7 @@ Fleet "container_8000_teu" {
                Vessel("container_8000_teu_ice_FTdiesel"),
                Vessel("container_8000_teu_ice_methane")
                ]
-    InitialVessels = 41
+    InitialVessels = 4.81
 }
 
 Import Fleet "container_3500_teu"
@@ -67,7 +67,7 @@ Fleet "container_3500_teu" {
                Vessel("container_3500_teu_ice_FTdiesel"),
                Vessel("container_3500_teu_ice_methane")
                ]
-    InitialVessels = 18
+    InitialVessels = 2.33
 }
 
 #Import Fleet "tanker_300k_dwt"
@@ -91,7 +91,7 @@ Fleet "tanker_100k_dwt" {
                Vessel("tanker_100k_dwt_ice_FTdiesel"),
                Vessel("tanker_100k_dwt_ice_methane")
                ]
-    InitialVessels = 9
+    InitialVessels = 1.39
 }
 
 Import Fleet "tanker_35k_dwt"
@@ -103,7 +103,7 @@ Fleet "tanker_35k_dwt" {
                Vessel("tanker_35k_dwt_ice_FTdiesel"),
                Vessel("tanker_35k_dwt_ice_methane")
                ]
-    InitialVessels = 18
+    InitialVessels = 2.92
 }
 
 

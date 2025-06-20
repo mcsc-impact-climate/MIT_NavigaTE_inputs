@@ -1,0 +1,135 @@
+[
+    {
+        "vessel_name": "bulk_carrier_handy",
+        "route_type": "ROUND_TRIP",
+        "annual_voyages": 1,
+        "legs": {
+            "singapore_rotterdam": {
+                "distance": 8419,
+                "speed": 11.35,
+                "capacity_utilization": 0.50,
+                "port_duration": 0.7465277777777780
+            },
+            "rotterdam_singapore": {
+                "distance": 8419,
+                "speed": 11.35,
+                "capacity_utilization": 0.50,
+                "port_duration": 1.89
+            }
+        }
+    },
+    {
+        "vessel_name": "bulk_carrier_panamax",
+        "route_type": "ROUND_TRIP",
+        "annual_voyages": 4,
+        "legs": {
+            "singapore_rotterdam": {
+                "distance": 8419,
+                "speed": 12.55,
+                "capacity_utilization": 0.50,
+                "port_duration": 0.7262731481481480
+            },
+            "rotterdam_singapore": {
+                "distance": 8419,
+                "speed": 12.55,
+                "capacity_utilization": 0.50,
+                "port_duration": 1.89
+            }
+        }
+    },
+    {
+        "vessel_name": "bulk_carrier_capesize",
+        "route_type": "ROUND_TRIP",
+        "annual_voyages": 2,
+        "legs": {
+            "singapore_rotterdam": {
+                "distance": 8419,
+                "speed": 12.4,
+                "capacity_utilization": 0.50,
+                "port_duration": 1.8969907407407400
+            },
+            "rotterdam_singapore": {
+                "distance": 8419,
+                "speed": 12.4,
+                "capacity_utilization": 0.50,
+                "port_duration": 1.89
+            }
+        }
+    },
+    {
+        "vessel_name": "container_8000_teu",
+        "route_type": "ROUND_TRIP",
+        "annual_voyages": 41,
+        "legs": {
+            "singapore_rotterdam": {
+                "distance": 8419,
+                "speed": 17.7,
+                "capacity_utilization": 0.65,
+                "port_duration": 1.2992848258706500
+            },
+            "rotterdam_singapore": {
+                "distance": 8419,
+                "speed": 17.7,
+                "capacity_utilization": 0.65,
+                "port_duration": 1.89
+            }
+        }
+    },
+    {
+        "vessel_name": "container_3500_teu",
+        "route_type": "ROUND_TRIP",
+        "annual_voyages": 18,
+        "legs": {
+            "singapore_rotterdam": {
+                "distance": 8419,
+                "speed": 16.05,
+                "capacity_utilization": 0.65,
+                "port_duration": 1.6857040229885100
+            },
+            "rotterdam_singapore": {
+                "distance": 8419,
+                "speed": 16.05,
+                "capacity_utilization": 0.65,
+                "port_duration": 1.89
+            }
+        }
+    },
+    {
+        "vessel_name": "tanker_100k_dwt",
+        "route_type": "ROUND_TRIP",
+        "annual_voyages": 9,
+        "legs": {
+            "singapore_rotterdam": {
+                "distance": 8419,
+                "speed": 13.1,
+                "capacity_utilization": 0.60,
+                "port_duration": 0.9300925925925930
+            },
+            "rotterdam_singapore": {
+                "distance": 8419,
+                "speed": 13.1,
+                "capacity_utilization": 0.60,
+                "port_duration": 1.89
+            }
+        }
+    },
+    {
+        "vessel_name": "tanker_35k_dwt",
+        "route_type": "ROUND_TRIP",
+        "annual_voyages": 18,
+        "legs": {
+            "singapore_rotterdam": {
+                "distance": 8419,
+                "speed": 12.6,
+                "capacity_utilization": 0.60,
+                "port_duration": 1.6909722222222200
+            },
+            "rotterdam_singapore": {
+                "distance": 8419,
+                "speed": 12.6,
+                "capacity_utilization": 0.60,
+                "port_duration": 1.89
+            }
+        }
+    }
+]
