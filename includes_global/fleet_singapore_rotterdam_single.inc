@@ -1,4 +1,4 @@
-Fleet "singpore_rotterdam" {
+Fleet "singapore_rotterdam" {
     Vessels = [
                Vessel("bulk_carrier_handy_ice_oil"),
                Vessel("bulk_carrier_handy_ice_ammonia"),

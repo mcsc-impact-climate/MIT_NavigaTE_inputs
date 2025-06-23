@@ -47,6 +47,7 @@ SIMULATION NAV {
 
     # Allow for fuel conversion
     INCLUDE "../../includes_global/fuel_conversion.inc"
+    INCLUDE "../../includes_global/fuel_conversion_costs_single_fleet.inc"
 }
 
 SIMULATION FT {
