@@ -538,10 +538,10 @@ class FuelWTG:
                 fontsize=30,
                 title="Components",
                 title_fontsize=34,
-                bbox_to_anchor=(1.01, 0.75),
+                bbox_to_anchor=(1.01, 0.85),
                 loc="upper left",
                 borderaxespad=0.0,
-                frameon=False
+                #frameon=False
             )
 
             ax.add_artist(legend1)
@@ -552,10 +552,10 @@ class FuelWTG:
                 scatter_labels,
                 fontsize=34,
                 #title="Individual Countries",
-                bbox_to_anchor=(1.01, 0.25),
+                bbox_to_anchor=(1.01, 0.15),
                 loc="center left",
                 borderaxespad=0.0,
-                frameon=False
+                #frameon=False
             )
 
             ax.add_artist(legend2)
@@ -572,7 +572,7 @@ class FuelWTG:
                 bbox_to_anchor=(1.01, 0.445),
                 loc="center left",
                 borderaxespad=0.0,
-                frameon=False
+                #frameon=False
             )
             ax.add_artist(legend3)
 
@@ -888,7 +888,7 @@ def make_fuel_continent_stacked_hist(MMMCZCS_fuel, continent, quantity="cost"):
     create_directory_if_not_exists(f"{top_dir}/plots/mmmczcs_fuel_cost_comparison")
     filepath_save = f"{top_dir}/plots/mmmczcs_fuel_cost_comparison/{filename_save}.png"
     print(f"Saving figure to {filepath_save}")
-    plt.savefig(filepath_save, dpi=300)
+    plt.savefig(filepath_save, dpi=600)
     plt.close()
 
 def main():
