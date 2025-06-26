@@ -940,7 +940,7 @@ class ProcessedQuantity:
         )
         filepath_save = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.png"
         print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200)
+        plt.savefig(filepath_save, dpi=600)
 
         filepath_save_pdf = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.pdf"
         print(f"Saving figure to {filepath_save_pdf}")
@@ -1411,7 +1411,7 @@ class ProcessedFuel:
         num_pathways = len(self.pathways)
         fig_height = max(6, num_pathways * 0.9)  # Adjust height based on pathways
 
-        fig, ax = plt.subplots(figsize=(18, fig_height))
+        fig, ax = plt.subplots(figsize=(25, fig_height))
         ax.tick_params(axis='both', which='major', labelsize=24)
         ax.xaxis.get_offset_text().set_fontsize(24)
 
@@ -1499,7 +1499,7 @@ class ProcessedFuel:
                         all_region_results[region],
                         y_pos,
                         color="black",
-                        s=50,
+                        s=100,
                         marker="o",
                         zorder=100,
                     )
@@ -1607,7 +1607,7 @@ class ProcessedFuel:
         create_directory_if_not_exists(f"{top_dir}/plots/{self.fuel}")
         filepath_save = f"{top_dir}/plots/{self.fuel}/{filename_save}.png"
         print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200)
+        plt.savefig(filepath_save, dpi=600)
         
         filepath_save_pdf = f"{top_dir}/plots/{self.fuel}/{filename_save}.pdf"
         print(f"Saving figure to {filepath_save_pdf}")
@@ -1832,7 +1832,7 @@ def structure_results_fuels_types(
     return results_fuels_types
 
 
-def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 10), overlay_type='bar'):
+def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 12), overlay_type='bar'):
     """
     Plot the data from a dictionary as horizontal scatterplots overlaid on either bars extending to the mean value or violin plots.
 
@@ -1851,8 +1851,8 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     None
     """
     fig, ax = plt.subplots(figsize=plot_size)
-    ax.tick_params(axis='both', which='major', labelsize=22)
-    ax.xaxis.get_offset_text().set_fontsize(22)
+    ax.tick_params(axis='both', which='major', labelsize=24)
+    ax.xaxis.get_offset_text().set_fontsize(24)
     
     y_position = 0
     y_tick_positions = []  # Left-side labels
@@ -1889,18 +1889,24 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
                     showmeans=False,
                     showmedians=False,
                     showextrema=False,
+                    widths=0.8
                 )
                 for pc in parts["bodies"]:
                     pc.set_facecolor(get_pathway_type_color(pathway_type))
                     pc.set_alpha(0.3)
 
             # Plot scatter
+            if overlay_type == "bar":
+                marker_size = 150
+            else:
+                marker_size = 125
             ax.scatter(
                 values,
                 [y_position] * len(values),
                 color=get_pathway_type_color(pathway_type),
                 edgecolor="black",
-                zorder=3
+                zorder=3,
+                s=marker_size
             )
 
             # Right-side pathway labels
@@ -1932,7 +1938,7 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     ax.set_yticklabels(y_tick_labels)
     
     for label in ax.get_yticklabels():
-        label.set_fontsize(24)
+        label.set_fontsize(25)
         label.set_fontweight("bold")
 
     # Right-side pathway labels
@@ -1942,7 +1948,7 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     ax_right.set_ylim(ax.get_ylim())
     
     for label in ax_right.get_yticklabels():
-        label.set_fontsize(22)
+        label.set_fontsize(24)
         label.set_fontweight("bold")
 
     # Color the right-side labels
@@ -1953,7 +1959,7 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     quantity_label = get_quantity_label(quantity)
     units = get_units(quantity, modifier)
     xlabel = f"{quantity_label} ({units})" if units else quantity_label
-    ax.set_xlabel(xlabel, fontsize=26, labelpad=30)
+    ax.set_xlabel(xlabel, fontsize=28, labelpad=30)
     ax.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
 
 
@@ -1964,7 +1970,7 @@ def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(12, 
     create_directory_if_not_exists(f"{top_dir}/plots/scatter_overlay")
     filepath_base = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}"
     print(f"Saving figure to {filepath_base}.png and .pdf")
-    plt.savefig(f"{filepath_base}.png", dpi=200)
+    plt.savefig(f"{filepath_base}.png", dpi=600)
     plt.savefig(f"{filepath_base}.pdf")
     plt.close()
 
@@ -2154,26 +2160,29 @@ def main():
 
 # -----------------------------------------------------------------------------#
     
-    # Loop through all fuels of interest
-#    for fuel in ["ammonia", "methanol", "FTdiesel", "LNG"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
-#        processed_fuel = ProcessedFuel(fuel)
+#    # Loop through all fuels of interest
+    for fuel in ["FTdiesel"]: #["ammonia", "methanol", "FTdiesel", "LNG"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
+        processed_fuel = ProcessedFuel(fuel)
 
         # Make validation plots for each fuel, pathway and quantity
 #        processed_fuel.make_all_hists_by_region()
 #        processed_fuel.map_all_by_region()
 #        processed_fuel.make_all_stacked_hists()
     
-#        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
+        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #        processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #        processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
+#        processed_fuel.make_stacked_hist("ConsumedElectricity_main", "fleet", plot_global = True, exclude_lsfo = True)
+#        processed_fuel.make_stacked_hist("ConsumedNG_main", "fleet", plot_global = True, exclude_lsfo = True)
+#        processed_fuel.make_stacked_hist("ConsumedCO2_main", "fleet", plot_global = True, exclude_lsfo = True)
 #        processed_fuel.make_stacked_hist("CAC", "vessel", [])
     
     
 #    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
 #    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
-    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
-    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
 #    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
 #    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
 #    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
