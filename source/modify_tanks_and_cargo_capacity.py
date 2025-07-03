@@ -25,7 +25,7 @@ M3_PER_TEU = 38.28
 L_PER_M3 = 1000
 KG_PER_DWT = 1000
 VESSELS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Vessel"
-VESSELS_DIR_LOCAL = "includes_global/vessels_orig_capacity"
+VESSELS_DIR_LOCAL = "NavigaTE/navigate/defaults/user/Vessel_Nominal"
 VESSELS_MODIFIED_DIR = "includes_global/vessels_modified_capacity"
 VESSELS_MODIFIED_TANKS_ORIG_DIR = "includes_global/vessels_modified_capacity_orig_tanks"
 TANKS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Tank"
@@ -33,6 +33,7 @@ TANKS_DIR_LOCAL = "includes_global/tanks_orig_size"
 TANKS_MODIFIED_DIR = "includes_global/tanks_modified_size"
 PROPULSION_EFF_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Forecast"
 PROPULSION_EFF_DIR_LOCAL = "includes_global/vessels_orig_capacity"
+CONVERTER_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Converter"
 ROUTE_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Route"
 ROUTE_DIR_LOCAL = "includes_global/Route"
 SURFACE_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Surface"
@@ -75,6 +76,15 @@ input_file_types = {
     "hydrogen": "local",
     "oil": "NavigaTE",
     "methane": "NavigaTE",
+}
+
+input_file_fuel = {
+    "ammonia": "ammonia",
+    "methanol": "methanol",
+    "hydrogen": "ammonia",
+    "diesel": "oil",
+    "methane": "methane",
+    "oil": "oil"
 }
 
 # Vessel type and size information
@@ -174,7 +184,7 @@ def get_tank_size_factor_energy(
     LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_density_fuel
 ):
     """
-    Calculates the multiplying factor to the tank needed to provide equivalent fuel energy to the vessel as LSFO
+    Calculates the multiplying factor to the tank volume needed to provide equivalent fuel energy to the vessel as LSFO
 
     Parameters
     ----------
@@ -202,29 +212,29 @@ def get_tank_size_factor_energy(
     return tank_size_factor
 
 
-def get_tank_size_factor_propulsion_eff(propulsion_eff_lsfo, propulsion_eff_fuel):
+def get_tank_size_factor_power_system_eff(combined_eff_lsfo, combined_eff_fuel):
     """
     Calculates the multiplicative scaling factor to the tank size needed to account for a different engine efficiency relative to LSFO
 
     Parameters
     ----------
-    propulsion_eff_lsfo : float
-        Efficiency of an engine running on LSFO
+    combined_eff_lsfo : float
+        Combined efficiency of the vessel's power systems running on LSFO
 
-    propulsion_eff_fuel : float
-        Efficiency of an engine running on the given fuel
+    combined_eff_fuel : float
+        Combined efficiency of the vessel's power systems running on the given fuel
 
     Returns
     -------
     tank_size_factor : float
         Tank size scaling factor needed to correct for the different propulsion efficiency relative to LSFO
     """
-    tank_size_factor = propulsion_eff_lsfo / propulsion_eff_fuel
+    tank_size_factor = combined_eff_lsfo / combined_eff_fuel
 
     return tank_size_factor
 
 
-def get_route_properties(top_dir, type_class_keyword):
+def get_route_properties(type_class_keyword):
     """
     Fetches relevant route properties for the given vessel type and class.
 
@@ -630,7 +640,7 @@ def calculate_days_to_empty_tank(
     top_dir = get_top_dir()
 
     # Collect the route properties for the given vessel
-    route_properties_dict = get_route_properties(top_dir, type_class_keyword)
+    route_properties_dict = get_route_properties(type_class_keyword)
 
     # Get the corrected tank size, measured in m^3 of fuel
     tank_size_corrected = tank_size_lsfo
@@ -698,7 +708,7 @@ def get_tank_size_factors(
     fuels,
     LHV_dict,
     mass_density_dict,
-    propulsion_eff_dict,
+    eff_dict,
     boiloff_rate_dict,
     vessel_range=None,
 ):
@@ -716,8 +726,8 @@ def get_tank_size_factors(
     mass_density_dict : dictionary of floatf
         Dictionary containing the mass density of each fuel
 
-    propulsion_eff_dict : dictionary of float
-        Dictionary containing the engine efficiency for each fuel
+    eff_dict : dictionary of float
+        Dictionary containing the powertrain efficiencies for each fuel
 
     boiloff_rate_dict : dictionary of float
         Dictionary containing the boiloff rate for each fuel
@@ -735,7 +745,6 @@ def get_tank_size_factors(
     top_dir = get_top_dir()
     LHV_lsfo = LHV_dict["lsfo"]
     mass_density_lsfo = mass_density_dict["lsfo"]
-    propulsion_eff_lsfo = propulsion_eff_dict["lsfo"]
 
     tank_size_factors_dict = {}
     days_to_empty_tank_dict = {}
@@ -745,6 +754,7 @@ def get_tank_size_factors(
         # Loop through each vessel type and size
         for vessel_type, vessel_classes in vessels.items():
             for vessel_class in vessel_classes:
+                combined_eff_lsfo = eff_dict["lsfo"]["Combined"][vessel_class]
                 if vessel_range is None:
                     tank_size_lsfo = collect_tank_size(top_dir, vessel_class)
                 else:
@@ -757,16 +767,16 @@ def get_tank_size_factors(
                 days_to_empty_tank_dict[fuel][vessel_class] = {}
                 LHV_fuel = LHV_dict[fuel]
                 mass_density_fuel = mass_density_dict[fuel]
-                propulsion_eff_fuel = propulsion_eff_dict[fuel]
+                combined_eff_fuel = eff_dict[fuel]["Combined"][vessel_class]
                 boiloff_rate_fuel = boiloff_rate_dict[fuel]
                 tank_size_factors_dict[fuel][vessel_class][
                     "Consistent Energy Density"
                 ] = get_tank_size_factor_energy(
                     LHV_lsfo, mass_density_lsfo, LHV_fuel, mass_density_fuel
                 )
-                tank_size_factors_dict[fuel][vessel_class]["Engine Efficiency"] = (
-                    get_tank_size_factor_propulsion_eff(
-                        propulsion_eff_lsfo, propulsion_eff_fuel
+                tank_size_factors_dict[fuel][vessel_class]["Power System Efficiency"] = (
+                    get_tank_size_factor_power_system_eff(
+                        combined_eff_lsfo, combined_eff_fuel
                     )
                 )
 
@@ -1161,6 +1171,55 @@ def modify_cargo_capacity(
     modified_capacity = max(0, cargo_capacity_lsfo - cargo_displacement)
 
     return modified_capacity
+    
+def collect_non_propulsion_loads_at_sea(type_class_keyword):
+    """
+    Reads in the vessel .inc file for the given vessel type and size class, and collects the electrical and heat load levels at sea, in MW.
+
+    Parameters
+    ----------
+    top_dir : str
+        The top directory where vessel files are located.
+
+    type_class_keyword : str
+        Unique keyword in the filename for the given type and class.
+
+    Returns
+    ----------
+    nom_capacity : float
+        Nominal capacity of the given vessel, as defined in the vessel .inc file.
+    """
+
+    # Construct the filepath to the vessel .inc file for the given vessel
+    filepath = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{type_class_keyword}_ice_oil.inc"
+
+    # Initialize variables to contain the electrical and heat loads
+    elec_load = None
+    heat_load = None
+
+    # Define the parse format for the line containing the nominal capacity
+    elec_load_format = "ElectricalLoadLevelAtSea = {}"
+    heat_load_format = "HeatLoadLevelAtSea = {}"
+
+    # Try to open the file and read its content
+    try:
+        with open(filepath, "r") as file:
+            for line in file:
+                # Parse the line using the format strings
+                elec_load_result = parse.parse(elec_load_format, line.strip())
+                if elec_load_result:
+                        elec_load = float(elec_load_result[0])
+                        
+                heat_load_result = parse.parse(heat_load_format, line.strip())
+                if heat_load_result:
+                        heat_load = float(heat_load_result[0])
+            
+    except FileNotFoundError:
+        print(f"File not found: {filepath}")
+    except Exception as e:
+        print(f"An error occurred while reading the file: {e}")
+
+    return elec_load, heat_load
 
 
 def collect_nominal_capacity(
@@ -1216,7 +1275,7 @@ def collect_nominal_capacity(
 
 def collect_propulsion_eff(top_dir, fuel):
     """
-    Reads in the propulsion efficiency for the given fuel in 2024 from the relevant NavigaTE input file.
+    Reads in the propulsion efficiency for the given fuel in 2025 from the relevant NavigaTE input file.
 
     Parameters
     ----------
@@ -1233,22 +1292,15 @@ def collect_propulsion_eff(top_dir, fuel):
     """
 
     # Construct the filepath to the vessel .inc file for the given vessel
-    fuel_vessel = fuel_vessel_dict[
-        fuel
-    ]  # Fuel name as defined in vessel input filenames
-    input_type = input_file_types[fuel_vessel]
-    if input_type == "local":
-        filepath = (
-            f"{top_dir}/{VESSELS_DIR_LOCAL}/bulk_carrier_capesize_ice_{fuel_vessel}.inc"
-        )
-    else:
-        filepath = f"{top_dir}/{PROPULSION_EFF_DIR_NAVIGATE}/propulsion_ice_{fuel_vessel}_thermal_efficiency.inc"
+    fuel_vessel = fuel_vessel_dict[fuel]  # Fuel name as defined in vessel input filenames
+    input_fuel = input_file_fuel[fuel_vessel]   # Sub in fuel that efficiency is borrowed from in the case of hydrogen and diesel
+    filepath = f"{top_dir}/{PROPULSION_EFF_DIR_NAVIGATE}/propulsion_ice_{input_fuel}_thermal_efficiency.inc"
 
     # Initialize the variable to contain the propulsion efficiency
     propulsion_eff = None
 
     # Define a regex pattern to match the date "01-01-2024" with any amount of surrounding whitespace and capture the efficiency value
-    pattern = r'^\s*"01-01-2024"\s+([\d.]+)'
+    pattern = r'^\s*"01-01-2025"\s+([\d.]+)'
 
     # Try to open the file and read its content
     try:
@@ -1264,6 +1316,59 @@ def collect_propulsion_eff(top_dir, fuel):
         print(f"An error occurred while reading the file: {e}")
 
     return propulsion_eff
+    
+def collect_non_propulsion_effs(fuel):
+    """
+    Reads in the electrical and heat conversion efficiencies for the given fuel from the relevant NavigaTE input file.
+
+    Parameters
+    ----------
+    top_dir : str
+        The top directory where vessel files are located.
+
+    fuel : str
+        Name of the fuel to collect the propulsion efficiency for
+
+    Returns
+    ----------
+    propulsion_eff : float
+        Propulsion efficiency for the given fuel in 2024
+    """
+
+    fuel_vessel = fuel_vessel_dict[fuel]  # Fuel name as defined in vessel input filenames
+    input_fuel = input_file_fuel[fuel_vessel]   # Sub in fuel that efficiency is borrowed from in the case of hydrogen and diesel
+    elec_filepath = f"{top_dir}/{CONVERTER_DIR_NAVIGATE}/electrical_ice_{input_fuel}_bulk_carrier_capesize.inc"
+    heat_filepath = f"{top_dir}/{CONVERTER_DIR_NAVIGATE}/heat_boiler_oil_bulk_carrier_capesize.inc"
+    
+    # Initialize variables to contain the propulsion efficiency
+    elec_eff = None
+    heat_eff = None
+
+    # Define the parse format for the line containing the nominal capacity
+    eff_format = "Efficiency = {}"
+
+    # Try to open the file and read its content
+    try:
+        with open(elec_filepath, "r") as file:
+            for line in file:
+                # Parse the line using the format strings
+                elec_eff_result = parse.parse(eff_format, line.strip())
+                if elec_eff_result:
+                        elec_eff = float(elec_eff_result[0])
+
+        with open(heat_filepath, "r") as file:
+            for line in file:
+                # Parse the line using the format strings
+                heat_eff_result = parse.parse(eff_format, line.strip())
+                if heat_eff_result:
+                        heat_eff = float(heat_eff_result[0])
+            
+    except FileNotFoundError:
+        print(f"File not found: {filepath}")
+    except Exception as e:
+        print(f"An error occurred while reading the file: {e}")
+
+    return elec_eff, heat_eff
 
 
 def collect_tank_size(top_dir, type_class_keyword, fuel="oil", modified_size=False):
@@ -1321,14 +1426,45 @@ def collect_tank_size(top_dir, type_class_keyword, fuel="oil", modified_size=Fal
     return tank_size
 
 
-def get_propulsion_eff_dict(top_dir, fuels):
+def calculate_combined_eff(P_p_av, P_e, P_h, eta_p, eta_e, eta_h):
     """
-    Constructs a dictionary containing the 2024 engine efficiency for each fuel
+    Calculates the combined efficiency of the propulsion, electricity, and heat power systems
 
     Parameters
     ----------
-    top_dir : str
-        The top directory where vessel files are located.
+    P_p_av : float
+        Average propulsion system power load, in MW
+
+    P_e : float
+        Electricity system powr load, in MW
+    
+    P_h : float
+        Heat system power load, in MW
+        
+    eta_p : float
+        Propulsion system energy efficiency
+        
+    eta_e : float
+        Electricity system energy efficiency
+        
+    eta_h : float
+        Heat system energy efficiency
+        
+    Returns
+    ----------
+    eta_c : float
+        Combined power system energy efficiency
+    """
+    
+    eta_c = (P_p_av + P_e + P_h) / (P_p_av / eta_p + P_e / eta_e + P_h / eta_h)
+    return eta_c
+
+def get_eff_dict(fuels):
+    """
+    Constructs a dictionary containing the 2025 efficiencies for each fuel and power system, along with the effective efficiency for the combined power system
+
+    Parameters
+    ----------
 
     fuels : list of str
         List of fuels to collect engine efficiencies for
@@ -1336,13 +1472,29 @@ def get_propulsion_eff_dict(top_dir, fuels):
     Returns
     ----------
     propulsion_eff_dict : dictionary of float
-        Dictionary containing the 2024 engine efficiency for each fuel
+        Dictionary containing the 2025 efficiencies for each fuel
     """
-    propulsion_eff_dict = {}
+    eff_dict = {}
+    
     for fuel in fuels:
-        propulsion_eff_dict[fuel] = collect_propulsion_eff(top_dir, fuel)
+        eff_dict[fuel] = {}
+        eff_dict[fuel]["Propulsion"] = collect_propulsion_eff(top_dir, fuel)
+        elec_eff, heat_eff = collect_non_propulsion_effs(fuel)
+        eff_dict[fuel]["Electricity"] = elec_eff
+        eff_dict[fuel]["Heat"] = heat_eff
+        eff_dict[fuel]["Combined"] = {}
 
-    return propulsion_eff_dict
+        # Loop through each vessel type and size and calculate the combined efficiency for each
+        for vessel_type, vessel_classes in vessels.items():
+            for vessel_class in vessel_classes:
+                route_properties_dict = get_route_properties(vessel_class)
+                average_propulsion_power = calculate_average_propulsion_power(
+                vessel_class, route_properties_dict)
+                electricity_power, heat_power = collect_non_propulsion_loads_at_sea(vessel_class)
+                
+                eff_dict[fuel]["Combined"][vessel_class] = calculate_combined_eff(average_propulsion_power, electricity_power, heat_power, eff_dict[fuel]["Propulsion"], eff_dict[fuel]["Electricity"], eff_dict[fuel]["Heat"])
+
+    return eff_dict
 
 
 def make_modified_vessel_incs(
@@ -1616,7 +1768,7 @@ def make_modified_tank_incs(
 
 
 def calculate_average_fuel_per_distance(
-    fuel, LHV_fuel, propulsion_eff_fuel, vessel_type_class, route_properties_dict
+    fuel, LHV_fuel, eff_dict, vessel_type_class, route_properties_dict
 ):
     """
     Calculates the fuel consumed per unit distance traveled by the vessel.
@@ -1630,8 +1782,8 @@ def calculate_average_fuel_per_distance(
     LHV_fuel : float
         Lower heating value of the given fuel (in MJ / kg)
 
-    propulsion_eff_fuel : float
-        Efficiency of an engine running on the given fuel
+    eff_dict : dict
+        Dictionary containing power system efficiencies of an vessel running on the given fuel
 
     vessel_type_class : str
         Unique keyword in the filename for the given type and class.
@@ -1654,7 +1806,7 @@ def calculate_average_fuel_per_distance(
 
     # Use the propulsion efficiency and the fuel LHV to convert to kg/nm
     fuel_per_distance = average_propulsion_energy_per_distance / (
-        propulsion_eff_fuel * LHV_fuel
+        eff_dict["Combined"][vessel_type_class] * LHV_fuel
     )
 
     return fuel_per_distance
@@ -1667,7 +1819,7 @@ def calculate_vessel_range(
     LHV_fuel,
     boiloff_factor,
     mass_density_fuel,
-    propulsion_eff_fuel,
+    propulsion_eff_dict,
     route_properties_dict,
 ):
     """
@@ -1736,13 +1888,13 @@ def get_lsfo_tank_size(vessel_range, vessel_type_class):
     """
     top_dir = get_top_dir()
     fuel_properties_dict = get_fuel_properties("lsfo")
-    route_properties_dict = get_route_properties(top_dir, vessel_type_class)
-    propulsion_eff = get_propulsion_eff_dict(top_dir, ["lsfo"])["lsfo"]
+    route_properties_dict = get_route_properties(vessel_type_class)
+    eff_dict = get_eff_dict(["lsfo"])["lsfo"]
 
     average_fuel_per_distance = calculate_average_fuel_per_distance(
         "lsfo",
         fuel_properties_dict["Lower Heating Value (MJ / kg)"],
-        propulsion_eff,
+        eff_dict,
         vessel_type_class,
         route_properties_dict,
     )  # Calculate the fuel use per unit distance traveled, in kg / nautical mile
@@ -1752,31 +1904,6 @@ def get_lsfo_tank_size(vessel_range, vessel_type_class):
 
     # Calculate the needed tank volume based on the fuel density
     tank_size = (m_fuel / fuel_properties_dict["Mass density (kg/L)"]) / L_PER_M3
-
-    return tank_size
-
-
-def get_modified_tank_size(vessel_range, vessel_type_class, fuel):
-    """
-    Calculates the required size of a tank carrying the given fuel fuel corresponding to a specified design range for a given vessel, modified from LSFO tank size to maintain the same range.
-
-    Parameters
-    ----------
-    vessel_range : float
-        Range of the vessel, in nautical miles
-
-    vessel_type_class : str
-        String specifying the vessel's type and class
-
-    fuel : str
-        String specifying the name of the fuel
-
-    Returns
-    -------
-    modified_tank_size : float
-        Required size of the tank, in m^3
-    """
-    lsfo_tank_size = get_lsfo_tank_size(vessel_range, vessel_type_class)
 
     return tank_size
 
@@ -1815,7 +1942,7 @@ def calculate_all_vessel_ranges(
             )
 
             # Collect the route properties for the given vessel
-            route_properties_dict = get_route_properties(top_dir, vessel_class)
+            route_properties_dict = get_route_properties(vessel_class)
 
             # Loop through each fuel
             for fuel in ["lsfo"] + fuels:
@@ -2877,7 +3004,7 @@ def calculate_cargo_miles(top_dir, fuel, vessel_class, modified_capacities_df):
         Cargo miles carried by volume, in tonne-m^3
 
     """
-    route_properties_dict = get_route_properties(top_dir, vessel_class)
+    route_properties_dict = get_route_properties(vessel_class)
 
     if fuel == "lsfo":
         cargo_capacity_cbm = modified_capacities_df.loc[
@@ -3043,7 +3170,10 @@ def get_fuel_properties(fuel):
     fuel_properties_dict["Boil-off Rate (%/day)"] = fuel_info.loc[
         fuel, "Boil-off Rate (%/day)"
     ]
-    fuel_properties_dict["Engine efficiency"] = collect_propulsion_eff(top_dir, fuel)
+    fuel_properties_dict["Propulsion system eff"] = collect_propulsion_eff(top_dir, fuel)
+    elec_eff, heat_eff = collect_non_propulsion_effs(fuel)
+    fuel_properties_dict["Electricity system eff"] = elec_eff
+    fuel_properties_dict["Heat system eff"] = heat_eff
     fuel_properties_dict["Tank size scaling factor (energy density)"] = (
         get_tank_size_factor_energy(
             fuel_info.loc["lsfo", "Lower Heating Value (MJ / kg)"],
@@ -3052,12 +3182,12 @@ def get_fuel_properties(fuel):
             fuel_info.loc[fuel, "Mass density (kg/L)"],
         )
     )
-    fuel_properties_dict["Tank size scaling factor (engine efficiency)"] = (
-        get_tank_size_factor_propulsion_eff(
-            collect_propulsion_eff(top_dir, "lsfo"),
-            collect_propulsion_eff(top_dir, fuel),
-        )
-    )
+#    fuel_properties_dict["Tank size scaling factor (engine efficiency)"] = (
+#        get_tank_size_factor_propulsion_eff(
+#            collect_propulsion_eff(top_dir, "lsfo"),
+#            collect_propulsion_eff(top_dir, fuel),
+#        )
+#    )
 
     return fuel_properties_dict
 
@@ -3094,7 +3224,7 @@ def fetch_and_save_vessel_info(cargo_info_df):
                 )
             )
             nominal_tank_size_cbm = collect_tank_size(top_dir, vessel_class, fuel="oil")
-            route_properties_dict = get_route_properties(top_dir, vessel_class)
+            route_properties_dict = get_route_properties(vessel_class)
             average_speed = np.sum(
                 route_properties_dict["ConditionDistribution"]
                 * route_properties_dict["Speeds"]
@@ -3180,6 +3310,7 @@ def fetch_and_save_fuel_properties(fuels):
 
 
 def main():
+
     # List of fuels to consider
     fuels = [
         "ammonia",
@@ -3199,23 +3330,23 @@ def main():
     boiloff_rate_dict = get_fuel_info_dict(
         f"{top_dir}/info_files/fuel_info.csv", "Boil-off Rate (%/day)"
     )
-    propulsion_eff_dict = get_propulsion_eff_dict(top_dir, fuels + ["lsfo"])
+    eff_dict = get_eff_dict(fuels + ["lsfo"])
 
     propulsion_power_distribution = calculate_propulsion_power_distribution(
         [12, 22], [0, 0.5], "container_15000_teu"
     )
 
     tank_size_factors_dict, days_to_empty_tank_dict = get_tank_size_factors(
-        fuels, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict
+        fuels, LHV_dict, mass_density_dict, eff_dict, boiloff_rate_dict
     )
+    
+    """
 
     cargo_info_df = pd.read_csv(f"{top_dir}/info_files/assumed_cargo_density.csv")
     fetch_and_save_vessel_info(cargo_info_df)
     fetch_and_save_fuel_properties(fuels)
 
     #    tank_size_factors_dict, days_to_empty_tank_dict = get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict, vessel_range=50000)
-
-    # propulsion_power_distribution = calculate_propulsion_power_distribution([12, 22], [0, 0.5], "container_15000_teu")
 
     # First, consider original vessel design ranges
     tank_size_factors_dict, days_to_empty_tank_dict = get_tank_size_factors(
@@ -3254,12 +3385,12 @@ def main():
         modified_capacities_df, capacity_type="final", sf_dist=sf_dist
     )
 
-    make_modified_vessel_incs(
-        top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
-    )
-    make_modified_tank_incs(
-        top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
-    )
+#    make_modified_vessel_incs(
+#        top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
+#    )
+#    make_modified_tank_incs(
+#        top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
+#    )
 
     #    # Next, consider a range of vessel design ranges
     #    vessel_ranges = range(5000, 55000, 5000)
@@ -3291,7 +3422,7 @@ def main():
     cargo_miles_df = make_cargo_miles_df(
         top_dir, vessels, fuels, modified_capacities_df
     )
-
+    """
 
 if __name__ == "__main__":
     main()
