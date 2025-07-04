@@ -212,8 +212,11 @@ def get_tank_size_factors_energy(
 
     Returns
     -------
-    tank_size_factor : float
-        Size of the tank with an equivalent fuel energy to the LSFO tank
+    tank_size_factor_V : float
+        Volume tank size scaling factor
+    
+    tank_size_factor_m : float
+        Mass tank size scaling factor
     """
 
     tank_size_factor_V = (LHV_lsfo * mass_density_lsfo) / (LHV_fuel * mass_density_fuel)
@@ -686,7 +689,6 @@ def get_tank_size_factor_boiloff(boiloff_rate, N_days):
 
     return tank_size_factor
 
-
 def get_tank_size_factors(
     fuels,
     LHV_dict,
@@ -696,7 +698,7 @@ def get_tank_size_factors(
     vessel_range=None,
 ):
     """
-    Creates a dictionary of tank size scaling factors for each fuel relative to LSFO
+    Creates a dictionary of tank size scaling factors for each fuel and vessel relative to LSFO
 
     Parameters
     ----------
@@ -731,7 +733,7 @@ def get_tank_size_factors(
 
     tank_size_factors_dict = {}
     days_to_empty_tank_dict = {}
-    for fuel in fuels:
+    for fuel in fuels + ["lsfo"]:
         #print(fuel)
         tank_size_factors_dict[fuel] = {}
         days_to_empty_tank_dict[fuel] = {}
@@ -2871,20 +2873,6 @@ def get_fuel_properties(fuel):
     elec_eff, heat_eff = collect_non_propulsion_effs(fuel)
     fuel_properties_dict["Electricity system eff"] = elec_eff
     fuel_properties_dict["Heat system eff"] = heat_eff
-#    fuel_properties_dict["Tank size scaling factor (energy density)"] = (
-#        get_tank_size_factor_energy(
-#            fuel_info.loc["lsfo", "Lower Heating Value (MJ / kg)"],
-#            fuel_info.loc["lsfo", "Mass density (kg/L)"],
-#            fuel_info.loc[fuel, "Lower Heating Value (MJ / kg)"],
-#            fuel_info.loc[fuel, "Mass density (kg/L)"],
-#        )
-#    )
-#    fuel_properties_dict["Tank size scaling factor (engine efficiency)"] = (
-#        get_tank_size_factor_propulsion_eff(
-#            collect_propulsion_eff(top_dir, "lsfo"),
-#            collect_propulsion_eff(top_dir, fuel),
-#        )
-#    )
 
     return fuel_properties_dict
 
@@ -2982,7 +2970,7 @@ def fetch_and_save_vessel_info(cargo_info_df, eff_dict):
     return vessel_info_df
 
 
-def fetch_and_save_fuel_properties(fuels):
+def fetch_and_save_fuel_properties(fuels, tank_size_factors_dict):
     """
     Fetches info for each fuel relevant for assessing the impact of tank displacement on cargo capacity, and saves it to a csv file for reference.
 
@@ -2990,7 +2978,10 @@ def fetch_and_save_fuel_properties(fuels):
     ----------
     fuels : list of str
         List of fuels to consider
-
+    
+    tank_size_factors_dict : Dictionary
+        Dictionary containing the tank size factor for each fuel
+        
     Returns
     -------
     fuel_info_df : pd.DataFrame
@@ -3003,6 +2994,27 @@ def fetch_and_save_fuel_properties(fuels):
         fuel_properties_fuel = {}
         fuel_properties_fuel["Fuel"] = fuel
         fuel_properties_fuel.update(get_fuel_properties(fuel))
+        fuel_properties_fuel["f_density_V"] = tank_size_factors_dict[fuel]["bulk_carrier_handy"]["f_density_V"]
+        fuel_properties_fuel["f_density_m"] = tank_size_factors_dict[fuel]["bulk_carrier_handy"]["f_density_m"]
+        f_effs = []
+        for vessel_type, vessel_classes in vessels.items():
+            for vessel_class in vessel_classes:
+                f_eff_vessel = tank_size_factors_dict[fuel][vessel_class]["f_eff"]
+                f_effs.append(f_eff_vessel)
+                
+        f_effs = np.asarray(f_effs)
+        fuel_properties_fuel["f_eff_mean"] = np.mean(f_effs)
+        fuel_properties_fuel["f_eff_down"] = np.min(f_effs) - fuel_properties_fuel["f_eff_mean"]
+        fuel_properties_fuel["f_eff_up"] = np.max(f_effs) - fuel_properties_fuel["f_eff_mean"]
+        
+        fuel_properties_fuel["beta_m_mean"] = np.mean(f_effs * fuel_properties_fuel["f_density_m"])
+        fuel_properties_fuel["beta_m_down"] = np.min(f_effs * fuel_properties_fuel["f_density_m"]) - fuel_properties_fuel["beta_m_mean"]
+        fuel_properties_fuel["beta_m_up"] = np.max(f_effs * fuel_properties_fuel["f_density_m"]) - fuel_properties_fuel["beta_m_mean"]
+
+        fuel_properties_fuel["beta_V_mean"] = np.mean(f_effs * fuel_properties_fuel["f_density_V"])
+        fuel_properties_fuel["beta_V_down"] = np.min(f_effs * fuel_properties_fuel["f_density_V"]) - fuel_properties_fuel["beta_V_mean"]
+        fuel_properties_fuel["beta_V_up"] = np.max(f_effs * fuel_properties_fuel["f_density_V"]) - fuel_properties_fuel["beta_V_mean"]
+        
         data.append(fuel_properties_fuel)
 
     fuel_info_df = pd.DataFrame(data)
@@ -3043,7 +3055,7 @@ def main():
     
     cargo_info_df = pd.read_csv(f"{top_dir}/info_files/assumed_cargo_density.csv")
     vessel_info_df = fetch_and_save_vessel_info(cargo_info_df, eff_dict)
-    fuel_info_df = fetch_and_save_fuel_properties(fuels)
+    fuel_info_df = fetch_and_save_fuel_properties(fuels, tank_size_factors_dict)
     
     #capacities_dict = get_modified_cargo_capacities("tanker_300k_dwt", "ammonia", cargo_info_df, mass_density_dict, tank_size_factors_dict)
     #print(capacities_dict)
