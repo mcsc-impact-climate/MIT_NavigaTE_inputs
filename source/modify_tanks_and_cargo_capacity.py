@@ -49,9 +49,9 @@ top_dir = get_top_dir()
 fuel_vessel_dict = {
     "ammonia": "ammonia",
     "methanol": "methanol",
-    "FTdiesel": "diesel",
-    "compressed_hydrogen": "hydrogen",
-    "liquid_hydrogen": "hydrogen",
+    "FTdiesel": "FTdiesel",
+    "compressed_hydrogen": "compressed_hydrogen",
+    "liquid_hydrogen": "liquid_hydrogen",
     "lsfo": "oil",
     "lng": "methane",
 }
@@ -71,7 +71,10 @@ input_file_types = {
     "ammonia": "NavigaTE",
     "methanol": "NavigaTE",
     "diesel": "local",
+    "FTdiesel": "local",
     "hydrogen": "local",
+    "liquid_hydrogen": "local",
+    "compressed_hydrogen": "local",
     "oil": "NavigaTE",
     "methane": "NavigaTE",
 }
@@ -80,7 +83,10 @@ input_file_fuel = {
     "ammonia": "ammonia",
     "methanol": "methanol",
     "hydrogen": "ammonia",
+    "liquid_hydrogen": "ammonia",
+    "compressed_hydrogen": "ammonia",
     "diesel": "oil",
+    "FTdiesel": "oil",
     "methane": "methane",
     "oil": "oil",
 }
@@ -1606,10 +1612,10 @@ def make_modified_vessel_incs(
                             )
 
                         # Update the "Tanks" line
-                        if line.strip().startswith("Tanks"):
-                            content_modified_capacity[i] = (
-                                f'    Tanks = [Tank("main_{fuel}_{vessel_class}"), Tank("pilot_oil_bulk_carrier_capesize")]\n'
-                            )
+#                        if line.strip().startswith("Tanks"):
+#                            content_modified_capacity[i] = (
+#                                f'    Tanks = [Tank("main_{fuel}_{vessel_class}"), Tank("pilot_oil_bulk_carrier_capesize")]\n'
+#                            )
 
                     # Write the modified content to the new file
                     os.makedirs(os.path.dirname(modified_filepath), exist_ok=True)

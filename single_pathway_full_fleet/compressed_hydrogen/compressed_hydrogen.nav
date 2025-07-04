@@ -5,7 +5,7 @@ SIMULATION NAV {
     INCLUDE "../includes_local/bunker_logistics_compressed_hydrogen.inc"
     
     # fleets
-    INCLUDE "../../includes_global/fleet_hydrogen.inc"
+    INCLUDE "../../includes_global/fleet_compressed_hydrogen.inc"
     
     # fuels
     INCLUDE "../../includes_global/compressed_hydrogen.inc"
@@ -23,6 +23,9 @@ SIMULATION NAV {
     
     # output results to excel
     INCLUDE "../../includes_global/make_excel.inc"
+    
+    # Enforce main fuel share
+    INCLUDE "../../includes_global/vessels_compressed_hydrogen.inc"
 
 }
 

@@ -7,7 +7,7 @@ Vessel "container_15000_teu_ice_compressed_hydrogen" {
     HeatLoadLevelInPort=1.48
     
     PowerSystem=PowerSystem("ice_hydrogen_container_15000_teu")   # DMM: This will need to change for hydrogen
-    Tanks = [Tank("main_hydrogen_container_15000_teu"), Tank("pilot_oil_container_15000_teu")]
+    Tanks = [Tank("main_compressed_hydrogen_container_15000_teu"), Tank("pilot_oil_container_15000_teu")]
     
     Route=Route("globalized_container_15000_teu")
     

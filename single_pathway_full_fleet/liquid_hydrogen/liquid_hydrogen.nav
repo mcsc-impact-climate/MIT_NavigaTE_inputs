@@ -24,7 +24,7 @@ SIMULATION NAV {
     # output results to excel
     INCLUDE "../../includes_global/make_excel.inc"
 
-    # Modify vessel capacities
+    # Enforce main fuel share
     INCLUDE "../../includes_global/vessels_liquid_hydrogen.inc"
 
 }

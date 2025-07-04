@@ -8,7 +8,7 @@ Vessel "tanker_35k_dwt_ice_FTdiesel" {
     HeatLoadLevelInPort=0.6
     
     PowerSystem=PowerSystem("ice_diesel_tanker_35k_dwt")
-    Tanks = [Tank("main_diesel_tanker_35k_dwt")]
+    Tanks = [Tank("main_FTdiesel_tanker_35k_dwt")]
     
     Route=Route("globalized_tanker_35k_dwt")
     

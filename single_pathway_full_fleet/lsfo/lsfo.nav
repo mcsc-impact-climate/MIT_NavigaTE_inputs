@@ -22,9 +22,6 @@ SIMULATION NAV {
     # output results to excel
     INCLUDE "../../includes_global/make_excel.inc"
 
-    # Modify vessel capacities
-    INCLUDE "../../includes_global/vessels_oil.inc"
-
 }
 
 SIMULATION FT {
