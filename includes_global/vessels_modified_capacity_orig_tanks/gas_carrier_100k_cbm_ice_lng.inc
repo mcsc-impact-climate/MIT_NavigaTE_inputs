@@ -20,7 +20,7 @@ Vessel "gas_carrier_100k_cbm_ice_lng" {
 	
 	Route = Route("globalized_gas_carrier_100k_cbm")
 	
-    NominalCapacity = 96348.43170529167
+    NominalCapacity = 97744.19125168271
 	
 
 	Lifetime = 25

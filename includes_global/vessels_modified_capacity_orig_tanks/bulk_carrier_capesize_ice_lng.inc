@@ -19,7 +19,7 @@ Vessel "bulk_carrier_capesize_ice_lng" {
 	
 	Route = Route("globalized_bulk_carrier_capesize")
 	
-    NominalCapacity = 134865.1809056272
+    NominalCapacity = 137145.8494648085
 	
 
 	Lifetime = 25

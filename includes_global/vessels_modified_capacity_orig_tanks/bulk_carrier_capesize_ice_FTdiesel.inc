@@ -15,27 +15,16 @@ Vessel "bulk_carrier_capesize_ice_FTdiesel" {
     NominalCapacity = 139741.85883622992
 
     Lifetime=25
-    Finance=Finance("vessel_finance")
+    CostOfCapital = Variable("cost_of_capital_vessel")
     CAPEX = 50e6
     OPEX = 2.4e6
 }
 
 PowerSystem "ice_diesel_bulk_carrier_capesize" {
-    Propulsion = [Converter("propulsion_ice_diesel_bulk_carrier_capesize")]
-    Electrical = [Converter("electrical_ice_diesel_bulk_carrier_capesize")]
-    Heat = [Converter("heat_boiler_oil_diesel_bulk_carrier_capesize")]
-    
-    PropulsionInStreams = Array [
-        [0, 1.0, 0, 0]
-    ]
-    
-    ElectricalInStreams = Array [
-        [0, 0, 1.0, 0]
-    ]
-    
-    HeatInStreams = Array [
-        [0, 0, 0, 0.825]
-    ]
+    Setup = INDIVIDUAL
+    Propulsion = Converter("propulsion_ice_diesel_bulk_carrier_capesize")
+    Electrical = Converter("electrical_ice_diesel_bulk_carrier_capesize")
+    Heat = Converter("heat_boiler_diesel_bulk_carrier_capesize")
     
     CAPEX = 0.385e6     # DMM: Copied from ice_oil_bulk_carrier_capesize.inc
     OPEX = 0.385e4      # DMM: Copied from ice_oil_bulk_carrier_capesize.inc
@@ -45,8 +34,7 @@ Converter "propulsion_ice_diesel_bulk_carrier_capesize" {
     PowerCapacity=17.4      # DMM: Copied from propulsion_ice_oil_bulk_carrier_capesize.inc
     MinimumLoad=0.2         # DMM: Copied from propulsion_ice_oil_bulk_carrier_capesize.inc
     MainFuelTypes = [DIESEL]
-    OutStream = [0, Forecast("propulsion_ice_diesel_thermal_efficiency"), 0, <1 - Forecast("propulsion_ice_diesel_thermal_efficiency")>]
-    PrimaryStream = MECHANICAL
+        Efficiency = Forecast("propulsion_ice_diesel_thermal_efficiency")
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -57,8 +45,7 @@ Converter "propulsion_ice_diesel_bulk_carrier_capesize" {
 Converter "electrical_ice_diesel_bulk_carrier_capesize" {
     PowerCapacity=2.
     MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0.48, 0.52]
-    PrimaryStream = ELECTRICAL
+    Efficiency = 0.48
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -101,15 +88,5 @@ Forecast "propulsion_ice_diesel_thermal_efficiency" {
         "01-01-2050"    0.5559
     ]
     Extrapolate=LINEAR
-}
-
-Converter "heat_boiler_oil_diesel_bulk_carrier_capesize" {
-    PowerCapacity=2.
-    MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0, 1.0]
-    PrimaryStream = HEAT
-    
-    CAPEX = 55e3
-    OPEX = 0
 }
 

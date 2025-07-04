@@ -19,7 +19,7 @@ Vessel "bulk_carrier_handy_ice_methanol" {
 	
 	Route = Route("globalized_bulk_carrier_handy")
 	
-    NominalCapacity = 18475.353646040214
+    NominalCapacity = 19323.240318539527
 	
 
 	Lifetime = 25

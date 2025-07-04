@@ -15,28 +15,17 @@ Vessel "bulk_carrier_panamax_ice_FTdiesel" {
     NominalCapacity = 61913.724937707535
 
     Lifetime=25
-    Finance=Finance("vessel_finance")
+    CostOfCapital = Variable("cost_of_capital_vessel")
     CAPEX = 30e6
     OPEX = 1.8e6
     
 }
 
 PowerSystem "ice_diesel_bulk_carrier_panamax" {
-    Propulsion = [Converter("propulsion_ice_diesel_bulk_carrier_panamax")]
-    Electrical = [Converter("electrical_ice_diesel_bulk_carrier_panamax")]
-    Heat = [Converter("heat_boiler_oil_diesel_bulk_carrier_panamax")]
-    
-    PropulsionInStreams = Array [
-        [0, 1.0, 0, 0]
-    ]
-    
-    ElectricalInStreams = Array [
-        [0, 0, 1.0, 0]
-    ]
-    
-    HeatInStreams = Array [
-        [0, 0, 0, 0.825]
-    ]
+    Setup = INDIVIDUAL
+    Propulsion = Converter("propulsion_ice_diesel_bulk_carrier_panamax")
+    Electrical = Converter("electrical_ice_diesel_bulk_carrier_panamax")
+    Heat = Converter("heat_boiler_diesel_bulk_carrier_panamax")
     
     CAPEX = 0.253e6     # DMM: Taken from ice_oil_bulk_carrier_panamax.inc
     OPEX = 0.253e4      # DMM: Taken from ice_oil_bulk_carrier_panamax.inc
@@ -46,8 +35,7 @@ Converter "propulsion_ice_diesel_bulk_carrier_panamax" {
     PowerCapacity=10.3      # DMM: Copied from propulsion_ice_oil_bulk_carrier_panamax.inc
     MinimumLoad=0.2         # DMM: Copied from propulsion_ice_oil_bulk_carrier_panamax.inc
     MainFuelTypes = [DIESEL]
-    OutStream = [0, Forecast("propulsion_ice_diesel_thermal_efficiency"), 0, <1 - Forecast("propulsion_ice_diesel_thermal_efficiency")>]
-    PrimaryStream = MECHANICAL
+    Efficiency = Forecast("propulsion_ice_diesel_thermal_efficiency")
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -58,8 +46,7 @@ Converter "propulsion_ice_diesel_bulk_carrier_panamax" {
 Converter "electrical_ice_diesel_bulk_carrier_panamax" {
     PowerCapacity=2.
     MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0.5, 0.5]    # DMM: Copied from electrical_ice_oil_bulk_carrier_panamax.inc
-    PrimaryStream = ELECTRICAL
+    Efficiency = 0.5    # DMM: Copied from electrical_ice_oil_bulk_carrier_panamax.inc
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -104,13 +91,4 @@ Forecast "propulsion_ice_diesel_thermal_efficiency" {
     Extrapolate=LINEAR
 }
 
-Converter "heat_boiler_oil_diesel_bulk_carrier_panamax" {
-    PowerCapacity=2.
-    MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0, 1.0]
-    PrimaryStream = HEAT
-    
-    CAPEX = 55e3
-    OPEX = 0
-}
 

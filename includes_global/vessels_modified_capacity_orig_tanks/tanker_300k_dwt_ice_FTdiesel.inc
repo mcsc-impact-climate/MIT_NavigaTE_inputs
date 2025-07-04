@@ -15,28 +15,17 @@ Vessel "tanker_300k_dwt_ice_FTdiesel" {
     NominalCapacity = 285285.486638153
 
     Lifetime=25
-    Finance=Finance("vessel_finance")
+    CostOfCapital = Variable("cost_of_capital_vessel")
     CAPEX = 90e6
     OPEX = 2.9e6
     
 }
 
 PowerSystem "ice_diesel_tanker_300k_dwt" {
-    Propulsion = [Converter("propulsion_ice_diesel_tanker_300k_dwt")]
-    Electrical = [Converter("electrical_ice_diesel_tanker_300k_dwt")]
-    Heat = [Converter("heat_boiler_oil_diesel_tanker_300k_dwt")]
-    
-    PropulsionInStreams = Array [
-        [0, 1.0, 0, 0]
-    ]
-    
-    ElectricalInStreams = Array [
-        [0, 0, 1.0, 0]
-    ]
-    
-    HeatInStreams = Array [
-        [0, 0, 0, 0.825]
-    ]
+    Setup = INDIVIDUAL
+    Propulsion = Converter("propulsion_ice_diesel_tanker_300k_dwt")
+    Electrical = Converter("electrical_ice_diesel_tanker_300k_dwt")
+    Heat = Converter("heat_boiler_diesel_tanker_300k_dwt")
     
     CAPEX = 0.535e6     # DMM: Copied from ice_oil_tanker_300k_dwt.inc
     OPEX = 0.535e4      # DMM: Copied from ice_oil_tanker_300k_dwt.inc
@@ -46,8 +35,7 @@ Converter "propulsion_ice_diesel_tanker_300k_dwt" {
     PowerCapacity=27.0
     MinimumLoad=0.2
     MainFuelTypes = [DIESEL]
-    OutStream = [0, Forecast("propulsion_ice_diesel_thermal_efficiency"), 0, <1 - Forecast("propulsion_ice_diesel_thermal_efficiency")>]
-    PrimaryStream = MECHANICAL
+    Efficiency = Forecast("propulsion_ice_diesel_thermal_efficiency")
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -58,8 +46,7 @@ Converter "propulsion_ice_diesel_tanker_300k_dwt" {
 Converter "electrical_ice_diesel_tanker_300k_dwt" {
     PowerCapacity=4.
     MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0.48, 0.52]
-    PrimaryStream = ELECTRICAL
+    Efficiency = 0.48
     
     set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
     
@@ -102,15 +89,5 @@ Forecast "propulsion_ice_diesel_thermal_efficiency" {
         "01-01-2050"    0.5559
     ]
     Extrapolate=LINEAR
-}
-
-Converter "heat_boiler_oil_diesel_tanker_300k_dwt" {
-    PowerCapacity=2.
-    MainFuelTypes = [DIESEL]
-    OutStream = [0, 0, 0, 1.0]
-    PrimaryStream = HEAT
-    
-    CAPEX = 55e3
-    OPEX = 0
 }
 

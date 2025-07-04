@@ -26,7 +26,7 @@ L_PER_M3 = 1000
 KG_PER_DWT = 1000
 VESSELS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Vessel"
 VESSELS_DIR_LOCAL = "NavigaTE/navigate/defaults/user/Vessel_Nominal"
-VESSELS_MODIFIED_DIR = "includes_global/vessels_modified_capacity"
+VESSELS_MODIFIED_DIR = "NavigaTE/navigate/defaults/user/Vessel"
 VESSELS_MODIFIED_TANKS_ORIG_DIR = "includes_global/vessels_modified_capacity_orig_tanks"
 TANKS_DIR_NAVIGATE = "NavigaTE/navigate/defaults/installation/Tank"
 TANKS_DIR_LOCAL = "includes_global/tanks_orig_size"
@@ -1527,19 +1527,19 @@ def make_modified_vessel_incs(
                         content_modified_capacity = content[:]
                         content_modified_capacity_orig_tanks = content[:]
 
-                    # Get the modified capacity for this vessel and fuel combination from the DataFrame
+                        
                     if vessel_capacity_unit[vessel_type] == "m^3":
                         modified_capacity = modified_capacities_df[
                             (modified_capacities_df["Vessel"] == vessel_class)
                             & (modified_capacities_df["Fuel"] == fuel)
-                        ]["Final Modified capacity (m^3)"].values[0]
+                        ]["Modified capacity, with SF (m^3)"].values[0]
 
                     elif vessel_capacity_unit[vessel_type] == "TEU":
                         modified_capacity = (
                             modified_capacities_df[
                                 (modified_capacities_df["Vessel"] == vessel_class)
                                 & (modified_capacities_df["Fuel"] == fuel)
-                            ]["Final Modified capacity (m^3)"].values[0]
+                            ]["Modified capacity, with SF (m^3)"].values[0]
                             / M3_PER_TEU
                         )
 
@@ -1547,7 +1547,7 @@ def make_modified_vessel_incs(
                         modified_capacity = modified_capacities_df[
                             (modified_capacities_df["Vessel"] == vessel_class)
                             & (modified_capacities_df["Fuel"] == fuel)
-                        ]["Final Modified capacity (tonnes)"].values[0]
+                        ]["Modified capacity, with SF (tonnes)"].values[0]
 
                     # Loop through the lines and make necessary updates
                     for i, line in enumerate(content):
@@ -1602,20 +1602,20 @@ def make_modified_vessel_incs(
             if vessel_capacity_unit[vessel_type] == "m^3":
                 lsfo_capacity = modified_capacities_df[
                     (modified_capacities_df["Vessel"] == vessel_class)
-                ]["LSFO capacity (m^3)"].values[0]
+                ]["LSFO capacity, with SF (m^3)"].values[0]
 
             elif vessel_capacity_unit[vessel_type] == "TEU":
                 lsfo_capacity = (
                     modified_capacities_df[
                         (modified_capacities_df["Vessel"] == vessel_class)
-                    ]["LSFO capacity (m^3)"].values[0]
+                    ]["LSFO capacity, with SF (m^3)"].values[0]
                     / M3_PER_TEU
                 )
 
             elif vessel_capacity_unit[vessel_type] == "DWT":
                 lsfo_capacity = modified_capacities_df[
                     (modified_capacities_df["Vessel"] == vessel_class)
-                ]["LSFO capacity (tonnes)"].values[0]
+                ]["LSFO capacity, with SF (tonnes)"].values[0]
 
             input_type = input_file_types[fuel_vessel_dict["lsfo"]]
 
@@ -2027,6 +2027,9 @@ def plot_modified_capacities(
         volume_weights_normalized = (
             volume_weights / total_weight if not volume_limited.empty else []
         )
+        
+        print(vessel_type_class)
+        print(mass_capacities, volume_capacities)
 
         # Combine capacities for consistent binning
         all_capacities = pd.concat([mass_capacities, volume_capacities])
@@ -2943,9 +2946,7 @@ def fetch_and_save_vessel_info(cargo_info_df, eff_dict):
                 f"{vessel_type_title[vessel_type]} ({vessel_size_title[vessel_class]})"
             )
             vessel_info_dict["Nominal Cargo Capacity (m^3)"] = nominal_capacity_cbm
-            vessel_info_dict["Nominal Cargo Capacity (tonnes)"] = (
-                nominal_capacity_tonnes
-            )
+            vessel_info_dict["Nominal Cargo Capacity (tonnes)"] = nominal_capacity_tonnes
             vessel_info_dict["Nominal Tank Capacity (m^3)"] = nominal_tank_size_cbm
             vessel_info_dict["Pilot Fuel Tank Capacity (m^3)"] = pilot_tank_size_cbm
             vessel_info_dict["Nominal Range (nautical miles)"] = nominal_vessel_range
@@ -3057,8 +3058,7 @@ def main():
     vessel_info_df = fetch_and_save_vessel_info(cargo_info_df, eff_dict)
     fuel_info_df = fetch_and_save_fuel_properties(fuels, tank_size_factors_dict)
     
-    #capacities_dict = get_modified_cargo_capacities("tanker_300k_dwt", "ammonia", cargo_info_df, mass_density_dict, tank_size_factors_dict)
-    #print(capacities_dict)
+    #capacities_dict = get_modified_cargo_capacities("bulk_carrier_capesize", "liquid_hydrogen", cargo_info_df, mass_density_dict, tank_size_factors_dict, plot_dist=True)
     
     sf_dist = "central"
     modified_capacities_df = make_modified_capacities_df(
@@ -3081,12 +3081,12 @@ def main():
 #        modified_capacities_df, capacity_type="final", sf_dist=sf_dist
 #    )
 
-#    make_modified_vessel_incs(
-#        top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
-#    )
-#    make_modified_tank_incs(
-#        top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
-#    )
+    make_modified_vessel_incs(
+        top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
+    )
+    make_modified_tank_incs(
+        top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
+    )
 
     #    # Next, consider a range of vessel design ranges
     #    vessel_ranges = range(5000, 55000, 5000)

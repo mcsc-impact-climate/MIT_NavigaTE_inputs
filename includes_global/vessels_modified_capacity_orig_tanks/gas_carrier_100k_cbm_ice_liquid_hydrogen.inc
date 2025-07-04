@@ -7,35 +7,24 @@ Vessel "gas_carrier_100k_cbm_ice_liquid_hydrogen" {
     HeatLoadLevelInPort=0.6
     
     PowerSystem=PowerSystem("ice_hydrogen_gas_carrier_100k_cbm")   # DMM: This will need to change for hydrogen
-    Tanks = [Tank("main_hydrogen_gas_carrier_100k_cbm"), Tank("pilot_oil_gas_carrier_100k_cbm")]     
+    Tanks = [Tank("main_hydrogen_gas_carrier_100k_cbm"), Tank("pilot_oil_gas_carrier_100k_cbm")]
     
     Route=Route("globalized_gas_carrier_100k_cbm")
     
-    NominalCapacity = 86225.0105736733
+    NominalCapacity = 90713.12308955462
 
     Lifetime=25
-    Finance=Finance("vessel_finance")
+    CostOfCapital = Variable("cost_of_capital_vessel")
     CAPEX = 129e6
     OPEX = 2.9e6
     
 }
 
 PowerSystem "ice_hydrogen_gas_carrier_100k_cbm" {
-    Propulsion = [Converter("propulsion_ice_hydrogen_gas_carrier_100k_cbm")]
-    Electrical = [Converter("electrical_ice_hydrogen_gas_carrier_100k_cbm")]
-    Heat = [Converter("heat_boiler_oil_hydrogen_gas_carrier_100k_cbm")]
-    
-    PropulsionInStreams = Array [
-        [0, 1.0, 0, 0]
-    ]
-    
-    ElectricalInStreams = Array [
-        [0, 0, 1.0, 0]
-    ]
-    
-    HeatInStreams = Array [
-        [0, 0, 0, 0.825]
-    ]
+    Setup = INDIVIDUAL
+    Propulsion = Converter("propulsion_ice_hydrogen_gas_carrier_100k_cbm")
+    Electrical = Converter("electrical_ice_hydrogen_gas_carrier_100k_cbm")
+    Heat = Converter("heat_boiler_oil_gas_carrier_100k_cbm")
     
     CAPEX = 4.6e6
     OPEX = 4.6e4
@@ -45,14 +34,12 @@ Converter "propulsion_ice_hydrogen_gas_carrier_100k_cbm" {
     PowerCapacity=12.
     MinimumLoad = 0.3
     MainFuelTypes = [HYDROGEN]
-    PilotFuelTypes = [HFO, DIESEL]
+    PilotFuelTypes = [HFO]
     MinimumPilotFuel = 0.05
-    OutStream = [0, Forecast("propulsion_ice_hydrogen_thermal_efficiency"), 0, <1 - Forecast("propulsion_ice_hydrogen_thermal_efficiency")>]
-    PrimaryStream = MECHANICAL
+    Efficiency = Forecast("propulsion_ice_hydrogen_thermal_efficiency")
     
-    set_consumption_TTW(HYDROGEN, "nitrous_oxide", 0.)
     set_consumption_TTW(HFO, "black_carbon", Variable("converter_hfo_black_carbon"))
-    set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
+    set_consumption_TTW(HYDROGEN, "black_carbon", Variable("converter_hydrogen_black_carbon"))
     
     CAPEX = 700000
     OPEX = <700000 * 0.015>
@@ -61,14 +48,12 @@ Converter "propulsion_ice_hydrogen_gas_carrier_100k_cbm" {
 Converter "electrical_ice_hydrogen_gas_carrier_100k_cbm" {
     PowerCapacity=3.
     MainFuelTypes = [HYDROGEN]
-    PilotFuelTypes = [HFO, DIESEL]
+    PilotFuelTypes = [HFO]
     MinimumPilotFuel = 0.05
-    OutStream = [0, 0, 0.48, 0.52]
-    PrimaryStream = ELECTRICAL
+    Efficiency = 0.48
     
-    set_consumption_TTW(HYDROGEN, "nitrous_oxide", 0.)
     set_consumption_TTW(HFO, "black_carbon", Variable("converter_hfo_black_carbon"))
-    set_consumption_TTW(DIESEL, "black_carbon", Variable("converter_diesel_black_carbon"))
+    set_consumption_TTW(HYDROGEN, "black_carbon", Variable("converter_hydrogen_black_carbon"))
     
     CAPEX = 480000
     OPEX = 48000
@@ -110,16 +95,3 @@ Forecast "propulsion_ice_hydrogen_thermal_efficiency" {
     ]
     Extrapolate=LINEAR
 }
-
-Converter "heat_boiler_oil_hydrogen_gas_carrier_100k_cbm" {
-    PowerCapacity=2.
-    MainFuelTypes = [HYDROGEN]
-    PilotFuelTypes = [DIESEL, HFO]
-    MinimumPilotFuel = 0.05
-    OutStream = [0, 0, 0, 1.0]
-    PrimaryStream = HEAT
-    
-    CAPEX = 55e3
-    OPEX = 0
-}
-
