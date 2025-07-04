@@ -22,8 +22,29 @@ SIMULATION NAV {
     # output results to excel
     INCLUDE "../../includes_global/make_excel.inc"
     
-    # Import vessel and tank definitions with original capacities
-
+    # Import vessel definitions with original cargo capacity
+    INCLUDE "../../includes_global/vessels_orig_capacity/bulk_carrier_capesize_ice_oil.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/bulk_carrier_handy_ice_oil.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/bulk_carrier_panamax_ice_oil.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/container_15000_teu_ice_oil.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/container_8000_teu_ice_oil.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/container_3500_teu_ice_oil.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/gas_carrier_100k_cbm_ice_oil.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/tanker_100k_dwt_ice_oil.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/tanker_300k_dwt_ice_oil.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/tanker_35k_dwt_ice_oil.inc"
+    
+    # Import tank definitions with original cargo capacity
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_container_15000_teu.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_container_3500_teu.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_container_8000_teu.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_bulk_carrier_capesize.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_bulk_carrier_handy.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_bulk_carrier_panamax.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_tanker_100k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_tanker_300k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_tanker_35k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_oil_gas_carrier_100k_cbm.inc"
 }
 
 SIMULATION FT {

@@ -1,0 +1,62 @@
+SIMULATION NAV {
+                
+    # model definition
+    INCLUDE "../../includes_global/model_definition.inc"
+    INCLUDE "../includes_local/bunker_logistics_methanol.inc"
+    
+    # fleets
+    INCLUDE "../../includes_global/fleet_methanol.inc"
+    
+    # fuels
+    INCLUDE "../../includes_global/methanol.inc"
+    INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
+    
+    # Route
+    INCLUDE "../../includes_global/route.inc"
+
+    # costs and emission of fuels
+    INCLUDE "../../includes_global/cost_emissions_methanol.inc"
+    INCLUDE "../../includes_global/cost_emissions_lsfo.inc"
+    
+    # center default emissions
+    IMPORT CenterDefaultEmissions
+    
+    # output results to excel
+    INCLUDE "../../includes_global/make_excel.inc"
+    
+    # Enforece main fuel share
+    INCLUDE "../../includes_global/vessels_methanol.inc"
+
+    # Import vessel definitions with original cargo capacity
+    INCLUDE "../../includes_global/vessels_orig_capacity/bulk_carrier_capesize_ice_methanol.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/bulk_carrier_handy_ice_methanol.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/bulk_carrier_panamax_ice_methanol.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/container_15000_teu_ice_methanol.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/container_8000_teu_ice_methanol.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/container_3500_teu_ice_methanol.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/gas_carrier_100k_cbm_ice_methanol.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/tanker_100k_dwt_ice_methanol.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/tanker_300k_dwt_ice_methanol.inc"
+    INCLUDE "../../includes_global/vessels_orig_capacity/tanker_35k_dwt_ice_methanol.inc"
+    
+    # Import tank definitions with original cargo capacity
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_container_15000_teu.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_container_3500_teu.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_container_8000_teu.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_bulk_carrier_capesize.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_bulk_carrier_handy.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_bulk_carrier_panamax.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_tanker_100k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_tanker_300k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_tanker_35k_dwt.inc"
+    INCLUDE "../../includes_global/tanks_orig_size/main_methanol_gas_carrier_100k_cbm.inc"
+
+}
+
+SIMULATION FT {
+    # time steps
+    INCLUDE "../../includes_global/time_steps_yearly.inc"
+}
+
+
+
