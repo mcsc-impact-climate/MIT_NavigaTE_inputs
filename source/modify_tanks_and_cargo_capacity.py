@@ -2243,7 +2243,14 @@ def get_modified_cargo_capacities(
         sf_distribution = pd.read_csv(f"{top_dir}/tables/sf_distribution_bulk_carrier_{sf_dist}.csv")
     elif vessel_type_class.startswith("tanker"):
         sf_distribution = pd.read_csv(f"{top_dir}/tables/sf_distribution_tanker.csv")
-    elif vessel_type_class.startswith("container"): sf_distribution = pd.read_csv(f"{top_dir}/tables/sf_distribution_container_{sf_dist}.csv")
+    elif vessel_type_class.startswith("container"):
+        sf_distribution_container = pd.read_csv(f"{top_dir}/tables/sf_distribution_container_{sf_dist}.csv")
+        #print(sf_distribution)
+        
+        # Calculate the average of the SF distribution for containers, under the assumption that a given ship will in general be carrying a variety of different cargoes
+        sf_distribution = pd.DataFrame(columns=["Stowage Factor (m^3/tonne)", "Weight"])
+        sf_distribution["Stowage Factor (m^3/tonne)"] = [(sf_distribution_container["Stowage Factor (m^3/tonne)"] * sf_distribution_container["Weight"]).sum()]
+        sf_distribution["Weight"] = [1]
     elif vessel_type_class.startswith("gas_carrier"):
         sf_distribution = pd.read_csv(f"{top_dir}/tables/sf_distribution_gas_carrier.csv")
     else:
@@ -2718,7 +2725,7 @@ def calculate_cargo_miles(top_dir, fuel, vessel_class, modified_capacities_df):
         cargo_capacity_cbm_final = modified_capacities_df.loc[
             (modified_capacities_df["Fuel"] == "ammonia")
             & (modified_capacities_df["Vessel"] == vessel_class),
-            "LSFO capacity (m^3)",
+            "LSFO capacity, with SF (m^3)",
         ].values[0]
 
         cargo_capacity_tonnes = modified_capacities_df.loc[
@@ -2730,31 +2737,31 @@ def calculate_cargo_miles(top_dir, fuel, vessel_class, modified_capacities_df):
         cargo_capacity_tonnes_final = modified_capacities_df.loc[
             (modified_capacities_df["Fuel"] == "ammonia")
             & (modified_capacities_df["Vessel"] == vessel_class),
-            "LSFO capacity (tonnes)",
+            "LSFO capacity, with SF (tonnes)",
         ].values[0]
     else:
         cargo_capacity_cbm = modified_capacities_df.loc[
             (modified_capacities_df["Fuel"] == fuel)
             & (modified_capacities_df["Vessel"] == vessel_class),
-            "Modified capacity (m^3)",
+            "Modified capacity, no SF (m^3)",
         ].values[0]
 
         cargo_capacity_cbm_final = modified_capacities_df.loc[
             (modified_capacities_df["Fuel"] == fuel)
             & (modified_capacities_df["Vessel"] == vessel_class),
-            "Final Modified capacity (m^3)",
+            "Modified capacity, with SF (m^3)",
         ].values[0]
 
         cargo_capacity_tonnes = modified_capacities_df.loc[
             (modified_capacities_df["Fuel"] == fuel)
             & (modified_capacities_df["Vessel"] == vessel_class),
-            "Modified capacity (tonnes)",
+            "Modified capacity, no SF (tonnes)",
         ].values[0]
 
         cargo_capacity_tonnes_final = modified_capacities_df.loc[
             (modified_capacities_df["Fuel"] == fuel)
             & (modified_capacities_df["Vessel"] == vessel_class),
-            "Final Modified capacity (tonnes)",
+            "Modified capacity, with SF (tonnes)",
         ].values[0]
 
     hours_at_sea = DAYS_PER_YEAR * HOURS_PER_DAY * route_properties_dict["TimeAtSea"]
@@ -2836,6 +2843,7 @@ def make_cargo_miles_df(top_dir, vessels, fuels, modified_capacities_df):
     # Create a DataFrame from the collected info
     cargo_miles_df = pd.DataFrame(data)
     cargo_miles_df.to_csv("tables/cargo_miles.csv")
+    print("Cargo miles info written to tables/cargo_miles.csv")
 
     return cargo_miles_df
 
@@ -3088,31 +3096,32 @@ def main():
         top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
     )
 
-    #    # Next, consider a range of vessel design ranges
-    #    vessel_ranges = range(5000, 55000, 5000)
-    #
-    #    tank_size_factors_dicts = {}
-    #    days_to_empty_tank_dicts = {}
-    #    modified_capacities_dfs = {}
+    """
+    # Next, consider a range of vessel design ranges
+    vessel_ranges = range(5000, 55000, 5000)
 
-    #    for vessel_range in vessel_ranges:
-    #        print(f"Processing vessel range {vessel_range} nm")
-    #        tank_size_factors_dict, days_to_empty_tank_dict = get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict, vessel_range)
-    #
-    #        # Save the tank size factors to a csv
-    #        save_tank_size_factors(top_dir, tank_size_factors_dict, vessel_range)
-    #        save_days_to_empty_tank(top_dir, days_to_empty_tank_dict, vessel_range)
-    #
-    #        # Modified vessel capacities
-    #        modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, mass_density_dict, cargo_info_df, tank_size_factors_dict, vessel_range)
-    #        modified_capacities_df.to_csv(f"{top_dir}/tables/modified_capacities_{vessel_range}.csv", index=False)
+    tank_size_factors_dicts = {}
+    days_to_empty_tank_dicts = {}
+    modified_capacities_dfs = {}
+
+    for vessel_range in vessel_ranges:
+        print(f"Processing vessel range {vessel_range} nm")
+        tank_size_factors_dict, days_to_empty_tank_dict = get_tank_size_factors(fuels, LHV_dict, mass_density_dict, propulsion_eff_dict, boiloff_rate_dict, vessel_range)
+
+        # Save the tank size factors to a csv
+        save_tank_size_factors(top_dir, tank_size_factors_dict, vessel_range)
+        save_days_to_empty_tank(top_dir, days_to_empty_tank_dict, vessel_range)
+
+        # Modified vessel capacities
+        modified_capacities_df = make_modified_capacities_df(top_dir, vessels, fuels, mass_density_dict, cargo_info_df, tank_size_factors_dict, vessel_range)
+        modified_capacities_df.to_csv(f"{top_dir}/tables/modified_capacities_{vessel_range}.csv", index=False)
+    """
 
     # cargo_miles_cbm, cargo_miles_tonnes = calculate_cargo_miles(top_dir, "lsfo", "bulk_carrier_handy", modified_capacities_df)
-    """
+    
     cargo_miles_df = make_cargo_miles_df(
         top_dir, vessels, fuels, modified_capacities_df
     )
-    """
 
 if __name__ == "__main__":
     main()
