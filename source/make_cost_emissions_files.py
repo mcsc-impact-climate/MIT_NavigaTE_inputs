@@ -118,7 +118,7 @@ def main():
         "FTdiesel",
         "lng",
         "ammonia",
-        #"compressed_hydrogen",
+        "compressed_hydrogen",
         "liquid_hydrogen",
         "methanol",
     ]
