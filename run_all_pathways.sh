@@ -1,9 +1,39 @@
 #!/bin/bash
 
 # Date: June 3, 2024. Updated Oct 2 2024 to reflect updated include file structure and parallelize execution
-# Updated May 29, 2025 to support optional country filtering
+# Updated May 29, 2025 to support optional keyword filtering
+# Updated July 6, 2025 to support optional specification to use input files with original tank and cargo capacities
 # Purpose: Run NavigaTE with single pathway and all bulk, container and tanker vessels for all modelled fuel production pathways
 # Author: danikam
+
+# Parse command-line arguments
+KEYWORDS=()
+ORIG_CAPS_FLAG=""
+
+while [[ $# -gt 0 ]]; do
+  key="$1"
+  case $key in
+    -k|--keyname)
+      KEYWORDS+=("$2")
+      shift 2
+      ;;
+    -o|--orig_caps)
+      ORIG_CAPS_FLAG="--orig_caps"
+      shift
+      ;;
+    *)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+  esac
+done
+
+if [ -n "$ORIG_CAPS_FLAG" ]; then
+  echo "Running with original capacities (--orig_caps enabled)"
+else
+  echo "Running with default capacities"
+fi
+
 
 # Get the directory of the script
 SCRIPT_DIR=$(dirname "$0")
@@ -18,7 +48,7 @@ mkdir -p "${SCRIPT_DIR}/all_outputs_full_fleet"
 rm ${SCRIPT_DIR}/single_pathway_full_fleet/*/navs/*.nav
 
 # Create the input .inc files
-python3 ${SCRIPT_DIR}/source/make_cost_emissions_files.py
+python3 ${SCRIPT_DIR}/source/make_cost_emissions_files.py ${ORIG_CAPS_FLAG}
 
 # Clear out any existing excel and log files
 rm ${SCRIPT_DIR}/all_outputs_full_fleet/*.xlsx
@@ -48,17 +78,17 @@ N_PARALLEL=16
 pids=()
 
 # Capture user-specified countries
-COUNTRIES=("$@")
+KEYWORDS=("$@")
 
 # Get list of files based on countries or all if none specified
-if [ ${#COUNTRIES[@]} -eq 0 ]; then
-    echo "No countries specified. Processing all .inc files..."
-    INC_FILES=("${SOURCE_DIR}"/*.inc)
+if [ ${#KEYWORDS[@]} -eq 0 ]; then
+    echo "No keywords specified. Processing all .inc files..."
+    INC_FILES=("${SOURCE_DIR}"/compressed*LTE*solar*.inc)
 else
-    echo "Filtering for countries: ${COUNTRIES[*]}"
+    echo "Filtering for keywords: ${KEYWORDS[*]}"
     INC_FILES=()
-    for country in "${COUNTRIES[@]}"; do
-        for file in "${SOURCE_DIR}"/*"${country}"*.inc; do
+    for keyword in "${KEYWORDS[@]}"; do
+        for file in "${SOURCE_DIR}"/*"${keyword}"*.inc; do
             [ -e "$file" ] && INC_FILES+=("$file")
         done
     done

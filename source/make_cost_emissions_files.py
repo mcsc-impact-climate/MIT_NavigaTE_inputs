@@ -73,13 +73,19 @@ def create_inc_file(row, output_dir, file_content):
     print(f"File created: {inc_file_name}")
 
 
-def create_nav_file(row, top_dir, cost_emissions_dir):
+def create_nav_file(row, top_dir, cost_emissions_dir, orig_caps=False):
     navs_dir = f"{top_dir}/single_pathway_full_fleet/{row['Fuel']}/navs"
     os.makedirs(navs_dir, exist_ok=True)
 
-    original_nav_file = (
-        f"{top_dir}/single_pathway_full_fleet/{row['Fuel']}/{row['Fuel']}.nav"
-    )
+    if orig_caps:
+        #print("Using original capacities")
+        original_nav_file = (
+            f"{top_dir}/single_pathway_full_fleet/{row['Fuel']}/{row['Fuel']}_orig_caps.nav"
+        )
+    else:
+        original_nav_file = (
+            f"{top_dir}/single_pathway_full_fleet/{row['Fuel']}/{row['Fuel']}.nav"
+        )
     modified_nav_file = f"{navs_dir}/{row['Fuel']}-{row['Pathway Name']}-{row['Region']}-{row['Number']}.nav"
 
     with open(original_nav_file, "r") as file:
@@ -102,6 +108,7 @@ def create_nav_file(row, top_dir, cost_emissions_dir):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-y", "--yearly", action="store_true", help="Enable yearly mode using *_costs_emissions_YEAR.csv")
+    parser.add_argument("-o", "--orig_caps", action="store_true", help="Use original tank and cargo capacity")
     args = parser.parse_args()
 
     top_dir = get_top_dir()
@@ -159,7 +166,7 @@ def main():
                 }
                 content = create_forecast_inc_file_content(*row_key, yearly_values)
                 create_inc_file(sample_row, cost_emissions_dir, content)
-                create_nav_file(sample_row, top_dir, cost_emissions_dir)
+                create_nav_file(sample_row, top_dir, cost_emissions_dir, args.orig_caps)
 
         else:
             file_path = os.path.join(input_dir, f"{fuel}_costs_emissions.csv")
@@ -169,7 +176,7 @@ def main():
             for _, row in df.iterrows():
                 content = create_cost_emissions_file_content(row)
                 create_inc_file(row, cost_emissions_dir, content)
-                create_nav_file(row, top_dir, cost_emissions_dir)
+                create_nav_file(row, top_dir, cost_emissions_dir, args.orig_caps)
 
 if __name__ == "__main__":
     main()
