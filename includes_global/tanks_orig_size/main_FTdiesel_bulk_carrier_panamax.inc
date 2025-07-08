@@ -6,7 +6,7 @@
 # terms of the full license agreement found in the LICENSE
 # file located in the root directory of this source tree.
 
-Tank "main_diesel_bulk_carrier_panamax" {
+Tank "main_FTdiesel_bulk_carrier_panamax" {
 	FuelTypes=[DIESEL]
     Size=3000
 	

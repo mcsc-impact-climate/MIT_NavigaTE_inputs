@@ -6,7 +6,7 @@
 # terms of the full license agreement found in the LICENSE
 # file located in the root directory of this source tree.
 
-Tank "main_hydrogen_container_15000_teu" {
+Tank "main_compressed_hydrogen_container_15000_teu" {
 	FuelTypes=[HYDROGEN]
     Size=15000
 	
