@@ -3113,6 +3113,8 @@ def fetch_and_save_vessel_info(cargo_info_df, eff_dict):
             vessel_info_dict["Average Propulsion Power (MW)"] = average_propulsion_power
             vessel_info_dict["Electrical System Load (MW)"] = elec_load
             vessel_info_dict["Heat System Load (MW)"] = heat_load
+            vessel_info_dict["Average Vessel Power (MW)"] = average_propulsion_power + elec_load + heat_load
+            
             vessel_info_dict["Average Utilization"] = average_utilization
             # vessel_info_dict["Fraction Year at Sea"] = route_properties_dict[
             #    "TimeAtSea"
@@ -3127,7 +3129,7 @@ def fetch_and_save_vessel_info(cargo_info_df, eff_dict):
     return vessel_info_df
 
 
-def fetch_and_save_fuel_properties(fuels, tank_size_factors_dict):
+def fetch_and_save_fuel_properties(fuels, tank_size_factors_dict, eff_dict):
     """
     Fetches info for each fuel relevant for assessing the impact of tank displacement on cargo capacity, and saves it to a csv file for reference.
 
@@ -3157,18 +3159,29 @@ def fetch_and_save_fuel_properties(fuels, tank_size_factors_dict):
             "bulk_carrier_handy"
         ]["f_density_m"]
         f_effs = []
+        eta_effs = []
         for vessel_type, vessel_classes in vessels.items():
             for vessel_class in vessel_classes:
                 f_eff_vessel = tank_size_factors_dict[fuel][vessel_class]["f_eff"]
+                eta_eff_vessel = eff_dict[fuel]["Combined"][vessel_class]
                 f_effs.append(f_eff_vessel)
+                eta_effs.append(eta_eff_vessel)
 
         f_effs = np.asarray(f_effs)
+        eta_effs = np.asarray(eta_effs)
         fuel_properties_fuel["f_eff_mean"] = np.mean(f_effs)
         fuel_properties_fuel["f_eff_down"] = (
             np.min(f_effs) - fuel_properties_fuel["f_eff_mean"]
         )
         fuel_properties_fuel["f_eff_up"] = (
             np.max(f_effs) - fuel_properties_fuel["f_eff_mean"]
+        )
+        fuel_properties_fuel["eta_eff_mean"] = np.mean(eta_effs)
+        fuel_properties_fuel["eta_eff_down"] = (
+            np.min(eta_effs) - fuel_properties_fuel["eta_eff_mean"]
+        )
+        fuel_properties_fuel["eta_eff_up"] = (
+            np.max(eta_effs) - fuel_properties_fuel["eta_eff_mean"]
         )
 
         fuel_properties_fuel["beta_m_mean"] = np.mean(
@@ -3234,7 +3247,7 @@ def main():
 
     cargo_info_df = pd.read_csv(f"{top_dir}/info_files/assumed_cargo_density.csv")
     vessel_info_df = fetch_and_save_vessel_info(cargo_info_df, eff_dict)
-    fuel_info_df = fetch_and_save_fuel_properties(fuels, tank_size_factors_dict)
+    fuel_info_df = fetch_and_save_fuel_properties(fuels, tank_size_factors_dict, eff_dict)
 
     # capacities_dict = get_modified_cargo_capacities("bulk_carrier_capesize", "liquid_hydrogen", cargo_info_df, mass_density_dict, tank_size_factors_dict, plot_dist=True)
 
