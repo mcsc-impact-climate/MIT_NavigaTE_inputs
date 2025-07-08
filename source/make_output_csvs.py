@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 from common_tools import get_top_dir
 from parse import parse
+import argparse
 
 # Constants
 TONNES_PER_TEU = 14  # GE - TEU = twenty-foot equivalent
@@ -21,6 +22,9 @@ LB_PER_GAL_LNG = 3.49
 GAL_PER_M3 = 264.172
 LB_PER_TONNE = 2204.62
 TONNES_PER_M3_LNG = LB_PER_GAL_LNG * GAL_PER_M3 / LB_PER_TONNE
+
+# Get the path to the top level of the Git repo
+top_dir = get_top_dir()
 
 # Vessel type and size information
 vessels = {
@@ -338,14 +342,13 @@ def extract_info_from_filename(filename):
 
 
 @time_function
-def collect_all_results(top_dir):
+def collect_all_results(label=None):
     """
     Collects all results from Excel files in the specified directory and compiles them into a DataFrame.
 
     Parameters
     ----------
-    top_dir : str
-        The top-level directory containing the output files.
+    None
 
     Returns
     -------
@@ -353,7 +356,10 @@ def collect_all_results(top_dir):
         A DataFrame containing all the collected results.
     """
     # List all files in the output directory
-    files = os.listdir(f"{top_dir}/all_outputs_full_fleet_csv/")
+    input_dir = f"{top_dir}/all_outputs_full_fleet_csv"
+    if label:
+        input_dir = f"{top_dir}/all_outputs_full_fleet_{label}_csv"
+    files = os.listdir(f"{input_dir}/")
     fuel_pathway_region_tuples = [
         extract_info_from_filename(file)
         for file in files
@@ -383,7 +389,7 @@ def collect_all_results(top_dir):
     all_results_df = pd.DataFrame(columns=columns)
 
     # Read results for each file and add to the DataFrame
-    results_filename = f"{top_dir}/all_outputs_full_fleet_csv/lsfo-1_excel_report.csv"
+    results_filename = f"{input_dir}/lsfo-1_excel_report.csv"
     all_results_df = read_results(
         "lsfo", "fossil", "Global", 1, results_filename, all_results_df
     )
@@ -393,7 +399,7 @@ def collect_all_results(top_dir):
         pathway = fuel_pathway_region["pathway"]
         region = fuel_pathway_region["region"]
         number = fuel_pathway_region["number"]
-        results_filename = f"{top_dir}/all_outputs_full_fleet_csv/{fuel}-{pathway}-{region}-{number}_excel_report.csv"
+        results_filename = f"{input_dir}/{fuel}-{pathway}-{region}-{number}_excel_report.csv"
         all_results_df = read_results(
             fuel, pathway, region, number, results_filename, all_results_df
         )
@@ -660,8 +666,6 @@ def add_boiloff(all_results_df):
         The updated DataFrame with the boiloff added
     """
 
-    top_dir = get_top_dir()
-
     # Load the tank size factors
     tank_size_factors = pd.read_csv(f"{top_dir}/tables/tank_size_factors.csv")
 
@@ -679,7 +683,7 @@ def add_boiloff(all_results_df):
             return tank_size_factors.loc[
                 (tank_size_factors["Fuel"] == fuel)
                 & (tank_size_factors["Vessel Class"] == vessel),
-                "Boil-off",
+                "f_boiloff",
             ].iloc[0]
         except IndexError:
             return 1.0  # Default boiloff factor if none found
@@ -688,7 +692,7 @@ def add_boiloff(all_results_df):
     all_results_df["Boil-off Factor"] = all_results_df.apply(
         map_boiloff_factors, axis=1
     )
-
+    
     # Update columns using vectorized operations
     all_results_df["TotalEquivalentWTT"] *= all_results_df["Boil-off Factor"]
     all_results_df["TotalEquivalentTTW"] *= all_results_df["Boil-off Factor"]
@@ -994,7 +998,6 @@ def add_total_consumed_energy(all_results_df):
     return all_results_df
 
 
-# GE - thi function is called in generate_csv_files
 def remove_all_files_in_directory(directory_path):
     """
     Removes all files in the specified directory.
@@ -1017,7 +1020,7 @@ def remove_all_files_in_directory(directory_path):
 
 
 @time_function
-def generate_csv_files(all_results_df, top_dir):
+def generate_csv_files(all_results_df, label=None):
     """
     Generates and saves CSV files from the processed results DataFrame, organized by fuel, pathway, and quantity.
 
@@ -1025,9 +1028,6 @@ def generate_csv_files(all_results_df, top_dir):
     ----------
     all_results_df : pandas.DataFrame
         The DataFrame containing the processed results.
-
-    top_dir : str
-        The top-level directory where the CSV files will be saved.
 
     Returns
     -------
@@ -1053,8 +1053,12 @@ def generate_csv_files(all_results_df, top_dir):
 
     unique_fuels = all_results_df["Fuel"].unique()
 
-    remove_all_files_in_directory(f"{top_dir}/processed_results")
-    os.makedirs(f"{top_dir}/processed_results", exist_ok=True)
+    output_dir = f"{top_dir}/processed_results"
+    if label:
+        output_dir = f"{top_dir}/processed_results_{label}"
+
+    remove_all_files_in_directory(output_dir)
+    os.makedirs(output_dir, exist_ok=True)
 
     for fuel in unique_fuels:
         unique_pathways = all_results_df["Pathway"][
@@ -1131,22 +1135,21 @@ def generate_csv_files(all_results_df, top_dir):
 
                 # Generate the filename
                 filename = f"{fuel_save}-{pathway}-{quantity}.csv"
-                filepath = f"{top_dir}/processed_results/{filename}"
+                filepath = f"{output_dir}/{filename}"
 
                 # Save the DataFrame to a CSV file
                 pivot_df.to_csv(filepath)
-    print(f"Saved processed csv files to {top_dir}/processed_results")
+    print(f"Saved processed csv files to {output_dir}")
 
 
-def make_lower_heating_values_dict(top_dir):
+def make_lower_heating_values_dict():
     """
     Makes a dictionary of lower heating values for each fuel, including entries
     without underscores for any fuel names containing '_'
 
     Parameters
     ----------
-    top_dir : str
-        The top-level directory of the repository
+    None
 
     Returns
     -------
@@ -1172,7 +1175,7 @@ def make_lower_heating_values_dict(top_dir):
 
 # GE - working to add columns for data by 10/11
 @time_function
-def add_fuel_mass(all_results_df, top_dir):
+def add_fuel_mass(all_results_df):
     """
     Adds columns to all_results_df with mass of fuel consumed by each vessel size and class, and by the global fleet as a whole.
 
@@ -1187,7 +1190,7 @@ def add_fuel_mass(all_results_df, top_dir):
     """
 
     # Read in the lower heating values for each fuel as a dictionary
-    lower_heating_values_read = make_lower_heating_values_dict(top_dir)
+    lower_heating_values_read = make_lower_heating_values_dict()
 
     # Map lower_heating_values dictionary to column in DataFrame.
     LHV_fuel = all_results_df["Fuel"].map(lower_heating_values_read)
@@ -1234,7 +1237,6 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file=None):
         Resource demand rate (per kg of fuel) associated with the given fuel, pathway, and resource.
     """
     if info_file is None:
-        top_dir = get_top_dir()
         fuel_read = fuel
         if fuel_read == "liquidhydrogen":
             fuel_read = "liquid_hydrogen"
@@ -1323,26 +1325,31 @@ def add_resource_demands(all_results_df):
     return all_results_df
 
 
-# GE - function where the code is actually being run and where the functions above are called
 def main():
-    # Get the path to the top level of the Git repo
-    top_dir = get_top_dir()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-b", "--include_boiloff", action="store_true", help="Include fuel loss to boil-off in calculating total fuel costs")
+    parser.add_argument("-i", "--input_label", default=None, help="Label to modify name of input directory")
+    parser.add_argument("-o", "--output_label", default=None, help="Label to modify name of output directory")
+    args = parser.parse_args()
+    
+    print(args.include_boiloff, args.input_label, args.output_label)
 
     # Collect all results from the Excel files
-    all_results_df = collect_all_results(top_dir)
+    all_results_df = collect_all_results(args.input_label)
 
     # Add the number of vessels to the DataFrame
     all_results_df = add_number_of_vessels(all_results_df)
 
     # Add fuel needed to offset fuel loss due to boiloff
-    all_results_df = add_boiloff(all_results_df)
+    if args.include_boiloff:
+        all_results_df = add_boiloff(all_results_df)
     
     #all_results_df.to_csv("all_results_df_with_boiloff.csv")
 
     # Add cargo miles (both tonne-miles and m^3-miles) to the dataframe
     all_results_df = add_cargo_miles(all_results_df)
 
-    all_results_df.to_csv("all_results_df_with_cargo_miles.csv")
+    #all_results_df.to_csv("all_results_df_with_cargo_miles.csv")
 
     # Multiply by number of vessels of each type+size the fleet to get fleet-level quantities
     all_results_df = scale_quantities_to_fleet(all_results_df)
@@ -1376,7 +1383,7 @@ def main():
     all_results_df = add_av_cost_emissions_ratios(all_results_df)
 
     # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
-    #all_results_df = add_fuel_mass(all_results_df, top_dir)
+    #all_results_df = add_fuel_mass(all_results_df)
 
     # GE - adds resource demands columns
     #all_results_df = add_resource_demands(all_results_df)
@@ -1385,7 +1392,7 @@ def main():
     all_results_df.to_csv("all_results_df.csv")
 
     # Generate CSV files for each combination of fuel pathway, quantity, and evaluation choice
-    generate_csv_files(all_results_df, top_dir)
+    generate_csv_files(all_results_df, args.output_label)
 
 
 main()
