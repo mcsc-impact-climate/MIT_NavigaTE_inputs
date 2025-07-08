@@ -2550,9 +2550,7 @@ def make_modified_capacities_df(
     return capacities_df
 
 
-def plot_vessel_capacities(
-    modified_capacities_df, capacity_type="mass", sf_dist="central"
-):
+def plot_vessel_capacities(modified_capacities_df, capacity_type="mass", sf_dist="central", no_diesel=False):
     """
     Plots vertical bar plots of nominal and modified capacities for each Vessel Type and Fuel,
     with percentage difference plotted as markers below the bars.
@@ -2578,6 +2576,8 @@ def plot_vessel_capacities(
 
     # Get the list of fuels from the dataframe
     fuels = list(modified_capacities_df["Fuel"].unique())
+    if no_diesel:
+        fuels.remove("FTdiesel")
 
     # Create a filtered fuel_colors dict
     fuel_colors = {
@@ -3228,7 +3228,7 @@ def main():
     tank_size_factors_dict, days_to_empty_tank_dict = get_tank_size_factors(
         fuels, LHV_dict, mass_density_dict, eff_dict, boiloff_rate_dict
     )
-    # save_tank_size_factors(top_dir, tank_size_factors_dict, vessel_range=None)
+    save_tank_size_factors(top_dir, tank_size_factors_dict, vessel_range=None)
     # plot_tank_size_factors_boiloff(tank_size_factors_dict, days_to_empty_tank_dict)
     # plot_tank_size_factors(tank_size_factors_dict, no_diesel=True)
 
@@ -3255,11 +3255,9 @@ def main():
     print(
         f"Saved modified cargo capacity info to {top_dir}/tables/modified_capacities.csv"
     )
-    # plot_vessel_capacities(modified_capacities_df, capacity_type="mass")
-    # plot_vessel_capacities(modified_capacities_df, capacity_type="volume")
-    #    plot_vessel_capacities(
-    #        modified_capacities_df, capacity_type="final", sf_dist=sf_dist
-    #    )
+#     plot_vessel_capacities(modified_capacities_df, capacity_type="mass")
+#     plot_vessel_capacities(modified_capacities_df, capacity_type="volume")
+#    plot_vessel_capacities(modified_capacities_df, capacity_type="final", sf_dist=sf_dist, no_diesel=True)
 
     make_modified_vessel_incs(
         top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
