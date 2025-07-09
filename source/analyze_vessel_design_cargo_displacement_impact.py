@@ -707,10 +707,10 @@ def make_mc(
     fuel_params_lsfo = extract_fuel_params(fuel_params_df, "lsfo")
     fuel_params_fuel = extract_fuel_params(fuel_params_df, fuel)
     r_f = fuel_params_fuel["Boil-off Rate (%/day)"]
-    e_l = fuel_params_lsfo["f_eff_mean"]
+    e_l = fuel_params_lsfo["eta_eff_mean"]
     L_l = fuel_params_lsfo["Lower Heating Value (MJ / kg)"]
     rho_l = fuel_params_lsfo["Mass density (kg/m^3)"]
-    e_f = fuel_params_fuel["f_eff_mean"]
+    e_f = fuel_params_fuel["eta_eff_mean"]
     L_f = fuel_params_fuel["Lower Heating Value (MJ / kg)"]
     rho_f = fuel_params_fuel["Mass density (kg/m^3)"]
     fuel_term_mass = calculate_fuel_term(
@@ -1086,7 +1086,7 @@ def plot_cargo_loss_vs_param_with_mc(
         ].iloc[0]
         axes[0].set_ylim(
             cargo_loss_min - 0.5 * (cargo_loss_max - cargo_loss_min),
-            cargo_loss_max + 0.5 * (cargo_loss_max - cargo_loss_min),
+            max(0.05, cargo_loss_max + 0.5 * (cargo_loss_max - cargo_loss_min))
         )
 
     if not ("V_c (m^3)" in params_powers):
@@ -1137,7 +1137,7 @@ def plot_cargo_loss_vs_param_with_mc(
         ].iloc[0]
         axes[1].set_ylim(
             cargo_loss_min - 0.5 * (cargo_loss_max - cargo_loss_min),
-            cargo_loss_max + 0.5 * (cargo_loss_max - cargo_loss_min),
+            max(0.05, cargo_loss_max + 0.5 * (cargo_loss_max - cargo_loss_min))
         )
 
     # Combine legends and place them to the right of the second plot
@@ -2143,7 +2143,6 @@ def main():
         parameter_values_df = get_parameter_values(
             nominal_vessel_params_df, fuel_params_df, fuel
         )
-        
         
         parameter_values_mc_df = make_mc(
             nominal_vessel_params_df, fuel_params_df, fuel, 10000
