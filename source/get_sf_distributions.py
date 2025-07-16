@@ -1,5 +1,6 @@
 """
 Date: 250318
+Author: danikae
 Purpose: Estimates stowage factor distributions for different vessel classes
 """
 
@@ -85,6 +86,9 @@ def calculate_crude_petrol_sfs():
     # Prepare lists for stowage factors and weights
     sf_list = []
     weight_list = []
+    lower_api_list = []
+    upper_api_list = []
+    prod_rate_list = []
 
     # Iterate through each column
     for column in avg_production.index:
@@ -97,7 +101,9 @@ def calculate_crude_petrol_sfs():
 
         if match:
             lower_api = float(match.group(1))
+            lower_api_list.append(lower_api)
             upper_api = match.group(2)  # This is None if "or Higher" / "or Lower"
+            upper_api_list.append(upper_api)
 
             # Check if column mentions "Higher" or "Lower"
             if "or Higher" in str(column):
@@ -133,6 +139,7 @@ def calculate_crude_petrol_sfs():
             # Append results
             sf_list.append(stowage_factor)
             weight_list.append(weight)
+            prod_rate_list.append(weight)
 
     # Create the result DataFrame
     result_df = pd.DataFrame(
@@ -146,6 +153,15 @@ def calculate_crude_petrol_sfs():
     result_df = result_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
         drop=True
     )
+    
+    result_save_df = pd.DataFrame({"Lower API": lower_api_list, "Upper API": upper_api_list, "Stowage Factor (m^3/tonne)": sf_list, "Average US Lower 48 production (thousand barrels / day)": prod_rate_list, "Weight": weight_list})
+    result_save_df["Weight"] = result_save_df["Weight"] / result_save_df["Weight"].sum()
+    
+    result_save_df = result_save_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
+        drop=True
+    )
+    result_save_df.to_csv(f"{top_dir}/tables/crude_petrol_api_prod_info.csv")
+    print(f"Saved crude oil api info to {top_dir}/tables/crude_petrol_api_prod_info.csv")
 
     return result_df
 
