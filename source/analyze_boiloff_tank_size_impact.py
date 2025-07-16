@@ -5,7 +5,6 @@ Purpose: Compare cost per mile and per m^3 of cargo after accounting for boil-of
 """
 
 import os
-
 import matplotlib.colors as mcolors
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
@@ -511,7 +510,7 @@ def plot_histogram_for_vessel_types(
 
 
     # Customize secondary y-axis
-    ax_ratio.set_ylabel("Ratio to LSFO", fontsize=24)
+    ax_ratio.set_ylabel("Ratio to Fuel Oil", fontsize=24)
     ymin, ymax = ax_ratio.get_ylim()
     ax_ratio.set_ylim(0, ymax*1.2)
 
@@ -528,7 +527,7 @@ def plot_histogram_for_vessel_types(
         plt.Rectangle((0, 0), 1, 1, color=COLORS["with_boiloff"][0], label=LABELS[2]),
     ]
     legend_handles_3 = [
-        Line2D([0], [0], color="red", linestyle="--", label="LSFO", linewidth=2)
+        Line2D([0], [0], color="red", linestyle="--", label="Conventional Fuel Oil", linewidth=2)
     ]
 
     ax_hist.add_artist(
@@ -557,7 +556,7 @@ def plot_histogram_for_vessel_types(
             loc="upper center",
             fontsize=20,
             title_fontsize=22,
-            bbox_to_anchor=(0.106, 0.69),  # Replace x, y with desired coordinates
+            bbox_to_anchor=(0.227, 0.65),  # Replace x, y with desired coordinates
         )
     )
 
@@ -597,7 +596,7 @@ def make_cost_summary(fuels, pathways):
         to corrections, for all fuels, indexed by vessel class and size.
     """
     cost_summaries = {}
-    for fuel in fuels:
+    for fuel in fuels+["lsfo"]:
         all_vessel_classes = []
         all_vessel_sizes = []
         totalcost_with_corrs = []
@@ -1128,7 +1127,8 @@ pathways = {
     "compressed_hydrogen": "LTE_H_solar_E",
     "methanol": "LTE_H_DAC_C_solar_E",
     "FTdiesel": "LTE_H_DAC_C_solar_E",
-    "lng": "fossil"
+    "lng": "fossil",
+    "lsfo": "fossil"
 }
 
 if __name__ == "__main__":
@@ -1138,7 +1138,7 @@ if __name__ == "__main__":
     
     fuels = ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "lng", "methanol"]
     cost_summary_df = make_cost_summary(fuels, pathways)
-    """
+
     for fuel in ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "lng", "methanol"]:  # , "ammonia"]:  # "compressed_hydrogen"
         pathway = pathways[fuel]
 
@@ -1171,4 +1171,4 @@ if __name__ == "__main__":
 #                modifier="per_cbm_mile",
 #                include_stowage=True,
 #            )
-    """
+    
