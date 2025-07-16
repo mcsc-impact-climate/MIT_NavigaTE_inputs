@@ -1,27 +1,19 @@
-"""
-Date: 250527
-Author: danikae
-Purpose: Quick script to plot the breakdown of vessel costs to carry out annual LSFO trade for a given fuel production pathway
-"""
-
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib
-import matplotlib.colors as mcolors
-from common_tools import get_top_dir
-import os
 import numpy as np
+import os
+from common_tools import get_top_dir, get_fuel_label
 
 top_dir = get_top_dir()
-RESULTS_DIR = f"{top_dir}/processed_results"
+RESULTS_DIR = f"{top_dir}/processed_results_mod_caps_with_boiloff"
 
 pathways = {
-    "ammonia": "lowcost",
-    "FTdiesel": "lowcost",
-    "liquid_hydrogen": "lowcost",
-    "lng": "lowcost",
+    "ammonia": "LTE_H_solar_E",
+    "FTdiesel": "LTE_H_DAC_C_solar_E",
+    "liquid_hydrogen": "LTE_H_solar_E",
+    "lng": "fossil",
     "lsfo": "fossil",
-    "methanol": "lowcost",
+    "methanol": "LTE_H_DAC_C_solar_E",
 }
 
 fuels = ["ammonia", "liquid_hydrogen", "methanol", "FTdiesel", "lng", "lsfo"]
@@ -29,16 +21,8 @@ fuels = ["ammonia", "liquid_hydrogen", "methanol", "FTdiesel", "lng", "lsfo"]
 vessel_types = ["bulk_carrier_ice", "container_ice", "tanker_ice", "gas_carrier_ice"]
 
 vessel_sizes = {
-    "bulk_carrier_ice": [
-        "bulk_carrier_capesize_ice",
-        "bulk_carrier_handy_ice",
-        "bulk_carrier_panamax_ice",
-    ],
-    "container_ice": [
-        "container_15000_teu_ice",
-        "container_8000_teu_ice",
-        "container_3500_teu_ice",
-    ],
+    "bulk_carrier_ice": ["bulk_carrier_capesize_ice", "bulk_carrier_handy_ice", "bulk_carrier_panamax_ice"],
+    "container_ice": ["container_15000_teu_ice", "container_8000_teu_ice", "container_3500_teu_ice"],
     "tanker_ice": ["tanker_100k_dwt_ice", "tanker_300k_dwt_ice", "tanker_35k_dwt_ice"],
     "gas_carrier_ice": ["gas_carrier_100k_cbm_ice"],
 }
@@ -66,7 +50,6 @@ vessel_size_title = {
 CAPEX_components = ["BaseCAPEX", "TankCAPEX", "PowerCAPEX"]
 OPEX_components = ["BaseOPEX", "TankOPEX", "PowerOPEX", "FuelOPEX"]
 
-# Grouped structure: CAPEX first, then OPEX of same base, then FuelOPEX raw and delta
 component_order = [
     ("BaseCAPEX", "BaseOPEX"),
     ("TankCAPEX", "TankOPEX"),
@@ -74,7 +57,6 @@ component_order = [
     ("FuelOPEX_raw", "FuelOPEX_delta"),
 ]
 
-# Color scheme
 component_colors = {
     "Base": "tab:blue",
     "Tank": "tab:orange",
@@ -83,7 +65,6 @@ component_colors = {
     "Fuel_delta": "darkred",
 }
 
-# Legend labels
 component_labels = {
     "BaseCAPEX": "Base Vessel CAPEX",
     "BaseOPEX": "Base Vessel OPEX",
@@ -104,92 +85,101 @@ def load_quantity_data(quantity):
         dfs[fuel] = df.loc["Global Average"]
     return dfs
 
-# Load all required data once
-all_data = {}
-for quantity in CAPEX_components + OPEX_components + ["FinalTonneMiles"]:
-    all_data[quantity] = load_quantity_data(quantity)
+def plot_vessel_cost_breakdown(no_fuel=False):
+    # Load required data
+    all_data = {}
+    required_quantities = CAPEX_components + OPEX_components + ["FinalTonneMiles"]
+    for quantity in required_quantities:
+        all_data[quantity] = load_quantity_data(quantity)
 
-lsfo_miles = all_data["FinalTonneMiles"]["lsfo"]
+    lsfo_miles = all_data["FinalTonneMiles"]["lsfo"]
 
-# Main plotting loop
-for vessel_type in vessel_types:
-    for vessel_size in vessel_sizes[vessel_type]:
-        fig, ax = plt.subplots(figsize=(12, 6))
-        bottoms = np.zeros(len(fuels))
-        plotted_labels = set()
+    for vessel_type in vessel_types:
+        for vessel_size in vessel_sizes[vessel_type]:
+            fig, ax = plt.subplots(figsize=(12, 6))
+            bottoms = np.zeros(len(fuels))
+            plotted_labels = set()
+            fuel_labels = [get_fuel_label(f) for f in fuels]
 
-        for group in component_order:
-            for comp in group:
-                values = []
-                annotations = []
+            for group in component_order:
+                for comp in group:
+                    if no_fuel and "FuelOPEX" in comp:
+                        continue
 
-                for i, fuel in enumerate(fuels):
-                    try:
-                        if comp == "FuelOPEX_raw":
-                            val = all_data["FuelOPEX"][fuel][vessel_size]
-                            values.append(val)
-                            annotations.append((i, False))
+                    values = []
+                    annotations = []
 
-                        elif comp == "FuelOPEX_delta":
-                            raw = all_data["FuelOPEX"][fuel][vessel_size]
-                            fuel_miles = all_data["FinalTonneMiles"][fuel][vessel_size]
-                            if fuel_miles == 0:
-                                values.append(0)
-                                annotations.append((i, True))
-                                continue
-                            norm_factor = lsfo_miles[vessel_size] / fuel_miles
-                            normalized = raw * norm_factor
-                            delta = max(normalized - raw, 0)
-                            values.append(delta)
-                            annotations.append((i, False))
+                    for i, fuel in enumerate(fuels):
+                        try:
+                            if comp == "FuelOPEX_raw":
+                                val = all_data["FuelOPEX"][fuel][vessel_size]
+                                values.append(val)
+                                annotations.append((i, False))
+                            elif comp == "FuelOPEX_delta":
+                                raw = all_data["FuelOPEX"][fuel][vessel_size]
+                                fuel_miles = all_data["FinalTonneMiles"][fuel][vessel_size]
+                                if fuel_miles == 0:
+                                    values.append(0)
+                                    annotations.append((i, True))
+                                    continue
+                                norm_factor = lsfo_miles[vessel_size] / fuel_miles
+                                delta = max(raw * norm_factor - raw, 0)
+                                values.append(delta)
+                                annotations.append((i, False))
+                            else:
+                                val = all_data[comp][fuel][vessel_size]
+                                values.append(val)
+                                annotations.append((i, False))
+                        except Exception:
+                            values.append(0)
+                            annotations.append((i, True))
 
-                        else:
-                            val = all_data[comp][fuel][vessel_size]
-                            values.append(val)
-                            annotations.append((i, False))
+                    base = "Fuel_raw" if comp == "FuelOPEX_raw" else \
+                           "Fuel_delta" if comp == "FuelOPEX_delta" else \
+                           comp.replace("CAPEX", "").replace("OPEX", "")
+                    hatch = '///' if "OPEX" in comp and "delta" not in comp else ''
+                    color = component_colors.get(base, 'gray')
+                    label = component_labels.get(comp, comp) if comp not in plotted_labels else "_nolegend_"
 
-                    except Exception:
-                        values.append(0)
-                        annotations.append((i, True))
+                    ax.barh(fuel_labels, values, left=bottoms, label=label, color=color, hatch=hatch, edgecolor='k')
+                    bottoms += np.array(values)
+                    plotted_labels.add(comp)
 
-                if "FuelOPEX" in comp:
-                    base = "Fuel_raw" if "raw" in comp else "Fuel_delta"
-                else:
-                    base = comp.replace("CAPEX", "").replace("OPEX", "")
+                    if comp == "FuelOPEX_delta":
+                        for idx, needs_annotation in annotations:
+                            if needs_annotation:
+                                ax.text(
+                                    bottoms[idx] + 100000,
+                                    fuel_labels[idx],
+                                    r"$\infty$ FuelOPEX after accounting for tank displacement",
+                                    va='center',
+                                    ha='left',
+                                    fontsize=12,
+                                    color='darkred'
+                                )
 
-                hatch = '///' if "OPEX" in comp and "delta" not in comp else ''
-                color = component_colors.get(base, 'gray')
-                label = component_labels.get(comp, comp) if comp not in plotted_labels else "_nolegend_"
+            ax.set_xlim([0, max(bottoms) * 1.15])
+            ax.set_xlabel("Annual Vessel Cost ($/year)", fontsize=22, labelpad=20)
+            ax.tick_params(axis="both", labelsize=20)
+            ax.xaxis.get_offset_text().set_fontsize(20)
+            ax.grid(True, axis='x', color='gray', ls='--')
+            ax.set_title(f"{vessel_type_title[vessel_type]}: {vessel_size_title[vessel_size]}", fontsize=24)
+            ax.legend(
+                title="Cost Component",
+                loc="center left",
+                bbox_to_anchor=(1.05, 0.5),
+                borderaxespad=0.0,
+                fontsize=18,
+                title_fontsize=20,
+            )
+            plt.tight_layout()
+            outpath = f"{top_dir}/plots/cost_breakdown_{vessel_type}_{vessel_size}"
+            outpath += "_nofuel.png" if no_fuel else ".png"
+            plt.savefig(outpath, dpi=300)
+            print(f"Plot saved to {outpath}")
 
-                ax.barh(fuels, values, left=bottoms, label=label, color=color, hatch=hatch, edgecolor='k')
-                bottoms += np.array(values)
-                plotted_labels.add(comp)
+def main():
+    plot_vessel_cost_breakdown(no_fuel=True)
 
-                if comp == "FuelOPEX_delta":
-                    for idx, needs_annotation in annotations:
-                        if needs_annotation:
-                            ax.text(
-                                bottoms[idx] + 100000,
-                                idx,
-                                r"$\infty$ FuelOPEX after accounting for tank displacement",
-                                va='center',
-                                ha='left',
-                                fontsize=12,
-                                color='darkred'
-                            )
-
-        max_value = max(bottoms)
-        ax.set_xlim([0, max_value * 1.15])  # 15% buffer on the right
-        ax.set_xlabel("Annual Vessel Cost ($/year)", fontsize=16)
-        ax.set_title(f"{vessel_type_title[vessel_type]} – {vessel_size_title[vessel_size]}", fontsize=16)
-        ax.legend(
-            title="Cost Component",
-            loc="center left",
-            bbox_to_anchor=(1.05, 0.8),
-            borderaxespad=0.0,
-            fontsize=12,
-            title_fontsize=14,
-        )
-        plt.tight_layout()
-        #plt.show()
-        plt.savefig(f"{top_dir}/plots/cost_breakdown_{vessel_type}_{vessel_size}.png", dpi=300)
+if __name__ == "__main__":
+    main()
