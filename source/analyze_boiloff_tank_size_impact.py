@@ -20,6 +20,8 @@ from common_tools import (
 )
 from matplotlib.lines import Line2D
 from parse import parse
+import seaborn as sns
+import numpy as np
 
 top_dir = get_top_dir()
 
@@ -162,6 +164,12 @@ LABELS = [
     "No tank size corr or boil-off loss",
     "With tank size corr, no boil-off loss",
     "With tank size corr and boil-off loss",
+]
+
+LABELS_WITH_NEWLINES = [
+    "No tank size corr\n or boil-off loss",
+    "With tank size corr,\n no boil-off loss",
+    "With tank size corr\n and boil-off loss",
 ]
 
 fuel_colors = {
@@ -564,6 +572,7 @@ def plot_histogram_for_vessel_types(
     
     ax_hist.set_xticklabels(x_labels, fontsize=22, rotation=0)
     ax_ratio.tick_params(bottom=False, labelbottom=False)  # Hides tick labels only
+    plt.subplots_adjust(bottom=0.05, top=0.95)
 
     # Save and display the plot
     create_directory_if_not_exists(f"{top_dir}/plots/{fuel}-{pathway}")
@@ -574,6 +583,125 @@ def plot_histogram_for_vessel_types(
     plt.close()
     print(f"Plot saved at {output_path_png}")
     print(f"Plot saved at {output_path_pdf}")
+    
+def make_summary_plot(fuels, pathways):
+    """
+    Constructs a color gradient of average increase in price relative to LSFO with each correction.
+
+    Parameters:
+    ----------
+    fuels : str
+        List of fuels for which to obtain cost summaries
+        
+    pathways : dict
+        Dictionary mapping each fuel (str) to its production pathway (str)
+
+    Returns:
+    -------
+    pd.DataFrame
+        Merged DataFrame containing total cost and percentage increase due
+        to corrections, for all fuels, indexed by vessel class and size.
+    """
+    
+    cost_ratios = pd.DataFrame()
+    avg_cost_ratios_no_corr = {}
+    avg_cost_ratios_mod_caps = {}
+    avg_cost_ratios_with_boiloff = {}
+    
+    totalcost_df_no_corr_lsfo = read_processed_data(RESULTS_DIR_BASE, "lsfo", pathways["lsfo"], "TotalCost-per_tonne_mile_lsfo_final")
+    totalcost_df_mod_caps_lsfo = read_processed_data(RESULTS_DIR_MOD_CAPS, "lsfo", pathways["lsfo"], "TotalCost-per_tonne_mile_final")
+    totalcost_df_with_boiloff_lsfo = read_processed_data(RESULTS_DIR_WITH_BOILOFF, "lsfo", pathways["lsfo"], "TotalCost-per_tonne_mile_final")
+    
+    for fuel in fuels:
+        totalcost_df_no_corr = read_processed_data(RESULTS_DIR_BASE, fuel, pathways[fuel], "TotalCost-per_tonne_mile_lsfo_final")
+        totalcost_df_mod_caps = read_processed_data(RESULTS_DIR_MOD_CAPS, fuel, pathways[fuel], "TotalCost-per_tonne_mile_final")
+        totalcost_df_with_boiloff = read_processed_data(RESULTS_DIR_WITH_BOILOFF, fuel, pathways[fuel], "TotalCost-per_tonne_mile_final")
+        
+        cost_ratios_no_corr = []
+        cost_ratios_mod_caps = []
+        cost_ratios_with_boiloff = []
+        for vessel_class in vessel_classes:
+            for vessel_size in vessel_classes[vessel_class]:
+                cost_ratios_no_corr.append(totalcost_df_no_corr.loc["Global Average", vessel_size] / totalcost_df_no_corr_lsfo.loc["Global Average", vessel_size])
+                cost_ratios_mod_caps.append(totalcost_df_mod_caps.loc["Global Average", vessel_size] / totalcost_df_mod_caps_lsfo.loc["Global Average", vessel_size])
+                cost_ratios_with_boiloff.append(totalcost_df_with_boiloff.loc["Global Average", vessel_size] / totalcost_df_with_boiloff_lsfo.loc["Global Average", vessel_size])
+        cost_ratios_no_corr = np.asarray(cost_ratios_no_corr)
+        cost_ratios_mod_caps = np.asarray(cost_ratios_mod_caps)
+        cost_ratios_with_boiloff = np.asarray(cost_ratios_with_boiloff)
+        
+        avg_cost_ratios_no_corr[f"{fuel} (avg)"] = np.mean(cost_ratios_no_corr)
+        avg_cost_ratios_no_corr[f"{fuel} (min)"] = np.min(cost_ratios_no_corr)
+        avg_cost_ratios_no_corr[f"{fuel} (max)"] = np.max(cost_ratios_no_corr)
+
+        avg_cost_ratios_mod_caps[f"{fuel} (avg)"] = np.mean(cost_ratios_mod_caps)
+        avg_cost_ratios_mod_caps[f"{fuel} (min)"] = np.min(cost_ratios_mod_caps)
+        avg_cost_ratios_mod_caps[f"{fuel} (max)"] = np.max(cost_ratios_mod_caps)
+        
+        avg_cost_ratios_with_boiloff[f"{fuel} (avg)"] = np.mean(cost_ratios_with_boiloff)
+        avg_cost_ratios_with_boiloff[f"{fuel} (min)"] = np.min(cost_ratios_with_boiloff)
+        avg_cost_ratios_with_boiloff[f"{fuel} (max)"] = np.max(cost_ratios_with_boiloff)
+
+    all_ratios_dict = {
+        LABELS_WITH_NEWLINES[0]: avg_cost_ratios_no_corr,
+        LABELS_WITH_NEWLINES[1]: avg_cost_ratios_mod_caps,
+        LABELS_WITH_NEWLINES[2]: avg_cost_ratios_with_boiloff,
+    }
+    
+    cost_ratios = pd.DataFrame.from_dict(all_ratios_dict, orient="index")
+    
+    # Extract and sort fuel names by avg values in the "no corrections" row
+    avg_values = {k.split(" ")[0]: v for k, v in avg_cost_ratios_no_corr.items() if "(avg)" in k}
+    sorted_fuels = sorted(avg_values, key=avg_values.get)
+
+    # Build the ordered column list: interleave avg, min, max per fuel
+    ordered_columns = []
+    for fuel in sorted_fuels:
+        ordered_columns.extend([
+            f"{fuel} (avg)",
+            f"{fuel} (min)",
+            f"{fuel} (max)"
+        ])
+
+    # Reorder columns
+    cost_ratios = cost_ratios[ordered_columns]
+    
+    # Extract average values only
+    avg_df = cost_ratios.loc[:, cost_ratios.columns.str.contains(r"\(avg\)")]
+    avg_values = avg_df.values
+
+    # Extract min/max values for annotations
+    min_df = cost_ratios.loc[:, cost_ratios.columns.str.contains(r"\(min\)")]
+    max_df = cost_ratios.loc[:, cost_ratios.columns.str.contains(r"\(max\)")]
+    annotations = np.empty_like(avg_values, dtype=object)
+    for i in range(avg_values.shape[0]):
+        for j in range(avg_values.shape[1]):
+            avg = avg_values[i, j]
+            max_ = max_df.iloc[i, j]
+            min_ = min_df.iloc[i, j]
+            annotations[i, j] = f"${avg:.2f}^{{+{(max_-avg):.2f}}}_{{-{(avg-min_):.2f}}}$"
+
+    # Prepare the plot
+    plt.figure(figsize=(len(avg_df.columns)*1.5, 3))
+    ax = sns.heatmap(
+        avg_df,
+        cmap="RdYlGn_r",  # red for high, green for low
+        annot=annotations,
+        fmt="",
+        linewidths=0.5,
+        cbar_kws={"label": "Cost Ratio to Fuel Oil"},
+        xticklabels=[get_fuel_label(col.replace(" (avg)", "")).replace(" ", "\n") for col in avg_df.columns],
+        yticklabels=LABELS_WITH_NEWLINES
+    )
+
+    # Style the plot
+    ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+    ax.set_xticklabels(ax.get_xticklabels(), ha='center', rotation=0)
+    #plt.title("Cost Ratio Relative to LSFO with Successive Corrections")
+    plt.tight_layout()
+    plt.savefig(f"{top_dir}/plots/cargo_loss_cost_summary.png", dpi=300)
+    plt.savefig(f"{top_dir}/plots/cargo_loss_cost_summary.pdf")
+    print(f"Plot saved to {top_dir}/plots/cargo_loss_cost_summary.png and .pdf")
+    
     
 def make_cost_summary(fuels, pathways):
     """
@@ -599,6 +727,7 @@ def make_cost_summary(fuels, pathways):
     for fuel in fuels+["lsfo"]:
         all_vessel_classes = []
         all_vessel_sizes = []
+        totalcost_no_corrs = []
         totalcost_with_corrs = []
         corr_perc_cost_increases = []
         cost_summary_df = pd.DataFrame()
@@ -613,11 +742,13 @@ def make_cost_summary(fuels, pathways):
                 totalcost_no_corr = totalcost_df_no_corr.loc["Global Average", vessel_size]
                 totalcost_with_corr = totalcost_df_with_corr.loc["Global Average", vessel_size]
                 corr_perc_cost_increase = 100 * (totalcost_with_corr - totalcost_no_corr) / totalcost_no_corr
-                totalcost_with_corrs.append(totalcost_with_corr*1000)   # Convert to USD / 1000 tonne-miles
+                totalcost_no_corrs.append(totalcost_no_corr*1000)    # Convert to USD / 1000 tonne-miles
+                totalcost_with_corrs.append(totalcost_with_corr*1000)
                 corr_perc_cost_increases.append(corr_perc_cost_increase)
         
         cost_summary_df["Vessel Class"] = all_vessel_classes
         cost_summary_df["Vessel Size"] = all_vessel_sizes
+        cost_summary_df[f"{fuel} Total Cost Before Corrs"] = totalcost_no_corrs
         cost_summary_df[f"{fuel} Total Cost"] = totalcost_with_corrs
         cost_summary_df[f"{fuel} % Increase"] = corr_perc_cost_increases
         
@@ -1138,7 +1269,9 @@ if __name__ == "__main__":
     
     fuels = ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "lng", "methanol"]
     cost_summary_df = make_cost_summary(fuels, pathways)
+    make_summary_plot(fuels, pathways)
 
+    
     for fuel in ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "lng", "methanol"]:  # , "ammonia"]:  # "compressed_hydrogen"
         pathway = pathways[fuel]
 
@@ -1146,9 +1279,10 @@ if __name__ == "__main__":
         #plot_histogram_for_vessel_types(fuel, pathway, modifier="per_cbm_mile")
         plot_histogram_for_vessel_types(
             fuel, pathway, modifier="per_tonne_mile", include_stowage=True)
-#        plot_histogram_for_vessel_types(
-#            fuel, pathway, modifier="per_cbm_mile", include_stowage=True
-#        )
+        plot_histogram_for_vessel_types(
+            fuel, pathway, modifier="per_cbm_mile", include_stowage=True
+        )
+
 #
 #        for vessel_type in VESSEL_TYPES:
 #            plot_histogram_for_vessel_classes(

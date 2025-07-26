@@ -84,7 +84,9 @@ def calculate_crude_petrol_sfs():
     avg_production = crude_petrol_df_2023.mean()
 
     # Prepare lists for stowage factors and weights
-    sf_list = []
+    central_sf_list = []
+    lower_sf_list = []
+    upper_sf_list = []
     weight_list = []
     lower_api_list = []
     upper_api_list = []
@@ -109,10 +111,12 @@ def calculate_crude_petrol_sfs():
             if "or Higher" in str(column):
                 # Use the inner value of the range (lower bound)
                 central_api = lower_api
+                upper_api = lower_api
                 # print(f"  -> 'or Higher' detected, using lower_api = {central_api}")
             elif "or Lower" in column:
                 # Use the inner value of the range (upper bound)
                 central_api = lower_api
+                upper_api = lower_api
                 # print(f"  -> 'or Lower' detected, using upper_api = {central_api}")
             elif upper_api:
                 # Midpoint for ranged categories
@@ -124,10 +128,15 @@ def calculate_crude_petrol_sfs():
                 # print(f"  -> No upper bound, using lower_api = {central_api}")
 
             # Convert API to density (kg/L)
-            density = api_to_density(central_api)
+            upper_api = float(upper_api)
+            central_density = api_to_density(central_api)
+            upper_density = api_to_density(upper_api)
+            lower_density = api_to_density(lower_api)
 
             # Stowage factor (m³/tonne or L/kg)
-            stowage_factor = 1 / density
+            central_stowage_factor = 1 / central_density
+            upper_stowage_factor = 1 / upper_density
+            lower_stowage_factor = 1 / lower_density
 
             # Average production as weight
             weight = avg_production[column]
@@ -137,24 +146,41 @@ def calculate_crude_petrol_sfs():
                 continue
 
             # Append results
-            sf_list.append(stowage_factor)
+            central_sf_list.append(central_stowage_factor)
+            lower_sf_list.append(lower_stowage_factor)
+            upper_sf_list.append(upper_stowage_factor)
             weight_list.append(weight)
             prod_rate_list.append(weight)
 
     # Create the result DataFrame
-    result_df = pd.DataFrame(
-        {"Stowage Factor (m^3/tonne)": sf_list, "Weight": weight_list}
+    central_result_df = pd.DataFrame(
+        {"Stowage Factor (m^3/tonne)": central_sf_list, "Weight": weight_list}
+    )
+    lower_result_df = pd.DataFrame(
+        {"Stowage Factor (m^3/tonne)": lower_sf_list, "Weight": weight_list}
+    )
+    
+    upper_result_df = pd.DataFrame(
+        {"Stowage Factor (m^3/tonne)": upper_sf_list, "Weight": weight_list}
     )
 
     # Normalize weights to sum to 1
-    result_df["Weight"] = result_df["Weight"] / result_df["Weight"].sum()
+    central_result_df["Weight"] = central_result_df["Weight"] / central_result_df["Weight"].sum()
+    lower_result_df["Weight"] = lower_result_df["Weight"] / lower_result_df["Weight"].sum()
+    upper_result_df["Weight"] = upper_result_df["Weight"] / upper_result_df["Weight"].sum()
 
     # Sort by increasing stowage factor
-    result_df = result_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
+    central_result_df = central_result_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
+        drop=True
+    )
+    lower_result_df = lower_result_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
+        drop=True
+    )
+    upper_result_df = upper_result_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
         drop=True
     )
     
-    result_save_df = pd.DataFrame({"Lower API": lower_api_list, "Upper API": upper_api_list, "Stowage Factor (m^3/tonne)": sf_list, "Average US Lower 48 production (thousand barrels / day)": prod_rate_list, "Weight": weight_list})
+    result_save_df = pd.DataFrame({"Lower API": lower_api_list, "Upper API": upper_api_list, "Stowage Factor (m^3/tonne)": central_sf_list, "Average US Lower 48 production (thousand barrels / day)": prod_rate_list, "Weight": weight_list})
     result_save_df["Weight"] = result_save_df["Weight"] / result_save_df["Weight"].sum()
     
     result_save_df = result_save_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
@@ -163,7 +189,7 @@ def calculate_crude_petrol_sfs():
     result_save_df.to_csv(f"{top_dir}/tables/crude_petrol_api_prod_info.csv")
     print(f"Saved crude oil api info to {top_dir}/tables/crude_petrol_api_prod_info.csv")
 
-    return result_df
+    return central_result_df, lower_result_df, upper_result_df
 
 
 def readMeta():
@@ -191,13 +217,19 @@ def readMeta():
     return modes, comms, trade_types
 
 
-def plot_weighted_sf_petroleum():
+def plot_weighted_sf_petroleum(sf_type="central"):
     """
     Plots a bar chart of the stowage factors weighted by their normalized production shares.
     """
 
     # Sort the dataframe by stowage factor (optional if already sorted)
-    df = calculate_crude_petrol_sfs()
+    df_central, df_lower, df_upper = calculate_crude_petrol_sfs()
+    if sf_type == "central":
+        df = df_central
+    elif sf_type == "lower":
+        df = df_lower
+    else:
+        df = df_upper
     df_sorted = df.sort_values(by="Stowage Factor (m^3/tonne)")
 
     sf_values = df_sorted["Stowage Factor (m^3/tonne)"]
@@ -408,9 +440,9 @@ def plot_sf_ranges_tanker(
     FUEL_OIL_SF = 1 / FUEL_OIL_DENSITY
 
     # Get crude petroleum SF distribution min/max
-    crude_petrol_df = calculate_crude_petrol_sfs()
-    crude_min_sf = crude_petrol_df["Stowage Factor (m^3/tonne)"].min()
-    crude_max_sf = crude_petrol_df["Stowage Factor (m^3/tonne)"].max()
+    central_crude_petrol_df, lower_crude_petrol_df, upper_crude_petrol_df = calculate_crude_petrol_sfs()
+    crude_min_sf = central_crude_petrol_df["Stowage Factor (m^3/tonne)"].min()
+    crude_max_sf = central_crude_petrol_df["Stowage Factor (m^3/tonne)"].max()
 
     # Step 1: Get tonne-miles for tanker commodities
     commodity_tmiles = get_commodity_tms("tanker")
@@ -741,7 +773,7 @@ def get_sf_distributions(vessel_class):
     return sf_data
 
 
-def get_sf_distribution_tanker():
+def get_sf_distributions_tanker():
     """
     Calculate stowage factor distribution for tankers, weighted by tonne-miles
     of crude petroleum, fuel oils, and gasoline.
@@ -774,14 +806,16 @@ def get_sf_distribution_tanker():
     lsfo_sf = 1 / FUEL_OIL_DENSITY
 
     # Step 4: Get crude petroleum SF distribution (already normalized within crude)
-    crude_df = calculate_crude_petrol_sfs()
+    central_crude_df, lower_crude_df, upper_crude_df = calculate_crude_petrol_sfs()
 
-    if crude_df.empty:
+    if central_crude_df.empty:
         print("No crude petroleum SF distribution returned.")
         return pd.DataFrame()
 
     # Scale crude weights by total tonne-miles for crude petroleum
-    crude_df["Weight"] *= crude_tm
+    central_crude_df["Weight"] *= crude_tm
+    lower_crude_df["Weight"] *= crude_tm
+    upper_crude_df["Weight"] *= crude_tm
 
     # Step 5: Add Fuel oils and Gasoline as single points
     sf_list = []
@@ -803,30 +837,39 @@ def get_sf_distribution_tanker():
     )
 
     # Step 6: Combine crude and other commodities
-    combined_df = pd.concat([crude_df, single_df], ignore_index=True)
+    central_combined_df = pd.concat([central_crude_df, single_df], ignore_index=True)
+    lower_combined_df = pd.concat([lower_crude_df, single_df], ignore_index=True)
+    upper_combined_df = pd.concat([upper_crude_df, single_df], ignore_index=True)
 
     # Step 7: Normalize weights for the entire distribution
-    total_weight = combined_df["Weight"].sum()
+    total_weight = central_combined_df["Weight"].sum()
     if total_weight > 0:
-        combined_df["Weight"] /= total_weight
+        central_combined_df["Weight"] /= total_weight
+        lower_combined_df["Weight"] /= total_weight
+        upper_combined_df["Weight"] /= total_weight
     else:
         print("No valid weights after combining commodities.")
         return pd.DataFrame()
 
     # Step 8: Sort for neatness
-    combined_df = combined_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
+    central_combined_df = central_combined_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
+        drop=True
+    )
+    lower_combined_df = lower_combined_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
+        drop=True
+    )
+    upper_combined_df = upper_combined_df.sort_values(by="Stowage Factor (m^3/tonne)").reset_index(
         drop=True
     )
 
-    return combined_df
+    sf_data = {"lower": lower_combined_df, "central": central_combined_df, "upper": upper_combined_df}
+
+    return sf_data
 
 
 def plot_sf_distributions(vessel_class, bins=5):
     """
     Plots stowage factor distributions for a given vessel_class.
-
-    For "tanker", plots a single stowage factor distribution using get_sf_distributions_tanker().
-    For all other vessel classes, plots lower, central, and upper distributions using get_sf_distributions().
 
     Parameters
     ----------
@@ -839,152 +882,107 @@ def plot_sf_distributions(vessel_class, bins=5):
 
     # Select the correct data function based on vessel_class
     if vessel_class.lower() == "tanker":
-        sf_data = get_sf_distribution_tanker()  # Single dataframe
+        sf_data = get_sf_distributions_tanker()  # Single dataframe
     else:
         sf_data = get_sf_distributions(vessel_class)  # Dict with lower/central/upper
 
     plt.figure(figsize=(10, 6))
 
-    # Tanker case: single DataFrame returned
-    if isinstance(sf_data, pd.DataFrame):
-        sf_df = sf_data
+    lower_df = sf_data["lower"]
+    central_df = sf_data["central"]
+    upper_df = sf_data["upper"]
 
-        # Extract values and weights
-        sf_values = sf_df["Stowage Factor (m^3/tonne)"]
-        sf_weights = sf_df["Weight"]
+    lower_values = lower_df["Stowage Factor (m^3/tonne)"]
+    lower_weights = lower_df["Weight"]
 
-        # Plot histogram (single distribution)
-        plt.hist(
-            sf_values,
-            bins=bins,
-            weights=sf_weights,
-            histtype="stepfilled",
-            alpha=0.2,
-            color="blue",
-        )
-        plt.hist(
-            sf_values,
-            bins=bins,
-            weights=sf_weights,
-            histtype="step",
-            color="blue",
-            linewidth=2,
-            # label=vessel_class.capitalize()
-        )
-        average_sf = (sf_values * sf_weights).sum()
-        plt.axvline(
-            average_sf,
-            ls="--",
-            color="darkblue",
-            linewidth=2,
-            label=f"Average: {average_sf:.2f}",
-        )
+    central_values = central_df["Stowage Factor (m^3/tonne)"]
+    central_weights = central_df["Weight"]
 
-        plt.legend(fontsize=18)
+    upper_values = upper_df["Stowage Factor (m^3/tonne)"]
+    upper_weights = upper_df["Weight"]
 
-    # Non-tanker case: lower, central, upper distributions
-    elif isinstance(sf_data, dict):
-        lower_df = sf_data["lower"]
-        central_df = sf_data["central"]
-        upper_df = sf_data["upper"]
+    # Lower bound (blue)
+    plt.hist(
+        lower_values,
+        bins=bins,
+        weights=lower_weights,
+        histtype="stepfilled",
+        alpha=0.2,
+        color="blue",
+    )
+    plt.hist(
+        lower_values,
+        bins=bins,
+        weights=lower_weights,
+        histtype="step",
+        color="blue",
+        linewidth=2,
+        label="Lower",
+    )
+    average_lower = (lower_values * lower_weights).sum()
+    plt.axvline(
+        average_lower,
+        ls="--",
+        color="darkblue",
+        linewidth=2,
+        label=f"Average Lower: {average_lower:.2f}",
+    )
 
-        lower_values = lower_df["Stowage Factor (m^3/tonne)"]
-        lower_weights = lower_df["Weight"]
+    # Central (green)
+    plt.hist(
+        central_values,
+        bins=bins,
+        weights=central_weights,
+        histtype="stepfilled",
+        alpha=0.2,
+        color="green",
+    )
+    plt.hist(
+        central_values,
+        bins=bins,
+        weights=central_weights,
+        histtype="step",
+        color="green",
+        linewidth=2,
+        label="Central",
+    )
+    average_central = (central_values * central_weights).sum()
+    plt.axvline(
+        average_central,
+        ls="--",
+        color="darkgreen",
+        linewidth=2,
+        label=f"Average Central: {average_central:.2f}",
+    )
 
-        central_values = central_df["Stowage Factor (m^3/tonne)"]
-        central_weights = central_df["Weight"]
+    # Upper (red)
+    plt.hist(
+        upper_values,
+        bins=bins,
+        weights=upper_weights,
+        histtype="stepfilled",
+        alpha=0.2,
+        color="red",
+    )
+    plt.hist(
+        upper_values,
+        bins=bins,
+        weights=upper_weights,
+        histtype="step",
+        color="red",
+        linewidth=2,
+        label="Upper",
+    )
+    average_upper = (upper_values * upper_weights).sum()
+    plt.axvline(
+        average_upper,
+        ls="--",
+        color="darkred",
+        linewidth=2,
+        label=f"Average Upper: {average_upper:.2f}",
+    )
 
-        upper_values = upper_df["Stowage Factor (m^3/tonne)"]
-        upper_weights = upper_df["Weight"]
-
-        # Lower bound (blue)
-        plt.hist(
-            lower_values,
-            bins=bins,
-            weights=lower_weights,
-            histtype="stepfilled",
-            alpha=0.2,
-            color="blue",
-        )
-        plt.hist(
-            lower_values,
-            bins=bins,
-            weights=lower_weights,
-            histtype="step",
-            color="blue",
-            linewidth=2,
-            label="Lower",
-        )
-        average_lower = (lower_values * lower_weights).sum()
-        plt.axvline(
-            average_lower,
-            ls="--",
-            color="darkblue",
-            linewidth=2,
-            label=f"Average Lower: {average_lower:.2f}",
-        )
-
-        # Central (green)
-        plt.hist(
-            central_values,
-            bins=bins,
-            weights=central_weights,
-            histtype="stepfilled",
-            alpha=0.2,
-            color="green",
-        )
-        plt.hist(
-            central_values,
-            bins=bins,
-            weights=central_weights,
-            histtype="step",
-            color="green",
-            linewidth=2,
-            label="Central",
-        )
-        average_central = (central_values * central_weights).sum()
-        plt.axvline(
-            average_central,
-            ls="--",
-            color="darkgreen",
-            linewidth=2,
-            label=f"Average Central: {average_central:.2f}",
-        )
-
-        # Upper (red)
-        plt.hist(
-            upper_values,
-            bins=bins,
-            weights=upper_weights,
-            histtype="stepfilled",
-            alpha=0.2,
-            color="red",
-        )
-        plt.hist(
-            upper_values,
-            bins=bins,
-            weights=upper_weights,
-            histtype="step",
-            color="red",
-            linewidth=2,
-            label="Upper",
-        )
-        average_upper = (upper_values * upper_weights).sum()
-        plt.axvline(
-            average_upper,
-            ls="--",
-            color="darkred",
-            linewidth=2,
-            label=f"Average Upper: {average_upper:.2f}",
-        )
-
-        plt.legend(fontsize=18)
-
-    else:
-        print(
-            f"Unrecognized data structure returned from get_sf_distributions() for vessel_class: {vessel_class}"
-        )
-        return
+    plt.legend(fontsize=18)
 
     # Labels and layout
     plt.xlabel("Stowage Factor (m$^3$/tonne)", fontsize=22)
@@ -1008,12 +1006,12 @@ def main():
     else:
         print(f"{output_file} already exists. Skipping CSV creation.")
 
-    sf_distribution_tanker = get_sf_distribution_tanker()
+    sf_distributions_tanker = get_sf_distributions_tanker()
 
     plot_sf_distributions("tanker")
 
     # Plot the distribution of crude petroleum SFs
-    plot_weighted_sf_petroleum()
+    plot_weighted_sf_petroleum("central")
 
     # Plot SF ranges of commodities carried by container and bulk carriers vessels
     plot_commodity_sfs()
@@ -1025,16 +1023,15 @@ def main():
         if not vessel_class == "gas_carrier":
             plot_commodity_tms(vessel_class)
 
-        if vessel_class == "bulk_carrier" or vessel_class == "container":
-            sf_distributions = get_sf_distributions(vessel_class)
+        if vessel_class == "bulk_carrier" or vessel_class == "container" or vessel_class == "tanker":
+            if vessel_class == "bulk_carrier" or vessel_class == "container":
+                sf_distributions = get_sf_distributions(vessel_class)
+            if vessel_class == "tanker":
+                sf_distributions = sf_distributions_tanker
             for dist in ["lower", "central", "upper"]:
                 sf_distributions[dist].to_csv(
                     f"{top_dir}/tables/sf_distribution_{vessel_class}_{dist}.csv"
                 )
-
-        elif vessel_class == "tanker":
-            sf_distribution = get_sf_distribution_tanker()
-            sf_distribution.to_csv(f"{top_dir}/tables/sf_distribution_tanker.csv")
 
         elif vessel_class == "gas_carrier":
             sf_distribution = get_gas_carrier_sfs()
@@ -1042,6 +1039,5 @@ def main():
 
         if vessel_class != "gas_carrier":
             plot_sf_distributions(vessel_class)
-
 
 main()

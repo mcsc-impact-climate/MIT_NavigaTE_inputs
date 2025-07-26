@@ -23,9 +23,9 @@ plt.figure(figsize=(10, 6))
 plt.barh(vessels, ranges, color="skyblue", edgecolor="black")
 
 # Add labels and title
-plt.xlabel("Range (nautical miles)", fontsize=20)
-plt.tick_params(axis="y", labelsize=18)
-plt.tick_params(axis="x", labelsize=18)
+plt.xlabel("$R$ (nautical miles)", fontsize=24)
+plt.tick_params(axis="y", labelsize=22)
+plt.tick_params(axis="x", labelsize=22)
 plt.tight_layout()
 
 # Show the plot
