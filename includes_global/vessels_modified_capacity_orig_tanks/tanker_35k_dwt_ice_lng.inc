@@ -20,7 +20,7 @@ Vessel "tanker_35k_dwt_ice_lng" {
 	
 	Route = Route("globalized_tanker_35k_dwt")
 	
-    NominalCapacity = 31785.706488539
+    NominalCapacity = 31888.30910017593
 	
 	Lifetime = 30
 	CostOfCapital = Variable("cost_of_capital_vessel")

@@ -19,7 +19,7 @@ Vessel "container_8000_teu_ice_ammonia" {
 	
 	Route = Route("globalized_container_8000_teu")
 	
-    NominalCapacity = 7325.298687005263
+    NominalCapacity = 7335.61008829429
 
 	Lifetime = 25
 	CostOfCapital = Variable("cost_of_capital_vessel")

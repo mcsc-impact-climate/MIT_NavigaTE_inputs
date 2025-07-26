@@ -11,7 +11,7 @@ Vessel "bulk_carrier_panamax_ice_liquid_hydrogen" {
     
     Route=Route("globalized_bulk_carrier_panamax")
     
-    NominalCapacity = 52283.06405565541
+    NominalCapacity = 55453.22694549969
 
     Lifetime=25
     CostOfCapital = Variable("cost_of_capital_vessel")
