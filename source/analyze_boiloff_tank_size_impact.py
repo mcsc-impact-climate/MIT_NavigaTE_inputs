@@ -254,24 +254,9 @@ def plot_histogram_for_vessel_types(
     modifier="per_tonne_mile",
     include_stowage=False,
 ):
-    """
-    Plots a histogram comparing TotalCost per tonne mile between all vessel types for a given fuel and pathway.
-
-    Parameters:
-    ----------
-    fuel : str
-        Fuel name
-    pathway : str
-        Production pathway
-    quantity : str
-        Quantity to plot (default: "TotalCost")
-    modifier : str
-        Modifier for the quantity (default: "per_tonne_mile")
-    """
     fig = plt.figure(figsize=(12, 12))
     gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1], hspace=0.3)
 
-    # Main histogram plot
     ax_hist = fig.add_subplot(gs[0])
     ax_ratio = fig.add_subplot(gs[1], sharex=ax_hist)
 
@@ -280,309 +265,204 @@ def plot_histogram_for_vessel_types(
     width = 0.2
     index = 0
 
-    # Store ratios for the secondary axis
     ratios_base = []
     ratios_mod_caps = []
     ratios_with_boiloff = []
 
-    stowage_str = ""
-    if include_stowage:
-        stowage_str = "_final"
+    stowage_str = "_final" if include_stowage else ""
 
     for vessel_type in VESSEL_TYPES:
         x_labels.append(VESSEL_TYPE_TITLES[vessel_type])
         x_positions.append(index)
 
-        # Read data for TotalCAPEX, TotalFuelOPEX, and TotalExcludingFuelOPEX from the three cases
-        base_capex_df = read_processed_data(
-            RESULTS_DIR_BASE,
-            fuel,
-            pathway,
-            f"CAPEX-{modifier}_lsfo{stowage_str}",
-        )
-        base_fuel_opex_df = read_processed_data(
-            RESULTS_DIR_BASE,
-            fuel,
-            pathway,
-            f"FuelOPEX-{modifier}_lsfo{stowage_str}",
-        )
-        base_opex_df = read_processed_data(
-            RESULTS_DIR_BASE,
-            fuel,
-            pathway,
-            f"OPEX-{modifier}_lsfo{stowage_str}",
-        )
+        def read_set(directory, suffix):
+            return {
+                "CAPEX": read_processed_data(directory, fuel, pathway, f"CAPEX-{modifier}{suffix}").loc["Global Average", vessel_type],
+                "FuelOPEX": read_processed_data(directory, fuel, pathway, f"FuelOPEX-{modifier}{suffix}").loc["Global Average", vessel_type],
+                "OPEX": read_processed_data(directory, fuel, pathway, f"OPEX-{modifier}{suffix}").loc["Global Average", vessel_type],
+            }
 
-        mod_caps_capex_df = read_processed_data(
-            RESULTS_DIR_MOD_CAPS,
-            fuel,
-            pathway,
-            f"CAPEX-{modifier}{stowage_str}",
-        )
-        mod_caps_fuel_opex_df = read_processed_data(
-            RESULTS_DIR_MOD_CAPS,
-            fuel,
-            pathway,
-            f"FuelOPEX-{modifier}{stowage_str}",
-        )
-        mod_caps_opex_df = read_processed_data(
-            RESULTS_DIR_MOD_CAPS,
-            fuel,
-            pathway,
-            f"OPEX-{modifier}{stowage_str}",
-        )
+        base = read_set(RESULTS_DIR_BASE, f"_lsfo{stowage_str}")
+        mod = read_set(RESULTS_DIR_MOD_CAPS, stowage_str)
+        boil = read_set(RESULTS_DIR_WITH_BOILOFF, stowage_str)
 
-        with_boiloff_capex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF,
-            fuel,
-            pathway,
-            f"CAPEX-{modifier}{stowage_str}",
-        )
-        with_boiloff_fuel_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF,
-            fuel,
-            pathway,
-            f"FuelOPEX-{modifier}{stowage_str}",
-        )
-        with_boiloff_opex_df = read_processed_data(
-            RESULTS_DIR_WITH_BOILOFF,
-            fuel,
-            pathway,
-            f"OPEX-{modifier}{stowage_str}",
-        )
-
-        # Extract relevant values
-        base_values = {
-            "CAPEX": base_capex_df.loc["Global Average", vessel_type],
-            "FuelOPEX": base_fuel_opex_df.loc["Global Average", vessel_type],
-            "OPEX": base_opex_df.loc["Global Average", vessel_type],
-        }
-
-        mod_caps_values = {
-            "CAPEX": mod_caps_capex_df.loc["Global Average", vessel_type],
-            "FuelOPEX": mod_caps_fuel_opex_df.loc["Global Average", vessel_type],
-            "OPEX": mod_caps_opex_df.loc["Global Average", vessel_type],
-        }
-
-        with_boiloff_values = {
-            "CAPEX": with_boiloff_capex_df.loc["Global Average", vessel_type],
-            "FuelOPEX": with_boiloff_fuel_opex_df.loc["Global Average", vessel_type],
-            "OPEX": with_boiloff_opex_df.loc["Global Average", vessel_type],
-        }
-
-        lsfo_totalcost_df = read_processed_data(
+        lsfo_totalcost = read_processed_data(
             RESULTS_DIR_WITH_BOILOFF, "lsfo", "fossil", f"TotalCost-{modifier}{stowage_str}"
-        )
-        
-        lsfo_totalcost_value = lsfo_totalcost_df.loc["Global Average", vessel_type]
+        ).loc["Global Average", vessel_type]
 
-        # Aggregate costs for each case
-        base_total = (
-            base_capex_df.loc["Global Average", vessel_type]
-            + base_fuel_opex_df.loc["Global Average", vessel_type]
-            + base_opex_df.loc["Global Average", vessel_type]
-        )
+        base_total = sum(base.values())
+        mod_total = sum(mod.values())
+        boil_total = sum(boil.values())
 
-        mod_caps_total = (
-            mod_caps_capex_df.loc["Global Average", vessel_type]
-            + mod_caps_fuel_opex_df.loc["Global Average", vessel_type]
-            + mod_caps_opex_df.loc["Global Average", vessel_type]
-        )
+        ratios_base.append(base_total / lsfo_totalcost)
+        ratios_mod_caps.append(mod_total / lsfo_totalcost)
+        ratios_with_boiloff.append(boil_total / lsfo_totalcost)
 
-        with_boiloff_total = (
-            with_boiloff_capex_df.loc["Global Average", vessel_type]
-            + with_boiloff_fuel_opex_df.loc["Global Average", vessel_type]
-            + with_boiloff_opex_df.loc["Global Average", vessel_type]
-        )
+        ax_hist.bar(index - width, 1000*base["CAPEX"], width, color=COLORS["base"][0])
+        ax_hist.bar(index - width, 1000*base["OPEX"], width, bottom=1000*base["CAPEX"], color=COLORS["base"][1])
+        ax_hist.bar(index - width, 1000*base["FuelOPEX"], width, bottom=1000*base["CAPEX"] + 1000*base["OPEX"], color=COLORS["base"][2])
+        ax_hist.plot([index - width * 2, index + width * 2], [1000*lsfo_totalcost] * 2, ls="--", color="red", linewidth=2)
 
-        # Compute ratios
-        ratios_base.append(base_total / lsfo_totalcost_value)
-        ratios_mod_caps.append(mod_caps_total / lsfo_totalcost_value)
-        ratios_with_boiloff.append(with_boiloff_total / lsfo_totalcost_value)
+        ax_hist.bar(index, 1000*mod["CAPEX"], width, color=COLORS["mod_caps"][0])
+        ax_hist.bar(index, 1000*mod["OPEX"], width, bottom=1000*mod["CAPEX"], color=COLORS["mod_caps"][1])
+        ax_hist.bar(index, 1000*mod["FuelOPEX"], width, bottom=1000*mod["CAPEX"] + 1000*mod["OPEX"], color=COLORS["mod_caps"][2])
 
-        # Plot stacked bars for each case
-        ax_hist.bar(
-            index - width,
-            base_values["CAPEX"],
-            width,
-            color=COLORS["base"][0],
-        )
-        ax_hist.bar(
-            index - width,
-            base_values["OPEX"],
-            width,
-            bottom=base_values["CAPEX"],
-            color=COLORS["base"][1],
-        )
-        ax_hist.bar(
-            index - width,
-            base_values["FuelOPEX"],
-            width,
-            bottom=base_values["CAPEX"] + base_values["OPEX"],
-            color=COLORS["base"][2],
-        )
-        ax_hist.plot(
-            [index - width * 2, index + width * 2],
-            [lsfo_totalcost_value, lsfo_totalcost_value],
-            ls="--",
-            color="red",
-            linewidth=2,
-        )
-
-        ax_hist.bar(
-            index,
-            mod_caps_values["CAPEX"],
-            width,
-            color=COLORS["mod_caps"][0],
-        )
-        ax_hist.bar(
-            index,
-            mod_caps_values["OPEX"],
-            width,
-            bottom=mod_caps_values["CAPEX"],
-            color=COLORS["mod_caps"][1],
-        )
-        ax_hist.bar(
-            index,
-            mod_caps_values["FuelOPEX"],
-            width,
-            bottom=mod_caps_values["CAPEX"] + mod_caps_values["OPEX"],
-            color=COLORS["mod_caps"][2],
-        )
-
-        ax_hist.bar(
-            index + width,
-            with_boiloff_values["CAPEX"],
-            width,
-            color=COLORS["with_boiloff"][0],
-        )
-        ax_hist.bar(
-            index + width,
-            with_boiloff_values["OPEX"],
-            width,
-            bottom=with_boiloff_values["CAPEX"],
-            color=COLORS["with_boiloff"][1],
-        )
-        ax_hist.bar(
-            index + width,
-            with_boiloff_values["FuelOPEX"],
-            width,
-            bottom=with_boiloff_values["CAPEX"] + with_boiloff_values["OPEX"],
-            color=COLORS["with_boiloff"][2],
-        )
+        ax_hist.bar(index + width, 1000*boil["CAPEX"], width, color=COLORS["with_boiloff"][0])
+        ax_hist.bar(index + width, 1000*boil["OPEX"], width, bottom=1000*boil["CAPEX"], color=COLORS["with_boiloff"][1])
+        ax_hist.bar(index + width, 1000*boil["FuelOPEX"], width, bottom=1000*boil["CAPEX"] + 1000*boil["OPEX"], color=COLORS["with_boiloff"][2])
 
         index += 1
 
-    # Customize the plot
-    fuel_label = get_fuel_label(fuel)
-    pathway_label = get_pathway_label(pathway)
-    #ax_hist.set_title(f"{fuel_label}: {pathway_label}", fontsize=22)
     ax_hist.set_xticks(x_positions)
-    if modifier == "per_tonne_mile":
-        ax_hist.set_ylabel("Total Cost (USD / tonne-mile)", fontsize=26)
-    else:
-        ax_hist.set_ylabel("Total Cost (USD / m$^3$-mile)", fontsize=26)
+    ax_hist.set_ylabel("Total Cost (USD / kilotonne-mile)" if modifier == "per_tonne_mile" else "Total Cost (USD / m$^3$-mile)", fontsize=30)
+    ax_hist.tick_params(axis="both", labelsize=28)
+    ax_hist.set_xticklabels(x_labels, fontsize=26)
+
+    ax_ratio.set_ylabel("Ratio to Fuel Oil", fontsize=30)
+    ax_ratio.tick_params(axis="both", labelsize=28)
+    ax_ratio.set_ylim(0, max(max(ratios_base + ratios_mod_caps + ratios_with_boiloff), 1.1) * 1.2)
+
+    for i, ratio_list, color, shift in zip(
+        range(len(x_positions)), [ratios_base, ratios_mod_caps, ratios_with_boiloff],
+        ["blue", "orange", "purple"], [-width, 0, width]
+    ):
+        for x, y in zip([x + shift for x in x_positions], ratio_list):
+            ax_ratio.plot(x, y, "o", color=color)
+            ax_ratio.hlines(y, x - width / 2, x + width / 2, color=color, linewidth=1)
+
+    ax_ratio.axhline(1, ls="--", color="red", linewidth=2)
+    ax_ratio.tick_params(bottom=False, labelbottom=False)
+
+    plt.subplots_adjust(bottom=0.05, top=0.95)
+
+    create_directory_if_not_exists(f"{top_dir}/plots/{fuel}-{pathway}")
+    suffix = f"{fuel}_{pathway}_{modifier}{stowage_str}"
+    output_dir = f"{top_dir}/plots/{fuel}-{pathway}"
+
+    # Save no-legend version first
+    plt.tight_layout()
+    no_legend_png = f"{output_dir}/total_cost_comparison_{suffix}_nolegend.png"
+    no_legend_pdf = f"{output_dir}/total_cost_comparison_{suffix}_nolegend.pdf"
+    plt.savefig(no_legend_png, dpi=300)
+    plt.savefig(no_legend_pdf)
+    print(f"No-legend plot saved: {no_legend_png}")
+
+    # Add legends now
+    greys = generate_grey_shades(3)
+    handles1 = [plt.Rectangle((0, 0), 1, 1, color=greys[i], label=l) for i, l in enumerate(["CAPEX", "Fuel OPEX", "Other OPEX"])]
+    handles2 = [plt.Rectangle((0, 0), 1, 1, color=COLORS[k][0], label=LABELS[i]) for i, k in enumerate(["base", "mod_caps", "with_boiloff"])]
+    handles3 = [Line2D([0], [0], color="red", linestyle="--", label="Conventional Fuel Oil", linewidth=2)]
+
+    legend1 = ax_hist.legend(
+        handles=handles1,
+        title="Cost Components",
+        loc="upper left",
+        fontsize=20,
+        title_fontsize=22,
+    )
+    ax_hist.add_artist(legend1)
+
+    legend2 = ax_hist.legend(
+        handles=handles2,
+        title="Correction(s) Applied",
+        loc="upper right",
+        fontsize=20,
+        title_fontsize=22,
+    )
+    ax_hist.add_artist(legend2)
+
+    legend3 = ax_hist.legend(
+        handles=handles3,
+        loc="upper center",
+        bbox_to_anchor=(0.227, 0.65),
+        fontsize=20
+    )
+    ax_hist.add_artist(legend3)
+
+    # Save full version with legends
     ymin, ymax = ax_hist.get_ylim()
     ax_hist.set_ylim(ymin, ymax * 1.5)
-    ax_hist.tick_params(axis="both", labelsize=24)
-    ax_ratio.tick_params(axis="both", labelsize=24)
+    plt.tight_layout()
+    full_png = f"{output_dir}/total_cost_comparison_{suffix}.png"
+    full_pdf = f"{output_dir}/total_cost_comparison_{suffix}.pdf"
+    plt.savefig(full_png, dpi=300)
+    plt.savefig(full_pdf)
+    print(f"Full plot saved: {full_png}")
 
-    # Plot ratios as markers
-    ax_ratio.plot(
-        [x - width for x in x_positions],
-        ratios_base,
-        "o",
-        color="blue",
-    )
-    ax_ratio.plot(
-        x_positions,
-        ratios_mod_caps,
-        "o",
-        color="orange",
-    )
-    ax_ratio.plot(
-        [x + width for x in x_positions],
-        ratios_with_boiloff,
-        "o",
-        color="purple",
-    )
-    
-    for x, y in zip([x - width for x in x_positions], ratios_base):
-        ax_ratio.hlines(y, x - width / 2, x + width / 2, color="blue", linewidth=1)
+    plt.close()
 
-    for x, y in zip(x_positions, ratios_mod_caps):
-        ax_ratio.hlines(y, x - width / 2, x + width / 2, color="orange", linewidth=1)
-
-    for x, y in zip([x + width for x in x_positions], ratios_with_boiloff):
-        ax_ratio.hlines(y, x - width / 2, x + width / 2, color="purple", linewidth=1)
+    # Save legend-only version
+    plot_legend_only(fuel, pathway, modifier, include_stowage)
 
 
-    # Customize secondary y-axis
-    ax_ratio.set_ylabel("Ratio to Fuel Oil", fontsize=24)
-    ymin, ymax = ax_ratio.get_ylim()
-    ax_ratio.set_ylim(0, ymax*1.2)
+def plot_legend_only(fuel, pathway, modifier, include_stowage):
+    import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
 
-    # Add legends
+    fig, ax = plt.subplots(figsize=(15, 1.7))
+    ax.axis("off")
+
+    # Legend handles
     greys = generate_grey_shades(3)
-    legend_handles_1 = [
-        plt.Rectangle((0, 0), 1, 1, color=greys[0], label="CAPEX"),
-        plt.Rectangle((0, 0), 1, 1, color=greys[1], label="Fuel OPEX"),
-        plt.Rectangle((0, 0), 1, 1, color=greys[2], label="Other OPEX"),
+    handles_components = [
+        plt.Rectangle((0, 0), 1, 1, color=greys[i], label=label)
+        for i, label in enumerate(["CAPEX", "Fuel OPEX", "Other OPEX"])
     ]
-    legend_handles_2 = [
-        plt.Rectangle((0, 0), 1, 1, color=COLORS["base"][0], label=LABELS[0]),
-        plt.Rectangle((0, 0), 1, 1, color=COLORS["mod_caps"][0], label=LABELS[1]),
-        plt.Rectangle((0, 0), 1, 1, color=COLORS["with_boiloff"][0], label=LABELS[2]),
+
+    handles_corrections = [
+        plt.Rectangle((0, 0), 1, 1, color=COLORS[key][0], label=LABELS[i])
+        for i, key in enumerate(["base", "mod_caps", "with_boiloff"])
     ]
-    legend_handles_3 = [
+
+    handles_conventional = [
         Line2D([0], [0], color="red", linestyle="--", label="Conventional Fuel Oil", linewidth=2)
     ]
 
-    ax_hist.add_artist(
-        ax_hist.legend(
-            handles=legend_handles_1,
-            title="Cost Components",
-            loc="upper left",
-            fontsize=20,
-            title_fontsize=22,
-        )
+    # Add top legend: Correction(s) Applied
+    legend_corrections = ax.legend(
+        handles=handles_corrections,
+        title="Correction(s) Applied",
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.2),
+        ncol=3,
+        fontsize=16,
+        title_fontsize=18,
     )
+    ax.add_artist(legend_corrections)
 
-    ax_hist.add_artist(
-        ax_hist.legend(
-            handles=legend_handles_2,
-            title="Correction(s) Applied",
-            loc="upper right",
-            fontsize=20,
-            title_fontsize=22,
-        )
+    # Add bottom-left legend: Cost Components
+    legend_components = ax.legend(
+        handles=handles_components,
+        title="Cost Components",
+        loc="center left",
+        bbox_to_anchor=(0.1, 0.13),  # shifted slightly left and lower
+        fontsize=15,
+        title_fontsize=17,
+        ncol=3
     )
+    ax.add_artist(legend_components)
 
-    ax_hist.add_artist(
-        ax_hist.legend(
-            handles=legend_handles_3,
-            loc="upper center",
-            fontsize=20,
-            title_fontsize=22,
-            bbox_to_anchor=(0.227, 0.65),  # Replace x, y with desired coordinates
-        )
+    # Add bottom-right legend: Conventional Fuel Oil
+    legend_conventional = ax.legend(
+        handles=handles_conventional,
+        loc="center right",
+        bbox_to_anchor=(0.9, 0.13),  # shifted slightly right and lower
+        fontsize=15,
     )
+    ax.add_artist(legend_conventional)
 
-    ax_ratio.axhline(1, ls="--", color="red", linewidth=2)
-    
-    ax_hist.set_xticklabels(x_labels, fontsize=22, rotation=0)
-    ax_ratio.tick_params(bottom=False, labelbottom=False)  # Hides tick labels only
-    plt.subplots_adjust(bottom=0.05, top=0.95)
+    # Save
+    stowage_str = "_final" if include_stowage else ""
+    suffix = f"{fuel}_{pathway}_{modifier}{stowage_str}"
+    output_dir = f"{top_dir}/plots/{fuel}-{pathway}"
+    create_directory_if_not_exists(output_dir)
 
-    # Save and display the plot
-    create_directory_if_not_exists(f"{top_dir}/plots/{fuel}-{pathway}")
-    output_path_png = f"{top_dir}/plots/{fuel}-{pathway}/total_cost_comparison_{fuel}_{pathway}_{modifier}{stowage_str}.png"
-    output_path_pdf = f"{top_dir}/plots/{fuel}-{pathway}/total_cost_comparison_{fuel}_{pathway}_{modifier}{stowage_str}.pdf"
-    plt.savefig(output_path_png, dpi=300)
-    plt.savefig(output_path_pdf)
+    fig.savefig(f"{output_dir}/legend_only_{suffix}.png", dpi=300)
+    fig.savefig(f"{output_dir}/legend_only_{suffix}.pdf")
     plt.close()
-    print(f"Plot saved at {output_path_png}")
-    print(f"Plot saved at {output_path_pdf}")
+    print(f"Legend-only plot saved: {output_dir}/legend_only_{suffix}.png")
+
+
     
 def make_summary_plot(fuels, pathways):
     """

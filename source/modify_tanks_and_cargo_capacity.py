@@ -9,10 +9,12 @@ import re
 
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 import parse
 from common_tools import get_fuel_label, get_top_dir
+from matplotlib.ticker import MaxNLocator
 from scipy.interpolate import (
     LinearNDInterpolator,
     NearestNDInterpolator,
@@ -2082,7 +2084,6 @@ def get_nominal_cargo_capacity_mass_volume(cargo_info_df, vessel_type_class):
 
     return cargo_capacity_cbm, cargo_capacity_tonnes
 
-
 def plot_modified_capacities(
     sf_distribution,
     fuel,
@@ -2094,29 +2095,6 @@ def plot_modified_capacities(
     sf_dist="central",
     bins=10,
 ):
-    """
-    Plots separate histograms for mass-limited and volume-limited cases.
-
-    The relative height of the bars reflects the relative weight in each bin.
-    The total area under both histograms sums to 1.
-
-    Parameters
-    ----------
-    sf_distribution : pd.DataFrame
-        DataFrame with columns:
-        - "Modified Capacity (tonnes)"
-        - "Limitation"
-        - "Weight"
-
-    fuel : str
-        Fuel type name.
-
-    vessel_type_class : str
-        Vessel type identifier.
-
-    bins : int
-        Number of histogram bins (default 10).
-    """
     limitation_strs = ["Limitation", "LSFO limitation", "Limitation", "LSFO limitation"]
     capacity_strs = [
         "Modified capacity (tonnes)",
@@ -2144,17 +2122,14 @@ def plot_modified_capacities(
         mass_limited = sf_distribution[sf_distribution[limitation_str] == "mass"]
         volume_limited = sf_distribution[sf_distribution[limitation_str] == "volume"]
 
-        # Extract values and weights
         mass_capacities = mass_limited[capacity_str]
         mass_weights = mass_limited["Weight"]
 
         volume_capacities = volume_limited[capacity_str]
         volume_weights = volume_limited["Weight"]
 
-        # Total weight for normalization
         total_weight = sf_distribution["Weight"].sum()
 
-        # Normalize weights by total weight
         mass_weights_normalized = (
             mass_weights / total_weight if not mass_limited.empty else []
         )
@@ -2162,103 +2137,100 @@ def plot_modified_capacities(
             volume_weights / total_weight if not volume_limited.empty else []
         )
 
-        # Combine capacities for consistent binning
         all_capacities = pd.concat([mass_capacities, volume_capacities])
 
         if all_capacities.empty:
             print("No data available to plot.")
             return
 
-        # Create shared bin edges
         bin_edges = np.linspace(all_capacities.min(), all_capacities.max(), bins + 1)
 
-        # Plot histograms
-        plt.figure(figsize=(9, 6))
+        for plot_version in ["with_legend", "no_legend", "legend_only"]:
+            if plot_version == "legend_only":
+                fig, ax = plt.subplots(figsize=(7, 1))
+                handles = [
+                    Line2D([0], [0], color="red", lw=6, label="Mass-Limited"),
+                    Line2D([0], [0], color="blue", lw=6, label="Volume-Limited"),
+                    Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="Average"),
+                ]
+                ax.axis("off")
+                ax.legend(
+                    handles=handles,
+                    loc="center",
+                    fontsize=14,
+                    frameon=True,
+                    ncol=3,
+                    borderpad=1.2,
+                    handlelength=2.5,
+                )
+                plt.tight_layout()
+                for ext in ["png", "pdf"]:
+                    plt.savefig(
+                        f"{top_dir}/plots/modified_capacities_distribution_{vessel_type_class}_{fuel_str}_{type_str}_{sf_dist}_legendonly.{ext}",
+                        dpi=300,
+                    )
+                plt.close()
+                continue
 
-        # Volume-limited histogram
-        if not volume_limited.empty:
-            plt.hist(
+            fig, ax = plt.subplots(figsize=(8, 6))
+
+            ax.hist(
+                mass_capacities,
+                bins=bin_edges,
+                weights=mass_weights_normalized,
+                color="red",
+                label="Mass-Limited",
+                alpha=0.8,
+            )
+            ax.hist(
                 volume_capacities,
                 bins=bin_edges,
                 weights=volume_weights_normalized,
-                histtype="stepfilled",
                 color="blue",
                 label="Volume-Limited",
+                alpha=0.8,
             )
 
-        # Handle mass-limited
-        if not mass_limited.empty:
-            unique_mass_values = mass_capacities.unique()
-            if len(unique_mass_values) == 1:
-                # Single unique capacity, plot a bar
-                single_capacity = unique_mass_values[0]
-                # print(f"Mass-limited data has a single capacity point at {single_capacity}. Plotting as a bar.")
-                plt.bar(
-                    x=[single_capacity],
-                    height=[mass_weights_normalized.sum()],
-                    color="red",
-                    width=(bin_edges[1] - bin_edges[0])
-                    * 0.8,  # Slightly narrower than bin width
-                    label="Mass-Limited",
-                )
-            else:
-                # Normal histogram
-                plt.hist(
-                    mass_capacities,
-                    bins=bin_edges,
-                    weights=mass_weights_normalized,
-                    histtype="stepfilled",
-                    color="red",
-                    label="Mass-Limited",
-                )
-
-        # Add a dashed vertical line showing the average
-        if fuel_str == "lsfo":
-            plt.axvline(
+            ax.axvline(
                 average_modified_capacity,
                 color="black",
                 linestyle="--",
                 linewidth=2,
-                label="Average LSFO capacity",
-            )
-        else:
-            plt.axvline(
-                average_modified_capacity,
-                color="black",
-                linestyle="--",
-                linewidth=2,
-                label="Average modified capacity",
+                label="Average",
             )
 
-        # Labels and title
-        if type_str == "mass":
-            plt.xlabel("Modified Cargo Capacity (tonnes)", fontsize=16)
-        else:
-            plt.xlabel("Modified Cargo Capacity (m$^3$)", fontsize=16)
-#        plt.title(
-#            f"Fuel: {get_fuel_label(fuel_str)}. Vessel: {vessel_title[vessel_type_class]}",
-#            fontsize=18,
-#        )
+            if type_str == "mass":
+                if fuel_str == "lsfo":
+                    ax.set_xlabel(r"$m_o^\text{cargo, eff}$ (tonnes)", fontsize=24)
+                else:
+                    ax.set_xlabel(r"$m_f^\text{cargo, eff}$ (tonnes)", fontsize=24)
+            if type_str == "volume":
+                if fuel_str == "lsfo":
+                    ax.set_xlabel(r"$V_o^\text{cargo, eff}$ (m$^3$)", fontsize=24)
+                else:
+                    ax.set_xlabel(r"$V_f^\text{cargo, eff}$ (m$^3$)", fontsize=24)
+                    
+            #ax.set_ylabel("Share of Vessels", fontsize=16)
+            ax.tick_params(axis="both", which="major", labelsize=20)
+            ax.grid(True, linestyle="--", alpha=0.6)
 
-        # Legend
-        plt.legend(fontsize=14)
+            if plot_version == "with_legend":
+                ax.legend(fontsize=14)
+            ax.xaxis.set_major_locator(MaxNLocator(nbins=5))
+            ylims = ax.get_ylim()
+            ax.set_ylim(ylims[0], ylims[1] * 1.15)
 
-        # Ticks and grid
-        plt.tick_params(axis="both", which="major", labelsize=14)
-        plt.grid(True, linestyle="--", alpha=0.6)
-
-        plt.tight_layout()
-        plt.savefig(
-            f"{top_dir}/plots/modified_capacities_distribution_{vessel_type_class}_{fuel_str}_{type_str}_{sf_dist}.png",
-            dpi=300,
-        )
-        plt.savefig(
-            f"{top_dir}/plots/modified_capacities_distribution_{vessel_type_class}_{fuel_str}_{type_str}_{sf_dist}.pdf"
-        )
-        print(
-            f"Plot saved to {top_dir}/plots/modified_capacities_distribution_{vessel_type_class}_{fuel_str}_{type_str}_{sf_dist}.png and .pdf"
-        )
-        plt.close()
+            fig.tight_layout()
+            suffix = "" if plot_version == "with_legend" else "_nolegend"
+            for ext in ["png", "pdf"]:
+                fig.savefig(
+                    f"{top_dir}/plots/modified_capacities_distribution_{vessel_type_class}_{fuel_str}_{type_str}_{sf_dist}{suffix}.{ext}",
+                    dpi=300,
+                )
+            plt.close()
+            print(
+                f"Plot saved to {top_dir}/plots/modified_capacities_distribution_{vessel_type_class}_{fuel_str}_{type_str}_{sf_dist}{suffix}.{ext}"
+            )
 
 
 def calculate_modified_cargo_capacities_no_sf(
@@ -2610,7 +2582,7 @@ def plot_cargo_loss_vs_sf(
             # Top panel: mass cargo capacity
             for lim in ['mass', 'volume']:
                 mask = lsfo_lim == lim
-                ax1.plot(sfs[mask], lsfo_mass_caps[mask], color='black', linestyle='-' if lim == 'mass' else '--')
+                ax1.plot(sfs[mask], lsfo_mass_caps[mask], color='black', linestyle='-' if lim == 'mass' else '--', linewidth=2, label = "Fuel Oil")
             ax1.plot([], [], color='black', label='Fuel Oil')
 
             for fuel in fuels_to_plot:
@@ -2620,53 +2592,147 @@ def plot_cargo_loss_vs_sf(
                     linestyle = '-' if lim == 'mass' else '--'
                     ax1.plot(sfs[mask], fuel_mass_caps[fuel][mask], color=fuel_colors[fuel], linestyle=linestyle)
                 ax1.plot([], [], color=fuel_colors[fuel], linestyle='-', label=get_fuel_label(fuel))
-            ax1.set_ylabel("Cargo Capacity (tonnes)", fontsize=22)
+            ax1.set_ylabel(r"$m_f^\text{cargo, eff}$ (tonnes)", fontsize=22)
 
             # Middle panel: volume cargo capacity
             for lim in ['mass', 'volume']:
                 mask = lsfo_lim == lim
-                ax2.plot(sfs[mask], lsfo_vol_caps[mask], color='black', linestyle='-' if lim == 'mass' else '--')
+                ax2.plot(sfs[mask], lsfo_vol_caps[mask], color='black', linestyle='-' if lim == 'mass' else '--', linewidth=2)
             for fuel in fuels_to_plot:
                 lims = np.array(fuel_limitations[fuel])
                 for lim in ['mass', 'volume']:
                     mask = lims == lim
                     linestyle = '-' if lim == 'mass' else '--'
                     ax2.plot(sfs[mask], fuel_vol_caps[fuel][mask], color=fuel_colors[fuel], linestyle=linestyle)
-            ax2.set_ylabel("Cargo Capacity (m³)", fontsize=22)
+            ax2.set_ylabel(r"$V_f^\text{cargo, eff}$ (m$^3$)", fontsize=22)
 
             # Bottom panel: percent difference
             for fuel in fuels_to_plot:
-                ax3.plot(sfs, perc_diffs[fuel], color=fuel_colors[fuel])
+                lims = np.array(fuel_limitations[fuel])
+                for lim in ['mass', 'volume']:
+                    mask = lims == lim
+                    linestyle = '-' if lim == 'mass' else '--'
+                    ax3.plot(sfs[mask], perc_diffs[fuel][mask], color=fuel_colors[fuel], linestyle=linestyle)
             ax3.axhline(0, color='grey', linewidth=1.5, linestyle=':')
-            ax3.set_ylabel("% Cap  Diff", fontsize=22)
-            ax3.set_xlabel("Stowage Factor (m³/tonne)", fontsize=22)
+            ax3.set_ylabel("% Diff", fontsize=22)
+            ax3.set_xlabel("Stowage Factor (m$^3$/tonne)", fontsize=22)
 
-            # Legends
-            legend1 = ax1.legend(title="Fuel", fontsize=18, title_fontsize=22,
-                                 ncol=1, loc='upper left', bbox_to_anchor=(1.02, 1.0))
+            # Create and attach legends to the current figure
+            fuel_handles = [
+                Line2D([0], [0], color=fuel_colors[fuel], linestyle='-', label=get_fuel_label(fuel))
+                for fuel in fuels_to_plot
+            ]
+            fuel_handles.insert(0, Line2D([0], [0], color="black", linestyle='-', label="Fuel Oil", linewidth=2))
+            limit_handles = [
+                Line2D([0], [0], color='gray', linestyle='-', label='Mass-limited'),
+                Line2D([0], [0], color='gray', linestyle='--', label='Volume-limited'),
+            ]
+
+            legend1 = ax1.legend(
+                handles=fuel_handles,
+                title="Fuel",
+                fontsize=18,
+                title_fontsize=22,
+                ncol=1,
+                loc='upper left',
+                bbox_to_anchor=(1.02, 1.0)
+            )
             ax1.add_artist(legend1)
 
-            from matplotlib.lines import Line2D
-            ax1.legend(
-                handles=[
-                    Line2D([0], [0], color='gray', linestyle='-', label='Mass-limited'),
-                    Line2D([0], [0], color='gray', linestyle='--', label='Volume-limited'),
-                ],
+            legend2 = ax1.legend(
+                handles=limit_handles,
                 title="Limiting factor",
-                title_fontsize=22,
-                loc='upper left',
-                bbox_to_anchor=(1.02, -0.3),
                 fontsize=18,
+                title_fontsize=22,
+                ncol=1,
+                loc='upper left',
+                bbox_to_anchor=(1.02, -0.3)
             )
 
+            # --- Save version WITH legend ---
+            fig.subplots_adjust(right=0.65, hspace=0.3)
+            for ax in [ax1, ax2, ax3]:
+                ax.tick_params(axis="both", labelsize=18)
+            fig.savefig(f"{top_dir}/plots/cargo_loss_vs_sf_{vessel_size}_with_legend.png", dpi=300, bbox_inches='tight')
+            fig.savefig(f"{top_dir}/plots/cargo_loss_vs_sf_{vessel_size}_with_legend.pdf", bbox_inches='tight')
+            plt.close(fig)
+
+            print(f"Plot saved to {top_dir}/plots/cargo_loss_vs_sf_{vessel_size}_with_legend.png/pdf")
+
+            # --- Save version WITHOUT legend ---
+            fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 10), sharex=True, gridspec_kw={'height_ratios': [2.5, 2.5, 1.5]})
+
+            lsfo_lim = np.array(lsfo_limitations)
             for ax in [ax1, ax2, ax3]:
                 ax.tick_params(axis="both", labelsize=18)
 
-            fig.subplots_adjust(right=0.65, hspace=0.3)
-            plt.savefig(f"{top_dir}/plots/cargo_loss_vs_sf_{vessel_size}.png", dpi=300)
-            plt.savefig(f"{top_dir}/plots/cargo_loss_vs_sf_{vessel_size}.pdf")
+            # Re-plot cargo data
+            for lim in ['mass', 'volume']:
+                mask = lsfo_lim == lim
+                ax1.plot(sfs[mask], lsfo_mass_caps[mask], color='black', linestyle='-' if lim == 'mass' else '--', linewidth=2)
+                ax2.plot(sfs[mask], lsfo_vol_caps[mask], color='black', linestyle='-' if lim == 'mass' else '--', linewidth=2)
 
-            print(f"Plot saved to {top_dir}/plots/cargo_loss_vs_sf_{vessel_size}.png and .pdf")
+            for fuel in fuels_to_plot:
+                lims = np.array(fuel_limitations[fuel])
+                for lim in ['mass', 'volume']:
+                    mask = lims == lim
+                    linestyle = '-' if lim == 'mass' else '--'
+                    ax1.plot(sfs[mask], fuel_mass_caps[fuel][mask], color=fuel_colors[fuel], linestyle=linestyle)
+                    ax2.plot(sfs[mask], fuel_vol_caps[fuel][mask], color=fuel_colors[fuel], linestyle=linestyle)
+                    ax3.plot(sfs[mask], perc_diffs[fuel][mask], color=fuel_colors[fuel], linestyle=linestyle)
+
+            ax3.axhline(0, color='grey', linewidth=1.5, linestyle=':')
+
+            ax1.set_ylabel(r"$m_f^\text{cargo, eff}$ (tonnes)", fontsize=22)
+            ax2.set_ylabel(r"$V_f^\text{cargo, eff}$ (m$^3$)", fontsize=22)
+            ax3.set_ylabel("% Diff", fontsize=22)
+            ax3.set_xlabel("Stowage Factor (m$^3$/tonne)", fontsize=22)
+
+            fig.subplots_adjust(left=0.15, hspace=0.3)
+            fig.savefig(f"{top_dir}/plots/cargo_loss_vs_sf_{vessel_size}_no_legend.png", dpi=300, bbox_inches='tight')
+            fig.savefig(f"{top_dir}/plots/cargo_loss_vs_sf_{vessel_size}_no_legend.pdf", bbox_inches='tight')
+            plt.close(fig)
+
+            print(f"Plot saved to {top_dir}/plots/cargo_loss_vs_sf_{vessel_size}_no_legend.png/pdf")
+
+            # --- Save stacked, non-overlapping legend-only plot ---
+            legend_fig, legend_ax = plt.subplots(figsize=(17, 3))
+            legend_ax.axis('off')
+
+            fuel_legend = legend_ax.legend(
+                handles=fuel_handles,
+                title="Fuel",
+                title_fontsize=20,
+                fontsize=18,
+                loc='upper center',
+                bbox_to_anchor=(0.5, 1.0),
+                ncol=len(fuel_handles),
+                frameon=True,
+                borderpad=1
+            )
+
+            limit_legend = legend_ax.legend(
+                handles=limit_handles,
+                title="Limiting factor",
+                title_fontsize=20,
+                fontsize=18,
+                loc='lower center',
+                bbox_to_anchor=(0.5, 0.0),
+                ncol=len(limit_handles),
+                frameon=True,
+                borderpad=1
+            )
+
+            legend_ax.add_artist(fuel_legend)
+            legend_ax.add_artist(limit_legend)
+
+            legend_fig.tight_layout()
+            legend_fig.savefig(f"{top_dir}/plots/cargo_loss_vs_sf_{vessel_size}_legend_only.png", dpi=300, bbox_inches='tight')
+            legend_fig.savefig(f"{top_dir}/plots/cargo_loss_vs_sf_{vessel_size}_legend_only.pdf", bbox_inches='tight')
+            plt.close(legend_fig)
+
+            print(f"Legend saved to {top_dir}/plots/cargo_loss_vs_sf_{vessel_size}_legend_only.png/pdf")
+
 
 def make_modified_capacities_df(
     top_dir,
@@ -2767,7 +2833,7 @@ def plot_vessel_capacities(modified_capacities_df, capacity_type="mass", sf_dist
         "FTdiesel": "orange",
         "liquid_hydrogen": "red",
         "compressed_hydrogen": "purple",
-        "lng": "teal",
+        "lng": "magenta",
     }
 
     # Get the list of fuels from the dataframe
@@ -2904,16 +2970,39 @@ def plot_vessel_capacities(modified_capacities_df, capacity_type="mass", sf_dist
 
         # Adjust the layout of the bar axis
         if capacity_type == "mass":
-            ax_bars.set_ylabel("Capacity (tonnes)", fontsize=22)
+            ax_bars.set_ylabel(r"$m_f^\text{cargo, eff}$ (tonnes)", fontsize=22)
         elif capacity_type == "volume":
-            ax_bars.set_ylabel("Capacity (m$^3$)", fontsize=22)
+            ax_bars.set_ylabel(r"$V_f^\text{cargo, eff}$ (m$^3$)", fontsize=22)
         else:
             if vessel_capacity_dimensions[vessel] == "volume":
                 ax_bars.set_ylabel("Capacity (m$^3$)", fontsize=22)
             else:
                 ax_bars.set_ylabel("Capacity (tonnes)", fontsize=22)
 
-        ax_bars.set_title(f"{vessel_type_title[vessel_type]}", fontsize=24)
+        #ax_bars.set_title(f"{vessel_type_title[vessel_type]}", fontsize=24)
+        
+        # Adjust y-axis limits to make room for nominal legend
+        all_capacities = []
+
+        for vessel in vessels:
+            df_vessel = df_vessel_type[df_vessel_type["Vessel"] == vessel]
+            for fuel in fuel_colors.keys():
+                df_fuel = df_vessel[df_vessel["Fuel"] == fuel]
+                if not df_fuel.empty:
+                    all_capacities.append(df_fuel[lsfo_capacity_label].values[0])
+                    all_capacities.append(df_fuel[modified_capacity_label].values[0])
+
+            if with_sf:
+                df_ammonia = df_vessel[df_vessel["Fuel"] == "ammonia"]
+                if not df_ammonia.empty:
+                    if capacity_type == "volume":
+                        all_capacities.append(df_ammonia["Nominal capacity (m^3)"].values[0])
+                    else:
+                        all_capacities.append(df_ammonia["Nominal capacity (tonnes)"].values[0])
+
+        y_max = max(all_capacities)
+        ax_bars.set_ylim(0, y_max * 1.2)  # Add 10% headroom for legend
+
 
         # Create the first legend for fuel types
         fuel_legend = ax_bars.legend(
@@ -2926,10 +3015,10 @@ def plot_vessel_capacities(modified_capacities_df, capacity_type="mass", sf_dist
 
         # Create custom legend handles for nominal and modified capacities
         solid_patch = mpatches.Patch(
-            facecolor="grey", edgecolor="black", label="Fuel Oil Capacity", alpha=0.7
+            facecolor="grey", edgecolor="black", label="Conventional Fuel Oil", alpha=0.7
         )
         hatched_patch = mpatches.Patch(
-            facecolor="none", edgecolor="black", hatch="xxx", label="Modified Capacity"
+            facecolor="none", edgecolor="black", hatch="xxx", label="Alternative Fuel"
         )
 
         # Add the second legend for nominal and modified capacities
@@ -2939,10 +3028,22 @@ def plot_vessel_capacities(modified_capacities_df, capacity_type="mass", sf_dist
             loc="upper left",
             fontsize=18,
             title_fontsize=22,
+            title="Vessel Operating On"
         )
 
-        # Add the fuel legend back to avoid being overwritten by the second legend
+        # Add both legends to figure
         ax_bars.add_artist(fuel_legend)
+        ax_bars.add_artist(capacity_legend)
+
+        # Add nominal capacity legend inside upper right
+        nominal_line = Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="Nominal Capacity")
+        nominal_legend = ax_bars.legend(
+            handles=[nominal_line],
+            loc="upper right",
+            frameon=False,
+            fontsize=18
+        )
+        ax_bars.add_artist(nominal_legend)
 
         # Adjust the layout of the % difference panel
         ax_diff.set_ylabel("% Diff", fontsize=22)
@@ -2965,22 +3066,114 @@ def plot_vessel_capacities(modified_capacities_df, capacity_type="mass", sf_dist
         vessel_labels = [vessel_size_title[vessel] for vessel in vessels]
         ax_diff.set_xticklabels(vessel_labels, rotation=0, ha="center", fontsize=22)
 
-        # plt.tight_layout()
-        sf_label=""
-        if with_sf:
-            sf_label = "_with_sf"
+        # === 1. Plot with legends ===
+        sf_label = "_with_sf" if with_sf else ""
+
+        # Add third legend (nominal capacity) inside figure
+        nominal_line = Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="Nominal Capacity")
+        nominal_legend = ax_bars.legend(
+            handles=[nominal_line],
+            loc="upper right",
+            frameon=True,
+            fontsize=18
+        )
+        ax_bars.add_artist(nominal_legend)
+
+        fig.subplots_adjust(right=0.75)
         plt.savefig(
-            f"plots/modified_capacities_{vessel_type}_{capacity_type}_{sf_dist}{sf_label}.png",
-            dpi=300,
+            f"plots/modified_capacities_{vessel_type}_{capacity_type}_{sf_dist}{sf_label}_with_legend.png",
+            dpi=300, bbox_inches='tight'
         )
-        ax_bars.set_title("")
         plt.savefig(
-            f"plots/modified_capacities_{vessel_type}_{capacity_type}_{sf_dist}{sf_label}.pdf"
+            f"plots/modified_capacities_{vessel_type}_{capacity_type}_{sf_dist}{sf_label}_with_legend.pdf",
+            bbox_inches='tight'
         )
-        print(
-            f"Plot saved to plots/modified_capacities_{vessel_type}_{capacity_type}_{sf_dist}{sf_label}.png and .pdf"
+
+        print(f"Plot saved to plots/modified_capacities_{vessel_type}_{capacity_type}_{sf_dist}{sf_label}_with_legend.png/.pdf")
+
+        # === 2. Plot without legends ===
+        fuel_legend.remove()
+        capacity_legend.remove()
+        #nominal_legend.remove()
+
+        # Make narrower version
+        fig.set_size_inches(10, 8)
+        fig.subplots_adjust(right=0.95)
+
+        plt.savefig(
+            f"plots/modified_capacities_{vessel_type}_{capacity_type}_{sf_dist}{sf_label}_no_legend.png",
+            dpi=300, bbox_inches='tight'
         )
+        plt.savefig(
+            f"plots/modified_capacities_{vessel_type}_{capacity_type}_{sf_dist}{sf_label}_no_legend.pdf",
+            bbox_inches='tight'
+        )
+        print(f"Plot saved to plots/modified_capacities_{vessel_type}_{capacity_type}_{sf_dist}{sf_label}_no_legend.png/.pdf")
         plt.close()
+
+        # === 3. Standalone legend figures ===
+
+        # Fuel legend (single row)
+        fuel_handles = [
+            Line2D([0], [0], color=color, label=get_fuel_label(fuel), linewidth=10)
+            for fuel, color in fuel_colors.items()
+        ]
+
+        legend_fig, legend_ax = plt.subplots(figsize=(14, 2))
+        legend_ax.axis('off')
+        legend = legend_ax.legend(
+            handles=fuel_handles,
+            loc='center',
+            ncol=len(fuel_handles),
+            fontsize=18,
+            title='Fuel',
+            title_fontsize=22,
+            frameon=True
+        )
+        legend_fig.tight_layout()
+        legend_fig.savefig(f"plots/modified_capacities_{vessel_type}_legend_fuels_row.png", dpi=300, bbox_inches='tight')
+        legend_fig.savefig(f"plots/modified_capacities_{vessel_type}_legend_fuels_row.pdf", bbox_inches='tight')
+        plt.close(legend_fig)
+
+        # Stacked legend
+        legend_fig, legend_ax = plt.subplots(figsize=(14, 2.5))
+        legend_ax.axis('off')
+
+        fuel_legend = legend_ax.legend(
+            handles=fuel_handles,
+            title="Alternative Fuel",
+            title_fontsize=20,
+            fontsize=18,
+            loc='upper center',
+            bbox_to_anchor=(0.5, 1.0),
+            ncol=len(fuel_handles),
+            frameon=True
+        )
+
+        alt_fuel_handles = [
+            mpatches.Patch(facecolor="grey", edgecolor="black", label="Conventional Fuel Oil", alpha=0.7),
+            mpatches.Patch(facecolor="none", edgecolor="black", hatch="xxx", label="Alternative Fuel"),
+        ]
+        capacity_legend = legend_ax.legend(
+            handles=alt_fuel_handles,
+            title="Vessel Operating On",
+            title_fontsize=20,
+            fontsize=18,
+            loc='lower center',
+            bbox_to_anchor=(0.5, 0.0),
+            ncol=2,
+            frameon=True
+        )
+
+        legend_ax.add_artist(fuel_legend)
+        legend_ax.add_artist(capacity_legend)
+
+        legend_fig.tight_layout()
+        legend_fig.savefig(f"plots/modified_capacities_{vessel_type}_legend_stacked.png", dpi=300, bbox_inches='tight')
+        legend_fig.savefig(f"plots/modified_capacities_{vessel_type}_legend_stacked.pdf", bbox_inches='tight')
+        plt.close(legend_fig)
+
+        print(f"Legend-only figures saved for {vessel_type}.")
 
 
 def calculate_cargo_miles(top_dir, fuel, vessel_class, modified_capacities_df):
@@ -3389,8 +3582,8 @@ def main():
         fuels, LHV_dict, mass_density_dict, eff_dict, boiloff_rate_dict, sec_dict
     )
     save_tank_size_factors(top_dir, tank_size_factors_dict, vessel_range=None)
-    plot_tank_size_factors_boiloff(tank_size_factors_dict, days_to_empty_tank_dict)
-    plot_tank_size_factors(tank_size_factors_dict, no_diesel=True)
+#    plot_tank_size_factors_boiloff(tank_size_factors_dict, days_to_empty_tank_dict)
+#    plot_tank_size_factors(tank_size_factors_dict, no_diesel=True)
 
     cargo_info_df = pd.read_csv(f"{top_dir}/info_files/assumed_cargo_density.csv")
     vessel_info_df = fetch_and_save_vessel_info(cargo_info_df, eff_dict)
@@ -3398,7 +3591,8 @@ def main():
 
     # capacities_dict = get_modified_cargo_capacities("bulk_carrier_capesize", "liquid_hydrogen", cargo_info_df, mass_density_dict, tank_size_factors_dict, plot_dist=True)
 
-    plot_cargo_loss_vs_sf(cargo_info_df, mass_density_dict, tank_size_factors_dict, fuels, no_diesel=True)
+#    plot_cargo_loss_vs_sf(cargo_info_df, mass_density_dict, tank_size_factors_dict, fuels, no_diesel=True)
+    
     sf_dist = "central"
     modified_capacities_df = make_modified_capacities_df(
        top_dir,
@@ -3410,23 +3604,23 @@ def main():
        sf_dist=sf_dist,
        plot_dist=False,
     )
-    modified_capacities_df.to_csv(
-       f"{top_dir}/tables/modified_capacities.csv", index=False
-    )
-    print(
-       f"Saved modified cargo capacity info to {top_dir}/tables/modified_capacities.csv"
-    )
-    #     plot_vessel_capacities(modified_capacities_df, capacity_type="mass")
-    #     plot_vessel_capacities(modified_capacities_df, capacity_type="volume")
+#    modified_capacities_df.to_csv(
+#       f"{top_dir}/tables/modified_capacities.csv", index=False
+#    )
+#    print(
+#       f"Saved modified cargo capacity info to {top_dir}/tables/modified_capacities.csv"
+#    )
+#    plot_vessel_capacities(modified_capacities_df, capacity_type="mass")
+#    plot_vessel_capacities(modified_capacities_df, capacity_type="volume")
     plot_vessel_capacities(modified_capacities_df, capacity_type="mass", sf_dist=sf_dist, no_diesel=True, with_sf=True)
-    plot_vessel_capacities(modified_capacities_df, capacity_type="volume", sf_dist=sf_dist, no_diesel=True, with_sf=True)
-
-    make_modified_vessel_incs(
-       top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
-    )
-    make_modified_tank_incs(
-       top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
-    )
+#    plot_vessel_capacities(modified_capacities_df, capacity_type="volume", sf_dist=sf_dist, no_diesel=True, with_sf=True)
+#
+#    make_modified_vessel_incs(
+#       top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
+#    )
+#    make_modified_tank_incs(
+#       top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
+#    )
 
     """
     # Next, consider a range of vessel design ranges
@@ -3450,10 +3644,10 @@ def main():
     """
 
     # cargo_miles_cbm, cargo_miles_tonnes = calculate_cargo_miles(top_dir, "lsfo", "bulk_carrier_handy", modified_capacities_df)
-
-    cargo_miles_df = make_cargo_miles_df(
-       top_dir, vessels, fuels, modified_capacities_df
-    )
+#
+#    cargo_miles_df = make_cargo_miles_df(
+#       top_dir, vessels, fuels, modified_capacities_df
+#    )
 
 
 if __name__ == "__main__":

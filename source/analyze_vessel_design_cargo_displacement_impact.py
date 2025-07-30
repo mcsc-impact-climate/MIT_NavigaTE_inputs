@@ -1035,7 +1035,7 @@ def plot_cargo_loss_vs_param_with_mc(
                 num_bins + 1,
             )
         else:
-            bins = np.linspace(x_lim[0], x_lim[1], num_bins + 1)
+            bins = np.linspace(max(min(parameter_values_mc_df_cp["product"]), x_lim[0]), x_lim[1], num_bins + 1)
         bin_centers = 0.5 * (bins[:-1] + bins[1:])  # Calculate bin centers
 
         # Calculate binned averages for volume and mass
@@ -1077,11 +1077,13 @@ def plot_cargo_loss_vs_param_with_mc(
                 linestyle="-",
                 linewidth=4,
             )
-        ax.set_xlabel(param_name_title, fontsize=24)
+        ax.set_xlabel(param_name_title, fontsize=26)
+        ax.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
+        ax.xaxis.offsetText.set_fontsize(22)
         if capacity_type == "volume":
-            ax.set_ylabel(r"CL$_f^\text{volume}$", fontsize=24)
+            ax.set_ylabel(r"CL$_f^\text{volume}$", fontsize=28)
         else:
-            ax.set_ylabel(r"CL$_f^\text{mass}$", fontsize=24)
+            ax.set_ylabel(r"CL$_f^\text{mass}$", fontsize=28)
         ymin, ymax = ax.get_ylim()
         cargo_loss_min = parameter_values_df_cp.loc[
             parameter_values_df_cp["Vessel"] == "Minimum", f"cargo_loss_{capacity_type}"
@@ -1091,7 +1093,7 @@ def plot_cargo_loss_vs_param_with_mc(
         ].iloc[0]
         ax.set_ylim(
             cargo_loss_min - 0.5 * (cargo_loss_max - cargo_loss_min),
-            max(0.05, cargo_loss_max + 0.5 * (cargo_loss_max - cargo_loss_min))
+            max(0.002, cargo_loss_max + 0.5 * (cargo_loss_max - cargo_loss_min))
         )
         param_name_save_plot = ""
         for param in params_powers:
@@ -1103,7 +1105,7 @@ def plot_cargo_loss_vs_param_with_mc(
         
         # Add a legend
         fig.set_size_inches(13, 6)
-        fig.legend(loc="center left", bbox_to_anchor=(0.68, 0.55), fontsize=16)
+        fig.legend(loc="center left", bbox_to_anchor=(0.655, 0.56), fontsize=20)
 
         # Adjust layout
         plt.tight_layout(
@@ -1138,8 +1140,6 @@ def plot_cargo_loss_vs_param_with_mc(
         print(f"Legend saved to {legend_path_base}.png and .pdf")
         plt.close(legend_fig)
         
-        
-
 
 def plot_x_vs_y_with_mc(
     fuel,
@@ -2071,7 +2071,7 @@ def main():
 
     params_powers = {
         "$R$ (nautical miles)": {"R (nm)": 1},
-        r"$V_o^\text{tank}$ (m^3)": {"V_o_tank (m^3)": 1},
+        r"$V_o^\text{tank}$ (m$^3$)": {"V_o_tank (m^3)": 1},
         r"$V_o^\text{cargo}$ (m$^3$)": {"V_c (m^3)": 1},
         r"$m_o^\text{cargo}$ (kg)": {"m_c (kg)": 1},
         r"s^\text{av} (knots)": {"s_av (knots)": 1},
@@ -2081,9 +2081,8 @@ def main():
             "V_o_tank (m^3)": 1,
             "V_c (m^3)": -1,
         },
-        r"$\frac{P^\text{av}/s^\text{av}}{V_o^\text{cargo}}$ (MJ / nautical mile / m$^3$)": {
+        r"$\frac{P^\text{av}}{m_o^\text{cargo}}$ (MJ / nautical mile / kg)": {
             "P_av (MW)": 1,
-            "s_av (knots)": -1,
             "m_c (kg)": -1,
         },
         r"$\alpha^\text{mass}$": {
@@ -2106,7 +2105,7 @@ def main():
         r"$\alpha^\text{mass}$": r"$\alpha^\text{mass}$",
         "$N$ (days)": r"$N$",
         r"$f^\text{port}N$ (days)": r"$f^\text{port}N$ (days)",
-        r"$\frac{P^\text{av}/s^\text{av}}{V_o^\text{cargo}}$ (MJ / nautical mile / m$^3$)": r"$\frac{P^\text{av}/s^\text{av}}{V_o^\text{cargo}}$ (MJ / nautical mile / m$^3$)",
+        r"$\frac{P^\text{av}}{m_o^\text{cargo}}$ (MJ / nautical mile / kg)": r"$\frac{P^\text{av}}{m_o^\text{cargo}}$ (MJ / nautical mile / kg)",
     }
 
     show_median_line = {
@@ -2121,25 +2120,31 @@ def main():
         r"$\alpha^\text{mass}$": False,
         "$N$ (days)": True,
         r"$f^\text{port}N$ (days)": True,
-        r"$\frac{P^\text{av}/s^\text{av}}{V_o^\text{cargo}}$ (MJ / nautical mile / m$^3$)": True
+        r"$\frac{P^\text{av}}{m_o^\text{cargo}}$ (MJ / nautical mile / kg)": True
+    }
+    
+    alpha_mass_xlims = {
+        "liquid_hydrogen": [-0.0025, 0.01],
+        "lng": [-0.005, 0.08]
     }
 
-    x_lims = {
-        "$R$ (nautical miles)": None,
-        r"$V_o^\text{tank}$ (m$^3$)": None,
-        r"$f^\text{port}$": None,
-        r"$f^\text{pilot}$": None,
-        r"$V_o^\text{cargo}$ (m$^3$)": None,
-        r"$m_o^\text{cargo}$ (kg)": None,
-        r"s^\text{av} (knots)": None,
-        r"$\alpha^\text{volume}$": [-0.05, 0.2],
-        r"$\alpha^\text{mass}$": [-0.025, 0.1],
-        "$N$ (days)": [0, 350],
-        r"$f^\text{port}N$ (days)": [0, 150],
-        r"$\frac{P^\text{av}/s^\text{av}}{V_o^\text{cargo}}$ (MJ / nautical mile / m$^3$)": None
-    }
-
-    for fuel in ["methanol"]: #["methanol", "ammonia", "liquid_hydrogen", "lng"]:
+    for fuel in ["methanol"]:#["methanol", "ammonia", "liquid_hydrogen", "lng"]:
+    
+        x_lims = {
+            "$R$ (nautical miles)": None,
+            r"$V_o^\text{tank}$ (m$^3$)": None,
+            r"$f^\text{port}$": None,
+            r"$f^\text{pilot}$": None,
+            r"$V_o^\text{cargo}$ (m$^3$)": None,
+            r"$m_o^\text{cargo}$ (kg)": None,
+            r"s^\text{av} (knots)": None,
+            r"$\alpha^\text{volume}$": [-0.05, 0.2],
+            r"$\alpha^\text{mass}$": alpha_mass_xlims[fuel] if fuel in alpha_mass_xlims else None,
+            "$N$ (days)": [0, 350],
+            r"$f^\text{port}N$ (days)": [0, 150],
+            r"$\frac{P^\text{av}}{m_o^\text{cargo}}$ (MJ / nautical mile / kg)": [-0.3e-7, 4e-7]
+        }
+    
         parameter_values_df = get_parameter_values(
             nominal_vessel_params_df, fuel_params_df, fuel
         )
@@ -2246,7 +2251,7 @@ def main():
 #            color_gradient_title="Fractional Cargo Loss (mass)",
 #        )
 #
-        for param_title in [r"$\frac{P^\text{av}/s^\text{av}}{V_o^\text{cargo}}$ (MJ / nautical mile / m$^3$)"]:#params_powers:
+        for param_title in [r"$\frac{P^\text{av}}{m_o^\text{cargo}}$ (MJ / nautical mile / kg)"]:#params_powers:
             plot_cargo_loss_vs_param_with_mc(
                 fuel,
                 parameter_values_df,
