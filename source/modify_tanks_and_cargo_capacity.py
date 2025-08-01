@@ -1849,7 +1849,7 @@ def make_modified_vessel_incs(
                 if line.strip().startswith("Tanks"):
                     # Optional: LSFO-specific tank line, or keep the same
                     content_lsfo_mod[i] = (
-                        f'    Tanks = [Tank("main_lsfo_{vessel_class}"), Tank("pilot_oil_bulk_carrier_capesize")]\n'
+                        f'    Tanks = [Tank("main_lsfo_{vessel_class}")]\n'
                     )
 
             # Write LSFO outputs
