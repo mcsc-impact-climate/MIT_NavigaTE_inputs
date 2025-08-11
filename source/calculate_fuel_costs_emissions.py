@@ -39,7 +39,6 @@ def build_context() -> Dict[str, Dict]:
     G = ctx["glob"]
     M = ctx["molecular_info"]
     T = ctx["tech"]
-    print(T)
     D = ctx["derived"]
     top_dir = ctx["top_dir"]
 
@@ -835,37 +834,53 @@ def calculate_production_costs_emissions_LSNG(
     elect_emissions_intensity: float,
     labor_rate: float,
 ):
-    # --- incremental liquefaction block (reuse your LNG pattern) ------
+    """
+    Return TOTAL costs/emissions for liquefied SNG:
+      = SNG (core synthesis block + H2/CO2 feeds) + liquefaction increment
+    """
+
+    # --- liquefaction increment (reuse LNG pattern/inputs) ------------
     capex_liq = (
         CTX["tech"]["NG_liq"]["base_CapEx_2018"]["value"]
-        * CTX["glob"]["2018_to_2024_USD"]["value"]   # inflate to 2024$
+        * CTX["glob"]["2018_to_2024_USD"]["value"]
         * instal_factor
     )
+
     opex_liq_components = {
-        "Liquefaction Facility O&M": (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]) * capex_liq,
+        "Liquefaction Facility O&M": (
+            CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]
+        ) * capex_liq,
         "NG for Liquefaction": CTX["derived"]["NG_liq_NG_demand_GJ"] * NG_price,
         "Water for Liquefaction": CTX["derived"]["NG_liq_water_demand"] * water_price,
         "Electricity for Liquefaction": CTX["derived"]["NG_liq_elect_demand"] * elect_price,
     }
+
     emiss_liq_components = {
         "Onsite CO2 Emissions for Liquefaction": CTX["derived"]["NG_liq_CO2_emissions"],
         "CH4 Leakage for Liquefaction": CTX["derived"]["NG_liq_CH4_leakage"] * CTX["glob"]["NG_GWP"]["value"],
         "Electricity Demand for Liquefaction": CTX["derived"]["NG_liq_elect_demand"] * elect_emissions_intensity,
     }
 
-    # --- underlying SNG (core) ---------------------------------------
-    capex_sng, opex_sng, emiss_sng, capex_sng_c, opex_sng_c, emiss_sng_c = calculate_production_costs_emissions_SNG(
+    # --- underlying SNG total (core) ----------------------------------
+    capex_sng, opex_sng, emiss_sng, cap_sng_c, op_sng_c, em_sng_c = calculate_production_costs_emissions_SNG(
         H_pathway, C_pathway, instal_factor, water_price, NG_price, LCB_price,
         LCB_upstream_emissions, elect_price, elect_emissions_intensity, labor_rate
     )
 
-    # totals (increment over SNG)
-    capex_components  = {"Liquefaction Facility": capex_liq}
-    opex_components   = {**opex_liq_components}
-    emiss_components  = {**emiss_liq_components}
+    # --- combine (TOTAL LSNG) -----------------------------------------
+    capex_components = {**cap_sng_c, "Liquefaction Facility": capex_liq}
+    opex_components  = {**op_sng_c, **opex_liq_components}
+    emiss_components = {**em_sng_c, **emiss_liq_components}
 
-    return (sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()),
-            capex_components, opex_components, emiss_components)
+    return (
+        sum(capex_components.values()),
+        sum(opex_components.values()),
+        sum(emiss_components.values()),
+        capex_components,
+        opex_components,
+        emiss_components,
+    )
+
 
 # ────────────────────────────────────────────────────────────────────
 # Compressed gaseous H₂ at 700 bar
@@ -1285,7 +1300,6 @@ def calculate_resource_demands_LSNG(H_pathway, C_pathway):
     ng    += CTX["derived"]["NG_liq_NG_demand_GJ"]
     water += CTX["derived"]["NG_liq_water_demand"]
     return elect, lcb, ng, water, co2
-
 
 
 def calculate_resource_demands_ammonia(H_pathway):
@@ -1965,6 +1979,47 @@ def main(save_breakdowns=False, year=None, include_demands=False):
                     emissions -= emissions_NGprod
                     fuel = "ng"
                     comment = "conversion of STP natural gas to liquid cryogenic natural gas at atmospheric pressure"
+                elif process == "sng_liquefaction":
+                    CapEx_LSNG, OpEx_LSNG, Emiss_LSNG, CapEx_LSNG_c, OpEx_LSNG_c, Emiss_LSNG_c = (
+                        calculate_production_costs_emissions_LSNG(
+                            # We pass through the actual H/C/E context via the loop’s selections
+                            "LTE",
+                            "DAC",           # used by SNG core
+                            instal_factor,
+                            water_price,
+                            NG_price,
+                            LCB_price,
+                            LCB_upstream_emissions,
+                            elect_price,
+                            elect_emissions_intensity,
+                            hourly_labor_rate,
+                        )
+                    )
+
+                    CapEx_SNG, OpEx_SNG, Emiss_SNG, CapEx_SNG_c, OpEx_SNG_c, Emiss_SNG_c = (
+                        calculate_production_costs_emissions_SNG(
+                            "LTE",
+                            "DAC",
+                            instal_factor,
+                            water_price,
+                            NG_price,
+                            LCB_price,
+                            LCB_upstream_emissions,
+                            elect_price,
+                            elect_emissions_intensity,
+                            hourly_labor_rate,
+                        )
+                    )
+
+                    # Incremental process costs/emissions (liquefaction-only)
+                    CapEx      = CapEx_LSNG - CapEx_SNG
+                    OpEx       = OpEx_LSNG  - OpEx_SNG
+                    emissions  = Emiss_LSNG - Emiss_SNG
+
+                    # (Optional) If saving component JSONs, you can also produce a component diff here.
+                    fuel = "sng"  # keep symmetry with your ng_liquefaction branch; set to "lsng" if you want the output product label instead.
+                    comment = "conversion of SNG at STP to liquid synthetic natural gas at atmospheric pressure"
+
                 CapEx *= 1000  # convert to $/tonne
                 OpEx *= 1000  # convert to $/tonne
                 LCOF = CapEx + OpEx  # in $/tonne
