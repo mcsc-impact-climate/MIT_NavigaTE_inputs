@@ -716,7 +716,7 @@ def calculate_production_costs_emissions_liquid_NG(
     water_price,
     NG_price,
     elect_price,
-        elect_emissions_intensity,
+    elect_emissions_intensity,
 ):
     """Incremental liquefaction block + generic NG feedstock."""
     # incremental liquefaction
@@ -1532,7 +1532,6 @@ def main(save_breakdowns=False, year=None, include_demands=False):
 
         # List to hold all rows for the output CSV
         output_data = []
-        # GE - list to hold all resource rows for the ouput csv
         output_resource_data = []
 
         # Iterate through each row in the input data and perform calculations
@@ -1629,9 +1628,11 @@ def main(save_breakdowns=False, year=None, include_demands=False):
                 elif E_pathway == "wind":
                     elect_price = wind_price
                     elect_emissions_intensity = wind_emissions_intensity
-                elif E_pathway == "nuke":
-                    elect_price = nuke_price
-                    elect_emissions_intensity = nuke_emissions_intensity
+                else:
+                    proj_price = load_projection_if_year_given(input_dir, "grid_electricity_price", region, year, "2024$/kWh")
+                    proj_emiss = load_projection_if_year_given(input_dir, "grid_electricity_emissions", region, year, "kgCO2e/kWh")
+                    elect_price = proj_price if proj_price is not None else grid_price
+                    elect_emissions_intensity = proj_emiss if proj_emiss is not None else grid_emissions_intensity
 
                 # Get the appropriate function for cost/emissions
                 if fuel in cost_emission_fn:
@@ -1846,17 +1847,21 @@ def main(save_breakdowns=False, year=None, include_demands=False):
                 E_pathway = E_pathways[pathway_index]
                 # Check whether we are working with grid or renewable electricity
                 if E_pathway == "grid":
-                    elect_price = grid_price
-                    elect_emissions_intensity = grid_emissions_intensity
+                    proj_price = load_projection_if_year_given(input_dir, "grid_electricity_price", region, year, "2024$/kWh")
+                    proj_emiss = load_projection_if_year_given(input_dir, "grid_electricity_emissions", region, year, "kgCO2e/kWh")
+                    elect_price = proj_price if proj_price is not None else grid_price
+                    elect_emissions_intensity = proj_emiss if proj_emiss is not None else grid_emissions_intensity
                 elif E_pathway == "solar":
                     elect_price = solar_price
                     elect_emissions_intensity = solar_emissions_intensity
                 elif E_pathway == "wind":
                     elect_price = wind_price
                     elect_emissions_intensity = wind_emissions_intensity
-                elif E_pathway == "nuke":
-                    elect_price = nuke_price
-                    elect_emissions_intensity = nuke_emissions_intensity
+                else:
+                    proj_price = load_projection_if_year_given(input_dir, "grid_electricity_price", region, year, "2024$/kWh")
+                    proj_emiss = load_projection_if_year_given(input_dir, "grid_electricity_emissions", region, year, "kgCO2e/kWh")
+                    elect_price = proj_price if proj_price is not None else grid_price
+                    elect_emissions_intensity = proj_emiss if proj_emiss is not None else grid_emissions_intensity
                 # Calculations use LTE pathway for all, but subtract away the LTE costs/emissions
                 if process == "hydrogen_liquefaction":
                     CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = (
@@ -2015,9 +2020,7 @@ def main(save_breakdowns=False, year=None, include_demands=False):
                     CapEx      = CapEx_LSNG - CapEx_SNG
                     OpEx       = OpEx_LSNG  - OpEx_SNG
                     emissions  = Emiss_LSNG - Emiss_SNG
-
-                    # (Optional) If saving component JSONs, you can also produce a component diff here.
-                    fuel = "sng"  # keep symmetry with your ng_liquefaction branch; set to "lsng" if you want the output product label instead.
+                    fuel = "sng"
                     comment = "conversion of SNG at STP to liquid synthetic natural gas at atmospheric pressure"
 
                 CapEx *= 1000  # convert to $/tonne
