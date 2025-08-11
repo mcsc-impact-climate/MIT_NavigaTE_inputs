@@ -291,6 +291,76 @@
       "source_url": null
     }
   },
+  "SNG": {
+    "elect_demand": {
+      "value": 0.21,
+      "units": "kWh/kg SNG",
+      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "extra_notes": "Electricity demand for NG synthesis from H2 and CO2.",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+    },
+    "H2_demand": {
+      "value": 0.50,
+      "units": "kg H2/kg SNG",
+      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+    },
+    "CO2_demand": {
+      "value": 2.75,
+      "units": "kg CO2/kg SNG",
+      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "extra_notes": "Carbon dioxide required per kg of synthetic natural gas.",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+    },
+    "NG_demand": {
+      "value": 0,
+      "units": "GJ/kg SNG",
+      "source": null,
+      "extra_notes": "No NG demand assumed for natural gas synthesis.",
+      "source_url": null
+    },
+    "LCB_demand": {
+      "value": 0,
+      "units": "kg / kg SNG",
+      "source": "Aspen Plus",
+      "extra_notes": "No LCB demand assumed in Aspen-based MeOH synthesis.",
+      "source_url": null
+    },
+    "water_demand": {
+      "value": 0.000189,
+      "units": "m^3/kg SNG",
+      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "extra_notes": "Water use for the methanation process.",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+    },
+    "base_CapEx_2016": {
+      "value": 0.141495,
+      "units": "2016$/kg SNG",
+      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+    },
+    "employees": {
+      "value": 68,
+      "units": "full-time equivalents",
+      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "extra_notes": "Estimated number of workers at SNG production facility.",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+    },
+    "yearly_output": {
+      "value": 170697030.75,
+      "units": "kg SNG/year",
+      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "extra_notes": "Annual production volume.",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+    },
+    "onsite_emissions": {
+      "value": 0.0126,
+      "units": "kg CO2e/kg SNG",
+      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "extra_notes": "Direct emissions from SNG production from H2 and CO2.",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+    }
+  },
   "NG_liq": {
     "base_CapEx_2018": {
       "value": 0.660,

@@ -39,6 +39,7 @@ def build_context() -> Dict[str, Dict]:
     G = ctx["glob"]
     M = ctx["molecular_info"]
     T = ctx["tech"]
+    print(T)
     D = ctx["derived"]
     top_dir = ctx["top_dir"]
 
@@ -390,6 +391,36 @@ PATHWAYS: Dict[str, Pathway] = {
             + c["derived"]["NG_liq_CH4_leakage"] * c["glob"]["NG_GWP"]["value"]
         ),
     ),
+    # ------------------------------------------------------------------
+    # Synthetic NG (pipeline conditions) – H2 + CO2 → CH4 core block
+    # ------------------------------------------------------------------
+    "SNG": Pathway(
+        elect_demand=lambda c: c["tech"]["SNG"]["elect_demand"]["value"],
+        lcb_demand=lambda c: 0.0,
+        ng_demand=lambda c: 0.0,  # no purchased NG in synthesis
+        water_demand=lambda c: c["tech"]["SNG"]["water_demand"]["value"],
+        base_capex=lambda c: c["tech"]["SNG"]["base_CapEx_2016"]["value"] * c["glob"]["2016_to_2024_USD"]["value"],
+        employees=lambda c: c["tech"]["SNG"]["employees"]["value"],
+        yearly_output=lambda c: c["tech"]["SNG"]["yearly_output"]["value"],
+        onsite_emiss=lambda c: c["tech"]["SNG"]["onsite_emissions"]["value"],
+    ),
+    # ------------------------------------------------------------------
+    # Liquefied SNG (LSNG) – incremental liquefaction over SNG
+    # ------------------------------------------------------------------
+    "LSNG": Pathway(
+        elect_demand=lambda c: c["derived"]["NG_liq_elect_demand"],
+        lcb_demand=lambda c: 0.0,
+        ng_demand=lambda c: c["derived"]["NG_liq_NG_demand_GJ"],
+        water_demand=lambda c: c["derived"]["NG_liq_water_demand"],
+        # We'll compute liquefaction CapEx explicitly in the LSNG function
+        base_capex=lambda c: 0.0,
+        employees=lambda c: 0,
+        yearly_output=lambda c: 1.0,
+        onsite_emiss=lambda c: (
+            c["derived"]["NG_liq_CO2_emissions"]
+            + c["derived"]["NG_liq_CH4_leakage"] * c["glob"]["NG_GWP"]["value"]
+        ),
+    ),
 }
 
 
@@ -657,7 +688,9 @@ def calculate_production_costs_emissions_liquid_hydrogen(
 
     return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
 
-
+# ────────────────────────────────────────────────────────────────────
+# Fossil natural gas at STP
+# ────────────────────────────────────────────────────────────────────
 def calculate_production_costs_emissions_NG(
     water_price, NG_price, elect_price, elect_emissions_intensity
 ):
@@ -676,7 +709,9 @@ def calculate_production_costs_emissions_NG(
         elec_intensity=elect_emissions_intensity
     )
 
-
+# ────────────────────────────────────────────────────────────────────
+# Liquefied fossil natural gas
+# ────────────────────────────────────────────────────────────────────
 def calculate_production_costs_emissions_liquid_NG(
     instal_factor,
     water_price,
@@ -718,7 +753,119 @@ def calculate_production_costs_emissions_liquid_NG(
     emiss_components = {**emiss_liq_components, **emiss_ng_components}
 
     return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
+    
+# ────────────────────────────────────────────────────────────────────
+# Synthetic natural gas at STP
+# ────────────────────────────────────────────────────────────────────
+def calculate_production_costs_emissions_SNG(
+    H_pathway: str,
+    C_pathway: str,
+    instal_factor: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_upstream_emissions: float,
+    elect_price: float,
+    elect_emissions_intensity: float,
+    labor_rate: float,
+):
+    # --- core SNG block (no feeds baked in) ---------------------------
+    elect = CTX["tech"]["SNG"]["elect_demand"]["value"]
+    water = CTX["tech"]["SNG"]["water_demand"]["value"]
+    ng = 0.0
+    employees = CTX["tech"]["SNG"]["employees"]["value"]
+    yearly_output = CTX["tech"]["SNG"]["yearly_output"]["value"]
 
+    capex_sng = CTX["tech"]["SNG"]["base_CapEx_2016"]["value"] * CTX["glob"]["2016_to_2024_USD"]["value"] * instal_factor
+
+    opex_sng_components = {
+        "SNG Production Labor": CTX["glob"]["workhours_per_year"]["value"] * labor_rate
+                                 * employees / yearly_output
+                                 * (1 + CTX["glob"]["gen_admin_rate"]["value"]),
+        "SNG Production O&M": (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]) * capex_sng,
+        "Electricity for SNG Production": elect * elect_price,
+        "Water for SNG Production": water * water_price,
+        "NG for SNG Production": ng * NG_price
+    }
+    emiss_sng_components = {
+        "Electricity for SNG Production": elect * elect_emissions_intensity,
+        "Onsite Emissions for SNG Production": CTX["tech"]["SNG"]["onsite_emissions"]["value"]
+    }
+
+    # --- H₂ feed (generic engine) ------------------------------------
+    H2_req = CTX["tech"]["SNG"]["H2_demand"]["value"]
+    prices = {"water": water_price, "ng": NG_price, "lcb": LCB_price, "elec": elect_price, "labor": labor_rate}
+    capex_h2, opex_h2, emiss_h2, capex_h2c, opex_h2c, emiss_h2c = generic_production(
+        H_pathway, "H2", instal_factor, prices, elect_emissions_intensity, lcb_upstream_emiss=LCB_upstream_emissions
+    )
+    capex_h2c = {k: v * H2_req for k, v in capex_h2c.items()}
+    opex_h2c  = {k: v * H2_req for k, v in opex_h2c.items()}
+    emiss_h2c = {k: v * H2_req for k, v in emiss_h2c.items()}
+
+    # --- CO₂ feed (credit-aware helper) -------------------------------
+    CO2_req = CTX["tech"]["SNG"]["CO2_demand"]["value"]
+    credit_sng = CTX["molecular_info"]["MW_CO2"]["value"] / CTX["molecular_info"]["MW_CH4"]["value"]
+    capex_c, opex_c, emiss_c, capex_cc, opex_cc, emiss_cc = _feed_co2(
+        C_pathway, credit_sng, prices, elect_emissions_intensity, CO2_req
+    )
+    capex_cc = {k: v * CO2_req for k, v in capex_cc.items()}
+    opex_cc  = {k: v * CO2_req for k, v in opex_cc.items()}
+
+    # --- combine -------------------------------------------------------
+    capex_components = {**capex_h2c, **capex_cc}
+    capex_components["SNG Production Facility"] = capex_sng
+    opex_components = {**opex_h2c, **opex_cc, **opex_sng_components}
+    emiss_components = {**emiss_h2c, **emiss_cc, **emiss_sng_components}
+
+    return (sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()),
+            capex_components, opex_components, emiss_components)
+
+# ────────────────────────────────────────────────────────────────────
+# Liquefied synthetic natural gas at atmospheric pressure
+# ────────────────────────────────────────────────────────────────────
+def calculate_production_costs_emissions_LSNG(
+    H_pathway: str,
+    C_pathway: str,
+    instal_factor: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_upstream_emissions: float,
+    elect_price: float,
+    elect_emissions_intensity: float,
+    labor_rate: float,
+):
+    # --- incremental liquefaction block (reuse your LNG pattern) ------
+    capex_liq = (
+        CTX["tech"]["NG_liq"]["base_CapEx_2018"]["value"]
+        * CTX["glob"]["2018_to_2024_USD"]["value"]   # inflate to 2024$
+        * instal_factor
+    )
+    opex_liq_components = {
+        "Liquefaction Facility O&M": (CTX["glob"]["op_maint_rate"]["value"] + CTX["glob"]["tax_rate"]["value"]) * capex_liq,
+        "NG for Liquefaction": CTX["derived"]["NG_liq_NG_demand_GJ"] * NG_price,
+        "Water for Liquefaction": CTX["derived"]["NG_liq_water_demand"] * water_price,
+        "Electricity for Liquefaction": CTX["derived"]["NG_liq_elect_demand"] * elect_price,
+    }
+    emiss_liq_components = {
+        "Onsite CO2 Emissions for Liquefaction": CTX["derived"]["NG_liq_CO2_emissions"],
+        "CH4 Leakage for Liquefaction": CTX["derived"]["NG_liq_CH4_leakage"] * CTX["glob"]["NG_GWP"]["value"],
+        "Electricity Demand for Liquefaction": CTX["derived"]["NG_liq_elect_demand"] * elect_emissions_intensity,
+    }
+
+    # --- underlying SNG (core) ---------------------------------------
+    capex_sng, opex_sng, emiss_sng, capex_sng_c, opex_sng_c, emiss_sng_c = calculate_production_costs_emissions_SNG(
+        H_pathway, C_pathway, instal_factor, water_price, NG_price, LCB_price,
+        LCB_upstream_emissions, elect_price, elect_emissions_intensity, labor_rate
+    )
+
+    # totals (increment over SNG)
+    capex_components  = {"Liquefaction Facility": capex_liq}
+    opex_components   = {**opex_liq_components}
+    emiss_components  = {**emiss_liq_components}
+
+    return (sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()),
+            capex_components, opex_components, emiss_components)
 
 # ────────────────────────────────────────────────────────────────────
 # Compressed gaseous H₂ at 700 bar
@@ -1107,6 +1254,38 @@ def calculate_resource_demands_liquid_NG():
     elect_demand += CTX["derived"]["NG_liq_elect_demand"]
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
+    
+def calculate_resource_demands_SNG(H_pathway, C_pathway):
+    elect = CTX["tech"]["SNG"]["elect_demand"]["value"]
+    water = CTX["tech"]["SNG"]["water_demand"]["value"]
+    ng = 0.0
+    lcb = 0.0
+    co2 = CTX["tech"]["SNG"]["CO2_demand"]["value"]
+
+    # Add H2 pathway demands (scaled by SNG H2 demand)
+    H2_e, H2_lcb, H2_ng, H2_w, H2_co2 = calculate_resource_demands_STP_hydrogen(H_pathway)
+    H2_req = CTX["tech"]["SNG"]["H2_demand"]["value"]
+    elect += H2_e * H2_req
+    lcb += H2_lcb * H2_req
+    ng += H2_ng * H2_req
+    water += H2_w * H2_req
+
+    # If DAC is the C pathway, add DAC upstream burdens (per kg CO2)
+    if C_pathway == "DAC":
+        ng += CTX["derived"]["DAC_CO2_upstream_NG"] * co2
+        water += CTX["derived"]["DAC_CO2_upstream_water"] * co2
+        elect += CTX["derived"]["DAC_CO2_upstream_elect"] * co2
+
+    return elect, lcb, ng, water, co2
+
+
+def calculate_resource_demands_LSNG(H_pathway, C_pathway):
+    elect, lcb, ng, water, co2 = calculate_resource_demands_SNG(H_pathway, C_pathway)
+    elect += CTX["derived"]["NG_liq_elect_demand"]
+    ng    += CTX["derived"]["NG_liq_NG_demand_GJ"]
+    water += CTX["derived"]["NG_liq_water_demand"]
+    return elect, lcb, ng, water, co2
+
 
 
 def calculate_resource_demands_ammonia(H_pathway):
@@ -1200,6 +1379,8 @@ resource_demand_fn = {
     "FTdiesel": calculate_resource_demands_FTdiesel,
     "ng": calculate_resource_demands_NG,
     "lng": calculate_resource_demands_liquid_NG,
+    "sng":  calculate_resource_demands_SNG,
+    "lsng": calculate_resource_demands_LSNG,
 }
 
 # Dispatch table for production cost + emissions
@@ -1212,17 +1393,21 @@ cost_emission_fn = {
     "FTdiesel": calculate_production_costs_emissions_FTdiesel,
     "ng": calculate_production_costs_emissions_NG,
     "lng": calculate_production_costs_emissions_liquid_NG,
+    "sng": calculate_production_costs_emissions_SNG,
+    "lsng": calculate_production_costs_emissions_LSNG,
 }
 
 fuel_comments = {
     "hydrogen": "hydrogen at standard temperature and pressure",
     "liquid_hydrogen": "Liquid cryogenic hydrogen at atmospheric pressure",
     "compressed_hydrogen": "compressed gaseous hydrogen at 700 bar",
-    "ammonia": "Liquid cryogenic ammonia at atmospheric pressure",
+    "ammonia": "liquid cryogenic ammonia at atmospheric pressure",
     "methanol": "liquid methanol at STP",
     "FTdiesel": "liquid Fischer--Tropsch diesel fuel at STP",
     "ng": "natural gas at standard temperature and pressure",
     "lng": "liquid natural gas at atmospheric pressure",
+    "sng": "synthetic natural gas at standard temperature and pressure",
+    "lsng": "liquid synthetic natural gas at atmospheric pressure",
 }
 
 def load_projection_if_year_given(input_dir, file_prefix, region, year, unit_label):
@@ -1344,23 +1529,9 @@ def main(save_breakdowns=False, year=None, include_demands=False):
 
 
             if include_demands:
-                if fuel == "ng":
-                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
-                        generic_demands("NG")
-                    )
-                    comment = "natural gas at standard temperature and pressure"
-                elif fuel == "lng":
-                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
-                        generic_demands("NG")
-                    )
-                    elect_demand += CTX["derived"]["NG_liq_elect_demand"]
-                    NG_demand += CTX["derived"]["NG_liq_NG_demand_GJ"]
-                    water_demand += CTX["derived"]["NG_liq_water_demand"]
-                    comment = "liquid natural gas at atmospheric pressure"
-
                 # Get resource demand function and call it
                 if fuel in resource_demand_fn:
-                    if fuel in ["methanol", "FTdiesel"]:
+                    if fuel in ["methanol", "FTdiesel", "sng", "lsng"]:
                         elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
                             resource_demand_fn[fuel](H_pathway, C_pathway)
                         )
@@ -1450,7 +1621,7 @@ def main(save_breakdowns=False, year=None, include_demands=False):
 
                 # Get the appropriate function for cost/emissions
                 if fuel in cost_emission_fn:
-                    if fuel in ["methanol", "FTdiesel"]:
+                    if fuel in ["methanol", "FTdiesel", "sng", "lsng"]:
                         CapEx, OpEx, emissions, CapEx_components, OpEx_components, emissions_components = cost_emission_fn[fuel](
                             H_pathway,
                             C_pathway,
