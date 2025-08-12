@@ -386,7 +386,14 @@ def collect_all_results(label=None):
         "ConsumedEnergy_lsfo",
     ]
 
-    all_results_df = pd.DataFrame(columns=columns)
+    dtypes = {
+    "Vessel": str, "Fuel": str, "Pathway": str, "Region": str, "Number": int,
+    "CAPEX": float, "FuelOPEX": float, "OPEX": float, "TotalCost": float,
+    "Miles": float, "CargoMiles": float,
+    "ConsumedEnergy_main": float, "ConsumedEnergy_lsfo": float,
+    }
+
+    all_results_df = pd.DataFrame({col: pd.Series(dtype=dt) for col, dt in dtypes.items()})
 
     # Read results for each file and add to the DataFrame
     results_filename = f"{input_dir}/lsfo-1_excel_report.csv"
@@ -452,9 +459,9 @@ def add_quantity_modifiers(all_results_df):
     -------
     None
     """
+    new_cols = {}
     for quantity in quantities:
         for evaluation_choice in evaluation_choices:
-            # Determine the column to divide by based on the evaluation choice
             if evaluation_choice == "per_mile":
                 column_divide = "Miles"
             elif evaluation_choice == "per_tonne_mile":
@@ -479,11 +486,19 @@ def add_quantity_modifiers(all_results_df):
                 continue
 
             # Compute evaluated quantity
-            all_results_df[f"{quantity}-{evaluation_choice}"] = (
-                all_results_df[f"{quantity}"] / all_results_df[column_divide]
-                if column_divide
-                else all_results_df[f"{quantity}"]
-            )
+            new_col_name = f"{quantity}-{evaluation_choice}"
+            new_cols[new_col_name] = all_results_df[quantity] / all_results_df[column_divide]
+
+    # Add all new columns using concat to avoid fragmentation
+    new_cols_df = pd.DataFrame(new_cols)
+
+    # Use concat instead of column assignment to avoid insert-based fragmentation
+    all_results_df = pd.concat([all_results_df, new_cols_df], axis=1)
+
+    # Defragment the DataFrame after all column additions
+    all_results_df = all_results_df.copy()
+
+    return all_results_df
 
 
 # GE - calculates quantities for the entire fleet
@@ -1368,7 +1383,7 @@ def main():
     all_results_df = add_total_consumed_energy(all_results_df)
 
     # Add evaluated quantities (per mile and per tonne-mile) to the dataframe
-    add_quantity_modifiers(all_results_df)
+    all_results_df = add_quantity_modifiers(all_results_df)
 
     # Append the region number to countries for which there's data for >1 region
     mark_countries_with_multiples(all_results_df)

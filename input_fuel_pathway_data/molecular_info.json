@@ -34,6 +34,12 @@
     "extra_notes": "Representative average molecular weight for FT diesel products from synthesis models.",
     "source_url": null
   },
+  "MW_CH4": {
+    "value": 16.043,
+    "units": "g/mol",
+    "source": "National Library of Medicine",
+    "source_url": "https://pubchem.ncbi.nlm.nih.gov/compound/Methane"
+  },
   "nC_FTdiesel": {
     "value": 12,
     "units": "carbon atoms",
