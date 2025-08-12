@@ -596,7 +596,9 @@ def _feed_co2(
     elif C_pathway == "BG":
         capex_components = {}
         opex_components = {}
-        emiss_components = {}  # biogenic credit already counted
+        emiss_components = {
+            "Captured Carbon Credit": -1.0 * credit_per_kg_fuel
+    }  
     else:
         raise ValueError(f"Unknown CO₂ pathway: {C_pathway}")
 
