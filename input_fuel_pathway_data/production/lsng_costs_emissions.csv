@@ -189,44 +189,44 @@ lsng,SMRCCS,BEC,grid,SMRCCS_H_BEC_C_grid_E,Mexico,1,2024,1098.2627966610346,954.
 lsng,SMRCCS,BEC,grid,SMRCCS_H_BEC_C_grid_E,Thailand,1,2024,1110.7430557140008,1334.152926297767,2444.895982011768,-0.6814457826230288,liquid synthetic natural gas at atmospheric pressure
 lsng,SMRCCS,BEC,grid,SMRCCS_H_BEC_C_grid_E,Russia,1,2024,1179.3844805053154,590.1638542502286,1769.5483347555441,-0.8134442262788257,liquid synthetic natural gas at atmospheric pressure
 lsng,SMRCCS,BEC,grid,SMRCCS_H_BEC_C_grid_E,Saudi Arabia,1,2024,1191.864739558282,375.45603417548784,1567.3207737337698,-0.6839600386926629,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,South Africa,1,2024,1136.612358585,566.4548108209017,1703.0671694059017,1.7152227953854895,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Taiwan,1,2024,1118.3779357199999,695.3728320500691,1813.750767770069,1.662042697291045,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Switzerland,1,2024,1343.269151055,1272.8192098252905,2616.0883608802906,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Singapore,1,2024,1124.4560766750003,1194.9928300811341,2319.4489067561344,1.5622389515521562,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Hungary,1,2024,1094.0653719000002,780.2004594229228,1874.265831322923,1.3320346913077117,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Philippines,1,2024,1087.987230945,653.1098156386479,1741.0970465836479,1.6452873239188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Netherlands,1,2024,1246.018895775,1017.5714209366072,2263.590316711607,1.3830293059188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Norway,1,2024,1379.7379967850002,912.2285884545919,2291.966585239592,1.221303528152156,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Oman,1,2024,1160.924922405,634.8990335781086,1795.8239559831086,1.5957496982966004,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Italy,1,2024,1167.00306336,1202.9685091586616,2369.9715725186616,1.4085266132243786,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Austria,1,2024,1264.2533186400003,1059.2871563796475,2323.5404750196476,1.273755131752156,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Finland,1,2024,1312.8784462800002,958.7765266924534,2271.654972972454,1.2511718024243785,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Portugal,1,2024,1106.2216538100001,838.392134849321,1944.613788659321,1.280311582202156,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Germany,1,2024,1252.0970367300001,1047.5153348024817,2299.612371532482,1.4493223049132673,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Greece,1,2024,1118.37793572,803.8220440986083,1922.1999798186084,1.4318384370466004,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,France,1,2024,1227.78447291,986.5670521022154,2214.3515250122155,1.230773956579934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Brazil,1,2024,1118.3779357199999,837.0739663887323,1955.4519021087322,1.273755131752156,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,United Kingdom,1,2024,1294.644023415,1072.474100841945,2367.118124256945,1.3524325371521562,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Spain,1,2024,1130.53421763,825.1981619283417,1955.7323795583418,1.3050803950132672,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Sweden,1,2024,1337.1910101,1066.7559259843756,2403.946936084376,1.2249460006243784,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Czech Republic,1,2024,1106.2216538100001,857.4983169989827,1963.719970808983,1.5003169195243784,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Japan,1,2024,1312.8784462800002,904.8005444535524,2217.6789907335524,1.5498545451466006,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Belgium,1,2024,1246.018895775,951.2714078058873,2197.290303580887,1.2992524390577118,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Poland,1,2024,1124.4560766750003,1005.9980432071198,2130.4541198821203,1.6467443129077117,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,India,1,2024,1075.830949035,690.9966292973115,1766.8275783323115,1.714494300891045,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Indonesia,1,2024,978.580693755,731.3851841291053,1709.9658778841053,1.6693276422354895,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,South Korea,1,2024,1142.69049954,772.2742826157993,1914.9647821557992,1.5003169195243784,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,China,1,2024,1112.2997947650001,674.9873735230882,1787.2871682880882,1.6066771157132673,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,United Arab Emirates,1,2024,1160.924922405,567.5382227988422,1728.463145203842,1.4777335901966004,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,United States,1,2024,1215.628191,775.2928949065073,1990.9210859065074,1.478462084691045,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Turkey,1,2024,1112.2997947650001,656.5041188759645,1768.8039136409648,1.5411126112132671,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Australia,1,2024,1246.018895775,868.7371899861007,2114.7560857611006,1.6008491597577117,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Malaysia,1,2024,1063.6746671249998,624.3601077417101,1688.03477486671,1.638730873468823,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Canada,1,2024,1239.9407548200002,683.2868656119982,1923.2276204319983,1.326206735352156,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Mexico,1,2024,1069.75280808,655.4840961476311,1725.2369042276312,1.5811798084077118,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Thailand,1,2024,1081.9090899900002,628.7172790388366,1710.626369028837,1.6023061487466006,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Russia,1,2024,1148.7686404950002,554.3302884812081,1703.0989289762083,1.525814226829934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,grid,BG_H_C_grid_E,Saudi Arabia,1,2024,1160.924922405,534.4443144731746,1695.3692368781744,1.6008491597577117,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,South Africa,1,2024,1136.612358585,566.4548108209017,1703.0671694059017,-1.028029713496889,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Taiwan,1,2024,1118.3779357199999,695.3728320500691,1813.750767770069,-1.0812098115913336,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Switzerland,1,2024,1343.269151055,1272.8192098252905,2616.0883608802906,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Singapore,1,2024,1124.4560766750003,1194.9928300811341,2319.4489067561344,-1.1810135573302223,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Hungary,1,2024,1094.0653719000002,780.2004594229228,1874.265831322923,-1.4112178175746668,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Philippines,1,2024,1087.987230945,653.1098156386479,1741.0970465836479,-1.0979651849635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Netherlands,1,2024,1246.018895775,1017.5714209366072,2263.590316711607,-1.3602232029635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Norway,1,2024,1379.7379967850002,912.2285884545919,2291.966585239592,-1.5219489807302224,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Oman,1,2024,1160.924922405,634.8990335781086,1795.8239559831086,-1.147502810585778,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Italy,1,2024,1167.00306336,1202.9685091586616,2369.9715725186616,-1.334725895658,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Austria,1,2024,1264.2533186400003,1059.2871563796475,2323.5404750196476,-1.4694973771302224,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Finland,1,2024,1312.8784462800002,958.7765266924534,2271.654972972454,-1.4920807064580002,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Portugal,1,2024,1106.2216538100001,838.392134849321,1944.613788659321,-1.4629409266802225,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Germany,1,2024,1252.0970367300001,1047.5153348024817,2299.612371532482,-1.2939302039691112,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Greece,1,2024,1118.37793572,803.8220440986083,1922.1999798186084,-1.311414071835778,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,France,1,2024,1227.78447291,986.5670521022154,2214.3515250122155,-1.5124785523024447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Brazil,1,2024,1118.3779357199999,837.0739663887323,1955.4519021087322,-1.4694973771302224,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,United Kingdom,1,2024,1294.644023415,1072.474100841945,2367.118124256945,-1.3908199717302223,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Spain,1,2024,1130.53421763,825.1981619283417,1955.7323795583418,-1.4381721138691115,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Sweden,1,2024,1337.1910101,1066.7559259843756,2403.946936084376,-1.518306508258,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Czech Republic,1,2024,1106.2216538100001,857.4983169989827,1963.719970808983,-1.242935589358,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Japan,1,2024,1312.8784462800002,904.8005444535524,2217.6789907335524,-1.193397963735778,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Belgium,1,2024,1246.018895775,951.2714078058873,2197.290303580887,-1.4440000698246669,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Poland,1,2024,1124.4560766750003,1005.9980432071198,2130.4541198821203,-1.0965081959746668,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,India,1,2024,1075.830949035,690.9966292973115,1766.8275783323115,-1.0287582079913336,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Indonesia,1,2024,978.580693755,731.3851841291053,1709.9658778841053,-1.073924866646889,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,South Korea,1,2024,1142.69049954,772.2742826157993,1914.9647821557992,-1.242935589358,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,China,1,2024,1112.2997947650001,674.9873735230882,1787.2871682880882,-1.1365753931691112,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,United Arab Emirates,1,2024,1160.924922405,567.5382227988422,1728.463145203842,-1.265518918685778,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,United States,1,2024,1215.628191,775.2928949065073,1990.9210859065074,-1.2647904241913335,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Turkey,1,2024,1112.2997947650001,656.5041188759645,1768.8039136409648,-1.2021398976691113,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Australia,1,2024,1246.018895775,868.7371899861007,2114.7560857611006,-1.1424033491246668,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Malaysia,1,2024,1063.6746671249998,624.3601077417101,1688.03477486671,-1.1045216354135554,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Canada,1,2024,1239.9407548200002,683.2868656119982,1923.2276204319983,-1.4170457735302222,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Mexico,1,2024,1069.75280808,655.4840961476311,1725.2369042276312,-1.1620727004746667,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Thailand,1,2024,1081.9090899900002,628.7172790388366,1710.626369028837,-1.1409463601357779,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Russia,1,2024,1148.7686404950002,554.3302884812081,1703.0989289762083,-1.2174382820524445,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,grid,BG_H_C_grid_E,Saudi Arabia,1,2024,1160.924922405,534.4443144731746,1695.3692368781744,-1.1424033491246668,liquid synthetic natural gas at atmospheric pressure
 lsng,ATRCCS,DAC,grid,ATRCCS_H_DAC_C_grid_E,South Africa,1,2024,1123.9056647283767,1122.626572003127,2246.532236731504,0.6154918180555731,liquid synthetic natural gas at atmospheric pressure
 lsng,ATRCCS,DAC,grid,ATRCCS_H_DAC_C_grid_E,Taiwan,1,2024,1105.875092566959,1930.8271611159141,3036.702253682873,0.38688202059950033,liquid synthetic natural gas at atmospheric pressure
 lsng,ATRCCS,DAC,grid,ATRCCS_H_DAC_C_grid_E,Switzerland,1,2024,1328.2521492244452,5683.754432834036,7012.006582058481,-1.4889709749647169,liquid synthetic natural gas at atmospheric pressure
@@ -645,44 +645,44 @@ lsng,SMRCCS,BEC,solar,SMRCCS_H_BEC_C_solar_E,Mexico,1,2024,1098.2627966610346,77
 lsng,SMRCCS,BEC,solar,SMRCCS_H_BEC_C_solar_E,Thailand,1,2024,1110.7430557140008,1235.2043786773118,2345.9474343913125,-1.3313809766234774,liquid synthetic natural gas at atmospheric pressure
 lsng,SMRCCS,BEC,solar,SMRCCS_H_BEC_C_solar_E,Russia,1,2024,1179.3844805053154,593.9352383546801,1773.3197188599956,-1.3313809766234774,liquid synthetic natural gas at atmospheric pressure
 lsng,SMRCCS,BEC,solar,SMRCCS_H_BEC_C_solar_E,Saudi Arabia,1,2024,1191.864739558282,344.78211012595017,1536.6468496842322,-1.3313809766234774,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,South Africa,1,2024,1136.612358585,555.3816945053461,1691.9940530903461,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Taiwan,1,2024,1118.3779357199999,597.4631719967356,1715.8411077167355,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Switzerland,1,2024,1343.269151055,1112.2590232497346,2455.5281743047344,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Singapore,1,2024,1124.4560766750003,1028.1967306331342,2152.6528073081345,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Hungary,1,2024,1094.0653719000002,697.1885117809783,1791.2538836809786,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Philippines,1,2024,1087.987230945,585.6512254530924,1673.6384563980923,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Netherlands,1,2024,1246.018895775,891.0319272516072,2137.050823026607,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Norway,1,2024,1379.7379967850002,889.3538613290364,2269.0918581140368,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Oman,1,2024,1160.924922405,520.6710968492199,1681.5960192542198,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Italy,1,2024,1167.00306336,908.0010883581061,2075.004151718106,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Austria,1,2024,1264.2533186400003,891.4420248596475,2155.6953434996476,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Finland,1,2024,1312.8784462800002,932.9878215891201,2245.8662678691203,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Portugal,1,2024,1106.2216538100001,762.6287074270988,1868.850361237099,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Germany,1,2024,1252.0970367300001,884.7696647435926,2136.866701473593,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Greece,1,2024,1118.37793572,661.7656176819416,1780.1435534019417,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,France,1,2024,1227.78447291,884.5778228799929,2112.362295789993,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Brazil,1,2024,1118.3779357199999,786.2250506765101,1904.60298639651,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,United Kingdom,1,2024,1294.644023415,800.8185038636119,2095.462527278612,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Spain,1,2024,1130.53421763,752.6401102816751,1883.1743279116752,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Sweden,1,2024,1337.1910101,1082.1608526875216,2419.351862787522,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Czech Republic,1,2024,1106.2216538100001,734.8198441345382,1841.0414979445384,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Japan,1,2024,1312.8784462800002,828.7457192335523,2141.6241655135527,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Belgium,1,2024,1246.018895775,826.1160536603318,2072.1349494353317,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Poland,1,2024,1124.4560766750003,786.065555334342,1910.5216320093423,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,India,1,2024,1075.830949035,633.5184136856449,1709.3493627206449,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Indonesia,1,2024,978.580693755,730.2633026076608,1708.8439963626606,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,South Korea,1,2024,1142.69049954,736.9422996352436,1879.6327991752437,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,China,1,2024,1112.2997947650001,633.9002840364217,1746.2000788014218,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,United Arab Emirates,1,2024,1160.924922405,506.053287467731,1666.978209872731,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,United States,1,2024,1215.628191,709.8012398559518,1925.429430855952,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Turkey,1,2024,1112.2997947650001,608.2049338942977,1720.5047286592978,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Australia,1,2024,1246.018895775,722.8197427488785,1968.8386385238784,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Malaysia,1,2024,1063.6746671249998,575.8205195768768,1639.4951867018767,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Canada,1,2024,1239.9407548200002,673.0879426897761,1913.0286975097763,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Mexico,1,2024,1069.75280808,548.9782010598535,1618.7310091398535,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Thailand,1,2024,1081.9090899900002,571.3774773811145,1653.2865673711149,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Russia,1,2024,1148.7686404950002,556.5157719645415,1705.2844124595417,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,solar,BG_H_C_solar_E,Saudi Arabia,1,2024,1160.924922405,516.6690488087302,1677.5939712137301,1.2256744951188228,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,South Africa,1,2024,1136.612358585,555.3816945053461,1691.9940530903461,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Taiwan,1,2024,1118.3779357199999,597.4631719967356,1715.8411077167355,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Switzerland,1,2024,1343.269151055,1112.2590232497346,2455.5281743047344,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Singapore,1,2024,1124.4560766750003,1028.1967306331342,2152.6528073081345,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Hungary,1,2024,1094.0653719000002,697.1885117809783,1791.2538836809786,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Philippines,1,2024,1087.987230945,585.6512254530924,1673.6384563980923,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Netherlands,1,2024,1246.018895775,891.0319272516072,2137.050823026607,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Norway,1,2024,1379.7379967850002,889.3538613290364,2269.0918581140368,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Oman,1,2024,1160.924922405,520.6710968492199,1681.5960192542198,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Italy,1,2024,1167.00306336,908.0010883581061,2075.004151718106,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Austria,1,2024,1264.2533186400003,891.4420248596475,2155.6953434996476,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Finland,1,2024,1312.8784462800002,932.9878215891201,2245.8662678691203,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Portugal,1,2024,1106.2216538100001,762.6287074270988,1868.850361237099,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Germany,1,2024,1252.0970367300001,884.7696647435926,2136.866701473593,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Greece,1,2024,1118.37793572,661.7656176819416,1780.1435534019417,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,France,1,2024,1227.78447291,884.5778228799929,2112.362295789993,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Brazil,1,2024,1118.3779357199999,786.2250506765101,1904.60298639651,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,United Kingdom,1,2024,1294.644023415,800.8185038636119,2095.462527278612,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Spain,1,2024,1130.53421763,752.6401102816751,1883.1743279116752,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Sweden,1,2024,1337.1910101,1082.1608526875216,2419.351862787522,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Czech Republic,1,2024,1106.2216538100001,734.8198441345382,1841.0414979445384,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Japan,1,2024,1312.8784462800002,828.7457192335523,2141.6241655135527,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Belgium,1,2024,1246.018895775,826.1160536603318,2072.1349494353317,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Poland,1,2024,1124.4560766750003,786.065555334342,1910.5216320093423,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,India,1,2024,1075.830949035,633.5184136856449,1709.3493627206449,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Indonesia,1,2024,978.580693755,730.2633026076608,1708.8439963626606,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,South Korea,1,2024,1142.69049954,736.9422996352436,1879.6327991752437,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,China,1,2024,1112.2997947650001,633.9002840364217,1746.2000788014218,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,United Arab Emirates,1,2024,1160.924922405,506.053287467731,1666.978209872731,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,United States,1,2024,1215.628191,709.8012398559518,1925.429430855952,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Turkey,1,2024,1112.2997947650001,608.2049338942977,1720.5047286592978,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Australia,1,2024,1246.018895775,722.8197427488785,1968.8386385238784,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Malaysia,1,2024,1063.6746671249998,575.8205195768768,1639.4951867018767,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Canada,1,2024,1239.9407548200002,673.0879426897761,1913.0286975097763,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Mexico,1,2024,1069.75280808,548.9782010598535,1618.7310091398535,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Thailand,1,2024,1081.9090899900002,571.3774773811145,1653.2865673711149,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Russia,1,2024,1148.7686404950002,556.5157719645415,1705.2844124595417,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,solar,BG_H_C_solar_E,Saudi Arabia,1,2024,1160.924922405,516.6690488087302,1677.5939712137301,-1.5175780137635557,liquid synthetic natural gas at atmospheric pressure
 lsng,ATRCCS,DAC,solar,ATRCCS_H_DAC_C_solar_E,South Africa,1,2024,1123.9056647283767,1097.0983500975094,2221.004014825886,-1.4889709749647169,liquid synthetic natural gas at atmospheric pressure
 lsng,ATRCCS,DAC,solar,ATRCCS_H_DAC_C_solar_E,Taiwan,1,2024,1105.875092566959,1705.1039358451894,2810.979028412148,-1.4889709749647169,liquid synthetic natural gas at atmospheric pressure
 lsng,ATRCCS,DAC,solar,ATRCCS_H_DAC_C_solar_E,Switzerland,1,2024,1328.2521492244452,5313.59521520258,6641.847364427025,-1.4889709749647169,liquid synthetic natural gas at atmospheric pressure
@@ -1101,44 +1101,44 @@ lsng,SMRCCS,BEC,wind,SMRCCS_H_BEC_C_wind_E,Mexico,1,2024,1098.2627966610346,748.
 lsng,SMRCCS,BEC,wind,SMRCCS_H_BEC_C_wind_E,Thailand,1,2024,1110.7430557140008,1263.1880487323406,2373.931104446341,-1.365574859170503,liquid synthetic natural gas at atmospheric pressure
 lsng,SMRCCS,BEC,wind,SMRCCS_H_BEC_C_wind_E,Russia,1,2024,1179.3844805053154,609.9007643968573,1789.2852449021727,-1.365574859170503,liquid synthetic natural gas at atmospheric pressure
 lsng,SMRCCS,BEC,wind,SMRCCS_H_BEC_C_wind_E,Saudi Arabia,1,2024,1191.864739558282,355.71912402885914,1547.5838635871412,-1.365574859170503,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,South Africa,1,2024,1136.612358585,537.0964826947904,1673.7088412797905,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Taiwan,1,2024,1118.3779357199999,590.4696248500691,1708.847560570069,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Switzerland,1,2024,1343.269151055,1105.4840244514012,2448.753175506401,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Singapore,1,2024,1124.4560766750003,1045.942856517801,2170.3989331928015,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Hungary,1,2024,1094.0653719000002,667.793758930145,1761.8591308301452,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Philippines,1,2024,1087.987230945,586.0154727003146,1674.0027036453146,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Netherlands,1,2024,1246.018895775,878.1375746999405,2124.1564704749403,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Norway,1,2024,1379.7379967850002,850.9622014718142,2230.7001982568145,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Oman,1,2024,1160.924922405,526.5719022542198,1687.4968246592198,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Italy,1,2024,1167.00306336,905.2328092792172,2072.235872639217,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Austria,1,2024,1264.2533186400003,879.1304679035364,2143.3837865435366,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Finland,1,2024,1312.8784462800002,896.5630968668979,2209.441543146898,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Portugal,1,2024,1106.2216538100001,766.7811260454322,1873.0027798554324,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Germany,1,2024,1252.0970367300001,877.9946659452592,2130.0917026752595,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Greece,1,2024,1118.37793572,662.0570154797194,1780.4349511997195,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,France,1,2024,1227.78447291,883.4122316888819,2111.1967045988818,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Brazil,1,2024,1118.3779357199999,760.9462917192877,1879.3242274392876,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,United Kingdom,1,2024,1294.644023415,773.3542614230563,2067.9982848380564,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Spain,1,2024,1130.53421763,750.6731751466751,1881.207392776675,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Sweden,1,2024,1337.1910101,1046.4646224597439,2383.655632559744,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Czech Republic,1,2024,1106.2216538100001,728.044845336205,1834.2664991462052,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Japan,1,2024,1312.8784462800002,844.9182970102191,2157.796743290219,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Belgium,1,2024,1246.018895775,795.6649837925539,2041.683879567554,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Poland,1,2024,1124.4560766750003,741.0445955776752,1865.5006722526755,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,India,1,2024,1075.830949035,632.2799730450893,1708.1109220800893,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Indonesia,1,2024,978.580693755,740.4185158602163,1718.9992096152164,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,South Korea,1,2024,1142.69049954,736.8694501857991,1879.559949725799,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,China,1,2024,1112.2997947650001,626.906736889755,1739.206531654755,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,United Arab Emirates,1,2024,1160.924922405,525.5040904693977,1686.4290128743978,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,United States,1,2024,1215.628191,696.1783928098407,1911.8065838098407,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Turkey,1,2024,1112.2997947650001,604.2710636242978,1716.5708583892979,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Australia,1,2024,1246.018895775,729.0119459516565,1975.0308417266565,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Malaysia,1,2024,1063.6746671249998,591.8692532894878,1655.5439204144877,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Canada,1,2024,1239.9407548200002,631.8551543042205,1871.7959091242205,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Mexico,1,2024,1069.75280808,536.0838485081867,1605.8366565881868,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Thailand,1,2024,1081.9090899900002,587.593764827448,1669.5028548174482,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Russia,1,2024,1148.7686404950002,565.7676520439858,1714.536292538986,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
-lsng,BG,BG,wind,BG_H_C_wind_E,Saudi Arabia,1,2024,1160.924922405,523.0069509103969,1683.9318733153968,1.205859444869934,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,South Africa,1,2024,1136.612358585,537.0964826947904,1673.7088412797905,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Taiwan,1,2024,1118.3779357199999,590.4696248500691,1708.847560570069,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Switzerland,1,2024,1343.269151055,1105.4840244514012,2448.753175506401,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Singapore,1,2024,1124.4560766750003,1045.942856517801,2170.3989331928015,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Hungary,1,2024,1094.0653719000002,667.793758930145,1761.8591308301452,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Philippines,1,2024,1087.987230945,586.0154727003146,1674.0027036453146,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Netherlands,1,2024,1246.018895775,878.1375746999405,2124.1564704749403,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Norway,1,2024,1379.7379967850002,850.9622014718142,2230.7001982568145,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Oman,1,2024,1160.924922405,526.5719022542198,1687.4968246592198,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Italy,1,2024,1167.00306336,905.2328092792172,2072.235872639217,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Austria,1,2024,1264.2533186400003,879.1304679035364,2143.3837865435366,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Finland,1,2024,1312.8784462800002,896.5630968668979,2209.441543146898,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Portugal,1,2024,1106.2216538100001,766.7811260454322,1873.0027798554324,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Germany,1,2024,1252.0970367300001,877.9946659452592,2130.0917026752595,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Greece,1,2024,1118.37793572,662.0570154797194,1780.4349511997195,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,France,1,2024,1227.78447291,883.4122316888819,2111.1967045988818,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Brazil,1,2024,1118.3779357199999,760.9462917192877,1879.3242274392876,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,United Kingdom,1,2024,1294.644023415,773.3542614230563,2067.9982848380564,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Spain,1,2024,1130.53421763,750.6731751466751,1881.207392776675,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Sweden,1,2024,1337.1910101,1046.4646224597439,2383.655632559744,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Czech Republic,1,2024,1106.2216538100001,728.044845336205,1834.2664991462052,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Japan,1,2024,1312.8784462800002,844.9182970102191,2157.796743290219,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Belgium,1,2024,1246.018895775,795.6649837925539,2041.683879567554,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Poland,1,2024,1124.4560766750003,741.0445955776752,1865.5006722526755,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,India,1,2024,1075.830949035,632.2799730450893,1708.1109220800893,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Indonesia,1,2024,978.580693755,740.4185158602163,1718.9992096152164,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,South Korea,1,2024,1142.69049954,736.8694501857991,1879.559949725799,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,China,1,2024,1112.2997947650001,626.906736889755,1739.206531654755,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,United Arab Emirates,1,2024,1160.924922405,525.5040904693977,1686.4290128743978,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,United States,1,2024,1215.628191,696.1783928098407,1911.8065838098407,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Turkey,1,2024,1112.2997947650001,604.2710636242978,1716.5708583892979,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Australia,1,2024,1246.018895775,729.0119459516565,1975.0308417266565,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Malaysia,1,2024,1063.6746671249998,591.8692532894878,1655.5439204144877,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Canada,1,2024,1239.9407548200002,631.8551543042205,1871.7959091242205,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Mexico,1,2024,1069.75280808,536.0838485081867,1605.8366565881868,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Thailand,1,2024,1081.9090899900002,587.593764827448,1669.5028548174482,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Russia,1,2024,1148.7686404950002,565.7676520439858,1714.536292538986,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
+lsng,BG,BG,wind,BG_H_C_wind_E,Saudi Arabia,1,2024,1160.924922405,523.0069509103969,1683.9318733153968,-1.5373930640124447,liquid synthetic natural gas at atmospheric pressure
 lsng,ATRCCS,DAC,wind,ATRCCS_H_DAC_C_wind_E,South Africa,1,2024,1123.9056647283767,1054.943194187575,2178.8488589159515,-1.5741516118250618,liquid synthetic natural gas at atmospheric pressure
 lsng,ATRCCS,DAC,wind,ATRCCS_H_DAC_C_wind_E,Taiwan,1,2024,1105.875092566959,1688.9808483258519,2794.855940892811,-1.5741516118250618,liquid synthetic natural gas at atmospheric pressure
 lsng,ATRCCS,DAC,wind,ATRCCS_H_DAC_C_wind_E,Switzerland,1,2024,1328.2521492244452,5297.975974168222,6626.228123392667,-1.5741516118250618,liquid synthetic natural gas at atmospheric pressure

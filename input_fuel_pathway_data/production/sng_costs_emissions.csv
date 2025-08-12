@@ -189,44 +189,44 @@ sng,SMRCCS,BEC,grid,SMRCCS_H_BEC_C_grid_E,Mexico,1,2024,375.57335666103455,877.2
 sng,SMRCCS,BEC,grid,SMRCCS_H_BEC_C_grid_E,Thailand,1,2024,379.84123571400085,1234.4771832856984,1614.3184189996991,-1.0461343465621007,synthetic natural gas at standard temperature and pressure
 sng,SMRCCS,BEC,grid,SMRCCS_H_BEC_C_grid_E,Russia,1,2024,403.3145705053155,523.9967903577174,927.3113608630329,-1.175140868301231,synthetic natural gas at standard temperature and pressure
 sng,SMRCCS,BEC,grid,SMRCCS_H_BEC_C_grid_E,Saudi Arabia,1,2024,407.58244955828184,319.47206306568575,727.0545126239676,-1.048591613642846,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,South Africa,1,2024,368.7548285850001,497.8656889285381,866.6205175135382,1.3461175848075289,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Taiwan,1,2024,362.83897572,586.4842824214281,949.3232581414281,1.2950175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Switzerland,1,2024,435.801161055,950.5460181986268,1386.3471792536268,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Singapore,1,2024,364.810926675,858.4641469290701,1223.2750736040703,1.1991175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Hungary,1,2024,354.9511719,629.9856144823594,984.9367863823595,0.9779175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Philippines,1,2024,352.979220945,547.8760930644685,900.8553140094684,1.2789175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Netherlands,1,2024,404.24994577499996,784.115338709399,1188.365284484399,1.0269175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Norway,1,2024,447.63286678500003,725.2278152768603,1172.8606820618602,0.8715175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Oman,1,2024,376.6426324050001,575.0793029223734,951.7219353273734,1.2313175848075286,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Italy,1,2024,378.61458336000004,944.7791161823792,1323.3936995423792,1.051417584807529,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Austria,1,2024,410.16579864000005,834.2188348052892,1244.3846334452892,0.9219175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Finland,1,2024,425.9414062800001,725.5478170262015,1151.4892233062017,0.9002175848075289,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Portugal,1,2024,358.89507381000004,636.2114543015895,995.1065281115896,0.9282175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Germany,1,2024,406.22189673,835.3673635115248,1241.5892602415247,1.0906175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Greece,1,2024,362.83897572,669.7840453305506,1032.6230210505505,1.0738175848075286,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,France,1,2024,398.33409291000004,759.7318563866975,1158.0659492966975,0.8806175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Brazil,1,2024,362.83897572,619.6668451011155,982.5058208211155,0.9219175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,United Kingdom,1,2024,420.02555341500005,882.0421903872992,1302.0677438022992,0.9975175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Spain,1,2024,366.78287763000003,650.1229664392483,1016.9058440692484,0.9520175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Sweden,1,2024,433.82921010000007,747.678489414817,1181.507699514817,0.8750175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Czech Republic,1,2024,358.89507381000004,679.1322169032878,1038.0272907132878,1.1396175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Japan,1,2024,425.9414062800001,712.7807158444314,1138.7221221244315,1.1872175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Belgium,1,2024,404.24994577499996,795.7078792385765,1199.9578250135764,0.9464175848075289,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Poland,1,2024,364.810926675,806.4110579031243,1171.2219845781242,1.2803175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,India,1,2024,349.035319035,551.1107164395123,900.1460354745122,1.3454175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Indonesia,1,2024,317.48410375500004,541.3841052364768,858.8682089914769,1.3020175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,South Korea,1,2024,370.72677954,617.580820945437,988.307600485437,1.1396175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,China,1,2024,360.86702476500005,535.1259907118459,895.993015476846,1.2418175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,United Arab Emirates,1,2024,376.6426324050001,510.3574829223734,887.0001153273735,1.1179175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,United States,1,2024,394.3901910000001,664.4355493909983,1058.8257403909984,1.1186175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Turkey,1,2024,360.86702476500005,556.1626756628359,917.0297004278359,1.1788175848075286,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Australia,1,2024,404.24994577499996,736.00795369122,1140.25789946622,1.2362175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Malaysia,1,2024,345.091417125,529.7113210969351,874.8027382219351,1.272617584807529,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Canada,1,2024,402.27799482000006,595.7538016859386,998.0317965059387,0.9723175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Mexico,1,2024,347.06336808000003,578.2584783337622,925.3218464137623,1.2173175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Thailand,1,2024,351.00726999000005,529.0415360267681,880.0488060167681,1.2376175848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Russia,1,2024,372.698730495,488.1632245886967,860.8619550836968,1.1641175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,grid,BG_H_C_grid_E,Saudi Arabia,1,2024,376.6426324050001,478.4603433633725,855.1029757683725,1.2362175848075287,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,South Africa,1,2024,368.7548285850001,497.8656889285381,866.6205175135382,-1.3971349240748496,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Taiwan,1,2024,362.83897572,586.4842824214281,949.3232581414281,-1.4482349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Switzerland,1,2024,435.801161055,950.5460181986268,1386.3471792536268,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Singapore,1,2024,364.810926675,858.4641469290701,1223.2750736040703,-1.5441349240748496,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Hungary,1,2024,354.9511719,629.9856144823594,984.9367863823595,-1.7653349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Philippines,1,2024,352.979220945,547.8760930644685,900.8553140094684,-1.4643349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Netherlands,1,2024,404.24994577499996,784.115338709399,1188.365284484399,-1.7163349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Norway,1,2024,447.63286678500003,725.2278152768603,1172.8606820618602,-1.8717349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Oman,1,2024,376.6426324050001,575.0793029223734,951.7219353273734,-1.5119349240748499,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Italy,1,2024,378.61458336000004,944.7791161823792,1323.3936995423792,-1.6918349240748496,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Austria,1,2024,410.16579864000005,834.2188348052892,1244.3846334452892,-1.8213349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Finland,1,2024,425.9414062800001,725.5478170262015,1151.4892233062017,-1.8430349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Portugal,1,2024,358.89507381000004,636.2114543015895,995.1065281115896,-1.8150349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Germany,1,2024,406.22189673,835.3673635115248,1241.5892602415247,-1.6526349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Greece,1,2024,362.83897572,669.7840453305506,1032.6230210505505,-1.6694349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,France,1,2024,398.33409291000004,759.7318563866975,1158.0659492966975,-1.8626349240748499,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Brazil,1,2024,362.83897572,619.6668451011155,982.5058208211155,-1.8213349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,United Kingdom,1,2024,420.02555341500005,882.0421903872992,1302.0677438022992,-1.7457349240748496,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Spain,1,2024,366.78287763000003,650.1229664392483,1016.9058440692484,-1.79123492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Sweden,1,2024,433.82921010000007,747.678489414817,1181.507699514817,-1.8682349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Czech Republic,1,2024,358.89507381000004,679.1322169032878,1038.0272907132878,-1.6036349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Japan,1,2024,425.9414062800001,712.7807158444314,1138.7221221244315,-1.5560349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Belgium,1,2024,404.24994577499996,795.7078792385765,1199.9578250135764,-1.7968349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Poland,1,2024,364.810926675,806.4110579031243,1171.2219845781242,-1.4629349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,India,1,2024,349.035319035,551.1107164395123,900.1460354745122,-1.3978349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Indonesia,1,2024,317.48410375500004,541.3841052364768,858.8682089914769,-1.4412349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,South Korea,1,2024,370.72677954,617.580820945437,988.307600485437,-1.6036349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,China,1,2024,360.86702476500005,535.1259907118459,895.993015476846,-1.5014349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,United Arab Emirates,1,2024,376.6426324050001,510.3574829223734,887.0001153273735,-1.6253349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,United States,1,2024,394.3901910000001,664.4355493909983,1058.8257403909984,-1.6246349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Turkey,1,2024,360.86702476500005,556.1626756628359,917.0297004278359,-1.5644349240748499,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Australia,1,2024,404.24994577499996,736.00795369122,1140.25789946622,-1.5070349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Malaysia,1,2024,345.091417125,529.7113210969351,874.8027382219351,-1.4706349240748495,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Canada,1,2024,402.27799482000006,595.7538016859386,998.0317965059387,-1.7709349240748495,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Mexico,1,2024,347.06336808000003,578.2584783337622,925.3218464137623,-1.5259349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Thailand,1,2024,351.00726999000005,529.0415360267681,880.0488060167681,-1.5056349240748497,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Russia,1,2024,372.698730495,488.1632245886967,860.8619550836968,-1.5791349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,grid,BG_H_C_grid_E,Saudi Arabia,1,2024,376.6426324050001,478.4603433633725,855.1029757683725,-1.5070349240748497,synthetic natural gas at standard temperature and pressure
 sng,ATRCCS,DAC,grid,ATRCCS_H_DAC_C_grid_E,South Africa,1,2024,356.04813472837674,1054.0374501107635,1410.0855848391402,0.2463866074776123,synthetic natural gas at standard temperature and pressure
 sng,ATRCCS,DAC,grid,ATRCCS_H_DAC_C_grid_E,Taiwan,1,2024,350.33613256695895,1821.9386114872732,2172.274744054232,0.01985690811598398,synthetic natural gas at standard temperature and pressure
 sng,ATRCCS,DAC,grid,ATRCCS_H_DAC_C_grid_E,Switzerland,1,2024,420.7841592244452,5361.481241207373,5782.265400431818,-1.838927885276011,synthetic natural gas at standard temperature and pressure
@@ -645,44 +645,44 @@ sng,SMRCCS,BEC,solar,SMRCCS_H_BEC_C_solar_E,Mexico,1,2024,375.57335666103455,697
 sng,SMRCCS,BEC,solar,SMRCCS_H_BEC_C_solar_E,Thailand,1,2024,379.84123571400085,1137.7714373229653,1517.612673036966,-1.6813378869347715,synthetic natural gas at standard temperature and pressure
 sng,SMRCCS,BEC,solar,SMRCCS_H_BEC_C_solar_E,Russia,1,2024,403.3145705053155,527.6826909788355,930.997261484151,-1.6813378869347715,synthetic natural gas at standard temperature and pressure
 sng,SMRCCS,BEC,solar,SMRCCS_H_BEC_C_solar_E,Saudi Arabia,1,2024,407.58244955828184,289.49340468059256,697.0758542388744,-1.6813378869347715,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,South Africa,1,2024,368.7548285850001,487.2256889285381,855.9805175135382,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Taiwan,1,2024,362.83897572,492.4042824214281,855.2432581414281,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Switzerland,1,2024,435.801161055,796.2660181986269,1232.0671792536268,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Singapore,1,2024,364.810926675,698.1921469290702,1063.0030736040703,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Hungary,1,2024,354.9511719,550.2206144823593,905.1717863823594,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Philippines,1,2024,352.979220945,483.05609306446854,836.0353140094685,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Netherlands,1,2024,404.24994577499996,662.525338709399,1066.775284484399,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Norway,1,2024,447.63286678500003,703.2478152768604,1150.8806820618604,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Oman,1,2024,376.6426324050001,465.31930292237337,841.9619353273735,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Italy,1,2024,378.61458336000004,661.3491161823791,1039.9636995423791,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Austria,1,2024,410.16579864000005,672.9388348052893,1083.1046334452894,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Finland,1,2024,425.9414062800001,700.7678170262014,1126.7092233062015,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Portugal,1,2024,358.89507381000004,563.4114543015894,922.3065281115894,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Germany,1,2024,406.22189673,678.9873635115247,1085.2092602415246,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Greece,1,2024,362.83897572,533.2840453305505,896.1230210505505,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,France,1,2024,398.33409291000004,661.7318563866972,1060.0659492966972,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Brazil,1,2024,362.83897572,570.8068451011156,933.6458208211156,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,United Kingdom,1,2024,420.02555341500005,621.0121903872993,1041.0377438022992,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Spain,1,2024,366.78287763000003,580.4029664392484,947.1858440692484,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Sweden,1,2024,433.82921010000007,762.4808644148171,1196.3100745148172,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Czech Republic,1,2024,358.89507381000004,561.2522169032878,920.1472907132879,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Japan,1,2024,425.9414062800001,639.7007158444313,1065.6421221244314,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Belgium,1,2024,404.24994577499996,675.4478792385767,1079.6978250135767,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Poland,1,2024,364.810926675,595.0810579031242,959.8919845781243,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,India,1,2024,349.035319035,495.88071643951236,844.9160354745123,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Indonesia,1,2024,317.48410375500004,540.3061052364768,857.7902089914769,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,South Korea,1,2024,370.72677954,583.6308209454371,954.3576004854372,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,China,1,2024,360.86702476500005,495.645990711846,856.513015476846,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,United Arab Emirates,1,2024,376.6426324050001,451.27748292237334,827.9201153273734,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,United States,1,2024,394.3901910000001,601.5055493909983,995.8957403909984,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Turkey,1,2024,360.86702476500005,509.7526756628359,870.6197004278359,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Australia,1,2024,404.24994577499996,595.79795369122,1000.0478994662199,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Malaysia,1,2024,345.091417125,483.0703210969352,828.1617382219351,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Canada,1,2024,402.27799482000006,585.9538016859387,988.2317965059387,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Mexico,1,2024,347.06336808000003,475.9184783337623,822.9818464137624,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Thailand,1,2024,351.00726999000005,473.9445360267681,824.9518060167682,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Russia,1,2024,372.698730495,490.26322458869674,862.9619550836967,0.8757175848075287,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,solar,BG_H_C_solar_E,Saudi Arabia,1,2024,376.6426324050001,461.3803433633725,838.0229757683726,0.8757175848075287,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,South Africa,1,2024,368.7548285850001,487.2256889285381,855.9805175135382,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Taiwan,1,2024,362.83897572,492.4042824214281,855.2432581414281,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Switzerland,1,2024,435.801161055,796.2660181986269,1232.0671792536268,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Singapore,1,2024,364.810926675,698.1921469290702,1063.0030736040703,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Hungary,1,2024,354.9511719,550.2206144823593,905.1717863823594,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Philippines,1,2024,352.979220945,483.05609306446854,836.0353140094685,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Netherlands,1,2024,404.24994577499996,662.525338709399,1066.775284484399,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Norway,1,2024,447.63286678500003,703.2478152768604,1150.8806820618604,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Oman,1,2024,376.6426324050001,465.31930292237337,841.9619353273735,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Italy,1,2024,378.61458336000004,661.3491161823791,1039.9636995423791,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Austria,1,2024,410.16579864000005,672.9388348052893,1083.1046334452894,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Finland,1,2024,425.9414062800001,700.7678170262014,1126.7092233062015,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Portugal,1,2024,358.89507381000004,563.4114543015894,922.3065281115894,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Germany,1,2024,406.22189673,678.9873635115247,1085.2092602415246,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Greece,1,2024,362.83897572,533.2840453305505,896.1230210505505,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,France,1,2024,398.33409291000004,661.7318563866972,1060.0659492966972,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Brazil,1,2024,362.83897572,570.8068451011156,933.6458208211156,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,United Kingdom,1,2024,420.02555341500005,621.0121903872993,1041.0377438022992,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Spain,1,2024,366.78287763000003,580.4029664392484,947.1858440692484,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Sweden,1,2024,433.82921010000007,762.4808644148171,1196.3100745148172,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Czech Republic,1,2024,358.89507381000004,561.2522169032878,920.1472907132879,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Japan,1,2024,425.9414062800001,639.7007158444313,1065.6421221244314,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Belgium,1,2024,404.24994577499996,675.4478792385767,1079.6978250135767,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Poland,1,2024,364.810926675,595.0810579031242,959.8919845781243,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,India,1,2024,349.035319035,495.88071643951236,844.9160354745123,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Indonesia,1,2024,317.48410375500004,540.3061052364768,857.7902089914769,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,South Korea,1,2024,370.72677954,583.6308209454371,954.3576004854372,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,China,1,2024,360.86702476500005,495.645990711846,856.513015476846,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,United Arab Emirates,1,2024,376.6426324050001,451.27748292237334,827.9201153273734,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,United States,1,2024,394.3901910000001,601.5055493909983,995.8957403909984,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Turkey,1,2024,360.86702476500005,509.7526756628359,870.6197004278359,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Australia,1,2024,404.24994577499996,595.79795369122,1000.0478994662199,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Malaysia,1,2024,345.091417125,483.0703210969352,828.1617382219351,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Canada,1,2024,402.27799482000006,585.9538016859387,988.2317965059387,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Mexico,1,2024,347.06336808000003,475.9184783337623,822.9818464137624,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Thailand,1,2024,351.00726999000005,473.9445360267681,824.9518060167682,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Russia,1,2024,372.698730495,490.26322458869674,862.9619550836967,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,solar,BG_H_C_solar_E,Saudi Arabia,1,2024,376.6426324050001,461.3803433633725,838.0229757683726,-1.8675349240748498,synthetic natural gas at standard temperature and pressure
 sng,ATRCCS,DAC,solar,ATRCCS_H_DAC_C_solar_E,South Africa,1,2024,356.04813472837674,1028.9423445207012,1384.990479249078,-1.838927885276011,synthetic natural gas at standard temperature and pressure
 sng,ATRCCS,DAC,solar,ATRCCS_H_DAC_C_solar_E,Taiwan,1,2024,350.33613256695895,1600.0450462698818,1950.3811788368407,-1.838927885276011,synthetic natural gas at standard temperature and pressure
 sng,ATRCCS,DAC,solar,ATRCCS_H_DAC_C_solar_E,Switzerland,1,2024,420.7841592244452,4997.602210151473,5418.386369375918,-1.838927885276011,synthetic natural gas at standard temperature and pressure
@@ -1101,44 +1101,44 @@ sng,SMRCCS,BEC,wind,SMRCCS_H_BEC_C_wind_E,Mexico,1,2024,375.57335666103455,675.8
 sng,SMRCCS,BEC,wind,SMRCCS_H_BEC_C_wind_E,Thailand,1,2024,379.84123571400085,1165.120819931661,1544.9620556456616,-1.7147567192329083,synthetic natural gas at standard temperature and pressure
 sng,SMRCCS,BEC,wind,SMRCCS_H_BEC_C_wind_E,Russia,1,2024,403.3145705053155,543.2863369415684,946.6009074468839,-1.7147567192329083,synthetic natural gas at standard temperature and pressure
 sng,SMRCCS,BEC,wind,SMRCCS_H_BEC_C_wind_E,Saudi Arabia,1,2024,407.58244955828184,300.1825164818348,707.7649660401166,-1.7147567192329083,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,South Africa,1,2024,368.7548285850001,469.65568892853804,838.4105175135381,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Taiwan,1,2024,362.83897572,485.68428242142807,848.5232581414281,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Switzerland,1,2024,435.801161055,789.7560181986269,1225.5571792536268,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Singapore,1,2024,364.810926675,715.2441469290702,1080.0550736040702,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Hungary,1,2024,354.9511719,521.9756144823594,876.9267863823595,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Philippines,1,2024,352.979220945,483.40609306446856,836.3853140094686,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Netherlands,1,2024,404.24994577499996,650.135338709399,1054.3852844843989,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Norway,1,2024,447.63286678500003,666.3578152768605,1113.9906820618605,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Oman,1,2024,376.6426324050001,470.9893029223734,847.6319353273734,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Italy,1,2024,378.61458336000004,658.6891161823792,1037.3036995423793,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Austria,1,2024,410.16579864000005,661.1088348052892,1071.2746334452893,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Finland,1,2024,425.9414062800001,665.7678170262014,1091.7092233062015,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Portugal,1,2024,358.89507381000004,567.4014543015895,926.2965281115896,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Germany,1,2024,406.22189673,672.4773635115247,1078.6992602415248,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Greece,1,2024,362.83897572,533.5640453305505,896.4030210505505,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,France,1,2024,398.33409291000004,660.6118563866972,1058.9459492966973,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Brazil,1,2024,362.83897572,546.5168451011157,909.3558208211157,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,United Kingdom,1,2024,420.02555341500005,594.6221903872993,1014.6477438022994,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Spain,1,2024,366.78287763000003,578.5129664392483,945.2958440692483,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Sweden,1,2024,433.82921010000007,728.180864414817,1162.010074514817,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Czech Republic,1,2024,358.89507381000004,554.7422169032878,913.6372907132879,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Japan,1,2024,425.9414062800001,655.2407158444314,1081.1821221244315,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Belgium,1,2024,404.24994577499996,646.1878792385766,1050.4378250135765,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Poland,1,2024,364.810926675,551.8210579031241,916.6319845781242,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,India,1,2024,349.035319035,494.6907164395124,843.7260354745124,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Indonesia,1,2024,317.48410375500004,550.0641052364767,867.5482089914767,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,South Korea,1,2024,370.72677954,583.5608209454371,954.287600485437,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,China,1,2024,360.86702476500005,488.92599071184605,849.7930154768461,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,United Arab Emirates,1,2024,376.6426324050001,469.9674829223734,846.6101153273735,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,United States,1,2024,394.3901910000001,588.4155493909983,982.8057403909984,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Turkey,1,2024,360.86702476500005,505.97267566283585,866.8397004278359,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Australia,1,2024,404.24994577499996,601.74795369122,1005.9978994662199,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Malaysia,1,2024,345.091417125,498.4913210969351,843.5827382219352,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Canada,1,2024,402.27799482000006,546.3338016859386,948.6117965059386,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Mexico,1,2024,347.06336808000003,463.5284783337623,810.5918464137624,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Thailand,1,2024,351.00726999000005,489.52653602676816,840.5338060167683,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Russia,1,2024,372.698730495,499.1532245886968,871.8519550836968,0.8566775848075288,synthetic natural gas at standard temperature and pressure
-sng,BG,BG,wind,BG_H_C_wind_E,Saudi Arabia,1,2024,376.6426324050001,467.47034336337254,844.1129757683726,0.8566775848075288,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,South Africa,1,2024,368.7548285850001,469.65568892853804,838.4105175135381,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Taiwan,1,2024,362.83897572,485.68428242142807,848.5232581414281,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Switzerland,1,2024,435.801161055,789.7560181986269,1225.5571792536268,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Singapore,1,2024,364.810926675,715.2441469290702,1080.0550736040702,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Hungary,1,2024,354.9511719,521.9756144823594,876.9267863823595,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Philippines,1,2024,352.979220945,483.40609306446856,836.3853140094686,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Netherlands,1,2024,404.24994577499996,650.135338709399,1054.3852844843989,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Norway,1,2024,447.63286678500003,666.3578152768605,1113.9906820618605,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Oman,1,2024,376.6426324050001,470.9893029223734,847.6319353273734,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Italy,1,2024,378.61458336000004,658.6891161823792,1037.3036995423793,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Austria,1,2024,410.16579864000005,661.1088348052892,1071.2746334452893,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Finland,1,2024,425.9414062800001,665.7678170262014,1091.7092233062015,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Portugal,1,2024,358.89507381000004,567.4014543015895,926.2965281115896,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Germany,1,2024,406.22189673,672.4773635115247,1078.6992602415248,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Greece,1,2024,362.83897572,533.5640453305505,896.4030210505505,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,France,1,2024,398.33409291000004,660.6118563866972,1058.9459492966973,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Brazil,1,2024,362.83897572,546.5168451011157,909.3558208211157,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,United Kingdom,1,2024,420.02555341500005,594.6221903872993,1014.6477438022994,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Spain,1,2024,366.78287763000003,578.5129664392483,945.2958440692483,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Sweden,1,2024,433.82921010000007,728.180864414817,1162.010074514817,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Czech Republic,1,2024,358.89507381000004,554.7422169032878,913.6372907132879,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Japan,1,2024,425.9414062800001,655.2407158444314,1081.1821221244315,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Belgium,1,2024,404.24994577499996,646.1878792385766,1050.4378250135765,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Poland,1,2024,364.810926675,551.8210579031241,916.6319845781242,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,India,1,2024,349.035319035,494.6907164395124,843.7260354745124,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Indonesia,1,2024,317.48410375500004,550.0641052364767,867.5482089914767,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,South Korea,1,2024,370.72677954,583.5608209454371,954.287600485437,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,China,1,2024,360.86702476500005,488.92599071184605,849.7930154768461,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,United Arab Emirates,1,2024,376.6426324050001,469.9674829223734,846.6101153273735,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,United States,1,2024,394.3901910000001,588.4155493909983,982.8057403909984,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Turkey,1,2024,360.86702476500005,505.97267566283585,866.8397004278359,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Australia,1,2024,404.24994577499996,601.74795369122,1005.9978994662199,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Malaysia,1,2024,345.091417125,498.4913210969351,843.5827382219352,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Canada,1,2024,402.27799482000006,546.3338016859386,948.6117965059386,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Mexico,1,2024,347.06336808000003,463.5284783337623,810.5918464137624,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Thailand,1,2024,351.00726999000005,489.52653602676816,840.5338060167683,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Russia,1,2024,372.698730495,499.1532245886968,871.8519550836968,-1.88657492407485,synthetic natural gas at standard temperature and pressure
+sng,BG,BG,wind,BG_H_C_wind_E,Saudi Arabia,1,2024,376.6426324050001,467.47034336337254,844.1129757683726,-1.88657492407485,synthetic natural gas at standard temperature and pressure
 sng,ATRCCS,DAC,wind,ATRCCS_H_DAC_C_wind_E,South Africa,1,2024,356.04813472837674,987.5024004213226,1343.5505351496993,-1.923333471887467,synthetic natural gas at standard temperature and pressure
 sng,ATRCCS,DAC,wind,ATRCCS_H_DAC_C_wind_E,Taiwan,1,2024,350.33613256695895,1584.195505897211,1934.5316384641699,-1.923333471887467,synthetic natural gas at standard temperature and pressure
 sng,ATRCCS,DAC,wind,ATRCCS_H_DAC_C_wind_E,Switzerland,1,2024,420.7841592244452,4982.247967915448,5403.0321271398925,-1.923333471887467,synthetic natural gas at standard temperature and pressure
