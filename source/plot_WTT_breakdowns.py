@@ -912,12 +912,12 @@ class FuelWTG:
 def main():
 
     for fuel in [
-#        "compressed_hydrogen",
-#        "liquid_hydrogen",
-#        "ammonia",
-#        "methanol",
-#        "FTdiesel",
-#        "lng",
+        "compressed_hydrogen",
+        "liquid_hydrogen",
+        "ammonia",
+        "methanol",
+        "FTdiesel",
+        "lng",
         "lsng",
     ]:
         fuel_wtt = FuelWTG(fuel)

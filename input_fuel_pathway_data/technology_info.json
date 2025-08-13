@@ -699,5 +699,12 @@
       "units": "kWh elect / kg H2",
       "source": "HDSAM"
     }
+  },
+  "BEC": {
+    "capture_efficiency": {
+      "value": 0.95,
+      "units": null,
+      "source": "GREET 2024 (Bio_electricity tab)"
+    }
   }
 }

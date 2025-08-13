@@ -1,0 +1,13 @@
+Region,Feedstock emissions (g CO2e/mmBtu),Feedstock water consumption (gallons/mmBtu),Feedstock NG consumption (Btu/mmBtu),Fuel emissions (g CO2e/mmBtu),Fuel water consumption (gallons/mmBtu),Fuel NG consumption (Btu/mmBtu),CO2 from CCS (g CO2/mmBtu),Water for CCS (gallons/mmBtu),NG for CCS (Btu/mmBtu),Source
+WA,3776,1.38,5860,6000,123.90,0,474383,81,31216,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+CA,7642,2.27,10589,6000,123.90,0,473644,81.47,34215,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+ID,9623,2.78,13734,6000,123.90,0,480247,82.95,36746,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+AZ,12096,3.55,19553,6000,123.90,0,478088,83.09,40364,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+MN,11320,3,15326,6000,123.90,0,488170,80.56,38412,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+IN,6537,2.18,11024,6000,123.90,0,480386,81.89,34983,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+NY,6500,2.06,10408,6000,123.90,0,481808,82.73,34684,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+ME,9245,2.48,12558,6000,123.90,0,485923,83.73,36404,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+TN,8049,2.62,13211,6000,123.90,0,479750,82.75,36364,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+NC,9571,3.43,20247,6000,123.90,0,476048,82.64,40633,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+GA,6584,2.42,11045,6000,123.90,0,476888,82.12,34742,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"
+LA,4477,2.07,7788,6000,123.90,0,476218,81.76,32584,"GREET 2024, Bio_electricity tab, Table 4.10 (biopower w/CCS)"

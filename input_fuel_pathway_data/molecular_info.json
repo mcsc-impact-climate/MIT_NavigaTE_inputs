@@ -40,6 +40,18 @@
     "source": "National Library of Medicine",
     "source_url": "https://pubchem.ncbi.nlm.nih.gov/compound/Methane"
   },
+  "MW_C": {
+    "value": 12.011,
+    "units": "g/mol",
+    "source": "National Library of Medicine",
+    "source_url": "https://pubchem.ncbi.nlm.nih.gov/compound/Carbon"
+  },
+  "LCB_C_content": {
+    "value": 0.5,
+    "units": null,
+    "source": "Approximated from carbon content values ranging from 0.496 to 0.52 in the Bio_electricity tab of GREET 2024",
+    "source_url": null
+  },
   "nC_FTdiesel": {
     "value": 12,
     "units": "carbon atoms",
