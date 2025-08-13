@@ -11,6 +11,14 @@ import pandas as pd
 import argparse
 import json
 
+GAL_PER_CBM = 264.172
+BTU_PER_MJ = 947.817
+BTU_PER_MMBTU = 1e6
+KG_PER_TON = 907.185
+G_PER_KG = 1000
+MJ_PER_GJ = 1000
+BTU_PER_GJ = BTU_PER_MJ * MJ_PER_GJ
+
 # ---------------------------------------------------------------------------
 # One-time loaders wrapped in a helper – *nothing else calls these yet*
 # ---------------------------------------------------------------------------
@@ -87,20 +95,44 @@ def build_context() -> Dict[str, Dict]:
         T["NH3"]["employees_LTE"]["value"] - T["H2_LTE"]["employees"]["value"]
     )
 
-    # BEC emissions
-    def calculate_BEC_upstream_emission_rate(
-        filename=f"{top_dir}/input_fuel_pathway_data/BEC_upstream_emissions_GREET.csv",
+    # BEC upstream emissions and resource requirements
+    def calculate_BEC_upstream_resources_emissions(
+        filename=f"{top_dir}/input_fuel_pathway_data/BEC_upstream_resources_emissions_GREET.csv",
     ):
         df = pd.read_csv(filename)
         df["Upstream emissions (kg CO2e / kg CO2"] = (
             df["Feedstock emissions (g CO2e/mmBtu)"]
             + df["Fuel emissions (g CO2e/mmBtu)"]
-        ) / df["CO2 from CCS"]
-        return df["Upstream emissions (kg CO2e / kg CO2"].mean()
+        ) / df["CO2 from CCS (g CO2/mmBtu)"]
+
+        df["Upstream water (m^3 / kg CO2"] = (
+            (df["Feedstock water consumption (gallons/mmBtu)"]
+            + df["Fuel water consumption (gallons/mmBtu)"]
+            + df["Water for CCS (gallons/mmBtu)"]) / GAL_PER_CBM
+        ) / (df["CO2 from CCS (g CO2/mmBtu)"] / G_PER_KG)
+
+        df["Upstream NG (GJ NG / kg CO2"] = (
+            (df["Feedstock NG consumption (Btu/mmBtu)"]
+            + df["Fuel NG consumption (Btu/mmBtu)"]
+            + df["NG for CCS (Btu/mmBtu)"]) / BTU_PER_GJ
+        ) / (df["CO2 from CCS (g CO2/mmBtu)"] / G_PER_KG)
+        
+        return {
+            "emissions": df["Upstream emissions (kg CO2e / kg CO2"].mean(),
+            "elect": 0,
+            "NG": df["Upstream NG (GJ NG / kg CO2"].mean(),
+            "water": df["Upstream water (m^3 / kg CO2"].mean(),
+            "LCB": 1 / (M["LCB_C_content"]["value"] * (M["MW_CO2"]["value"] / M["MW_C"]["value"]) * T["BEC"]["capture_efficiency"]["value"])
+        }
 
     D["BEC_CO2_price"] = G["BEC_CO2_price"]["value"]
-    D["BEC_CO2_upstream_emissions"] = calculate_BEC_upstream_emission_rate()
-
+    bec = calculate_BEC_upstream_resources_emissions()
+    
+    D["BEC_CO2_upstream_emissions"] = bec["emissions"]
+    D["BEC_CO2_upstream_NG"] = bec["NG"]
+    D["BEC_CO2_upstream_water"] = bec["water"]
+    D["BEC_CO2_upstream_LCB"] = bec["LCB"]
+    
     # DAC emissions and resources
     def calculate_DAC_upstream_resources_emissions():
         upstream = pd.read_csv(
@@ -120,10 +152,6 @@ def build_context() -> Dict[str, Dict]:
         materials = pd.read_csv(
             f"{top_dir}/input_fuel_pathway_data/DAC_material_reqs.csv"
         )
-        GAL_PER_CBM = 264.172
-        BTU_PER_MJ = 947.817
-        BTU_PER_MMBTU = 1e6
-        KG_PER_TON = 907.185
 
         materials["Water"] = (
             materials["Water consumption (gals/ton)"] / (GAL_PER_CBM * KG_PER_TON)
@@ -1292,6 +1320,12 @@ def calculate_resource_demands_SNG(H_pathway, C_pathway):
         ng += CTX["derived"]["DAC_CO2_upstream_NG"] * co2
         water += CTX["derived"]["DAC_CO2_upstream_water"] * co2
         elect += CTX["derived"]["DAC_CO2_upstream_elect"] * co2
+        
+    # If BEC is the C pathway, add BEC upstream burdens (per kg CO2)
+    if C_pathway == "BEC":
+        ng += CTX["derived"]["BEC_CO2_upstream_NG"] * co2
+        water += CTX["derived"]["BEC_CO2_upstream_water"] * co2
+        lcb += CTX["derived"]["BEC_CO2_upstream_LCB"] * co2
 
     return elect, lcb, ng, water, co2
 
@@ -1334,13 +1368,14 @@ def calculate_resource_demands_methanol(H_pathway, C_pathway):
     water_demand = CTX["tech"]["MeOH"]["water_demand"]["value"]
 
     if C_pathway == "DAC":
-        NG_demand = NG_demand + CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
-        water_demand = (
-            water_demand + CTX["derived"]["DAC_CO2_upstream_water"] * CO2_demand
-        )
-        elect_demand = (
-            elect_demand + CTX["derived"]["DAC_CO2_upstream_elect"] * CO2_demand
-        )
+        NG_demand += CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
+        water_demand += CTX["derived"]["DAC_CO2_upstream_water"] * CO2_demand
+        elect_demand += CTX["derived"]["DAC_CO2_upstream_elect"] * CO2_demand
+
+    if C_pathway == "BEC":
+        NG_demand += CTX["derived"]["BEC_CO2_upstream_NG"] * CO2_demand
+        water_demand += CTX["derived"]["BEC_CO2_upstream_water"] * CO2_demand
+        LCB_demand += CTX["derived"]["BEC_CO2_upstream_LCB"] * CO2_demand
 
     # add H2 resource demands
     H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = (
@@ -1364,13 +1399,14 @@ def calculate_resource_demands_FTdiesel(H_pathway, C_pathway):
     water_demand = CTX["tech"]["FTdiesel"]["water_demand"]["value"]
 
     if C_pathway == "DAC":
-        NG_demand = NG_demand + CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
-        water_demand = (
-            water_demand + CTX["derived"]["DAC_CO2_upstream_water"] * CO2_demand
-        )
-        elect_demand = (
-            elect_demand + CTX["derived"]["DAC_CO2_upstream_elect"] * CO2_demand
-        )
+        NG_demand += CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
+        water_demand += CTX["derived"]["DAC_CO2_upstream_water"] * CO2_demand
+        elect_demand += CTX["derived"]["DAC_CO2_upstream_elect"] * CO2_demand
+
+    if C_pathway == "BEC":
+        NG_demand += CTX["derived"]["BEC_CO2_upstream_NG"] * CO2_demand
+        water_demand += CTX["derived"]["BEC_CO2_upstream_water"] * CO2_demand
+        LCB_demand += CTX["derived"]["BEC_CO2_upstream_LCB"] * CO2_demand
 
     # add H2 resource demands
     H2_elect_demand, H2_LCB_demand, H2_NG_demand, H2_water_demand, H2_CO2_demand = (
