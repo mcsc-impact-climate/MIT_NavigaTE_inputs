@@ -55,21 +55,28 @@
     "value": 1.3137,
     "units": "None",
     "source": "US Bureau of Labor Statistics",
-    "extra_notes": "Inflation adjustment from 2015 to 2024. DME: change to 1.3197.",
+    "extra_notes": "Inflation adjustment from 2015 to 2024",
     "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201501&year2=202401"
+  },
+  "2011_to_2024_USD": {
+    "value": 1.4005,
+    "units": "None",
+    "source": "US Bureau of Labor Statistics",
+    "extra_notes": "Inflation adjustment from 2011 to 2024",
+    "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100.00&year1=201101&year2=202401"
   },
   "2018_to_2024_USD": {
     "value": 1.2443,
     "units": "None",
     "source": "US Bureau of Labor Statistics",
-    "extra_notes": "Inflation adjustment from 2018 to 2024. DME: change to 1.3197.",
+    "extra_notes": "Inflation adjustment from 2018 to 2024",
     "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201801&year2=202401"
   },
   "2016_to_2024_USD": {
     "value": 1.3018,
     "units": "None",
     "source": "US Bureau of Labor Statistics",
-    "extra_notes": "Inflation adjustment from 2018 to 2024. DME: change to 1.3197.",
+    "extra_notes": "Inflation adjustment from 2018 to 2024",
     "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201601&year2=202401"
   }
 }

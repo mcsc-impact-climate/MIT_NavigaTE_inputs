@@ -79,7 +79,7 @@ def plot_fuel_waterfalls(country, fuel, pathway):
     plt.savefig(f"plots/WTG_waterfall/{fuel}_{pathway}_{country}_emissions.png", dpi=300)
     plt.savefig(f"plots/WTG_waterfall/{fuel}_{pathway}_{country}_emissions.pdf")
     plt.close(fig2)
-
+    print(f"Produced plot plots/WTG_waterfall/{fuel}_{pathway}_{country}_emissions.png and .pdf")
 
 def main():
     parser = argparse.ArgumentParser(description="Generate waterfall plots for all fuels/pathways for a given country.")

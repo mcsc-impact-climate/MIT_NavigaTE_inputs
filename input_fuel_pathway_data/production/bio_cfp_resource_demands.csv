@@ -1,0 +1,2 @@
+Fuel,Hydrogen Source,Carbon Source,Fuel Pathway,Electricity Demand [kWh / kg fuel],Lignocellulosic Biomass Demand [kg / kg fuel],NG Demand [GJ / kg fuel],Water Demand [m^3 / kg fuel],CO2 Demand [kg CO2 / kg fuel]
+bio_cfp,n/a,n/a,bio,0,3.5944,0.00179,0,0.0

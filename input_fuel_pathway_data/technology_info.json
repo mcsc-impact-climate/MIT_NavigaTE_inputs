@@ -30,7 +30,7 @@
     },
     "base_CapEx": {
       "value": 0.56079,
-      "units": "2024$/kg H2",
+      "units": "2024$ / (kg H2 / year)",
       "source": "H2A",
       "extra_notes": "Base capital expenditure from H2A assumptions.",
       "source_url": null
@@ -60,7 +60,7 @@
   "H2_liq": {
     "base_CapEx": {
       "value": 0.59898,
-      "units": "2024$/kg H2",
+      "units": "2024$ / (kg H2 / year)",
       "source": "H2A and Aspen Plus",
       "extra_notes": "Base CapEx for hydrogen liquefaction at 20 K.",
       "source_url": null
@@ -76,7 +76,7 @@
   "H2_comp": {
     "base_CapEx": {
       "value": 0.17114,
-      "units": "2024$/kg H2",
+      "units": "2024$ / (kg H2 / year)",
       "source": "H2A",
       "extra_notes": "Capital expenditure for compression to 700 bar.",
       "source_url": null
@@ -120,7 +120,7 @@
     },
     "base_CapEx_LTE": {
       "value": 0.193395,
-      "units": "2024$/kg NH3",
+      "units": "2024$ / (kg NH3 / year)",
       "source": "H2A",
       "extra_notes": "Capital expenditure of NH3 production plant, with H2 from LTE.",
       "source_url": null
@@ -192,7 +192,7 @@
     },
     "base_CapEx": {
       "value": 0.103556,
-      "units": "2024$/kg MeOH",
+      "units": "2024$ / (kg MeOH / year)",
       "source": "H2A",
       "extra_notes": "Base CapEx estimated from H2A and Aspen Plus.",
       "source_url": null
@@ -264,7 +264,7 @@
     },
     "base_CapEx": {
       "value": 0.322,
-      "units": "2024$/kg FTdiesel",
+      "units": "2024$ / (kg FTdiesel / year)",
       "source": "H2A",
       "extra_notes": "Capital cost based on H2A assumptions and Aspen Plus validation.",
       "source_url": null
@@ -333,11 +333,18 @@
       "extra_notes": "Water use for the methanation process.",
       "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
     },
-    "base_CapEx_2016": {
+    "TPC_2016": {
       "value": 0.141495,
-      "units": "2016$/kg SNG",
+      "units": "2016$ / (kg SNG / year)",
       "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
       "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+    },
+    "CRF": {
+      "value": 0.117459625,
+      "units": null,
+      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "extra_notes": "Capital recovery factor based on data from Table S2 (see calculation in CRF_calcs.xlsx)",
+      "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760#sec0085"
     },
     "employees": {
       "value": 68,
@@ -347,11 +354,11 @@
       "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
     },
     "yearly_output": {
-      "value": 170697030.75,
+      "value": 170820000,
       "units": "kg SNG/year",
-      "source": "SI to Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
+      "source": "Lee at al: Techno-economic and life cycle analysis of synthetic natural gas production from low-carbon H2 and point-source or atmospheric CO2 in the United States",
       "extra_notes": "Annual production volume.",
-      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+      "source_url": "Based on production rate of 19.5 MT/h reported on pg. 2"
     },
     "onsite_emissions": {
       "value": 0.0126,
@@ -362,11 +369,18 @@
     }
   },
   "NG_liq": {
-    "base_CapEx_2018": {
+    "TPC_2018": {
       "value": 0.660,
-      "units": "2024$/kg NG",
+      "units": "2018$ / (kg NG / year)",
       "source": "Outlook for Competitive LNG Supply, Mar. 1, 2019, pp. 8-15",
       "extra_notes": "CapEx for NG liquefaction based on U.S.A Lower 48 indicative plant cost (Table 3, 'USA Lower 48' column).",
+      "source_url": "https://www.jstor.org/stable/resrep31040.11?seq=7"
+    },
+    "CRF": {
+      "value": 0.101852209,
+      "units": null,
+      "source": "Assumption",
+      "extra_notes": "Calculated assuming After-tax Real IRR of 8% and 20-year depreciation schedule",
       "source_url": "https://www.jstor.org/stable/resrep31040.11?seq=7"
     }
   },
@@ -398,10 +412,10 @@
       "source": "No LCB consumption for ATRCCS"
     },
     "CRF": {
-      "value": 0.1018522,
+      "value": 0.101852209,
       "units": null,
       "source": "Zang et al 2024",
-      "extra_notes": "Capital recovery factor from H2A based on data from Table 5",
+      "extra_notes": "Capital recovery factor based on data from Table 5",
       "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
     },
     "employees": {
@@ -475,7 +489,7 @@
       "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
     },
     "CRF": {
-      "value": 0.1018522,
+      "value": 0.101852209,
       "units": null,
       "source": "Zang et al 2024",
       "extra_notes": "Capital recovery factor from H2A based on data from Table 5",
@@ -558,7 +572,7 @@
       "source_url": "https://www.sciencedirect.com/science/article/abs/pii/S0360319923048760"
     },
     "CRF": {
-      "value": 0.1018522,
+      "value": 0.101852209,
       "units": null,
       "source": "Zang et al 2024",
       "extra_notes": "Capital recovery factor from H2A based on data from Table 5",
@@ -633,12 +647,12 @@
     },
     "base_CapEx_2015": {
       "value": 0.32,
-      "units": "2015$/kg",
+      "units": "2015$ / (kg H2 / year)",
       "source": "H2A",
       "extra_notes": "Current Central Hydrogen from Biomass via Gasification and Catalytic Steam Reforming (M. Mann and D. M. Steward)"
     },
     "CRF": {
-      "value": 0.1018522,
+      "value": 0.101852209,
       "units": null,
       "source": "Zang et al 2024",
       "extra_notes": "Capital recovery factor from H2A based on data from Table 5",
@@ -679,7 +693,7 @@
   "H2_liquefaction": {
     "base_CapEx": {
       "value": 0.59898,
-      "units": "2024$ / kg H2",
+      "units": "2024$ / (kg H2 / year)",
       "source": "HDSAM"
     },
     "elect_demand": {
@@ -691,13 +705,97 @@
   "H2_compression": {
     "base_CapEx": {
       "value": 0.17114,
-      "units": "2024$ / kg H2",
+      "units": "2024$ / (kg H2 / year)",
       "source": "HDSAM"
     },
     "elect_demand": {
       "value": 3.0,
       "units": "kWh elect / kg H2",
       "source": "HDSAM"
+    }
+  },
+  "CFP": {
+    "elect_demand": {
+      "value": 0,
+      "units": "kWh / kg CFP bio-oil",
+      "source": "Dutta et al, 2015",
+      "extra_notes": "No net electricity demand due to onsite electricity production - see Total Plant Electricity Usage (kW) in Table ES-2 on pg. viii (in-situ, 2022)",
+      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    },
+    "H2_demand": {
+      "value": 0,
+      "units": "kg H2 / kg CFP bio-oil",
+      "source": "No H2 input for bio-oil production",
+      "source_url": null
+    },
+    "CO2_demand": {
+      "value": 0,
+      "units": "kg CO2 / kg CFP bio-oil",
+      "source": "No CO2 input for bio-oil production",
+      "source_url": null
+    },
+    "NG_demand": {
+      "value": 0.00179,
+      "units": "GJ / kg CFP bio-oil",
+      "source": "GREET 2024",
+      "extra_notes": "Pyrolysis_IDL tab, Table 4.1",
+      "source_url": null
+    },
+    "LCB_demand": {
+      "value": 3.5944,
+      "units": "kg bone-dry LCB / kg CFP bio-oil",
+      "source": "Dutta et al, 2015",
+      "extra_notes": "From Table ES-2 on pg. viii (in-situ, 2022): 2000 tonnes LCB/day, divided by 54.2 MM GGE per Year (after converting to kg CFP bio-oil per year)",
+      "source_url": null
+    },
+    "water_demand": {
+      "value": 0,
+      "units": "m^3/kg CFP bio-oil",
+      "source": "GREET 2024",
+      "extra_notes": "Pyrolysis_IDL tab, Table 4.1 - no net water consumption",
+      "source_url": null
+    },
+    "TPC_2011": {
+      "value": 2.688,
+      "units": "2011$ / (kg bio-oil / year)",
+      "source": "Dutta et al, 2015",
+      "extra_notes": "From Table ES-2 on pg. viii (in-situ, 2022): $545,960,000 TPI cost, divided by 203,092,927 kg/year output",
+      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    },
+    "CRF": {
+      "value": 0.117459625,
+      "units": null,
+      "source": "Dutta et al, 2015",
+      "extra_notes": "Calculated using 10% IRR (from Table ES-2) and 20-year plant lifetime (from Table 1) - see CRF_calcs.xlsx.",
+      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    },
+    "catalyst_OpEx_2011": {
+      "value": 0.144,
+      "units": "2011$ / (kg bio-oil / year)",
+      "source": "Dutta et al, 2015",
+      "extra_notes": "From Table ES-2 on pg. viii (in-situ, 2022): $0.54 / GGE bio-oil, converted to $ / (kg bio-oil / year) using using 112194 Btu/GGE (from Fuel_Specs sheet of GREET 2024), divided by 203,092,927 kg/year output",
+      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    },
+    "employees": {
+      "value": 63,
+      "units": "full-time equivalents",
+      "source": "Dutta et al, 2015",
+      "extra_notes": "From Table 31 on pg. 55",
+      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    },
+    "yearly_output": {
+      "value": 203092927,
+      "units": "kg bio-oil/year",
+      "source": "Dutta et al, 2015",
+      "extra_notes": "From Table ES-2 on pg. viii (in-situ, 2022): Total Gasoline Equivalent Production converted to kg of bio-oil using 112194 Btu/GGE (from Fuel_Specs sheet of GREET 2024)",
+      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    },
+    "onsite_emissions": {
+      "value": 0.0411,
+      "units": "kg CO2e/kg bio-oil",
+      "source": "Dutta et al, 2015",
+      "extra_notes": "Figure 12 on pg. 49 (in-situ), ignoring electricity credit",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
     }
   },
   "BEC": {

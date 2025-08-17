@@ -448,6 +448,19 @@ PATHWAYS: Dict[str, Pathway] = {
             + c["derived"]["NG_liq_CH4_leakage"] * c["glob"]["NG_GWP"]["value"]
         ),
     ),
+    # ------------------------------------------------------------------
+    # Catalytic Fast Pyrolysis (bio-oil) – Dutta et al., 2015
+    # ------------------------------------------------------------------
+    "CFP": Pathway(
+        elect_demand=lambda c: c["tech"]["CFP"]["elect_demand"]["value"],
+        lcb_demand=lambda c: c["tech"]["CFP"]["LCB_demand"]["value"],
+        ng_demand=lambda c: c["tech"]["CFP"]["NG_demand"]["value"],
+        water_demand=lambda c: c["tech"]["CFP"]["water_demand"]["value"],
+        base_capex=lambda c: c["tech"]["CFP"]["TPC_2011"]["value"] * c["glob"]["2011_to_2024_USD"]["value"] * c["tech"]["CFP"]["CRF"]["value"],
+        employees=lambda c: c["tech"]["CFP"]["employees"]["value"],
+        yearly_output=lambda c: c["tech"]["CFP"]["yearly_output"]["value"],
+        onsite_emiss=lambda c: c["tech"]["CFP"]["onsite_emissions"]["value"],
+    ),
 }
 
 
@@ -475,6 +488,7 @@ def generic_production(
     prices: dict,
     elec_intensity: float,
     lcb_upstream_emiss: float = 0.0,
+    extra_opex_components: dict = None,
 ) -> tuple[float, float, float]:
     """
     Pathway-agnostic production cost & emissions calculator.
@@ -508,6 +522,9 @@ def generic_production(
         f"Water for {product} Production": water * prices["water"],
         f"LCB for {product} Production": lcb * prices["lcb"]
     }
+
+    if extra_opex_components:
+        opex_components.update(extra_opex_components)
 
     # -------- Emissions -------------------------------------------------
     emiss_components = {
@@ -751,8 +768,9 @@ def calculate_production_costs_emissions_liquid_NG(
     """Incremental liquefaction block + generic NG feedstock."""
     # incremental liquefaction
     capex_liq = (
-        CTX["tech"]["NG_liq"]["base_CapEx_2018"]["value"]
+        CTX["tech"]["NG_liq"]["TPC_2018"]["value"]
         * CTX["glob"]["2018_to_2024_USD"]["value"]
+        * CTX["tech"]["NG_liq"]["CRF"]["value"]
         * instal_factor
     )
     opex_liq_components = {
@@ -805,7 +823,7 @@ def calculate_production_costs_emissions_SNG(
     employees = CTX["tech"]["SNG"]["employees"]["value"]
     yearly_output = CTX["tech"]["SNG"]["yearly_output"]["value"]
 
-    capex_sng = CTX["tech"]["SNG"]["base_CapEx_2016"]["value"] * CTX["glob"]["2016_to_2024_USD"]["value"] * instal_factor
+    capex_sng = CTX["tech"]["SNG"]["TPC_2016"]["value"] * CTX["glob"]["2016_to_2024_USD"]["value"] * CTX["tech"]["SNG"]["CRF"]["value"] * instal_factor
 
     opex_sng_components = {
         "SNG Production Labor": CTX["glob"]["workhours_per_year"]["value"] * labor_rate
@@ -871,8 +889,9 @@ def calculate_production_costs_emissions_LSNG(
 
     # --- liquefaction increment (reuse LNG pattern/inputs) ------------
     capex_liq = (
-        CTX["tech"]["NG_liq"]["base_CapEx_2018"]["value"]
+        CTX["tech"]["NG_liq"]["TPC_2018"]["value"]
         * CTX["glob"]["2018_to_2024_USD"]["value"]
+        * CTX["tech"]["NG_liq"]["CRF"]["value"]
         * instal_factor
     )
 
@@ -965,6 +984,41 @@ def calculate_production_costs_emissions_compressed_hydrogen(
     emiss_components["Electricity for Compression"] = emiss_comp
 
     return sum(capex_components.values()), sum(opex_components.values()), sum(emiss_components.values()), capex_components, opex_components, emiss_components
+
+# ────────────────────────────────────────────────────────────────────
+# Upgraded marine bio-oil via catalytic fast pyrolysis (CFP) with ZSM-5 catalyst
+# ────────────────────────────────────────────────────────────────────
+def calculate_production_costs_emissions_CFP(
+    H_pathway: str,  # unused dummy arg to match dispatch call signature
+    instal_factor: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_upstream_emissions: float,
+    elect_price: float,
+    elect_emissions_intensity: float,
+    hourly_labor_rate: float,
+):
+    prices = {
+        "water": water_price,
+        "ng": NG_price,
+        "lcb": LCB_price,
+        "elec": elect_price,
+        "labor": hourly_labor_rate,
+    }
+    # Convert catalyst OpEx from 2011 to 2024 USD
+    catalyst_opex_2024 = CTX["tech"]["CFP"]["catalyst_OpEx_2011"]["value"] * CTX["glob"]["2011_to_2024_USD"]["value"]
+
+    capex, opex, emiss, capex_components, opex_components, emiss_components = generic_production(
+        "CFP",
+        "CFP bio-oil",
+        instal_factor,
+        prices,
+        elect_emissions_intensity,
+        lcb_upstream_emiss=LCB_upstream_emissions,
+        extra_opex_components={"Catalyst for CFP Production": catalyst_opex_2024}
+    )
+    return capex, opex, emiss, capex_components, opex_components, emiss_components
 
 
 # ────────────────────────────────────────────────────────────────────
@@ -1433,6 +1487,7 @@ resource_demand_fn = {
     "lng": calculate_resource_demands_liquid_NG,
     "sng":  calculate_resource_demands_SNG,
     "lsng": calculate_resource_demands_LSNG,
+    "bio_cfp": lambda *_: generic_demands("CFP"),
 }
 
 # Dispatch table for production cost + emissions
@@ -1447,6 +1502,7 @@ cost_emission_fn = {
     "lng": calculate_production_costs_emissions_liquid_NG,
     "sng": calculate_production_costs_emissions_SNG,
     "lsng": calculate_production_costs_emissions_LSNG,
+    "bio_cfp": calculate_production_costs_emissions_CFP,
 }
 
 fuel_comments = {
@@ -1460,6 +1516,7 @@ fuel_comments = {
     "lng": "liquid natural gas at atmospheric pressure",
     "sng": "synthetic natural gas at standard temperature and pressure",
     "lsng": "liquid synthetic natural gas at atmospheric pressure",
+    "bio_cfp": "catalytic fast pyrolysis bio-oil at STP",
 }
 
 def load_projection_if_year_given(input_dir, file_prefix, region, year, unit_label):
@@ -1516,8 +1573,8 @@ def main(save_breakdowns=False, year=None, include_demands=False):
     Csources = get_unique_sources("carbon sources")
     # Well to Gate fuel production
     for fuel in fuels:
-        if "fossil" in fuel_content_map[fuel]:
-            fuel_pathways = ["fossil"]
+        if "fossil" in fuel_content_map[fuel] or "bio" in fuel_content_map[fuel]:
+            fuel_pathways = [fuel_content_map[fuel]]
             H_pathways = ["n/a"]
             C_pathways = ["n/a"]
             E_pathways = ["n/a"]
@@ -1624,9 +1681,9 @@ def main(save_breakdowns=False, year=None, include_demands=False):
                     src,
                     NG_fugitive_emissions,
                     src,
-                    LCB_price,
-                    src,
                     LCB_upstream_emissions,
+                    src,
+                    LCB_price,
                     src,
                     grid_price,
                     src,
