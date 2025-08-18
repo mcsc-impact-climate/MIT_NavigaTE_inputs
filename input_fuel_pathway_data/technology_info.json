@@ -742,10 +742,10 @@
       "source_url": null
     },
     "LCB_demand": {
-      "value": 3.5944,
+      "value": 3.448,
       "units": "kg bone-dry LCB / kg CFP bio-oil",
       "source": "Dutta et al, 2015",
-      "extra_notes": "From Table ES-2 on pg. viii (in-situ, 2022): 2000 tonnes LCB/day, divided by 54.2 MM GGE per Year (after converting to kg CFP bio-oil per year)",
+      "extra_notes": "From Table ES-3 on pg. ix (ex-situ, 2022): 2000 tonnes LCB/day, divided by 56.5 MM GGE per Year (after converting to kg CFP bio-oil per year)",
       "source_url": null
     },
     "water_demand": {
@@ -756,24 +756,24 @@
       "source_url": null
     },
     "TPC_2011": {
-      "value": 2.688,
+      "value": 2.903,
       "units": "2011$ / (kg bio-oil / year)",
       "source": "Dutta et al, 2015",
-      "extra_notes": "From Table ES-2 on pg. viii (in-situ, 2022): $545,960,000 TPI cost, divided by 203,092,927 kg/year output",
+      "extra_notes": "From Table ES-3 on pg. ix (ex-situ, 2022): $589,630,000 TPI cost, divided by 203,092,927 kg/year output",
       "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
     },
     "CRF": {
       "value": 0.117459625,
       "units": null,
       "source": "Dutta et al, 2015",
-      "extra_notes": "Calculated using 10% IRR (from Table ES-2) and 20-year plant lifetime (from Table 1) - see CRF_calcs.xlsx.",
+      "extra_notes": "Calculated using 10% IRR (from Table ES-3) and 20-year plant lifetime (from Table 1) - see CRF_calcs.xlsx.",
       "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
     },
     "catalyst_OpEx_2011": {
-      "value": 0.144,
+      "value": 0.0966,
       "units": "2011$ / (kg bio-oil / year)",
       "source": "Dutta et al, 2015",
-      "extra_notes": "From Table ES-2 on pg. viii (in-situ, 2022): $0.54 / GGE bio-oil, converted to $ / (kg bio-oil / year) using using 112194 Btu/GGE (from Fuel_Specs sheet of GREET 2024), divided by 203,092,927 kg/year output",
+      "extra_notes": "From Table ES-3 on pg. ix (ex-situ, 2022): $0.362 / GGE bio-oil, converted to $ / (kg bio-oil / year) using using 112194 Btu/GGE (from Fuel_Specs sheet of GREET 2024), divided by 203,092,927 kg/year output",
       "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
     },
     "employees": {
@@ -787,14 +787,14 @@
       "value": 203092927,
       "units": "kg bio-oil/year",
       "source": "Dutta et al, 2015",
-      "extra_notes": "From Table ES-2 on pg. viii (in-situ, 2022): Total Gasoline Equivalent Production converted to kg of bio-oil using 112194 Btu/GGE (from Fuel_Specs sheet of GREET 2024)",
+      "extra_notes": "From Table ES-3 on pg. ix (ex-situ, 2022): Total Gasoline Equivalent Production converted to kg of bio-oil using 112194 Btu/GGE (from Fuel_Specs sheet of GREET 2024)",
       "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
     },
     "onsite_emissions": {
-      "value": 0.0411,
+      "value": 0.0380,
       "units": "kg CO2e/kg bio-oil",
       "source": "Dutta et al, 2015",
-      "extra_notes": "Figure 12 on pg. 49 (in-situ), ignoring electricity credit",
+      "extra_notes": "Figure 12 on pg. 49 (ex-situ), ignoring electricity credit",
       "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
     }
   },

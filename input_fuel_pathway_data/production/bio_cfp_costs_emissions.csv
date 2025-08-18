@@ -1,39 +1,39 @@
 Fuel,Hydrogen Source,Carbon Source,Electricity Source,Pathway Name,Region,Number,Year,CapEx [$/tonne],OpEx [$/tonne],LCOF [$/tonne],Emissions [kg CO2e / kg fuel],Comment
-bio_cfp,n/a,n/a,n/a,bio,South Africa,1,2024,413.44010131116005,580.2508232409617,993.6909245521217,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Taiwan,1,2024,406.80737241312,596.5205758101083,1003.3279482232283,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Switzerland,1,2024,488.61102882228005,717.0089620977078,1205.619990919988,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Singapore,1,2024,409.01828204580005,685.8148736456462,1094.8331556914463,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Hungary,1,2024,397.96373388240005,608.0858264051803,1006.0495602875803,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Philippines,1,2024,395.75282424972005,587.431567137077,983.184391386797,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Netherlands,1,2024,453.2364746994,662.0719593260546,1115.3084340254545,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Norway,1,2024,501.87648661836005,663.3875661635592,1165.2640527819192,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Oman,1,2024,422.28373984188005,578.6070264134047,1000.8907662552847,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Italy,1,2024,424.49464947456,665.1818079429343,1089.6764574174942,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Austria,1,2024,459.86920359744005,663.9685900699195,1123.8377936673596,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Finland,1,2024,477.55648065888005,667.6838717038112,1145.2403523626913,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Portugal,1,2024,402.38555314776005,627.7348735144134,1030.1204266621735,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Germany,1,2024,455.44738433208005,663.3944040870374,1118.8417884191174,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Greece,1,2024,406.80737241312005,609.8658175521723,1016.6731899652923,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,France,1,2024,446.60374580136005,663.3271011946349,1109.930846995995,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Brazil,1,2024,406.80737241312,629.968744296374,1036.776116709494,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,United Kingdom,1,2024,470.92375176084,640.4857151283524,1111.4094668891923,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Spain,1,2024,411.22919167848,631.8945806641067,1043.1237723425866,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Sweden,1,2024,486.4001191896001,699.0424363794009,1185.442555569001,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Czech Republic,1,2024,402.38555314776005,619.030110823732,1021.415663971492,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Japan,1,2024,477.55648065888005,641.4043073623207,1118.9607880212006,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Belgium,1,2024,453.2364746994,649.4741439368354,1102.7106186362353,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Poland,1,2024,409.01828204580005,622.2029880322336,1031.2212700780337,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,India,1,2024,391.33100498436,598.3581840887013,989.6891890730612,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Indonesia,1,2024,355.95645086148,613.3179574713772,969.2744083328572,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,South Korea,1,2024,415.65101094384,625.2323486380948,1040.8833595819347,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,China,1,2024,404.59646278044005,601.5202504614547,1006.1167132418948,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,United Arab Emirates,1,2024,422.28373984188005,578.6070264134047,1000.8907662552847,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,United States,1,2024,442.18192653600005,627.5877486667632,1069.7696752027632,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Turkey,1,2024,404.59646278044005,590.1421945534427,994.7386573338827,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Australia,1,2024,453.2364746994,633.2278999885581,1086.464374687958,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Malaysia,1,2024,386.909185719,585.3582274741624,972.2674131931624,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Canada,1,2024,451.02556506672005,611.6389723154161,1062.6645373821361,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Mexico,1,2024,389.12009535168,579.5579703810362,968.6780657327162,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Thailand,1,2024,393.54191461704005,585.5177511271895,979.0596657442295,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Russia,1,2024,417.86192057652005,577.7017048094739,995.5636253859939,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
-bio_cfp,n/a,n/a,n/a,bio,Saudi Arabia,1,2024,422.28373984188005,577.7721539408216,1000.0558937827016,0.2559529388072941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,South Africa,1,2024,446.5091570335928,501.9359465843077,948.4451036179005,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Taiwan,1,2024,439.3459085250325,518.1738679768231,957.5197765018556,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Switzerland,1,2024,527.6926401306097,639.0548387762076,1166.7474789068174,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Singapore,1,2024,441.733658027886,607.4787762045713,1049.2124342324573,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Hungary,1,2024,429.7949105136188,529.6966770030535,959.4915875166723,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Philippines,1,2024,427.4071610107654,509.0318073427398,936.4389683535052,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Netherlands,1,2024,489.48864808495466,583.948069729188,1073.4367178141426,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Norway,1,2024,542.0191371477304,585.4971051953214,1127.5162423430518,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Oman,1,2024,456.06015504500664,500.3345913255923,956.394746370599,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Italy,1,2024,458.44790454786,586.9199832473323,1045.3678877951922,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Austria,1,2024,496.65189659351506,585.876531649684,1082.528428243199,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Finland,1,2024,515.7538926163426,589.676696421259,1105.4305890376015,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Portugal,1,2024,434.57040951932566,549.3669448967073,983.937354416033,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Germany,1,2024,491.8763975878081,585.2811248823812,1077.1575224701892,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Greece,1,2024,439.34590852503254,531.5191097188871,970.8650182439196,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,France,1,2024,482.32539957639443,585.171380421137,1067.4967799975313,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Brazil,1,2024,439.3459085250325,551.6220364630889,990.9679449881214,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,United Kingdom,1,2024,508.5906441077822,562.4467086691689,1071.0373527769511,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Spain,1,2024,444.12140753073936,553.5690936152423,997.6905011459817,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Sweden,1,2024,525.3048906277563,621.0777026656903,1146.3825932934465,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Czech Republic,1,2024,434.57040951932566,540.662182206026,975.2325917253518,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Japan,1,2024,515.7538926163426,563.3971320797685,1079.151024696111,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Belgium,1,2024,489.48864808495466,571.3502543399686,1060.8389024249232,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Poland,1,2024,441.733658027886,543.8668905911588,985.6005486190448,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,India,1,2024,422.63166200505844,519.9372035099432,942.5688655150016,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Indonesia,1,2024,384.42766995940343,534.7272106172526,919.1548805766561,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,South Korea,1,2024,448.89690653644624,546.9280823736511,995.8249889100973,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,China,1,2024,436.95815902217913,523.162932235959,960.1210912581382,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,United Arab Emirates,1,2024,456.06015504500664,500.3345913255923,956.394746370599,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,United States,1,2024,477.5499005706875,549.4108071088444,1026.9607076795319,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Turkey,1,2024,436.95815902217913,511.784876327947,948.7430353501261,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Australia,1,2024,489.48864808495466,555.1040103916913,1044.592658476646,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Malaysia,1,2024,417.85616299935157,506.91602611098364,924.7721891103351,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Canada,1,2024,487.10089858210125,533.5044723263392,1020.6053709084404,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Mexico,1,2024,420.243912502205,501.12637941006767,921.3702919122727,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Thailand,1,2024,425.0194115079119,507.1073809406419,932.1267924485538,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Russia,1,2024,451.28465603929976,499.4080489372408,950.6927049765405,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
+bio_cfp,n/a,n/a,n/a,bio,Saudi Arabia,1,2024,456.06015504500664,499.49971885300914,955.5598738980158,0.2446077681064941,catalytic fast pyrolysis bio-oil at STP
