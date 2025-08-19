@@ -1084,7 +1084,7 @@ def calculate_production_costs_emissions_LEO(
     # Biogenic carbon credit
     bio_carbon_credit = CTX["molecular_info"]["C_content_LEO"]["value"] * CTX["molecular_info"]["MW_CO2"]["value"] / CTX["molecular_info"]["MW_C"]["value"]
     emiss_components["Biogenic CO2 credit"] = -1.0 * bio_carbon_credit
-    emiss += emiss_components["Biogenic CO2 credit"] 
+    emiss += emiss_components["Biogenic CO2 credit"]
 
     return capex, opex, emiss, capex_components, opex_components, emiss_components
 
@@ -1947,6 +1947,48 @@ def main(save_breakdowns=False, year=None, include_demands=False):
             f"Output CSV file created: {os.path.join(output_dir_production, output_file)}"
         )
 
+    # ---- Combine fossil and synthetic outputs for ng and lng ----
+    def combine_fossil_and_synthetic(fossil_name, synthetic_name, output_dir, suffix):
+        fossil_file = os.path.join(output_dir, f"{fossil_name}_costs_emissions{suffix}.csv")
+        synthetic_file = os.path.join(output_dir, f"{synthetic_name}_costs_emissions{suffix}.csv")
+
+        if os.path.exists(fossil_file) and os.path.exists(synthetic_file):
+            fossil_df = pd.read_csv(fossil_file)
+            synthetic_df = pd.read_csv(synthetic_file)
+
+            combined_df = pd.concat([fossil_df, synthetic_df], ignore_index=True)
+            combined_df.to_csv(fossil_file, index=False)  # overwrite fossil file with combined
+            os.remove(synthetic_file)  # optional: remove synthetic CSV to avoid confusion
+
+            print(f"✓ Combined {fossil_name} and {synthetic_name} into {fossil_file}")
+
+    suffix = f"_{year}" if year is not None else ""
+    combine_fossil_and_synthetic("ng", "sng", output_dir_production, suffix)
+    combine_fossil_and_synthetic("lng", "lsng", output_dir_production, suffix)
+    
+    def combine_resource_demands(fossil_name, synthetic_name, output_dir):
+        fossil_file = os.path.join(output_dir, f"{fossil_name}_resource_demands.csv")
+        synthetic_file = os.path.join(output_dir, f"{synthetic_name}_resource_demands.csv")
+
+        if os.path.exists(fossil_file) and os.path.exists(synthetic_file):
+            fossil_df = pd.read_csv(fossil_file)
+            synthetic_df = pd.read_csv(synthetic_file)
+
+            combined_df = pd.concat([fossil_df, synthetic_df], ignore_index=True)
+            combined_df.to_csv(fossil_file, index=False)
+            os.remove(synthetic_file)  # optional cleanup
+
+            print(f"✓ Combined resource demands: {fossil_name} + {synthetic_name} → {fossil_file}")
+
+    # Call the functions to merge synthetic into fossil files
+    suffix = f"_{year}" if year is not None else ""
+    combine_fossil_and_synthetic("ng", "sng", output_dir_production, suffix)
+    combine_fossil_and_synthetic("lng", "lsng", output_dir_production, suffix)
+
+    if include_demands:
+        combine_resource_demands("ng", "sng", output_dir_production)
+        combine_resource_demands("lng", "lsng", output_dir_production)
+
     # Gate to Pump Processes
     processes = sorted(
         set(
@@ -2219,6 +2261,25 @@ def main(save_breakdowns=False, year=None, include_demands=False):
         print(
             f"Output CSV file created: {os.path.join(output_dir_process, output_file)}"
         )
+        
+    # ---- Combine fossil and synthetic GTP liquefaction outputs ----
+    def combine_liquefaction_outputs(fossil_process, synthetic_process, output_dir, suffix):
+        fossil_file = os.path.join(output_dir, f"{fossil_process}_costs_emissions{suffix}.csv")
+        synthetic_file = os.path.join(output_dir, f"{synthetic_process}_costs_emissions{suffix}.csv")
+
+        if os.path.exists(fossil_file) and os.path.exists(synthetic_file):
+            fossil_df = pd.read_csv(fossil_file)
+            synthetic_df = pd.read_csv(synthetic_file)
+
+            combined_df = pd.concat([fossil_df, synthetic_df], ignore_index=True)
+            combined_df.to_csv(fossil_file, index=False)
+            os.remove(synthetic_file)  # optional: remove synthetic
+
+            print(f"✓ Combined liquefaction outputs: {fossil_process} + {synthetic_process} → {fossil_file}")
+
+    # Call it for natural gas liquefaction
+    combine_liquefaction_outputs("ng_liquefaction", "sng_liquefaction", output_dir_process, suffix)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate cost/emissions and resource .csvs (optionally with component .jsons).")

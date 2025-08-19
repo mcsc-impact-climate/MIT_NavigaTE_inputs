@@ -83,14 +83,6 @@ WTG_input_files = {
             "NG Liquefaction": "input_fuel_pathway_data/process/ng_liquefaction_costs_emissions.csv"
         },
     },
-    "lsng": {
-        "Production": {
-            "SNG Production": "input_fuel_pathway_data/production/sng_costs_emissions.csv"
-        },
-        "Process": {
-            "SNG Liquefaction": "input_fuel_pathway_data/process/sng_liquefaction_costs_emissions.csv"
-        },
-    },
     "bio_cfp": {
         "Production": {
             "CFP Biofuel Production": "input_fuel_pathway_data/production/bio_cfp_costs_emissions.csv"
@@ -574,7 +566,6 @@ class FuelWTG:
         # Group pathways by color
         pathways_by_color = defaultdict(list)
         for p in self.pathways:
-            print(p)
             color = get_pathway_type_color(get_pathway_type(p))
             pathways_by_color[color].append(p)
 
@@ -929,10 +920,9 @@ def main():
 #        "ammonia",
 #        "methanol",
 #        "FTdiesel",
-#        "lng",
-#        "lsng",
-        "bio_cfp",
-        "bio_leo"
+        "lng",
+#        "bio_cfp",
+#        "bio_leo",
     ]:
         fuel_wtt = FuelWTG(fuel)
         fuel_wtt.make_stacked_hist("emissions", per_GJ=True)
