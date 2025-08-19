@@ -718,9 +718,9 @@
     "elect_demand": {
       "value": 0,
       "units": "kWh / kg CFP bio-oil",
-      "source": "Dutta et al, 2015",
-      "extra_notes": "No net electricity demand due to onsite electricity production - see Total Plant Electricity Usage (kW) in Table ES-2 on pg. viii (in-situ, 2022)",
-      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+      "source": "SI to Li et al, 2022",
+      "extra_notes": "No net electricity demand due to onsite electricity production (Table S9)",
+      "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
     },
     "H2_demand": {
       "value": 0,
@@ -735,18 +735,18 @@
       "source_url": null
     },
     "NG_demand": {
-      "value": 0.00179,
+      "value": 0,
       "units": "GJ / kg CFP bio-oil",
-      "source": "GREET 2024",
-      "extra_notes": "Pyrolysis_IDL tab, Table 4.1",
-      "source_url": null
+      "source": "SI to Li et al, 2022",
+      "extra_notes": "No NG input to process (Table S9)",
+      "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
     },
     "LCB_demand": {
-      "value": 3.448,
+      "value": 4.995946702,
       "units": "kg bone-dry LCB / kg CFP bio-oil",
-      "source": "Dutta et al, 2015",
-      "extra_notes": "From Table ES-3 on pg. ix (ex-situ, 2022): 2000 tonnes LCB/day, divided by 56.5 MM GGE per Year (after converting to kg CFP bio-oil per year)",
-      "source_url": null
+      "source": "Li et al, 2022",
+      "extra_notes": "From Table 1, fuel yield (converted from HFOGE / dry tonne to kg LCB per kg fuel, see biofuel_calcs.xlsx)",
+      "source_url": "https://pubs.acs.org/doi/10.1021/acs.est.2c03960"
     },
     "water_demand": {
       "value": 0,
@@ -755,47 +755,131 @@
       "extra_notes": "Pyrolysis_IDL tab, Table 4.1 - no net water consumption",
       "source_url": null
     },
-    "TPC_2011": {
-      "value": 2.903,
-      "units": "2011$ / (kg bio-oil / year)",
-      "source": "Dutta et al, 2015",
-      "extra_notes": "From Table ES-3 on pg. ix (ex-situ, 2022): $589,630,000 TPI cost, divided by 203,092,927 kg/year output",
-      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    "TPC_2016": {
+      "value": 2.7884,
+      "units": "2016$ / (kg bio-oil / year)",
+      "source": "Li et al, 2022",
+      "extra_notes": "From Table 1 (TCI), divided by annual fuel production (144966002.9)",
+      "source_url": "https://pubs.acs.org/doi/10.1021/acs.est.2c03960"
     },
     "CRF": {
       "value": 0.117459625,
       "units": null,
-      "source": "Dutta et al, 2015",
-      "extra_notes": "Calculated using 10% IRR (from Table ES-3) and 20-year plant lifetime (from Table 1) - see CRF_calcs.xlsx.",
-      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+      "source": "SI to Li et al, 2022",
+      "extra_notes": "Calculated using 10% IRR (from Table S4) and 20-year plant lifetime (to align with other pathways) - see CRF_calcs.xlsx.",
+      "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
     },
-    "catalyst_OpEx_2011": {
-      "value": 0.0966,
-      "units": "2011$ / (kg bio-oil / year)",
-      "source": "Dutta et al, 2015",
-      "extra_notes": "From Table ES-3 on pg. ix (ex-situ, 2022): $0.362 / GGE bio-oil, converted to $ / (kg bio-oil / year) using using 112194 Btu/GGE (from Fuel_Specs sheet of GREET 2024), divided by 203,092,927 kg/year output",
-      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    "other_OpEx_2016": {
+      "value": -0.008573045,
+      "units": "2016$ / (kg bio-oil / year)",
+      "source": "SI to Li et al, 2022",
+      "extra_notes": "From Table S9 on pg. S16 (FP2): $0.63+0.08-0.74 / (HFOGE bio-oil / year), converted to $ / (kg bio-oil / year) using 4.665787027 kg fuel / HFOGE",
+      "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
     },
     "employees": {
       "value": 63,
       "units": "full-time equivalents",
       "source": "Dutta et al, 2015",
-      "extra_notes": "From Table 31 on pg. 55",
+      "extra_notes": "Not explicitly listed in Li et al, so use value From Table 31 on pg. 55 in Dutta et al as proxy.",
       "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
     },
     "yearly_output": {
-      "value": 203092927,
+      "value": 144966002.9,
       "units": "kg bio-oil/year",
-      "source": "Dutta et al, 2015",
-      "extra_notes": "From Table ES-3 on pg. ix (ex-situ, 2022): Total Gasoline Equivalent Production converted to kg of bio-oil using 112194 Btu/GGE (from Fuel_Specs sheet of GREET 2024)",
-      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+      "source": "Li et al, 2022",
+      "extra_notes": "From Table 1: 31.07e6 HFOGE/yr, converted to kg bio-oil/year using 4.665787027 kg bio-oil / HFOGE",
+      "source_url": "https://pubs.acs.org/doi/10.1021/acs.est.2c03960"
     },
     "onsite_emissions": {
       "value": 0.0380,
       "units": "kg CO2e/kg bio-oil",
       "source": "Dutta et al, 2015",
-      "extra_notes": "Figure 12 on pg. 49 (ex-situ), ignoring electricity credit",
-      "source_url": "https://www.sciencedirect.com/science/article/pii/S2212982024001264#sec0085"
+      "extra_notes": "Not explicitly listed in Li et al, so use value from Figure 12 on pg. 49 (ex-situ), ignoring electricity credit",
+      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    }
+  },
+  "LEO": {
+    "elect_demand": {
+      "value": 0,
+      "units": "kWh / kg CFP bio-oil",
+      "source": "SI to Li et al, 2022",
+      "extra_notes": "No net electricity demand due to onsite electricity production (Table S9)",
+      "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
+    },
+    "H2_demand": {
+      "value": 0,
+      "units": "kg H2 / kg LEO bio-oil",
+      "source": "No H2 input for bio-oil production",
+      "source_url": null
+    },
+    "CO2_demand": {
+      "value": 0,
+      "units": "kg CO2 / kg LEO bio-oil",
+      "source": "No CO2 input for bio-oil production",
+      "source_url": null
+    },
+    "NG_demand": {
+      "value": 0.023567829,
+      "units": "GJ / kg LEO bio-oil",
+      "source": "SI to Li et al, 2022",
+      "extra_notes": "Derived from the reported operating cost of NG consumption in Table S9 - details in biofuel_calcs.xlsx",
+      "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
+    },
+    "LCB_demand": {
+      "value": 1.872122512,
+      "units": "kg bone-dry LCB / kg LEO bio-oil",
+      "source": "Li et al, 2022",
+      "extra_notes": "From Table 1, fuel yield (converted from HFOGE / dry tonne to kg LCB per kg fuel, see biofuel_calcs.xlsx)",
+      "source_url": "https://pubs.acs.org/doi/10.1021/acs.est.2c03960"
+    },
+    "water_demand": {
+      "value": 0,
+      "units": "m^3/kg LEO bio-oil",
+      "source": "GREET 2024",
+      "extra_notes": "Pyrolysis_IDL tab, Table 4.1 - no net water consumption",
+      "source_url": null
+    },
+    "TPC_2016": {
+      "value": 1.6256,
+      "units": "2016$ / (kg LEO bio-oil / year)",
+      "source": "Li et al, 2022",
+      "extra_notes": "From Table 1 (TCI), divided by annual fuel production (386791041.3)",
+      "source_url": "https://pubs.acs.org/doi/10.1021/acs.est.2c03960"
+    },
+    "CRF": {
+      "value": 0.117459625,
+      "units": null,
+      "source": "SI to Li et al, 2022",
+      "extra_notes": "Calculated using 10% IRR (from Table S4) and 20-year plant lifetime (to align with other pathways) - see CRF_calcs.xlsx.",
+      "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
+    },
+    "other_OpEx_2016": {
+      "value": 0.051017211,
+      "units": "2016$ / (kg LEO bio-oil / year)",
+      "source": "SI to Li et al, 2022",
+      "extra_notes": "From Table S9 on pg. S16 (FP2): $0.53+0.01-0.19 / (HFOGE bio-oil / year), converted to $ / (kg bio-oil / year) using 4.665787027 kg fuel / HFOGE",
+      "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
+    },
+    "employees": {
+      "value": 63,
+      "units": "full-time equivalents",
+      "source": "Dutta et al, 2015",
+      "extra_notes": "Not explicitly listed in Li et al, so use value From Table 31 on pg. 55 in Dutta et al as proxy.",
+      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
+    },
+    "yearly_output": {
+      "value": 386791041.3,
+      "units": "kg LEO bio-oil/year",
+      "source": "Li et al, 2022",
+      "extra_notes": "From Table 1: 31.07e6 HFOGE/yr, converted to kg bio-oil/year using 4.665787027 kg bio-oil / HFOGE",
+      "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
+    },
+    "onsite_emissions": {
+      "value": 0.0380,
+      "units": "kg CO2e/kg LEO bio-oil",
+      "source": "Dutta et al, 2015",
+      "extra_notes": "Not explicitly listed in Li et al, so use value from Figure 12 on pg. 49 (ex-situ), ignoring electricity credit",
+      "source_url": "https://docs.nrel.gov/docs/fy15osti/62455.pdf"
     }
   },
   "BEC": {

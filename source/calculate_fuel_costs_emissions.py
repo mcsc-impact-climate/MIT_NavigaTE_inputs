@@ -55,7 +55,7 @@ def build_context() -> Dict[str, Dict]:
     # ------------------------------------------------------------------
     ng_info = pd.read_csv(
         os.path.join(
-            ctx["top_dir"], "input_fuel_pathway_data", "lng_inputs_GREET_processed.csv"
+            ctx["top_dir"], "input_fuel_pathway_data", "LNG_inputs_GREET_processed.csv"
         ),
         index_col="Stage",
     )
@@ -415,7 +415,7 @@ PATHWAYS: Dict[str, Pathway] = {
         yearly_output=lambda c: 1.0,
         onsite_emiss=lambda c: (
             c["derived"]["NG_liq_CO2_emissions"]
-            + c["derived"]["NG_liq_CH4_leakage"] * c["glob"]["NG_GWP"]["value"]
+            + c["derived"]["NG_liq_CH4_leakage"] * c["glob"]["CH4_GWP"]["value"]
         ),
     ),
     # ------------------------------------------------------------------
@@ -445,21 +445,42 @@ PATHWAYS: Dict[str, Pathway] = {
         yearly_output=lambda c: 1.0,
         onsite_emiss=lambda c: (
             c["derived"]["NG_liq_CO2_emissions"]
-            + c["derived"]["NG_liq_CH4_leakage"] * c["glob"]["NG_GWP"]["value"]
+            + c["derived"]["NG_liq_CH4_leakage"] * c["glob"]["CH4_GWP"]["value"]
         ),
     ),
     # ------------------------------------------------------------------
-    # Catalytic Fast Pyrolysis (bio-oil) – Dutta et al., 2015
+    # Catalytic Fast Pyrolysis (bio-oil) – Li et al, 2022
     # ------------------------------------------------------------------
     "CFP": Pathway(
         elect_demand=lambda c: c["tech"]["CFP"]["elect_demand"]["value"],
         lcb_demand=lambda c: c["tech"]["CFP"]["LCB_demand"]["value"],
         ng_demand=lambda c: c["tech"]["CFP"]["NG_demand"]["value"],
         water_demand=lambda c: c["tech"]["CFP"]["water_demand"]["value"],
-        base_capex=lambda c: c["tech"]["CFP"]["TPC_2011"]["value"] * c["glob"]["2011_to_2024_USD"]["value"] * c["tech"]["CFP"]["CRF"]["value"],
+        base_capex=lambda c: c["tech"]["CFP"]["TPC_2016"]["value"] * c["glob"]["2016_to_2024_USD"]["value"] * c["tech"]["CFP"]["CRF"]["value"],
         employees=lambda c: c["tech"]["CFP"]["employees"]["value"],
         yearly_output=lambda c: c["tech"]["CFP"]["yearly_output"]["value"],
         onsite_emiss=lambda c: c["tech"]["CFP"]["onsite_emissions"]["value"],
+    ),
+    
+    # ------------------------------------------------------------------
+    # Lignin-ethanol oil – Li et al, 2022
+    # ------------------------------------------------------------------
+    "LEO": Pathway(
+        elect_demand=lambda c: c["tech"]["LEO"]["elect_demand"]["value"],
+        lcb_demand=lambda c: c["tech"]["LEO"]["LCB_demand"]["value"],
+        ng_demand=lambda c: c["tech"]["LEO"]["NG_demand"]["value"],
+        water_demand=lambda c: c["tech"]["LEO"]["water_demand"]["value"],
+        base_capex=lambda c: c["tech"]["LEO"]["TPC_2016"]["value"] * c["glob"]["2016_to_2024_USD"]["value"] * c["tech"]["LEO"]["CRF"]["value"],
+        employees=lambda c: c["tech"]["LEO"]["employees"]["value"],
+        yearly_output=lambda c: c["tech"]["LEO"]["yearly_output"]["value"],
+        onsite_emiss=lambda c: (
+            c["tech"]["LEO"]["onsite_emissions"]["value"]
+            + c["tech"]["LEO"]["NG_demand"]["value"] * (
+                c["glob"]["NG_CO2_per_GJ_stationary"]["value"] * c["glob"]["CO2_GWP"]["value"]
+                + c["glob"]["NG_CH4_per_GJ_stationary"]["value"] * c["glob"]["CH4_GWP"]["value"]
+                + c["glob"]["NG_N2O_per_GJ_stationary"]["value"] * c["glob"]["N2O_GWP"]["value"]
+            )
+        )
     ),
 }
 
@@ -530,7 +551,7 @@ def generic_production(
     emiss_components = {
         f"Electricity for {product} Production": elect * elec_intensity,
         f"NG for {product} Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4 and upstream CO2-e
-        * CTX["glob"]["NG_GWP"]["value"]
+        * CTX["glob"]["CH4_GWP"]["value"]
         * CTX["derived"]["NG_CH4_leakage"]
         + ng / CTX["glob"]["NG_HHV"]["value"] * CTX["derived"]["NG_CO2_emissions"],
         f"Onsite Emissions for {product} Production": _p(path, "onsite_emiss"),
@@ -616,7 +637,7 @@ def _feed_co2(
             "Embedded Emissions of DAC Facility": CTX["derived"]["DAC_CO2_upstream_emissions"] * CO2_demand,
             "Upstream Emissions of NG Used for DAC": CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
                                                                     / CTX["glob"]["NG_HHV"]["value"]
-                                                                    * CTX["glob"]["NG_GWP"]["value"]
+                                                                    * CTX["glob"]["CH4_GWP"]["value"]
                                                                     * CTX["derived"]["NG_CH4_leakage"]      # Upstream CH4 leakage
                                                                     + CTX["derived"]["DAC_CO2_upstream_NG"] * CO2_demand
                                                                     / CTX["glob"]["NG_HHV"]["value"]
@@ -783,7 +804,7 @@ def calculate_production_costs_emissions_liquid_NG(
     
     emiss_liq_components = {
         "Onsite CO2 Emissions for Liquefaction": CTX["derived"]["NG_liq_CO2_emissions"],
-        "CH4 Leakage for Liquefaction": CTX["derived"]["NG_liq_CH4_leakage"] * CTX["glob"]["NG_GWP"]["value"],
+        "CH4 Leakage for Liquefaction": CTX["derived"]["NG_liq_CH4_leakage"] * CTX["glob"]["CH4_GWP"]["value"],
         "Electricity Demand for Liquefaction": CTX["derived"]["NG_liq_elect_demand"] * elect_emissions_intensity
     }
 
@@ -906,7 +927,7 @@ def calculate_production_costs_emissions_LSNG(
 
     emiss_liq_components = {
         "Onsite CO2 Emissions for Liquefaction": CTX["derived"]["NG_liq_CO2_emissions"],
-        "CH4 Leakage for Liquefaction": CTX["derived"]["NG_liq_CH4_leakage"] * CTX["glob"]["NG_GWP"]["value"],
+        "CH4 Leakage for Liquefaction": CTX["derived"]["NG_liq_CH4_leakage"] * CTX["glob"]["CH4_GWP"]["value"],
         "Electricity Demand for Liquefaction": CTX["derived"]["NG_liq_elect_demand"] * elect_emissions_intensity,
     }
 
@@ -1006,8 +1027,8 @@ def calculate_production_costs_emissions_CFP(
         "elec": elect_price,
         "labor": hourly_labor_rate,
     }
-    # Convert catalyst OpEx from 2011 to 2024 USD
-    catalyst_opex_2024 = CTX["tech"]["CFP"]["catalyst_OpEx_2011"]["value"] * CTX["glob"]["2011_to_2024_USD"]["value"]
+    # Convert catalyst OpEx from 2016 to 2024 USD
+    other_opex_2024 = CTX["tech"]["CFP"]["other_OpEx_2016"]["value"] * CTX["glob"]["2016_to_2024_USD"]["value"]
 
     capex, opex, emiss, capex_components, opex_components, emiss_components = generic_production(
         "CFP",
@@ -1016,8 +1037,53 @@ def calculate_production_costs_emissions_CFP(
         prices,
         elect_emissions_intensity,
         lcb_upstream_emiss=LCB_upstream_emissions,
-        extra_opex_components={"Catalyst for CFP Production": catalyst_opex_2024}
+        extra_opex_components={"Catalyst for CFP Production": other_opex_2024}
     )
+    
+    # Biogenic carbon credit
+    bio_carbon_credit = CTX["molecular_info"]["C_content_CFP"]["value"] * CTX["molecular_info"]["MW_CO2"]["value"] / CTX["molecular_info"]["MW_C"]["value"]
+    emiss_components["Biogenic CO2 credit"] = -1.0 * bio_carbon_credit
+
+    return capex, opex, emiss, capex_components, opex_components, emiss_components
+    
+# ────────────────────────────────────────────────────────────────────
+# Upgraded lignin ethanol oil via reductive catalytic fractionation
+# ────────────────────────────────────────────────────────────────────
+def calculate_production_costs_emissions_LEO(
+    H_pathway: str,  # unused dummy arg to match dispatch call signature
+    instal_factor: float,
+    water_price: float,
+    NG_price: float,
+    LCB_price: float,
+    LCB_upstream_emissions: float,
+    elect_price: float,
+    elect_emissions_intensity: float,
+    hourly_labor_rate: float,
+):
+    prices = {
+        "water": water_price,
+        "ng": NG_price,
+        "lcb": LCB_price,
+        "elec": elect_price,
+        "labor": hourly_labor_rate,
+    }
+    # Convert catalyst OpEx from 2016 to 2024 USD
+    other_opex_2024 = CTX["tech"]["LEO"]["other_OpEx_2016"]["value"] * CTX["glob"]["2016_to_2024_USD"]["value"]
+
+    capex, opex, emiss, capex_components, opex_components, emiss_components = generic_production(
+        "LEO",
+        "LEO bio-oil",
+        instal_factor,
+        prices,
+        elect_emissions_intensity,
+        lcb_upstream_emiss=LCB_upstream_emissions,
+        extra_opex_components={"Catalyst for LEO Production": other_opex_2024}
+    )
+    
+    # Biogenic carbon credit
+    bio_carbon_credit = CTX["molecular_info"]["C_content_LEO"]["value"] * CTX["molecular_info"]["MW_CO2"]["value"] / CTX["molecular_info"]["MW_C"]["value"]
+    emiss_components["Biogenic CO2 credit"] = -1.0 * bio_carbon_credit
+
     return capex, opex, emiss, capex_components, opex_components, emiss_components
 
 
@@ -1061,7 +1127,7 @@ def calculate_production_costs_emissions_ammonia(
     emiss_nh3_components = {
         "Electricity for NH3 Production": elect * elect_emissions_intensity,
         "NG for NH3 Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4
-        * CTX["glob"]["NG_GWP"]["value"]
+        * CTX["glob"]["CH4_GWP"]["value"]
         * CTX["derived"]["NG_CH4_leakage"]
         + ng / CTX["glob"]["NG_HHV"]["value"]
         * CTX["derived"]["NG_CO2_emissions"]  # upstream CO2 from NG production
@@ -1139,7 +1205,7 @@ def calculate_production_costs_emissions_methanol(
     emiss_methanol_components = {
         "Electricity for Methanol Production": elect * elect_emissions_intensity,
         "NG for Methanol Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4
-                                        * CTX["glob"]["NG_GWP"]["value"]
+                                        * CTX["glob"]["CH4_GWP"]["value"]
                                         * CTX["derived"]["NG_CH4_leakage"]
                                         + ng / CTX["glob"]["NG_HHV"]["value"]
                                         * CTX["derived"]["NG_CO2_emissions"]  # upstream CO2 from NG production
@@ -1241,7 +1307,7 @@ def calculate_production_costs_emissions_FTdiesel(
     emiss_ftdiesel_components = {
         "Electricity for FT Diesel Production": elect * elect_emissions_intensity,
         "NG for FT Diesel Production": ng / CTX["glob"]["NG_HHV"]["value"]    # fugitive CH4
-                                        * CTX["glob"]["NG_GWP"]["value"]
+                                        * CTX["glob"]["CH4_GWP"]["value"]
                                         * CTX["derived"]["NG_CH4_leakage"]
                                         + ng / CTX["glob"]["NG_HHV"]["value"]
                                         * CTX["derived"]["NG_CO2_emissions"]  # upstream CO2 from NG production
@@ -1488,6 +1554,7 @@ resource_demand_fn = {
     "sng":  calculate_resource_demands_SNG,
     "lsng": calculate_resource_demands_LSNG,
     "bio_cfp": lambda *_: generic_demands("CFP"),
+    "bio_leo": lambda *_: generic_demands("LEO"),
 }
 
 # Dispatch table for production cost + emissions
@@ -1503,6 +1570,7 @@ cost_emission_fn = {
     "sng": calculate_production_costs_emissions_SNG,
     "lsng": calculate_production_costs_emissions_LSNG,
     "bio_cfp": calculate_production_costs_emissions_CFP,
+    "bio_leo": calculate_production_costs_emissions_LEO,
 }
 
 fuel_comments = {
@@ -1517,6 +1585,7 @@ fuel_comments = {
     "sng": "synthetic natural gas at standard temperature and pressure",
     "lsng": "liquid synthetic natural gas at atmospheric pressure",
     "bio_cfp": "catalytic fast pyrolysis bio-oil at STP",
+    "bio_leo": "lignin-ethanol oil at STP",
 }
 
 def load_projection_if_year_given(input_dir, file_prefix, region, year, unit_label):

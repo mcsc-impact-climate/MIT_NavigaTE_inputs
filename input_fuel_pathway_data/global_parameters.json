@@ -9,11 +9,22 @@
     "units": "GJ/kg",
     "source": "GREET 2024"
   },
-  "NG_GWP": {
+  "CH4_GWP": {
     "value": 28,
     "units": "GWP100",
     "source": "IPCC AR5, MEPC.391(81)",
     "extra_notes": "Using methane GWP as a surrogate for NG."
+  },
+  "CO2_GWP": {
+    "value": 1,
+    "units": "GWP100",
+    "source": null,
+    "extra_notes": "By definition"
+  },
+  "N2O_GWP": {
+    "value": 265,
+    "units": "GWP100",
+    "source": "https://ghgprotocol.org/sites/default/files/ghgp/Global-Warming-Potential-Values%20%28Feb%2016%202016%29_1.pdf"
   },
   "gen_admin_rate": {
     "value": 0.2,
@@ -43,6 +54,27 @@
     "source": "IEA 2022 DAC report",
     "extra_notes": "Placeholder value; falls roughly between the $125/tonne and $325/tonne estimated by IEA for a large-scale plant built today.",
     "source_url": "https://www.iea.org/reports/direct-air-capture-2022/executive-summary"
+  },
+  "NG_CO2_per_GJ_stationary": {
+    "value": 56.1,
+    "units": "kg CO2 / GJ NG",
+    "source": "2006 IPCC Guidelines for National Greenhouse Gas Inventories: Stationary Combustion",
+    "extra_notes": "CO2 emissions factor from Table 2.4: commercial/institutional category",
+    "source_url": "https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/2_Volume2/V2_2_Ch2_Stationary_Combustion.pdf"
+  },
+  "NG_CH4_per_GJ_stationary": {
+    "value": 5,
+    "units": "kg CH4 / GJ NG",
+    "source": "2006 IPCC Guidelines for National Greenhouse Gas Inventories: Stationary Combustion",
+    "extra_notes": "CH4 emissions factor (kg CO2 / GJ NG) from Table 2.4: commercial/institutional category",
+    "source_url": "https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/2_Volume2/V2_2_Ch2_Stationary_Combustion.pdf"
+  },
+  "NG_N2O_per_GJ_stationary": {
+    "value": 0.1,
+    "units": "kg N2O / GJ NG",
+    "source": "2006 IPCC Guidelines for National Greenhouse Gas Inventories: Stationary Combustion",
+    "extra_notes": "N2O emissions factor (kg CO2 / GJ NG) from Table 2.4: commercial/institutional category",
+    "source_url": "https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/2_Volume2/V2_2_Ch2_Stationary_Combustion.pdf"
   },
   "2019_to_2024_USD": {
     "value": 1.2253,

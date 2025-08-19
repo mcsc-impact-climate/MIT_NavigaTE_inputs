@@ -58,6 +58,18 @@
     "source": "Representative hydrocarbon composition",
     "extra_notes": "Approximated from FT diesel simulation outputs.",
     "source_url": null
+  },
+  "C_content_CFP": {
+    "value": 0.76,
+    "units": null,
+    "source": "Table S11 in the SI to Li et al, 2022",
+    "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
+  },
+  "C_content_LEO": {
+    "value": 0.54,
+    "units": null,
+    "source": "Table S11 in the SI to Li et al, 2022",
+    "source_url": "https://pubs.acs.org/doi/suppl/10.1021/acs.est.2c03960/suppl_file/es2c03960_si_001.pdf"
   }
 }
 
