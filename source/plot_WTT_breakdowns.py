@@ -91,6 +91,18 @@ WTG_input_files = {
             "SNG Liquefaction": "input_fuel_pathway_data/process/sng_liquefaction_costs_emissions.csv"
         },
     },
+    "bio_cfp": {
+        "Production": {
+            "CFP Biofuel Production": "input_fuel_pathway_data/production/bio_cfp_costs_emissions.csv"
+        },
+        "Process": {},
+    },
+    "bio_leo": {
+        "Production": {
+            "LEO Biofuel Production": "input_fuel_pathway_data/production/bio_leo_costs_emissions.csv"
+        },
+        "Process": {},
+    },
 }
 
 stage_colors = {
@@ -104,6 +116,8 @@ stage_colors = {
     "SNG Production": "gold",
     "NG Liquefaction": "orchid",
     "SNG Liquefaction": "orchid",
+    "CFP Biofuel Production": "brown",
+    "LEO Biofuel Production": "brown",
 }
 
 continent_regions = {
@@ -517,7 +531,7 @@ class FuelWTG:
 
         return costs_emissions_df
 
-    def make_stacked_hist(self, quantity="cost"):
+    def make_stacked_hist(self, quantity="cost", per_GJ=False):
         """
         Makes a histogram of emissions or cost stages with fuel pathways grouped by color.
 
@@ -525,6 +539,9 @@ class FuelWTG:
         ----------
         quantity : str
             Indicates which quantity we're considering (either cost or emissions)
+            
+        per_GJ : bool, optional (default=False)
+            If True, normalize values by fuel LHV to show per GJ fuel. Otherwise, show per kg.
 
         Returns
         -------
@@ -535,6 +552,11 @@ class FuelWTG:
             raise ValueError(
                 "Error: supplied quantity must be either 'cost' or 'emissions'"
             )
+            
+        if per_GJ:
+            LHV_GJ_per_tonne = get_fuel_LHV(self.fuel)
+        else:
+            LHV_GJ_per_tonne = 1.0
 
         num_pathways = len(self.pathways)
         fig_height = max(6, num_pathways * 0.9)  # Adjust this factor as needed
@@ -552,6 +574,7 @@ class FuelWTG:
         # Group pathways by color
         pathways_by_color = defaultdict(list)
         for p in self.pathways:
+            print(p)
             color = get_pathway_type_color(get_pathway_type(p))
             pathways_by_color[color].append(p)
 
@@ -583,35 +606,16 @@ class FuelWTG:
         def plot_bar(pathway_wtt, pathway_name, pathway_label, y_pos):
             """
             Plots a single bar for a given pathway.
-
-            Parameters
-            ----------
-            pathway_wtt : PathwayWTG
-                PathwayWTG class instance containing the info to plot
-
-            pathway_name : str
-                Name of the pathway
-
-            pathway_label : str
-                Label for the pathway
-
-            y_pos : float
-                Adjusted y position for plotting based on sorting
-
-            Returns
-            -------
-            None
             """
             if pathway_name not in cumulative_values:
                 cumulative_values[pathway_name] = 0
                 cumulative_values_negative[pathway_name] = 0
 
             bar_info = pathway_wtt.make_bar(quantity)
-
             all_summed_results = pathway_wtt.get_all_summed_results(quantity)
 
             for i in range(len(bar_info["data"])):
-                value = bar_info["data"][i]
+                value = bar_info["data"][i] / LHV_GJ_per_tonne  # Normalize by LHV
 
                 if value >= 0:
                     bar = ax.barh(
@@ -640,9 +644,12 @@ class FuelWTG:
                     bar_handles.append(bar[0])
                     bar_labels.append(bar_info["label"][i])
 
+            # Normalize each scatter value by LHV
+            normalized_scatter = all_summed_results[quantity] / LHV_GJ_per_tonne
+
             scatter = ax.scatter(
-                all_summed_results[quantity],
-                y_pos * np.ones(len(all_summed_results[quantity])),
+                normalized_scatter,
+                y_pos * np.ones(len(normalized_scatter)),
                 color="black",
                 s=50,
                 marker="o",
@@ -652,6 +659,7 @@ class FuelWTG:
             if i_pathway == 0:
                 scatter_handles.append(scatter)
                 scatter_labels.append("Individual Countries")
+
 
         # Loop through each sorted pathway and assign colors to labels
         i_pathway = 0
@@ -673,7 +681,11 @@ class FuelWTG:
             y_labels[idx].set_fontweight("bold")
 
         quantity_label = "WTG Cost" if quantity == "cost" else "WTG Emissions"
-        quantity_units = "USD/tonne" if quantity == "cost" else "kg CO2e / kg fuel"
+        if quantity == "cost":
+            quantity_units = "USD / GJ fuel" if per_GJ else "USD / tonne fuel"
+        else:
+            quantity_units = "kg CO2e / GJ fuel" if per_GJ else "kg CO2e / kg fuel"
+
         ax.set_xlabel(f"{quantity_label} ({quantity_units})", fontsize=24)
         ax.set_title(f"Fuel: {self.fuel_label}", fontsize=28)
 
@@ -912,17 +924,19 @@ class FuelWTG:
 def main():
 
     for fuel in [
-        "compressed_hydrogen",
-        "liquid_hydrogen",
-        "ammonia",
-        "methanol",
-        "FTdiesel",
-        "lng",
-        "lsng",
+#        "compressed_hydrogen",
+#        "liquid_hydrogen",
+#        "ammonia",
+#        "methanol",
+#        "FTdiesel",
+#        "lng",
+#        "lsng",
+        "bio_cfp",
+        "bio_leo"
     ]:
         fuel_wtt = FuelWTG(fuel)
-        fuel_wtt.make_stacked_hist("emissions")
-        fuel_wtt.make_stacked_hist("cost")
+        fuel_wtt.make_stacked_hist("emissions", per_GJ=True)
+        fuel_wtt.make_stacked_hist("cost", per_GJ=True)
 #        fuel_wtt.plot_country_bars("emissions", ["Singapore", "Netherlands"], per_GJ=True)
 #        fuel_wtt.plot_country_bars("cost", ["Singapore", "Netherlands"], per_GJ=True)
 

@@ -105,3 +105,4 @@ LTE_H_DAC_C_wind_E,LTE-H+DAC-C (wind),electro_renew,Hydrogen from low-temperatur
 LTE_H_DAC_C_nuke_E,LTE-H+DAC-C (nuclear),electro_nuke,Hydrogen from low-temperature electrolysis and carbon from direct air capture using nuclear electrical power
 fossil,fossil,grey,Fossil fuel feedstocks
 lsfo,fossil,grey,LSFO from fossil feedstocks
+bio,Biofuel,biofuel,Biofuel produced directly from biomass feedstocks

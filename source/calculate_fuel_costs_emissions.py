@@ -1043,6 +1043,7 @@ def calculate_production_costs_emissions_CFP(
     # Biogenic carbon credit
     bio_carbon_credit = CTX["molecular_info"]["C_content_CFP"]["value"] * CTX["molecular_info"]["MW_CO2"]["value"] / CTX["molecular_info"]["MW_C"]["value"]
     emiss_components["Biogenic CO2 credit"] = -1.0 * bio_carbon_credit
+    emiss += emiss_components["Biogenic CO2 credit"]
 
     return capex, opex, emiss, capex_components, opex_components, emiss_components
     
@@ -1083,6 +1084,7 @@ def calculate_production_costs_emissions_LEO(
     # Biogenic carbon credit
     bio_carbon_credit = CTX["molecular_info"]["C_content_LEO"]["value"] * CTX["molecular_info"]["MW_CO2"]["value"] / CTX["molecular_info"]["MW_C"]["value"]
     emiss_components["Biogenic CO2 credit"] = -1.0 * bio_carbon_credit
+    emiss += emiss_components["Biogenic CO2 credit"] 
 
     return capex, opex, emiss, capex_components, opex_components, emiss_components
 
