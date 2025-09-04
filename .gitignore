@@ -23,3 +23,5 @@ all_results_df*.csv
 data/FAF5.6.1
 *_components.json
 input_fuel_pathway_data/*/*_20*.csv
+input_fuel_pathway_data/transport/port_locations_ref.csv
+input_fuel_pathway_data/transport/singapore_rotterdam_departure_ports_with_distances.csv

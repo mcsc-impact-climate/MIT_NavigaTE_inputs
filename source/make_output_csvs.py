@@ -143,34 +143,14 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
 
     # Replace 'compressed_hydrogen' and 'liquid_hydrogen' in all_results_df with compressedhydrogen and liquidhydrogen to facilitate vessel name parsing
     fuel_orig = fuel
-    fuel = fuel.replace("compressed_hydrogen", "compressedhydrogen").replace(
-        "liquid_hydrogen", "liquidhydrogen"
-    )
+    fuel = fuel.replace(
+    "compressed_hydrogen", "compressedhydrogen").replace(
+        "liquid_hydrogen", "liquidhydrogen").replace(
+        "bio_cfp", "biocfp").replace(
+        "bio_leo", "bioleo")
 
     # Define columns to read based on the fuel type
-    if fuel == "lsfo":
-        results_df_columns = [
-            "Date",
-            "Time (days)",
-            "TotalEquivalentWTT",
-            "TotalEquivalentTTW",
-            "TotalEquivalentWTW",
-            "Miles",
-            "CargoMiles",
-            "SpendEnergy",
-            "CAPEX",
-            "OPEX",
-            "BaseCAPEX",
-            "BaseOPEX",
-            "TankCAPEX",
-            "TankOPEX",
-            "PowerCAPEX",
-            "PowerOPEX",
-            "FuelOPEX",
-            "TotalCost",
-            "ConsumedEnergy_lsfo",
-        ]
-    elif fuel == "FTdiesel":  # GE - FT = Fischer-Tropsch: synthetic, biomass fuel
+    if fuel == "lsfo" or "diesel" in fuel or "bio" in fuel:
         results_df_columns = [
             "Date",
             "Time (days)",
@@ -297,7 +277,7 @@ def read_results(fuel, pathway, region, number, filename, all_results_df):
                     float(results_df_vessel["ConsumedEnergy_lsfo"].loc["2025-01-01"])
                     * 0
                 )
-            elif fuel == "FTdiesel":
+            elif "diesel" in fuel or "bio" in fuel:
                 results_dict["ConsumedEnergy_main"] = float(
                     results_df_vessel[f"ConsumedEnergy_{fuel}"].loc["2025-01-01"]
                 )
@@ -693,6 +673,10 @@ def add_boiloff(all_results_df):
             fuel = "liquid_hydrogen"
         if fuel == "compressedhydrogen":
             fuel = "compressed_hydrogen"
+        if fuel == "biocfp":
+            fuel = "bio_cfp"
+        if fuel == "bioleo":
+            fuel = "bio_leo"
 
         try:
             return tank_size_factors.loc[
@@ -760,6 +744,8 @@ def add_cargo_miles(all_results_df):
         {
             "liquid_hydrogen": "liquidhydrogen",
             "compressed_hydrogen": "compressedhydrogen",
+            "bio_cfp": "biocfp",
+            "bio_leo": "bioleo",
         }
     )
     all_results_df["Fuel_merge"] = all_results_df["Fuel"]
@@ -1147,6 +1133,10 @@ def generate_csv_files(all_results_df, label=None):
                     fuel_save = "compressed_hydrogen"
                 if fuel == "liquidhydrogen":
                     fuel_save = "liquid_hydrogen"
+                if fuel == "biocfp":
+                    fuel_save = "bio_cfp"
+                if fuel == "bioleo":
+                    fuel_save = "bio_leo"
 
                 # Generate the filename
                 filename = f"{fuel_save}-{pathway}-{quantity}.csv"
@@ -1257,6 +1247,11 @@ def get_resource_demand_rate(fuel, pathway, resource, info_file=None):
             fuel_read = "liquid_hydrogen"
         if fuel_read == "compressedhydrogen":
             fuel_read = "compressed_hydrogen"
+        if fuel_read == "biocfp":
+            fuel_read = "bio_cfp"
+        if fuel_read == "bioleo":
+            fuel_read = "bio_leo"
+
         info_file = f"{top_dir}/input_fuel_pathway_data/production/{fuel_read}_resource_demands.csv"
     try:
         info_df = pd.read_csv(info_file)
@@ -1347,7 +1342,7 @@ def main():
     parser.add_argument("-o", "--output_label", default=None, help="Label to modify name of output directory")
     args = parser.parse_args()
     
-    print(args.include_boiloff, args.input_label, args.output_label)
+    #print(args.include_boiloff, args.input_label, args.output_label)
 
     # Collect all results from the Excel files
     all_results_df = collect_all_results(args.input_label)
@@ -1398,10 +1393,10 @@ def main():
     all_results_df = add_av_cost_emissions_ratios(all_results_df)
 
     # GE - Add columns for fuel mass required by each vessel size and type, and global fleet.
-    #all_results_df = add_fuel_mass(all_results_df)
+    all_results_df = add_fuel_mass(all_results_df)
 
     # GE - adds resource demands columns
-    #all_results_df = add_resource_demands(all_results_df)
+    all_results_df = add_resource_demands(all_results_df)
 
     # Output all_results_df to a csv file to help with debugging
     all_results_df.to_csv("all_results_df.csv")

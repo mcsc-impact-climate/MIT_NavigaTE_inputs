@@ -2971,22 +2971,22 @@ def main():
     # -----------------------------------------------------------------------------#
 
     # Loop through all fuels of interest
-    for fuel in ["liquid_hydrogen"]:#, "ammonia", "methanol", "FTdiesel", "lng"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
-        processed_fuel = ProcessedFuel(fuel)
+#    for fuel in ["bio_cfp"]:#, "ammonia", "methanol", "FTdiesel", "lng"]: #["compressed_hydrogen", "liquid_hydrogen", "ammonia", "methanol", "FTdiesel", "lsfo"]:
+#        processed_fuel = ProcessedFuel(fuel)
 
 #        # Make validation plots for each fuel, pathway and quantity
 #        processed_fuel.make_all_hists_by_region()
 #        processed_fuel.map_all_by_region()
 #        processed_fuel.make_all_stacked_hists()
     
-        processed_fuel.make_stacked_hist("TotalCost", "per_mile", ["CAPEX", "OPEX", "FuelOPEX"])
+#        processed_fuel.make_stacked_hist("TotalCost", "per_mile", ["CAPEX", "OPEX", "FuelOPEX"])
 #        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #        #processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #        #processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", [])
 #        processed_fuel.make_stacked_hist("CAC", "vessel", [])
         
         #processed_fuel.make_country_bar_hist("TotalCost", "per_tonne_mile_final", ["Singapore", "Netherlands"], ["CAPEX", "OPEX", "FuelOPEX"])
-        processed_fuel.make_country_bar_hist("TotalCost", "per_gj_fuel", ["Singapore", "Netherlands"], ["CAPEX", "OPEX", "FuelOPEX"])
+#        processed_fuel.make_country_bar_hist("TotalCost", "per_gj_fuel", ["Singapore", "Netherlands"], ["CAPEX", "OPEX", "FuelOPEX"])
 #        processed_fuel.make_country_bar_hist("TotalEquivalentWTW", "per_gj_fuel", ["Singapore", "Netherlands"], [])
 #        processed_fuel.make_country_bar_hist("CAC", "vessel", ["Singapore", "Netherlands"], [])
     
@@ -3013,10 +3013,10 @@ def main():
     #    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
     #    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
 
-    #    structured_results = structure_results_fuels_types("TotalCost", "fleet")
-    #    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
-    #    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
-    #    plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
+        structured_results = structure_results_fuels_types("TotalCost", "fleet")
+        plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
+        structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
+        plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
     #    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
     #    plot_scatter_overlay(structured_results, "CostTimesEmissions", "vessel", overlay_type="violin")
     #    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")

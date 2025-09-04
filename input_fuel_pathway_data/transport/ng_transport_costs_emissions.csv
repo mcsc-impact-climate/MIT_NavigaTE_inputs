@@ -1,0 +1,2 @@
+Mode,A_cost,A_cost units,B_cost,B_cost units,A_emissions,A_emissions units,B_emissions,B_emissions units,Source
+Pipeline,0.00037,2020 CAD / kg H2 / km,0.00705,2020 CAD / kg H2,0.80438,gCO2e/kg H2 / km,29.72161,gCO2e/kg H2,"Table 13 in Lullo et al, 2022 - LOHC without DBT return"

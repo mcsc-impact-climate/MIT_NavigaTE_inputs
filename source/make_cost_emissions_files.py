@@ -128,6 +128,8 @@ def main():
         "compressed_hydrogen",
         "liquid_hydrogen",
         "methanol",
+        "bio_cfp",
+        "bio_leo"
     ]
 
     for fuel in fuels:

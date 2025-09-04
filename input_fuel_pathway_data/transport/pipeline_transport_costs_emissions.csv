@@ -1,0 +1,5 @@
+Fuel Type,A_cost,A_cost units,B_cost,B_cost units,A_emissions,A_emissions units,B_emissions,B_emissions units,Source
+Hydrogen,0.00066,2020 CAD / kg H2 / km,0,2020 CAD / kg H2,0.5945,gCO2e/kg H2 / km,0.5,gCO2e/kg H2,"Derived from values in Figure 4 in Lullo et al, 2022 (coefficients in Table 11 appear to  be incorrect)"
+Ammonia,0.00022,2020 CAD / kg H2 / km,0.05021,2020 CAD / kg H2,0.05021,gCO2e/kg H2 / km,0.01448,gCO2e/kg H2,"Table 13 in Lullo et al, 2022"
+Hydrocarbon,0.00037,2020 CAD / kg H2 / km,0.00705,2020 CAD / kg H2,0.80438,gCO2e/kg H2 / km,29.72161,gCO2e/kg H2,"Table 13 in Lullo et al, 2022 - LOHC without DBT return"
+Natural gas,0.000028,2000 CAD / m^3 NG / km,0,2020 CAD / m^3 NG,1.35,gCO2e/GJ NG / km,0,gCO2e/GJ NG,"Emissions from Lullo et al, 2020. Costs from Table 6 in Karangwa, 2020"

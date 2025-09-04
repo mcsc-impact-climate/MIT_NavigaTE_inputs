@@ -110,5 +110,54 @@
     "source": "US Bureau of Labor Statistics",
     "extra_notes": "Inflation adjustment from 2018 to 2024",
     "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=201601&year2=202401"
+  },
+  "2020_to_2024_USD": {
+    "value": 1.1955,
+    "units": "None",
+    "source": "US Bureau of Labor Statistics",
+    "extra_notes": "Inflation adjustment from 2020 to 2024",
+    "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=202001&year2=202401"
+  },
+  "2000_to_2024_USD": {
+    "value": 1.8271,
+    "units": "None",
+    "source": "US Bureau of Labor Statistics",
+    "extra_notes": "Inflation adjustment from 2000 to 2024",
+    "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=202001&year2=202401"
+  },
+  "oil_land_transport_cost": {
+    "value": 20,
+    "units": "2016$/m^3",
+    "source": "Forbes and IEA",
+    "extra_notes": "Oil pipeline transport costs: 1) Central value of pipeline transport cost of $2-4/barrel in https://www.forbes.com/sites/tortoiseinvest/2016/05/13/transporting-oil-why-pipelines-still-rule/. 2) Falls within range of $2.2-13 in https://www.eia.gov/analysis/studies/drilling/pdf/upstream.pdf.",
+      "source_url": "https://www.forbes.com/sites/tortoiseinvest/2016/05/13/transporting-oil-why-pipelines-still-rule/ and https://www.eia.gov/analysis/studies/drilling/pdf/upstream.pdf"
+  },
+  "ng_land_transport_cost": {
+    "value": 0.012,
+    "units": "2016$/m^3 at STP",
+    "source": "Forbes and IEA",
+    "extra_notes": "From pipeline transport cost of $0.35 / 1000 ft^3",
+    "source_url": "https://www.forbes.com/sites/tortoiseinvest/2016/05/13/transporting-oil-why-pipelines-still-rule/ and https://www.eia.gov/analysis/studies/drilling/pdf/upstream.pdf"
+  },
+  "hydrogen_land_transport_cost": {
+    "value": 0.32,
+    "units": "2024$/kg",
+    "source": "Kenny et al, 2024",
+    "extra_notes": "From 0.3 euros / kg in Table 8 (Estimate for Germany), converting to USD using the average 2024 exchange rate of 1.0822 USD/euro",
+    "source_url": "https://www.sciencedirect.com/science/article/pii/S0360319924026168"
+  },
+  "ammonia_land_transport_cost": {
+    "value": 0.27,
+    "units": "2024$/kg",
+    "source": "Kenny et al, 2024",
+    "extra_notes": "From 0.25 euros / kg in Table 8 (Estimate for Chile and Namibia), converting to USD using the average 2024 exchange rate of 1.0822 USD/euro",
+    "source_url": "https://www.sciencedirect.com/science/article/pii/S0360319924026168"
+  },
+"NG_density_STP": {
+  "value": 0.712,
+  "units": "kg/m^3",
+  "source": "Unitrove",
+  "extra_notes": "Calculated for default composition parameters at 15C and 0.101325 MPa",
+  "source_url": "https://www.unitrove.com/engineering/tools/gas/natural-gas-density"
   }
 }

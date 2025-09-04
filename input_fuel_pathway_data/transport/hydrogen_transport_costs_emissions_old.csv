@@ -1,0 +1,11 @@
+Mode,A_cost,A_cost units,B_cost,B_cost units,A_emissions,A_emissions units,B_emissions,B_emissions units,Distance coverage (km),Source
+Pipeline,0.00066,2020 CAD / kg H2 / km,0,2020 CAD / kg H2,0.5945,gCO2e/kg H2 / km,0.5,gCO2e/kg H2,1000-6000,"Derived from values in Figure 4 in Lullo et al, 2022 (coefficients in Table 11 appear to  be incorrect)"
+Gas truck (high cap),0.003396,2020 CAD / kg H2 / km,3.034859,2020 CAD / kg H2,2.854639,gCO2e/kg H2 / km,1989.583,gCO2e/kg H2,100-3000,"Table 15 in Lullo et al, 2022"
+Gas truck (mid cap),0.003500,2020 CAD / kg H2 / km,3.30767,2020 CAD / kg H2,2.854639,gCO2e/kg H2 / km,1989.583,gCO2e/kg H2,100-3000,"Table 15 in Lullo et al, 2022"
+Gas truck (low cap),0.004158,2020 CAD / kg H2 / km,5.226064,2020 CAD / kg H2,2.854639,gCO2e/kg H2 / km,1989.583,gCO2e/kg H2,100-3000,"Table 15 in Lullo et al, 2022"
+Liquid truck (high cap),0.000953,2020 CAD / kg H2 / km,5.182723,2020 CAD / kg H2,0.818162,gCO2e/kg H2 / km,6851.176,gCO2e/kg H2,100-3000,"Table 15 in Lullo et al, 2022"
+Liquid truck (mid cap),0.000953,2020 CAD / kg H2 / km,5.410404,2020 CAD / kg H2,0.818162,gCO2e/kg H2 / km,6851.176,gCO2e/kg H2,100-3000,"Table 15 in Lullo et al, 2022"
+Liquid truck (low cap),0.000953,2020 CAD / kg H2 / km,7.007843,2020 CAD / kg H2,0.818162,gCO2e/kg H2 / km,6851.176,gCO2e/kg H2,100-3000,"Table 15 in Lullo et al, 2022"
+Liquid truck without liquefier (high cap),0.000953,2020 CAD / kg H2 / km,3.022723,2020 CAD / kg H2,0.818162,gCO2e/kg H2 / km,2091.176,gCO2e/kg H2,100-3000,"Table 15 in Lullo et al, 2022"
+Liquid truck without liquefier (mid cap),0.000953,2020 CAD / kg H2 / km,3.250404,2020 CAD / kg H2,0.818162,gCO2e/kg H2 / km,2091.176,gCO2e/kg H2,100-3000,"Table 15 in Lullo et al, 2022"
+Liquid truck without liquefier (low cap),0.000953,2020 CAD / kg H2 / km,4.847843,2020 CAD / kg H2,0.818162,gCO2e/kg H2 / km,2091.176,gCO2e/kg H2,100-3000,"Table 15 in Lullo et al, 2022"

@@ -34,6 +34,13 @@
     "extra_notes": "Representative average molecular weight for FT diesel products from synthesis models.",
     "source_url": null
   },
+  "MW_DBT": {
+    "value": 272.4,
+    "units": "g/mol",
+    "source": "PubChem",
+    "extra_notes": "Molecular weight of dibenzyl toluene",
+    "source_url": "https://pubchem.ncbi.nlm.nih.gov/compound/2_4-Dibenzyltoluene"
+  },
   "MW_CH4": {
     "value": 16.043,
     "units": "g/mol",
@@ -58,6 +65,17 @@
     "source": "Representative hydrocarbon composition",
     "extra_notes": "Approximated from FT diesel simulation outputs.",
     "source_url": null
+  },
+  "nH_H2": {
+    "value": 2,
+    "units": "hydrogen atoms in H2",
+    "source_url": null
+  },
+  "nH_DBT": {
+    "value": 20,
+    "units": "hydrogen atoms in DBT (C21H20)",
+    "source": "PubChem",
+    "source_url": "https://pubchem.ncbi.nlm.nih.gov/compound/2_4-Dibenzyltoluene"
   },
   "C_content_CFP": {
     "value": 0.76,

@@ -1,0 +1,5 @@
+Mode,A_cost,A_cost units,B_cost,B_cost units,A_emissions,A_emissions units,B_emissions,B_emissions units,Distance coverage (km),Source
+Pipeline,0.00022,2020 CAD / kg H2 / km,0.05021,2020 CAD / kg H2,0.05021,gCO2e/kg H2 / km,0.01448,gCO2e/kg H2,1000-6000,"Table 13 in Lullo et al, 2022"
+Truck (high cap),0.000953,2020 CAD / kg H2 / km,0.522723,2020 CAD / kg LH2,0.818162,gCO2e/kg LH2 / km,90,gCO2e/kg LH2,100-3000,"Table 15 in Lullo et al, 2022, subtracting off liquefier and refueling"
+Truck (mid cap),0.000953,2020 CAD / kg H2 / km,0.550404,2020 CAD / kg LH2,0.818162,gCO2e/kg LH2 / km,90,gCO2e/kg LH2,100-3000,"Table 15 in Lullo et al, 2022, subtracting off liquefier and refueling"
+Truck (low cap),0.000953,2020 CAD / kg H2 / km,0.847843,2020 CAD / kg LH2,0.818162,gCO2e/kg LH2 / km,90,gCO2e/kg LH2,100-3000,"Table 15 in Lullo et al, 2022, subtracting off liquefier and refueling"
