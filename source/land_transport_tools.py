@@ -4,19 +4,27 @@ Author: danikam
 Purpose: Calculate costs and emissions of land transport (fuel-aware + unit conversions)
 """
 
+from __future__ import annotations
+
 import os
 import re
-from typing import Optional, Tuple
+from dataclasses import dataclass
+from functools import lru_cache
+from typing import Optional, Tuple, NamedTuple
 
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
 from common_tools import get_top_dir, get_fuel_density, get_fuel_LHV
 from load_inputs import load_molecular_info, load_global_parameters
 
+# -------------------- Constants & Globals --------------------
+
 DBT_DENSITY = 1.045  # kg/L, from https://www.czwinschem.com.cn/product/18440.html
-CAD_PER_USD_2020 = 1.3415 # From https://www.bankofcanada.ca/rates/exchange/annual-average-exchange-rates/
-CAD_PER_USD_2000 = 1.4847 # From https://www.ofx.com/en-ca/forex-news/historical-exchange-rates/yearly-average-rates/
+CAD_PER_USD_2020 = 1.3415  # https://www.bankofcanada.ca/rates/exchange/annual-average-exchange-rates/
+CAD_PER_USD_2000 = 1.4847  # https://www.ofx.com/en-ca/forex-news/historical-exchange-rates/yearly-average-rates/
+
+PIPELINE_CSV_REL = "input_fuel_pathway_data/transport/pipeline_transport_costs_emissions.csv"
 
 top_dir = get_top_dir()
 mol = load_molecular_info()
@@ -26,11 +34,15 @@ fuel_types = {
     "Hydrogen": ["liquid_hydrogen", "compressed_hydrogen"],
     "Ammonia": ["ammonia"],
     "Hydrocarbon": ["methanol", "FTdiesel", "bio_cfp", "bio_leo"],
-    "Natural gas": ["lng", "lsng"]
+    "Natural gas": ["lng", "lsng"],
 }
 
+# -------------------- Small utilities --------------------
 
-def _parse_range(r: str) -> Tuple[float, float]:
+DistanceRange = Tuple[float, float]
+
+def _parse_range(r: str) -> DistanceRange:
+    """Parses 'min - max' or single 'max' to a (min, max) pair. Returns (0,0) on NA/invalid."""
     if pd.isna(r):
         return (0.0, 0.0)
     s = str(r).strip()
@@ -43,155 +55,199 @@ def _parse_range(r: str) -> Tuple[float, float]:
         return (0.0, v)
     return (0.0, 0.0)
 
-
-def _unit_as_transported(unit_str: str) -> str:
-    # Make y-axis units mode-agnostic: replace "kg H2" with "kg fuel"
-    if not isinstance(unit_str, str):
-        return "per kg fuel"
-    return re.sub(r"\bkg\s*H2\b", "kg fuel", unit_str, flags=re.I)
-    
-def _fuel_to_type(fuel_name: str) -> str:
-    """Map a specific fuel (e.g., 'bio_cfp') to its Fuel Type label (e.g., 'Hydrocarbon')."""
+def fuel_to_type(fuel_name: str) -> str:
     f = fuel_name.strip().lower()
     for ftype, fuels in fuel_types.items():
         if any(f == x.strip().lower() for x in fuels):
             return ftype
     raise ValueError(f"Fuel '{fuel_name}' not found in fuel_types mapping.")
-    
-# --- Molecular & density-based multipliers for pipeline cost and emissions basis ---
-def _fuel_basis_mult(fuel_name: str, ftype: str) -> float:
-    """
-    Pipeline cost and emissions basis conversion:
-      - Ammonia: per kg H2 -> per kg NH3 = (MW_H2/MW_NH3) * (3/2)
-      - Hydrocarbon: per kg H2 -> per kg fuel =
-            (MW_H2/MW_DBT) * (nH_DBT/nH_H2) * (DBT_DENSITY / fuel_density)
-      - Hydrogen / Natural gas: no extra H2->fuel mass-basis multiplier here
-        (NG is handled via $/m3->$/kg elsewhere).
-    """
-    ftype_l = ftype.strip().lower()
-    MW_H2  = float(mol["MW_H2"]["value"])
-    MW_NH3 = float(mol["MW_NH3"]["value"])
-    MW_DBT = float(mol["MW_DBT"]["value"])
-    nH_H2  = float(mol["nH_H2"]["value"])
-    nH_DBT = float(mol["nH_DBT"]["value"])
 
-    if ftype_l == "ammonia":
-        conversion_factor = (MW_H2 / MW_NH3) * (3.0 / 2.0)
-        print(f"Scaling ammonia costs and emissions by {conversion_factor} to convert from 'per kg H2' to 'per kg NH3")
-        return conversion_factor
+@lru_cache(maxsize=None)
+def _fuel_density_cached(fuel_name: str) -> float:
+    return float(get_fuel_density(fuel_name))
 
-    if ftype_l == "hydrocarbon":
-        rho_fuel = float(get_fuel_density(fuel_name))  # kg/L
-        conversion_factor = (MW_H2 / MW_DBT) * (nH_DBT / nH_H2) * (DBT_DENSITY / rho_fuel)
-        print(f"Scaling {fuel_name} costs and emissions by {conversion_factor} to convert from 'per kg H2' to 'per kg {fuel_name}")
-        return conversion_factor
+@lru_cache(maxsize=None)
+def _fuel_LHV_cached(fuel_name: str) -> float:
+    return float(get_fuel_LHV(fuel_name))  # MJ/kg
 
-    print(f"No cost basis conversion for fuel {fuel_name}")
-    return 1.0
+# -------------------- Conversions (centralized) --------------------
 
-def plot_transport_costs_emissions(
-    fuel: str,
-    csv_path: str = None,
-    save_dir: Optional[str] = None,
-    show: bool = True,
-    dpi: int = 160,
-):
-    """
-    Plot pipeline-only transport for a specific fuel, with final units that match the calculator:
-      - Cost plot:   2024 USD / t fuel
-      - Emissions:   kg CO2e / kg fuel
-    The function:
-      * filters the pipeline CSV by Fuel Type (via the global 'fuel_types' mapping),
-      * converts A/B coefficients to final units for plotting,
-      * draws lines over each row's distance coverage.
-    """
-    fuel_norm = fuel.strip()
+@dataclass(frozen=True)
+class Converters:
+    """All basis & unit conversions consolidated here."""
 
-    # Default to the pipeline CSV
-    if csv_path is None:
-        csv_path = f"{top_dir}/input_fuel_pathway_data/transport/pipeline_transport_costs_emissions.csv"
+    MW_H2:  float = float(mol["MW_H2"]["value"])
+    MW_NH3: float = float(mol["MW_NH3"]["value"])
+    MW_DBT: float = float(mol["MW_DBT"]["value"])
+    nH_H2:  float = float(mol["nH_H2"]["value"])
+    nH_DBT: float = float(mol["nH_DBT"]["value"])
 
-    # --- Load and filter by Fuel Type ---
-    df = pd.read_csv(csv_path)
-    df.columns = [c.strip() for c in df.columns]
+    USD_2000_to_2024: float = float(glob["2000_to_2024_USD"]["value"])
+    USD_2020_to_2024: float = float(glob["2020_to_2024_USD"]["value"])
+    NG_density_STP:   float = float(glob["NG_density_STP"]["value"])  # kg/m^3
 
-    def _fuel_to_type(fuel_name: str) -> str:
-        f = fuel_name.strip().lower()
-        for ftype, fuels in fuel_types.items():
-            if any(f == x.strip().lower() for x in fuels):
-                return ftype
-        raise ValueError(f"Fuel '{fuel_name}' not found in fuel_types mapping.")
+    def fuel_basis_multiplier(self, fuel_name: str, ftype: str) -> float:
+        ftype_l = ftype.strip().lower()
+        if ftype_l == "ammonia":
+            # per kg H2 -> per kg NH3
+            return (self.MW_H2 / self.MW_NH3) * (3.0 / 2.0)
+        if ftype_l == "hydrocarbon":
+            rho_fuel = _fuel_density_cached(fuel_name)  # kg/L
+            return (self.MW_H2 / self.MW_DBT) * (self.nH_DBT / self.nH_H2) * (DBT_DENSITY / rho_fuel)
+        # hydrogen / natural gas: identity (handled elsewhere)
+        return 1.0
 
-    ftype = _fuel_to_type(fuel_norm)
-    if "Fuel Type" in df.columns:
-        df = df[df["Fuel Type"].str.strip().str.lower() == ftype.strip().lower()].copy()
-    elif "Fuel" in df.columns:
-        df = df[df["Fuel"].str.strip().str.lower() == fuel_norm.strip().lower()].copy()
-    if df.empty:
-        raise ValueError(f"No pipeline rows found for fuel='{fuel_norm}' (type='{ftype}') in {csv_path}")
-
-    fuel_type_is_ng = (ftype.strip().lower() == "natural gas")
-
-    fb_mult = _fuel_basis_mult(fuel_norm, ftype)
-
-    def _currency_to_2024usd_factor(unit_str: str) -> float:
+    def currency_to_2024usd(self, unit_str: str) -> float:
         u = (unit_str or "").lower()
         if "2000 cad" in u:
-            # 2000 CAD -> 2024 USD using 2000_to_2024_USD (USD inflation) and CAD_PER_USD_2000
-            return float(glob["2000_to_2024_USD"]["value"]) / CAD_PER_USD_2000
+            # 2000 CAD -> 2024 USD
+            return self.USD_2000_to_2024 / CAD_PER_USD_2000
         if "2020 cad" in u:
-            # 2020 CAD -> 2024 USD using 2020_to_2024_USD and CAD_PER_USD_2020
-            return float(glob["2020_to_2024_USD"]["value"]) / CAD_PER_USD_2020
-        return 1.0  # assume already 2024 USD
+            # 2020 CAD -> 2024 USD
+            return self.USD_2020_to_2024 / CAD_PER_USD_2020
+        return 1.0
 
-    def _cost_to_perkg_factor(unit_str: str) -> float:
+    def cost_to_perkg(self, unit_str: str, is_natural_gas: bool) -> float:
         u = (unit_str or "").lower()
-        # Natural gas pipeline may be specified per m^3
-        if "/ m^3" in u and fuel_type_is_ng:
-            rho_stp = float(glob["NG_density_STP"]["value"])  # kg/m^3
-            conversion_factor = 1.0 / rho_stp  # $/m^3 -> $/kg
-            print(f"Scaling NG pipeline cost by {conversion_factor} to convert from $ / m^3 to $ / kg")
-            return conversion_factor
-        return 1.0  # assume already per kg
+        if is_natural_gas and "/ m^3" in u:
+            # $/m^3 -> $/kg
+            return 1.0 / self.NG_density_STP
+        return 1.0
 
-    def _emissions_to_kg_perkg_factor(unit_str: str) -> float:
+    def emissions_to_kg_perkg(self, unit_str: str, fuel_name: str) -> float:
         u = (unit_str or "").lower()
         if "gco2e/gj" in u:
-            # g/GJ * (GJ/kg) -> g/kg; then /1000 -> kg/kg
-            LHV_MJkg = float(get_fuel_LHV(fuel_norm))  # MJ/kg
+            # g/GJ * (GJ/kg) -> g/kg -> kg/kg
+            LHV_MJkg = _fuel_LHV_cached(fuel_name)
             return (LHV_MJkg / 1000.0) / 1000.0
         if "gco2e/kg" in u:
             return 1.0 / 1000.0
         if "kgco2e/kg" in u:
             return 1.0
-        return 1.0  # assume already kg/kg
+        return 1.0
 
-    # --- Convert each row's coefficients to final plotting units ---
-    df = df.copy()
+CONV = Converters()
+
+# -------------------- Core data prep --------------------
+
+def _load_pipeline_csv(csv_path: Optional[str]) -> pd.DataFrame:
+    path = csv_path or os.path.join(top_dir, PIPELINE_CSV_REL)
+    df = pd.read_csv(path)
+    df.columns = [c.strip() for c in df.columns]
+    return df
+
+def prepare_pipeline_df(fuel: str, csv_path: Optional[str] = None) -> pd.DataFrame:
+    """
+    Returns a DataFrame filtered to the fuel's type with A/B columns converted to final units:
+      A_cost, B_cost in 2024 USD / kg fuel
+      A_emissions, B_emissions in kg CO2e / kg fuel
+    """
+    fuel_norm = fuel.strip()
+    ftype = fuel_to_type(fuel_norm)
+    is_ng = (ftype.lower() == "natural gas")
+
+    df = _load_pipeline_csv(csv_path)
+    if "Fuel Type" in df.columns:
+        df = df[df["Fuel Type"].str.strip().str.lower() == ftype.lower()].copy()
+    elif "Fuel" in df.columns:
+        # Fallback: explicit per-fuel rows
+        df = df[df["Fuel"].str.strip().str.lower() == fuel_norm.lower()].copy()
+
+    if df.empty:
+        src = csv_path or os.path.join(top_dir, PIPELINE_CSV_REL)
+        raise ValueError(f"No pipeline rows found for fuel='{fuel_norm}' (type='{ftype}') in {src}")
+
+    fb_mult = CONV.fuel_basis_multiplier(fuel_norm, ftype)
+
+    # Convert in place to final units
     for idx, row in df.iterrows():
         a_cost_u = str(row.get("A_cost units", ""))
         b_cost_u = str(row.get("B_cost units", ""))
         a_em_u   = str(row.get("A_emissions units", ""))
         b_em_u   = str(row.get("B_emissions units", ""))
 
-        # COST: currency -> 2024 USD; mass basis -> per kg (incl. NG m^3->kg); fuel basis (Ammonia/Hydrocarbon)
-        cost_mult_A = _currency_to_2024usd_factor(a_cost_u) * _cost_to_perkg_factor(a_cost_u) * fb_mult
-        cost_mult_B = _currency_to_2024usd_factor(b_cost_u) * _cost_to_perkg_factor(b_cost_u) * fb_mult
-
-        # EMISSIONS: normalize to kg/kg
-        emis_mult_A = _emissions_to_kg_perkg_factor(a_em_u) * fb_mult
-        emis_mult_B = _emissions_to_kg_perkg_factor(b_em_u) * fb_mult
+        costA = CONV.currency_to_2024usd(a_cost_u) * CONV.cost_to_perkg(a_cost_u, is_ng) * fb_mult
+        costB = CONV.currency_to_2024usd(b_cost_u) * CONV.cost_to_perkg(b_cost_u, is_ng) * fb_mult
+        emA   = CONV.emissions_to_kg_perkg(a_em_u, fuel_norm) * fb_mult
+        emB   = CONV.emissions_to_kg_perkg(b_em_u, fuel_norm) * fb_mult
 
         if pd.notna(row.get("A_cost")):
-            df.at[idx, "A_cost"] = float(row["A_cost"]) * cost_mult_A
+            df.at[idx, "A_cost"] = float(row["A_cost"]) * costA
         if pd.notna(row.get("B_cost")):
-            df.at[idx, "B_cost"] = float(row["B_cost"]) * cost_mult_B
+            df.at[idx, "B_cost"] = float(row["B_cost"]) * costB
         if pd.notna(row.get("A_emissions")):
-            df.at[idx, "A_emissions"] = float(row["A_emissions"]) * emis_mult_A
+            df.at[idx, "A_emissions"] = float(row["A_emissions"]) * emA
         if pd.notna(row.get("B_emissions")):
-            df.at[idx, "B_emissions"] = float(row["B_emissions"]) * emis_mult_B
+            df.at[idx, "B_emissions"] = float(row["B_emissions"]) * emB
 
-    # --- Plot helper ---
+    return df
+
+# -------------------- Calculator & Plotting --------------------
+
+class PipelineResult(NamedTuple):
+    cost_per_tonne_usd2024: float
+    emissions_per_kg: float
+    mode: str
+
+def calculate_land_transport_cost_emissions(
+    fuel: str,
+    distance_km: float,
+    make_plots: bool = False,
+    csv_path: Optional[str] = None,
+) -> PipelineResult:
+    """
+    Pipeline-only calculator (cheapest row at distance).
+    Returns:
+      - cost_per_tonne_usd2024 (2024 USD / t fuel)
+      - emissions_per_kg (kg CO2e / kg fuel)
+      - mode ('pipeline')
+    """
+    df = prepare_pipeline_df(fuel=fuel, csv_path=csv_path)
+
+    best_cost_per_kg = None
+    best_emis_per_kg = None
+
+    for _, row in df.iterrows():
+        try:
+            A_c = float(row["A_cost"]); B_c = float(row["B_cost"])
+            A_e = float(row["A_emissions"]); B_e = float(row["B_emissions"])
+        except Exception:
+            continue
+
+        cost_per_kg = A_c * distance_km + B_c
+        emis_per_kg = A_e * distance_km + B_e
+
+        if best_cost_per_kg is None or cost_per_kg < best_cost_per_kg:
+            best_cost_per_kg = cost_per_kg
+            best_emis_per_kg = emis_per_kg
+
+    if best_cost_per_kg is None:
+        raise ValueError(f"Unable to compute pipeline cost/emissions for fuel='{fuel}' at {distance_km} km.")
+
+    if make_plots:
+        plot_transport_costs_emissions(fuel=fuel, df_ready=df)
+
+    return PipelineResult(
+        cost_per_tonne_usd2024=best_cost_per_kg * 1000.0,  # per kg -> per tonne
+        emissions_per_kg=best_emis_per_kg,
+        mode="pipeline",
+    )
+
+def plot_transport_costs_emissions(
+    fuel: str,
+    df_ready: Optional[pd.DataFrame] = None,
+    csv_path: Optional[str] = None,
+    save_dir: Optional[str] = None,
+    show: bool = True,
+    dpi: int = 160,
+) -> None:
+    """
+    Plot lines using already-converted DataFrame (df_ready). If not provided, converts on the fly.
+    Cost plot:   2024 USD / t fuel
+    Emissions:   kg CO2e / kg fuel
+    """
+    df = df_ready if df_ready is not None else prepare_pipeline_df(fuel=fuel, csv_path=csv_path)
+
     def _plot_lines(A_col: str, B_col: str, title: str, outfile: Optional[str], y_label: str):
         plt.figure(figsize=(8.8, 5.6))
         ax = plt.gca()
@@ -208,15 +264,11 @@ def plot_transport_costs_emissions(
                 x0, x1 = 0.0, 6000.0
 
             xs = pd.Series([x0, x1], dtype=float)
-
-            # For cost plot convert per-kg -> per-tonne (×1000)
+            ys = A * xs + B
             if A_col == "A_cost":
-                ys = (A * xs + B) * 1000.0
-            else:
-                ys = A * xs + B
+                ys = ys * 1000.0  # $/kg -> $/t
 
-            #label = f"{str(row.get('Mode','Pipeline')).strip()}"
-            ax.plot(xs, ys) #, label=label)
+            ax.plot(xs, ys)
             x_min_global = min(x_min_global, x0)
             x_max_global = max(x_max_global, x1)
 
@@ -224,174 +276,27 @@ def plot_transport_costs_emissions(
         ax.set_xlabel("Distance (km)")
         ax.set_ylabel(y_label)
         ax.grid(True, linewidth=0.4, alpha=0.4)
-        #ax.legend(loc="best", fontsize=9, frameon=False)
         ax.set_title(title)
 
         if save_dir:
             os.makedirs(save_dir, exist_ok=True)
             plt.tight_layout()
-            plt.savefig(os.path.join(save_dir, outfile), dpi=dpi)
-            plt.savefig(os.path.join(save_dir, outfile.replace(".png", ".pdf")))
+            fname_png = os.path.join(save_dir, outfile)
+            plt.savefig(fname_png, dpi=dpi)
+            plt.savefig(fname_png.replace(".png", ".pdf"))
         if show:
             plt.tight_layout()
             plt.show()
         else:
             plt.close()
 
-    # COSTS (2024 USD / t fuel)
-    _plot_lines(
-        A_col="A_cost",
-        B_col="B_cost",
-        title=f"{fuel.replace('_', ' ')} pipeline transport cost",
-        outfile=f"{fuel}_pipeline_transport_cost.png" if save_dir else None,
-        y_label="2024 USD / t fuel",
-    )
-
-    # EMISSIONS (kg CO2e / kg fuel)
-    _plot_lines(
-        A_col="A_emissions",
-        B_col="B_emissions",
-        title=f"{fuel.replace('_', ' ')} pipeline transport emissions",
-        outfile=f"{fuel}_pipeline_transport_emissions.png" if save_dir else None,
-        y_label="kg CO₂e / kg fuel",
-    )
-
-    
-def calculate_land_transport_cost_emissions(
-    fuel: str,
-    distance_km: float,
-    make_plots: bool = False,
-) -> Tuple[float, float, str]:
-    """
-    Pipeline-only calculator.
-    For a given fuel and distance:
-      * Filters the pipeline CSV by Fuel Type (using 'fuel_types').
-      * Converts A/B coefficients to:
-          - Cost:   2024 USD / kg fuel
-          - Emiss.: kg CO2e / kg fuel
-      * Evaluates y = A*x + B at 'distance_km' for each matching row.
-      * Picks the lowest-cost row.
-      * Returns (cost_2024USD_per_tonne_fuel, emissions_kgCO2e_per_kg_fuel, 'pipeline').
-      * If make_plots=True, produces matching plots.
-    """
-    fuel_norm = fuel.strip()
-    csv_path = f"{top_dir}/input_fuel_pathway_data/transport/pipeline_transport_costs_emissions.csv"
-
-    # --- Load and filter by Fuel Type ---
-    df = pd.read_csv(csv_path)
-    df.columns = [c.strip() for c in df.columns]
-
-    def _fuel_to_type(fuel_name: str) -> str:
-        f = fuel_name.strip().lower()
-        for ftype, fuels in fuel_types.items():
-            if any(f == x.strip().lower() for x in fuels):
-                return ftype
-        raise ValueError(f"Fuel '{fuel_name}' not found in fuel_types mapping.")
-
-    ftype = _fuel_to_type(fuel_norm)
-    if "Fuel Type" in df.columns:
-        df = df[df["Fuel Type"].str.strip().str.lower() == ftype.strip().lower()].copy()
-    elif "Fuel" in df.columns:
-        df = df[df["Fuel"].str.strip().str.lower() == fuel_norm.strip().lower()].copy()
-    if df.empty:
-        raise ValueError(f"No pipeline rows found for fuel='{fuel_norm}' (type='{ftype}') in {csv_path}")
-
-    fuel_type_is_ng = (ftype.strip().lower() == "natural gas")
-
-    fb_mult = _fuel_basis_mult(fuel_norm, ftype)
-
-    def _currency_to_2024usd_factor(unit_str: str) -> float:
-        u = (unit_str or "").lower()
-        if "2000 cad" in u:
-            return float(glob["2000_to_2024_USD"]["value"]) / CAD_PER_USD_2000
-        if "2020 cad" in u:
-            return float(glob["2020_to_2024_USD"]["value"]) / CAD_PER_USD_2020
-        return 1.0
-
-    def _cost_to_perkg_factor(unit_str: str) -> float:
-        u = (unit_str or "").lower()
-        if "/ m^3" in u and fuel_type_is_ng:
-            rho_stp = float(glob["NG_density_STP"]["value"])  # kg/m^3
-            conversion_factor = 1.0 / rho_stp  # $/m^3 -> $/kg
-            print(f"Scaling NG pipeline cost by {conversion_factor} to convert from $ / m^3 to $ / kg")
-            return conversion_factor
-        return 1.0
-
-    def _emissions_to_kg_perkg_factor(unit_str: str) -> float:
-        u = (unit_str or "").lower()
-        if "gco2e/gj" in u:
-            LHV_MJkg = float(get_fuel_LHV(fuel_norm))  # MJ/kg
-            conversion_factor = (LHV_MJkg / 1000.0) / 1000.0 # g/GJ -> kg/kg
-            print(f"Scaling emissions of fuel {fuel} by {conversion_factor} to convert from g/GJ to kg/kg")
-            return conversion_factor
-        if "gco2e/kg" in u:
-            return 1.0 / 1000.0
-        if "kgco2e/kg" in u:
-            return 1.0
-        return 1.0
-
-    # --- Convert coefficients to final calculator units ---
-    df = df.copy()
-    for idx, row in df.iterrows():
-        a_cost_u = str(row.get("A_cost units", ""))
-        b_cost_u = str(row.get("B_cost units", ""))
-        a_em_u   = str(row.get("A_emissions units", ""))
-        b_em_u   = str(row.get("B_emissions units", ""))
-
-        cost_mult_A = _currency_to_2024usd_factor(a_cost_u) * _cost_to_perkg_factor(a_cost_u) * fb_mult
-        cost_mult_B = _currency_to_2024usd_factor(b_cost_u) * _cost_to_perkg_factor(b_cost_u) * fb_mult
-        emis_mult_A = _emissions_to_kg_perkg_factor(a_em_u) * fb_mult
-        emis_mult_B = _emissions_to_kg_perkg_factor(b_em_u) * fb_mult
-
-        if pd.notna(row.get("A_cost")):
-            df.at[idx, "A_cost"] = float(row["A_cost"]) * cost_mult_A
-        if pd.notna(row.get("B_cost")):
-            df.at[idx, "B_cost"] = float(row["B_cost"]) * cost_mult_B
-
-        if pd.notna(row.get("A_emissions")):
-            df.at[idx, "A_emissions"] = float(row["A_emissions"]) * emis_mult_A
-        if pd.notna(row.get("B_emissions")):
-            df.at[idx, "B_emissions"] = float(row["B_emissions"]) * emis_mult_B
-
-    # --- Evaluate at distance and choose the cheapest pipeline row ---
-    best = None  # (cost_per_kg_2024USD, emissions_kg_per_kg, idx)
-    for idx, row in df.iterrows():
-        try:
-            A_c = float(row["A_cost"]); B_c = float(row["B_cost"])
-            A_e = float(row["A_emissions"]); B_e = float(row["B_emissions"])
-        except Exception:
-            continue
-
-        cost_per_kg_usd2024 = A_c * distance_km + B_c
-        emis_kg_per_kg = A_e * distance_km + B_e
-
-        if (best is None) or (cost_per_kg_usd2024 < best[0]):
-            best = (cost_per_kg_usd2024, emis_kg_per_kg, idx)
-
-    if best is None:
-        raise ValueError(f"Unable to compute pipeline cost/emissions for fuel='{fuel_norm}' at {distance_km} km.")
-
-    cost_per_tonne_usd2024 = best[0] * 1000.0  # per kg -> per tonne
-    emissions_per_kg = best[1]
-    mode_out = "pipeline"
-
-    # Optional plots
-    if make_plots:
-        plot_transport_costs_emissions(
-            fuel=fuel_norm,
-            csv_path=csv_path,
-            save_dir=f"{top_dir}/plots/transport",
-            show=False,
-            dpi=160,
-        )
-
-    return cost_per_tonne_usd2024, emissions_per_kg
-
-
-
-if __name__ == "__main__":
-    fuels = ["liquid_hydrogen", "compressed_hydrogen", "ammonia", "methanol", "FTdiesel", "bio_cfp", "bio_leo", "lng", "lsng"]
-    for fuel in fuels:
-        cost_t_usd2024, em_kgkg = calculate_land_transport_cost_emissions(fuel, distance_km=1000, make_plots=True)
-        print(f"{fuel=} {cost_t_usd2024=:.2f} USD/t, {em_kgkg=:.3f} kgCO2e/kg")
-
+    title_fuel = fuel.replace("_", " ")
+    outdir = save_dir or None
+    _plot_lines("A_cost", "B_cost",
+                f"{title_fuel} pipeline transport cost",
+                f"{fuel}_pipeline_transport_cost.png" if outdir else None,
+                "2024 USD / t fuel")
+    _plot_lines("A_emissions", "B_emissions",
+                f"{title_fuel} pipeline transport emissions",
+                f"{fuel}_pipeline_transport_emissions.png" if outdir else None,
+                "kg CO₂e / kg fuel")

@@ -19,6 +19,7 @@ from pyproj import CRS, Transformer, Geod
 import argparse
 from typing import Iterable, Union
 from shapely.geometry import LineString, MultiLineString
+from land_transport_tools import calculate_land_transport_cost_emissions
 
 KG_PER_TONNE = 1000
 L_PER_CBM = 1000
@@ -72,28 +73,28 @@ _COUNTRY_SYNONYMS = {
     "viet nam": "Vietnam",
 }
 
-def calculate_land_transport_cost(fuel):
-    """
-    Calculates costs, in $/tonne to transport fuel by land to the port (currently assume pipeline)
-
-    Parameters
-    ----------
-    quantity : str
-        Quantity to make a bar for. Currently can be either cost or emissions
-
-    Returns
-    -------
-    cost_bar_dict : Dictionary
-        Dictionary containing data, colors, hatching, and labels for a cost bar
-    """
-    if "hydrogen" in fuel:
-        return glob["hydrogen_land_transport_cost"]["value"] * KG_PER_TONNE
-    if fuel == "ammonia":
-        return glob["ammonia_land_transport_cost"]["value"] * KG_PER_TONNE
-    if "ng" in fuel:
-        return glob["ng_land_transport_cost"]["value"] * glob["2016_to_2024_USD"]["value"] / glob["NG_density_STP"]["value"] * KG_PER_TONNE
-    if fuel == "methanol" or "diesel" in fuel or "bio" in fuel:
-        return glob["oil_land_transport_cost"]["value"] * glob["2016_to_2024_USD"]["value"] / (get_fuel_density(fuel) * L_PER_CBM) * KG_PER_TONNE
+#def calculate_land_transport_cost(fuel):
+#    """
+#    Calculates costs, in $/tonne to transport fuel by land to the port (currently assume pipeline)
+#
+#    Parameters
+#    ----------
+#    quantity : str
+#        Quantity to make a bar for. Currently can be either cost or emissions
+#
+#    Returns
+#    -------
+#    cost_bar_dict : Dictionary
+#        Dictionary containing data, colors, hatching, and labels for a cost bar
+#    """
+#    if "hydrogen" in fuel:
+#        return glob["hydrogen_land_transport_cost"]["value"] * KG_PER_TONNE
+#    if fuel == "ammonia":
+#        return glob["ammonia_land_transport_cost"]["value"] * KG_PER_TONNE
+#    if "ng" in fuel:
+#        return glob["ng_land_transport_cost"]["value"] * glob["2016_to_2024_USD"]["value"] / glob["NG_density_STP"]["value"] * KG_PER_TONNE
+#    if fuel == "methanol" or "diesel" in fuel or "bio" in fuel:
+#        return glob["oil_land_transport_cost"]["value"] * glob["2016_to_2024_USD"]["value"] / (get_fuel_density(fuel) * L_PER_CBM) * KG_PER_TONNE
         
 def get_countries():
     regional_tea_inputs_df = pd.read_csv(f"{top_dir}/input_fuel_pathway_data/regional_TEA_inputs.csv")
@@ -259,26 +260,8 @@ def add_port_coordinates(
     """
     Add latitude/longitude coordinates for Singapore and Rotterdam ports listed in df_ports.
     If a ports reference CSV already exists and contains coordinate columns, return it as-is
-    unless update_region_keyword is provided — in which case, only rows whose Region matches
-    the keyword(s) will be recomputed and overwritten in the existing file.
-
-    Parameters
-    ----------
-    df_ports : DataFrame
-        Must include columns: 'Region', 'Port of Singapore', 'Port of Rotterdam',
-        and ideally 'Port Country'
-    ports_reference_csv : str
-        Output path (and cache) for coordinates table
-    verbose : bool
-        Print progress messages
-    update_region_keyword : str | Iterable[str] | None
-        Case-insensitive match against the 'Region' column. If provided and the CSV already exists,
-        only matching rows are updated (re-resolved), others are left unchanged.
-
-    Returns
-    -------
-    DataFrame
-        DataFrame with columns pos_lat_sgp, pos_lon_sgp, pos_lat_rtm, pos_lon_rtm
+    unless update_region_keyword is provided — in which case, rows whose Region matches
+    the keyword(s) will be (a) updated in-place and (b) created if they don't exist yet.
     """
 
     # --- helpers --------------------------------------------------------------
@@ -302,14 +285,12 @@ def add_port_coordinates(
         return x
 
     def _safe_resolve_port_latlon(port_name, ref, country_hint=None) -> Tuple[Optional[float], Optional[float]]:
-        # Bail early on empty-ish inputs
         if port_name is None:
             return (None, None)
         if isinstance(port_name, float) and pd.isna(port_name):
             return (None, None)
         if isinstance(port_name, str) and port_name.strip().lower() in _EMPTY_STRINGS:
             return (None, None)
-        # Delegate to the real resolver
         return _resolve_port_latlon(port_name, ref, country_hint=country_hint)
 
     def _try_make_parent_dir(path: Optional[str]):
@@ -341,7 +322,7 @@ def add_port_coordinates(
 
         if has_cols and kws:
             if verbose:
-                print(f"Updating rows matching {sorted(kws)} in {ports_reference_csv}")
+                print(f"Updating/adding rows matching {sorted(kws)} in {ports_reference_csv}")
 
             needed_cols = [
                 "Region",
@@ -355,40 +336,75 @@ def add_port_coordinates(
                 if c in existing.columns:
                     existing[c] = existing[c].map(_to_nan)
 
-            # Build update mask using Region
-            region_series = existing["Region"].astype(str).str.lower()
-            mask = region_series.apply(lambda x: any(kw in x for kw in kws))
-            if not mask.any():
+            # Ensure required columns exist in 'existing'
+            for c in needed_cols:
+                if c not in existing.columns:
+                    existing[c] = np.nan
+
+            # Regions in existing matching the keywords
+            region_series_existing = existing["Region"].astype(str)
+            region_series_lower = region_series_existing.str.lower()
+            mask_existing_matches = region_series_lower.apply(lambda x: any(kw in x for kw in kws))
+
+            # Regions in df_ports matching the keywords (source of truth for new/updated rows)
+            df_ports_regions = df_ports[needed_cols].drop_duplicates(subset=["Region"]).copy()
+            df_ports_regions["__region_lower__"] = df_ports_regions["Region"].astype(str).str.lower()
+            df_ports_matches = df_ports_regions[
+                df_ports_regions["__region_lower__"].apply(lambda x: any(kw in x for kw in kws))
+            ].drop(columns="__region_lower__", errors="ignore")
+
+            # Identify which matching Regions are missing from 'existing'
+            existing_regions_lower = set(region_series_lower.tolist())
+            to_add = df_ports_matches[
+                ~df_ports_matches["Region"].astype(str).str.lower().isin(existing_regions_lower)
+            ].copy()
+
+            # --- merge updated names into existing for rows that already exist ---
+            if not df_ports_matches.empty:
+                merged = existing.merge(
+                    df_ports_matches,  # only matched regions
+                    on="Region",
+                    how="left",
+                    suffixes=("", "_new"),
+                )
+
+                for c in ["Port of Singapore", "Port of Rotterdam", "Port Country"]:
+                    newcol = f"{c}_new"
+                    if newcol in merged.columns:
+                        merged.loc[mask_existing_matches, c] = merged.loc[mask_existing_matches, newcol].map(_to_nan)
+
+                drop_cols = [f"{c}_new" for c in needed_cols if f"{c}_new" in merged.columns]
+                merged = merged.drop(columns=drop_cols)
+                existing = merged
+
+            # --- append new rows for Regions that didn't exist yet -------------
+            if not to_add.empty:
+                # Ensure coordinate columns exist before appending
+                for c in ["pos_lat_sgp", "pos_lon_sgp", "pos_lat_rtm", "pos_lon_rtm"]:
+                    if c not in existing.columns:
+                        existing[c] = np.nan
+
+                # Initialize coordinate columns for new rows
+                for c in ["pos_lat_sgp", "pos_lon_sgp", "pos_lat_rtm", "pos_lon_rtm"]:
+                    to_add[c] = np.nan
+
+                # >>> FIX: align on union of columns before concat <<<
+                union_cols = existing.columns.union(to_add.columns)
+                existing_aligned = existing.reindex(columns=union_cols)
+                to_add_aligned = to_add.reindex(columns=union_cols)
+                existing = pd.concat([existing_aligned, to_add_aligned], ignore_index=True)
+
                 if verbose:
-                    print(
-                        "No Region rows matched the provided keyword(s); "
-                        "returning existing file unchanged."
-                    )
-                return existing
+                    added_names = ", ".join(to_add["Region"].astype(str).tolist())
+                    print(f"Added new Region row(s): {added_names}")
 
-            # Merge in the freshest names for the regions we will update
-            merged = existing.merge(
-                df_ports[needed_cols].drop_duplicates(subset=["Region"]),
-                on="Region",
-                how="left",
-                suffixes=("", "_new"),
-            )
-
-            # Overwrite even with NaN for rows in mask (lets us CLEAR a port)
-            for c in ["Port of Singapore", "Port of Rotterdam", "Port Country"]:
-                newcol = f"{c}_new"
-                if newcol in merged.columns:
-                    merged.loc[mask, c] = merged.loc[mask, newcol].map(_to_nan)
-
-            # Drop *_new helper columns
-            merged = merged.drop(
-                columns=[f"{c}_new" for c in needed_cols if c != "Region"]
-            )
-            existing = merged
-
-            # Resolve only masked rows
+            # --- resolve coords for all rows that match the keywords -----------
             ref = _try_load_ports_reference(ports_reference_csv)
-            for idx in existing[mask].index:
+            region_series_existing = existing["Region"].astype(str)
+            region_series_lower = region_series_existing.str.lower()
+            mask_all_matches = region_series_lower.apply(lambda x: any(kw in x for kw in kws))
+
+            for idx in existing[mask_all_matches].index:
                 row = existing.loc[idx]
                 lat_s, lon_s = _safe_resolve_port_latlon(
                     row.get("Port of Singapore"),
@@ -406,17 +422,8 @@ def add_port_coordinates(
                 existing.at[idx, "pos_lon_rtm"] = lon_r
                 if verbose:
                     rgn = row.get("Region")
-                    # Print clearer messages when ports are cleared
-                    sgp_txt = (
-                        f"({lat_s:.6f}, {lon_s:.6f})"
-                        if lat_s is not None and lon_s is not None
-                        else "CLEARED"
-                    )
-                    rtm_txt = (
-                        f"({lat_r:.6f}, {lon_r:.6f})"
-                        if lat_r is not None and lon_r is not None
-                        else "CLEARED"
-                    )
+                    sgp_txt = f"({lat_s:.6f}, {lon_s:.6f})" if lat_s is not None and lon_s is not None else "CLEARED"
+                    rtm_txt = f"({lat_r:.6f}, {lon_r:.6f})" if lat_r is not None and lon_r is not None else "CLEARED"
                     print(f"[update] {rgn}: SGP→{sgp_txt} RTM→{rtm_txt}")
 
             _try_make_parent_dir(ports_reference_csv)
@@ -436,27 +443,18 @@ def add_port_coordinates(
         lat, lon = _safe_resolve_port_latlon(port_name, ref, country_hint=country_hint)
         if verbose:
             if lat is not None and lon is not None:
-                print(
-                    f"[{idx+1}/{n}] {label}: Resolved '{port_name}' → ({lat:.6f}, {lon:.6f})"
-                )
+                print(f"[{idx+1}/{n}] {label}: Resolved '{port_name}' → ({lat:.6f}, {lon:.6f})")
             else:
-                # Explicitly indicate when cleared/empty
                 shown = port_name if port_name is not None and not (isinstance(port_name, float) and pd.isna(port_name)) else "∅"
                 print(f"[{idx+1}/{n}] {label}: No port (input={shown}) → CLEARED")
         return lat, lon
 
     pos_lat_sgp, pos_lon_sgp, pos_lat_rtm, pos_lon_rtm = [], [], [], []
     for idx, row in df.iterrows():
-        lat_s, lon_s = _resolve_and_log(
-            row.get("Port of Singapore"), row.get("Port Country"), "SGP", idx
-        )
-        lat_r, lon_r = _resolve_and_log(
-            row.get("Port of Rotterdam"), row.get("Port Country"), "RTM", idx
-        )
-        pos_lat_sgp.append(lat_s)
-        pos_lon_sgp.append(lon_s)
-        pos_lat_rtm.append(lat_r)
-        pos_lon_rtm.append(lon_r)
+        lat_s, lon_s = _resolve_and_log(row.get("Port of Singapore"), row.get("Port Country"), "SGP", idx)
+        lat_r, lon_r = _resolve_and_log(row.get("Port of Rotterdam"), row.get("Port Country"), "RTM", idx)
+        pos_lat_sgp.append(lat_s); pos_lon_sgp.append(lon_s)
+        pos_lat_rtm.append(lat_r); pos_lon_rtm.append(lon_r)
 
     df["pos_lat_sgp"] = pos_lat_sgp
     df["pos_lon_sgp"] = pos_lon_sgp
@@ -985,6 +983,11 @@ def enrich_with_country_centroids_and_distances(df_ports: pd.DataFrame,
     df_enriched["centroid_lon"] = cen_lon
     df_enriched["centroid_to_sgp_km"] = d_sgp_km
     df_enriched["centroid_to_rtm_km"] = d_rtm_km
+    
+    # Multiply the distance travelled over land by a factor of 1.3 based on typical detour factors of 1.2-1.4 used in literature (see eg. https://arxiv.org/pdf/2505.01124)
+    detour_factor = 1.3
+    df_enriched["centroid_to_sgp_km_pipeline"] = df_enriched["centroid_to_sgp_km"] * detour_factor
+    df_enriched["centroid_to_rtm_km_pipeline"] = df_enriched["centroid_to_rtm_km"] * detour_factor
     return df_enriched
 
     
@@ -1466,7 +1469,6 @@ def _plot_country_map(country_name: str,
     plt.close(fig)
 
 
-
 def main():
 
     parser = argparse.ArgumentParser()
@@ -1479,7 +1481,7 @@ def main():
     destination_ports = ["Singapore", "Rotterdam"]
     
     departure_ports_df = load_departure_ports_table()
-    departure_ports_df = add_port_coordinates(departure_ports_df, update_region_keyword="saudi")#"malaysia"
+    departure_ports_df = add_port_coordinates(departure_ports_df, update_region_keyword="philippines")#"malaysia"
     departure_ports_df = compute_sea_distances(departure_ports_df)
     
     departure_ports_df = enrich_with_country_centroids_and_distances(
@@ -1487,35 +1489,46 @@ def main():
         produce_maps=bool(args.maps),
         maps_dir=f"{top_dir}/input_fuel_pathway_data/transport/maps",
         verbose=True,
-        countries_to_plot=["United States"]
+        countries_to_plot=None #["United States"]
     )
     
     departure_ports_df.to_csv(f"{top_dir}/input_fuel_pathway_data/transport/singapore_rotterdam_departure_ports_with_distances.csv")
+    departure_ports_df.set_index("Region", inplace=True)
     
-    """
     for fuel in fuels:
-        land_transport_cost = calculate_land_transport_cost(fuel)
         
         for dest in destination_ports:
             rows = []
             for country in countries:
+                
+                # Calculate fuel transport cost over land
+                if dest == "Singapore":
+                    land_transport_km = departure_ports_df.loc[country, "centroid_to_sgp_km_pipeline"]   # Distance travelled over land, in km
+                elif dest == "Rotterdam":
+                    land_transport_km = departure_ports_df.loc[country, "centroid_to_rtm_km_pipeline"]
+                else:
+                    print(f"Error: Destination {dest} not yet supported. Currently support Singapore and Rotterdam as destination ports.")
+                
+                land_transport_cost, land_transport_emissions = calculate_land_transport_cost_emissions(fuel, land_transport_km)
+                
                 row = {
                     "Region": country,
                     "Fuel": fuel,
-                    "Land Transport Cost (2024$/tonne)": land_transport_cost,
+                    "Land Transport Cost [$/tonne]": land_transport_cost,
+                    "Land Transport Emissions [kg CO2e / kg fuel]": land_transport_emissions,
                 }
                 rows.append(row)
 
             df = pd.DataFrame(rows)
 
             # Stable column order; future columns will be appended automatically
-            base_cols = ["Region", "Fuel", "Land Transport Cost (2024$/tonne)"]
+            base_cols = ["Region", "Fuel", "Land Transport Cost [$/tonne]", "Land Transport Emissions [kg CO2e / kg fuel]"]
             extra_cols = [c for c in df.columns if c not in base_cols]
             df = df[base_cols + extra_cols]
 
             os.makedirs(f"{top_dir}/input_fuel_pathway_data/transport", exist_ok=True)
             df.to_csv(f"{top_dir}/input_fuel_pathway_data/transport/{fuel}_{dest}.csv", index=False)
             print(f"Saved transport costs and emissions to {top_dir}/input_fuel_pathway_data/transport/{fuel}_{dest}.csv")
-    """
+
 if __name__ == "__main__":
     main()
