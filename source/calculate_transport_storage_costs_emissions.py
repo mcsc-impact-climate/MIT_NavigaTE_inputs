@@ -1509,13 +1509,14 @@ def main():
                 else:
                     print(f"Error: Destination {dest} not yet supported. Currently support Singapore and Rotterdam as destination ports.")
                 
-                land_transport_cost, land_transport_emissions = calculate_land_transport_cost_emissions(fuel, land_transport_km)
+                pipeline_result = calculate_land_transport_cost_emissions(fuel, land_transport_km)
+                #land_transport_cost, land_transport_emissions = calculate_land_transport_cost_emissions(fuel, land_transport_km)
                 
                 row = {
                     "Region": country,
                     "Fuel": fuel,
-                    "Land Transport Cost [$/tonne]": land_transport_cost,
-                    "Land Transport Emissions [kg CO2e / kg fuel]": land_transport_emissions,
+                    "Land Transport Cost [$/tonne]": pipeline_result.cost_per_tonne_usd2024,
+                    "Land Transport Emissions [kg CO2e / kg fuel]": pipeline_result.emissions_per_kg,
                 }
                 rows.append(row)
 
