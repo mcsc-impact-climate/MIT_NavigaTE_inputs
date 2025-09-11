@@ -129,7 +129,7 @@ def main():
         "liquid_hydrogen",
         "methanol",
         "bio_cfp",
-        "bio_leo"
+#        "bio_leo"
     ]
 
     for fuel in fuels:
