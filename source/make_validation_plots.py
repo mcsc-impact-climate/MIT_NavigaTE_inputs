@@ -1322,7 +1322,7 @@ class ProcessedQuantity:
                 * container_ice: container vessel (internal combustion engine)
                 * tanker_ice: tanker vessel (internal combustion engine)
                 * gas_carrier_ice: gas carrier vessel (internal combustion engine)
-
+                
         vessel_size : str
             Size class for the given vessel
 
@@ -1364,14 +1364,14 @@ class ProcessedQuantity:
         world = gpd.read_file(url)
 
         # Add West Australia to the world geojson
-        # world = add_west_australia(world)
+        #world = add_west_australia(world)
 
         # Add a column "NAME" to self.results_df with region names to match the geojson world file, if needed
         self.add_region_names()
 
         # Create a figure and axis with appropriate size
-        fig, ax = plt.subplots(1, 1, figsize=(15, 10))
-
+        fig, ax = plt.subplots(1, 1, figsize=(9, 6))
+        
         # Merge the result_df with the world geodataframe based on the column "NAME" with region names
         merged = world.merge(self.result_df, on="NAME", how="left")
 
@@ -1390,7 +1390,7 @@ class ProcessedQuantity:
 
         # Create a horizontal colorbar with appropriate formatting
         divider = make_axes_locatable(ax)
-        cax = divider.append_axes("bottom", size="5%", pad=1)
+        cax = divider.append_axes("bottom", size="5%", pad=0.2)
         sm = plt.cm.ScalarMappable(
             cmap="coolwarm",
             norm=plt.Normalize(vmin=merged[column].min(), vmax=merged[column].max()),
@@ -1405,59 +1405,63 @@ class ProcessedQuantity:
         vessel_type_label = "All"
         if not vessel_type == "all":
             vessel_type_label = vessel_type_title[vessel_type]
-
+        
         vessel_size_label = "All"
         if not vessel_size == "all":
             vessel_size_label = vessel_size_title[vessel_size]
 
-        ax.text(
-            1.03,
-            0.75,
-            f"Fuel: {self.fuel_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
-        ax.text(
-            1.03,
-            0.65,
-            f"Fuel Type: {self.pathway_type_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
-        ax.text(
-            1.03,
-            0.55,
-            f"Pathway: {self.pathway_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
-        ax.text(
-            1.03,
-            0.45,
-            f"Vessel Type: {vessel_type_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
-        ax.text(
-            1.03,
-            0.35,
-            f"Vessel Size: {vessel_size_label}",
-            transform=ax.transAxes,
-            fontsize=20,
-            va="top",
-            ha="left",
-        )
+#        ax.text(
+#            1.03,
+#            0.75,
+#            f"Fuel: {self.fuel_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
+#        ax.text(
+#            1.03,
+#            0.65,
+#            f"Fuel Type: {self.pathway_type_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
+#        ax.text(
+#            1.03,
+#            0.55,
+#            f"Pathway: {self.pathway_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
+#        ax.text(
+#            1.03,
+#            0.45,
+#            f"Vessel Type: {vessel_type_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
+#        ax.text(
+#            1.03,
+#            0.35,
+#            f"Vessel Size: {vessel_size_label}",
+#            transform=ax.transAxes,
+#            fontsize=20,
+#            va="top",
+#            ha="left",
+#        )
 
-        plt.subplots_adjust(left=0.05, right=0.67)
-        # plt.tight_layout()
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.axis("off")
+        plt.tight_layout()
 
         # Save the plot
         create_directory_if_not_exists(
@@ -1465,7 +1469,7 @@ class ProcessedQuantity:
         )
         filepath_save = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.png"
         print(f"Saving figure to {filepath_save}")
-        plt.savefig(filepath_save, dpi=200)
+        plt.savefig(filepath_save, dpi=600)
 
         filepath_save_pdf = f"{top_dir}/plots/{self.fuel}-{self.pathway_type}-{self.pathway}/{self.fuel}-{self.pathway_type}-{self.pathway}-{self.quantity}-{self.modifier}-map_by_region.pdf"
         print(f"Saving figure to {filepath_save_pdf}")
@@ -1887,7 +1891,6 @@ class ProcessedFuel:
             Dictionary containing a list of pathways corresponding to each type
         """
         type_pathway_dict = {}
-
         for pathway in self.pathways:
             pathway_type = get_pathway_type(pathway)
             if pathway_type not in type_pathway_dict:
@@ -2650,9 +2653,7 @@ def structure_results_fuels_types(quantity, modifier, fuels=None):
     return results_fuels_types
 
 
-def plot_scatter_overlay(
-    structured_results, quantity, modifier, plot_size=(12, 10), overlay_type="bar"
-):
+def plot_scatter_overlay(structured_results, quantity, modifier, plot_size=(16, 12), overlay_type='bar'):
     """
     Plot the data from a dictionary as horizontal scatterplots overlaid on either bars extending to the mean value or violin plots.
 
@@ -2671,7 +2672,9 @@ def plot_scatter_overlay(
     None
     """
     fig, ax = plt.subplots(figsize=plot_size)
-
+    ax.tick_params(axis='both', which='major', labelsize=24)
+    ax.xaxis.get_offset_text().set_fontsize(24)
+    
     y_position = 0
     y_tick_positions = []  # Left-side labels
     y_tick_labels = []
@@ -2689,17 +2692,17 @@ def plot_scatter_overlay(
         for pathway_type in pathway_types_sorted:
             values = structured_results[fuel][pathway_type]
             mean_value = np.mean(values) if values else 0
-
+                
             # Make the bar or violin plot
-            if overlay_type == "bar":
+            if overlay_type == 'bar':
                 ax.barh(
                     y_position,
                     mean_value,
                     color=get_pathway_type_color(pathway_type),
                     alpha=0.3,
-                    height=0.5,
+                    height=0.5
                 )
-            elif overlay_type == "violin" and len(values) > 1:
+            elif overlay_type == 'violin' and len(values) > 1:
                 parts = ax.violinplot(
                     values,
                     positions=[y_position],
@@ -2707,18 +2710,24 @@ def plot_scatter_overlay(
                     showmeans=False,
                     showmedians=False,
                     showextrema=False,
+                    widths=0.8
                 )
                 for pc in parts["bodies"]:
                     pc.set_facecolor(get_pathway_type_color(pathway_type))
                     pc.set_alpha(0.3)
 
             # Plot scatter
+            if overlay_type == "bar":
+                marker_size = 150
+            else:
+                marker_size = 125
             ax.scatter(
                 values,
                 [y_position] * len(values),
                 color=get_pathway_type_color(pathway_type),
                 edgecolor="black",
                 zorder=3,
+                s=marker_size
             )
 
             # Right-side pathway labels
@@ -2727,13 +2736,13 @@ def plot_scatter_overlay(
             y_tick_colors_right.append(get_pathway_type_color(pathway_type))
 
             y_position += 1
-
+            
         # Lock in y-axis range to prevent autoscaling shifts
         ax.set_ylim(-0.5, y_position - 0.5)
 
         # Center the fuel label among its pathways
         fuel_center = y_position - n_pathways / 2 - 0.5
-
+            
         y_tick_positions.append(fuel_center)
         y_tick_labels.append(get_fuel_label(fuel))
 
@@ -2748,12 +2757,20 @@ def plot_scatter_overlay(
     # Set y-ticks for fuel labels
     ax.set_yticks(y_tick_positions)
     ax.set_yticklabels(y_tick_labels)
+    
+    for label in ax.get_yticklabels():
+        label.set_fontsize(25)
+        label.set_fontweight("bold")
 
     # Right-side pathway labels
     ax_right = ax.twinx()
     ax_right.set_yticks(y_tick_positions_right)
     ax_right.set_yticklabels(y_tick_labels_right)
     ax_right.set_ylim(ax.get_ylim())
+    
+    for label in ax_right.get_yticklabels():
+        label.set_fontsize(24)
+        label.set_fontweight("bold")
 
     # Color the right-side labels
     for tick_label, color in zip(ax_right.get_yticklabels(), y_tick_colors_right):
@@ -2763,18 +2780,21 @@ def plot_scatter_overlay(
     quantity_label = get_quantity_label(quantity)
     units = get_units(quantity, modifier)
     xlabel = f"{quantity_label} ({units})" if units else quantity_label
-    ax.set_xlabel(xlabel, fontsize=22)
+    ax.set_xlabel(xlabel, fontsize=28, labelpad=30)
+    ax.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
 
-    plt.subplots_adjust(left=0.2, right=0.75)
+
+    plt.subplots_adjust(left=0.2, right=0.73)
     plt.tight_layout()
 
     # Save
     create_directory_if_not_exists(f"{top_dir}/plots/scatter_overlay")
     filepath_base = f"{top_dir}/plots/scatter_overlay/{quantity}-{modifier}"
     print(f"Saving figure to {filepath_base}.png and .pdf")
-    plt.savefig(f"{filepath_base}.png", dpi=200)
+    plt.savefig(f"{filepath_base}.png", dpi=600)
     plt.savefig(f"{filepath_base}.pdf")
     plt.close()
+
 
 
 def collect_cargo_mile_results(fuels=None):
@@ -2885,11 +2905,11 @@ def plot_cargo_miles():
 
 def main():
     # ------- Sample execution of class methods for testing and development -------#
-    #    processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "LTE_H_grid_E")
-    #    processed_quantity.map_by_region()
-    #
-    #    processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "LTE_H_grid_E")
-    #    processed_quantity.map_by_region()
+#        processed_quantity = ProcessedQuantity("TotalCost", "fleet", "ammonia", "LTE_H_grid_E")
+#        processed_quantity.map_by_region()
+#
+#        processed_quantity = ProcessedQuantity("TotalEquivalentWTW", "fleet", "ammonia", "LTE_H_grid_E")
+#        processed_quantity.map_by_region()
     #
     #    processed_quantity = ProcessedQuantity("AverageCostEmissionsRatio", "vessel", "ammonia", "LTE_H_grid_E")
     #    processed_quantity.map_by_region()
@@ -2944,13 +2964,13 @@ def main():
     #    processed_fuel_GE_test = ProcessedFuel("ammonia")
     #    processed_fuel_GE_test.make_all_resource_demands_hists()
     
-    #    processed_fuel = ProcessedFuel("FTdiesel")
+        processed_fuel = ProcessedFuel("FTdiesel")
     #    processed_fuel.make_stacked_hist("ConsumedElectricity_main", "vessel", [])
-#    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["CAPEX", "OPEX", "FuelOPEX"])
+        processed_fuel.make_stacked_hist("TotalCost", "fleet", ["CAPEX", "OPEX", "FuelOPEX"])
 #    processed_fuel.make_country_bar_hist("TotalCost", "per_tonne_mile_final", ["Singapore", "Netherlands"], ["CAPEX", "OPEX", "FuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalCost", "per_cbm_mile", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
 #    processed_fuel.make_stacked_hist("TotalCost", "fleet", ["TotalCAPEX", "TotalFuelOPEX", "TotalExcludingFuelOPEX"])
-#    processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
+        processed_fuel.make_stacked_hist("TotalEquivalentWTW", "fleet", ["TotalEquivalentTTW", "TotalEquivalentWTT"])
 #    processed_fuel.make_stacked_hist("CostTimesEmissions", "vessel", [])
 #    processed_fuel.make_stacked_hist("AverageCostEmissionsRatio", "vessel", ["HalfCostRatio", "HalfWTWRatio"])
 #    processed_fuel.make_stacked_hist("TotalCost", "vessel", [])
@@ -3002,27 +3022,27 @@ def main():
 #    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
 #    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
 
-    #    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
-    #    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
-    #    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
-    #    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
-    #    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
-    #    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
-    #    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
-    #    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
-    #    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
-    #    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedElectricity_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedElectricity_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedCO2_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedCO2_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedWater_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedWater_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedLCB_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedLCB_main", "fleet", overlay_type="bar")
+#    structured_results = structure_results_fuels_types("ConsumedNG_main", "fleet")
+#    plot_scatter_overlay(structured_results, "ConsumedNG_main", "fleet", overlay_type="bar")
 
-        structured_results = structure_results_fuels_types("TotalCost", "fleet")
-        plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
-        structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
-        plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
-    #    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
-    #    plot_scatter_overlay(structured_results, "CostTimesEmissions", "vessel", overlay_type="violin")
-    #    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
-    #    plot_scatter_overlay(structured_results, "AverageCostEmissionsRatio", "vessel", overlay_type="violin")
-    #    structured_results = structure_results_fuels_types("CAC", "vessel")
-    #    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
+#    structured_results = structure_results_fuels_types("TotalCost", "fleet")
+#    plot_scatter_overlay(structured_results, "TotalCost", "fleet", overlay_type="violin")
+#    structured_results = structure_results_fuels_types("TotalEquivalentWTW", "fleet")
+#    plot_scatter_overlay(structured_results, "TotalEquivalentWTW", "fleet", overlay_type="violin")
+#    structured_results = structure_results_fuels_types("CostTimesEmissions", "vessel")
+#    plot_scatter_overlay(structured_results, "CostTimesEmissions", "vessel", overlay_type="violin")
+#    structured_results = structure_results_fuels_types("AverageCostEmissionsRatio", "vessel")
+#    plot_scatter_overlay(structured_results, "AverageCostEmissionsRatio", "vessel", overlay_type="violin")
+#    structured_results = structure_results_fuels_types("CAC", "vessel")
+#    plot_scatter_overlay(structured_results, "CAC", "vessel", overlay_type="violin")
 
     #    for quantity in ["ConsumedWater_main", "ConsumedNG_main", "ConsumedElectricity_main", "ConsumedCO2_main", "CAC", "TotalCost", "TotalEquivalentWTW", "CostTimesEmissions", "AverageCostEmissionsRatio"]:
 
