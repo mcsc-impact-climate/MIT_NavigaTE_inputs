@@ -1,6 +1,78 @@
 # Definition of lng
 
 
+Fuel "lng-ATRCCS_H_BEC_C_grid_E" {
+}
+Fuel "lng-ATRCCS_H_BEC_C_solar_E" {
+}
+Fuel "lng-ATRCCS_H_BEC_C_wind_E" {
+}
+Fuel "lng-ATRCCS_H_DAC_C_grid_E" {
+}
+Fuel "lng-ATRCCS_H_DAC_C_solar_E" {
+}
+Fuel "lng-ATRCCS_H_DAC_C_wind_E" {
+}
+Fuel "lng-BG_H_BEC_C_grid_E" {
+}
+Fuel "lng-BG_H_BEC_C_solar_E" {
+}
+Fuel "lng-BG_H_BEC_C_wind_E" {
+}
+Fuel "lng-BG_H_C_grid_E" {
+}
+Fuel "lng-BG_H_C_solar_E" {
+}
+Fuel "lng-BG_H_C_wind_E" {
+}
+Fuel "lng-BG_H_DAC_C_grid_E" {
+}
+Fuel "lng-BG_H_DAC_C_solar_E" {
+}
+Fuel "lng-BG_H_DAC_C_wind_E" {
+}
+Fuel "lng-LTE_H_BEC_C_grid_E" {
+}
+Fuel "lng-LTE_H_BEC_C_solar_E" {
+}
+Fuel "lng-LTE_H_BEC_C_wind_E" {
+}
+Fuel "lng-LTE_H_DAC_C_grid_E" {
+}
+Fuel "lng-LTE_H_DAC_C_solar_E" {
+}
+Fuel "lng-LTE_H_DAC_C_wind_E" {
+}
+Fuel "lng-SMRCCS_H_BEC_C_grid_E" {
+}
+Fuel "lng-SMRCCS_H_BEC_C_solar_E" {
+}
+Fuel "lng-SMRCCS_H_BEC_C_wind_E" {
+}
+Fuel "lng-SMRCCS_H_DAC_C_grid_E" {
+}
+Fuel "lng-SMRCCS_H_DAC_C_solar_E" {
+}
+Fuel "lng-SMRCCS_H_DAC_C_wind_E" {
+}
+Fuel "lng-SMR_H_BEC_C_grid_E" {
+}
+Fuel "lng-SMR_H_BEC_C_solar_E" {
+}
+Fuel "lng-SMR_H_BEC_C_wind_E" {
+}
+Fuel "lng-SMR_H_C_grid_E" {
+}
+Fuel "lng-SMR_H_C_solar_E" {
+}
+Fuel "lng-SMR_H_C_wind_E" {
+}
+Fuel "lng-SMR_H_DAC_C_grid_E" {
+}
+Fuel "lng-SMR_H_DAC_C_solar_E" {
+}
+Fuel "lng-SMR_H_DAC_C_wind_E" {
+}
 Fuel "lng-fossil" {
 }
 
