@@ -13,6 +13,8 @@ import matplotlib.colors as mcolors
 import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
 from collections import defaultdict
+from matplotlib import cm
+
 
 MJ_PER_GJ = 1000
 L_PER_CBM = 1000
@@ -86,7 +88,8 @@ fuel_colors = {
     "oil": "black",
     "lsfo": "black",
     "lng": "tab:grey",
-    "methane": "tab:grey"
+    "methane": "tab:grey",
+    "bio_cfp": "tab:brown"
 }
 
 fuel_names = {
@@ -99,7 +102,8 @@ fuel_names = {
     "oil": "LSFO",
     "lsfo": "LSFO",
     "lng": "LNG",
-    "methane": "LNG"
+    "methane": "LNG",
+    "bio_cfp": "CFP Bio-oil"
 }
 
 vessel_names = {
@@ -228,15 +232,55 @@ def get_pathway_color_map(pathway_name, num_shades):
     Use reversed colormaps and match the base fuel by substring.
     Ensures dark, distinguishable shades and supports partial matching.
     """
+    
+    # Solid black (for oil/lsfo)
+    black_cmap = mcolors.ListedColormap(["black"])
+
+    # Greys trimmed to mid range so it never hits pure black or white (for LNG)
+    full_greys = matplotlib.colormaps["Greys"]  # same as plt.get_cmap("Greys")
+    lng_greys = mcolors.LinearSegmentedColormap.from_list(
+        "lng_greys",
+        full_greys(np.linspace(0.85, 0.3, 256))  # tweak 0.2..0.85 as you like
+    )
+
+    # --- Register them by name ---
+    def _register(name, cmap):
+        # Try the modern registrar first
+        try:
+            matplotlib.colormaps.register(cmap, name=name)
+        except Exception:
+            # Fallback for older Matplotlib
+            try:
+                cm.register_cmap(name=name, cmap=cmap)
+            except Exception:
+                # Ignore if already registered
+                pass
+
+    # Get the Oranges colormap
+    full_oranges = matplotlib.colormaps["Oranges"]
+
+    # Trim to the bright middle range (avoid dark brownish low end)
+    oranges_bright = mcolors.LinearSegmentedColormap.from_list(
+        "oranges_bright",
+        full_oranges(np.linspace(0.4, 1, 256))  # keep only 30% → 100%
+    )
+
+    # Register it
+    _register("oranges_bright", oranges_bright)
+    _register("black_cmap", black_cmap)
+    _register("lng_greys", lng_greys)
+
     colormap_keys = {
         "ammonia": "Blues_r",
-        "hydrogen": "Oranges_r",
+        "hydrogen": "oranges_bright",
         "methanol": "Greens_r",
         "diesel": "Reds_r",
-        "oil": "Greys_r",    # includes lsfo
-        "lsfo": "Greys_r",
-        "lng": "Purples_r"
+        "oil": "black_cmap",   # solid black
+        "lsfo": "black_cmap",  # same
+        "lng": "lng_greys",    # trimmed greys (no pure black)
+        "bio": "YlOrBr_r"      # brownish palette (since "Browns_r" doesn't exist)
     }
+
 
     pathway_lower = pathway_name.lower()
     base_fuel = "unknown"
@@ -1396,7 +1440,6 @@ def compare_tank_ranges(vessel_results_dict, save_label=None):
     plt.close()
 
 
-
 def plot_vessel_fuel_stacked_histograms(vessel_results_dict, column_names, column_labels, xlabel=None, stack_label=None, save_label=None):
     """
     For each vessel, plots a horizontal stacked histogram (bar chart) for the provided list of column names.
@@ -1763,8 +1806,8 @@ def make_all_plots(results_file, results_label=None, regulations=None):
     """
 
 #    ################################## Global results ##################################
-#    global_results_dict = read_results_global(results_file)
-#
+    global_results_dict = read_results_global(results_file)
+
 #    # Fleet info
 #    plot_fleet_info_column(global_results_dict, "TotalEquivalentWTW", info_type="global", ylabel="WTW Emissions (tonnes CO2e)", save_label=results_label)
 #    plot_fleet_info_column(global_results_dict, "CumulativeTotalEquivalentWTW", info_type="global", ylabel="Cumulative WTW (tonnes CO2e)", save_label=results_label)
@@ -1773,13 +1816,13 @@ def make_all_plots(results_file, results_label=None, regulations=None):
 #    plot_fleet_info_column(global_results_dict, "VesselExpenses", info_type="global", ylabel="Vessel Expenses (USD)", save_label=results_label)
 #    plot_fleet_info_column(global_results_dict, "Expenses", info_type="global", ylabel="Total Expenses (USD)", save_label=results_label)
 #    plot_fleet_info_column(global_results_dict, "CumulativeExpenses", info_type="global", ylabel="Cumulative Expenses (USD)", save_label=results_label)
-#
-#    # Global info
-#    plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
-#    plot_global_stacked_fuel_info(global_results_dict, "FuelRelatedExpenses", save_label=results_label)
-#
-#    ####################################################################################
-#
+
+    # Global info
+    plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
+    plot_global_stacked_fuel_info(global_results_dict, "FuelRelatedExpenses", save_label=results_label)
+
+    ####################################################################################
+
 #    ################################ Regulation results ################################
 #    regulation_results_dict = read_results_regulation(results_file)
 #    if regulations is not None:
@@ -1790,9 +1833,9 @@ def make_all_plots(results_file, results_label=None, regulations=None):
 #            else:
 #                print(f"Regulation {regulation} is not in the simulation output. No plots produced.")
 #    ####################################################################################
-#
-#    ################################ Fleet results ###################################
-    fleet_results_dict = read_results_fleet(results_file)
+
+    ################################ Fleet results #####################################
+#    fleet_results_dict = read_results_fleet(results_file)
 #    #print(fleet_results_dict)
 #
 #    # Plot fleet info for each vessel class and size
@@ -1812,9 +1855,9 @@ def make_all_plots(results_file, results_label=None, regulations=None):
 #    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="fleet", save_label=results_label)
 #    plot_main_fuel_info_fleet(fleet_results_dict, "FuelConversions", level="fleet", save_label=results_label)
 #    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="fleet", ylabel="Scrapped Vessels", save_label=results_label)
-#
+
 #    # Plot vessel metrics by fuel
-    vessel_results_dict = read_results_vessel(results_file)
+#    vessel_results_dict = read_results_vessel(results_file)
 #    plot_vessel_fuel_metric(vessel_results_dict, "InvestmentMetricExpected", xlabel="Vessel Investment Metric", save_label=results_label, relative_to_lsfo=True)
 #    plot_vessel_fuel_metric(vessel_results_dict, "CargoMiles", xlabel="Annual Vessel Cargo Miles", save_label=results_label, relative_to_lsfo=True)
 #    plot_vessel_fuel_metric(vessel_results_dict, "TotalCost", xlabel="Annual Vessel Cost (USD)", save_label=results_label, relative_to_lsfo=True)
@@ -1824,12 +1867,12 @@ def make_all_plots(results_file, results_label=None, regulations=None):
 #        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
 #    else:
 #        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX", "RegulationOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost", "Regulatory Penalties"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
-
-    # Simultaneously compare total cost and WTW emissions per cargo mile for each vessel size
-    compare_costs_emissions_per_cm(vessel_results_dict, fleet_results_dict, save_label=results_label)
-        
-        
-    # Plot trade by vessel
+#
+#    # Simultaneously compare total cost and WTW emissions per cargo mile for each vessel size
+#    compare_costs_emissions_per_cm(vessel_results_dict, fleet_results_dict, save_label=results_label)
+#
+#
+#    # Plot trade by vessel
 #    plot_trade_by_vessel(fleet_results_dict, vessel_results_dict, save_label=results_label)
 
     ####################################################################################
@@ -1842,8 +1885,8 @@ def main():
 #    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg/plots/all_fuels_excel_report.xlsx"
 #    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
 
-    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg_fuel_conversion/plots/all_fuels_excel_report.xlsx"
-    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg_fuel_conversion", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
+#    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg_fuel_conversion/plots/all_fuels_excel_report.xlsx"
+#    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg_fuel_conversion", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
 #
 #    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg_fuel_conversion_single_fleet/plots/all_fuels_excel_report.xlsx"
 #    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg_fuel_conversion_single_fleet", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
