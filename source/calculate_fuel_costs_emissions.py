@@ -1956,16 +1956,18 @@ def main(save_breakdowns=False, year=None, include_demands=False):
             fossil_df = pd.read_csv(fossil_file)
             synthetic_df = pd.read_csv(synthetic_file)
 
+            # Replace synthetic fuel name with fossil name
+            for col in ["Fuel", "fuel"]:
+                if col in synthetic_df.columns:
+                    synthetic_df[col] = fossil_name
+
             combined_df = pd.concat([fossil_df, synthetic_df], ignore_index=True)
-            combined_df.to_csv(fossil_file, index=False)  # overwrite fossil file with combined
-            os.remove(synthetic_file)  # optional: remove synthetic CSV to avoid confusion
+            combined_df.to_csv(fossil_file, index=False)  # overwrite fossil file
+            os.remove(synthetic_file)  # optional cleanup
 
-            print(f"✓ Combined {fossil_name} and {synthetic_name} into {fossil_file}")
+            print(f"✓ Combined {fossil_name} and {synthetic_name} into {fossil_file} (renamed {synthetic_name} → {fossil_name})")
 
-    suffix = f"_{year}" if year is not None else ""
-    combine_fossil_and_synthetic("ng", "sng", output_dir_production, suffix)
-    combine_fossil_and_synthetic("lng", "lsng", output_dir_production, suffix)
-    
+
     def combine_resource_demands(fossil_name, synthetic_name, output_dir):
         fossil_file = os.path.join(output_dir, f"{fossil_name}_resource_demands.csv")
         synthetic_file = os.path.join(output_dir, f"{synthetic_name}_resource_demands.csv")
@@ -1974,11 +1976,17 @@ def main(save_breakdowns=False, year=None, include_demands=False):
             fossil_df = pd.read_csv(fossil_file)
             synthetic_df = pd.read_csv(synthetic_file)
 
+            # Replace synthetic fuel name with fossil name
+            for col in ["Fuel", "fuel"]:
+                if col in synthetic_df.columns:
+                    synthetic_df[col] = fossil_name
+
             combined_df = pd.concat([fossil_df, synthetic_df], ignore_index=True)
             combined_df.to_csv(fossil_file, index=False)
             os.remove(synthetic_file)  # optional cleanup
 
-            print(f"✓ Combined resource demands: {fossil_name} + {synthetic_name} → {fossil_file}")
+            print(f"✓ Combined resource demands: {fossil_name} + {synthetic_name} → {fossil_file} (renamed {synthetic_name} → {fossil_name})")
+
 
     # Call the functions to merge synthetic into fossil files
     suffix = f"_{year}" if year is not None else ""
