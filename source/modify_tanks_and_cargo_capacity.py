@@ -1714,9 +1714,9 @@ def make_modified_vessel_incs(
                     original_filepath = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{vessel_class}_ice_{fuel_vessel_dict[fuel]}.inc"
 
                 modified_filepath = (
-                    f"{top_dir}/{VESSELS_MODIFIED_DIR}/{vessel_class}_ice_{fuel}.inc"
+                    f"{top_dir}/{VESSELS_MODIFIED_DIR}/{vessel_class}_ice_{fuel_vessel_dict[fuel]}.inc"
                 )
-                modified_filepath_orig_tanks = f"{top_dir}/{VESSELS_MODIFIED_TANKS_ORIG_DIR}/{vessel_class}_ice_{fuel}.inc"
+                modified_filepath_orig_tanks = f"{top_dir}/{VESSELS_MODIFIED_TANKS_ORIG_DIR}/{vessel_class}_ice_{fuel_vessel_dict[fuel]}.inc"
 
                 try:
                     # Read the original .inc file
@@ -1760,10 +1760,10 @@ def make_modified_vessel_incs(
                         # Update the "Vessel" line to replace the fuel keyword with the actual fuel name
                         if line.strip().startswith("Vessel"):
                             content_modified_capacity[i] = (
-                                f'Vessel "{vessel_class}_ice_{fuel}" {{\n'
+                                f'Vessel "{vessel_class}_ice_{fuel_vessel_dict[fuel]}" {{\n'
                             )
                             content_modified_capacity_orig_tanks[i] = (
-                                f'Vessel "{vessel_class}_ice_{fuel}" {{\n'
+                                f'Vessel "{vessel_class}_ice_{fuel_vessel_dict[fuel]}" {{\n'
                             )
 
                         # Update the "Tanks" line
@@ -1822,9 +1822,9 @@ def make_modified_vessel_incs(
                 original_filepath_lsfo = f"{top_dir}/{VESSELS_DIR_NAVIGATE}/{vessel_class}_ice_{fuel_vessel_dict['lsfo']}.inc"
 
             modified_filepath_lsfo = (
-                f"{top_dir}/{VESSELS_MODIFIED_DIR}/{vessel_class}_ice_lsfo.inc"
+                f"{top_dir}/{VESSELS_MODIFIED_DIR}/{vessel_class}_ice_{fuel_vessel_dict['lsfo']}.inc"
             )
-            modified_filepath_lsfo_orig_tanks = f"{top_dir}/{VESSELS_MODIFIED_TANKS_ORIG_DIR}/{vessel_class}_ice_lsfo.inc"
+            modified_filepath_lsfo_orig_tanks = f"{top_dir}/{VESSELS_MODIFIED_TANKS_ORIG_DIR}/{vessel_class}_ice_{fuel_vessel_dict['lsfo']}.inc"
 
             with open(original_filepath_lsfo, "r") as file:
                 content_lsfo = file.readlines()
@@ -1841,15 +1841,15 @@ def make_modified_vessel_incs(
                     )
 
                 if line.strip().startswith("Vessel"):
-                    content_lsfo_mod[i] = f'Vessel "{vessel_class}_ice_lsfo" {{\n'
+                    content_lsfo_mod[i] = f'Vessel "{vessel_class}_ice_oil" {{\n'
                     content_lsfo_mod_orig_tanks[i] = (
-                        f'Vessel "{vessel_class}_ice_lsfo" {{\n'
+                        f'Vessel "{vessel_class}_ice_oil" {{\n'
                     )
 
                 if line.strip().startswith("Tanks"):
                     # Optional: LSFO-specific tank line, or keep the same
                     content_lsfo_mod[i] = (
-                        f'    Tanks = [Tank("main_lsfo_{vessel_class}")]\n'
+                        f'    Tanks = [Tank("main_oil_{vessel_class}")]\n'
                     )
 
             # Write LSFO outputs
@@ -1905,7 +1905,7 @@ def make_modified_tank_incs(
                 else:
                     original_filepath = f"{top_dir}/{TANKS_DIR_NAVIGATE}/main_{fuel_vessel_dict[fuel]}_{vessel_class}.inc"
                 modified_filepath = (
-                    f"{top_dir}/{TANKS_MODIFIED_DIR}/main_{fuel}_{vessel_class}.inc"
+                    f"{top_dir}/{TANKS_MODIFIED_DIR}/main_{fuel_vessel_dict[fuel]}_{vessel_class}.inc"
                 )
 
                 try:
@@ -1928,7 +1928,7 @@ def make_modified_tank_incs(
 
                         # Update the "Tank" line
                         if line.strip().startswith("Tank"):
-                            content[i] = f'Tank "main_{fuel}_{vessel_class}" {{\n'
+                            content[i] = f'Tank "main_{fuel_vessel_dict[fuel]}_{vessel_class}" {{\n'
 
                     # Write the modified content to the new file
                     os.makedirs(os.path.dirname(modified_filepath), exist_ok=True)
@@ -3612,15 +3612,15 @@ def main():
 #    )
 #    plot_vessel_capacities(modified_capacities_df, capacity_type="mass")
 #    plot_vessel_capacities(modified_capacities_df, capacity_type="volume")
-    plot_vessel_capacities(modified_capacities_df, capacity_type="mass", sf_dist=sf_dist, no_diesel=True, with_sf=True)
+#    plot_vessel_capacities(modified_capacities_df, capacity_type="mass", sf_dist=sf_dist, no_diesel=True, with_sf=True)
 #    plot_vessel_capacities(modified_capacities_df, capacity_type="volume", sf_dist=sf_dist, no_diesel=True, with_sf=True)
 #
-#    make_modified_vessel_incs(
-#       top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
-#    )
-#    make_modified_tank_incs(
-#       top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
-#    )
+    make_modified_vessel_incs(
+       top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
+    )
+    make_modified_tank_incs(
+       top_dir, vessels, fuels, fuel_vessel_dict, modified_capacities_df
+    )
 
     """
     # Next, consider a range of vessel design ranges
