@@ -16,6 +16,7 @@ SIMULATION NAV {
     INCLUDE "../../includes_global/FTdiesel-all_pathways.inc"
     INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
     INCLUDE "../../includes_global/lng-all_pathways.inc"
+    INCLUDE "../../includes_global/bio_cfp-all_pathways.inc"
     
     # Route
     INCLUDE "../../includes_global/route_singapore_rotterdam.inc"
@@ -29,7 +30,7 @@ SIMULATION NAV {
     INCLUDE "../../includes_global/cost_emissions_methanol-singapore_rotterdam.inc"
     INCLUDE "../../includes_global/cost_emissions_FTdiesel-singapore_rotterdam.inc"
     INCLUDE "../../includes_global/cost_emissions_lng-singapore_rotterdam.inc"
-
+    INCLUDE "../../includes_global/cost_emissions_bio_cfp-singapore_rotterdam.inc"
     
     # center default emissions
     IMPORT CenterDefaultEmissions
