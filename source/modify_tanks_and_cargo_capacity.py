@@ -57,6 +57,7 @@ fuel_vessel_dict = {
     "liquid_hydrogen": "liquid_hydrogen",
     "lsfo": "oil",
     "lng": "methane",
+    "bio_cfp": "oil",
 }
 
 fuel_power_system_dict = {
@@ -67,6 +68,7 @@ fuel_power_system_dict = {
     "liquid_hydrogen": "dual",
     "lsfo": "single",
     "lng": "dual",
+    "bio_cfp" : "single",
 }
 
 # Dictionary to indicate whether to look for input files in the default NavigaTE inputs, or in the relevant local dir with custom inputs
