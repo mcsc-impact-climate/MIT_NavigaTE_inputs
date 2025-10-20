@@ -1040,4 +1040,5 @@ def main():
         if vessel_class != "gas_carrier":
             plot_sf_distributions(vessel_class)
 
-main()
+if __name__ == "__main__":
+    main()
