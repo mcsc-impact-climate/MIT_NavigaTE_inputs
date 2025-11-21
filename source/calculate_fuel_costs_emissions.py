@@ -876,6 +876,7 @@ def calculate_production_costs_emissions_SNG(
     capex_c, opex_c, emiss_c, capex_cc, opex_cc, emiss_cc = _feed_co2(
         C_pathway, credit_sng, prices, elect_emissions_intensity, CO2_req
     )
+    print(f"Emissions for CO2 from {C_pathway}: {emiss_c}")
     capex_cc = {k: v * CO2_req for k, v in capex_cc.items()}
     opex_cc  = {k: v * CO2_req for k, v in opex_cc.items()}
 
@@ -1541,6 +1542,84 @@ def calculate_resource_demands_FTdiesel(H_pathway, C_pathway):
     CO2_demand += H2_CO2_demand * H2_demand
 
     return elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand
+    
+# ────────────────────────────────────────────────────────────────────
+# Gate-to-Pump process resource demands (per kg fuel)
+# ────────────────────────────────────────────────────────────────────
+
+def calculate_resource_demands_hydrogen_liquefaction():
+    """
+    Incremental liquefaction of STP H2 → liquid H2.
+    Returns (elect, LCB, NG, water, CO2) per kg liquid H2.
+    """
+    elect = CTX["tech"]["H2_liq"]["elect_demand"]["value"]
+    return elect, 0.0, 0.0, 0.0, 0.0
+
+
+def calculate_resource_demands_hydrogen_compression():
+    """
+    Incremental compression of STP H2 → 700 bar H2.
+    Returns (elect, LCB, NG, water, CO2) per kg compressed H2.
+    """
+    elect = CTX["tech"]["H2_comp"]["elect_demand"]["value"]
+    return elect, 0.0, 0.0, 0.0, 0.0
+
+
+def calculate_resource_demands_hydrogen_to_ammonia_conversion(H_pathway: str = "LTE"):
+    """
+    Incremental conversion of STP H2 → NH3 (Haber-Bosch),
+    i.e. NH3 total demands minus H2 production demanded for its H2 input.
+    Returns (elect, LCB, NG, water, CO2) per kg NH3.
+    """
+    # Total NH3 demands (includes H2 pathway inside)
+    e_nh3, lcb_nh3, ng_nh3, w_nh3, co2_nh3 = calculate_resource_demands_ammonia(H_pathway)
+
+    # H2 demands that are already embedded in NH3
+    e_h2, lcb_h2, ng_h2, w_h2, co2_h2 = calculate_resource_demands_STP_hydrogen(H_pathway)
+    h2_req = CTX["derived"]["NH3_H2_demand"]  # kg H2 per kg NH3
+
+    elect  = e_nh3   - e_h2   * h2_req
+    lcb    = lcb_nh3 - lcb_h2 * h2_req
+    ng     = ng_nh3  - ng_h2  * h2_req
+    water  = w_nh3   - w_h2   * h2_req
+    co2    = co2_nh3 - co2_h2 * h2_req
+
+    return elect, lcb, ng, water, co2
+
+
+def calculate_resource_demands_ng_liquefaction():
+    """
+    Incremental liquefaction of fossil NG → LNG.
+    Returns (elect, LCB, NG, water, CO2) per kg LNG.
+    """
+    e_lng, lcb_lng, ng_lng, w_lng, co2_lng = calculate_resource_demands_liquid_NG()
+    e_ng,  lcb_ng,  ng_ng,  w_ng,  co2_ng  = calculate_resource_demands_NG()
+
+    elect  = e_lng  - e_ng
+    lcb    = lcb_lng - lcb_ng
+    ng     = ng_lng - ng_ng
+    water  = w_lng  - w_ng
+    co2    = co2_lng - co2_ng
+
+    return elect, lcb, ng, water, co2
+
+
+def calculate_resource_demands_sng_liquefaction(H_pathway: str = "LTE",
+                                                C_pathway: str = "DAC"):
+    """
+    Incremental liquefaction of SNG → LSNG.
+    Returns (elect, LCB, NG, water, CO2) per kg LSNG.
+    """
+    e_lsng, lcb_lsng, ng_lsng, w_lsng, co2_lsng = calculate_resource_demands_LSNG(H_pathway, C_pathway)
+    e_sng,  lcb_sng,  ng_sng,  w_sng,  co2_sng  = calculate_resource_demands_SNG(H_pathway, C_pathway)
+
+    elect  = e_lsng  - e_sng
+    lcb    = lcb_lsng - lcb_sng
+    ng     = ng_lsng - ng_sng
+    water  = w_lsng  - w_sng
+    co2    = co2_lsng - co2_sng
+
+    return elect, lcb, ng, water, co2
 
 
 # Dispatch table for resource demands
@@ -1620,6 +1699,15 @@ def main(save_breakdowns=False, year=None, include_demands=False):
     # Read the input CSV files
     input_df = pd.read_csv(input_dir + "regional_TEA_inputs.csv")
     pathway_df = pd.read_csv(input_dir + "fuel_pathway_options.csv")
+    
+#    print(CTX["derived"]["BEC_CO2_upstream_emissions"])
+#    print(CTX["derived"]["BEC_CO2_upstream_NG"])
+#    print(CTX["derived"]["BEC_CO2_upstream_water"])
+#    print(CTX["derived"]["BEC_CO2_upstream_LCB"])
+
+#    print(CTX["derived"]["DAC_CO2_upstream_emissions"])
+#    print(CTX["derived"]["DAC_CO2_upstream_NG"])
+#    print(CTX["derived"]["DAC_CO2_upstream_elect"])
 
     # Populate the arrays using the columns
     fuels_and_contents = pathway_df[["WTG fuels", "fuel contents"]].dropna()
@@ -1699,6 +1787,7 @@ def main(save_breakdowns=False, year=None, include_demands=False):
         # List to hold all rows for the output CSV
         output_data = []
         output_resource_data = []
+        process_resource_data = []
 
         # Iterate through each row in the input data and perform calculations
         for fuel_pathway in fuel_pathways:
@@ -1739,6 +1828,7 @@ def main(save_breakdowns=False, year=None, include_demands=False):
                     CO2_demand,
                 ]
                 output_resource_data.append(calculated_resource_row)
+
 
             for row_index, row in input_df.iterrows():
                 (
@@ -2015,8 +2105,66 @@ def main(save_breakdowns=False, year=None, include_demands=False):
             process_pathways = Esources
             E_pathways = Esources
 
-        # List to hold all rows for the output CSV
+        # NEW: process-level resource demands (per kg fuel), region-independent
+        process_resource_data = []
+        if include_demands:
+            for process_pathway in process_pathways:
+                H_pathway_res = "n/a"
+                C_pathway_res = "n/a"
+
+                if process == "hydrogen_liquefaction":
+                    fuel_res = "liquid_hydrogen"
+                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
+                        calculate_resource_demands_hydrogen_liquefaction()
+                    )
+
+                elif process == "hydrogen_compression":
+                    fuel_res = "compressed_hydrogen"
+                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
+                        calculate_resource_demands_hydrogen_compression()
+                    )
+
+                elif process == "hydrogen_to_ammonia_conversion":
+                    fuel_res = "ammonia"
+                    # For consistency with GTP costs, assume LTE H₂
+                    H_pathway_res = "LTE"
+                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
+                        calculate_resource_demands_hydrogen_to_ammonia_conversion("LTE")
+                    )
+
+                elif process == "ng_liquefaction":
+                    fuel_res = "ng"
+                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
+                        calculate_resource_demands_ng_liquefaction()
+                    )
+
+                elif process == "sng_liquefaction":
+                    fuel_res = "sng"
+                    # Match the LTE / DAC convention used in the cost/emission block
+                    H_pathway_res = "LTE"
+                    C_pathway_res = "DAC"
+                    elect_demand, LCB_demand, NG_demand, water_demand, CO2_demand = (
+                        calculate_resource_demands_sng_liquefaction("LTE", "DAC")
+                    )
+
+                else:
+                    continue  # skip unknown GTP processes
+
+                process_resource_data.append([
+                    fuel_res,
+                    H_pathway_res,
+                    C_pathway_res,
+                    process_pathway,  # stored under "Fuel Pathway" column
+                    elect_demand,
+                    LCB_demand,
+                    NG_demand,
+                    water_demand,
+                    CO2_demand,
+                ])
+
+        # List to hold all rows for the output CSV (costs/emissions)
         output_data = []
+
 
         # Iterate through each row in the input data and perform calculations
         for process_pathway in process_pathways:
@@ -2270,6 +2418,32 @@ def main(save_breakdowns=False, year=None, include_demands=False):
             f"Output CSV file created: {os.path.join(output_dir_process, output_file)}"
         )
         
+        # Write GTP resource-demand CSV (if requested)
+        if include_demands and process_resource_data:
+            output_resource_columns = [
+                "Fuel",
+                "Hydrogen Source",
+                "Carbon Source",
+                "Fuel Pathway",
+                "Electricity Demand [kWh / kg fuel]",
+                "Lignocellulosic Biomass Demand [kg / kg fuel]",
+                "NG Demand [GJ / kg fuel]",
+                "Water Demand [m^3 / kg fuel]",
+                "CO2 Demand [kg CO2 / kg fuel]",
+            ]
+            process_resource_df = pd.DataFrame(
+                process_resource_data,
+                columns=output_resource_columns,
+            )
+            resource_file = f"{process}_resource_demands.csv"
+            process_resource_df.to_csv(
+                os.path.join(output_dir_process, resource_file), index=False
+            )
+            print(
+                f"Output GTP resource CSV file created: {os.path.join(output_dir_process, resource_file)}"
+            )
+
+        
     # ---- Combine fossil and synthetic GTP liquefaction outputs ----
     def combine_liquefaction_outputs(fossil_process, synthetic_process, output_dir, suffix):
         fossil_file = os.path.join(output_dir, f"{fossil_process}_costs_emissions{suffix}.csv")
@@ -2287,6 +2461,26 @@ def main(save_breakdowns=False, year=None, include_demands=False):
 
     # Call it for natural gas liquefaction
     combine_liquefaction_outputs("ng_liquefaction", "sng_liquefaction", output_dir_process, suffix)
+
+    # ---- Combine fossil and synthetic GTP liquefaction resource demands ----
+    def combine_liquefaction_resource_demands(fossil_process, synthetic_process, output_dir):
+        fossil_file = os.path.join(output_dir, f"{fossil_process}_resource_demands.csv")
+        synthetic_file = os.path.join(output_dir, f"{synthetic_process}_resource_demands.csv")
+
+        if os.path.exists(fossil_file) and os.path.exists(synthetic_file):
+            fossil_df = pd.read_csv(fossil_file)
+            synthetic_df = pd.read_csv(synthetic_file)
+
+            combined_df = pd.concat([fossil_df, synthetic_df], ignore_index=True)
+            combined_df.to_csv(fossil_file, index=False)
+            os.remove(synthetic_file)
+
+            print(
+                f"✓ Combined GTP resource demands: {fossil_process} + {synthetic_process} → {fossil_file}"
+            )
+
+    if include_demands:
+        combine_liquefaction_resource_demands("ng_liquefaction", "sng_liquefaction", output_dir_process)
 
 
 if __name__ == "__main__":

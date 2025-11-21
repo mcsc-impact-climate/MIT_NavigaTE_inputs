@@ -1,0 +1,4 @@
+Fuel,Hydrogen Source,Carbon Source,Fuel Pathway,Electricity Demand [kWh / kg fuel],Lignocellulosic Biomass Demand [kg / kg fuel],NG Demand [GJ / kg fuel],Water Demand [m^3 / kg fuel],CO2 Demand [kg CO2 / kg fuel]
+compressed_hydrogen,n/a,n/a,grid,3.0,0.0,0.0,0.0,0.0
+compressed_hydrogen,n/a,n/a,solar,3.0,0.0,0.0,0.0,0.0
+compressed_hydrogen,n/a,n/a,wind,3.0,0.0,0.0,0.0,0.0

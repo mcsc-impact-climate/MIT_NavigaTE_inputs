@@ -1,0 +1,4 @@
+Fuel,Hydrogen Source,Carbon Source,Fuel Pathway,Electricity Demand [kWh / kg fuel],Lignocellulosic Biomass Demand [kg / kg fuel],NG Demand [GJ / kg fuel],Water Demand [m^3 / kg fuel],CO2 Demand [kg CO2 / kg fuel]
+ammonia,LTE,n/a,grid,0.9917887813869637,0.0,0.0,7.780635506479455e-05,0.0
+ammonia,LTE,n/a,solar,0.9917887813869637,0.0,0.0,7.780635506479455e-05,0.0
+ammonia,LTE,n/a,wind,0.9917887813869637,0.0,0.0,7.780635506479455e-05,0.0
