@@ -6,6 +6,9 @@ Purpose: Calculate resource demands associated with the IEA net zero 2050 scenar
 import pandas as pd
 from common_tools import get_fuel_LHV
 
+KG_PER_TONNE = 1000
+TONNES_PER_MEGATONNE = 1e6
+
 # Scenario inputs
 total_energy_consumed = 10      # EJ
 ammonia_energy_frac = 0.46
@@ -13,7 +16,7 @@ hydrogen_energy_frac = 0.17
 biofuel_energy_frac = 0.21
 
 # Stoichiometric hydrogen requirement for ammonia
-kg_hydrogen_per_kg_ammonia = 0.355599884  # kg H2 / kg NH3
+kg_hydrogen_per_kg_ammonia = 0.17756899588960657663  # kg H2 / kg NH3
 
 # Input data files
 filenames = {
@@ -103,40 +106,24 @@ def get_resources_by_fuel(hydrogen_perkg_by_source,
                           h2_to_nh3_perkg,
                           h2_liq_perkg):
     """
-    Build per-kg resource demands for FINAL fuels (ammonia, liquid hydrogen, biofuel),
-    including the upstream resource demands to:
-      - produce hydrogen used for ammonia and liquid H2, and
-      - convert hydrogen to ammonia, and liquefy hydrogen.
+    Build per-kg resource demands for FINAL fuels (ammonia, liquid hydrogen, biofuel).
+
+    For ammonia and liquid hydrogen, we assume the corresponding production CSVs
+    already represent the total production process, so we use them directly.
 
     Returns a DataFrame with columns:
       Fuel, Hydrogen Source, and per-kg resource columns.
     """
     records = []
 
-    # ---- Final fuel: ammonia (includes NH3 production + H2 prod + H2->NH3 conversion)
+    # ammonia
     for h in h_sources:
-        # ammonia production (per kg NH3) for this source
         try:
             res_ammonia = get_resources(filenames["ammonia"], h_source=h)
         except ValueError:
-            # no ammonia pathway for this h_source
             continue
 
-        # hydrogen production per kg H2 for this source
-        if h not in hydrogen_perkg_by_source:
-            continue
-
-        h2_prod_perkg = hydrogen_perkg_by_source[h]
-
-        # Per kg NH3:
-        #   ammonia production
-        # + hydrogen production (scaled by stoichiometric H2 per kg NH3)
-        # + hydrogen-to-ammonia conversion (per kg NH3)
-        total_perkg_ammonia = (
-            res_ammonia
-            + h2_prod_perkg * kg_hydrogen_per_kg_ammonia
-            + h2_to_nh3_perkg
-        )
+        total_perkg_ammonia = res_ammonia  # use directly
 
         record = {
             "Fuel": "ammonia",
@@ -145,24 +132,14 @@ def get_resources_by_fuel(hydrogen_perkg_by_source,
         record.update(total_perkg_ammonia.to_dict())
         records.append(record)
 
-    # ---- Final fuel: liquid hydrogen (includes LH2 prod + H2 prod + liquefaction)
-    # Assume 1 kg H2 per kg liquid H2, with no H2 loss.
+    # liquid hydrogen
     for h in h_sources:
         try:
             res_lh2 = get_resources(filenames["liquid_hydrogen"], h_source=h)
         except ValueError:
             continue
 
-        if h not in hydrogen_perkg_by_source:
-            continue
-
-        h2_prod_perkg = hydrogen_perkg_by_source[h]
-
-        total_perkg_lh2 = (
-            res_lh2
-            + h2_prod_perkg * 1.0   # 1 kg H2 per kg LH2 (no loss)
-            + h2_liq_perkg
-        )
+        total_perkg_lh2 = res_lh2  # use directly; no extra additions
 
         record = {
             "Fuel": "liquid_hydrogen",
@@ -171,7 +148,7 @@ def get_resources_by_fuel(hydrogen_perkg_by_source,
         record.update(total_perkg_lh2.to_dict())
         records.append(record)
 
-    # ---- Final fuel: biofuel (no hydrogen in this chain)
+    # biofuel (no hydrogen in this chain)
     bio_res = get_resources(filenames["biofuel"])
     record = {
         "Fuel": "biofuel",
@@ -185,12 +162,9 @@ def get_resources_by_fuel(hydrogen_perkg_by_source,
 
 def calculate_resource_totals(resources_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Using resource demands per kg of FINAL fuel (which already include upstream hydrogen
-    and process steps where relevant), fuel energy fractions, and LHVs,
+    Using resource demands per kg of FINAL fuel, fuel energy fractions, and LHVs,
     calculate the total resource demand in the 10 EJ IEA NZ2050 scenario
     for each (fuel, hydrogen source) combination.
-
-    Returns a DataFrame with total electricity, LCB, NG, and water demands.
     """
     # Map final fuel to its energy fraction in the shipping scenario
     energy_fracs = {
@@ -216,7 +190,6 @@ def calculate_resource_totals(resources_df: pd.DataFrame) -> pd.DataFrame:
         lhv_MJ_per_kg = get_fuel_LHV(fuel_name_for_lhv[fuel])
 
         # 1 EJ = 1e18 J = 1e12 MJ
-        # mass of fuel (kg) needed for this fuel's share of the scenario:
         fuel_mass_kg = fuel_energy_EJ * 1e12 / lhv_MJ_per_kg
 
         # Resource demands per kg of this fuel:
@@ -238,11 +211,11 @@ def calculate_resource_totals(resources_df: pd.DataFrame) -> pd.DataFrame:
                 "Fuel Energy Fraction": energy_frac,
                 "Fuel Energy in Scenario [EJ]": fuel_energy_EJ,
                 "Fuel LHV [MJ/kg]": lhv_MJ_per_kg,
-                "Total Fuel Mass in Scenario [kg]": fuel_mass_kg,
-                "Total Electricity Demand [kWh]": total_elec_kWh,
-                "Total LCB Demand [kg]": total_lcb_kg,
-                "Total NG Demand [GJ]": total_ng_GJ,
-                "Total Water Demand [m^3]": total_water_cbm
+                "Fuel Mass in Scenario [Mt]": fuel_mass_kg / (KG_PER_TONNE * TONNES_PER_MEGATONNE),
+                "Electricity Demand [kWh]": total_elec_kWh,
+                "LCB Demand [kg]": total_lcb_kg,
+                "NG Demand [GJ]": total_ng_GJ,
+                "Water Demand [m^3]": total_water_cbm
             }
         )
 
@@ -254,113 +227,262 @@ def add_explicit_hydrogen_rows(totals_df: pd.DataFrame,
                                h2_to_nh3_perkg,
                                h2_liq_perkg) -> pd.DataFrame:
     """
-    Add explicit rows (scenario totals) for each h_source:
-
-      - hydrogen_for_ammonia
-      - hydrogen_to_ammonia_conversion
-      - hydrogen_for_lh2
-      - hydrogen_liquefaction
-
-    These rows decompose the total hydrogen-related demands used to support
-    ammonia and liquid hydrogen in the scenario.
+    Add explicit rows for:
+      - hydrogen_for_ammonia        (include mass & energy of hydrogen)
+      - hydrogen_to_ammonia_conversion   (NO mass/energy)
+      - hydrogen_for_lh2            (include mass & energy of hydrogen)
+      - hydrogen_liquefaction       (NO mass/energy)
     """
     records = []
 
     for h in h_sources:
+
         # ------------------------------------------------------------------
-        # Hydrogen for ammonia
+        # Parent AMMONIA row for this source
         # ------------------------------------------------------------------
-        if h in hydrogen_perkg_by_source:
+        nh3_rows = totals_df[
+            (totals_df["Fuel"] == "ammonia") &
+            (totals_df["Hydrogen Source"] == h)
+        ]
+        nh3_row = nh3_rows.iloc[0] if len(nh3_rows) == 1 else None
+
+        if nh3_row is not None and h in hydrogen_perkg_by_source:
+
             h2_prod = hydrogen_perkg_by_source[h]
 
-            nh3_mass_arr = totals_df[
-                (totals_df["Fuel"] == "ammonia") &
-                (totals_df["Hydrogen Source"] == h)
-            ]["Total Fuel Mass in Scenario [kg]"].values
+            # Parent ammonia mass and energy
+            nh3_energy_EJ = nh3_row["Fuel Energy in Scenario [EJ]"]
+            nh3_mass_Mt   = nh3_row["Fuel Mass in Scenario [Mt]"]
+            nh3_mass_kg   = nh3_mass_Mt * 1e9
 
-            if len(nh3_mass_arr) == 1:
-                nh3_mass = nh3_mass_arr[0]
-                hydrogen_mass_needed = nh3_mass * kg_hydrogen_per_kg_ammonia
+            # Hydrogen needs (mass & energy)
+            h2_mass_kg = nh3_mass_kg * kg_hydrogen_per_kg_ammonia
+            h2_mass_Mt = h2_mass_kg / 1e9
+            h2_energy_EJ = nh3_energy_EJ * kg_hydrogen_per_kg_ammonia
 
-                # Scenario-total hydrogen production resources for ammonia
-                r = h2_prod * hydrogen_mass_needed
-                records.append({
-                    "Fuel": "hydrogen_for_ammonia",
-                    "Hydrogen Source": h,
-                    "Fuel Energy Fraction": None,
-                    "Fuel Energy in Scenario [EJ]": None,
-                    "Fuel LHV [MJ/kg]": None,
-                    "Total Fuel Mass in Scenario [kg]": hydrogen_mass_needed,
-                    "Total Electricity Demand [kWh]": r["Electricity Demand [kWh / kg fuel]"],
-                    "Total LCB Demand [kg]": r["Lignocellulosic Biomass Demand [kg / kg fuel]"],
-                    "Total NG Demand [GJ]": r["NG Demand [GJ / kg fuel]"],
-                    "Total Water Demand [m^3]": r["Water Demand [m^3 / kg fuel]"]
-                })
+            # --- hydrogen_for_ammonia ---
+            r = h2_prod * h2_mass_kg
+            records.append({
+                "Fuel": "hydrogen_for_ammonia",
+                "Hydrogen Source": h,
+                "Fuel Energy Fraction": None,
+                "Fuel Energy in Scenario [EJ]": h2_energy_EJ,
+                "Fuel LHV [MJ/kg]": None,
+                "Fuel Mass in Scenario [Mt]": h2_mass_Mt,
+                "Electricity Demand [kWh]": r["Electricity Demand [kWh / kg fuel]"],
+                "LCB Demand [kg]": r["Lignocellulosic Biomass Demand [kg / kg fuel]"],
+                "NG Demand [GJ]": r["NG Demand [GJ / kg fuel]"],
+                "Water Demand [m^3]": r["Water Demand [m^3 / kg fuel]"]
+            })
 
-                # ------------------------------------------------------------------
-                # Hydrogen-to-ammonia conversion (per kg NH3, scaled to scenario)
-                # ------------------------------------------------------------------
-                conv = h2_to_nh3_perkg * nh3_mass
-                records.append({
-                    "Fuel": "hydrogen_to_ammonia_conversion",
-                    "Hydrogen Source": h,
-                    "Fuel Energy Fraction": None,
-                    "Fuel Energy in Scenario [EJ]": None,
-                    "Fuel LHV [MJ/kg]": None,
-                    "Total Fuel Mass in Scenario [kg]": nh3_mass,
-                    "Total Electricity Demand [kWh]": conv["Electricity Demand [kWh / kg fuel]"],
-                    "Total LCB Demand [kg]": conv["Lignocellulosic Biomass Demand [kg / kg fuel]"],
-                    "Total NG Demand [GJ]": conv["NG Demand [GJ / kg fuel]"],
-                    "Total Water Demand [m^3]": conv["Water Demand [m^3 / kg fuel]"]
-                })
+            # --- hydrogen_to_ammonia_conversion (NO mass/energy) ---
+            conv = h2_to_nh3_perkg * nh3_mass_kg
+            records.append({
+                "Fuel": "hydrogen_to_ammonia_conversion",
+                "Hydrogen Source": h,
+                "Fuel Energy Fraction": None,
+                "Fuel Energy in Scenario [EJ]": None,
+                "Fuel LHV [MJ/kg]": None,
+                "Fuel Mass in Scenario [Mt]": None,
+                "Electricity Demand [kWh]": conv["Electricity Demand [kWh / kg fuel]"],
+                "LCB Demand [kg]": conv["Lignocellulosic Biomass Demand [kg / kg fuel]"],
+                "NG Demand [GJ]": conv["NG Demand [GJ / kg fuel]"],
+                "Water Demand [m^3]": conv["Water Demand [m^3 / kg fuel]"]
+            })
 
         # ------------------------------------------------------------------
-        # Hydrogen for liquid hydrogen
+        # Parent LIQUID HYDROGEN row for this source
         # ------------------------------------------------------------------
-        if h in hydrogen_perkg_by_source:
+        lh2_rows = totals_df[
+            (totals_df["Fuel"] == "liquid_hydrogen") &
+            (totals_df["Hydrogen Source"] == h)
+        ]
+        lh2_row = lh2_rows.iloc[0] if len(lh2_rows) == 1 else None
+
+        if lh2_row is not None and h in hydrogen_perkg_by_source:
+
             h2_prod = hydrogen_perkg_by_source[h]
 
-            lh2_mass_arr = totals_df[
-                (totals_df["Fuel"] == "liquid_hydrogen") &
-                (totals_df["Hydrogen Source"] == h)
-            ]["Total Fuel Mass in Scenario [kg]"].values
+            # Parent LH2 mass & energy
+            lh2_energy_EJ = lh2_row["Fuel Energy in Scenario [EJ]"]
+            lh2_mass_Mt   = lh2_row["Fuel Mass in Scenario [Mt]"]
+            lh2_mass_kg   = lh2_mass_Mt * 1e9
 
-            if len(lh2_mass_arr) == 1:
-                lh2_mass = lh2_mass_arr[0]
-                hydrogen_mass_needed = lh2_mass  # 1 kg H2 per kg LH2, no loss
+            # Hydrogen input = 1 kg H2 / 1 kg LH2
+            h2_mass_kg = lh2_mass_kg
+            h2_mass_Mt = lh2_mass_Mt
+            h2_energy_EJ = lh2_energy_EJ
 
-                r = h2_prod * hydrogen_mass_needed
-                records.append({
-                    "Fuel": "hydrogen_for_lh2",
-                    "Hydrogen Source": h,
-                    "Fuel Energy Fraction": None,
-                    "Fuel Energy in Scenario [EJ]": None,
-                    "Fuel LHV [MJ/kg]": None,
-                    "Total Fuel Mass in Scenario [kg]": hydrogen_mass_needed,
-                    "Total Electricity Demand [kWh]": r["Electricity Demand [kWh / kg fuel]"],
-                    "Total LCB Demand [kg]": r["Lignocellulosic Biomass Demand [kg / kg fuel]"],
-                    "Total NG Demand [GJ]": r["NG Demand [GJ / kg fuel]"],
-                    "Total Water Demand [m^3]": r["Water Demand [m^3 / kg fuel]"]
-                })
+            # --- hydrogen_for_lh2 ---
+            r = h2_prod * h2_mass_kg
+            records.append({
+                "Fuel": "hydrogen_for_lh2",
+                "Hydrogen Source": h,
+                "Fuel Energy Fraction": None,
+                "Fuel Energy in Scenario [EJ]": h2_energy_EJ,
+                "Fuel LHV [MJ/kg]": None,
+                "Fuel Mass in Scenario [Mt]": h2_mass_Mt,
+                "Electricity Demand [kWh]": r["Electricity Demand [kWh / kg fuel]"],
+                "LCB Demand [kg]": r["Lignocellulosic Biomass Demand [kg / kg fuel]"],
+                "NG Demand [GJ]": r["NG Demand [GJ / kg fuel]"],
+                "Water Demand [m^3]": r["Water Demand [m^3 / kg fuel]"]
+            })
 
-                # ------------------------------------------------------------------
-                # Hydrogen liquefaction (per kg LH2, scaled to scenario)
-                # ------------------------------------------------------------------
-                liq = h2_liq_perkg * lh2_mass
-                records.append({
-                    "Fuel": "hydrogen_liquefaction",
-                    "Hydrogen Source": h,
-                    "Fuel Energy Fraction": None,
-                    "Fuel Energy in Scenario [EJ]": None,
-                    "Fuel LHV [MJ/kg]": None,
-                    "Total Fuel Mass in Scenario [kg]": lh2_mass,
-                    "Total Electricity Demand [kWh]": liq["Electricity Demand [kWh / kg fuel]"],
-                    "Total LCB Demand [kg]": liq["Lignocellulosic Biomass Demand [kg / kg fuel]"],
-                    "Total NG Demand [GJ]": liq["NG Demand [GJ / kg fuel]"],
-                    "Total Water Demand [m^3]": liq["Water Demand [m^3 / kg fuel]"]
-                })
+            # --- hydrogen_liquefaction (NO mass/energy) ---
+            liq = h2_liq_perkg * lh2_mass_kg
+            records.append({
+                "Fuel": "hydrogen_liquefaction",
+                "Hydrogen Source": h,
+                "Fuel Energy Fraction": None,
+                "Fuel Energy in Scenario [EJ]": None,
+                "Fuel LHV [MJ/kg]": None,
+                "Fuel Mass in Scenario [Mt]": None,
+                "Electricity Demand [kWh]": liq["Electricity Demand [kWh / kg fuel]"],
+                "LCB Demand [kg]": liq["Lignocellulosic Biomass Demand [kg / kg fuel]"],
+                "NG Demand [GJ]": liq["NG Demand [GJ / kg fuel]"],
+                "Water Demand [m^3]": liq["Water Demand [m^3 / kg fuel]"]
+            })
 
     return pd.DataFrame(records)
+
+
+def make_pathway_tables(full_output: pd.DataFrame):
+    """
+    For each hydrogen pathway (hydrogen source), create a CSV with rows:
+      - liquid_hydrogen, hydrogen_for_lh2
+      - liquid_hydrogen, hydrogen_liquefaction
+      - liquid_hydrogen, liquid_hydrogen_final
+      - ammonia, hydrogen_for_ammonia
+      - ammonia, hydrogen_to_ammonia_conversion
+      - ammonia, ammonia_final
+      - biofuel, biofuel_final
+
+    Columns:
+      - Fuel being produced
+      - Process or final fuel
+      - Fuel energy [EJ]
+      - Fuel mass [Mt]
+      - Electricity Demand [kWh]
+      - LCB Demand [kg]
+      - NG Demand [GJ]
+      - Water Demand [m^3]
+    """
+    # Biofuel total row is independent of H source
+    bio_row = full_output[full_output["Fuel"] == "biofuel"].iloc[0]
+
+    for h in h_sources:
+        rows = []
+
+        # Helper to safely extract a single row by (Fuel, Hydrogen Source)
+        def get_row(fuel_value, h_source_value):
+            df = full_output[
+                (full_output["Fuel"] == fuel_value) &
+                (full_output["Hydrogen Source"] == h_source_value)
+            ]
+            return df.iloc[0] if len(df) == 1 else None
+
+        # liquid_hydrogen, hydrogen_for_lh2
+        r = get_row("hydrogen_for_lh2", h)
+        if r is not None:
+            rows.append({
+                "Fuel being produced": "liquid_hydrogen",
+                "Process or final fuel": "hydrogen_for_lh2",
+                "Fuel energy [EJ]": r["Fuel Energy in Scenario [EJ]"],
+                "Fuel mass [Mt]": r["Fuel Mass in Scenario [Mt]"],
+                "Electricity Demand [kWh]": r["Electricity Demand [kWh]"],
+                "LCB Demand [kg]": r["LCB Demand [kg]"],
+                "NG Demand [GJ]": r["NG Demand [GJ]"],
+                "Water Demand [m^3]": r["Water Demand [m^3]"],
+            })
+
+        # liquid_hydrogen, hydrogen_liquefaction
+        r = get_row("hydrogen_liquefaction", h)
+        if r is not None:
+            rows.append({
+                "Fuel being produced": "liquid_hydrogen",
+                "Process or final fuel": "hydrogen_liquefaction",
+                "Fuel energy [EJ]": None,
+                "Fuel mass [Mt]": None,
+                "Electricity Demand [kWh]": r["Electricity Demand [kWh]"],
+                "LCB Demand [kg]": r["LCB Demand [kg]"],
+                "NG Demand [GJ]": r["NG Demand [GJ]"],
+                "Water Demand [m^3]": r["Water Demand [m^3]"],
+            })
+
+        # liquid_hydrogen, liquid_hydrogen_final
+        r = get_row("liquid_hydrogen", h)
+        if r is not None:
+            rows.append({
+                "Fuel being produced": "liquid_hydrogen",
+                "Process or final fuel": "liquid_hydrogen_final",
+                "Fuel energy [EJ]": r["Fuel Energy in Scenario [EJ]"],
+                "Fuel mass [Mt]": r["Fuel Mass in Scenario [Mt]"],
+                "Electricity Demand [kWh]": r["Electricity Demand [kWh]"],
+                "LCB Demand [kg]": r["LCB Demand [kg]"],
+                "NG Demand [GJ]": r["NG Demand [GJ]"],
+                "Water Demand [m^3]": r["Water Demand [m^3]"],
+            })
+
+        # ammonia, hydrogen_for_ammonia
+        r = get_row("hydrogen_for_ammonia", h)
+        if r is not None:
+            rows.append({
+                "Fuel being produced": "ammonia",
+                "Process or final fuel": "hydrogen_for_ammonia",
+                "Fuel energy [EJ]": r["Fuel Energy in Scenario [EJ]"],
+                "Fuel mass [Mt]": r["Fuel Mass in Scenario [Mt]"],
+                "Electricity Demand [kWh]": r["Electricity Demand [kWh]"],
+                "LCB Demand [kg]": r["LCB Demand [kg]"],
+                "NG Demand [GJ]": r["NG Demand [GJ]"],
+                "Water Demand [m^3]": r["Water Demand [m^3]"],
+            })
+
+        # ammonia, hydrogen_to_ammonia_conversion
+        r = get_row("hydrogen_to_ammonia_conversion", h)
+        if r is not None:
+            rows.append({
+                "Fuel being produced": "ammonia",
+                "Process or final fuel": "hydrogen_to_ammonia_conversion",
+                "Fuel energy [EJ]": None,
+                "Fuel mass [Mt]": None,
+                "Electricity Demand [kWh]": r["Electricity Demand [kWh]"],
+                "LCB Demand [kg]": r["LCB Demand [kg]"],
+                "NG Demand [GJ]": r["NG Demand [GJ]"],
+                "Water Demand [m^3]": r["Water Demand [m^3]"],
+            })
+
+        # ammonia, ammonia_final
+        r = get_row("ammonia", h)
+        if r is not None:
+            rows.append({
+                "Fuel being produced": "ammonia",
+                "Process or final fuel": "ammonia_final",
+                "Fuel energy [EJ]": r["Fuel Energy in Scenario [EJ]"],
+                "Fuel mass [Mt]": r["Fuel Mass in Scenario [Mt]"],
+                "Electricity Demand [kWh]": r["Electricity Demand [kWh]"],
+                "LCB Demand [kg]": r["LCB Demand [kg]"],
+                "NG Demand [GJ]": r["NG Demand [GJ]"],
+                "Water Demand [m^3]": r["Water Demand [m^3]"],
+            })
+
+        # biofuel, biofuel_final (same entry repeated in each file)
+        rows.append({
+            "Fuel being produced": "biofuel",
+            "Process or final fuel": "biofuel_final",
+            "Fuel energy [EJ]": bio_row["Fuel Energy in Scenario [EJ]"],
+            "Fuel mass [Mt]": bio_row["Fuel Mass in Scenario [Mt]"],
+            "Electricity Demand [kWh]": bio_row["Electricity Demand [kWh]"],
+            "LCB Demand [kg]": bio_row["LCB Demand [kg]"],
+            "NG Demand [GJ]": bio_row["NG Demand [GJ]"],
+            "Water Demand [m^3]": bio_row["Water Demand [m^3]"],
+        })
+
+        out_df = pd.DataFrame(rows)
+
+        # Save one file per hydrogen pathway
+        out_path = f"tables/resource_demands_pathway_{h}.csv"
+        out_df.to_csv(out_path, index=False)
+        print(f"Saved pathway table for {h} to {out_path}")
 
 
 def main():
@@ -371,13 +493,13 @@ def main():
     h2_to_nh3_perkg = get_process_resources(filenames["hydrogen_to_ammonia"])
     h2_liq_perkg = get_process_resources(filenames["hydrogen_liquefaction"])
 
-    # 3) Per-kg resource demands for FINAL fuels (already including upstream)
+    # 3) Per-kg resource demands for FINAL fuels
     resources_by_fuel = get_resources_by_fuel(
         hydrogen_perkg_by_source,
         h2_to_nh3_perkg,
         h2_liq_perkg
     )
-    print("Per-kg resource demands by fuel / hydrogen source (including upstream H2 and processes):")
+    print("Per-kg resource demands by fuel / hydrogen source:")
     print(resources_by_fuel)
 
     # 4) Scenario-total resource demands by final fuel
@@ -396,12 +518,16 @@ def main():
     # 6) Combine everything into one output table
     full_output = pd.concat([totals_df, explicit_h_rows], ignore_index=True)
 
-    # Save
-    full_output.to_csv("tables/total_resource_demands_iea_2050_with_h2_components.csv",
-                       index=False)
+    full_output.to_csv(
+        "tables/total_resource_demands_iea_2050_with_h2_components.csv",
+        index=False
+    )
 
     print("\nFull output including explicit hydrogen component rows:")
     print(full_output)
+
+    # 7) Build per-pathway summary files
+    make_pathway_tables(full_output)
 
 
 if __name__ == "__main__":
