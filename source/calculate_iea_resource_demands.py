@@ -519,7 +519,7 @@ def main():
     full_output = pd.concat([totals_df, explicit_h_rows], ignore_index=True)
 
     full_output.to_csv(
-        "tables/total_resource_demands_iea_2050_with_h2_components.csv",
+        "tables/total_resource_demands_iea_2050.csv",
         index=False
     )
 
