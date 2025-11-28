@@ -98,7 +98,7 @@
       "source_url": null
     },
     "H2_demand": {
-      "value": 0.355599884,
+      "value": 0.17756899588960657663,
       "units": "kg H2/kg NH3",
       "source": "Stoichiometry",
       "extra_notes": "Stoichiometric H2 requirement derived from NH3 formula.",

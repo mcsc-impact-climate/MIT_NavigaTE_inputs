@@ -20,6 +20,7 @@ import argparse
 from typing import Iterable, Union
 from shapely.geometry import LineString, MultiLineString
 from land_transport_tools import calculate_land_transport_cost_emissions
+from fuel_storage_tools import calculate_fuel_storage_cost_emissions
 
 KG_PER_TONNE = 1000
 L_PER_CBM = 1000
@@ -1512,18 +1513,22 @@ def main():
                 pipeline_result = calculate_land_transport_cost_emissions(fuel, land_transport_km)
                 #land_transport_cost, land_transport_emissions = calculate_land_transport_cost_emissions(fuel, land_transport_km)
                 
+                storage_cost_per_kg, storage_emissions_per_kg = calculate_fuel_storage_cost_emissions(fuel, country)
+                
                 row = {
                     "Region": country,
                     "Fuel": fuel,
                     "Land Transport Cost [$/tonne]": pipeline_result.cost_per_tonne_usd2024,
                     "Land Transport Emissions [kg CO2e / kg fuel]": pipeline_result.emissions_per_kg,
+                    "Fuel Storage Cost [$/tonne]": storage_cost_per_kg * KG_PER_TONNE,
+                    "Fuel Storage Emissions [kg CO2e / kg fuel]": storage_emissions_per_kg
                 }
                 rows.append(row)
 
             df = pd.DataFrame(rows)
 
             # Stable column order; future columns will be appended automatically
-            base_cols = ["Region", "Fuel", "Land Transport Cost [$/tonne]", "Land Transport Emissions [kg CO2e / kg fuel]"]
+            base_cols = ["Region", "Fuel", "Land Transport Cost [$/tonne]", "Land Transport Emissions [kg CO2e / kg fuel]", "Fuel Storage Cost [$/tonne]", "Fuel Storage Emissions [kg CO2e / kg fuel]"]
             extra_cols = [c for c in df.columns if c not in base_cols]
             df = df[base_cols + extra_cols]
 

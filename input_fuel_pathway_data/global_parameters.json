@@ -118,6 +118,13 @@
     "extra_notes": "Inflation adjustment from 2020 to 2024",
     "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=202001&year2=202401"
   },
+  "2022_to_2024_USD": {
+    "value": 1.0970,
+    "units": "None",
+    "source": "US Bureau of Labor Statistics",
+    "extra_notes": "Inflation adjustment from 2022 to 2024",
+    "source_url": "https://data.bls.gov/cgi-bin/cpicalc.pl?cost1=100&year1=202001&year2=202401"
+  },
   "2000_to_2024_USD": {
     "value": 1.8271,
     "units": "None",
