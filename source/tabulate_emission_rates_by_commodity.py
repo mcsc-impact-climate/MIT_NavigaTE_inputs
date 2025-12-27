@@ -293,9 +293,6 @@ def main():
                 sf = sfs[f"{sf_opt.title()} Stowage Factor (m^3/tonne)"].iloc[0]
                 volume_capacity, mass_capacity = get_modified_cargo_capacity(vessel_class, fuel, sf)
                 
-                # Get the fraction of time the vessel is fully loaded vs. unloaded
-                
-                
                 per_tonne_mile_df[vessel_class] = data_df[vessel_class + "_ice"] / mass_capacity
                 per_cbm_mile_df[vessel_class] = data_df[vessel_class + "_ice"] / volume_capacity
             per_cargo_mile[f"per tonne-mile ({sf_opt})"] = per_tonne_mile_df
