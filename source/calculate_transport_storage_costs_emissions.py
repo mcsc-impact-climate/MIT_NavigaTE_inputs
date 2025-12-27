@@ -21,6 +21,8 @@ from typing import Iterable, Union
 from shapely.geometry import LineString, MultiLineString
 from land_transport_tools import calculate_land_transport_cost_emissions
 from fuel_storage_tools import calculate_fuel_storage_cost_emissions
+from tanker_transport_tools import tanker_shipping_cost_per_tonne_mile, tanker_shipping_emissions_per_tonne_mile
+import math as math
 
 KG_PER_TONNE = 1000
 L_PER_CBM = 1000
@@ -73,29 +75,6 @@ _COUNTRY_SYNONYMS = {
     "syria": "Syria",
     "viet nam": "Vietnam",
 }
-
-#def calculate_land_transport_cost(fuel):
-#    """
-#    Calculates costs, in $/tonne to transport fuel by land to the port (currently assume pipeline)
-#
-#    Parameters
-#    ----------
-#    quantity : str
-#        Quantity to make a bar for. Currently can be either cost or emissions
-#
-#    Returns
-#    -------
-#    cost_bar_dict : Dictionary
-#        Dictionary containing data, colors, hatching, and labels for a cost bar
-#    """
-#    if "hydrogen" in fuel:
-#        return glob["hydrogen_land_transport_cost"]["value"] * KG_PER_TONNE
-#    if fuel == "ammonia":
-#        return glob["ammonia_land_transport_cost"]["value"] * KG_PER_TONNE
-#    if "ng" in fuel:
-#        return glob["ng_land_transport_cost"]["value"] * glob["2016_to_2024_USD"]["value"] / glob["NG_density_STP"]["value"] * KG_PER_TONNE
-#    if fuel == "methanol" or "diesel" in fuel or "bio" in fuel:
-#        return glob["oil_land_transport_cost"]["value"] * glob["2016_to_2024_USD"]["value"] / (get_fuel_density(fuel) * L_PER_CBM) * KG_PER_TONNE
         
 def get_countries():
     regional_tea_inputs_df = pd.read_csv(f"{top_dir}/input_fuel_pathway_data/regional_TEA_inputs.csv")
@@ -1502,7 +1481,7 @@ def main():
             rows = []
             for country in countries:
                 
-                # Calculate fuel transport cost over land
+                # Calculate the cost and emissions to transport the fuel over land by pipeline
                 if dest == "Singapore":
                     land_transport_km = departure_ports_df.loc[country, "centroid_to_sgp_km_pipeline"]   # Distance travelled over land, in km
                 elif dest == "Rotterdam":
@@ -1511,9 +1490,25 @@ def main():
                     print(f"Error: Destination {dest} not yet supported. Currently support Singapore and Rotterdam as destination ports.")
                 
                 pipeline_result = calculate_land_transport_cost_emissions(fuel, land_transport_km)
-                #land_transport_cost, land_transport_emissions = calculate_land_transport_cost_emissions(fuel, land_transport_km)
                 
+                # Calculate the cost and emissions to store the fuel at port
                 storage_cost_per_kg, storage_emissions_per_kg = calculate_fuel_storage_cost_emissions(fuel, country)
+                
+                # Calculate the cost and emissions to transport the fuel by tanker to the Port of Rotterdam or Singapore
+                
+                if dest == "Singapore":
+                    sea_transport_nm = departure_ports_df.loc[country, "sea_nm_to_sgp"]
+                elif dest == "Rotterdam":
+                    sea_transport_nm = departure_ports_df.loc[country, "sea_nm_to_rtm"]
+                else:
+                    print(f"Error: Destination {dest} not yet supported. Currently support Singapore and Rotterdam as destination ports.")
+                
+                if math.isnan(sea_transport_nm):
+                    sea_transport_cost_per_tonne = 0
+                    sea_transport_emissions_per_kg = 0
+                else:
+                    sea_transport_cost_per_tonne = tanker_shipping_cost_per_tonne_mile(fuel) * sea_transport_nm     # 2024 USD / tonne fuel
+                    sea_transport_emissions_per_kg = tanker_shipping_emissions_per_tonne_mile(fuel) * sea_transport_nm   # kg CO2e / kg fuel
                 
                 row = {
                     "Region": country,
@@ -1521,14 +1516,16 @@ def main():
                     "Land Transport Cost [$/tonne]": pipeline_result.cost_per_tonne_usd2024,
                     "Land Transport Emissions [kg CO2e / kg fuel]": pipeline_result.emissions_per_kg,
                     "Fuel Storage Cost [$/tonne]": storage_cost_per_kg * KG_PER_TONNE,
-                    "Fuel Storage Emissions [kg CO2e / kg fuel]": storage_emissions_per_kg
+                    "Fuel Storage Emissions [kg CO2e / kg fuel]": storage_emissions_per_kg,
+                    "Tanker Transport Cost [$/tonne]": sea_transport_cost_per_tonne,
+                    "Tanker Transport Emissions [kg CO2e / kg fuel]": sea_transport_emissions_per_kg
                 }
                 rows.append(row)
 
             df = pd.DataFrame(rows)
 
             # Stable column order; future columns will be appended automatically
-            base_cols = ["Region", "Fuel", "Land Transport Cost [$/tonne]", "Land Transport Emissions [kg CO2e / kg fuel]", "Fuel Storage Cost [$/tonne]", "Fuel Storage Emissions [kg CO2e / kg fuel]"]
+            base_cols = ["Region", "Fuel", "Land Transport Cost [$/tonne]", "Land Transport Emissions [kg CO2e / kg fuel]", "Fuel Storage Cost [$/tonne]", "Fuel Storage Emissions [kg CO2e / kg fuel]", "Tanker Transport Cost [$/tonne]", "Tanker Transport Emissions [kg CO2e / kg fuel]"]
             extra_cols = [c for c in df.columns if c not in base_cols]
             df = df[base_cols + extra_cols]
 
