@@ -76,6 +76,7 @@ def generate_blue_shades(num_shades):
             )
             for i in range(num_shades)
         ]
+    # If there's only one shade, make it light blue
     else:
         blue_shades = [light_blue]
 
