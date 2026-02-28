@@ -39,7 +39,6 @@ def add_transportation_storage_costs(costs_emissions_df, fuel, port):
     # Rename LCOF [$/tonne] to Fuel Production LCOF [$/tonne] and Emissions [kg CO2e / kg fuel] to Fuel Production Emissions [kg CO2e / kg fuel] for clarity
     merged_df.rename(columns={"LCOF [$/tonne]": "Fuel Production LCOF [$/tonne]", "Emissions [kg CO2e / kg fuel]": "Fuel Production Emissions [kg CO2e / kg fuel]", "Fuel_x": "Fuel"}, inplace=True)
     merged_df.drop(columns=["Fuel_y", "Comment"], inplace=True)
-    print(merged_df.columns)
 
     return merged_df
 
@@ -56,7 +55,7 @@ def main():
                     costs_emissions_df = add_transportation_storage_costs(costs_emissions_df, fuel, port)
 
                     # Make sure the output directory exists
-                    output_dir = os.path.join(top_dir, "final_fuel", port)
+                    output_dir = os.path.join(top_dir, "input_fuel_pathway_data/final_fuel", port)
                     os.makedirs(output_dir, exist_ok=True)
                     filepath_save = os.path.join(output_dir, f"{fuel}_{port}_costs_emissions.csv")
                     costs_emissions_df.to_csv(filepath_save, index=False)
