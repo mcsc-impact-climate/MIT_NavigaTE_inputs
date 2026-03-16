@@ -1,0 +1,36 @@
+SIMULATION NAV {
+                
+    # model definition
+    INCLUDE "../../includes_global/model_definition.inc"
+    INCLUDE "../../includes_global/bunker_logistics_lsfo.inc"
+    
+    # Modified fleets for Singapore - Rotterdam roundtrip
+    INCLUDE "../../includes_global/fleet_lsfo_singapore_rotterdam.inc"
+    
+    
+    # fuels
+    INCLUDE "../../includes_global/low_sulfur_fuel_oil.inc"
+    
+    # Route
+    INCLUDE "../../includes_global/route_singapore_rotterdam.inc"
+    
+    # Costs and emissions of lsfo
+    INCLUDE "../../includes_global/cost_emissions_lsfo_singapore_rotterdam.inc"
+    
+    # center default emissions
+    IMPORT CenterDefaultEmissions
+    
+    # output results to excel
+    INCLUDE "../../includes_global/make_excel_singapore_rotterdam.inc"
+    
+    # Vessel mods for Singapore-Rotterdam roundtrip
+    INCLUDE "../../includes_global/vessels_singapore_rotterdam_lsfo.inc"
+    
+    # Bunker options
+    #INCLUDE "../../includes_global/bunker_options.inc"
+}
+
+SIMULATION FT {
+    # time steps
+    INCLUDE "../../includes_global/time_steps_yearly_projection.inc"
+}

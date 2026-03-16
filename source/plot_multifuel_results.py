@@ -112,10 +112,12 @@ vessel_names = {
     "liquid_hydrogen": "Liquid Hydrogen (dual fuel)",
     "methanol": "Methanol (dual fuel)",
     "diesel": "FT Diesel (single fuel)",
+    "FTdiesel": "FT Diesel (single fuel)",
     "oil": "LSFO (single fuel)",
     "lsfo": "LSFO (single fuel)",
     "lng": "Methane (dual fuel)",
-    "methane": "Methane (dual fuel)"
+    "methane": "Methane (dual fuel)",
+    "bio_cfp": "CFP Bio-oil"
 }
 
 # Pilot tank size, in m^3
@@ -1252,7 +1254,7 @@ def plot_vessel_fuel_metric(vessel_results_dict, column_name, xlabel=None, save_
     labels = []
 
     for fuel_key, color in colors_for_fuels.items():
-        label = labels_for_fuels[fuel_key]
+        label = labels_for_fuels.get(fuel_key, fuel_names.get(fuel_key, fuel_key))
         if (label, color) not in seen:
             seen.add((label, color))
             handles.append(plt.Line2D([0], [0], marker='o', color='w',
@@ -1805,17 +1807,17 @@ def make_all_plots(results_file, results_label=None, regulations=None):
         Label to append to filenames of plots produced for the given simulation result
     """
 
-#    ################################## Global results ##################################
+#   ################################## Global results ##################################
     global_results_dict = read_results_global(results_file)
 
-#    # Fleet info
-#    plot_fleet_info_column(global_results_dict, "TotalEquivalentWTW", info_type="global", ylabel="WTW Emissions (tonnes CO2e)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "CumulativeTotalEquivalentWTW", info_type="global", ylabel="Cumulative WTW (tonnes CO2e)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "IntensityTotalEquivalentWTW", info_type="global", ylabel="WTW Intensity (kg CO$_2$e / GJ fuel)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "RegulationExpenses", info_type="global", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "VesselExpenses", info_type="global", ylabel="Vessel Expenses (USD)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "Expenses", info_type="global", ylabel="Total Expenses (USD)", save_label=results_label)
-#    plot_fleet_info_column(global_results_dict, "CumulativeExpenses", info_type="global", ylabel="Cumulative Expenses (USD)", save_label=results_label)
+    # Fleet info
+    plot_fleet_info_column(global_results_dict, "TotalEquivalentWTW", info_type="global", ylabel="WTW Emissions (tonnes CO2e)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "CumulativeTotalEquivalentWTW", info_type="global", ylabel="Cumulative WTW (tonnes CO2e)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "IntensityTotalEquivalentWTW", info_type="global", ylabel="WTW Intensity (kg CO$_2$e / GJ fuel)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "RegulationExpenses", info_type="global", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "VesselExpenses", info_type="global", ylabel="Vessel Expenses (USD)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "Expenses", info_type="global", ylabel="Total Expenses (USD)", save_label=results_label)
+    plot_fleet_info_column(global_results_dict, "CumulativeExpenses", info_type="global", ylabel="Cumulative Expenses (USD)", save_label=results_label)
 
     # Global info
     plot_global_stacked_fuel_info(global_results_dict, "ConsumedEnergy", ylabel="Fuel Energy Consumed (GJ)", save_label=results_label)
@@ -1823,57 +1825,57 @@ def make_all_plots(results_file, results_label=None, regulations=None):
 
     ####################################################################################
 
-#    ################################ Regulation results ################################
-#    regulation_results_dict = read_results_regulation(results_file)
-#    if regulations is not None:
-#        for regulation in regulations:
-#            if regulation in regulation_results_dict:
-#                plot_fleet_info_column(regulation_results_dict[regulation], "FlexibilityCost", info_type = "regulation", save_label=results_label)
-#                plot_regulation_vessel_info(regulation_results_dict, "VesselThreshold", ylabel="Max kg CO2e WTW / GJ fuel", save_label=results_label, regulation_name=regulation)
-#            else:
-#                print(f"Regulation {regulation} is not in the simulation output. No plots produced.")
-#    ####################################################################################
+    ################################ Regulation results ################################
+    regulation_results_dict = read_results_regulation(results_file)
+    if regulations is not None:
+        for regulation in regulations:
+            if regulation in regulation_results_dict:
+                plot_fleet_info_column(regulation_results_dict[regulation], "FlexibilityCost", info_type = "regulation", save_label=results_label)
+                plot_regulation_vessel_info(regulation_results_dict, "VesselThreshold", ylabel="Max kg CO2e WTW / GJ fuel", save_label=results_label, regulation_name=regulation)
+            else:
+                print(f"Regulation {regulation} is not in the simulation output. No plots produced.")
+    ####################################################################################
 
-    ################################ Fleet results #####################################
-#    fleet_results_dict = read_results_fleet(results_file)
-#    #print(fleet_results_dict)
-#
-#    # Plot fleet info for each vessel class and size
-#    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="size", ylabel="Existing Vessels", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="size", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "FuelConversions", level="size", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="size", ylabel = "Scrapped Vessels", save_label=results_label)
-#
-#    # Plot fleet info for each vessel class (aggregated over sizes)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="class", ylabel="Existing Vessels", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="class", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "FuelConversions", level="class", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="class", ylabel="Scrapped Vessels", save_label=results_label)
-#
-#    # Plot fleet info for the full fleet (aggregated over all classes and sizes)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="fleet", ylabel="Existing Vessels", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="fleet", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "FuelConversions", level="fleet", save_label=results_label)
-#    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="fleet", ylabel="Scrapped Vessels", save_label=results_label)
+    ############################### Fleet results #####################################
+    fleet_results_dict = read_results_fleet(results_file)
+    #print(fleet_results_dict)
 
-#    # Plot vessel metrics by fuel
-#    vessel_results_dict = read_results_vessel(results_file)
-#    plot_vessel_fuel_metric(vessel_results_dict, "InvestmentMetricExpected", xlabel="Vessel Investment Metric", save_label=results_label, relative_to_lsfo=True)
-#    plot_vessel_fuel_metric(vessel_results_dict, "CargoMiles", xlabel="Annual Vessel Cargo Miles", save_label=results_label, relative_to_lsfo=True)
-#    plot_vessel_fuel_metric(vessel_results_dict, "TotalCost", xlabel="Annual Vessel Cost (USD)", save_label=results_label, relative_to_lsfo=True)
-#    plot_vessel_fuel_metric(vessel_results_dict, "PilotFuelShare", xlabel="Pilot Fuel Fraction", save_label=results_label, relative_to_lsfo=False)
-#    compare_tank_ranges(vessel_results_dict, save_label=results_label)
-#    if regulations is None:
-#        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
-#    else:
-#        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX", "RegulationOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost", "Regulatory Penalties"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
-#
-#    # Simultaneously compare total cost and WTW emissions per cargo mile for each vessel size
-#    compare_costs_emissions_per_cm(vessel_results_dict, fleet_results_dict, save_label=results_label)
-#
-#
-#    # Plot trade by vessel
-#    plot_trade_by_vessel(fleet_results_dict, vessel_results_dict, save_label=results_label)
+    # Plot fleet info for each vessel class and size
+    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="size", ylabel="Existing Vessels", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="size", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "FuelConversions", level="size", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="size", ylabel = "Scrapped Vessels", save_label=results_label)
+
+    # Plot fleet info for each vessel class (aggregated over sizes)
+    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="class", ylabel="Existing Vessels", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="class", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "FuelConversions", level="class", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="class", ylabel="Scrapped Vessels", save_label=results_label)
+
+    # Plot fleet info for the full fleet (aggregated over all classes and sizes)
+    plot_main_fuel_info_fleet(fleet_results_dict, "ExistingVessels", level="fleet", ylabel="Existing Vessels", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Newbuilds", level="fleet", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "FuelConversions", level="fleet", save_label=results_label)
+    plot_main_fuel_info_fleet(fleet_results_dict, "Scrap", level="fleet", ylabel="Scrapped Vessels", save_label=results_label)
+
+    # Plot vessel metrics by fuel
+    vessel_results_dict = read_results_vessel(results_file)
+    plot_vessel_fuel_metric(vessel_results_dict, "InvestmentMetricExpected", xlabel="Vessel Investment Metric", save_label=results_label, relative_to_lsfo=True)
+    plot_vessel_fuel_metric(vessel_results_dict, "CargoMiles", xlabel="Annual Vessel Cargo Miles", save_label=results_label, relative_to_lsfo=True)
+    plot_vessel_fuel_metric(vessel_results_dict, "TotalCost", xlabel="Annual Vessel Cost (USD)", save_label=results_label, relative_to_lsfo=True)
+    plot_vessel_fuel_metric(vessel_results_dict, "PilotFuelShare", xlabel="Pilot Fuel Fraction", save_label=results_label, relative_to_lsfo=False)
+    compare_tank_ranges(vessel_results_dict, save_label=results_label)
+    if regulations is None:
+        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
+    else:
+        plot_vessel_fuel_stacked_histograms(vessel_results_dict, ["BaseCAPEX", "BaseOPEX", "TankCAPEX", "TankOPEX","PowerCAPEX", "PowerOPEX", "FuelOPEX", "RegulationOPEX"], ["Base Vessel OPEX", "Base Vessel OPEX", "Tank CAPEX", "Tank OPEX", "Power System CAPEX", "Power System OPEX", "Fuel Cost", "Regulatory Penalties"], xlabel="Annual Vessel Cost (USD)", stack_label="TotalCost", save_label=results_label)
+
+    # Simultaneously compare total cost and WTW emissions per cargo mile for each vessel size
+    compare_costs_emissions_per_cm(vessel_results_dict, fleet_results_dict, save_label=results_label)
+
+
+    # Plot trade by vessel
+    plot_trade_by_vessel(fleet_results_dict, vessel_results_dict, save_label=results_label)
 
     ####################################################################################
 
@@ -1893,6 +1895,9 @@ def main():
 #
     results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg_fuel_conversion_class_fleets/plots/all_fuels_excel_report.xlsx"
     make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg_fuel_conversion_class_fleets", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
+
+    results_file_base = "multi_fuel_singapore_rotterdam/all_fuels_all_pathways_with_reg_fuel_conversion_class_fleets_ais/plots/all_fuels_excel_report.xlsx"
+    make_all_plots(results_file_base, results_label="singapore_rotterdam_with_reg_fuel_conversion_class_fleets_ais", regulations=["net_zero_regulation_imo_tier1", "net_zero_regulation_imo_tier2"])
 
 #    results_file_base = "multi_fuel_full_fleet/all_fuels_base/plots/all_fuels_base_no_cm_excel_report.xlsx"
 #    make_all_plots(results_file_base, results_label="base_no_cm")
